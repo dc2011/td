@@ -1,0 +1,28 @@
+Openal Examples
+===============
+Terence Stenvold January 2011
+
+Dependencies
+====
+	openal
+	ogg
+
+For Ubuntu 
+    #apt-get install libalut0 libalut-dev libvorbis-dev 
+
+Build
+======
+    $make
+
+Run
+======
+To simply play a Ogg file
+   $ soundtest 1.ogg play
+To do a 10 second loop
+   $ soundtest 1.ogg loop
+To record and playback sound
+   $ soundtest 1.ogg record
+
+Notes
+======
+When doing a 'record' it ignores the Ogg file passed in and it also records indefinatly so 'CTRL-C' needs to be pressed to exit the program.
