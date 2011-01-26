@@ -16,24 +16,24 @@ AudioManager::~AudioManager()
 
 bool AudioManager::setEffectsVolume(float gain)
 {
-     AudioManager::mutex_.lock();
      if( gain > 0 and gain <= 1) {
-	  AudioManager::sfxGain_ = gain; 
+	  AudioManager::mutex_.lock();
+	  this->sfxGain_ = gain; 
+	  AudioManager::mutex_.unlock();
 	  return true;
      }
-     AudioManager::mutex_.unlock();
      
      return false;
 }
 
 bool AudioManager::setMusicVolume(float gain)
 {
-     AudioManager::mutex_.lock();
      if( gain > 0 and gain <= 1) {
-	  AudioManager::musicGain_ = gain; 
+	  AudioManager::mutex_.lock();
+	  this->musicGain_ = gain; 
+	  AudioManager::mutex_.unlock();
 	  return true;
      }
-     AudioManager::mutex_.unlock();
      
      return false;
 }
