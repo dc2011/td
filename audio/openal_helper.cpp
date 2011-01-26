@@ -1,11 +1,20 @@
 #include "openal_helper.h"
 
+namespace td {
+/**
+ * Enum for the possible states of the openal context
+ */
 static enum {
-    Unintialized,                 /* not been initialized yet or has been de-initialised */
-    ALDeviceAndContext,         /* alutInit has been called successfully */
-    ExternalDeviceAndContext      /* alutInitWithoutContext has been called */
+    Unintialized, /* not been initialized yet or has been de-initialised */
+    ALDeviceAndContext, /* alutInit has been called successfully */
+    ExternalDeviceAndContext /* alutInitWithoutContext has been called */
 } initialisationState = Unintialized;
 
+/**
+ * static context for the current context
+ * don't touch this. I have no idea what it does
+ * all this code came from freeAlut
+ */
 static ALCcontext* alContext;
 
 ALboolean alSleep(ALfloat duration)
@@ -36,7 +45,7 @@ ALboolean alSleep(ALfloat duration)
     return AL_TRUE;
 }
 
-ALboolean _alutSanityCheck(void)
+ALboolean _alutSanityCheck()
 {
     ALCcontext* context;
 
@@ -61,16 +70,12 @@ ALboolean _alutSanityCheck(void)
     return AL_TRUE;
 }
 
-ALboolean alInit(int* argcp, char** argv)
+ALboolean alInit()
 {
     ALCdevice* device;
     ALCcontext* context;
 
     if (initialisationState != Unintialized) {
-        return AL_FALSE;
-    }
-
-    if ((argcp == NULL) != (argv == NULL)) {
         return AL_FALSE;
     }
 
@@ -98,7 +103,7 @@ ALboolean alInit(int* argcp, char** argv)
     return AL_TRUE;
 }
 
-ALboolean alExit(void)
+ALboolean alExit()
 {
     ALCdevice* device;
 
@@ -131,4 +136,6 @@ ALboolean alExit(void)
 
     initialisationState = Unintialized;
     return AL_TRUE;
+}
+
 }

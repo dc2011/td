@@ -15,9 +15,43 @@
 #include <unistd.h>
 #endif
 
+namespace td
+{
+/**
+ * Sleep the current thread for a duration of seconds.
+ *
+ * This function will work cross platform
+ *
+ * @param duration of sleep in floating point.
+ * @return true on success, false otherwise.
+ */
 ALboolean alSleep (ALfloat duration);
-ALboolean _alutSanityCheck(void);
-ALboolean alInit(int* argcp, char** argv);
-ALboolean alExit(void);
+
+/**
+ * Check the current context for being initialized with
+ * no errors currently
+ *
+ *
+ * @return true on success, false otherwise.
+ */
+ALboolean _alutSanityCheck();
+
+/**
+ * Initialize the openal Context
+ *
+ * This function must be called before any openal
+ * functions will work.
+ *
+ * @return true on success, false otherwise.
+ */
+ALboolean alInit();
+
+/**
+ * Destroy the openal Context
+ *
+ * @return true on success, false otherwise.
+ */
+ALboolean alExit();
+}
 
 #endif 
