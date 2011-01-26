@@ -15,7 +15,6 @@
 #include <unistd.h>
 #endif
 
-<<<<<<< HEAD
 namespace td
 {
 /**
@@ -54,11 +53,5 @@ ALboolean alInit();
  */
 ALboolean alExit();
 }
-=======
-ALboolean alSleep (ALfloat duration);
-ALboolean _alutSanityCheck(void);
-ALboolean alInit(int* argcp, char** argv);
-ALboolean alExit(void);
->>>>>>> 6d58dc7361f4a9e890b2f12d20cbe240ed803e62
 
 #endif 
