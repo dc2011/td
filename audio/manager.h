@@ -149,6 +149,13 @@ public:
      * @param filenameQueue queue<QString> of filenames of ogg files.
      */    
     void playMusic(std::queue<QString> filenameQueue);
+    
+    /**
+     * Does a check for openal errors and destroys the openal 
+     * context if any are found
+     * printf to stderr right now.
+     */
+    void checkError()
 };
 
 } /* end namespace td */
