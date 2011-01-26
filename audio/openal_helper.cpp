@@ -70,6 +70,10 @@ ALboolean _alutSanityCheck()
     return AL_TRUE;
 }
 
+/**
+ * originally took int* argcp and char **argv
+ * as parameters unused so I've removed them.
+ */
 ALboolean alInit()
 {
     ALCdevice* device;
@@ -78,6 +82,12 @@ ALboolean alInit()
     if (initialisationState != Unintialized) {
         return AL_FALSE;
     }
+    /** Completely usesless So it's been removed
+     *
+     *if ((argcp == NULL) != (argv == NULL)) {
+     *return AL_FALSE;
+     *}
+     */
 
     device = alcOpenDevice(NULL);
 
