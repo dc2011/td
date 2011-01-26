@@ -5,3 +5,5 @@
 tmtags
 .DS_Store
 *.swp
+*.o
+/doc
