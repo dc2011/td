@@ -1,5 +1,9 @@
 #include "manager.h"
+#include "openal_helper.h"
+#include <iostream>
 
+namespace td
+{
 AudioManager::AudioManager()
 {
      alInit();
@@ -12,35 +16,43 @@ AudioManager::~AudioManager()
 
 bool AudioManager::setEffectsVolume(float gain)
 {
-     mutex_.lock()
+     AudioManager::mutex_.lock();
      if( gain > 0 and gain <= 1) {
-	  sfxGain = gain; 
+	  AudioManager::sfxGain_ = gain; 
+	  return true;
      }
-     mutex_.unlock()
+     AudioManager::mutex_.unlock();
+     
+     return false;
 }
 
 bool AudioManager::setMusicVolume(float gain)
 {
-     mutex_.lock()
+     AudioManager::mutex_.lock();
      if( gain > 0 and gain <= 1) {
-	  musicGain = gain; 
+	  AudioManager::musicGain_ = gain; 
+	  return true;
      }
-     mutex_.unlock()
+     AudioManager::mutex_.unlock();
+     
+     return false;
 }
 
-void playSfx(QString filename)
+void AudioManager::playSfx(QString filename)
 {
      //place holder for now
      //Spawn thread for streaming here
      checkError();
 }
 
-void checkError()
+void AudioManager::checkError()
 {
      ALuint error = alGetError();
 
      if (error != AL_NO_ERROR) {
-	  cerr << alGetString(error) << endl;
+	  std::cerr << alGetString(error) << std::endl;
 	  alExit();
      }
 }
+
+} /* End namespace td */

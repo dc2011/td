@@ -63,7 +63,7 @@ public:
      * @return A pointer to the AudioManager instance.
      */
     static AudioManager* instance() {
-        mutex_.lock()
+	 mutex_.lock();
         if (instance_ == NULL) {
             instance_ = new AudioManager();
         }
@@ -155,7 +155,7 @@ public:
      * context if any are found
      * printf to stderr right now.
      */
-    void checkError()
+    void checkError();
 };
 
 } /* end namespace td */
