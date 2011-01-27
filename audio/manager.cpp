@@ -44,18 +44,41 @@ bool AudioManager::setMusicVolume(float gain)
 
 void AudioManager::playSfx(QString filename)
 {
-    QFuture<void> future = QtConcurrent::run(this, &AudioManager::streamOgg, filename);
+    QFuture<void> future = 
+	 QtConcurrent::run(this, &AudioManager::streamOgg, filename);
     return;
 }
 
-void AudioManager::checkError()
+     void AudioManager::playMusic(std::queue<QString> filenameQueue)
+{
+    QFuture<void> future = 
+	 QtConcurrent::run(this, &AudioManager::playMusicQueue, filenameQueue);
+    return;
+}
+
+bool AudioManager::checkError()
 {
     ALuint error = alGetError();
 
     if (error != AL_NO_ERROR) {
         qFatal(alGetString(error));
         alExit();
+	return true;
     }
+    
+    return false;
+}    
+
+void AudioManager::playMusicQueue(std::queue<QString> filenameQueue)
+{
+     QString filename;
+     
+     while(!filenameQueue.empty()) {
+	  filename = filenameQueue.front();
+	  filenameQueue.pop();
+	  AudioManager::streamOgg(filename);
+	  filename.push_back(filename);
+     }
 }
 
 void AudioManager::streamOgg(QString filename)
@@ -151,7 +174,7 @@ void AudioManager::streamOgg(QString filename)
         }
 
         /* result == 0 when file is completely read */
-    } while (result > 0);
+    } while (result > 0 && !checkError());
 
     ov_clear(&oggFile);
     checkError();
