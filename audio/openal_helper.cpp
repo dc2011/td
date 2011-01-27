@@ -82,13 +82,13 @@ ALboolean alInit()
     if (initialisationState != Unintialized) {
         return AL_FALSE;
     }
+
     /** Completely usesless So it's been removed
      *
      *if ((argcp == NULL) != (argv == NULL)) {
      *return AL_FALSE;
      *}
      */
-
     device = alcOpenDevice(NULL);
 
     if (device == NULL) {
