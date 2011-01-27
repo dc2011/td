@@ -89,6 +89,8 @@ void AudioManager::playMusicQueue(std::queue<QString> filenameQueue)
 	  filename = filenameQueue.front();
 	  filenameQueue.pop();
 	  AudioManager::streamOgg(filename);
+	  /*Sleep for 0.3 sec so playback doesn't overlap*/
+	  alSleep(0.3f);
 	  filename.push_back(filename);
      }
 }
