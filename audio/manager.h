@@ -198,6 +198,7 @@ public:
 
     /**
      * Play an Ogg Vorbis sound file, looping when it reaches the end.
+     * !!!NOT IMPLEMENTED!!!
      *
      * @author Terence Stenvold
      * @param filename The path to the .ogg file.
