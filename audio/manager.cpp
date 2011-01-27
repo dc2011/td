@@ -4,22 +4,27 @@
 
 namespace td
 {
+
+AudioManager* AudioManager::instance_ = NULL;
+
+QMutex AudioManager::mutex_;
+
 AudioManager::AudioManager()
 {
-     alInit();
+    alInit();
 }
 
 AudioManager::~AudioManager()
 {
-     alExit();
+    alExit();
 }
 
 bool AudioManager::setEffectsVolume(float gain)
 {
      if( gain > 0 && gain <= 1) {
-	  AudioManager::mutex_.lock();
+	  mutex_.lock();
 	  this->sfxGain_ = gain; 
-	  AudioManager::mutex_.unlock();
+	  mutex_.unlock();
 	  return true;
      }
      
@@ -29,9 +34,9 @@ bool AudioManager::setEffectsVolume(float gain)
 bool AudioManager::setMusicVolume(float gain)
 {
      if( gain > 0 && gain <= 1) {
-	  AudioManager::mutex_.lock();
+	  mutex_.lock();
 	  this->musicGain_ = gain; 
-	  AudioManager::mutex_.unlock();
+	  mutex_.unlock();
 	  return true;
      }
      
@@ -51,7 +56,7 @@ void AudioManager::checkError()
 
      if (error != AL_NO_ERROR) {
 	  std::cerr << alGetString(error) << std::endl;
-	  alExit();
+      td::alExit();
      }
 }
 
