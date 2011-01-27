@@ -11,11 +11,23 @@ QMutex AudioManager::mutex_;
 AudioManager::AudioManager()
 {
     alInit();
+    inited_ = true;
 }
 
 AudioManager::~AudioManager()
 {
-    alExit();
+    if (inited_) {
+        alExit();
+        inited_ = false;
+    }
+}
+
+void AudioManager::shutdown()
+{
+    if (inited_) {
+        alExit();
+        inited_ = false;
+    }
 }
 
 bool AudioManager::setEffectsVolume(float gain)

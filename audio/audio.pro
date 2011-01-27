@@ -6,7 +6,17 @@ TEMPLATE = app
 TARGET = 
 DEPENDPATH += .
 INCLUDEPATH += .
-LIBS += -lopenal -lvorbisfile
+
+macx {
+    LIBS += -framework OpenAL
+    CONFIG += link_pkgconfig
+    PKGCONFIG = vorbisfile vorbis
+}
+
+unix:!macx {
+    CONFIG += link_pkgconfig
+    PKGCONFIG = openal vorbisfile vorbis
+}
 
 # Input
 HEADERS += manager.h openal_helper.h
