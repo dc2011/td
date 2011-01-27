@@ -167,7 +167,7 @@ public:
     void checkError();
 
     /**
-     * Streams and plays and Ogg File.
+     * Streams and plays an Ogg File.
      *
      * This is meant to be called in it's own thread.
      *
