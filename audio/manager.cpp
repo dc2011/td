@@ -56,7 +56,7 @@ void AudioManager::checkError()
 
      if (error != AL_NO_ERROR) {
 	  std::cerr << alGetString(error) << std::endl;
-      td::alExit();
+      alExit();
      }
 }
 
