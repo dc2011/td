@@ -69,6 +69,33 @@ private:
 private:
     explicit AudioManager();
     ~AudioManager();
+    
+    /**
+     * Does a check for openal errors and destroys the openal 
+     * context if any are found
+     * 
+     * @author Terence Stenvold
+     * @return bool if True and error occured
+     */
+    bool checkError();
+
+    /**
+     * Streams and plays an Ogg File.
+     *
+     * This is meant to be called in it's own thread.
+     *
+     * @author Terence Stenvold
+     * @param filename the path to file.
+     */
+    void streamOgg(QString filename);
+
+    /**
+     * Goes through all the filenames in the queue
+     * it continously loops all filenames
+     *
+     * @param filenameQueue queue<QString> of filenames of ogg files.     *
+     */
+    void playMusicQueue(std::queue<QString> filenameQueue);
 
 public:
 
@@ -186,33 +213,6 @@ public:
      * @param filenameQueue queue<QString> of filenames of ogg files.
      */    
     void playMusic(std::queue<QString> filenameQueue);
-    
-    /**
-     * Does a check for openal errors and destroys the openal 
-     * context if any are found
-     * 
-     * @author Terence Stenvold
-     * @return bool if True and error occured
-     */
-    bool checkError();
-
-    /**
-     * Streams and plays an Ogg File.
-     *
-     * This is meant to be called in it's own thread.
-     *
-     * @author Terence Stenvold
-     * @param filename the path to file.
-     */
-    void streamOgg(QString filename);
-
-    /**
-     * Goes through all the filenames in the queue
-     * it continously loops all filenames
-     *
-     * @param filenameQueue queue<QString> of filenames of ogg files.     *
-     */
-    void playMusicQueue(std::queue<QString> filenameQueue);
 };
 
 } /* end namespace td */
