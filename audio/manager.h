@@ -1,8 +1,14 @@
+#ifndef _manager_
+#define _manager_
+
 #include <QMutex>
 #include <QObject>
 #include <QString>
 #include <QThread>
 #include <queue>
+
+#define QUEUESIZE 8
+#define BUFFERSIZE (1024*32)
 
 namespace td
 {
@@ -156,6 +162,17 @@ public:
      * printf to stderr right now.
      */
     void checkError();
+
+    /**
+     * Streams and plays and Ogg File.
+     *
+     * This is meant to be called in it's own thread.
+     *
+     *@param filename the path to file in c style string.
+     */
+    void streamOgg(char *filename);
 };
 
 } /* end namespace td */
+
+#endif
