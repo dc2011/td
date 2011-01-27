@@ -162,9 +162,10 @@ public:
     /**
      * Does a check for openal errors and destroys the openal 
      * context if any are found
-     * printf to stderr right now.
+     * 
+     * @return bool if True and error occured
      */
-    void checkError();
+    bool checkError();
 
     /**
      * Streams and plays an Ogg File.
@@ -174,6 +175,14 @@ public:
      *@param filename the path to file.
      */
     void streamOgg(QString filename);
+
+    /**
+     * Goes through all the filenames in the queue
+     * it continously loops all filenames
+     *
+     * @param filenameQueue queue<QString> of filenames of ogg files.     *
+     */
+    void playMusicQueue(std::queue<QString> filenameQueue);
 };
 
 } /* end namespace td */
