@@ -57,6 +57,15 @@ private:
      */
     float musicGain_;
 
+    /**
+     * Whether the AudioManager has been initialized.
+     *
+     * In practice, this should only be used when checking whether OpenAL is
+     * initialized. Code that actually deals with OpenAL should call the
+     * checkError() method instead of using this value!
+     */
+    bool inited_;
+
 private:
     explicit AudioManager();
     ~AudioManager();
@@ -69,6 +78,7 @@ public:
      * always returns that instance when called further in the program's 
      * execution.
      *
+     * @author Darryl Pogue
      * @return A pointer to the AudioManager instance.
      */
     static AudioManager* instance() {
@@ -82,8 +92,19 @@ public:
     }
 
     /**
+     * Destroy the OpenAL context and try to clean up any resources.
+     * This must be called manually when the main application exits to ensure
+     * that OpenAL is properly deinitialized and that all open sound files
+     * are closed.
+     *
+     * @author Darryl Pogue
+     */
+    void shutdown();
+
+    /**
      * Return the number of sound files currently being played.
      *
+     * @author Darryl Pogue
      * @return The number of currently playing sounds.
      */
     int playing() const {
@@ -97,6 +118,7 @@ public:
     /**
      * Set the effects volume.
      *
+     * @author Terence Stenvold
      * @param gain The volume of the sound effects, between 0.0 and 1.0.
      * @return true on success, false otherwise.
      */
@@ -105,6 +127,7 @@ public:
     /**
      * Get the current effects volume.
      *
+     * @author Darryl Pogue
      * @return The current volume of sound effects, ranging 0.0 to 1.0. 
      */
     float getEffectsVolume() const {
@@ -117,6 +140,7 @@ public:
 
     /**
      * Set the background music volume.
+     * @author Terence Stenvold
      *
      * @param gain The volume of the background music, between 0.0 and 1.0.
      * @return true on success, false otherwise.
@@ -126,6 +150,7 @@ public:
     /**
      * Get the current background music volume.
      *
+     * @author Darryl Pogue
      * @return The current volume of background music, ranging 0.0 to 1.0. 
      */
     float getMusicVolume() const {
@@ -139,6 +164,7 @@ public:
     /**
      * Plays an Ogg Vorbis sound file.
      *
+     * @author Terence Stenvold
      * @param filename The path to the .ogg file.
      */
     void playSfx(QString filename);
@@ -146,6 +172,7 @@ public:
     /**
      * Play an Ogg Vorbis sound file, looping when it reaches the end.
      *
+     * @author Terence Stenvold
      * @param filename The path to the .ogg file.
      * @param loop The number of times to loop the sound file. The default 
      * of -1 results in infinite looping.
@@ -155,6 +182,7 @@ public:
     /**
      * Play the Queue of Ogg Vorbis sound files as background music.
      *
+     * @author Terence Stenvold
      * @param filenameQueue queue<QString> of filenames of ogg files.
      */    
     void playMusic(std::queue<QString> filenameQueue);
@@ -163,6 +191,7 @@ public:
      * Does a check for openal errors and destroys the openal 
      * context if any are found
      * 
+     * @author Terence Stenvold
      * @return bool if True and error occured
      */
     bool checkError();
@@ -172,7 +201,8 @@ public:
      *
      * This is meant to be called in it's own thread.
      *
-     *@param filename the path to file.
+     * @author Terence Stenvold
+     * @param filename the path to file.
      */
     void streamOgg(QString filename);
 
