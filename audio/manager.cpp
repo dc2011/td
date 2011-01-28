@@ -11,6 +11,8 @@ QMutex AudioManager::mutex_;
 AudioManager::AudioManager()
 {
      AudioManager::startup();
+     this->sfxGain_ = 0.9;
+     this->musicGain_ = 0.65;
 }
 
 AudioManager::~AudioManager()
@@ -59,7 +61,8 @@ bool AudioManager::setMusicVolume(float gain)
 void AudioManager::playSfx(QString filename)
 {
     QFuture<void> future = 
-	 QtConcurrent::run(this, &AudioManager::streamOgg, filename);
+	 QtConcurrent::run(this, &AudioManager::streamOgg,
+			   filename, this->sfxGain_);
     return;
 }
 
@@ -90,14 +93,14 @@ void AudioManager::playMusicQueue(std::queue<QString> filenameQueue)
      while(!filenameQueue.empty()) {
 	  filename = filenameQueue.front();
 	  filenameQueue.pop();
-	  AudioManager::streamOgg(filename);
+	  AudioManager::streamOgg(filename, this->musicGain_);
 	  /*Sleep for 0.3 sec so playback doesn't overlap*/
 	  alSleep(0.3f);
 	  filenameQueue.push(filename);
      }
 }
 
-void AudioManager::streamOgg(QString filename)
+void AudioManager::streamOgg(QString filename, float gain)
 {
     FILE* file;
     char array[BUFFERSIZE];
@@ -119,6 +122,9 @@ void AudioManager::streamOgg(QString filename)
     /* Created the source and Buffers */
     alGenBuffers(QUEUESIZE, buffer);
     alGenSources(1, &source);
+    /*set the Gain for Music or Sfx*/
+    alSourcef(source, AL_GAIN, gain);
+
 
     if ((file = fopen(filename.toAscii().constData(), "rb")) == NULL) {
         qCritical() << "Cannot open " << filename << " for reading...";
