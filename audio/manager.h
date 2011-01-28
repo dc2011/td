@@ -86,8 +86,9 @@ private:
      *
      * @author Terence Stenvold
      * @param filename the path to file.
+     * @param gain is a float with a default param of 1.0
      */
-    void streamOgg(QString filename);
+    void streamOgg(QString filename, float gain = 1);
 
     /**
      * Goes through all the filenames in the queue
