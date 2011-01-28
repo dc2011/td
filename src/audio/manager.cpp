@@ -10,14 +10,14 @@ QMutex AudioManager::mutex_;
 
 AudioManager::AudioManager()
 {
-     AudioManager::startup();
-     this->sfxGain_ = 0.9;
-     this->musicGain_ = 0.65;
+    AudioManager::startup();
+    this->sfxGain_ = 0.9;
+    this->musicGain_ = 0.65;
 }
 
 AudioManager::~AudioManager()
 {
-     AudioManager::shutdown();
+    AudioManager::shutdown();
 }
 
 void AudioManager::shutdown()
@@ -60,16 +60,16 @@ bool AudioManager::setMusicVolume(float gain)
 
 void AudioManager::playSfx(QString filename)
 {
-    QFuture<void> future = 
-	 QtConcurrent::run(this, &AudioManager::streamOgg,
-			   filename, this->sfxGain_);
+    QFuture<void> future =
+        QtConcurrent::run(this, &AudioManager::streamOgg,
+                          filename, this->sfxGain_);
     return;
 }
 
-     void AudioManager::playMusic(std::queue<QString> filenameQueue)
+void AudioManager::playMusic(std::queue<QString> filenameQueue)
 {
-    QFuture<void> future = 
-	 QtConcurrent::run(this, &AudioManager::playMusicQueue, filenameQueue);
+    QFuture<void> future =
+        QtConcurrent::run(this, &AudioManager::playMusicQueue, filenameQueue);
     return;
 }
 
@@ -80,24 +80,24 @@ bool AudioManager::checkError()
     if (error != AL_NO_ERROR) {
         qFatal(alGetString(error));
         alExit();
-	return true;
+        return true;
     }
-    
+
     return false;
-}    
+}
 
 void AudioManager::playMusicQueue(std::queue<QString> filenameQueue)
 {
-     QString filename;
-     
-     while(!filenameQueue.empty()) {
-	  filename = filenameQueue.front();
-	  filenameQueue.pop();
-	  AudioManager::streamOgg(filename, this->musicGain_);
-	  /*Sleep for 0.3 sec so playback doesn't overlap*/
-	  alSleep(0.3f);
-	  filenameQueue.push(filename);
-     }
+    QString filename;
+
+    while (!filenameQueue.empty()) {
+        filename = filenameQueue.front();
+        filenameQueue.pop();
+        AudioManager::streamOgg(filename, this->musicGain_);
+        /*Sleep for 0.3 sec so playback doesn't overlap*/
+        alSleep(0.3f);
+        filenameQueue.push(filename);
+    }
 }
 
 void AudioManager::streamOgg(QString filename, float gain)
@@ -124,7 +124,6 @@ void AudioManager::streamOgg(QString filename, float gain)
     alGenSources(1, &source);
     /*set the Gain for Music or Sfx*/
     alSourcef(source, AL_GAIN, gain);
-
 
     if ((file = fopen(filename.toAscii().constData(), "rb")) == NULL) {
         qCritical() << "Cannot open " << filename << " for reading...";
