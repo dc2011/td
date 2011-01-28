@@ -6,4 +6,7 @@ tmtags
 .DS_Store
 *.swp
 *.o
+moc_*.cpp
+Makefile
 /doc
+/bin
