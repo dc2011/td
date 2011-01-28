@@ -1,2 +1,13 @@
 Data Communications 2011
 Tower Defense Game
+
+COMPILING
+=========
+On Mac and Linux, run the deps script to install all dependencies.
+Then run qmake and make to build the tower defense game.
+    $ ./tools/deps.sh
+    $ qmake
+    $ make
+
+On Windows, try whatever you think might work.
+If you succeed, update this file with instructions.

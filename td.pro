@@ -6,6 +6,7 @@ TEMPLATE = app
 TARGET = 
 DEPENDPATH += .
 INCLUDEPATH += .
+DESTDIR = ./bin
 
 macx {
     LIBS += -framework OpenAL
@@ -18,6 +19,12 @@ unix:!macx {
     PKGCONFIG = openal vorbisfile vorbis
 }
 
+AUDIO_HDRS +=   src/audio/manager.h \
+                src/audio/openal_helper.h
+
+AUDIO_SRCS +=   src/audio/manager.cpp \
+                src/audio/openal_helper.cpp
+
 # Input
-HEADERS += manager.h openal_helper.h
-SOURCES += manager.cpp openal_helper.cpp
+HEADERS += $$AUDIO_HDRS
+SOURCES += src/main.cpp $$AUDIO_SRCS
