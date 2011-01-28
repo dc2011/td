@@ -93,6 +93,7 @@ private:
      * Goes through all the filenames in the queue
      * it continously loops all filenames
      *
+     * @author Terence Stenvold
      * @param filenameQueue queue<QString> of filenames of ogg files.     *
      */
     void playMusicQueue(std::queue<QString> filenameQueue);
@@ -127,6 +128,16 @@ public:
      * @author Darryl Pogue
      */
     void shutdown();
+
+    /**
+     * Creates the OpenAL context. This does not need to be called except 
+     * this must be called manually when you want to continue using
+     * sounds but have called shutdown() already
+     *
+     * @author Terence Stenvold
+     */
+    void startup();
+
 
     /**
      * Return the number of sound files currently being played.
