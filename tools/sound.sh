@@ -6,9 +6,9 @@ url="http://dl.dropbox.com/u/20219175"
 ##CHECK DIR
 DIR=`pwd`
 
-DIR=${DIR:(-9)}
+DIR=${DIR:(-6)}
 
-if [[ $DIR != "/td/tools" ]]; then
+if [[ $DIR != "/tools" ]]; then
     echo "Run from the tools dir please"
     exit
 fi 
