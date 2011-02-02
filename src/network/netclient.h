@@ -38,8 +38,22 @@ private:
      */
      static QMutex mutex_;
      
+     /**
+      * A queue for all the messages to be sent
+      */
      static queue<QByteArray> msgQueue_; 
+
+     /**
+      * The tcpSocket to the server
+      */         
+     static QTcpSocket tcpSocket_;
      
+     /**
+      * The udpSocket to the server
+      */
+     static QUdpSocket udpSocket_;
+     
+
      explicit NetworkClient();
      ~NetworkClient();
      
