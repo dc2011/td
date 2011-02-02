@@ -11,7 +11,7 @@
 #include <QtConcurrentRun>
 #include <QTcpSocket>
 #include <QUdpSocket>
-#include <queue>
+#include <QQueue>
 
 
 namespace td
@@ -42,9 +42,9 @@ private:
      static QMutex mutex_;
      
      /**
-      * A queue for all the messages to be sent
+      * A QQueue for all the messages to be sent
       */
-     static std::queue<QByteArray> msgQueue_; 
+     static QQueue<QByteArray> msgQQueue_; 
 
      /**
       * The tcpSocket to the server
@@ -65,7 +65,7 @@ private:
      ~NetworkClient();
      
     /**
-     * Reads through the msgQueue_ and sends the data
+     * Reads through the msgQQueue_ and sends the data
      * either as UDP or TCP.
      *
      * This should be called in it's own thread.
@@ -110,7 +110,7 @@ public:
      * Send the ByteArray to the server.
      *
      * This adds the msg to be sent to the server into
-     * a queue meaning it will be sent as soon
+     * a QQueue meaning it will be sent as soon
      * as it can be but it doesn't block
      *
      * @author Terence Stenvold
