@@ -7,7 +7,7 @@
 #include <QThread>
 #include <QtDebug>
 #include <QtConcurrentRun>
-#include <queue>
+#include <QQueue>
 #include <vorbis/vorbisfile.h>
 
 #define QUEUESIZE 8
@@ -89,7 +89,7 @@ private:
      * @author Terence Stenvold
      * @param filenameQueue queue<QString> of filenames of ogg files.     *
      */
-    void playMusicQueue(std::queue<QString> filenameQueue);
+    void playMusicQueue(QQueue<QString> filenameQueue);
 
 public:
 
@@ -202,7 +202,7 @@ public:
      * @author Terence Stenvold
      * @param filenameQueue queue<QString> of filenames of ogg files.
      */    
-    void playMusic(std::queue<QString> filenameQueue);
+    void playMusic(QQueue<QString> filenameQueue);
 };
 
 } /* end namespace td */

@@ -1,6 +1,5 @@
 #include "manager.h"
 #include "openal_helper.h"
-#include <iostream>
 
 namespace td {
 
@@ -66,7 +65,7 @@ void AudioManager::playSfx(QString filename)
     return;
 }
 
-void AudioManager::playMusic(std::queue<QString> filenameQueue)
+void AudioManager::playMusic(QQueue<QString> filenameQueue)
 {
     QFuture<void> future =
         QtConcurrent::run(this, &AudioManager::playMusicQueue, filenameQueue);
@@ -86,17 +85,16 @@ bool AudioManager::checkError()
     return false;
 }
 
-void AudioManager::playMusicQueue(std::queue<QString> filenameQueue)
+void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
 {
     QString filename;
 
     while (!filenameQueue.empty()) {
-        filename = filenameQueue.front();
-        filenameQueue.pop();
+        filename = filenameQueue.dequeue();
         AudioManager::streamOgg(filename, this->musicGain_);
         /*Sleep for 0.3 sec so playback doesn't overlap*/
         alSleep(0.3f);
-        filenameQueue.push(filename);
+        filenameQueue.enqueue(filename);
     }
 }
 
