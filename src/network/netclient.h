@@ -89,31 +89,31 @@ public:
      * @author Terence Stenvold
      * @return A pointer to the NetworkClient instance.
      */
-     static NetworkClient* instance() {
-	  mutex_.lock();
-	  if (instance_ == NULL) {
-	       instance_ = new AudioManager();
-	  }
-	  mutex_.unlock();
-	  
-	  return instance_;
-     }
+    static NetworkClient* instance() {
+        mutex_.lock();
+        if (instance_ == NULL) {
+           instance_ = new NetworkClient();
+        }
+        mutex_.unlock();
 
-     /** 
-      * Send the ByteArray to the server.
-      *
-      * This adds the msg to be sent to the server into
-      * a queue meaning it will be sent as soon
-      * as it can be but it doesn't block
-      *
-      * @author Terence Stenvold
-      * @param msg as a byteArray 
-      */
-     void send(QByteArray msg) {
-	  mutex_.lock();
-	  msgQueue_.push(msg);
-	  mutex_.unlock();
-     }
+        return instance_;
+    }
+
+    /** 
+     * Send the ByteArray to the server.
+     *
+     * This adds the msg to be sent to the server into
+     * a queue meaning it will be sent as soon
+     * as it can be but it doesn't block
+     *
+     * @author Terence Stenvold
+     * @param msg as a byteArray 
+     */
+    void send(QByteArray msg) {
+	    mutex_.lock();
+	    msgQueue_.push(msg);
+	    mutex_.unlock();
+    }
 
 
 
