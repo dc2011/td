@@ -40,14 +40,6 @@ private:
     static QMutex mutex_;
 
     /**
-     * The number of sound files currently playing.
-     *
-     * This is also equal to the number of threads currently running to
-     * stream sound files.
-     */
-    int playing_;
-
-    /**
      * The volume/gain of the sound effects.
      */
     float sfxGain_;
@@ -138,21 +130,6 @@ public:
      * @author Terence Stenvold
      */
     void startup();
-
-
-    /**
-     * Return the number of sound files currently being played.
-     *
-     * @author Darryl Pogue
-     * @return The number of currently playing sounds.
-     */
-    int playing() const {
-        mutex_.lock();
-        int ret = playing_;
-        mutex_.unlock();
-
-        return ret;
-    }
     
     /**
      * Set the effects volume.
