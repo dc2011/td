@@ -7,6 +7,7 @@ TARGET =
 DEPENDPATH += .
 INCLUDEPATH += .
 DESTDIR = ./bin
+QT += network
 
 macx {
     LIBS += -framework OpenAL
