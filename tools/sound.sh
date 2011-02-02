@@ -2,6 +2,17 @@
 
 url="http://dl.dropbox.com/u/20219175"
 
+
+##CHECK DIR
+DIR=`pwd`
+
+DIR=${DIR:(-9)}
+
+if [[ $DIR != "/td/tools" ]]; then
+    echo "Run from the tools dir please"
+    exit
+fi 
+
 OS=$(uname | tr '[A-Z]' '[a-z]')
 echo -n "Detecting Operating System... "
 
