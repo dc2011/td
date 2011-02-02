@@ -32,9 +32,8 @@ elif [ "$OS" == "darwin" ]; then
     curl -O "$url/SOUNDINFO"
 
     while read line; 
-    do  
-	curl -O "$url/$line" -o "../$line"
-
+    do
+      curl $url/$line > ../$line
     done < SOUNDINFO;
 
     rm SOUNDINFO
