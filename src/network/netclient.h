@@ -95,7 +95,7 @@ public:
       * @author Terence Stenvold
       * @param msg as a byteArray 
       */
-     void sendData(QByteArray msg) {
+     void send(QByteArray msg) {
 	  mutex_.lock();
 	  msgQueue_.push(msg);
 	  mutex_.unlock();
