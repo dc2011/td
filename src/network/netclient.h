@@ -7,7 +7,10 @@
 #include <QThread>
 #include <QtDebug>
 #include <QByteArray>
+#include <QHostAddress>
 #include <QtConcurrentRun>
+#include <QTcpSocket>
+#include <QUdpSocket>
 #include <queue>
 
 
@@ -41,18 +44,22 @@ private:
      /**
       * A queue for all the messages to be sent
       */
-     static queue<QByteArray> msgQueue_; 
+     static std::queue<QByteArray> msgQueue_; 
 
      /**
       * The tcpSocket to the server
       */         
-     static QTcpSocket tcpSocket_;
+     static QTcpSocket* tcpSocket_;
      
      /**
       * The udpSocket to the server
       */
-     static QUdpSocket udpSocket_;
-     
+     static QUdpSocket* udpSocket_;
+    
+     /**
+      * Server Address
+      */
+     static QHostAddress serverAddr_;
 
      explicit NetworkClient();
      ~NetworkClient();
@@ -98,7 +105,7 @@ public:
 
         return instance_;
     }
-
+  
     /** 
      * Send the ByteArray to the server.
      *
@@ -110,18 +117,26 @@ public:
      * @param msg as a byteArray 
      */
     void send(QByteArray msg) {
-	    mutex_.lock();
-	    msgQueue_.push(msg);
-	    mutex_.unlock();
+	 
+	 mutex_.lock();
+	 msgQueue_.push(msg);
+	 mutex_.unlock();
+	 
+	 if(msgQueue_.size() > 3) {
+	      sendQueue();
+	 }
+
     }
 
 
-
-
-     
-     
-
-}
+    /**
+     * Sets the server address in the NetworkClient
+     *
+     * @param server Address as a QHostAddress
+     */
+    void setServerAddr(QHostAddress servAddr);
+ 
+};
 
 } /*End of namespace*/
 
