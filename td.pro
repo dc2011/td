@@ -29,7 +29,8 @@ AUDIO_SRCS +=   src/audio/manager.cpp \
 NETWORK_HDRS += src/network/netclient.h \
                 src/network/stream.h
 
-NETWORK_SRCS += src/network/stream.cpp
+NETWORK_SRCS += src/network/stream.cpp \
+                src/network/netclient.cpp
 
 # Input
 HEADERS += $$AUDIO_HDRS $$NETWORK_HDRS

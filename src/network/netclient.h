@@ -44,7 +44,7 @@ private:
      /**
       * A QQueue for all the messages to be sent
       */
-     static QQueue<QByteArray> msgQQueue_; 
+     static QQueue<QByteArray> msgQueue_; 
 
      /**
       * The tcpSocket to the server
@@ -119,7 +119,7 @@ public:
     void send(QByteArray msg) {
 	 
 	 mutex_.lock();
-	 msgQueue_.push(msg);
+	 msgQueue_.enqueue(msg);
 	 mutex_.unlock();
 	 
 	 if(msgQueue_.size() > 3) {

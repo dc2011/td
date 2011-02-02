@@ -22,7 +22,7 @@ NetworkClient::NetworkClient()
 NetworkClient::~NetworkClient()
 {
     /*clean up here*/
-    msgQueue_.pop(); //placeholder
+    msgQueue_.dequeue(); //placeholder
 }
 
 
@@ -40,12 +40,13 @@ void NetworkClient::sendQueue()
 
     while (1) {
         if (msgQueue_.size() > 0) {
-            tmp = msgQueue_.front();
+
+            mutex_.lock();
+            tmp = msgQueue_.dequeue();
+            mutex_.unlock();
+           
             udpSocket->writeDatagram(tmp, tmp.size(),
                                      QHostAddress::Broadcast, 26691);
-            mutex_.lock();
-            msgQueue_.pop();
-            mutex_.unlock();
         } else {
 	     //TODO: Fix this sleep 
             sleep(1);
