@@ -1,10 +1,17 @@
 #!/bin/bash
 
-music[0]="3.ogg"
-music[1]="4.ogg"
-music[2]="5.ogg"
-music[3]="6.ogg"
-url="http://dl.dropbox.com/u/20219175/sound"
+url="http://dl.dropbox.com/u/20219175"
+
+
+##CHECK DIR
+DIR=`pwd`
+
+DIR=${DIR:(-6)}
+
+if [[ $DIR != "/tools" ]]; then
+    echo "Run from the tools dir please"
+    exit
+fi 
 
 OS=$(uname | tr '[A-Z]' '[a-z]')
 echo -n "Detecting Operating System... "
@@ -22,10 +29,14 @@ elif [ "$OS" == "darwin" ]; then
     mkdir -p '../sound/music'
     mkdir -p '../sound/sfx'
 
-    for i in 0 1 2 3
+    curl -O "$url/SOUNDINFO"
+
+    while read line; 
     do
-	curl -O "$url/music/${music[i]}" -o "../sound/music/${music[i]}"
-    done
+      curl $url/$line > ../$line
+    done < SOUNDINFO;
+
+    rm SOUNDINFO
 
 elif [ "$OS" == "linux" ]; then
     echo "Linux"
@@ -35,10 +46,14 @@ elif [ "$OS" == "linux" ]; then
     mkdir -p '../sound/music'
     mkdir -p '../sound/sfx'
 
-    for i in `seq 0 3`
-    do
-	wget "$url/music/${music[i]}" -O "../sound/music/${music[i]}"
-    done
+    wget "$url/SOUNDINFO"
 
+    while read line; 
+    do  
+	wget "$url/$line" -O "../$line"
+
+    done < SOUNDINFO;
+
+    rm SOUNDINFO
 
 fi
