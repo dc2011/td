@@ -76,6 +76,18 @@ public:
         return position_ >= data_.size();
     }
 
+
+    /**
+     * Returns the Stream buffer as a constant QByteArray reference.
+     * This is needed when writing the buffer data to a file or socket.
+     *
+     * @author Darryl Pogue
+     * @return The buffer data as a QByteArray reference.
+     */
+    const QByteArray& data() const {
+        return data_;
+    }
+
     /**
      * Reads a byte (unsigned char) from the buffer.
      *
@@ -145,17 +157,6 @@ public:
     void writeFloat(const float value);
     void writeDouble(const double value);
     void write(const QByteArray& value);
-
-    /**
-     * Casts the Stream to a constant QByteArray reference.
-     * This is needed when writing the buffer data to a file or socket.
-     *
-     * @author Darryl Pogue
-     * @return The buffer data as a QByteArray reference.
-     */
-    operator const QByteArray&() {
-        return data_;
-    }
 };
 
 } /* end namespace td */

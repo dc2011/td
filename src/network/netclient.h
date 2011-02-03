@@ -41,6 +41,8 @@ private:
      * method.
      */
     static QMutex mutex_;
+
+    static QThread* netthread_;
     
     /**
      * Server Address
@@ -88,6 +90,8 @@ public:
      */
     static NetworkClient* init(QHostAddress servAddr);
 
+    static void shutdown();
+
     /**
      * Return the instance of the NetworkClient.
      * You MUST call init() to create the initial instance. Once an instance
@@ -111,7 +115,7 @@ public:
      * @author Terence Stenvold
      * @param msg as a byteArray 
      */
-    void send(QByteArray msg) {
+    void send(const QByteArray& msg) {
         mutex_.lock();
         msgQueue_.enqueue(msg);
         mutex_.unlock();

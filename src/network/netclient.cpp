@@ -1,11 +1,13 @@
 #include "netclient.h"
-#include <ctime>
+#include "../util/thread.h"
+//#include <ctime>
 
 
 namespace td {
 
 NetworkClient* NetworkClient::instance_ = NULL;
 QMutex NetworkClient::mutex_;
+QThread* NetworkClient::netthread_ = NULL;
 
 NetworkClient::NetworkClient(QHostAddress servAddr)
     : serverAddr_(servAddr)
@@ -45,7 +47,24 @@ NetworkClient* NetworkClient::init(QHostAddress servAddr)
     instance_ = new NetworkClient(servAddr);
     mutex_.unlock();
 
+    netthread_ = new Thread();
+
+    instance_->moveToThread(netthread_);
+    instance_->udpSocket_->moveToThread(netthread_);
+    instance_->tcpSocket_->moveToThread(netthread_);
+
+    netthread_->start();
+
     return instance_;
+}
+
+void NetworkClient::shutdown() {
+    mutex_.lock();
+    delete instance_;
+    instance_ = NULL;
+    mutex_.unlock();
+
+    netthread_->exit(0);
 }
 
 void NetworkClient::onMsgQueued()
@@ -55,7 +74,7 @@ void NetworkClient::onMsgQueued()
     mutex_.unlock();
 
     /* TODO: Determine which socket to use based on message type */
-    udpSocket_->writeDatagram(tmp, tmp.size(), serverAddr_, TD_PORT);
+    udpSocket_->writeDatagram(tmp, tmp.size(), QHostAddress::Broadcast, TD_PORT);
 }
 
 void NetworkClient::onUDPReceive()
