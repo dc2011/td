@@ -6,52 +6,66 @@ namespace td {
 
 NetworkClient* NetworkClient::instance_ = NULL;
 QMutex NetworkClient::mutex_;
-QQueue<QByteArray> NetworkClient::msgQueue_;
-QTcpSocket* NetworkClient::tcpSocket_;
-QUdpSocket* NetworkClient::udpSocket_;
-QHostAddress NetworkClient::serverAddr_;
 
-
-NetworkClient::NetworkClient()
+NetworkClient::NetworkClient(QHostAddress servAddr)
+    : serverAddr_(servAddr)
 {
-    //Doesn't work....
-    /* QFuture<void> future =
-    QtConcurrent::run(this, &NetworkClient::sendQueue);*/
+    tcpSocket_ = new QTcpSocket();
+    tcpSocket_->connectToHost(servAddr, TD_PORT);
+
+    udpSocket_ = new QUdpSocket();
+
+    connect(this, SIGNAL(msgQueued()), this, SLOT(onMsgQueued()),
+            Qt::QueuedConnection);
+    connect(tcpSocket_, SIGNAL(readyRead()), this, SLOT(onTCPReceive()));
+    connect(udpSocket_, SIGNAL(readyRead()), this, SLOT(onUDPReceive()));
 }
 
 NetworkClient::~NetworkClient()
 {
-    /*clean up here*/
-    msgQueue_.dequeue(); //placeholder
-}
-
-
-void NetworkClient::setServerAddr(QHostAddress servAddr)
-{
     mutex_.lock();
-    serverAddr_ = servAddr;
+    /* No cleanup for udpSocket_? */
+
+    if (tcpSocket_->isOpen()) {
+        tcpSocket_->disconnectFromHost();
+        tcpSocket_->waitForDisconnected(1000);
+    }
+
+    msgQueue_.clear();
     mutex_.unlock();
 }
 
-void NetworkClient::sendQueue()
+NetworkClient* NetworkClient::init(QHostAddress servAddr)
 {
-    QByteArray tmp;
-    QUdpSocket* udpSocket = new QUdpSocket(this);
-
-    while (1) {
-        if (msgQueue_.size() > 0) {
-
-            mutex_.lock();
-            tmp = msgQueue_.dequeue();
-            mutex_.unlock();
-           
-            udpSocket->writeDatagram(tmp, tmp.size(),
-                                     QHostAddress::Broadcast, 26691);
-        } else {
-	     //TODO: Fix this sleep 
-            sleep(1);
-        }
+    if (instance_ != NULL) {
+        return instance_;
     }
+
+    mutex_.lock();
+    instance_ = new NetworkClient(servAddr);
+    mutex_.unlock();
+
+    return instance_;
+}
+
+void NetworkClient::onMsgQueued()
+{
+    mutex_.lock();
+    QByteArray tmp = msgQueue_.dequeue();
+    mutex_.unlock();
+
+    /* TODO: Determine which socket to use based on message type */
+    udpSocket_->writeDatagram(tmp, tmp.size(), serverAddr_, TD_PORT);
+}
+
+void NetworkClient::onUDPReceive()
+{
+    /* TODO */
+}
+
+void NetworkClient::onTCPReceive()
+{
+    /* TODO */
 }
 
 } /* End of namespace */
