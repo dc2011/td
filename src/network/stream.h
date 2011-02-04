@@ -7,9 +7,27 @@
 namespace td
 {
 
+/**
+ * Access class for data in a network buffer.
+ * This class allows reading and writing standard data types to a byte array
+ * buffer intended for use with network packets. You can you this class to
+ * parse the data in a packet that has been received; or use it to write to
+ * a buffer for sending.
+ * Internally, this class is implemented as a wrapper over the QByteArray
+ * class, which is the common data type for Qt's socket buffers.
+ *
+ * @author Darryl Pogue
+ */
 class Stream
 {
 public:
+    /**
+     * Exception thrown when trying to read beyond the buffer of a stream.
+     * Any calls to read functions can throw this exception and it MUST be
+     * handled by the caller.
+     *
+     * @author Darryl Pogue
+     */
     class EOFException : public std::exception
     {
         virtual const char* what() const throw()
@@ -151,11 +169,52 @@ public:
      */
     QByteArray& read(const int length);
 
+    /**
+     * Writes a byte to the buffer.
+     *
+     * @author Darryl Pogue
+     * @param value The byte value to be written.
+     */
     void writeByte(const unsigned char value);
+
+    /**
+     * Writes a short to the buffer.
+     *
+     * @author Darryl Pogue
+     * @param value The short value to be written.
+     */
     void writeShort(const short value);
+
+    /**
+     * Writes an int to the buffer.
+     *
+     * @author Darryl Pogue
+     * @param value The int value to be written.
+     */
     void writeInt(const int value);
+
+    /**
+     * Writes a float to the buffer.
+     *
+     * @author Darryl Pogue
+     * @param value The float value to be written.
+     */
     void writeFloat(const float value);
+
+    /**
+     * Writes a double to the buffer.
+     *
+     * @author Darryl Pogue
+     * @param value The double value to be written.
+     */
     void writeDouble(const double value);
+
+    /**
+     * Writes an existing QByteArray to the buffer.
+     *
+     * @author Darryl Pogue
+     * @param value The byte array to be written.
+     */
     void write(const QByteArray& value);
 };
 
