@@ -42,10 +42,13 @@ private:
      */
     static QMutex mutex_;
 
+    /**
+     * The thread which owns the NetworkClient and its sockets.
+     */
     static QThread* netthread_;
     
     /**
-     * Server Address
+     * The address of the network server.
      */
     QHostAddress serverAddr_;
      
@@ -90,6 +93,12 @@ public:
      */
     static NetworkClient* init(QHostAddress servAddr);
 
+    /**
+     * Close the network sockets and empty the message buffer queue.
+     * This should only be called once, when the program is exiting.
+     *
+     * @author Darryl Pogue
+     */
     static void shutdown();
 
     /**

@@ -1,4 +1,5 @@
 #include "netclient.h"
+#include "stream.h"
 #include "../util/thread.h"
 //#include <ctime>
 
@@ -79,7 +80,12 @@ void NetworkClient::onMsgQueued()
 
 void NetworkClient::onUDPReceive()
 {
-    /* TODO */
+    QByteArray datagram;
+    datagram.resize(udpSocket_->pendingDatagramSize());
+    udpSocket_->readDatagram(datagram.data(), datagram.size());
+
+    Stream s(datagram);
+    /* TODO: Give the stream to an object */
 }
 
 void NetworkClient::onTCPReceive()
