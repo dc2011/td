@@ -8,6 +8,6 @@ QPoint GameObject::GetPos() {
 }
 
 void GameObject::SetPos(QPoint p) {
-    pos_.setX(p.x);
-    pos_.setY(p.y);
+    pos_.setX(p.x());
+    pos_.setY(p.y());
 }
