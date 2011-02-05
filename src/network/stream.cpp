@@ -59,7 +59,7 @@ double Stream::readDouble()
     return ret;
 }
 
-QByteArray& Stream::read(const int length)
+QByteArray Stream::read(const int length)
 {
     if (eof()) {
         throw new EOFException();

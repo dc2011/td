@@ -167,7 +167,7 @@ public:
      *        The caller must safely handle this exception!
      * @return An array of data read from the buffer.
      */
-    QByteArray& read(const int length);
+    QByteArray read(const int length);
 
     /**
      * Writes a byte to the buffer.

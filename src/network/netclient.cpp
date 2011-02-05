@@ -86,6 +86,13 @@ void NetworkClient::onUDPReceive()
 
     Stream s(datagram);
     /* TODO: Give the stream to an object */
+
+    /* Pseudocode:
+
+    GameObject* o;
+    o = Driver::instance()->lookupObject(s.readInt()); // Read the Obj ID
+    o->netUpdate(s); // This triggers an event inside the object
+    */
 }
 
 void NetworkClient::onTCPReceive()

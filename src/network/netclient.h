@@ -18,6 +18,40 @@
 namespace td
 {
 
+/**
+ * The client-side networking manager class.
+ * This class is used to handle networking sending and receiving for both
+ * TCP and UDP. A client must call the init() method first to create and 
+ * initialize the singleton instance. Once a call to init has been made,
+ * this class is thread-safe and the send method can be called from any
+ * thread. The existing instance of the network client can be retrieved from
+ * anywhere with a call to instance().
+ *
+ * Internally, when init is called, this class creates a thread in which 
+ * all socket reading and writing is to be done. Thus this class is entirely
+ * event-driven, and code wishing to push a message across the network
+ * should do so by calling the send() method.
+ *
+ * A shutdown() method exists to close all open conenctions and destroy the
+ * network client instance. This should only be called when the client is
+ * exiting.
+ *
+ * A typical use of the NetworkClient class looks like this:
+ * @code
+ *  td::NetworkClient::init(QHostAddress("127.0.0.1"));
+ *
+ *  // Create a stream and write data to it, then send it to the server:
+ *  td::Stream s;
+ *  s.writeInt(5);
+ *  td::NetworkClient::instance()->send(s.data());
+ *
+ *  // When the client is exiting:
+ *  td::NetworkClient::instance()->shutdown();
+ * @endcode
+ *
+ * @author Darryl Pogue
+ * @author Terence Stenvold
+ */
 class NetworkClient : public QObject {
     Q_OBJECT
 
@@ -69,15 +103,54 @@ private:
 
 
 private:
+    /**
+     * Constructor for the client-side networking singleton.
+     *
+     * @author Darryl Pogue
+     * @param servAddr The address of the server.
+     */
     explicit NetworkClient(QHostAddress servAddr);
-    ~NetworkClient();
+
+    /**
+     * Destructor for the network client, closes any open sockets.
+     *
+     * @author Darryl Pogue
+     */
+    virtual ~NetworkClient();
  
 signals:
+    /**
+     * Signal emitted when a message is added to the message queue.
+     * This is used to notify another thread that it should read a message
+     * from the queue and send it across the network.
+     * This signal should not be used outside of this class.
+     */
     void msgQueued();
 
 private slots:
+    /**
+     * Called when a message is queued to be sent, sends the message using 
+     * the appropriate socket.
+     *
+     * @author Darryl Pogue
+     * @author Terence Stenvold
+     */
     void onMsgQueued();
+
+    /**
+     * Called when data is received by the TCP socket, parses the data and
+     * distributes it to the correct object.
+     *
+     * @author Darryl Pogue
+     */
     void onTCPReceive();
+
+    /**
+     * Called when data is received by the UDP socket, parses the data and
+     * distributes it to the correct object.
+     *
+     * @author Darryl Pogue
+     */
     void onUDPReceive();
      
 public:
