@@ -1,14 +1,12 @@
 #include "PlayerPhysicsComponent.h"
 
-using namespace std;
-
 PlayerPhysicsComponent::PlayerPhysicsComponent() {}
+PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
 
-PlayerPhysicsComponent::Update(Player* player) {
-    QVelocity2D v = player->GetVelocity();
+void PlayerPhysicsComponent::Update(Player* player) {
+    QVector2D v = player->GetVelocity();
     // Do stuff.
     QPoint pos = player->GetPos();
-    pos.x += v.x() * v.length();
-    pos.y += v.y() * v.length();
+    pos += QPoint(v.x() * v.length(), v.y() * v.length());
     player->SetPos(pos);
 }

@@ -4,6 +4,8 @@ PlayerInputComponent::PlayerInputComponent() {
     
 }
 
+PlayerInputComponent::~PlayerInputComponent() { }
+
 void PlayerInputComponent::Update() {
     
 }

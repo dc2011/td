@@ -1,16 +1,18 @@
 #include "PhysicsComponent.h"
 
 PhysicsComponent::PhysicsComponent()
-: acceleration_(1), deceleration(2) {}
+: acceleration_(1), deceleration_(2) {}
 
-PhysicsComponent::Update(Player* player) {
+PhysicsComponent::~PhysicsComponent() { }
+
+void PhysicsComponent::Update(Player* player) {
     
 }
 
-PhysicsComponent::Accelerate(Player* player) {
+void PhysicsComponent::Accelerate(Player* player) {
     
 }
 
-PhysicsComponent::Decelerate(Player* player) {
+void PhysicsComponent::Decelerate(Player* player) {
     
 }

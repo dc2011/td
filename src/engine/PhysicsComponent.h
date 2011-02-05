@@ -1,12 +1,14 @@
 #ifndef PHYSICSCOMPONENT_H
 #define PHYSICSCOMPONENT_H
 
+#include <QObject>
+
 class Player;
 class PhysicsComponent : public QObject {
     Q_OBJECT
 public:
     PhysicsComponent();
-    ~PhysicsComponent();
+    virtual ~PhysicsComponent();
     
     void Accelerate(Player*);
     void Decelerate(Player*);

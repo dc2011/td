@@ -4,16 +4,16 @@
 #include <QPoint>
 
 #include "GameObject.h"
+#include "PhysicsComponent.h"
+#include "InputComponent.h"
 
-class PhysicsComponent;
-class InputComponent;
 class Unit : public GameObject {
 public:
     virtual ~Unit();
 
-private:
-    InputComponent * input_;
-    PhysicsComponent * physics_;
+protected:
+    InputComponent* input_;
+    PhysicsComponent* physics_;
 };
 
 #endif
