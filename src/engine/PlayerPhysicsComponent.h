@@ -7,7 +7,7 @@
 class PlayerPhysicsComponent : public PhysicsComponent {
 public:
     PlayerPhysicsComponent();
-    virtual ~PlayerPhysicsComponent() {};
+    virtual ~PlayerPhysicsComponent();
     
 public slots:
     virtual void Update(Player*);
