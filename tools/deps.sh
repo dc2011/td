@@ -1,5 +1,4 @@
 #!/bin/bash
-
 OS=$(uname | tr '[A-Z]' '[a-z]')
 echo -n "Detecting Operating System... "
 

@@ -25,6 +25,10 @@ AUDIO_HDRS +=   src/audio/manager.h \
 AUDIO_SRCS +=   src/audio/manager.cpp \
                 src/audio/openal_helper.cpp
 
+DRIVER_HDRS +=	src/game/driver.h
+
+DRIVER_SRCS +=	src/game/driver.cpp
+
 # Input
-HEADERS += $$AUDIO_HDRS
-SOURCES += src/main.cpp $$AUDIO_SRCS
+HEADERS += $$AUDIO_HDRS $$DRIVER_HDRS
+SOURCES += src/main.cpp $$AUDIO_SRCS $$DRIVER_SRCS
