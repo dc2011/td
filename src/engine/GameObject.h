@@ -1,3 +1,6 @@
+#ifndef GAMEOBJECT_H
+#define GAMEOBJECT_H
+
 #include <QPoint>
 
 #include "InputComponent.h"
@@ -13,8 +16,10 @@ public:
     void SetPos(QPoint);
 
 public slots:
-    virtual void Update() const = 0;
+    virtual void Update() = 0;
 
 private:
     QPoint pos_;
 };
+
+#endif

@@ -2,7 +2,8 @@
 
 using namespace std;
 
-Player::Player() {
+Player::Player(InputComponent* input, PhysicsComponent* physics)
+: input_(input), physics_(physics) {
     QPoint v(1, 0);
     velocity_(v);
 }
