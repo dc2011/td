@@ -1,20 +1,23 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include <QVector2D>
 #include <QPoint>
 
 #include "Unit.h"
-#include "Player.h"
 
 class Player : public Unit {
     Q_OBJECT
 public:
-    Player(QObject *parent = 0);
-    ~Player() {};
+    Player(InputComponent* input, PhysicsComponent* physics);
     
     virtual void Update();
     
-    QVector2d& GetVelocity();
-    void SetVelocity(QVector2d&);
+    QVector2D& GetVelocity();
+    void SetVelocity(QVector2D&);
 
 private:
-    QVector2d velocity_;
+    QVector2D velocity_;
 };
+
+#endif
