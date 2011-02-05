@@ -1,16 +1,22 @@
-#include "PhysicsComponent.h"
-#include "Player.h"
+#ifndef PHYSICSCOMPONENT_H
+#define PHYSICSCOMPONENT_H
 
-class PhysicsComponent {
+class Player;
+class PhysicsComponent : public QObject {
+    Q_OBJECT
 public:
     PhysicsComponent();
-    ~PhysicsComponent() {}
+    ~PhysicsComponent();
     
-    virtual void Update(Player&) = 0;
-    void Accelerate(Player&);
-    void Decelerate(Player&);
+    void Accelerate(Player*);
+    void Decelerate(Player*);
+    
+public slots:
+    virtual void Update(Player*) = 0;
     
 private:
     const size_t acceleration_;
     const size_t deceleration_;
 };
+
+#endif
