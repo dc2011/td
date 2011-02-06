@@ -16,6 +16,44 @@
 namespace td
 {
 
+/**
+ * The client-side audio manager class.
+ * A client must call the instance() method first to create and  
+ * initialize the singleton instance. Once a call to instance() has been made,
+ * this class is thread-safe.
+ *
+ * Internally in the class everytime playSfx is called, It creates
+ * a thread specifically to play that file to completion.
+ * To play music You can build a QQueue of filenames and pass that
+ * to playMusic(). playMusic() loops through the queue, Meaning after 
+ * finishing a song it puts it in the back of the queue. 
+ *
+ * The only way to stop a sound from playing is by calling shutdown().
+ * After this is called if you wish to play sounds again you 
+ * need to call startup();
+ *
+ * A typical use of the AudioManager class looks like this:
+ * @code
+ *   QString filename = "fire.ogg";
+ *
+ *   // This next line may not be vaild
+ *   // Used to show contents of musicList
+ *   QQueue musicList = [ "1.ogg" , "2.ogg" , "3.ogg" ]
+ *
+ *   //Inits the Class
+ *   td::AudioManager::instance(); 
+ *
+ *   td::AudioManager::instance()->playSfx(filename);
+ *   td::AudioManager::instance()->playMusic(musicList);
+ *
+ *   //call when you wish all sounds to stop
+ *   td::AudioManager::instance()->shutdown();
+ * @endcode
+ *
+ * @author Darryl Pogue
+ * @author Terence Stenvold
+ */
+
 class AudioManager : public QObject {
     Q_OBJECT
 
