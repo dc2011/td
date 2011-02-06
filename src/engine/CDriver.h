@@ -1,5 +1,5 @@
-#ifndef DRIVER_H
-#define DRIVER_H
+#ifndef CDRIVER_H
+#define CDRIVER_H
 #include <QtGui> 
 #include <QWidget>
 #include <QTimer>
