@@ -8,7 +8,7 @@
 
 CDriver::CDriver(QObject *gui) {
     CDriver::gameTimer_ = new QTimer(this);
-    CDriver::human_ = createHumanPlayer();
+    CDriver::human_ = createHumanPlayer(gui);
     
     connect(gameTimer_, SIGNAL(timeout()), human_, SLOT(Update()));
 }
@@ -30,9 +30,12 @@ void CDriver::bindSingle(const GameObject& obj) {
   //  connect(&CDriver::gameTimer_, SIGNAL(timeout()), obj, SLOT(update()));
 }
 
-Player* CDriver::createHumanPlayer() {
+Player* CDriver::createHumanPlayer(QObject *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
+    
     InputComponent* input = new PlayerInputComponent();
+    gui->installEventFilter(input);
+    
     return new Player(input, physics);
 }
 
