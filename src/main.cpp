@@ -3,10 +3,12 @@
 #include "engine/CDriver.h"
 
 int main(int argc, char **argv) {
-    CDriver d(argc, argv);
+    QApplication a(argc, argv);
     QMainWindow qmw;
+    CDriver d(&qmw);
+    
     qmw.show();
     d.startGame();
     
-    return d.exec();
+    return a.exec();
 }
