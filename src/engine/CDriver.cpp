@@ -3,9 +3,9 @@
 #include <QTimer>
 #include <QApplication>
 #include <QVector>
-#include "gameinfo.h"
-#include "gameobject.h"
-#include "driver.h"
+#include "GameInfo.h"
+#include "GameObject.h"
+#include "CDriver.h"
 
 Driver::Driver(int argc, char** argv):QApplication(argc, argv) {
 

@@ -1,6 +1,6 @@
 #include <QPoint>
 
-#include "InputComponent.h"
+//#include "InputComponent.h"
 #include "PhysicsComponent.h"
 
 

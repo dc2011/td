@@ -25,13 +25,13 @@ AUDIO_HDRS +=   src/audio/manager.h \
 AUDIO_SRCS +=   src/audio/manager.cpp \
                 src/audio/openal_helper.cpp
 
-DRIVER_HDRS +=	src/engine/Driver.h \
+DRIVER_HDRS +=	src/engine/CDriver.h \
 		src/engine/GameObject.h \
 		src/engine/PlayerPhysicsComponent.h \
 		src/engine/Player.h \
 		src/engine/Unit.h
 
-DRIVER_SRCS +=	src/engine/Driver.cpp \
+DRIVER_SRCS +=	src/engine/CDriver.cpp \
 		src/engine/GameObject.cpp \
 		src/engine/PlayerPhysicsComponent.cpp \
 		src/engine/Player.cpp \
@@ -39,5 +39,7 @@ DRIVER_SRCS +=	src/engine/Driver.cpp \
 		
 
 # Input
-HEADERS += $$AUDIO_HDRS $$DRIVER_HDRS
-SOURCES += src/engine/main.cpp $$AUDIO_SRCS $$DRIVER_SRCS
+HEADERS += $$AUDIO_HDRS $$DRIVER_HDRS \
+    src/engine/GameInfo.h
+SOURCES += src/engine/main.cpp $$AUDIO_SRCS $$DRIVER_SRCS \
+    src/engine/GameInfo.cpp
