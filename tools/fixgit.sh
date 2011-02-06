@@ -1,5 +1,5 @@
 #!/bin/bash
-isclean=$(git status --porcelain 2>/dev/null| wc -l)
+isclean=$(git status --porcelain 2>/dev/null)
 
 if [[ -n $isclean ]]; then
     echo "You have uncommitted changes. DO NOT RUN THIS SCRIPT YET!"
