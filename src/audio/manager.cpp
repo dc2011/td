@@ -78,7 +78,7 @@ bool AudioManager::checkError()
     const ALchar* err = alGetString(error);
 
     if (error != AL_NO_ERROR) {
-        qFatal(err);
+	qFatal("%s",err);
         alExit();
         return true;
     }
