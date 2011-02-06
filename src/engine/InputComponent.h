@@ -2,6 +2,7 @@
 #define INPUTCOMPONENT
 
 #include <QObject>
+#include <QEvent>
 
 class InputComponent : public QObject {
     Q_OBJECT
