@@ -10,3 +10,4 @@ moc_*.cpp
 Makefile
 /doc
 /bin
+.qdevelop
