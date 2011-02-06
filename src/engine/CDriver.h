@@ -8,7 +8,7 @@
 #include "PlayerInputComponent.h"
 //#include "GameInfo.h"
 //#include "GameObject.h"
-class CDriver : public QApplication {
+class CDriver : public QObject {
   
  private:
   //  GameInfo gameInfo;
@@ -17,7 +17,7 @@ class CDriver : public QApplication {
   //QVector<GameObject> objects;
  public:
   //ctors and dtors
-  CDriver(int argc = 0, char **argv = 0);
+  CDriver(QObject *parent = 0);
   ~CDriver();
   Player* createHumanPlayer();
   //bind object slots to timer signals

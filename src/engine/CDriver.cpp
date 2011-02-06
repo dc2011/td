@@ -6,7 +6,7 @@
 #include "GameObject.h"
 #include "CDriver.h"
 
-CDriver::CDriver(int argc, char** argv):QApplication(argc, argv) {
+CDriver::CDriver(QObject *gui) {
     CDriver::gameTimer_ = new QTimer(this);
     CDriver::human_ = createHumanPlayer();
     
