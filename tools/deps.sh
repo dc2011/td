@@ -21,7 +21,7 @@ elif [ "$OS" == "darwin" ]; then
     sudo $portsbin install libvorbis
 
     qmbin=$(which qmake)
-    if [[ -a "$qmbin" ]]; then
+    if [[ -z "$qmbin" ]]; then
         echo "You need the Qt4 Development Kit installed"
         exit
     fi
