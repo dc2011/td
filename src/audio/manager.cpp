@@ -1,8 +1,7 @@
 #include "manager.h"
 #include "openal_helper.h"
 
-namespace td 
-{
+namespace td {
 
 AudioManager* AudioManager::instance_ = NULL;
 
@@ -76,14 +75,14 @@ void AudioManager::playMusic(QQueue<QString> filenameQueue)
 bool AudioManager::checkError()
 {
     ALuint error = alGetError();
-    const ALchar *err = alGetString(error);
+    const ALchar* err = alGetString(error);
 
     if (error != AL_NO_ERROR) {
-	 qFatal(err);
-	 alExit();
-	 return true;
+        qFatal(err);
+        alExit();
+        return true;
     }
-    
+
     return false;
 }
 
