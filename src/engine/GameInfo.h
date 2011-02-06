@@ -5,15 +5,15 @@
 #include <QTimer>
 #include <QApplication>
 #include <QVector>
-#include "GameMap.h"
+//#include "GameMap.h"
 class GameInfo {
 
 private:
     //gameproperties, map, players etc
-    GameMap map;
+   // GameMap map;
 public:
-   virtual GameInfo();
-   virtual ~GameInfo();
+   GameInfo();
+   ~GameInfo();
 
 
 };
