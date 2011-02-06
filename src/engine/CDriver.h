@@ -30,17 +30,17 @@ public:
     Player* createHumanPlayer(QObject *);
 
     /**
-     * TODO: "Description here"
+     * Connects all current GameObjects' SLOTs to a timer SIGNAL.
      * 
-     * @author Duncan / Ian
+     * @author Duncan Donaldson
      * @return void
      */
     void bindAll();
 
     /**
-     * TODO: "Description here"
+     * Connects a single GameObject's SLOT to a timer SIGNAL.
      * 
-     * @author Duncan / Ian
+     * @author Duncan Donaldson
      * @return void
      */
     void bindSingle(const GameObject& obj);
@@ -48,7 +48,7 @@ public:
     /**
      * Start game timer.
      * 
-     * @author Duncan / Ian
+     * @author Duncan Donaldson
      * @return void
      */
     void startGame();
@@ -56,7 +56,7 @@ public:
     /**
      * Stop game timer.
      * 
-     * @author Duncan / Ian
+     * @author Duncan Donaldson
      * @return void
      */
     void endGame();
@@ -64,7 +64,7 @@ public:
     /**
      * Load map from file, parse data, store in game info map property
      * 
-     * @author Duncan / Ian
+     * @author Duncan Donaldson
      * @return int
      */
     //int loadMap(GameInfo &gi, char* map);
