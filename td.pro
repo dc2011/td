@@ -24,22 +24,29 @@ AUDIO_HDRS +=   src/audio/manager.h \
 
 AUDIO_SRCS +=   src/audio/manager.cpp \
                 src/audio/openal_helper.cpp
+                
+ENGINE_HDRS +=  src/engine/CDriver.h \
+                src/engine/GameObject.h \
+                src/engine/InputComponent.h \
+                src/engine/PlayerInputComponent.h \
+                src/engine/PhysicsComponent.h \
+                src/engine/Player.h \
+                src/engine/PlayerPhysicsComponent.h \
+                src/engine/SDriver.h \
+                src/engine/Tile.h \
+                src/engine/Unit.h
+                
+ENGINE_SRCS +=  src/engine/CDriver.cpp \
+                src/engine/GameObject.cpp \
+                src/engine/InputComponent.cpp \
+                src/engine/PlayerInputComponent.cpp \
+                src/engine/PhysicsComponent.cpp \
+                src/engine/Player.cpp \
+                src/engine/PlayerPhysicsComponent.cpp \
+                src/engine/SDriver.cpp \
+                src/engine/Unit.cpp
 
-DRIVER_HDRS +=	src/engine/CDriver.h \
-		src/engine/GameObject.h \
-		src/engine/PlayerPhysicsComponent.h \
-		src/engine/Player.h \
-		src/engine/Unit.h
 
-DRIVER_SRCS +=	src/engine/CDriver.cpp \
-		src/engine/GameObject.cpp \
-		src/engine/PlayerPhysicsComponent.cpp \
-		src/engine/Player.cpp \
-		src/engine/Unit.cpp
-		
 
-# Input
-HEADERS += $$AUDIO_HDRS $$DRIVER_HDRS \
-    src/engine/GameInfo.h
-SOURCES += src/engine/main.cpp $$AUDIO_SRCS $$DRIVER_SRCS \
-    src/engine/GameInfo.cpp
+HEADERS += $$AUDIO_HDRS $$ENGINE_HDRS 
+SOURCES += src/main.cpp $$AUDIO_SRCS $$ENGINE_SRCS 

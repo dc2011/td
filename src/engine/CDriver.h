@@ -1,22 +1,25 @@
 #ifndef CDRIVER_H
 #define CDRIVER_H
-#include <QtGui> 
-#include <QWidget>
 #include <QTimer>
 #include <QApplication>
 #include <QVector>
-//#include "gameinfo.h"
-#include "GameObject.h"
-class Driver : public QApplication {
+#include "Player.h"
+#include "PlayerPhysicsComponent.h"
+#include "PlayerInputComponent.h"
+//#include "GameInfo.h"
+//#include "GameObject.h"
+class CDriver : public QApplication {
   
  private:
-  GameInfo gameInfo;
-  QTimer gameTimer;
-  QVector<GameObject> objects;
+  //  GameInfo gameInfo;
+  QTimer* gameTimer_;
+  Player* human_;
+  //QVector<GameObject> objects;
  public:
   //ctors and dtors
-  virtual Driver(int argc = 0, char **argv = 0);
-  virtual ~Driver();
+  CDriver(int argc = 0, char **argv = 0);
+  ~CDriver();
+  Player* createHumanPlayer();
   //bind object slots to timer signals
   void bindAll();
   void bindSingle(const GameObject& obj);
@@ -24,6 +27,6 @@ class Driver : public QApplication {
   void startGame();
   void endGame();
   //load map from file, parse data, store in game info map property
-  int loadMap(GameInfo &gi, char* map);
+  //int loadMap(GameInfo &gi, char* map);
 };
 #endif
