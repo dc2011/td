@@ -8,11 +8,11 @@ class NPC : public Unit {
 public:
     NPC(PhysicsComponent* physics);
 
-    virtual void Update();
-    size_t GetHealth();
-    void SetHealth(size_t);
-    size_t GetDamage();
-    void SetDamage(size_t);
+    virtual void update();
+    size_t getHealth();
+    void setHealth(size_t);
+    size_t getDamage();
+    void setDamage(size_t);
 
 private:
     size_t health_;

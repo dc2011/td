@@ -1,11 +1,12 @@
 #include "PlayerPhysicsComponent.h"
+#include "Player.h"
 
 PlayerPhysicsComponent::PlayerPhysicsComponent() : accel_(1), decel_(2), maxVelocity_(10) {}
 PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
 
-void PlayerPhysicsComponent::update(Player* player) {
-    this->applyForce(player);
-    this->applyVelocity(player);
+void PlayerPhysicsComponent::update(Unit* player) {
+    this->applyForce((Player*)player);
+    this->applyVelocity((Player*)player);
 }
 
 /* applies velocity to position, currently moves past bounds */

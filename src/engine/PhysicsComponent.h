@@ -3,7 +3,8 @@
 
 #include <QObject>
 
-class Player;
+class Unit;
+
 class PhysicsComponent : public QObject {
     Q_OBJECT
 public:
@@ -11,8 +12,7 @@ public:
     virtual ~PhysicsComponent();
     
 public slots:
-    virtual void update(Player*) = 0;
-    
+    virtual void update(Unit*) = 0;
 };
 
 #endif

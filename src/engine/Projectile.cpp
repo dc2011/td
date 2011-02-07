@@ -1,6 +1,4 @@
-#include "Projectile.h".h"
-
-using namespace std;
+#include "Projectile.h"
 
 Projectile::Projectile(PhysicsComponent* physics, Unit* sender, Unit* receiver) {
     physics_ = physics;
@@ -8,31 +6,31 @@ Projectile::Projectile(PhysicsComponent* physics, Unit* sender, Unit* receiver) 
     receiver_ = receiver;
 }
 
-QVector2D& Projectile::GetVelocity() {
+QVector2D& Projectile::getVelocity() {
     return velocity_;
 }
 
-void Projectile::SetVelocity(QVector2D& velocity) {
+void Projectile::setVelocity(QVector2D& velocity) {
     velocity_ = velocity;
 }
 
-size_t Projectile::GetDamage(){
+size_t Projectile::getDamage(){
     return damage_;
 }
 
-void Projectile::SetDamage(size_t damage){
+void Projectile::setDamage(size_t damage){
     damage_ = damage;
 }
 
-size_t Projectile::GetDuration(){
+size_t Projectile::getDuration(){
     return duration_;
 }
 
-void Projectile::SetDuration(size_t duration){
+void Projectile::setDuration(size_t duration){
     duration_ = duration;
 }
 
-void Projectile::Update() {
-    physics_->Update(this);
+void Projectile::update() {
+    physics_->update(this);
 }
 
