@@ -5,7 +5,6 @@
 #include "Player.h"
 
 class PlayerPhysicsComponent : public PhysicsComponent {
-    Q_OBJECT
 public:
     PlayerPhysicsComponent();
     virtual ~PlayerPhysicsComponent();
