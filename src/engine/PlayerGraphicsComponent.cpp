@@ -3,6 +3,7 @@
 
 PlayerGraphicsComponent::PlayerGraphicsComponent(const char* pixmap) 
 :       GraphicsComponent(QPixmap(pixmap)) {
+    setPos(0,0);
     show();    
 }
 
