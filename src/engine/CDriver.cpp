@@ -7,7 +7,7 @@
 #include "GameObject.h"
 #include "CDriver.h"
 
-CDriver::CDriver(QWidget *gui) {
+CDriver::CDriver(QObject *gui) {
     CDriver::gameTimer_ = new QTimer(this);
     CDriver::human_ = createHumanPlayer(gui);
     
@@ -31,10 +31,10 @@ void CDriver::bindSingle(const GameObject& obj) {
   //  connect(&CDriver::gameTimer_, SIGNAL(timeout()), obj, SLOT(update()));
 }
 
-Player* CDriver::createHumanPlayer(QWidget *gui) {
+Player* CDriver::createHumanPlayer(QObject *gui) {
     PhysicsComponent*  physics  = new PlayerPhysicsComponent();
     InputComponent*    input    = new PlayerInputComponent();
-    GraphicsComponent* graphics = new PlayerGraphicsComponent(gui);
+    GraphicsComponent* graphics = new PlayerGraphicsComponent("arrow.png");
 
     gui->installEventFilter(input);
 

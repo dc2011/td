@@ -1,15 +1,20 @@
 #include "PlayerGraphicsComponent.h"
 #include "Player.h"
 
-PlayerGraphicsComponent::PlayerGraphicsComponent(QWidget* gui) 
-:       GraphicsComponent(gui) {}
+PlayerGraphicsComponent::PlayerGraphicsComponent(const char* pixmap) 
+:       GraphicsComponent(QPixmap(pixmap)) {
+    show();    
+}
 
 PlayerGraphicsComponent::~PlayerGraphicsComponent() {}
 
-void PlayerGraphicsComponent::update(Player* player) {
-    QPoint pos = player->GetPos();
-    
-    QPainter p(gui_);
-    p.drawLine(0, 0, 100, 100);
+void PlayerGraphicsComponent::updatePosition(Player* player) {
+    static int x = 0;
+    static int y = 0;
+    x++;
+    y++;
+    setPos(x, y);
+   // setPos(player->GetPos());
+    update();
 }
 

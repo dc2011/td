@@ -7,12 +7,11 @@
 #include "GraphicsComponent.h"
 
 class PlayerGraphicsComponent : public GraphicsComponent {
-    Q_OBJECT
 
 public:
-    PlayerGraphicsComponent(QWidget* gui);
+    PlayerGraphicsComponent(const char* pixmap);
     virtual ~PlayerGraphicsComponent();
-    virtual void update(Player* player);
+    virtual void updatePosition(Player* player);
 };
 
 #endif

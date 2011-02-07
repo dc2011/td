@@ -3,19 +3,15 @@
 
 #include <QObject>
 #include <QPoint>
-#include <QWidget>
+#include <QGraphicsPixmapItem>
 
 class Player;
-class GraphicsComponent : public QObject {
-    Q_OBJECT
+class GraphicsComponent : public QGraphicsPixmapItem {
 
 public:
-    GraphicsComponent(QWidget* gui) : gui_(gui) {}
+    GraphicsComponent(QPixmap pm) : QGraphicsPixmapItem(pm) {}
     virtual ~GraphicsComponent() {}
-    virtual void update(Player* player) = 0;
-    
-protected:
-    QWidget* gui_; 
+    virtual void updatePosition(Player* player) = 0;
 };
 
 #endif
