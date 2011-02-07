@@ -18,10 +18,8 @@ public:
     QVector2D& GetAccel();
     void SetAccel(QVector2D&);
 
-    int GetPosX();
-    int GetPosY();
-    void SetPosX(int);
-    void SetPosY(int);
+    QPoint& GetPos();
+    void SetPos(QPoint&);
 
     int GetOrientation();
     void SetOrientation(int);
@@ -32,7 +30,7 @@ public:
 private:
     QVector2D velocity_;
     QVector2D accel_;
-    int posX_, posY_;
+    QPoint pos_;
     int orientation_;
     float scale_;
 
