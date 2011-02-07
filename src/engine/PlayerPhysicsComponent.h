@@ -9,6 +9,7 @@ public:
     PlayerPhysicsComponent();
     virtual ~PlayerPhysicsComponent();
     void ApplyForce(Player*);
+    void ApplyVelocity(Player*);
     
 public slots:
     virtual void Update(Player*);

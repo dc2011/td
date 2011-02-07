@@ -4,11 +4,14 @@ PlayerPhysicsComponent::PlayerPhysicsComponent() : accel_(1), decel_(2), maxVelo
 PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
 
 void PlayerPhysicsComponent::Update(Player* player) {
-    QVector2D v = player->GetVelocity();
-    // Do stuff.
-    //QPoint pos = player->GetPos();
-    //pos += QPoint(v.x() * v.length(), v.y() * v.length());
-    //player->SetPos(pos);
+    this->ApplyForce(player);
+    this->ApplyVelocity(player);
+}
+
+/* applies velocity to position, currently moves past bounds */
+void PlayerPhysicsComponent::ApplyVelocity(Player * player) {
+    QPoint newPos = player->GetPos() + player->GetVelocity().toPoint();
+    player->SetPos(newPos);
 }
 
 void PlayerPhysicsComponent::ApplyForce(Player* player) {
@@ -36,13 +39,13 @@ void PlayerPhysicsComponent::ApplyForce(Player* player) {
         // deceleration towards 0
         if ((velX = player->GetVelocity().x()) > 0) {
             if ((velX - decel_) < 0) {
-                velX = 0;
+                player->GetVelocity().setX(0);
             } else {
                 player->GetVelocity().setX(velX - decel_);
             }
         } else if ((velX = player->GetVelocity().x()) < 0) {
             if ((velX + decel_) > 0) {
-                velX = 0;
+                player->GetVelocity().setX(0);
             } else {
                 player->GetVelocity().setX(velX + decel_);
             }
@@ -52,13 +55,13 @@ void PlayerPhysicsComponent::ApplyForce(Player* player) {
         // deceleration towards 0
         if ((velY = player->GetVelocity().y()) > 0) {
             if ((velY - decel_) < 0) {
-                velY = 0;
+                player->GetVelocity().setY(0);
             } else {
                 player->GetVelocity().setY(velY - decel_);
             }
         } else if ((velY = player->GetVelocity().y()) < 0) {
             if ((velY + decel_) > 0) {
-                velY = 0;
+                player->GetVelocity().setY(0);
             } else {
                 player->GetVelocity().setY(velY + decel_);
             }
