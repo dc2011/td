@@ -5,10 +5,10 @@ Unit::~Unit() {
     delete physics_;
 }
 
-QVector2D& Unit::GetVelocity() {
+QVector2D& Unit::getVelocity() {
     return velocity_;
 }
 
-void Unit::SetVelocity(QVector2D& velocity) {
+void Unit::setVelocity(QVector2D& velocity) {
     velocity_ = velocity;
 }

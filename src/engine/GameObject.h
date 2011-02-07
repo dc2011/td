@@ -12,11 +12,11 @@ class GameObject : public QObject {
 public:
     virtual ~GameObject() {};
     
-    QPoint GetPos();
-    void SetPos(QPoint);
+    QPoint getPos();
+    void setPos(QPoint);
 
 public slots:
-    virtual void Update() = 0;
+    virtual void update() = 0;
 
 private:
     QPoint pos_;

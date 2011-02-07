@@ -11,7 +11,7 @@ public:
     virtual ~PhysicsComponent();
     
 public slots:
-    virtual void Update(Player*) = 0;
+    virtual void update(Player*) = 0;
     
 };
 

@@ -4,13 +4,13 @@ PlayerInputComponent::PlayerInputComponent() {}
 
 PlayerInputComponent::~PlayerInputComponent() { }
 
-void PlayerInputComponent::Update() {
+void PlayerInputComponent::update() {
     
 }
 
-void PlayerInputComponent::ProcessDirectionKey(Unit* parent_, int eventType, int key) {
+void PlayerInputComponent::processDirectionKey(Unit* parent_, int eventType, int key) {
     int event = (eventType == QEvent::KeyPress) ? 1 : 0;
-    QVector2D force = parent_->GetForce();
+    QVector2D force = parent_->getForce();
     
     switch (key) {
         case Qt::Key_Up:
@@ -30,5 +30,5 @@ void PlayerInputComponent::ProcessDirectionKey(Unit* parent_, int eventType, int
             break;
     }
     
-    parent_->SetForce(force);
+    parent_->setForce(force);
 }

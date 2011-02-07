@@ -9,7 +9,7 @@ class InputComponent : public QObject {
 public:
     virtual ~InputComponent() {};
     
-    virtual void Update() = 0;
+    virtual void update() = 0;
 };
 
 #endif
