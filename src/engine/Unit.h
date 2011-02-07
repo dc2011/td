@@ -15,11 +15,25 @@ public:
     QVector2D& GetVelocity();
     void SetVelocity(QVector2D&);
 
-    QVector2D& GetAccel();
-    void SetAccel(QVector2D&);
+    QVector2D GetForce() {
+        return force_;
+    }
+    
+    void SetForce(QVector2D& force) {
+        force_.setX(force.x());
+        force_.setY(force.y());
+        qDebug("Force: %d, %d", (int) force.x(), (int) force.y());
+    }
 
-    QPoint& GetPos();
-    void SetPos(QPoint&);
+    QPoint& GetPos() {
+        return pos_;
+    }
+    
+    void SetPos(QPoint& pos) {
+        pos_.setX(pos.x());
+        pos_.setY(pos.y());
+        qDebug("Pos: (%d, %d)", (int) pos_.x(), (int) pos_.y());
+    }
 
     int GetOrientation();
     void SetOrientation(int);
@@ -29,7 +43,7 @@ public:
 
 private:
     QVector2D velocity_;
-    QVector2D accel_;
+    QVector2D force_;
     QPoint pos_;
     int orientation_;
     float scale_;

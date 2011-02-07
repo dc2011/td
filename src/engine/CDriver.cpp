@@ -32,11 +32,12 @@ void CDriver::bindSingle(const GameObject& obj) {
 
 Player* CDriver::createHumanPlayer(QObject *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
-    
     InputComponent* input = new PlayerInputComponent();
-    gui->installEventFilter(input);
     
-    return new Player(input, physics);
+    Player* player = new Player(input, physics);
+    gui->installEventFilter(player);
+    
+    return player;
 }
 
 void CDriver::startGame() {

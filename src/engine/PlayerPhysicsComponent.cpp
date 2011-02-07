@@ -16,7 +16,7 @@ void PlayerPhysicsComponent::ApplyVelocity(Player * player) {
 
 void PlayerPhysicsComponent::ApplyForce(Player* player) {
     int velX, velY;
-    QVector2D force = player->GetAccel();
+    QVector2D force = player->GetForce();
     QVector2D vector = force * player->GetVelocity();
 
     if (vector.x() >= 0) {
