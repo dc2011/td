@@ -3,6 +3,7 @@
 Unit::~Unit() {
     delete input_;
     delete physics_;
+    delete graphics_;
 }
 
 QVector2D& Unit::getVelocity() {

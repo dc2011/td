@@ -2,6 +2,7 @@
 #include <QTimer>
 #include <QApplication>
 #include <QVector>
+#include <QWidget>
 #include "GameInfo.h"
 #include "GameObject.h"
 #include "CDriver.h"
@@ -32,12 +33,12 @@ void CDriver::bindSingle(const GameObject& obj) {
 
 Player* CDriver::createHumanPlayer(QObject *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
+    GraphicsComponent* graphics = new PlayerGraphicsComponent("arrow.png");
+
     InputComponent* input = new PlayerInputComponent();
-    
-    Player* player = new Player(input, physics);
     gui->installEventFilter(input);
     
-    return player;
+    return new Player(input, physics, graphics);
 }
 
 void CDriver::startGame() {
