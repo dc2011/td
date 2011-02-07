@@ -44,8 +44,10 @@ ENGINE_HDRS +=  src/engine/CDriver.h \
                 src/engine/Projectile.h \
                 src/engine/SDriver.h \
                 src/engine/Tile.h \
-                src/engine/Unit.h
-                
+                src/engine/Unit.h \
+                src/engine/PlayerGraphicsComponent.h \
+                src/engine/GraphicsComponent.h
+
 ENGINE_SRCS +=  src/engine/CDriver.cpp \
                 src/engine/Effect.cpp \
                 src/engine/GameObject.cpp \
@@ -57,7 +59,8 @@ ENGINE_SRCS +=  src/engine/CDriver.cpp \
                 src/engine/PlayerPhysicsComponent.cpp \
                 src/engine/Projectile.cpp \
                 src/engine/SDriver.cpp \
-                src/engine/Unit.cpp
+                src/engine/Unit.cpp \
+                src/engine/PlayerGraphicsComponent.cpp
 
 HEADERS += $$AUDIO_HDRS $$NETWORK_HDRS $$ENGINE_HDRS
 SOURCES += src/main.cpp $$AUDIO_SRCS $$NETWORK_SRCS $$ENGINE_SRCS
