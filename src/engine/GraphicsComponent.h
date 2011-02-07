@@ -3,18 +3,19 @@
 
 #include <QObject>
 #include <QPoint>
+#include <QWidget>
 
 class Player;
 class GraphicsComponent : public QObject {
     Q_OBJECT
 
 public:
-    GraphicsComponent(QObject* gui) : gui_(gui) {}
+    GraphicsComponent(QWidget* gui) : gui_(gui) {}
     virtual ~GraphicsComponent() {}
+    virtual void update(Player* player) = 0;
     
 protected:
-    QObject* gui_; 
-    
+    QWidget* gui_; 
 };
 
 #endif

@@ -18,7 +18,7 @@ private:
     //QVector<GameObject> objects;
 public:
     // ctors and dtors
-    CDriver(QObject *parent = 0);
+    CDriver(QWidget *parent = 0);
     ~CDriver();
 
     /**
@@ -28,7 +28,7 @@ public:
      * @author Tom Nightingale
      * @return Player*, pointer to new player instance.
      */
-    Player* createHumanPlayer(QObject *);
+    Player* createHumanPlayer(QWidget *);
 
     /**
      * Connects all current GameObjects' SLOTs to a timer SIGNAL.

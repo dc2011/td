@@ -22,5 +22,5 @@ void Player::SetVelocity(QVector2D& velocity) {
 
 void Player::Update() {
     physics_->Update(this);
-    //graphics_->Update(this);
+    graphics_->update(this);
 }

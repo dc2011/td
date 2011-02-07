@@ -2,6 +2,7 @@
 #define PLAYERGRAPHICSCOMPONENT_H
 
 #include <QObject>
+#include <QPainter>
 #include <QPoint>
 #include "GraphicsComponent.h"
 
@@ -9,9 +10,9 @@ class PlayerGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
 public:
-    PlayerGraphicsComponent(QObject* gui);
+    PlayerGraphicsComponent(QWidget* gui);
     virtual ~PlayerGraphicsComponent();
-    void Update(Player* player);
+    virtual void update(Player* player);
 };
 
 #endif
