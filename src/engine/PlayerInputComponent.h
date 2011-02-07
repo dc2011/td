@@ -5,15 +5,21 @@
 #include "InputComponent.h"
 #include "Unit.h"
 
+class Player;
 class PlayerInputComponent : public InputComponent {
 public:
     PlayerInputComponent();
     virtual ~PlayerInputComponent();
     
     void update();
-    void processDirectionKey(Unit*, int, int);
+    void processDirectionKey(int, int);
+    void setParent(Unit*);
+
+protected:
+    bool eventFilter(QObject *, QEvent *);
         
 private:
+    Player* parent_;
 };
 
 #endif

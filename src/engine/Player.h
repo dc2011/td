@@ -13,9 +13,6 @@ public:
     Player(InputComponent* input, PhysicsComponent* physics);
     
     virtual void update();
-
-protected:
-    bool eventFilter(QObject *, QEvent *);
 };
 
 #endif

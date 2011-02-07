@@ -35,7 +35,7 @@ Player* CDriver::createHumanPlayer(QObject *gui) {
     InputComponent* input = new PlayerInputComponent();
     
     Player* player = new Player(input, physics);
-    gui->installEventFilter(player);
+    gui->installEventFilter(input);
     
     return player;
 }
