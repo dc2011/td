@@ -8,11 +8,11 @@ class PlayerPhysicsComponent : public PhysicsComponent {
 public:
     PlayerPhysicsComponent();
     virtual ~PlayerPhysicsComponent();
-    void ApplyForce(Player*);
-    void ApplyVelocity(Player*);
+    void applyForce(Player*);
+    void applyVelocity(Player*);
     
 public slots:
-    virtual void Update(Player*);
+    virtual void update(Player*);
     
 private:
     /* data */

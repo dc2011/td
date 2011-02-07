@@ -4,6 +4,6 @@ PhysicsComponent::PhysicsComponent() {}
 
 PhysicsComponent::~PhysicsComponent() { }
 
-void PhysicsComponent::Update(Player* player) {
+void PhysicsComponent::update(Player* player) {
     
 }
