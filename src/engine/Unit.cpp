@@ -3,4 +3,5 @@
 Unit::~Unit() {
     delete input_;
     delete physics_;
+    delete graphics_;
 }

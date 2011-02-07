@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "PlayerPhysicsComponent.h"
 #include "PlayerInputComponent.h"
+#include "PlayerGraphicsComponent.h"
 //#include "GameInfo.h"
 //#include "GameObject.h"
 class CDriver : public QObject {

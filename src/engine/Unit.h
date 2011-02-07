@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "PhysicsComponent.h"
 #include "InputComponent.h"
+#include "GraphicsComponent.h"
 
 class Unit : public GameObject {
 public:
@@ -14,6 +15,7 @@ public:
 protected:
     InputComponent* input_;
     PhysicsComponent* physics_;
+    GraphicsComponent* graphics_;
 };
 
 #endif

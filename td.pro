@@ -27,10 +27,12 @@ AUDIO_SRCS +=   src/audio/manager.cpp \
                 
 ENGINE_HDRS +=  src/engine/CDriver.h \
                 src/engine/GameObject.h \
+                src/engine/GraphicsComponent.h \
                 src/engine/InputComponent.h \
                 src/engine/PlayerInputComponent.h \
                 src/engine/PhysicsComponent.h \
                 src/engine/Player.h \
+                src/engine/PlayerGraphicsComponent.h \
                 src/engine/PlayerPhysicsComponent.h \
                 src/engine/SDriver.h \
                 src/engine/Tile.h \
@@ -42,6 +44,7 @@ ENGINE_SRCS +=  src/engine/CDriver.cpp \
                 src/engine/PlayerInputComponent.cpp \
                 src/engine/PhysicsComponent.cpp \
                 src/engine/Player.cpp \
+                src/engine/PlayerGraphicsComponent.cpp \
                 src/engine/PlayerPhysicsComponent.cpp \
                 src/engine/SDriver.cpp \
                 src/engine/Unit.cpp
