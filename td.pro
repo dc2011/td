@@ -25,6 +25,12 @@ AUDIO_HDRS +=   src/audio/manager.h \
 AUDIO_SRCS +=   src/audio/manager.cpp \
                 src/audio/openal_helper.cpp
                 
+NETWORK_HDRS += src/network/netclient.h \
+                src/network/stream.h
+
+NETWORK_SRCS += src/network/stream.cpp \
+                src/network/netclient.cpp
+                
 ENGINE_HDRS +=  src/engine/CDriver.h \
                 src/engine/GameObject.h \
                 src/engine/InputComponent.h \
@@ -48,5 +54,5 @@ ENGINE_SRCS +=  src/engine/CDriver.cpp \
 
 
 
-HEADERS += $$AUDIO_HDRS $$ENGINE_HDRS 
-SOURCES += src/main.cpp $$AUDIO_SRCS $$ENGINE_SRCS 
+HEADERS += $$AUDIO_HDRS $$NETWORK_HDRS $$ENGINE_HDRS
+SOURCES += src/main.cpp $$AUDIO_SRCS $$NETWORK_SRCS $$ENGINE_SRCS
