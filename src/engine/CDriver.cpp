@@ -10,7 +10,7 @@ CDriver::CDriver(QObject *gui) {
     CDriver::gameTimer_ = new QTimer(this);
     CDriver::human_ = createHumanPlayer(gui);
     
-    connect(gameTimer_, SIGNAL(timeout()), human_, SLOT(Update()));
+    connect(gameTimer_, SIGNAL(timeout()), human_, SLOT(update()));
 }
 
 CDriver::~CDriver() {

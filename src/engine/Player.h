@@ -12,7 +12,7 @@ class Player : public Unit {
 public:
     Player(InputComponent* input, PhysicsComponent* physics);
     
-    virtual void Update();
+    virtual void update();
 
 protected:
     bool eventFilter(QObject *, QEvent *);

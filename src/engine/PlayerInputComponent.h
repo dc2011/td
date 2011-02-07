@@ -10,8 +10,8 @@ public:
     PlayerInputComponent();
     virtual ~PlayerInputComponent();
     
-    void Update();
-    void ProcessDirectionKey(Unit*, int, int);
+    void update();
+    void processDirectionKey(Unit*, int, int);
         
 private:
 };
