@@ -1,9 +1,9 @@
 #ifndef PLAYERINPUTCOMPONENT_H
 #define PLAYERINPUTCOMPONENT_H
 
-#include <QEvent>
-#include <QKeyEvent>
+#include <QVector2D>
 #include "InputComponent.h"
+#include "Unit.h"
 
 class PlayerInputComponent : public InputComponent {
 public:
@@ -11,10 +11,8 @@ public:
     virtual ~PlayerInputComponent();
     
     void Update();
-
-protected:
-    bool eventFilter(QObject *obj, QEvent *event);
-    
+    void ProcessDirectionKey(Unit*, int, int);
+        
 private:
 };
 
