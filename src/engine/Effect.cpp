@@ -1,19 +1,17 @@
 #include "Effect.h"
 
-using namespace std;
-
 Effect::Effect(Unit* unit) {
     unit_ = unit;
 }
 
-void Effect::Apply(){
+void Effect::apply(){
     //Apply effect to the unit
 }
 
-size_t Effect::GetDuration(){
+size_t Effect::getDuration(){
     return duration_;
 }
 
-void Effect::SetDuration(size_t duration){
+void Effect::setDuration(size_t duration){
     duration_ = duration;
 }
