@@ -20,20 +20,20 @@ void PlayerPhysicsComponent::ApplyForce(Player* player) {
     QVector2D vector = force * player->GetVelocity();
 
     if (vector.x() >= 0) {
-        player->GetVelocity().setX(force.x() * accel_);
+        player->GetVelocity().setX(force.x() * accel_ + player->GetVelocity().x());
         if (qAbs(vector.x()) > maxVelocity_) {
             player->GetVelocity().setX(force.x() * maxVelocity_);
         }
     } else {
-        player->GetVelocity().setX(force.x() * (accel_ + decel_));
+        player->GetVelocity().setX(force.x() * (accel_ + decel_) + player->GetVelocity().x());
     }
     if (vector.y() >= 0) {
-        player->GetVelocity().setY(force.y() * accel_);
+        player->GetVelocity().setY(force.y() * accel_ + player->GetVelocity().y());
         if (qAbs(vector.y()) > maxVelocity_) {
             player->GetVelocity().setY(force.y() * maxVelocity_);
         }
     } else {
-        player->GetVelocity().setY(force.y() * (accel_ + decel_));
+        player->GetVelocity().setY(force.y() * (accel_ + decel_) + player->GetVelocity().y());
     }
     if (force.x() == 0) {
         // deceleration towards 0
