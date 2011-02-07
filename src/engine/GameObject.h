@@ -33,6 +33,14 @@ public:
     }
 
 public slots:
+    
+    /**
+     * Pure virtual method that all inheriting classes need to implement.
+     * This method is the starting point for responses to all events that affect the object.
+     * It is a slot and thus is called when a signal is bound to it.
+     * 
+     * @author Tom Nightingale
+     */
     virtual void update() = 0;
 
 private:
