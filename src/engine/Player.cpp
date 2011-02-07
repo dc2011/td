@@ -4,13 +4,13 @@ Player::Player(InputComponent* input, PhysicsComponent* physics) {
     QPoint v(1, 0);
     QVector2D force(0, 0);
 //    SetVelocity(QVector2D(v));
-    this->SetForce(force);
+    this->setForce(force);
     input_ = input;
     physics_ = physics;
 }
 
-void Player::Update() {
-    physics_->Update(this);
+void Player::update() {
+    physics_->update(this);
 }
 
 bool Player::eventFilter(QObject *obj, QEvent *event) {
@@ -30,7 +30,7 @@ bool Player::eventFilter(QObject *obj, QEvent *event) {
                 case Qt::Key_Down:
                 case Qt::Key_Left:
                 case Qt::Key_Right:
-                    pInput->ProcessDirectionKey(this, event->type(), keyEvent->key());
+                    pInput->processDirectionKey(this, event->type(), keyEvent->key());
                     
                     // Flag these events as handled.
                     return true;
