@@ -17,6 +17,7 @@ private:
     /* data */
     const int accel_;
     const int decel_;
+    const int maxVelocity_;
 };
 
 #endif
