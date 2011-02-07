@@ -26,16 +26,6 @@ public:
         qDebug("Force: %d, %d", (int) force.x(), (int) force.y());
     }
 
-    QPoint& getPos() {
-        return pos_;
-    }
-    
-    void setPos(QPoint& pos) {
-        pos_.setX(pos.x());
-        pos_.setY(pos.y());
-        qDebug("Pos: (%d, %d)", (int) pos_.x(), (int) pos_.y());
-    }
-
     int getOrientation();
     void setOrientation(int);
 
