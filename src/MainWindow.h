@@ -29,7 +29,8 @@ public:
     virtual ~MainWindow();
     
 protected:
-    virtual void keyPressEvent(QKeyEvent *);
+    virtual bool event(QEvent*);
+    //virtual void keyPressEvent(QKeyEvent *);
     virtual void keyReleaseEvent(QKeyEvent *);
 
 public slots:
