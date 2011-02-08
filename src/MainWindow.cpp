@@ -20,21 +20,25 @@ void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
     //gc->setPixmap(pixmap);
 }
 
-void MainWindow::keyPressEvent(QKeyEvent * event) {
-    switch (event->key()) {
-        case Qt::Key_Up:
-        case Qt::Key_Down:
-        case Qt::Key_Left:
-        case Qt::Key_Right:
-            qDebug("MainWindow::keyPressEvent;");
-            emit signalKeyPressed(event->key());
-            break;
-            
+bool MainWindow::event(QEvent* event) {
+    QKeyEvent* keyEvent;
+    switch (event->type()) {
+        case QEvent::ShortcutOverride:
+            keyEvent = (QKeyEvent*) event;
+            emit signalKeyPressed(keyEvent->key());
+            event->accept();
+            return true;
+
         default:
-            QMainWindow::keyPressEvent(event);
+            event->ignore();
+            QMainWindow::event(event);
             break;
     }
+    
+    return true;
 }
+
+//void MainWindow::keyPressEvent(QKeyEvent * event) {}
 
 void MainWindow::keyReleaseEvent(QKeyEvent * event) {
     switch (event->key()) {
