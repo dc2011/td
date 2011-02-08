@@ -12,6 +12,9 @@ macx {
     LIBS += -framework OpenAL
     CONFIG += link_pkgconfig
     PKGCONFIG = vorbisfile vorbis
+    LIBS += -L$$OUT_PWD/../3rdparty/Frameworks
+    system(mkdir ./bin/mapdisplayer.app/Contents/Frameworks)
+    system(cp ./3rdparty/Frameworks/libtiled.dylib ./bin/mapdisplayer.app/Contents/Frameworks/libtiled.1.dylib)
 }
 
 unix:!macx {
@@ -52,7 +55,11 @@ ENGINE_SRCS +=  src/engine/CDriver.cpp \
                 src/engine/SDriver.cpp \
                 src/engine/Unit.cpp
 
+GRAPHICS_SRCS +=src/graphics/mapdisplayer.cpp
+
+GRAPHICS_HDRS += src/graphics/mapdisplayer.h
 
 
-HEADERS += $$AUDIO_HDRS $$NETWORK_HDRS $$ENGINE_HDRS
-SOURCES += src/main.cpp $$AUDIO_SRCS $$NETWORK_SRCS $$ENGINE_SRCS
+
+HEADERS += $$AUDIO_HDRS $$NETWORK_HDRS $$ENGINE_HDRS $$GRAPHICS_HDRS
+SOURCES += src/main.cpp $$AUDIO_SRCS $$NETWORK_SRCS $$ENGINE_SRCS $$GRAPHICS_SRCS
