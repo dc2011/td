@@ -11,13 +11,8 @@
 #include "../network/netclient.h"
 
 namespace td {
-  CDriver::CDriver(QMainWindow *gui) {
-
-    CDriver::gameTimer_ = new QTimer(this);
-    CDriver::human_ = createHumanPlayer(gui);
-
-    connect(gameTimer_, SIGNAL(timeout()), human_, SLOT(update()));
-
+  CDriver::CDriver(MainWindow *mainWindow) {
+      mainWindow_ = mainWindow;
   }
 
   CDriver::~CDriver() {
@@ -42,7 +37,7 @@ namespace td {
   void CDriver::disconnectFromServer() {
     td::NetworkClient::instance() -> shutdown();
   }
-  Player* CDriver::createHumanPlayer(QMainWindow *gui) {
+  Player* CDriver::createHumanPlayer(MainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent("arrow.png");
 

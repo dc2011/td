@@ -2,24 +2,28 @@
 #define CDRIVER_H
 #include <QTimer>
 #include <QApplication>
+#include <QMainWindow>
 #include <QVector>
 #include "Player.h"
 #include "PlayerPhysicsComponent.h"
 #include "PlayerInputComponent.h"
 #include "PlayerGraphicsComponent.h"
+#include "../MainWindow.h"
 //#include "GameInfo.h"
 //#include "GameObject.h"
 namespace td {
   class CDriver : public QObject {
+      Q_OBJECT
   
   private:
     //  GameInfo gameInfo;
     QTimer* gameTimer_;
     Player* human_;
+    MainWindow* mainWindow_;
     //QVector<GameObject> objects;
   public:
     // ctors and dtors
-    CDriver(QMainWindow* parent = 0);
+    CDriver(MainWindow* parent = 0);
     ~CDriver();
 
     /**
@@ -29,7 +33,7 @@ namespace td {
      * @author Tom Nightingale
      * @return Player*, pointer to new player instance.
      */
-    Player* createHumanPlayer(QMainWindow *);
+    Player* createHumanPlayer(MainWindow *);
 
     /**
      * Connects all current GameObjects' SLOTs to a timer SIGNAL.

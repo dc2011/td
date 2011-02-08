@@ -62,5 +62,5 @@ ENGINE_SRCS +=  src/engine/CDriver.cpp \
                 src/engine/Unit.cpp \
                 src/engine/PlayerGraphicsComponent.cpp
 
-HEADERS += $$AUDIO_HDRS $$NETWORK_HDRS $$ENGINE_HDRS
-SOURCES += src/main.cpp $$AUDIO_SRCS $$NETWORK_SRCS $$ENGINE_SRCS
+HEADERS += src/MainWindow.h $$AUDIO_HDRS $$NETWORK_HDRS $$ENGINE_HDRS
+SOURCES += src/main.cpp src/MainWindow.cpp $$AUDIO_SRCS $$NETWORK_SRCS $$ENGINE_SRCS
