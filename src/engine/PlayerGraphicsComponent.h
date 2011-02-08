@@ -7,11 +7,12 @@
 #include "GraphicsComponent.h"
 
 class PlayerGraphicsComponent : public GraphicsComponent {
+    Q_OBJECT
 
 public:
     PlayerGraphicsComponent(const char* pixmap);
     virtual ~PlayerGraphicsComponent();
-    virtual void updatePosition(Player* player);
+    virtual void update(Player* player);
 };
 
 #endif
