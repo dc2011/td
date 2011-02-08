@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
     td::CDriver clientDriver(&qmw);
     td::Thread* driverThread = new td::Thread();
     
-    QObject::connect(&driverThread, SIGNAL(started()), &clientDriver, SLOT(startGame()));
+    QObject::connect(driverThread, SIGNAL(started()), &clientDriver, SLOT(startGame()));
     clientDriver.moveToThread(driverThread);
 
     driverThread->start();
