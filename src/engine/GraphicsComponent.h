@@ -10,8 +10,9 @@ class GraphicsComponent : public QObject {
     Q_OBJECT
 
 public:
-    GraphicsComponent(QPixmap pixmap) 
-    :       pixmapItem_(new QGraphicsPixmapItem(pixmap)) {}
+    GraphicsComponent(const char* pixmap) {
+        // send signal to rendering thread here? (pixmap is the path to an image)    
+    }
     virtual ~GraphicsComponent() {}
     virtual void update(Player* player) = 0;
 
