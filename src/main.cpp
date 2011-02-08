@@ -2,7 +2,7 @@
 #include <QApplication>
 #include "MainWindow.h"
 #include "util/thread.h"
-
+#include "graphics/mapdisplayer.h"
 #include "engine/CDriver.h"
 
 int main(int argc, char **argv) {
@@ -15,7 +15,12 @@ int main(int argc, char **argv) {
     clientDriver.moveToThread(driverThread);
 
     driverThread->start();
+    // Construct a map
+    MapDisplayer map(qmw.getScene());
+    // Show the map
+    map.viewMap(QString("../maps/desert.tmx"));
     qmw.show();
     
     return a.exec();
 }
+

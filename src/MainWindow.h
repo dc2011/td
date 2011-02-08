@@ -27,6 +27,7 @@ private:
 public:
     MainWindow();
     virtual ~MainWindow();
+    QGraphicsScene* getScene() { return scene_; }
     
 protected:
     virtual bool event(QEvent*);

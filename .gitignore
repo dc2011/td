@@ -14,3 +14,4 @@ Makefile
 /sound
 .qdevelop
 *.user
+/td.xcodeproj
