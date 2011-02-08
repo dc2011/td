@@ -1,10 +1,15 @@
 #include "MainWindow.h"
+#include "graphics/mapdisplayer.h"
 
 namespace td {
 
 MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
+
+    MapDisplayer* map = new MapDisplayer(scene_);
+
+    map->viewMap(QString("../maps/desert.tmx"));
 
     this->setCentralWidget(view_);
 }

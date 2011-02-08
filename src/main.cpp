@@ -16,9 +16,9 @@ int main(int argc, char **argv) {
 
     driverThread->start();
     // Construct a map
-    MapDisplayer map(qmw.getScene());
+    /*MapDisplayer map(qmw.getScene());
     // Show the map
-    map.viewMap(QString("../maps/desert.tmx"));
+    map.viewMap(QString("../maps/desert.tmx"));*/
     qmw.show();
     
     return a.exec();
