@@ -11,14 +11,14 @@ class Projectile : public Unit {
 public:
     Projectile(PhysicsComponent* physics, Unit* sender, Unit* receiver);
 
-    virtual void Update();
+    virtual void update();
 
-    QVector2D& GetVelocity();
-    void SetVelocity(QVector2D&);
-    size_t GetDamage();
-    void SetDamage(size_t);
-    size_t GetDuration();
-    void SetDuration(size_t);
+    QVector2D& getVelocity();
+    void setVelocity(QVector2D&);
+    size_t getDamage();
+    void setDamage(size_t);
+    size_t getDuration();
+    void setDuration(size_t);
 
 private:
     QVector2D velocity_;

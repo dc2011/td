@@ -12,7 +12,7 @@ public:
     void applyVelocity(Player*);
     
 public slots:
-    virtual void update(Player*);
+    virtual void update(Unit*);
     
 private:
     /* data */

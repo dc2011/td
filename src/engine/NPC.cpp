@@ -1,27 +1,25 @@
 #include "NPC.h"
 
-using namespace std;
-
 NPC::NPC(PhysicsComponent* physics) {
     physics_ = physics;
 }
 
-size_t NPC::GetHealth() {
+size_t NPC::getHealth() {
     return health_;
 }
 
-void NPC::SetHealth(size_t health){
+void NPC::setHealth(size_t health){
     health_ = health;
 }
 
-size_t NPC::GetDamage() {
+size_t NPC::getDamage() {
     return damage_;
 }
 
-void NPC::SetDamage(size_t damage) {
+void NPC::setDamage(size_t damage) {
     damage_ = damage;
 }
 
-void NPC::Update() {
-    physics_->Update(this);
+void NPC::update() {
+    physics_->update(this);
 }
