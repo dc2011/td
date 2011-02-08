@@ -10,9 +10,9 @@ class PlayerGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
 public:
-    PlayerGraphicsComponent(const char* pixmap);
+    PlayerGraphicsComponent();
     virtual ~PlayerGraphicsComponent();
-    virtual void update(Player* player);
+    virtual void update(GameObject* obj);
 
 protected slots:
     virtual void onPixmapped();

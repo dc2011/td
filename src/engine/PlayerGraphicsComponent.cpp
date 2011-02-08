@@ -10,7 +10,7 @@ PlayerGraphicsComponent::PlayerGraphicsComponent()
 
 PlayerGraphicsComponent::~PlayerGraphicsComponent() {}
 
-void PlayerGraphicsComponent::update(Player* player) {
+void PlayerGraphicsComponent::update(GameObject* obj) {
     if (getPixmapItem() != NULL) {
         // connect(); send update signal to graphics thread 
         getPixmapItem()->rotate(1);

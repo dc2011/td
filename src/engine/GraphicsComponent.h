@@ -6,6 +6,8 @@
 #include <QPoint>
 #include <QGraphicsPixmapItem>
 
+#include "GameObject.h"
+
 class GraphicsComponent : public QObject {
     Q_OBJECT
 
@@ -16,7 +18,7 @@ private:
 public:
     GraphicsComponent() { }
     virtual ~GraphicsComponent() {}
-    virtual void update(Player* player) = 0;
+    virtual void update(GameObject* obj) = 0;
 
     /**
      * Create the object in the graphics context.

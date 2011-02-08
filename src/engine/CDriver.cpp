@@ -39,7 +39,7 @@ namespace td {
   }
   Player* CDriver::createHumanPlayer(MainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
-    GraphicsComponent* graphics = new PlayerGraphicsComponent("arrow.png");
+    GraphicsComponent* graphics = new PlayerGraphicsComponent();
     graphics->connect(graphics, SIGNAL(created(gc)), mainWindow_, SLOT(createGraphicRepr(gc)));
     graphics->create();
 
