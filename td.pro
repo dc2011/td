@@ -17,8 +17,8 @@ macx {
     CONFIG += link_pkgconfig
     PKGCONFIG = vorbisfile vorbis
     LIBS += -L$$OUT_PWD/3rdparty/Frameworks
-    system(mkdir ./bin/mapdisplayer.app/Contents/Frameworks)
-    system(cp ./3rdparty/Frameworks/libtiled.dylib ./bin/mapdisplayer.app/Contents/Frameworks/libtiled.1.dylib)
+    system(mkdir ./bin/td.app/Contents/Frameworks)
+    system(cp ./3rdparty/Frameworks/libtiled.dylib ./bin/td.app/Contents/Frameworks/libtiled.1.dylib)
 }
 
 unix:!macx {
