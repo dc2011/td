@@ -17,7 +17,7 @@ macx {
     LIBS += -framework OpenAL
     CONFIG += link_pkgconfig
     PKGCONFIG = vorbisfile vorbis
-    LIBS += -L$$OUT_PWD/3rdparty/Frameworks
+    LIBS += -L3rdparty/Frameworks
     system(mkdir ./bin/td.app/Contents/Frameworks)
     system(cp ./3rdparty/Frameworks/libtiled.dylib ./bin/td.app/Contents/Frameworks/libtiled.1.dylib)
 }
@@ -25,7 +25,7 @@ macx {
 unix:!macx {
     CONFIG += link_pkgconfig
     PKGCONFIG = openal vorbisfile vorbis
-    LIBS += -L$$OUT_PWD/3rdparty/lib/
+    LIBS += -L3rdparty/lib/
 }
 
 AUDIO_HDRS +=   src/audio/manager.h \

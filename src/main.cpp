@@ -1,31 +1,8 @@
-//<<<<<<< HEAD
-//#include <QMainWindow>
-//#include <QGraphicsScene>
-//#include <QGraphicsView>
-//#include "engine/CDriver.h"
-//#include "graphics/mapdisplayer.h"
-
-//int main(int argc, char **argv) {
-//    QApplication a(argc, argv);
-//    QMainWindow qmw;
-//    CDriver d(&qmw);
-//    QGraphicsScene gs;
-//    QGraphicsView mapview(&gs);
-//    MapDisplayer map(&gs);
-//    map.viewMap(QString("../maps/sewers.tmx"));
-//    //qmw.setCentralWidget(&gs);
-//    mapview.show();
-//    //qmw.show();
-//    d.startGame();
-    
-//    return a.exec();
-//}
-//=======
 #include <QObject>
 #include <QApplication>
 #include "MainWindow.h"
 #include "util/thread.h"
-
+#include "graphics/mapdisplayer.h"
 #include "engine/CDriver.h"
 
 int main(int argc, char **argv) {
@@ -38,6 +15,10 @@ int main(int argc, char **argv) {
     clientDriver.moveToThread(driverThread);
 
     driverThread->start();
+    // Construct a map
+    MapDisplayer map(qmw.getScene());
+    // Show the map
+    map.viewMap(QString("../maps/sewers.tmx"));
     qmw.show();
     
     return a.exec();
