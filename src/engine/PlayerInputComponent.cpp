@@ -68,3 +68,14 @@ bool PlayerInputComponent::eventFilter(QObject *obj, QEvent *event) {
             return QObject::eventFilter(obj, event);
     }
 }
+
+void PlayerInputComponent::keyPressed(int key) {
+    qDebug("PlayerInputComponent::keyPressed(%d);", key);
+    processDirectionKey(QEvent::KeyPress, key);
+
+}
+
+void PlayerInputComponent::keyReleased(int key) {
+    qDebug("PlayerInputComponent::keyReleased(%d)", key);
+    processDirectionKey(QEvent::KeyRelease, key);
+}

@@ -64,13 +64,6 @@ namespace td {
      * @return void
      */
     void disconnectFromServer();
-    /**
-     * Start game timer.
-     * 
-     * @author Duncan Donaldson
-     * @return void
-     */
-    void startGame();
 
     /**
      * Stop game timer.
@@ -87,6 +80,16 @@ namespace td {
      * @return int
      */
     //int loadMap(GameInfo &gi, char* map);
+    
+  public slots:
+    /**
+    * Initialize and start game timer.
+    * [Hijacked and updated by Tom Nightingale]
+    * 
+    * @author Duncan Donaldson
+    * @return void
+    */
+    void startGame();
   };
 }
 #endif

@@ -33,6 +33,7 @@ public:
      * @author Tom Nightingale
      */
     QVector2D getForce() {
+        qDebug("Unit::getForce: (%d, %d)", force_.x(), force_.y());
         return force_;
     }
     

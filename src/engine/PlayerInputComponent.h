@@ -7,6 +7,8 @@
 
 class Player;
 class PlayerInputComponent : public InputComponent {
+    Q_OBJECT
+    
 public:
     PlayerInputComponent();
     virtual ~PlayerInputComponent();
@@ -14,6 +16,11 @@ public:
     void update();
     void processDirectionKey(int, int);
     void setParent(Unit*);
+
+public slots:
+    void keyPressed(int);
+    
+    void keyReleased(int);
 
 protected:
     bool eventFilter(QObject *, QEvent *);

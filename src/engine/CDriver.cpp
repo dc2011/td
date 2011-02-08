@@ -41,13 +41,19 @@ namespace td {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent("arrow.png");
 
-    InputComponent* input = new PlayerInputComponent();
-    gui->installEventFilter(input);
+    PlayerInputComponent* input = new PlayerInputComponent();
+    //gui->installEventFilter(input);
+    connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
+    connect(gui, SIGNAL(signalKeyReleased(int)), input, SLOT(keyReleased(int)));
     
-    return new Player(input, physics, graphics);
+    return new Player((InputComponent*) input, physics, graphics);
   }
 
   void CDriver::startGame() {
+    CDriver::gameTimer_ = new QTimer(this);
+    CDriver::human_ = createHumanPlayer(mainWindow_);
+
+    connect(gameTimer_, SIGNAL(timeout()), human_, SLOT(update()));
     CDriver::gameTimer_ -> start(30);
   }
 
