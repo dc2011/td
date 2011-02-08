@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
     // Construct a map
     MapDisplayer map(qmw.getScene());
     // Show the map
-    map.viewMap(QString("../maps/sewers.tmx"));
+    map.viewMap(QString("../maps/desert.tmx"));
     qmw.show();
     
     return a.exec();
