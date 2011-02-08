@@ -122,12 +122,10 @@ public:
 
 MapDisplayer::MapDisplayer(QGraphicsScene* scene, QWidget* parent) :
     QGraphicsView(parent),
-    mScene(new QGraphicsScene(this)),
+    mScene(scene),
     mMap(0),
-    mRenderer(0),
-    mScene(scene)
+    mRenderer(0)
 {
-    setWindowTitle(tr("TMX Viewer"));
     setScene(mScene);
     setOptimizationFlags(QGraphicsView::DontAdjustForAntialiasing
                          | QGraphicsView::DontSavePainterState);

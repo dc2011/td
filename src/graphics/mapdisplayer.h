@@ -12,7 +12,7 @@ class MapDisplayer : public QGraphicsView {
     Q_OBJECT
 
 public:
-    explicit MapDisplayer(QGraphicsScene scene, QWidget* parent = 0);
+    explicit MapDisplayer(QGraphicsScene* scene, QWidget* parent = 0);
     ~MapDisplayer();
 
     void viewMap(const QString& fileName);
