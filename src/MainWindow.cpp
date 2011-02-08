@@ -1,5 +1,4 @@
 #include "MainWindow.h"
-#include "util/thread.h"
 
 namespace td {
 
@@ -43,7 +42,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
         case Qt::Key_Down:
         case Qt::Key_Left:
         case Qt::Key_Right:
-            qDebug("MainWindow::keyReleaseEvent");
+            //qDebug("MainWindow::keyReleaseEvent");
             emit signalKeyReleased(event->key());
             break;
 

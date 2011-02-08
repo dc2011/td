@@ -19,12 +19,8 @@ public:
 
 public slots:
     void keyPressed(int);
-    
     void keyReleased(int);
 
-protected:
-    bool eventFilter(QObject *, QEvent *);
-        
 private:
     Player* parent_;
 };
