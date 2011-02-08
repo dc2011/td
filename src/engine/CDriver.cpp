@@ -41,6 +41,7 @@ namespace td {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent();
     graphics->connect(graphics, SIGNAL(created(GraphicsComponent*)), mainWindow_, SLOT(createGraphicRepr(GraphicsComponent*)));
+    graphics->connect(graphics, SIGNAL(draw(GraphicsComponent*)), mainWindow_, SLOT(drawItem(GraphicsComponent*)));
     graphics->create();
 
     PlayerInputComponent* input = new PlayerInputComponent();

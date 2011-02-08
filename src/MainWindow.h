@@ -40,9 +40,18 @@ public slots:
      * graphics scene, and stores it back in the graphics component of the
      * game object.
      *
+     * @author Darryl Pogue
      * @param gc The GraphicsComponent of the game object.
      */
     void createGraphicRepr(GraphicsComponent* gc);
+
+    /**
+     * Draws the graphical representation of the game object.
+     *
+     * @author Darryl Pogue
+     * @param gc The GraphicsComponent of the game object.
+     */
+    void drawItem(GraphicsComponent* gc);
     
 signals:
     void signalKeyPressed(int);

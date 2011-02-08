@@ -61,16 +61,11 @@ public:
         mutex_.lock();
         pixmapItem_ = qgpi;
         mutex_.unlock();
-
-        emit pixmapped();
     }
-
-protected slots:
-    virtual void onPixmapped() = 0;
 
 signals:
     void created(GraphicsComponent* gc);
-    void pixmapped();
+    void draw(GraphicsComponent* gc);
 };
 
 #endif

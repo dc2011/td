@@ -20,6 +20,16 @@ void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
     gc->setPixmapItem(pixmap);
 }
 
+void MainWindow::drawItem(GraphicsComponent* gc) {
+    QGraphicsPixmapItem* itm = gc->getPixmapItem();
+    if (itm != NULL) {
+        QPixmap pix(100, 100);
+        pix.fill(QColor(0, 0, 255));
+        itm->setPixmap(pix);
+        itm->update();
+    }
+}
+
 bool MainWindow::event(QEvent* event) {
     QKeyEvent* keyEvent;
     switch (event->type()) {

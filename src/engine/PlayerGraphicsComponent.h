@@ -13,9 +13,6 @@ public:
     PlayerGraphicsComponent();
     virtual ~PlayerGraphicsComponent();
     virtual void update(GameObject* obj);
-
-protected slots:
-    virtual void onPixmapped();
 };
 
 #endif
