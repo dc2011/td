@@ -8,6 +8,7 @@ DEPENDPATH += .
 INCLUDEPATH += .
 DESTDIR = ./bin
 QT += network
+OBJECTS_DIR = ./obj
 
 macx {
     LIBS += -framework OpenAL
