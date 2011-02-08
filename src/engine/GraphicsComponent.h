@@ -6,7 +6,6 @@
 #include <QPoint>
 #include <QGraphicsPixmapItem>
 
-class Player;
 class GraphicsComponent : public QObject {
     Q_OBJECT
 
@@ -15,7 +14,7 @@ private:
     QMutex mutex_;
 
 public:
-    GraphicsComponent(const char* pixmap) { }
+    GraphicsComponent() { }
     virtual ~GraphicsComponent() {}
     virtual void update(Player* player) = 0;
 
@@ -60,10 +59,16 @@ public:
         mutex_.lock();
         pixmapItem_ = qgpi;
         mutex_.unlock();
+
+        emit pixmapped();
     }
+
+protected slots:
+    virtual void onPixmapped() = 0;
 
 signals:
     void created(GraphicsComponent* gc);
+    void pixmapped();
 };
 
 #endif

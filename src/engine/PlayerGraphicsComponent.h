@@ -13,6 +13,9 @@ public:
     PlayerGraphicsComponent(const char* pixmap);
     virtual ~PlayerGraphicsComponent();
     virtual void update(Player* player);
+
+protected slots:
+    virtual void onPixmapped();
 };
 
 #endif
