@@ -2,7 +2,10 @@
 #include "Player.h"
 
 PlayerGraphicsComponent::PlayerGraphicsComponent(const char* pixmap) 
-:       GraphicsComponent(pixmap) {}
+        : GraphicsComponent(pixmap)
+{
+    /* Do init-type stuff here */
+}
 
 PlayerGraphicsComponent::~PlayerGraphicsComponent() {}
 

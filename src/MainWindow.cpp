@@ -17,7 +17,7 @@ void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
     QGraphicsPixmapItem* pixmap = new QGraphicsPixmapItem();
     scene_->addItem(pixmap);
 
-    //gc->setPixmap(pixmap);
+    gc->setPixmapItem(pixmap);
 }
 
 bool MainWindow::event(QEvent* event) {
