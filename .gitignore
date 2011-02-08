@@ -10,5 +10,6 @@ moc_*.cpp
 Makefile
 /doc
 /bin
+/sound
 .qdevelop
 *.user

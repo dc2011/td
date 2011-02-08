@@ -1,16 +1,19 @@
 #include <QtGui>
 #include <QTimer>
 #include <QApplication>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QVector>
 #include <QWidget>
 #include "GameInfo.h"
 #include "GameObject.h"
 #include "CDriver.h"
 
-CDriver::CDriver(QObject *gui) {
+
+CDriver::CDriver(QMainWindow *gui) {
     CDriver::gameTimer_ = new QTimer(this);
     CDriver::human_ = createHumanPlayer(gui);
-    
+
     connect(gameTimer_, SIGNAL(timeout()), human_, SLOT(update()));
 }
 
@@ -31,7 +34,7 @@ void CDriver::bindSingle(const GameObject& obj) {
   //  connect(&CDriver::gameTimer_, SIGNAL(timeout()), obj, SLOT(update()));
 }
 
-Player* CDriver::createHumanPlayer(QObject *gui) {
+Player* CDriver::createHumanPlayer(QMainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent("arrow.png");
 

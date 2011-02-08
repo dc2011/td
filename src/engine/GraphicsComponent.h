@@ -6,12 +6,20 @@
 #include <QGraphicsPixmapItem>
 
 class Player;
-class GraphicsComponent : public QGraphicsPixmapItem {
+class GraphicsComponent : public QObject {
+    Q_OBJECT
 
 public:
-    GraphicsComponent(QPixmap pm) : QGraphicsPixmapItem(pm) {}
+    GraphicsComponent(const char* pixmap) {
+        // send signal to rendering thread here? (pixmap is the path to an image)    
+    }
     virtual ~GraphicsComponent() {}
-    virtual void updatePosition(Player* player) = 0;
+    virtual void update(Player* player) = 0;
+
+    virtual QGraphicsPixmapItem* getPixmapItem() { return pixmapItem_; }
+
+private:
+    QGraphicsPixmapItem* pixmapItem_;
 };
 
 #endif

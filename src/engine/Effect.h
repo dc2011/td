@@ -10,9 +10,9 @@ class Effect : public GameObject {
     Q_OBJECT
 public:
     Effect(Unit* unit);
-    void Apply();
-    size_t GetDuration();
-    void SetDuration(size_t);
+    void apply();
+    size_t getDuration();
+    void setDuration(size_t);
 
 private:
     Unit *unit_;

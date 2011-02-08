@@ -13,5 +13,5 @@ Player::Player(InputComponent* input, PhysicsComponent* physics,
 
 void Player::update() {
     physics_->update(this);
-    graphics_->updatePosition(this);
+    graphics_->update(this);
 }

@@ -7,7 +7,7 @@
 #include <QThread>
 #include <QtDebug>
 #include <QtConcurrentRun>
-#include <queue>
+#include <QQueue>
 #include <vorbis/vorbisfile.h>
 
 #define QUEUESIZE 8
@@ -15,6 +15,44 @@
 
 namespace td
 {
+
+/**
+ * The client-side audio manager class.
+ * A client must call the instance() method first to create and  
+ * initialize the singleton instance. Once a call to instance() has been made,
+ * this class is thread-safe.
+ *
+ * Internally in the class everytime playSfx is called, It creates
+ * a thread specifically to play that file to completion.
+ * To play music You can build a QQueue of filenames and pass that
+ * to playMusic(). playMusic() loops through the queue, Meaning after 
+ * finishing a song it puts it in the back of the queue. 
+ *
+ * The only way to stop a sound from playing is by calling shutdown().
+ * After this is called if you wish to play sounds again you 
+ * need to call startup();
+ *
+ * A typical use of the AudioManager class looks like this:
+ * @code
+ *   QString filename = "fire.ogg";
+ *
+ *   // This next line may not be vaild
+ *   // Used to show contents of musicList
+ *   QQueue musicList = [ "1.ogg" , "2.ogg" , "3.ogg" ]
+ *
+ *   //Inits the Class
+ *   td::AudioManager::instance(); 
+ *
+ *   td::AudioManager::instance()->playSfx(filename);
+ *   td::AudioManager::instance()->playMusic(musicList);
+ *
+ *   //call when you wish all sounds to stop
+ *   td::AudioManager::instance()->shutdown();
+ * @endcode
+ *
+ * @author Darryl Pogue
+ * @author Terence Stenvold
+ */
 
 class AudioManager : public QObject {
     Q_OBJECT
@@ -38,14 +76,6 @@ private:
      * method.
      */
     static QMutex mutex_;
-
-    /**
-     * The number of sound files currently playing.
-     *
-     * This is also equal to the number of threads currently running to
-     * stream sound files.
-     */
-    int playing_;
 
     /**
      * The volume/gain of the sound effects.
@@ -97,7 +127,7 @@ private:
      * @author Terence Stenvold
      * @param filenameQueue queue<QString> of filenames of ogg files.     *
      */
-    void playMusicQueue(std::queue<QString> filenameQueue);
+    void playMusicQueue(QQueue<QString> filenameQueue);
 
 public:
 
@@ -138,21 +168,6 @@ public:
      * @author Terence Stenvold
      */
     void startup();
-
-
-    /**
-     * Return the number of sound files currently being played.
-     *
-     * @author Darryl Pogue
-     * @return The number of currently playing sounds.
-     */
-    int playing() const {
-        mutex_.lock();
-        int ret = playing_;
-        mutex_.unlock();
-
-        return ret;
-    }
     
     /**
      * Set the effects volume.
@@ -225,7 +240,7 @@ public:
      * @author Terence Stenvold
      * @param filenameQueue queue<QString> of filenames of ogg files.
      */    
-    void playMusic(std::queue<QString> filenameQueue);
+    void playMusic(QQueue<QString> filenameQueue);
 };
 
 } /* end namespace td */
