@@ -9,14 +9,15 @@
 #include "PlayerGraphicsComponent.h"
 //#include "GameInfo.h"
 //#include "GameObject.h"
-class CDriver : public QObject {
+namespace td {
+  class CDriver : public QObject {
   
-private:
+  private:
     //  GameInfo gameInfo;
     QTimer* gameTimer_;
     Player* human_;
     //QVector<GameObject> objects;
-public:
+  public:
     // ctors and dtors
     CDriver(QMainWindow* parent = 0);
     ~CDriver();
@@ -45,7 +46,20 @@ public:
      * @return void
      */
     void bindSingle(const GameObject& obj);
-    
+    /**
+     * Connects the client driver to the server.
+     * 
+     * @author Duncan Donaldson
+     * @return void
+     */
+    void connectToServer(char * servaddr);
+    /**
+     * Disconnects the client driver from the server.
+     * 
+     * @author Duncan Donaldson
+     * @return void
+     */
+    void disconnectFromServer();
     /**
      * Start game timer.
      * 
@@ -53,7 +67,7 @@ public:
      * @return void
      */
     void startGame();
-    
+
     /**
      * Stop game timer.
      * 
@@ -69,5 +83,6 @@ public:
      * @return int
      */
     //int loadMap(GameInfo &gi, char* map);
-};
+  };
+}
 #endif
