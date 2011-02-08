@@ -1,6 +1,7 @@
 #ifndef GRAPHICSCOMPONENT_H
 #define GRAPHICSCOMPONENT_H
 
+#include <QMutexLocker>
 #include <QObject>
 #include <QPoint>
 #include <QGraphicsPixmapItem>
@@ -16,7 +17,10 @@ public:
     virtual ~GraphicsComponent() {}
     virtual void update(Player* player) = 0;
 
-    virtual QGraphicsPixmapItem* getPixmapItem() { return pixmapItem_; }
+    virtual QGraphicsPixmapItem* getPixmapItem() { 
+        return pixmapItem_;
+    }
+
 
 private:
     QGraphicsPixmapItem* pixmapItem_;

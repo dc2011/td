@@ -7,7 +7,8 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(const char* pixmap)
 PlayerGraphicsComponent::~PlayerGraphicsComponent() {}
 
 void PlayerGraphicsComponent::update(Player* player) {
-    //getPixmapItem()->setPos(player->getPos());
-    //getPixmapItem()->update();
+    if (getPixmapItem() != NULL) {
+        // connect(); send update signal to graphics thread 
+    }
 }
 
