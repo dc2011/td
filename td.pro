@@ -11,6 +11,7 @@ DEPENDPATH += .
 INCLUDEPATH += .
 DESTDIR = ./bin
 QT += network
+OBJECTS_DIR = ./obj
 
 macx {
     LIBS += -framework OpenAL
@@ -51,8 +52,10 @@ ENGINE_HDRS +=  src/engine/CDriver.h \
                 src/engine/Projectile.h \
                 src/engine/SDriver.h \
                 src/engine/Tile.h \
-                src/engine/Unit.h
-                
+                src/engine/Unit.h \
+                src/engine/PlayerGraphicsComponent.h \
+                src/engine/GraphicsComponent.h
+
 ENGINE_SRCS +=  src/engine/CDriver.cpp \
                 src/engine/Effect.cpp \
                 src/engine/GameObject.cpp \
@@ -64,7 +67,8 @@ ENGINE_SRCS +=  src/engine/CDriver.cpp \
                 src/engine/PlayerPhysicsComponent.cpp \
                 src/engine/Projectile.cpp \
                 src/engine/SDriver.cpp \
-                src/engine/Unit.cpp
+                src/engine/Unit.cpp \
+                src/engine/PlayerGraphicsComponent.cpp
 
 GRAPHICS_SRCS +=src/graphics/mapdisplayer.cpp
 
@@ -72,5 +76,5 @@ GRAPHICS_HDRS += src/graphics/mapdisplayer.h
 
 
 
-HEADERS += $$AUDIO_HDRS $$NETWORK_HDRS $$ENGINE_HDRS $$GRAPHICS_HDRS
-SOURCES += src/main.cpp $$AUDIO_SRCS $$NETWORK_SRCS $$ENGINE_SRCS $$GRAPHICS_SRCS
+HEADERS += src/MainWindow.h $$AUDIO_HDRS $$NETWORK_HDRS $$ENGINE_HDRS $$GRAPHICS_HDRS
+SOURCES += src/main.cpp src/MainWindow.cpp $$AUDIO_SRCS $$NETWORK_SRCS $$ENGINE_SRCS $$GRAPHICS_SRCS

@@ -10,7 +10,8 @@
 class Player : public Unit {
     Q_OBJECT
 public:
-    Player(InputComponent* input, PhysicsComponent* physics);
+    Player(InputComponent* input, PhysicsComponent* physics, 
+           GraphicsComponent* graphics);
     
     virtual void update();
 };
