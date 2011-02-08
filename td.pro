@@ -24,6 +24,7 @@ macx {
 unix:!macx {
     CONFIG += link_pkgconfig
     PKGCONFIG = openal vorbisfile vorbis
+    LIBS += -L$$OUT_PWD/3rdparty/lib/
 }
 
 AUDIO_HDRS +=   src/audio/manager.h \
