@@ -21,7 +21,11 @@ void PlayerGraphicsComponent::onPixmapped() {
     QGraphicsPixmapItem* itm = getPixmapItem();
 
     if (itm != NULL) {
-        itm->setPixmap(QPixmap("/home/dpogue/.face"));
+        qDebug("QGPI has been set... load an image");
+        QPixmap pix(100, 100);
+        pix.fill(QColor(0, 0, 255));
+        itm->setPixmap(pix);
+        itm->update();
     }
 }
 

@@ -45,7 +45,7 @@ public:
     void setForce(QVector2D& force) {
         force_.setX(force.x());
         force_.setY(force.y());
-        qDebug("Force: %d, %d", (int) force.x(), (int) force.y());
+        //qDebug("Force: %d, %d", (int) force.x(), (int) force.y());
     }
 
     int getOrientation();
