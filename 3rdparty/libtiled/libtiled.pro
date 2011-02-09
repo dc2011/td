@@ -7,12 +7,7 @@ CONFIG = staticlib qt
 TARGET = tiled
 target.path = $${LIBDIR}
 INSTALLS += target
-macx {
-    DESTDIR = ../../bin/td.app/Contents/Frameworks
-    QMAKE_LFLAGS_SONAME = -Wl,-install_name,@executable_path/../Frameworks/
-} else {
-    DESTDIR = ../../lib
-}
+DESTDIR = ../../lib
 DLLDESTDIR = ../..
 
 win32:INCLUDEPATH += $$(QTDIR)/src/3rdparty/zlib
