@@ -14,11 +14,19 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
     QGraphicsPixmapItem* itm = getPixmapItem();
 
     if (itm != NULL) {
-        // connect(); send update signal to graphics thread 
-        //getPixmapItem()->rotate(1);
-        itm->setOffset(player->getPos());
-
-        emit draw(this);
+        emit signalDraw(player->getPos(), this);
     }
 }
 
+void PlayerGraphicsComponent::draw(QPoint* pos) {    
+    QGraphicsPixmapItem* itm = getPixmapItem();
+    
+    if (itm != NULL) {
+        QPixmap pix(100, 100);
+        pix.fill(QColor(0, 0, 255));
+        itm->setPixmap(pix);
+        itm->update();
+        // connect(); send update signal to graphics thread 
+        itm->setOffset(*pos);
+    }
+}

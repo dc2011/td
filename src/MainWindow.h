@@ -52,7 +52,7 @@ public slots:
      * @author Darryl Pogue
      * @param gc The GraphicsComponent of the game object.
      */
-    void drawItem(GraphicsComponent* gc);
+    void drawItem(QPoint pos, GraphicsComponent* gc);
     
 signals:
     void signalKeyPressed(int);

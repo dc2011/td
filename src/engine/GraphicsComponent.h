@@ -30,6 +30,8 @@ public:
     void create() {
         emit created(this);
     }
+    
+    virtual void draw(QPoint* pos) = 0;
 
     /**
      * Gets the QGraphicsPixmapItem that represents this object.
@@ -65,7 +67,7 @@ public:
 
 signals:
     void created(GraphicsComponent* gc);
-    void draw(GraphicsComponent* gc);
+    void signalDraw(QPoint pos, GraphicsComponent* gc);
 };
 
 #endif

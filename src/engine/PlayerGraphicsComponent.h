@@ -13,6 +13,7 @@ public:
     PlayerGraphicsComponent();
     virtual ~PlayerGraphicsComponent();
     virtual void update(GameObject* obj);
+    virtual void draw(QPoint* pos);
 };
 
 #endif
