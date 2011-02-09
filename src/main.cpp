@@ -2,6 +2,8 @@
 
 #include "engine/CDriver.h"
 
+using namespace td;
+
 int main(int argc, char **argv) {
     QApplication a(argc, argv);
     QMainWindow qmw;

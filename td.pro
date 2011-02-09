@@ -42,7 +42,6 @@ ENGINE_HDRS +=  src/engine/CDriver.h \
                 src/engine/Player.h \
                 src/engine/PlayerPhysicsComponent.h \
                 src/engine/Projectile.h \
-                src/engine/SDriver.h \
                 src/engine/Tile.h \
                 src/engine/Unit.h \
                 src/engine/PlayerGraphicsComponent.h \
@@ -58,7 +57,6 @@ ENGINE_SRCS +=  src/engine/CDriver.cpp \
                 src/engine/Player.cpp \
                 src/engine/PlayerPhysicsComponent.cpp \
                 src/engine/Projectile.cpp \
-                src/engine/SDriver.cpp \
                 src/engine/Unit.cpp \
                 src/engine/PlayerGraphicsComponent.cpp
 

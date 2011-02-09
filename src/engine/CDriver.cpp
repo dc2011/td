@@ -36,12 +36,15 @@ namespace td {
   void CDriver::bindSingle(const GameObject& obj) {
     //  connect(&CDriver::gameTimer_, SIGNAL(timeout()), obj, SLOT(update()));
   }
+
   void CDriver::connectToServer(char * servaddr) {
     td::NetworkClient::init(QHostAddress(servaddr));
   }
+
   void CDriver::disconnectFromServer() {
     td::NetworkClient::instance() -> shutdown();
   }
+
   Player* CDriver::createHumanPlayer(QMainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent("arrow.png");
