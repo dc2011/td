@@ -1,11 +1,14 @@
-include(../../tiled.pri)
+# See the README file for instructions about setting the install prefix.
+isEmpty(PREFIX):PREFIX = /usr/local
+isEmpty(LIBDIR):LIBDIR = $${PREFIX}/lib
 
 TEMPLATE = lib
+CONFIG = staticlib qt
 TARGET = tiled
 target.path = $${LIBDIR}
 INSTALLS += target
 macx {
-    DESTDIR = ../../bin/Tiled.app/Contents/Frameworks
+    DESTDIR = ../../bin/td.app/Contents/Frameworks
     QMAKE_LFLAGS_SONAME = -Wl,-install_name,@executable_path/../Frameworks/
 } else {
     DESTDIR = ../../lib
@@ -19,7 +22,7 @@ DEFINES += QT_NO_CAST_FROM_ASCII \
     QT_NO_CAST_TO_ASCII
 DEFINES += TILED_LIBRARY
 contains(QT_CONFIG, reduce_exports): CONFIG += hide_symbols
-OBJECTS_DIR = .obj
+OBJECTS_DIR = ../../obj
 SOURCES += compression.cpp \
     isometricrenderer.cpp \
     layer.cpp \

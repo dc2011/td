@@ -7,9 +7,10 @@ tmtags
 *.swp
 *.o
 moc_*.cpp
-Makefile
+Makefile*
 /doc
 /bin
+/lib
 /obj
 /sound
 .qdevelop

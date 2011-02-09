@@ -8,7 +8,7 @@
 #include "PlayerPhysicsComponent.h"
 #include "PlayerInputComponent.h"
 #include "PlayerGraphicsComponent.h"
-#include "../MainWindow.h"
+#include "../client/MainWindow.h"
 //#include "GameInfo.h"
 //#include "GameObject.h"
 namespace td {

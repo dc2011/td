@@ -5,7 +5,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QKeyEvent>
-#include "engine/GraphicsComponent.h"
+#include "../engine/GraphicsComponent.h"
 
 namespace td {
 

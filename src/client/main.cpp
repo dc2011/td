@@ -1,9 +1,9 @@
 #include <QObject>
 #include <QApplication>
 #include "MainWindow.h"
-#include "util/thread.h"
-#include "graphics/mapdisplayer.h"
-#include "engine/CDriver.h"
+#include "../util/thread.h"
+#include "../graphics/mapdisplayer.h"
+#include "../engine/CDriver.h"
 
 int main(int argc, char **argv) {
     QApplication a(argc, argv);
