@@ -2,24 +2,28 @@
 #define CDRIVER_H
 #include <QTimer>
 #include <QApplication>
+#include <QMainWindow>
 #include <QVector>
 #include "Player.h"
 #include "PlayerPhysicsComponent.h"
 #include "PlayerInputComponent.h"
 #include "PlayerGraphicsComponent.h"
+#include "../client/MainWindow.h"
 //#include "GameInfo.h"
 //#include "GameObject.h"
 namespace td {
   class CDriver : public QObject {
+      Q_OBJECT
   
   private:
     //  GameInfo gameInfo;
     QTimer* gameTimer_;
     Player* human_;
+    MainWindow* mainWindow_;
     //QVector<GameObject> objects;
   public:
     // ctors and dtors
-    CDriver(QMainWindow* parent = 0);
+    CDriver(MainWindow* parent = 0);
     ~CDriver();
 
     /**
@@ -29,7 +33,7 @@ namespace td {
      * @author Tom Nightingale
      * @return Player*, pointer to new player instance.
      */
-    Player* createHumanPlayer(QMainWindow *);
+    Player* createHumanPlayer(MainWindow *);
 
     /**
      * Connects all current GameObjects' SLOTs to a timer SIGNAL.
@@ -60,13 +64,6 @@ namespace td {
      * @return void
      */
     void disconnectFromServer();
-    /**
-     * Start game timer.
-     * 
-     * @author Duncan Donaldson
-     * @return void
-     */
-    void startGame();
 
     /**
      * Stop game timer.
@@ -83,6 +80,16 @@ namespace td {
      * @return int
      */
     //int loadMap(GameInfo &gi, char* map);
+    
+  public slots:
+    /**
+    * Initialize and start game timer.
+    * [Hijacked and updated by Tom Nightingale]
+    * 
+    * @author Duncan Donaldson
+    * @return void
+    */
+    void startGame();
   };
 }
 #endif

@@ -40,7 +40,7 @@ elif [ "$OS" == "linux" ]; then
         # This is Fedora => yum
 
         sudo yum install gcc-c++ make openal-soft-devel libvorbis-devel \
-            libogg-devel
+            libogg-devel qt-devel
 
     elif [ -f /etc/arch-release ]; then
         # This is Arch => pacman
@@ -66,4 +66,7 @@ if [ "$OS" == "darwin" ]; then
     echo "Otherwise, type \"qmake -spec macx-g++ && make\"."
 elif [ "$OS" == "linux" ]; then
     echo "Now type \"qmake && make\"."
+    if [ -f /etc/fedora-release ]; then
+        echo "On Fedora, run \"qmake-qt4 && make\"."
+    fi
 fi

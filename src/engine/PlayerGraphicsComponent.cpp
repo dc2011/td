@@ -1,13 +1,32 @@
 #include "PlayerGraphicsComponent.h"
 #include "Player.h"
 
-PlayerGraphicsComponent::PlayerGraphicsComponent(const char* pixmap) 
-:       GraphicsComponent(pixmap) {}
+PlayerGraphicsComponent::PlayerGraphicsComponent()
+        : GraphicsComponent()
+{
+    /* Do init-type stuff here */
+}
 
 PlayerGraphicsComponent::~PlayerGraphicsComponent() {}
 
-void PlayerGraphicsComponent::update(Player* player) {
-    //getPixmapItem()->setPos(player->getPos());
-    //getPixmapItem()->update();
+void PlayerGraphicsComponent::update(GameObject* obj) {
+    Player* player = (Player*)obj;
+    QGraphicsPixmapItem* itm = getPixmapItem();
+
+    if (itm != NULL) {
+        emit signalDraw(player->getPos(), this);
+    }
 }
 
+void PlayerGraphicsComponent::draw(QPoint* pos) {    
+    QGraphicsPixmapItem* itm = getPixmapItem();
+    
+    if (itm != NULL) {
+        QPixmap pix(100, 100);
+        pix.fill(QColor(0, 0, 255));
+        itm->setPixmap(pix);
+        itm->update();
+        // connect(); send update signal to graphics thread 
+        itm->setOffset(*pos);
+    }
+}
