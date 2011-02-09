@@ -20,11 +20,11 @@ void PlayerInputComponent::processDirectionKey(int eventType, int key) {
     
     switch (key) {
         case Qt::Key_Up:
-            force.setY(event);
+            force.setY(event * -1);
             break;
             
         case Qt::Key_Down:
-            force.setY(event * -1);
+            force.setY(event);
             break;
             
         case Qt::Key_Left:
