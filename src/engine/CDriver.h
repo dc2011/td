@@ -4,6 +4,8 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QVector>
+#include <QString>
+#include <QFileDialog>
 #include "Player.h"
 #include "PlayerPhysicsComponent.h"
 #include "PlayerInputComponent.h"
@@ -34,7 +36,7 @@ namespace td {
      * @return Player*, pointer to new player instance.
      */
     Player* createHumanPlayer(MainWindow *);
-
+    
     /**
      * Connects all current GameObjects' SLOTs to a timer SIGNAL.
      * 

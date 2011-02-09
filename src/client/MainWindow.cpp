@@ -8,8 +8,8 @@ MainWindow::MainWindow() : QMainWindow() {
     view_ = new QGraphicsView(scene_);
 
     MapDisplayer* map = new MapDisplayer(scene_);
-
-    map->viewMap(QString("../maps/desert.tmx"));
+    
+    map->viewMap(GetMapName());
 
     this->setCentralWidget(view_);
 }
@@ -17,7 +17,12 @@ MainWindow::MainWindow() : QMainWindow() {
 MainWindow::~MainWindow() {
     /* driver_.shutdown() or something */
 }
+QString MainWindow::GetMapName() {
 
+ return QFileDialog::getOpenFileName(this,
+     tr("Open Map"), "maps", tr("Map Files (*.tmx)"));
+
+}
 void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
     QGraphicsPixmapItem* pixmap = new QGraphicsPixmapItem();
     scene_->addItem(pixmap);

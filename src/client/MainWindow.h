@@ -5,6 +5,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QKeyEvent>
+#include <QFileDialog>
+#include <QString>
 #include "../engine/GraphicsComponent.h"
 
 namespace td {
@@ -27,6 +29,12 @@ private:
 public:
     MainWindow();
     virtual ~MainWindow();
+    /**
+     * Creates a dialog box that allows the user to select a map.
+     *
+     * @author Duncan Donaldson
+     */
+    QString GetMapName();
     QGraphicsScene* getScene() { return scene_; }
     
 protected:

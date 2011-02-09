@@ -29,7 +29,7 @@ namespace td {
   //}
 
   void CDriver::bindSingle(const GameObject& obj) {
-    // connect(&CDriver::gameTimer_, SIGNAL(timeout()), obj, SLOT(update()));
+    //  connect(&CDriver::gameTimer_, SIGNAL(timeout()), obj, SLOT(update()));
   }
   void CDriver::connectToServer(char * servaddr) {
     td::NetworkClient::init(QHostAddress(servaddr));
