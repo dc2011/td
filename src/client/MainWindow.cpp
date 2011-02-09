@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include "graphics/mapdisplayer.h"
+#include <QScrollArea>
 
 namespace td {
 
@@ -11,7 +12,15 @@ MainWindow::MainWindow() : QMainWindow() {
 
     map->viewMap(QString("../maps/desert.tmx"));
 
+    view_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    QScrollArea *a = new QScrollArea(this);
+    a->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    a->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
+    this->showFullScreen();
+    view_->setFixedSize(1024,768);
 }
 
 MainWindow::~MainWindow() {
@@ -32,16 +41,15 @@ void MainWindow::drawItem(QPoint pos, GraphicsComponent* gc) {
 bool MainWindow::event(QEvent* event) {
     QKeyEvent* keyEvent;
     switch (event->type()) {
-        case QEvent::ShortcutOverride:
-            keyEvent = (QKeyEvent*) event;
-            emit signalKeyPressed(keyEvent->key());
-            event->accept();
-            return true;
-
-        default:
-            event->ignore();
-            QMainWindow::event(event);
-            break;
+    case QEvent::ShortcutOverride:
+	 keyEvent = (QKeyEvent*) event;
+	 emit signalKeyPressed(keyEvent->key());
+	 event->accept();
+	 return true;	 
+    default:
+	 event->ignore();
+	 QMainWindow::event(event);
+	 break;
     }
     
     return true;
