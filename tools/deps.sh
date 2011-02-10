@@ -34,18 +34,18 @@ elif [ "$OS" == "linux" ]; then
         # This is Ubuntu or Debian => apt-get
 
         sudo apt-get install g++ make libopenal-dev libvorbis-dev libogg-dev \
-            qt4-dev-tools qt4-qmake libqt4-network
+            qt4-dev-tools qt4-qmake libqt4-network zlib1g-dev
 
     elif [ -f /etc/fedora-release ]; then
         # This is Fedora => yum
 
         sudo yum install gcc-c++ make openal-soft-devel libvorbis-devel \
-            libogg-devel qt-devel
+            libogg-devel qt-devel zlib-devel
 
     elif [ -f /etc/arch-release ]; then
         # This is Arch => pacman
 
-        sudo pacman -S gcc make openal libvorbis libogg
+        sudo pacman -S gcc make openal libvorbis libogg zlib
 
     else
         echo "OOPS! Packages could not be installed for your system!"
