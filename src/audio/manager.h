@@ -9,6 +9,8 @@
 #include <QtConcurrentRun>
 #include <QQueue>
 #include <vorbis/vorbisfile.h>
+#include <errno.h>
+#include <sys/types.h>
 
 #define QUEUESIZE 8
 #define BUFFERSIZE (1024*32)

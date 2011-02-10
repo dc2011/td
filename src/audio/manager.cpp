@@ -1,6 +1,7 @@
 #include "manager.h"
 #include "openal_helper.h"
 
+
 namespace td {
 
 AudioManager* AudioManager::instance_ = NULL;
@@ -95,7 +96,9 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
         AudioManager::streamOgg(filename, this->musicGain_);
         /*Sleep for 0.3 sec so playback doesn't overlap*/
         alSleep(0.3f);
-        filenameQueue.enqueue(filename);
+        if(errno != EACCES) {
+	     filenameQueue.enqueue(filename);
+	}
     }
 }
 
