@@ -96,9 +96,10 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
         AudioManager::streamOgg(filename, this->musicGain_);
         /*Sleep for 0.3 sec so playback doesn't overlap*/
         alSleep(0.3f);
-        if(errno != EACCES) {
+        if(errno != ENOENT) {
 	     filenameQueue.enqueue(filename);
 	}
+	errno = 0;
     }
 }
 
