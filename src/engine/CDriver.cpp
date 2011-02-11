@@ -20,8 +20,8 @@ namespace td {
   }
 
   CDriver::~CDriver() {
-    delete CDriver::gameTimer_;
-    delete CDriver::human_;
+    delete this -> gameTimer_;
+    delete this -> human_;
   }
 
   void CDriver::connectToServer(char * servaddr) {
@@ -32,7 +32,7 @@ namespace td {
     delete CDriver::updates_;
     td::NetworkClient::instance() -> shutdown();
   }
-  void updateServer(int data) {
+  void CDriver::updateServer(int data) {
     CDriver::updates_ -> writeInt(data);
     td::NetworkClient::instance() -> send(CDriver::updates_ -> data());
   }
@@ -52,15 +52,15 @@ namespace td {
   }
 
   void CDriver::startGame() {
-    CDriver::gameTimer_ = new QTimer(this);
-    CDriver::human_ = createHumanPlayer(mainWindow_);
+    this -> gameTimer_ = new QTimer(this);
+    this -> human_ = createHumanPlayer(mainWindow_);
 
     connect(gameTimer_, SIGNAL(timeout()), human_, SLOT(update()));
-    CDriver::gameTimer_ -> start(30);
+    this -> gameTimer_ -> start(30);
   }
 
   void CDriver::endGame() {
-    CDriver::gameTimer_ -> stop();
+    this -> gameTimer_ -> stop();
     //cleanup code
   }
 }

@@ -23,8 +23,8 @@ namespace td {
     QTimer* gameTimer_;
     Player* human_;
     MainWindow* mainWindow_;
-  public:
     static td::Stream* updates_;
+  public:
     // ctors and dtors
     CDriver(MainWindow* parent = 0);
     ~CDriver();
