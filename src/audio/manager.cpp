@@ -64,21 +64,20 @@ void AudioManager::playSfx(QString filename)
 
 QQueue<QString> AudioManager::musicDir(QString dir)
 {
-     int i;
-     QDir mDir(dir);
-     mDir.setFilter(QDir::Files);
-     QList<QString> musicList = mDir.entryList();
-     QQueue<QString> musicQueue;
-     
-     for(i=0; i<musicList.length(); i++) {
-	  musicQueue.enqueue(dir + musicList[i]);
-     }
-     
-     //musicQueue << musicList;
+    int i;
+    QDir mDir(dir);
+    mDir.setFilter(QDir::Files);
+    QList<QString> musicList = mDir.entryList();
+    QQueue<QString> musicQueue;
 
-     return musicQueue; 
+    for (i = 0; i < musicList.length(); i++) {
+        musicQueue.enqueue(dir + musicList[i]);
+    }
+
+    //musicQueue << musicList;
+    return musicQueue;
 }
- 
+
 void AudioManager::playMusic(QQueue<QString> filenameQueue)
 {
     QFuture<void> future =
@@ -92,7 +91,7 @@ bool AudioManager::checkError()
     const ALchar* err = alGetString(error);
 
     if (error != AL_NO_ERROR) {
-	qFatal("%s",err);
+        qFatal("%s", err);
         alExit();
         return true;
     }
@@ -109,10 +108,12 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
         AudioManager::streamOgg(filename, this->musicGain_);
         /*Sleep for 0.3 sec so playback doesn't overlap*/
         alSleep(0.3f);
-        if(errno != ENOENT) {
-	     filenameQueue.enqueue(filename);
-	}
-	errno = 0;
+
+        if (errno != ENOENT) {
+            filenameQueue.enqueue(filename);
+        }
+
+        errno = 0;
     }
 }
 
