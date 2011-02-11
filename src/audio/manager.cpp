@@ -74,7 +74,6 @@ QQueue<QString> AudioManager::musicDir(QString dir)
         musicQueue.enqueue(dir + musicList[i]);
     }
 
-    //musicQueue << musicList;
     return musicQueue;
 }
 
