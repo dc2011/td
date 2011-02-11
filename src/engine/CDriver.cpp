@@ -9,8 +9,12 @@
 #include "GameObject.h"
 #include "CDriver.h"
 #include "../network/netclient.h"
+#include "../network/stream.h"
 
 namespace td {
+
+  td::Stream* CDriver::updates_;
+
   CDriver::CDriver(MainWindow *mainWindow) {
       mainWindow_ = mainWindow;
   }
@@ -20,22 +24,17 @@ namespace td {
     delete CDriver::human_;
   }
 
-
-  //void CDriver::bindAll() {
-  // QVector<GameObject>::iterator it;
-  //for(it = CDriver::objects.begin(); it != CDriver::objects.end(); ++it) {
-  // bindSingle(*it);
-  //}
-  //}
-
-  void CDriver::bindSingle(const GameObject& obj) {
-    //  connect(&CDriver::gameTimer_, SIGNAL(timeout()), obj, SLOT(update()));
-  }
   void CDriver::connectToServer(char * servaddr) {
     td::NetworkClient::init(QHostAddress(servaddr));
+    CDriver::updates_ = new Stream();
   }
   void CDriver::disconnectFromServer() {
+    delete CDriver::updates_;
     td::NetworkClient::instance() -> shutdown();
+  }
+  void updateServer(int data) {
+    CDriver::updates_ -> writeInt(data);
+    td::NetworkClient::instance() -> send(CDriver::updates_ -> data());
   }
   Player* CDriver::createHumanPlayer(MainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
@@ -64,13 +63,4 @@ namespace td {
     CDriver::gameTimer_ -> stop();
     //cleanup code
   }
-
-  //int CDriver::loadMap(char* map) {
-  //open map file, parse all map data, create map object,
-  //create tiles and stuff, store everything in map object, store map object
-  //in gameinfo.
-
-  //return false on any type of failure,
-  //return true on success
-  //}
 }

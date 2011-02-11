@@ -11,19 +11,20 @@
 #include "PlayerInputComponent.h"
 #include "PlayerGraphicsComponent.h"
 #include "../client/MainWindow.h"
+#include "../network/netclient.h"
+#include "../network/stream.h"
 //#include "GameInfo.h"
-//#include "GameObject.h"
+#include "GameObject.h"
 namespace td {
   class CDriver : public QObject {
       Q_OBJECT
   
   private:
-    //  GameInfo gameInfo;
     QTimer* gameTimer_;
     Player* human_;
     MainWindow* mainWindow_;
-    //QVector<GameObject> objects;
   public:
+    static td::Stream* updates_;
     // ctors and dtors
     CDriver(MainWindow* parent = 0);
     ~CDriver();
@@ -38,34 +39,35 @@ namespace td {
     Player* createHumanPlayer(MainWindow *);
     
     /**
-     * Connects all current GameObjects' SLOTs to a timer SIGNAL.
+     * Connects the client driver to the server. This must be called
+     * at some point before the updateServer() method is ever called,
+     * as it creates the stream that updateServer() uses to push updates
+     * to the server.
      * 
      * @author Duncan Donaldson
      * @return void
      */
-    void bindAll();
+    static void connectToServer(char * servaddr);
+    /**
+     * Disconnects the client driver from the server,
+     * and destroys the stream used to update the server, call this on cleanup.
+     * 
+     * @author Duncan Donaldson
+     * @return void
+     */
+    static void disconnectFromServer();
 
-    /**
-     * Connects a single GameObject's SLOT to a timer SIGNAL.
+   /**
+     * Sends client updates to the server, static method, this
+     * call this method from the update() function of the GameObject
+     * whose state you want to send to the server.
      * 
      * @author Duncan Donaldson
+     * @param v the data to send (CHANGE THIS LATER).
+     *
      * @return void
      */
-    void bindSingle(const GameObject& obj);
-    /**
-     * Connects the client driver to the server.
-     * 
-     * @author Duncan Donaldson
-     * @return void
-     */
-    void connectToServer(char * servaddr);
-    /**
-     * Disconnects the client driver from the server.
-     * 
-     * @author Duncan Donaldson
-     * @return void
-     */
-    void disconnectFromServer();
+    static void updateServer(int data);
 
     /**
      * Stop game timer.
@@ -84,6 +86,7 @@ namespace td {
     //int loadMap(GameInfo &gi, char* map);
     
   public slots:
+
     /**
     * Initialize and start game timer.
     * [Hijacked and updated by Tom Nightingale]
