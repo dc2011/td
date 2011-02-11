@@ -37,9 +37,7 @@ void AudioManager::startup()
 bool AudioManager::setEffectsVolume(float gain)
 {
     if (gain > 0 && gain <= 1) {
-        mutex_.lock();
-        this->sfxGain_ = gain;
-        mutex_.unlock();
+        SAFE_OPERATION(this->sfxGain_ = gain);
         return true;
     }
 
@@ -49,9 +47,7 @@ bool AudioManager::setEffectsVolume(float gain)
 bool AudioManager::setMusicVolume(float gain)
 {
     if (gain > 0 && gain <= 1) {
-        mutex_.lock();
-        this->musicGain_ = gain;
-        mutex_.unlock();
+        SAFE_OPERATION(this->musicGain_ = gain)
         return true;
     }
 

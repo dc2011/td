@@ -12,6 +12,7 @@
 #include <QTcpSocket>
 #include <QUdpSocket>
 #include <QQueue>
+#include "../util/mutex_magic.h"
 
 #define TD_PORT 26631
 
@@ -55,6 +56,8 @@ namespace td
 class NetworkClient : public QObject {
     Q_OBJECT
 
+    THREAD_SAFE_SINGLETON
+
 private:
 
     /**
@@ -64,17 +67,6 @@ private:
      * will initialize it the first time that it is retrieved.
      */
     static NetworkClient* instance_;
-    
-    /**
-     * A Mutex to protect instance data from multiple threads.
-     *
-     * This must be used any time instance data is read or updated,
-     * as well as when the singleton object is checked and initialized.
-     *
-     * This is static because it needs to be used in the instance()
-     * method.
-     */
-    static QMutex mutex_;
 
     /**
      * The thread which owns the NetworkClient and its sockets.
@@ -198,9 +190,7 @@ public:
      * @param msg as a byteArray 
      */
     void send(const QByteArray& msg) {
-        mutex_.lock();
-        msgQueue_.enqueue(msg);
-        mutex_.unlock();
+        SAFE_OPERATION(msgQueue_.enqueue(msg))
 
         emit msgQueued();
     }
