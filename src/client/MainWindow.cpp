@@ -8,19 +8,21 @@ MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
 
-    MapDisplayer* map = new MapDisplayer(scene_);
-
-    map->viewMap(QString("../maps/desert.tmx"));
-
+    view_->setFocusPolicy( Qt::NoFocus );
     view_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    MapDisplayer* map = new MapDisplayer(scene_);
+    map->viewMap(QString("../maps/desert.tmx"));
+
     QScrollArea *a = new QScrollArea(this);
     a->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     a->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
-    this->showFullScreen();
     view_->setFixedSize(1024,768);
+    this->showFullScreen();
 }
 
 MainWindow::~MainWindow() {
