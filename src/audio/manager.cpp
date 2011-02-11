@@ -62,6 +62,23 @@ void AudioManager::playSfx(QString filename)
     return;
 }
 
+QQueue<QString> AudioManager::musicDir(QString dir)
+{
+     int i;
+     QDir mDir(dir);
+     mDir.setFilter(QDir::Files);
+     QList<QString> musicList = mDir.entryList();
+     QQueue<QString> musicQueue;
+     
+     for(i=0; i<musicList.length(); i++) {
+	  musicQueue.enqueue(dir + musicList[i]);
+     }
+     
+     //musicQueue << musicList;
+
+     return musicQueue; 
+}
+ 
 void AudioManager::playMusic(QQueue<QString> filenameQueue)
 {
     QFuture<void> future =

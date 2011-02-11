@@ -8,6 +8,7 @@
 #include <QtDebug>
 #include <QtConcurrentRun>
 #include <QQueue>
+#include <QDir>
 #include <vorbis/vorbisfile.h>
 #include <errno.h>
 #include <sys/types.h>
@@ -235,6 +236,15 @@ public:
      * @param filenameQueue queue<QString> of filenames of ogg files.
      */    
     void playMusic(QQueue<QString> filenameQueue);
+
+    /**
+     * Returns a QQueue to be used for playMusic()
+     * 
+     * @author Terence Stenvold
+     * @param Qstring dir is the dir containing ogg files
+     */
+    QQueue<QString> musicDir(QString dir);
+
 };
 
 } /* end namespace td */
