@@ -241,7 +241,8 @@ public:
      * Returns a QQueue to be used for playMusic()
      * 
      * @author Terence Stenvold
-     * @param Qstring dir is the dir containing ogg files
+     * @param dir The directory containing ogg files.
+     * @return A queue of filenames to be passed to playMusic().
      */
     QQueue<QString> musicDir(QString dir);
 
