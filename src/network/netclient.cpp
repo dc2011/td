@@ -1,7 +1,6 @@
 #include "netclient.h"
 #include "stream.h"
 #include "../util/thread.h"
-//#include <ctime>
 
 
 namespace td {
@@ -66,8 +65,13 @@ void NetworkClient::onMsgQueued()
 {
     SAFE_OPERATION(QByteArray tmp = msgQueue_.dequeue())
 
-    /* TODO: Determine which socket to use based on message type */
-    udpSocket_->writeDatagram(tmp, tmp.size(), QHostAddress::Broadcast, TD_PORT);
+    bool isUDP = ((unsigned char)tmp.at(0) >= td::network::kBLOCK_UDP);
+
+    if (isUDP) {
+        udpSocket_->writeDatagram(tmp, QHostAddress::Broadcast, TD_PORT);
+    } else {
+        tcpSocket_->write(tmp);
+    }
 }
 
 void NetworkClient::onUDPReceive()

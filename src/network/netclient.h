@@ -12,6 +12,7 @@
 #include <QTcpSocket>
 #include <QUdpSocket>
 #include <QQueue>
+#include "netmessages.h"
 #include "../util/mutex_magic.h"
 
 #define TD_PORT 26631
@@ -44,7 +45,7 @@ namespace td
  *  // Create a stream and write data to it, then send it to the server:
  *  td::Stream s;
  *  s.writeInt(5);
- *  td::NetworkClient::instance()->send(s.data());
+ *  td::NetworkClient::instance()->send(td::network::kPlayerPosition, s.data());
  *
  *  // When the client is exiting:
  *  td::NetworkClient::instance()->shutdown();
@@ -187,10 +188,11 @@ public:
      * data sending happens almost immediately in another thread.
      *
      * @author Terence Stenvold
-     * @param msg as a byteArray 
+     * @param msgType The type of message to be sent. (See netmessages.h)
+     * @param msg The message data as a byte array.
      */
-    void send(const QByteArray& msg) {
-        SAFE_OPERATION(msgQueue_.enqueue(msg))
+    void send(unsigned char msgType, QByteArray msg) {
+        SAFE_OPERATION(msgQueue_.enqueue(msg.prepend(msgType)))
 
         emit msgQueued();
     }
