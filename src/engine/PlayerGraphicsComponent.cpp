@@ -18,7 +18,7 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
     }
 }
 
-void PlayerGraphicsComponent::draw(QPoint* pos) {    
+void PlayerGraphicsComponent::draw(QPointF* pos) {
     QGraphicsPixmapItem* itm = getPixmapItem();
     
     if (itm != NULL) {

@@ -49,9 +49,9 @@ public slots:
     
 private:
     /* data */
-    const int accel_;
-    const int decel_;
-    const int maxVelocity_;
+    float accel_;
+    float decel_;
+    float maxVelocity_;
 };
 
 #endif

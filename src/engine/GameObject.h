@@ -1,7 +1,7 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
-#include <QPoint>
+#include <QPointF>
 
 #include "PhysicsComponent.h"
 
@@ -15,9 +15,9 @@ public:
      * Returns object's position co-ords.
      * 
      * @author Tom Nightingale
-     * @return QPoint.
+     * @return QPointF.
      */
-    QPoint& getPos() {
+    QPointF& getPos() {
         return pos_;
     }
     
@@ -26,10 +26,10 @@ public:
      * 
      * @author Tom Nightingale
      */
-    void setPos(QPoint& p) {
+    void setPos(QPointF& p) {
         pos_.setX(p.x());
         pos_.setY(p.y());
-        qDebug("Pos: (%d, %d)", (int) pos_.x(), (int) pos_.y());
+        qDebug("Pos: (%.2f, %.2f)", (float) pos_.x(), (float) pos_.y());
     }
 
 public slots:
@@ -43,7 +43,7 @@ public slots:
      */
     virtual void update() = 0;
 
-private:
-    QPoint pos_;
+protected:
+    QPointF pos_;
 };
 #endif

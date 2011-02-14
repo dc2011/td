@@ -2,7 +2,7 @@
 #define UNIT_H
 
 #include <QVector2D>
-#include <QPoint>
+#include <QPointF>
 
 #include "GameObject.h"
 #include "PhysicsComponent.h"
@@ -54,14 +54,12 @@ public:
     float getScale();
     void setScale(float);
 
-private:
+protected:
     QVector2D velocity_;
     QVector2D force_;
-    QPoint pos_;
     int orientation_;
     float scale_;
 
-protected:
     InputComponent* input_;
     PhysicsComponent* physics_;
     GraphicsComponent* graphics_;

@@ -36,7 +36,7 @@ void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
     gc->setPixmapItem(pixmap);
 }
 
-void MainWindow::drawItem(QPoint pos, GraphicsComponent* gc) {    
+void MainWindow::drawItem(QPointF pos, GraphicsComponent* gc) {
     gc->draw(&pos);
 }
 

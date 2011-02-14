@@ -8,17 +8,17 @@ PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
 void PlayerPhysicsComponent::update(Unit* player) {
     this->applyForce((Player*)player);
     this->applyVelocity((Player*)player);
-    this->applyDirection((Player*)player);
+    //this->applyDirection((Player*)player);
 }
 
 /* applies velocity to position, currently moves past bounds */
 void PlayerPhysicsComponent::applyVelocity(Player * player) {
-    QPoint newPos = player->getPos() + player->getVelocity().toPoint();
+    QPointF newPos = player->getPos() + player->getVelocity().toPointF();
     player->setPos(newPos);
 }
 
 void PlayerPhysicsComponent::applyForce(Player* player) {
-    int velX, velY;
+    float velX, velY;
     QVector2D force = player->getForce();
     QVector2D vector = force * player->getVelocity();
 

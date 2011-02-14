@@ -3,7 +3,7 @@
 
 #include <QMutexLocker>
 #include <QObject>
-#include <QPoint>
+#include <QPointF>
 #include <QGraphicsPixmapItem>
 
 #include "GameObject.h"
@@ -30,8 +30,8 @@ public:
     void create() {
         emit created(this);
     }
-    
-    virtual void draw(QPoint* pos) = 0;
+
+    virtual void draw(QPointF* pos) = 0;
 
     /**
      * Gets the QGraphicsPixmapItem that represents this object.
@@ -67,7 +67,7 @@ public:
 
 signals:
     void created(GraphicsComponent* gc);
-    void signalDraw(QPoint pos, GraphicsComponent* gc);
+    void signalDraw(QPointF pos, GraphicsComponent* gc);
 };
 
 #endif
