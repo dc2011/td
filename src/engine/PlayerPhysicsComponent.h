@@ -28,6 +28,14 @@ public:
      * @param Player*, pointer to the player object
      */
     void applyVelocity(Player*);
+    /**
+     * Applies a direction to the position.
+     * This function uses velocity to find angle, pos
+     *
+     * @author Joel Stewart
+     * @param Player*, pointer to the player object
+     */
+    void applyDirection(Player*);
     
 public slots:
     /**

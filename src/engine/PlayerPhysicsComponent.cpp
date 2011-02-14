@@ -1,12 +1,14 @@
 #include "PlayerPhysicsComponent.h"
 #include "Player.h"
-
+#define PI 3.141592653589793238
+#include <math.h>
 PlayerPhysicsComponent::PlayerPhysicsComponent() : accel_(1), decel_(2), maxVelocity_(10) {}
 PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
 
 void PlayerPhysicsComponent::update(Unit* player) {
     this->applyForce((Player*)player);
     this->applyVelocity((Player*)player);
+    this->applyDirection((Player*)player);
 }
 
 /* applies velocity to position, currently moves past bounds */
@@ -69,4 +71,54 @@ void PlayerPhysicsComponent::applyForce(Player* player) {
         }
 
     }
+}
+
+void PlayerPhysicsComponent::applyDirection(Player* player) {
+        int velX, velY, angle, degree;
+        velX = player->getVelocity().x();
+        velY = player->getVelocity().y();
+
+        if(qAbs(velY) >= qAbs(velX)) {
+                angle = atan(velY/velX) * 180/PI;
+                if(velY > 0) {
+                        if(velX == 0) {
+                                degree = 0;
+                        }else if(velY == velX) {
+                                degree = 45;
+                        }else if(velY == (-velX)) {
+                                degree = 315;
+                        }else if(angle < 0) {
+                                degree = 360 + angle;
+                        }else {
+                                degree = angle;
+                        }
+                }else if(velY < 0) {
+                        if(velX == 0) {
+                                degree = 180;
+                        }else if(velY == velX) {
+                                degree = 225;
+                        }else if(velY == (-velX)) {
+                                degree = 135;
+                        }else {
+                                degree = 180 + angle;
+                        }
+                }
+        }else if(qAbs(velX) > qAbs(velY)) {
+                angle = atan(velX/velY) * 180/PI;
+                if(velX > 0) {
+                        if(velY == 0) {
+                                degree = 90;
+                        }else {
+                                degree = 90 - angle;
+                        }
+                }else if(velX < 0) {
+                        if(velY == 0) {
+                                degree = 270;
+                        }else {
+                                degree = 270 - angle;
+                        }
+                }
+        }
+       //player->setOrientation(degree);
+
 }
