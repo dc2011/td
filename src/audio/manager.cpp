@@ -89,8 +89,10 @@ bool AudioManager::checkError()
     ALuint error = alGetError();
     const ALchar* err = alGetString(error);
 
-    if (error != AL_NO_ERROR) {
-        qFatal("%s", err);
+    if (inited_ == false) {
+	 return true;
+    } else if (error != AL_NO_ERROR) {
+	qDebug("AudioManager Error: %s", err);
         alExit();
         return true;
     }
@@ -102,7 +104,7 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
 {
     QString filename;
 
-    while (!filenameQueue.empty()) {
+    while (!filenameQueue.empty() && inited_) {
         filename = filenameQueue.dequeue();
         AudioManager::streamOgg(filename, this->musicGain_);
         /*Sleep for 0.3 sec so playback doesn't overlap*/
@@ -214,7 +216,6 @@ void AudioManager::streamOgg(QString filename, float gain)
     } while (result > 0 && !checkError());
 
     ov_clear(&oggFile);
-    checkError();
 }
 
 } /* End namespace td */
