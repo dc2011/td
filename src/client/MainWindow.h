@@ -14,6 +14,11 @@ class MainWindow : public QMainWindow {
 
 private:
 
+    MainWindow();
+    virtual ~MainWindow();
+
+    static MainWindow* instance_;
+    
     /**
      * The graphics scene which contains all the objects
      */
@@ -25,8 +30,12 @@ private:
     QGraphicsView* view_;
 
 public:
-    MainWindow();
-    virtual ~MainWindow();
+    static MainWindow* init();
+    
+    static MainWindow* instance() {
+        return instance_;
+    }
+    
     QGraphicsScene* getScene() { return scene_; }
     
 protected:
