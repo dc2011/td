@@ -92,7 +92,7 @@ bool AudioManager::checkError()
     if (inited_ == false) {
 	 return true;
     } else if (error != AL_NO_ERROR) {
-	qDebug("AudioManager Error: %s", err);
+	qDebug("AudioManager Error: %d:%s",error, err);
         alExit();
         return true;
     }
@@ -216,9 +216,23 @@ void AudioManager::streamOgg(QString filename, float gain)
     } while (result > 0 && !checkError());
 
     ov_clear(&oggFile);
+    
+/** Wait until sound stops playing before 
+ *  clearing the buffers and source
+ */       
+    do{ 
+     	 alGetSourcei(source, AL_SOURCE_STATE, &playing);
+     	 alSleep(0.1f);
+    }while(playing != AL_STOPPED && !checkError());
 
-    alDeleteBuffers(QUEUESIZE,buffer);
+    alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
+    while (processed) {
+	 alSourceUnqueueBuffers(source, 1, &tempBuffer);
+	 processed--;
+    }
+
     alDeleteSources(1, &source);
+    alDeleteBuffers(QUEUESIZE,buffer);
 }
 
 } /* End namespace td */
