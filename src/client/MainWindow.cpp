@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "graphics/mapdisplayer.h"
 #include <QScrollArea>
+#include "../audio/manager.h"
 
 #include "../engine/GraphicsComponent.h"
 namespace td {
@@ -30,6 +31,7 @@ MainWindow::MainWindow() : QMainWindow() {
 
 MainWindow::~MainWindow() {
     /* driver_.shutdown() or something */
+     td::AudioManager::instance()->shutdown();
 }
 
 MainWindow* MainWindow::init() {

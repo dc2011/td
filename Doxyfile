@@ -624,7 +624,7 @@ EXCLUDE_SYMLINKS       = NO
 # against the file with absolute path, so to exclude all test directories
 # for example use the pattern */test/*
 
-EXCLUDE_PATTERNS       = *.git */html/*
+EXCLUDE_PATTERNS       = *.git */html/* */moc/* */tools/* */lib/* */3rdparty/*
 
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names
 # (namespaces, classes, functions, etc.) that should be excluded from the
@@ -1372,7 +1372,8 @@ PREDEFINED             = Q_OBJECT=
 # The macro definition that is found in the sources will be used.
 # Use the PREDEFINED tag if you want to use a different macro definition.
 
-EXPAND_AS_DEFINED      =
+EXPAND_AS_DEFINED      = THREAD_SAFE_SINGLETON \
+                         THREAD_SAFE_CLASS
 
 # If the SKIP_FUNCTION_MACROS tag is set to YES (the default) then
 # doxygen's preprocessor will remove all function-like macros that are alone
