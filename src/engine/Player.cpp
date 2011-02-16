@@ -8,7 +8,7 @@ Player::Player(InputComponent* input, PhysicsComponent* physics,
     input_->setParent(this);
     
     physics_ = physics;
-    graphics_ = graphics;
+    graphics_ = new PlayerGraphicsComponent();
 }
 
 void Player::update() {

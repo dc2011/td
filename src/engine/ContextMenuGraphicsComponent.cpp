@@ -2,11 +2,10 @@
 #include "Player.h"
 
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
-        : GraphicsComponent()
-{
-    /* Do init-type stuff here */
+        : GraphicsComponent() {
 }
-
+// TODO: these methods are copied straight from PlayerGraphicsCompenent, 
+// they'll need to be altered for context menus
 void ContextMenuGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
     QGraphicsPixmapItem* itm = getPixmapItem();
@@ -20,8 +19,8 @@ void ContextMenuGraphicsComponent::draw(QPointF* pos) {
     QGraphicsPixmapItem* itm = getPixmapItem();
     
     if (itm != NULL) {
-        QPixmap pix(24, 24);
-        pix.fill(QColor(0, 0, 255));
+        QPixmap pix(100, 100);
+        pix.fill(QColor(255, 0, 0));
         itm->setPixmap(pix);
         itm->update();
         // connect(); send update signal to graphics thread 

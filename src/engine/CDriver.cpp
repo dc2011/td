@@ -40,10 +40,6 @@ namespace td {
   Player* CDriver::createHumanPlayer(MainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent();
-    graphics->connect(graphics, SIGNAL(created(GraphicsComponent*)), mainWindow_, SLOT(createGraphicRepr(GraphicsComponent*)));
-    graphics->connect(graphics, SIGNAL(signalDraw(QPointF, GraphicsComponent*)), mainWindow_, SLOT(drawItem(QPointF, GraphicsComponent*)));
-    graphics->create();
-
     PlayerInputComponent* input = new PlayerInputComponent();
     //gui->installEventFilter(input);
     connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
@@ -52,23 +48,10 @@ namespace td {
     return new Player((InputComponent*) input, physics, graphics);
   }
 
-    ContextMenu* CDriver::createContextMenu() {
-        ContextMenuGraphicsComponent* graphics 
-                = new ContextMenuGraphicsComponent();
-        
-        connect(graphics, SIGNAL(created(GraphicsComponent*)), 
-                mainWindow_, SLOT(createGraphicRepr(GraphicsComponent*)));
-        connect(graphics, SIGNAL(signalDraw(QPointF, GraphicsComponent*)), 
-                mainWindow_, SLOT(drawItem(QPointF, GraphicsComponent*)));
-        graphics->create();
-
-        return new ContextMenu(graphics, human_);
-    }
-
     void CDriver::startGame() {
         CDriver::gameTimer_   = new QTimer(this);
         CDriver::human_       = createHumanPlayer(mainWindow_);
-        CDriver::contextMenu_ = createContextMenu();
+        CDriver::contextMenu_ = new ContextMenu(human_);
 
         connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
                 contextMenu_, SLOT(toggleMenu()));

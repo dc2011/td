@@ -8,8 +8,8 @@
 
 int main(int argc, char **argv) {
     QApplication a(argc, argv);
-    td::MainWindow qmw;
-    td::CDriver clientDriver(&qmw);
+    td::MainWindow* qmw = td::MainWindow::init();
+    td::CDriver clientDriver(qmw);
     td::Thread* driverThread = new td::Thread();
     QQueue<QString> musicList = td::AudioManager::instance()->musicDir("../sound/music/");
     td::AudioManager::instance();
@@ -23,9 +23,7 @@ int main(int argc, char **argv) {
     /*MapDisplayer map(qmw.getScene());
     // Show the map
     map.viewMap(QString("../maps/desert.tmx"));*/
-    qmw.show();
-
-    
+    qmw->show();
     
     return a.exec();
 }

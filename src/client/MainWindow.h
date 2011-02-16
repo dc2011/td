@@ -5,15 +5,23 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QKeyEvent>
-#include "../engine/GraphicsComponent.h"
+
+class GraphicsComponent;
 
 namespace td {
-
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
 private:
 
+    MainWindow();
+    virtual ~MainWindow();
+    
+    /**
+     * The single instance of this class that can be created.
+     */
+    static MainWindow* instance_;
+    
     /**
      * The graphics scene which contains all the objects
      */
@@ -25,8 +33,26 @@ private:
     QGraphicsView* view_;
 
 public:
-    MainWindow();
-    virtual ~MainWindow();
+    /**
+     * Creates an instance of the class if one doesn't exist yet.
+     *
+     * @author Dean Morin
+     * @returns An new instance of the class if one doesn't exist yet, or
+     * if one does, it returns a pointer to that instance.
+     */
+    static MainWindow* init();
+   
+    /**
+     * Returns the instance of this Singleton class. Should only be used if
+     * you know that init() has already been called.
+     *
+     * @author Dean Morin
+     * @returns A pointer to the one available instance of this class.
+     */
+    static MainWindow* instance() {
+        return instance_;
+    }
+    
     QGraphicsScene* getScene() { return scene_; }
     
 protected:

@@ -3,7 +3,10 @@
 #include <QScrollArea>
 #include "../audio/manager.h"
 
+#include "../engine/GraphicsComponent.h"
 namespace td {
+
+MainWindow* MainWindow::instance_ = NULL;
 
 MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
@@ -29,6 +32,14 @@ MainWindow::MainWindow() : QMainWindow() {
 MainWindow::~MainWindow() {
     /* driver_.shutdown() or something */
      td::AudioManager::instance()->shutdown();
+}
+
+MainWindow* MainWindow::init() {
+    if (instance_ != NULL) {
+        return instance_;
+    }
+    instance_ = new MainWindow();
+    return instance_;
 }
 
 void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
