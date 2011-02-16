@@ -1,7 +1,6 @@
 #include "manager.h"
 #include "openal_helper.h"
 
-
 namespace td {
 
 AudioManager* AudioManager::instance_ = NULL;
@@ -65,15 +64,21 @@ void AudioManager::playSfx(QString filename)
 QQueue<QString> AudioManager::musicDir(QString dir)
 {
     int i;
+    int iter;
     QDir mDir(dir);
     mDir.setFilter(QDir::Files);
     QList<QString> musicList = mDir.entryList();
     QQueue<QString> musicQueue;
+    
+    iter = rand() % musicList.length();
 
-    for (i = 0; i < musicList.length(); i++) {
-        musicQueue.enqueue(dir + musicList[i]);
+    for(i = 0; i < musicList.length(); i++) {
+	 if( ++iter >= musicList.length()) {
+	      iter=0;
+	 }
+	 musicQueue.enqueue(dir + musicList[iter]);
     }
-
+    
     return musicQueue;
 }
 
