@@ -2,7 +2,8 @@
 #include "Player.h"
 #define PI 3.141592653589793238
 #include <math.h>
-PlayerPhysicsComponent::PlayerPhysicsComponent() : accel_(1), decel_(2), maxVelocity_(10) {}
+PlayerPhysicsComponent::PlayerPhysicsComponent()
+        : accel_(1), decel_(2), maxVelocity_(10) {}
 PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
 
 void PlayerPhysicsComponent::update(Unit* player)
@@ -26,23 +27,26 @@ void PlayerPhysicsComponent::applyForce(Player* player)
     QVector2D vector = force * player->getVelocity();
 
     if (vector.x() >= 0) {
-        player->getVelocity().setX(force.x() * accel_ + player->getVelocity().x());
-
+        player->getVelocity().setX(force.x() * accel_ +
+                                   player->getVelocity().x());
         if (qAbs(vector.x()) > maxVelocity_) {
             player->getVelocity().setX(force.x() * maxVelocity_);
         }
     } else {
-        player->getVelocity().setX(force.x() *(accel_ + decel_) + player->getVelocity().x());
+        player->getVelocity().setX(force.x() *(accel_ + decel_) +
+                                   player->getVelocity().x());
     }
 
     if (vector.y() >= 0) {
-        player->getVelocity().setY(force.y() * accel_ + player->getVelocity().y());
+        player->getVelocity().setY(force.y() * accel_ +
+                                   player->getVelocity().y());
 
         if (qAbs(vector.y()) > maxVelocity_) {
             player->getVelocity().setY(force.y() * maxVelocity_);
         }
     } else {
-        player->getVelocity().setY(force.y() *(accel_ + decel_) + player->getVelocity().y());
+        player->getVelocity().setY(force.y() *(accel_ + decel_) +
+                                   player->getVelocity().y());
     }
 
     if (force.x() == 0) {
