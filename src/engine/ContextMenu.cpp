@@ -2,8 +2,12 @@
 
 
 ContextMenu::ContextMenu(Player* player) : player_(player) {
-    graphics_ = new ContextMenuGraphicsComponent(); //free
+    graphics_   = new ContextMenuGraphicsComponent();
     menuIsOpen_ = false;
+}
+
+ContextMenu::~ContextMenu() {
+    free(graphics_);
 }
 
 void ContextMenu::toggleMenu() {
@@ -11,12 +15,12 @@ void ContextMenu::toggleMenu() {
         qDebug("opens a menu");
         menuIsOpen_ = true;
         graphics_->update(player_); //remove once the next line is working
-        //((ContextMenuGraphicsComponent) graphics)->showMenu();
+        //((ContextMenuGraphicsComponent) graphics)->showMenu(player_->getPos());
 
     } else {
         qDebug("closes a menu");
         menuIsOpen_ = false;
-        //((ContextMenuGraphicsComponent) graphics)->hideMenu();
+        //((ContextMenuGraphicsComponent) graphics)->hideMenu(player_->getPos());
     }
 }
 
@@ -26,6 +30,6 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     }
     qDebug("selects a menu item");
     menuIsOpen_ = false;
-    //((ContextMenuGraphicsComponent) graphics)->displayMenuSelection();
+    //((ContextMenuGraphicsComponent) graphics)->displayMenuSelection(player_->getPos());
 }
 

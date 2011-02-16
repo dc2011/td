@@ -10,7 +10,7 @@ class ContextMenu : public QObject {
 
 public:
     ContextMenu(Player* player);
-    virtual ~ContextMenu() {}
+    virtual ~ContextMenu();
 
 private:
     /**
