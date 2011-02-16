@@ -82,12 +82,17 @@ void PlayerPhysicsComponent::applyForce(Player* player)
 
 void PlayerPhysicsComponent::applyDirection(Player* player)
 {
-    int velX, velY, angle, degree;
-    velX = player->getVelocity().x();
-    velY = player->getVelocity().y();
+    int angle = 0;
+    int degree = 0;
+    int velX = player->getVelocity().x();
+    int velY = player->getVelocity().y();
+
+    if (velX == 0 && velY == 0) {
+        return;
+    }
 
     if (qAbs(velY) >= qAbs(velX)) {
-        angle = atan(velY / (float)velX) * 180 / PI;
+        angle = atan(velY / (float)velX) * (180 / PI);
 
         if (velY > 0) {
             if (velX == 0) {
@@ -113,7 +118,7 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
             }
         }
     } else if (qAbs(velX) > qAbs(velY)) {
-        angle = atan(velX / (float)velY) * 180 / PI;
+        angle = atan(velX / (float) velY) * (180 / PI);
 
         if (velX > 0) {
             if (velY == 0) {
