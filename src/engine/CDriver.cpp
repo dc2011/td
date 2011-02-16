@@ -40,7 +40,6 @@ namespace td {
   Player* CDriver::createHumanPlayer(MainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent();
-
     PlayerInputComponent* input = new PlayerInputComponent();
     //gui->installEventFilter(input);
     connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
