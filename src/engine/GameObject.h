@@ -2,6 +2,7 @@
 #define GAMEOBJECT_H
 
 #include <QPointF>
+#include "../network/stream.h"
 
 #include "PhysicsComponent.h"
 
@@ -10,6 +11,9 @@ class GameObject : public QObject {
   Q_OBJECT
 public:
     virtual ~GameObject() {};
+
+    virtual void networkRead(td::Stream* s) = 0;
+    virtual void networkWrite(td::Stream* s) = 0;
     
     /**
      * Returns object's position co-ords.
@@ -30,6 +34,18 @@ public:
         pos_.setX(p.x());
         pos_.setY(p.y());
         //qDebug("Pos: (%.2f, %.2f)", (float) pos_.x(), (float) pos_.y());
+    }
+
+    /**
+     * Sets the object's coordinates in the game world.
+     *
+     * @author Darryl Pogue
+     * @param x The X coordinate value.
+     * @param y The Y coordinate value.
+     */
+    void setPos(float x, float y) {
+        pos_.setX(x);
+        pos_.setY(y);
     }
 
 public slots:

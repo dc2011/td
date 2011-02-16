@@ -5,39 +5,46 @@
 PlayerPhysicsComponent::PlayerPhysicsComponent() : accel_(1), decel_(2), maxVelocity_(10) {}
 PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
 
-void PlayerPhysicsComponent::update(Unit* player) {
+void PlayerPhysicsComponent::update(Unit* player)
+{
     this->applyForce((Player*)player);
     this->applyVelocity((Player*)player);
-    //this->applyDirection((Player*)player);
+    this->applyDirection((Player*)player);
 }
 
 /* applies velocity to position, currently moves past bounds */
-void PlayerPhysicsComponent::applyVelocity(Player * player) {
+void PlayerPhysicsComponent::applyVelocity(Player* player)
+{
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
     player->setPos(newPos);
 }
 
-void PlayerPhysicsComponent::applyForce(Player* player) {
+void PlayerPhysicsComponent::applyForce(Player* player)
+{
     float velX, velY;
     QVector2D force = player->getForce();
     QVector2D vector = force * player->getVelocity();
 
     if (vector.x() >= 0) {
         player->getVelocity().setX(force.x() * accel_ + player->getVelocity().x());
+
         if (qAbs(vector.x()) > maxVelocity_) {
             player->getVelocity().setX(force.x() * maxVelocity_);
         }
     } else {
-        player->getVelocity().setX(force.x() * (accel_ + decel_) + player->getVelocity().x());
+        player->getVelocity().setX(force.x() *(accel_ + decel_) + player->getVelocity().x());
     }
+
     if (vector.y() >= 0) {
         player->getVelocity().setY(force.y() * accel_ + player->getVelocity().y());
+
         if (qAbs(vector.y()) > maxVelocity_) {
             player->getVelocity().setY(force.y() * maxVelocity_);
         }
     } else {
-        player->getVelocity().setY(force.y() * (accel_ + decel_) + player->getVelocity().y());
+        player->getVelocity().setY(force.y() *(accel_ + decel_) + player->getVelocity().y());
     }
+
     if (force.x() == 0) {
         // deceleration towards 0
         if ((velX = player->getVelocity().x()) > 0) {
@@ -54,6 +61,7 @@ void PlayerPhysicsComponent::applyForce(Player* player) {
             }
         }
     }
+
     if (force.y() == 0) {
         // deceleration towards 0
         if ((velY = player->getVelocity().y()) > 0) {
@@ -69,56 +77,64 @@ void PlayerPhysicsComponent::applyForce(Player* player) {
                 player->getVelocity().setY(velY + decel_);
             }
         }
-
     }
 }
 
-void PlayerPhysicsComponent::applyDirection(Player* player) {
-        int velX, velY, angle, degree;
-        velX = player->getVelocity().x();
-        velY = player->getVelocity().y();
+void PlayerPhysicsComponent::applyDirection(Player* player)
+{
+    int angle = 0;
+    int degree = 0;
+    int velX = player->getVelocity().x();
+    int velY = player->getVelocity().y();
 
-        if(qAbs(velY) >= qAbs(velX)) {
-                angle = atan(velY/velX) * 180/PI;
-                if(velY > 0) {
-                        if(velX == 0) {
-                                degree = 0;
-                        }else if(velY == velX) {
-                                degree = 45;
-                        }else if(velY == (-velX)) {
-                                degree = 315;
-                        }else if(angle < 0) {
-                                degree = 360 + angle;
-                        }else {
-                                degree = angle;
-                        }
-                }else if(velY < 0) {
-                        if(velX == 0) {
-                                degree = 180;
-                        }else if(velY == velX) {
-                                degree = 225;
-                        }else if(velY == (-velX)) {
-                                degree = 135;
-                        }else {
-                                degree = 180 + angle;
-                        }
-                }
-        }else if(qAbs(velX) > qAbs(velY)) {
-                angle = atan(velX/velY) * 180/PI;
-                if(velX > 0) {
-                        if(velY == 0) {
-                                degree = 90;
-                        }else {
-                                degree = 90 - angle;
-                        }
-                }else if(velX < 0) {
-                        if(velY == 0) {
-                                degree = 270;
-                        }else {
-                                degree = 270 - angle;
-                        }
-                }
+    if (velX == 0 && velY == 0) {
+        return;
+    }
+
+    if (qAbs(velY) >= qAbs(velX)) {
+        angle = atan(velY / (float)velX) * (180 / PI);
+
+        if (velY > 0) {
+            if (velX == 0) {
+                degree = 0;
+            } else if (velY == velX) {
+                degree = 45;
+            } else if (velY == (-velX)) {
+                degree = 315;
+            } else if (angle < 0) {
+                degree = 360 + angle;
+            } else {
+                degree = angle;
+            }
+        } else if (velY < 0) {
+            if (velX == 0) {
+                degree = 180;
+            } else if (velY == velX) {
+                degree = 225;
+            } else if (velY == (-velX)) {
+                degree = 135;
+            } else {
+                degree = 180 + angle;
+            }
         }
-       //player->setOrientation(degree);
+    } else if (qAbs(velX) > qAbs(velY)) {
+        angle = atan(velX / (float) velY) * (180 / PI);
 
+        if (velX > 0) {
+            if (velY == 0) {
+                degree = 90;
+            } else {
+                degree = 90 - angle;
+            }
+        } else if (velX < 0) {
+            if (velY == 0) {
+                degree = 270;
+            } else {
+                degree = 270 - angle;
+            }
+        }
+    }
+
+    player->setOrientation(degree);
+    qDebug("Orientation: %d", degree);
 }

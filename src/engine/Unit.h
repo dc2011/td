@@ -13,6 +13,9 @@ class Unit : public GameObject {
 public:
     virtual ~Unit();
 
+    virtual void networkRead(td::Stream* s);
+    virtual void networkWrite(td::Stream* s);
+
     /**
      * Inheriting classes need to define a method of setting their parent (owner) object.
      * 
@@ -48,11 +51,21 @@ public:
         //qDebug("Force: %d, %d", (int) force.x(), (int) force.y());
     }
 
-    int getOrientation();
-    void setOrientation(int);
+    int getOrientation() {
+        return orientation_;
+    }
 
-    float getScale();
-    void setScale(float);
+    void setOrientation(int orient) {
+        orientation_ = orient;
+    }
+
+    float getScale() {
+        return scale_;
+    }
+
+    void setScale(float scale) {
+        scale_ = scale;
+    }
 
 protected:
     QVector2D velocity_;
