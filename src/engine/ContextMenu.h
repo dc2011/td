@@ -4,6 +4,7 @@
 #include <QObject>
 #include "ContextMenuGraphicsComponent.h"
 #include "Player.h"
+#include "../audio/manager.h"
 
 class ContextMenu : public QObject {
     Q_OBJECT
