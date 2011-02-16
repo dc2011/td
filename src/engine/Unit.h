@@ -2,7 +2,7 @@
 #define UNIT_H
 
 #include <QVector2D>
-#include <QPoint>
+#include <QPointF>
 
 #include "GameObject.h"
 #include "PhysicsComponent.h"
@@ -12,6 +12,9 @@
 class Unit : public GameObject {
 public:
     virtual ~Unit();
+
+    virtual void networkRead(td::Stream* s);
+    virtual void networkWrite(td::Stream* s);
 
     /**
      * Inheriting classes need to define a method of setting their parent (owner) object.
@@ -48,20 +51,28 @@ public:
         //qDebug("Force: %d, %d", (int) force.x(), (int) force.y());
     }
 
-    int getOrientation();
-    void setOrientation(int);
+    int getOrientation() {
+        return orientation_;
+    }
 
-    float getScale();
-    void setScale(float);
+    void setOrientation(int orient) {
+        orientation_ = orient;
+    }
 
-private:
+    float getScale() {
+        return scale_;
+    }
+
+    void setScale(float scale) {
+        scale_ = scale;
+    }
+
+protected:
     QVector2D velocity_;
     QVector2D force_;
-    QPoint pos_;
     int orientation_;
     float scale_;
 
-protected:
     InputComponent* input_;
     PhysicsComponent* physics_;
     GraphicsComponent* graphics_;

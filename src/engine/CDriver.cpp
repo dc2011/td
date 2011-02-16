@@ -18,6 +18,7 @@ namespace td {
   CDriver::~CDriver() {
     delete CDriver::gameTimer_;
     delete CDriver::human_;
+    td::AudioManager::instance()->shutdown();
   }
 
 
@@ -40,10 +41,6 @@ namespace td {
   Player* CDriver::createHumanPlayer(MainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent();
-    graphics->connect(graphics, SIGNAL(created(GraphicsComponent*)), mainWindow_, SLOT(createGraphicRepr(GraphicsComponent*)));
-    graphics->connect(graphics, SIGNAL(signalDraw(QPoint, GraphicsComponent*)), mainWindow_, SLOT(drawItem(QPoint, GraphicsComponent*)));
-    graphics->create();
-
     PlayerInputComponent* input = new PlayerInputComponent();
     //gui->installEventFilter(input);
     connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
@@ -52,13 +49,20 @@ namespace td {
     return new Player((InputComponent*) input, physics, graphics);
   }
 
-  void CDriver::startGame() {
-    CDriver::gameTimer_ = new QTimer(this);
-    CDriver::human_ = createHumanPlayer(mainWindow_);
+    void CDriver::startGame() {
+        CDriver::gameTimer_   = new QTimer(this);
+        CDriver::human_       = createHumanPlayer(mainWindow_);
+        CDriver::contextMenu_ = new ContextMenu(human_);
 
-    connect(gameTimer_, SIGNAL(timeout()), human_, SLOT(update()));
-    CDriver::gameTimer_ -> start(30);
-  }
+        connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
+                contextMenu_, SLOT(toggleMenu()));
+        connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
+                contextMenu_, SLOT(selectMenuItem(int)));
+        connect(gameTimer_,   SIGNAL(timeout()), 
+                human_,       SLOT(update()));
+        
+        CDriver::gameTimer_ -> start(30);
+    }
 
   void CDriver::endGame() {
     CDriver::gameTimer_ -> stop();
@@ -73,4 +77,5 @@ namespace td {
   //return false on any type of failure,
   //return true on success
   //}
+
 }

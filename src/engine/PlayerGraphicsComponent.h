@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QPainter>
-#include <QPoint>
+#include <QPointF>
 #include "GraphicsComponent.h"
 
 class PlayerGraphicsComponent : public GraphicsComponent {
@@ -13,7 +13,7 @@ public:
     PlayerGraphicsComponent();
     virtual ~PlayerGraphicsComponent();
     virtual void update(GameObject* obj);
-    virtual void draw(QPoint* pos);
+    virtual void draw(QPointF* pos);
 };
 
 #endif
