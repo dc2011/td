@@ -5,10 +5,9 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QKeyEvent>
-#include "../engine/GraphicsComponent.h"
 
+class GraphicsComponent;
 namespace td {
-
 class MainWindow : public QMainWindow {
     Q_OBJECT
 

@@ -2,13 +2,14 @@
 #define CONTEXTMENU_H
 
 #include <QObject>
+#include "ContextMenuGraphicsComponent.h"
 #include "Player.h"
 
 class ContextMenu : public QObject {
     Q_OBJECT
 
 public:
-    ContextMenu(GraphicsComponent* graphics, Player* player);
+    ContextMenu(Player* player);
     virtual ~ContextMenu() {}
 
 private:

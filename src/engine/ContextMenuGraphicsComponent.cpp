@@ -2,9 +2,7 @@
 #include "Player.h"
 
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
-        : GraphicsComponent()
-{
-    /* Do init-type stuff here */
+        : GraphicsComponent() {
 }
 
 void ContextMenuGraphicsComponent::update(GameObject* obj) {

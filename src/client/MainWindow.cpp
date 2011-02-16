@@ -2,6 +2,7 @@
 #include "graphics/mapdisplayer.h"
 #include <QScrollArea>
 
+#include "../engine/GraphicsComponent.h"
 namespace td {
 
 MainWindow* MainWindow::instance_ = NULL;

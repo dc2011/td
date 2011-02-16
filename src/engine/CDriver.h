@@ -42,14 +42,6 @@ namespace td {
      * @return Player*, pointer to new player instance.
      */
     Player* createHumanPlayer(MainWindow *);
-
-    /**
-     * Creates a context menu for a player.
-     * 
-     * @author Dean Morin
-     * @return A pointer to the newly created context menu.
-     */
-    ContextMenu* createContextMenu();
     
     /**
      * Connects all current GameObjects' SLOTs to a timer SIGNAL.

@@ -1,7 +1,8 @@
 #include "ContextMenu.h"
 
-ContextMenu::ContextMenu(GraphicsComponent* graphics, Player* player) 
-        : graphics_(graphics), player_(player) {}
+ContextMenu::ContextMenu(Player* player) : player_(player) {
+    graphics_ = new ContextMenuGraphicsComponent(); //free
+}
 
 void ContextMenu::toggleMenu() {
     if (!menuIsOpen_) {

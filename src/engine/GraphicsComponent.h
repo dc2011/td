@@ -5,8 +5,8 @@
 #include <QObject>
 #include <QPointF>
 #include <QGraphicsPixmapItem>
-
 #include "GameObject.h"
+#include "../client/MainWindow.h"
 
 class GraphicsComponent : public QObject {
     Q_OBJECT
@@ -16,7 +16,15 @@ private:
     QMutex mutex_;
 
 public:
-    GraphicsComponent() { }
+    GraphicsComponent() {
+        td::MainWindow* main = td::MainWindow::instance();
+        connect(this, SIGNAL(created(GraphicsComponent*)), 
+                main, SLOT(createGraphicRepr(GraphicsComponent*)));
+        connect(this, SIGNAL(signalDraw(QPointF, GraphicsComponent*)), 
+                main, SLOT(drawItem(QPointF, GraphicsComponent*)));
+        create();
+    }
+
     virtual ~GraphicsComponent() {}
     virtual void update(GameObject* obj) = 0;
 
