@@ -6,6 +6,7 @@
 #include <QPointF>
 #include <QGraphicsPixmapItem>
 #include "GameObject.h"
+
 #include "../client/MainWindow.h"
 
 class GraphicsComponent : public QObject {
@@ -16,6 +17,12 @@ private:
     QMutex mutex_;
 
 public:
+    /**
+     * Sets up the necessary signals and slots to create the 
+     * QGraphicsPixmapItem for this component in the rendering thread. This      * is done to ensure that updates on the pixmap item are thread-safe.
+     *
+     * @author Dean Morin
+     */
     GraphicsComponent() {
         td::MainWindow* main = td::MainWindow::instance();
         connect(this, SIGNAL(created(GraphicsComponent*)), 

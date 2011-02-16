@@ -92,8 +92,9 @@ namespace td {
   public slots:
     /**
     * Initialize and start game timer.
-    * [Hijacked and updated by Tom Nightingale]
-    * 
+    * [Hijacked and updated by Tom Nightingale] 
+    * Client side objects are created here.
+    *
     * @author Duncan Donaldson
     * @return void
     */
