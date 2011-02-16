@@ -238,7 +238,7 @@ public:
     void playMusic(QQueue<QString> filenameQueue);
 
     /**
-     * Returns a QQueue to be used for playMusic()
+     * Returns a randomized QQueue of files to be used for playMusic()
      * 
      * @author Terence Stenvold
      * @param dir The directory containing ogg files.
