@@ -1,7 +1,6 @@
 #include "netclient.h"
 #include "stream.h"
 #include "../util/thread.h"
-//#include <ctime>
 
 
 namespace td {
@@ -42,9 +41,8 @@ NetworkClient* NetworkClient::init(QHostAddress servAddr)
         return instance_;
     }
 
-    mutex_.lock();
-    instance_ = new NetworkClient(servAddr);
-    mutex_.unlock();
+    SAFE_OPERATION(instance_ = new NetworkClient(servAddr))
+
     netthread_ = new Thread();
     instance_->moveToThread(netthread_);
     instance_->udpSocket_->moveToThread(netthread_);
@@ -59,16 +57,21 @@ void NetworkClient::shutdown()
     delete instance_;
     instance_ = NULL;
     mutex_.unlock();
+
     netthread_->exit(0);
 }
 
 void NetworkClient::onMsgQueued()
 {
-    mutex_.lock();
-    QByteArray tmp = msgQueue_.dequeue();
-    mutex_.unlock();
-    /* TODO: Determine which socket to use based on message type */
-    udpSocket_->writeDatagram(tmp, tmp.size(), QHostAddress::Broadcast, TD_PORT);
+    SAFE_OPERATION(QByteArray tmp = msgQueue_.dequeue())
+
+    bool isUDP = ((unsigned char)tmp.at(0) >= td::network::kBLOCK_UDP);
+
+    if (isUDP) {
+        udpSocket_->writeDatagram(tmp, QHostAddress::Broadcast, TD_PORT);
+    } else {
+        tcpSocket_->write(tmp);
+    }
 }
 
 void NetworkClient::onUDPReceive()

@@ -8,7 +8,11 @@
 #include <QtDebug>
 #include <QtConcurrentRun>
 #include <QQueue>
+#include <QDir>
 #include <vorbis/vorbisfile.h>
+#include <errno.h>
+#include <sys/types.h>
+#include "../util/mutex_magic.h"
 
 #define QUEUESIZE 8
 #define BUFFERSIZE (1024*32)
@@ -57,6 +61,8 @@ namespace td
 class AudioManager : public QObject {
     Q_OBJECT
 
+    THREAD_SAFE_SINGLETON
+
 private:
     /**
      * The static singleton instance of the AudioManager.
@@ -65,17 +71,6 @@ private:
      * will initialize it the first time that it is retrieved.
      */
     static AudioManager* instance_;
-
-    /**
-     * A Mutex to protect instance data from multiple threads.
-     *
-     * This must be used any time instance data is read or updated,
-     * as well as when the singleton object is checked and initialized.
-     *
-     * This is static because it needs to be used in the instance()
-     * method.
-     */
-    static QMutex mutex_;
 
     /**
      * The volume/gain of the sound effects.
@@ -141,7 +136,7 @@ public:
      * @return A pointer to the AudioManager instance.
      */
     static AudioManager* instance() {
-	 mutex_.lock();
+        mutex_.lock();
         if (instance_ == NULL) {
             instance_ = new AudioManager();
         }
@@ -185,9 +180,9 @@ public:
      * @return The current volume of sound effects, ranging 0.0 to 1.0. 
      */
     float getEffectsVolume() const {
-        mutex_.lock();
-        float gain = sfxGain_;
-        mutex_.unlock();
+        float gain;
+
+        SAFE_OPERATION(gain = sfxGain_);
 
         return gain;
     }
@@ -208,9 +203,9 @@ public:
      * @return The current volume of background music, ranging 0.0 to 1.0. 
      */
     float getMusicVolume() const {
-        mutex_.lock();
-        float gain = musicGain_;
-        mutex_.unlock();
+        float gain;
+
+        SAFE_OPERATION(gain = musicGain_);
 
         return gain;
     }
@@ -241,6 +236,16 @@ public:
      * @param filenameQueue queue<QString> of filenames of ogg files.
      */    
     void playMusic(QQueue<QString> filenameQueue);
+
+    /**
+     * Returns a QQueue to be used for playMusic()
+     * 
+     * @author Terence Stenvold
+     * @param dir The directory containing ogg files.
+     * @return A queue of filenames to be passed to playMusic().
+     */
+    QQueue<QString> musicDir(QString dir);
+
 };
 
 } /* end namespace td */
