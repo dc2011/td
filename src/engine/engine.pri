@@ -1,8 +1,8 @@
-ENGINE_HDRS +=  ./engine/CDriver.h \
+ENGINE_HDRS +=  ./engine/ContextMenu.h \
+                ./engine/CDriver.h \
                 ./engine/Effect.h \
                 ./engine/GameObject.h \
                 ./engine/InputComponent.h \
-                ./engine/Menu.h \
                 ./engine/NPC.h \
                 ./engine/PlayerInputComponent.h \
                 ./engine/PhysicsComponent.h \
@@ -15,11 +15,11 @@ ENGINE_HDRS +=  ./engine/CDriver.h \
                 ./engine/PlayerGraphicsComponent.h \
                 ./engine/GraphicsComponent.h
 
-ENGINE_SRCS +=  ./engine/CDriver.cpp \
+ENGINE_SRCS +=  ./engine/ContextMenu.cpp \
+                ./engine/CDriver.cpp \
                 ./engine/Effect.cpp \
                 ./engine/GameObject.cpp \
                 ./engine/InputComponent.cpp \
-                ./engine/Menu.cpp \
                 ./engine/NPC.cpp \
                 ./engine/PlayerInputComponent.cpp \
                 ./engine/PhysicsComponent.cpp \

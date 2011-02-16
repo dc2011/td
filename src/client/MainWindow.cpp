@@ -22,7 +22,7 @@ MainWindow::MainWindow() : QMainWindow() {
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
     view_->setFixedSize(1024,768);
-   // this->showFullScreen();
+    this->showFullScreen();
 }
 
 MainWindow::~MainWindow() {

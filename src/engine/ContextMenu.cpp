@@ -1,21 +1,26 @@
-#include "Menu.h"
+#include "ContextMenu.h"
 
-void Menu::openMenu() {
-    if (!menuIsOpen) {
+ContextMenu::ContextMenu(Player* player) : player_(player) {}
+
+void ContextMenu::openMenu() {
+    if (!menuIsOpen_) {
         qDebug("opens a menu");
-        menuIsOpen = true;
+        menuIsOpen_ = true;
+        //showMenu(player_->getPos());
 
     } else {
         qDebug("closes a menu");
-        menuIsOpen = false;
+        menuIsOpen_ = false;
+        //hideMenu(player_->getPos());
     }
 }
 
-void Menu::selectMenuItem(int keyPressed) {
-    if (!menuIsOpen) {
+void ContextMenu::selectMenuItem(int keyPressed) {
+    if (!menuIsOpen_) {
         return;
     }
     qDebug("selects a menu item");
-    menuIsOpen = false;
+    menuIsOpen_ = false;
+    //hideMenu(player_->getPos()); //change to displayMenuSelection()
 }
 

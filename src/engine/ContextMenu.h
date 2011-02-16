@@ -1,28 +1,31 @@
-#ifndef MENU_H
-#define MENU_H
+#ifndef CONTEXTMENU_H
+#define CONTEXTMENU_H
 
 #include <QObject>
+#include "Player.h"
 
-
-class Menu : public QObject {
+class ContextMenu : public QObject {
     Q_OBJECT
 
 public:
-    Menu() {}
-    virtual ~Menu() {}
+    ContextMenu(Player* player);
+    virtual ~ContextMenu() {}
 
     void showMenu() {}
     void hideMenu() {}
 
 private:
+    /**
+     * The human player on this client.
+     */
+    Player* player_;
 
     /**
      * True if a context menu is currently open.
      */
-    bool menuIsOpen;
+    bool menuIsOpen_;
 
 public slots:
-
     /**
      * Open a context menu.
      *
@@ -37,7 +40,6 @@ public slots:
      * @param keyPressed The numerical key that was pressed.
      */
     void selectMenuItem(int keyPressed);
-    
 };
 
 #endif

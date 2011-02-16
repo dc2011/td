@@ -53,9 +53,9 @@ namespace td {
   }
 
     void CDriver::startGame() {
-        CDriver::gameTimer_ = new QTimer(this);
-        CDriver::human_ = createHumanPlayer(mainWindow_);
-        CDriver::contextMenu_ = new Menu();
+        CDriver::gameTimer_   = new QTimer(this);
+        CDriver::human_       = createHumanPlayer(mainWindow_);
+        CDriver::contextMenu_ = new ContextMenu(human_);
 
         connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
                 contextMenu_, SLOT(openMenu()));
