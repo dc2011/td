@@ -31,7 +31,6 @@ MainWindow::MainWindow() : QMainWindow() {
 
 MainWindow::~MainWindow() {
     /* driver_.shutdown() or something */
-     td::AudioManager::instance()->shutdown();
 }
 
 MainWindow* MainWindow::init() {

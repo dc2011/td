@@ -7,7 +7,7 @@ ContextMenu::ContextMenu(Player* player) : player_(player) {
 }
 
 ContextMenu::~ContextMenu() {
-    free(graphics_);
+    delete graphics_;
 }
 
 void ContextMenu::toggleMenu() {

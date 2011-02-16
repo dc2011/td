@@ -18,6 +18,7 @@ namespace td {
   CDriver::~CDriver() {
     delete CDriver::gameTimer_;
     delete CDriver::human_;
+    td::AudioManager::instance()->shutdown();
   }
 
 
