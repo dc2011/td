@@ -22,7 +22,7 @@ MainWindow::MainWindow() : QMainWindow() {
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
     view_->setFixedSize(1024,768);
-    this->showFullScreen();
+   // this->showFullScreen();
 }
 
 MainWindow::~MainWindow() {
@@ -63,6 +63,20 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         case Qt::Key_Space:
             emit signalSpacebarPressed();
             break;
+            
+        case Qt::Key_1:
+        case Qt::Key_2:
+        case Qt::Key_3:
+        case Qt::Key_4:
+        case Qt::Key_5:
+        case Qt::Key_6:
+        case Qt::Key_7:
+        case Qt::Key_8:
+        case Qt::Key_9:
+        case Qt::Key_0:
+            emit signalNumberPressed(event->key());
+            break;
+
         default:
             QMainWindow::keyPressEvent(event);
             break;

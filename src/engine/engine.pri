@@ -2,6 +2,7 @@ ENGINE_HDRS +=  ./engine/CDriver.h \
                 ./engine/Effect.h \
                 ./engine/GameObject.h \
                 ./engine/InputComponent.h \
+                ./engine/Menu.h \
                 ./engine/NPC.h \
                 ./engine/PlayerInputComponent.h \
                 ./engine/PhysicsComponent.h \
@@ -18,6 +19,7 @@ ENGINE_SRCS +=  ./engine/CDriver.cpp \
                 ./engine/Effect.cpp \
                 ./engine/GameObject.cpp \
                 ./engine/InputComponent.cpp \
+                ./engine/Menu.cpp \
                 ./engine/NPC.cpp \
                 ./engine/PlayerInputComponent.cpp \
                 ./engine/PhysicsComponent.cpp \

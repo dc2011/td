@@ -64,6 +64,7 @@ public slots:
 signals:
     void signalKeyPressed(int);
     void signalKeyReleased(int);
+    void signalNumberPressed(int);
     void signalSpacebarPressed();
 };
 

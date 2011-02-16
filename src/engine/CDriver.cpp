@@ -52,14 +52,22 @@ namespace td {
     return new Player((InputComponent*) input, physics, graphics);
   }
 
-  void CDriver::startGame() {
-    CDriver::gameTimer_ = new QTimer(this);
-    CDriver::human_ = createHumanPlayer(mainWindow_);
-        connect(mainWindow_, SIGNAL(signalSpacebarPressed()),
-                this,        SLOT(openMenu()));
-    connect(gameTimer_, SIGNAL(timeout()), human_, SLOT(update()));
-    CDriver::gameTimer_ -> start(30);
-  }
+    void CDriver::startGame() {
+        CDriver::gameTimer_ = new QTimer(this);
+        CDriver::human_ = createHumanPlayer(mainWindow_);
+        CDriver::contextMenu_ = new Menu();
+
+        connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
+                contextMenu_, SLOT(openMenu()));
+
+        connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
+                contextMenu_, SLOT(selectMenuItem(int)));
+
+        connect(gameTimer_,   SIGNAL(timeout()), 
+                human_,       SLOT(update()));
+        
+        CDriver::gameTimer_ -> start(30);
+    }
 
   void CDriver::endGame() {
     CDriver::gameTimer_ -> stop();
@@ -75,7 +83,4 @@ namespace td {
   //return true on success
   //}
 
-    void CDriver::openMenu() {
-        qDebug("doesn't actually open a menu");
-    }
 }

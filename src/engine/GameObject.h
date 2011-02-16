@@ -29,7 +29,7 @@ public:
     void setPos(QPointF& p) {
         pos_.setX(p.x());
         pos_.setY(p.y());
-        qDebug("Pos: (%.2f, %.2f)", (float) pos_.x(), (float) pos_.y());
+     // qDebug("Pos: (%.2f, %.2f)", (float) pos_.x(), (float) pos_.y());
     }
 
 public slots:
