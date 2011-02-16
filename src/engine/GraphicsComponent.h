@@ -3,10 +3,11 @@
 
 #include <QMutexLocker>
 #include <QObject>
-#include <QPoint>
+#include <QPointF>
 #include <QGraphicsPixmapItem>
-
 #include "GameObject.h"
+
+#include "../client/MainWindow.h"
 
 class GraphicsComponent : public QObject {
     Q_OBJECT
@@ -16,7 +17,21 @@ private:
     QMutex mutex_;
 
 public:
-    GraphicsComponent() { }
+    /**
+     * Sets up the necessary signals and slots to create the 
+     * QGraphicsPixmapItem for this component in the rendering thread. This      * is done to ensure that updates on the pixmap item are thread-safe.
+     *
+     * @author Dean Morin
+     */
+    GraphicsComponent() {
+        td::MainWindow* main = td::MainWindow::instance();
+        connect(this, SIGNAL(created(GraphicsComponent*)), 
+                main, SLOT(createGraphicRepr(GraphicsComponent*)));
+        connect(this, SIGNAL(signalDraw(QPointF, GraphicsComponent*)), 
+                main, SLOT(drawItem(QPointF, GraphicsComponent*)));
+        create();
+    }
+
     virtual ~GraphicsComponent() {}
     virtual void update(GameObject* obj) = 0;
 
@@ -30,8 +45,8 @@ public:
     void create() {
         emit created(this);
     }
-    
-    virtual void draw(QPoint* pos) = 0;
+
+    virtual void draw(QPointF* pos) = 0;
 
     /**
      * Gets the QGraphicsPixmapItem that represents this object.
@@ -67,7 +82,7 @@ public:
 
 signals:
     void created(GraphicsComponent* gc);
-    void signalDraw(QPoint pos, GraphicsComponent* gc);
+    void signalDraw(QPointF pos, GraphicsComponent* gc);
 };
 
 #endif

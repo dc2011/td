@@ -2,7 +2,7 @@
 #define PROJECTILE_H
 
 #include <QVector2D>
-#include <QPoint>
+#include <QPointF>
 
 #include "Unit.h"
 
