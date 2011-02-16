@@ -8,15 +8,17 @@ class ContextMenu : public QObject {
     Q_OBJECT
 
 public:
-    ContextMenu(Player* player);
+    ContextMenu(GraphicsComponent* graphics, Player* player);
     virtual ~ContextMenu() {}
-
-    void showMenu() {}
-    void hideMenu() {}
 
 private:
     /**
-     * The human player on this client.
+     * Is responsible for rendering this object.
+     */
+    GraphicsComponent* graphics_;
+
+    /**
+     * The human player on this client. Needed for position info.
      */
     Player* player_;
 
@@ -27,11 +29,11 @@ private:
 
 public slots:
     /**
-     * Open a context menu.
+     * Open a context menu, or close it if it already open.
      *
      * @author Dean Morin
      */
-    void openMenu();
+    void toggleMenu();
     
     /**
      * Select a choice in an open context menu.
