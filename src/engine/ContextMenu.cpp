@@ -1,17 +1,19 @@
 #include "ContextMenu.h"
 
-ContextMenu::ContextMenu(Player* player) : player_(player) {}
+ContextMenu::ContextMenu(GraphicsComponent* graphics, Player* player) 
+        : graphics_(graphics), player_(player) {}
 
-void ContextMenu::openMenu() {
+void ContextMenu::toggleMenu() {
     if (!menuIsOpen_) {
         qDebug("opens a menu");
         menuIsOpen_ = true;
-        //showMenu(player_->getPos());
+        graphics_->update(player_);
+        //((ContextMenuGraphicsComponent) graphics)->showMenu();
 
     } else {
         qDebug("closes a menu");
         menuIsOpen_ = false;
-        //hideMenu(player_->getPos());
+        //((ContextMenuGraphicsComponent) graphics)->hideMenu();
     }
 }
 
@@ -21,6 +23,6 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     }
     qDebug("selects a menu item");
     menuIsOpen_ = false;
-    //hideMenu(player_->getPos()); //change to displayMenuSelection()
+    //((ContextMenuGraphicsComponent) graphics)->displayMenuSelection();
 }
 

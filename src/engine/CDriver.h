@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QVector>
 #include "ContextMenu.h"
+#include "ContextMenuGraphicsComponent.h"
 #include "Player.h"
 #include "PlayerPhysicsComponent.h"
 #include "PlayerInputComponent.h"
@@ -42,6 +43,14 @@ namespace td {
      */
     Player* createHumanPlayer(MainWindow *);
 
+    /**
+     * Creates a context menu for a player.
+     * 
+     * @author Dean Morin
+     * @return A pointer to the newly created context menu.
+     */
+    ContextMenu* createContextMenu();
+    
     /**
      * Connects all current GameObjects' SLOTs to a timer SIGNAL.
      * 

@@ -52,17 +52,28 @@ namespace td {
     return new Player((InputComponent*) input, physics, graphics);
   }
 
+    ContextMenu* CDriver::createContextMenu() {
+        ContextMenuGraphicsComponent* graphics 
+                = new ContextMenuGraphicsComponent();
+        
+        connect(graphics, SIGNAL(created(GraphicsComponent*)), 
+                mainWindow_, SLOT(createGraphicRepr(GraphicsComponent*)));
+        connect(graphics, SIGNAL(signalDraw(QPointF, GraphicsComponent*)), 
+                mainWindow_, SLOT(drawItem(QPointF, GraphicsComponent*)));
+        graphics->create();
+
+        return new ContextMenu(graphics, human_);
+    }
+
     void CDriver::startGame() {
         CDriver::gameTimer_   = new QTimer(this);
         CDriver::human_       = createHumanPlayer(mainWindow_);
-        CDriver::contextMenu_ = new ContextMenu(human_);
+        CDriver::contextMenu_ = createContextMenu();
 
         connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
-                contextMenu_, SLOT(openMenu()));
-
+                contextMenu_, SLOT(toggleMenu()));
         connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
                 contextMenu_, SLOT(selectMenuItem(int)));
-
         connect(gameTimer_,   SIGNAL(timeout()), 
                 human_,       SLOT(update()));
         
