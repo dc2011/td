@@ -216,6 +216,9 @@ void AudioManager::streamOgg(QString filename, float gain)
     } while (result > 0 && !checkError());
 
     ov_clear(&oggFile);
+
+    alDeleteBuffers(QUEUESIZE,buffer);
+    alDeleteSources(1, &source);
 }
 
 } /* End namespace td */
