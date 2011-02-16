@@ -1,5 +1,5 @@
 #include "ProjectileGraphicsComponent.h"
-#include "Projectile.h"
+#include "../engine/Projectile.h"
 
 ProjectileGraphicsComponent::ProjectileGraphicsComponent()
         : GraphicsComponent()

@@ -14,19 +14,19 @@ public:
 
     virtual void update();
 
-    size_t Projectile::getDamage(){
+    size_t getDamage(){
         return damage_;
     }
 
-    void Projectile::setDamage(size_t damage){
+    void setDamage(size_t damage){
         damage_ = damage;
     }
 
-    size_t Projectile::getDuration(){
+    size_t getDuration(){
         return duration_;
     }
 
-    void Projectile::setDuration(size_t duration){
+    void setDuration(size_t duration){
         duration_ = duration;
     }
 

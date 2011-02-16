@@ -7,6 +7,6 @@ class ProjectilePhysicsComponent : public PhysicsComponent {
 public:
     ProjectilePhysicsComponent();
     virtual ~ProjectilePhysicsComponent();
-}
+};
 
 #endif
