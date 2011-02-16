@@ -31,7 +31,14 @@ public:
     
 protected:
     virtual bool event(QEvent*);
-    //virtual void keyPressEvent(QKeyEvent *);
+    
+    /**
+     * Deals with keyboard presses. Arrow keys are handled elsewhere.
+     *
+     * @author Dean Morin
+     * @param event The key press event.
+     */
+    virtual void keyPressEvent(QKeyEvent * event);
     virtual void keyReleaseEvent(QKeyEvent *);
 
 public slots:
@@ -57,6 +64,7 @@ public slots:
 signals:
     void signalKeyPressed(int);
     void signalKeyReleased(int);
+    void signalSpacebarPressed();
 };
 
 } /* end namespace td */

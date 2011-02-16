@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QVector>
+//#include "Menu.h"
 #include "Player.h"
 #include "PlayerPhysicsComponent.h"
 #include "PlayerInputComponent.h"
@@ -21,6 +22,8 @@ namespace td {
     Player* human_;
     MainWindow* mainWindow_;
     //QVector<GameObject> objects;
+    //Menu menu_;
+
   public:
     // ctors and dtors
     CDriver(MainWindow* parent = 0);
@@ -90,6 +93,14 @@ namespace td {
     * @return void
     */
     void startGame();
+    
+    /**
+     * Open a context menu.
+     *
+     * @author Dean Morin
+     * @return void
+     */
+    void openMenu();
   };
 }
 #endif

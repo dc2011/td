@@ -57,7 +57,17 @@ bool MainWindow::event(QEvent* event) {
     return true;
 }
 
-//void MainWindow::keyPressEvent(QKeyEvent * event) {}
+void MainWindow::keyPressEvent(QKeyEvent * event) {
+    switch (event->key()) {
+        
+        case Qt::Key_Space:
+            emit signalSpacebarPressed();
+            break;
+        default:
+            QMainWindow::keyPressEvent(event);
+            break;
+    }
+}
 
 void MainWindow::keyReleaseEvent(QKeyEvent * event) {
     switch (event->key()) {

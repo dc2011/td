@@ -22,7 +22,7 @@ void PlayerGraphicsComponent::draw(QPointF* pos) {
     QGraphicsPixmapItem* itm = getPixmapItem();
     
     if (itm != NULL) {
-        QPixmap pix(48, 48);
+        QPixmap pix(24, 24);
         pix.fill(QColor(0, 0, 255));
         itm->setPixmap(pix);
         itm->update();

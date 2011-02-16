@@ -55,7 +55,8 @@ namespace td {
   void CDriver::startGame() {
     CDriver::gameTimer_ = new QTimer(this);
     CDriver::human_ = createHumanPlayer(mainWindow_);
-
+        connect(mainWindow_, SIGNAL(signalSpacebarPressed()),
+                this,        SLOT(openMenu()));
     connect(gameTimer_, SIGNAL(timeout()), human_, SLOT(update()));
     CDriver::gameTimer_ -> start(30);
   }
@@ -73,4 +74,8 @@ namespace td {
   //return false on any type of failure,
   //return true on success
   //}
+
+    void CDriver::openMenu() {
+        qDebug("doesn't actually open a menu");
+    }
 }
