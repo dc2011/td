@@ -11,24 +11,22 @@
 #include "PlayerInputComponent.h"
 #include "PlayerGraphicsComponent.h"
 #include "../client/MainWindow.h"
-//#include "GameInfo.h"
-//#include "GameObject.h"
+#include "../network/netclient.h"
+#include "../network/stream.h"
+#include "Unit.h"
+#include "GameObject.h"
 namespace td {
   class CDriver : public QObject {
       Q_OBJECT
   
   private:
-    //  GameInfo gameInfo;
     QTimer* gameTimer_;
     Player* human_;
     MainWindow* mainWindow_;
-    //QVector<GameObject> objects;
-
     /**
      * A context menu that appears around the player.
      */
     ContextMenu* contextMenu_;
-
   public:
     // ctors and dtors
     CDriver(MainWindow* parent = 0);
@@ -44,14 +42,6 @@ namespace td {
     Player* createHumanPlayer(MainWindow *);
 
     /**
-     * Creates a context menu for a player.
-     * 
-     * @author Dean Morin
-     * @return A pointer to the newly created context menu.
-     */
-    ContextMenu* createContextMenu();
-    
-    /**
      * Connects all current GameObjects' SLOTs to a timer SIGNAL.
      * 
      * @author Duncan Donaldson
@@ -60,26 +50,45 @@ namespace td {
     void bindAll();
 
     /**
-     * Connects a single GameObject's SLOT to a timer SIGNAL.
+     * Connects the client driver to the server. This must be called
+     * at some point before the updateServer() method is ever called,
+     * as it creates the stream that updateServer() uses to push updates
+     * to the server.
      * 
      * @author Duncan Donaldson
      * @return void
      */
-    void bindSingle(const GameObject& obj);
+    static void connectToServer(char * servaddr);
     /**
-     * Connects the client driver to the server.
+     * Disconnects the client driver from the server,
+     * and destroys the stream used to update the server, call this on cleanup.
      * 
      * @author Duncan Donaldson
      * @return void
      */
-    void connectToServer(char * servaddr);
+    static void disconnectFromServer();
+
+   /**
+     * Sends client updates to the server, static method, this
+     * call this method from the update() function of the GameObject
+     * whose state you want to send to the server.
+     * 
+     * @author Duncan Donaldson
+     * @param u the unit object whose state is to be sent to the server.
+     *
+     * @return void
+     */
+    static void updateServer(Unit* u);
+
     /**
-     * Disconnects the client driver from the server.
-     * 
+     * Reads position updates from the server for a player object.
+     *
      * @author Duncan Donaldson
+     * @param u the unit object to be updated with server info.
+     *
      * @return void
      */
-    void disconnectFromServer();
+    static void updatePlayer(Unit* u);
 
     /**
      * Stop game timer.
@@ -98,10 +107,12 @@ namespace td {
     //int loadMap(GameInfo &gi, char* map);
     
   public slots:
+
     /**
     * Initialize and start game timer.
-    * [Hijacked and updated by Tom Nightingale]
-    * 
+    * [Hijacked and updated by Tom Nightingale] 
+    * Client side objects are created here.
+    *
     * @author Duncan Donaldson
     * @return void
     */

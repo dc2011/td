@@ -8,42 +8,45 @@
 #include "GameInfo.h"
 #include "GameObject.h"
 #include "CDriver.h"
+#include "Unit.h"
 #include "../network/netclient.h"
+#include "../network/stream.h"
 
 namespace td {
+
   CDriver::CDriver(MainWindow *mainWindow) {
       mainWindow_ = mainWindow;
   }
 
   CDriver::~CDriver() {
-    delete CDriver::gameTimer_;
-    delete CDriver::human_;
+    delete this -> gameTimer_;
+    delete this -> human_;
+    td::AudioManager::instance()->shutdown();
   }
 
-
-  //void CDriver::bindAll() {
-  // QVector<GameObject>::iterator it;
-  //for(it = CDriver::objects.begin(); it != CDriver::objects.end(); ++it) {
-  // bindSingle(*it);
-  //}
-  //}
-
-  void CDriver::bindSingle(const GameObject& obj) {
-    //  connect(&CDriver::gameTimer_, SIGNAL(timeout()), obj, SLOT(update()));
-  }
   void CDriver::connectToServer(char * servaddr) {
     td::NetworkClient::init(QHostAddress(servaddr));
   }
   void CDriver::disconnectFromServer() {
     td::NetworkClient::instance() -> shutdown();
   }
+  void CDriver::updateServer(Unit* u)
+  {
+    td::Stream* updates = new Stream();
+    u -> networkWrite(updates);
+    td::NetworkClient::instance() -> send(td::network::kPlayerPosition, updates -> data());
+    delete updates;
+  }
+
+  void CDriver::updatePlayer(Unit* u)
+  {
+    td::Stream* updates = new Stream();
+    u->networkRead(updates);
+    delete updates;
+  }
   Player* CDriver::createHumanPlayer(MainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent();
-    graphics->connect(graphics, SIGNAL(created(GraphicsComponent*)), mainWindow_, SLOT(createGraphicRepr(GraphicsComponent*)));
-    graphics->connect(graphics, SIGNAL(signalDraw(QPointF, GraphicsComponent*)), mainWindow_, SLOT(drawItem(QPointF, GraphicsComponent*)));
-    graphics->create();
-
     PlayerInputComponent* input = new PlayerInputComponent();
     //gui->installEventFilter(input);
     connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
@@ -52,23 +55,10 @@ namespace td {
     return new Player((InputComponent*) input, physics, graphics);
   }
 
-    ContextMenu* CDriver::createContextMenu() {
-        ContextMenuGraphicsComponent* graphics 
-                = new ContextMenuGraphicsComponent();
-        
-        connect(graphics, SIGNAL(created(GraphicsComponent*)), 
-                mainWindow_, SLOT(createGraphicRepr(GraphicsComponent*)));
-        connect(graphics, SIGNAL(signalDraw(QPointF, GraphicsComponent*)), 
-                mainWindow_, SLOT(drawItem(QPointF, GraphicsComponent*)));
-        graphics->create();
-
-        return new ContextMenu(graphics, human_);
-    }
-
     void CDriver::startGame() {
         CDriver::gameTimer_   = new QTimer(this);
         CDriver::human_       = createHumanPlayer(mainWindow_);
-        CDriver::contextMenu_ = createContextMenu();
+        CDriver::contextMenu_ = new ContextMenu(human_);
 
         connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
                 contextMenu_, SLOT(toggleMenu()));
@@ -76,22 +66,11 @@ namespace td {
                 contextMenu_, SLOT(selectMenuItem(int)));
         connect(gameTimer_,   SIGNAL(timeout()), 
                 human_,       SLOT(update()));
-        
+
         CDriver::gameTimer_ -> start(30);
     }
 
   void CDriver::endGame() {
-    CDriver::gameTimer_ -> stop();
-    //cleanup code
+    this -> gameTimer_ -> stop();
   }
-
-  //int CDriver::loadMap(char* map) {
-  //open map file, parse all map data, create map object,
-  //create tiles and stuff, store everything in map object, store map object
-  //in gameinfo.
-
-  //return false on any type of failure,
-  //return true on success
-  //}
-
 }

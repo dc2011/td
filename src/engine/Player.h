@@ -5,6 +5,7 @@
 #include <QKeyEvent>
 
 #include "Unit.h"
+#include "PlayerGraphicsComponent.h"
 #include "PlayerInputComponent.h"
 
 class Player : public Unit {

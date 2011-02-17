@@ -1,8 +1,12 @@
 #include "MainWindow.h"
 #include "graphics/mapdisplayer.h"
 #include <QScrollArea>
+#include "../audio/manager.h"
 
+#include "../engine/GraphicsComponent.h"
 namespace td {
+
+MainWindow* MainWindow::instance_ = NULL;
 
 MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
@@ -22,11 +26,19 @@ MainWindow::MainWindow() : QMainWindow() {
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
     view_->setFixedSize(1024,768);
-    this->showFullScreen();
+    //this->showFullScreen();
 }
 
 MainWindow::~MainWindow() {
     /* driver_.shutdown() or something */
+}
+
+MainWindow* MainWindow::init() {
+    if (instance_ != NULL) {
+        return instance_;
+    }
+    instance_ = new MainWindow();
+    return instance_;
 }
 
 void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
