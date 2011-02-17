@@ -1,6 +1,7 @@
 #include "manager.h"
 #include "openal_helper.h"
 
+
 namespace td {
 
 AudioManager* AudioManager::instance_ = NULL;
@@ -36,9 +37,7 @@ void AudioManager::startup()
 bool AudioManager::setEffectsVolume(float gain)
 {
     if (gain > 0 && gain <= 1) {
-        mutex_.lock();
-        this->sfxGain_ = gain;
-        mutex_.unlock();
+        SAFE_OPERATION(this->sfxGain_ = gain);
         return true;
     }
 
@@ -48,9 +47,7 @@ bool AudioManager::setEffectsVolume(float gain)
 bool AudioManager::setMusicVolume(float gain)
 {
     if (gain > 0 && gain <= 1) {
-        mutex_.lock();
-        this->musicGain_ = gain;
-        mutex_.unlock();
+        SAFE_OPERATION(this->musicGain_ = gain)
         return true;
     }
 
@@ -65,6 +62,21 @@ void AudioManager::playSfx(QString filename)
     return;
 }
 
+QQueue<QString> AudioManager::musicDir(QString dir)
+{
+    int i;
+    QDir mDir(dir);
+    mDir.setFilter(QDir::Files);
+    QList<QString> musicList = mDir.entryList();
+    QQueue<QString> musicQueue;
+
+    for (i = 0; i < musicList.length(); i++) {
+        musicQueue.enqueue(dir + musicList[i]);
+    }
+
+    return musicQueue;
+}
+
 void AudioManager::playMusic(QQueue<QString> filenameQueue)
 {
     QFuture<void> future =
@@ -77,8 +89,10 @@ bool AudioManager::checkError()
     ALuint error = alGetError();
     const ALchar* err = alGetString(error);
 
-    if (error != AL_NO_ERROR) {
-	qFatal("%s",err);
+    if (inited_ == false) {
+	 return true;
+    } else if (error != AL_NO_ERROR) {
+	qDebug("AudioManager Error: %d:%s",error, err);
         alExit();
         return true;
     }
@@ -90,12 +104,17 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
 {
     QString filename;
 
-    while (!filenameQueue.empty()) {
+    while (!filenameQueue.empty() && inited_) {
         filename = filenameQueue.dequeue();
         AudioManager::streamOgg(filename, this->musicGain_);
         /*Sleep for 0.3 sec so playback doesn't overlap*/
         alSleep(0.3f);
-        filenameQueue.enqueue(filename);
+
+        if (errno != ENOENT) {
+            filenameQueue.enqueue(filename);
+        }
+
+        errno = 0;
     }
 }
 
@@ -197,7 +216,23 @@ void AudioManager::streamOgg(QString filename, float gain)
     } while (result > 0 && !checkError());
 
     ov_clear(&oggFile);
-    checkError();
+    
+/** Wait until sound stops playing before 
+ *  clearing the buffers and source
+ */       
+    do{ 
+     	 alGetSourcei(source, AL_SOURCE_STATE, &playing);
+     	 alSleep(0.1f);
+    }while(playing != AL_STOPPED && !checkError());
+
+    alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
+    while (processed) {
+	 alSourceUnqueueBuffers(source, 1, &tempBuffer);
+	 processed--;
+    }
+
+    alDeleteSources(1, &source);
+    alDeleteBuffers(QUEUESIZE,buffer);
 }
 
 } /* End namespace td */

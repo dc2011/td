@@ -7,7 +7,7 @@
 #include <QKeyEvent>
 
 class GraphicsComponent;
-struct DRAWSTRUCT;
+class DRAWSTRUCT;
 
 namespace td {
 class MainWindow : public QMainWindow {

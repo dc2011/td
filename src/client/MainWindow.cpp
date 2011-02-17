@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "graphics/mapdisplayer.h"
 #include <QScrollArea>
+#include "../audio/manager.h"
 
 #include "../engine/GraphicsComponent.h"
 namespace td {
@@ -25,7 +26,7 @@ MainWindow::MainWindow() : QMainWindow() {
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
     view_->setFixedSize(1024,768);
-    this->showFullScreen();
+    //this->showFullScreen();
 }
 
 MainWindow::~MainWindow() {
@@ -48,6 +49,7 @@ void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
 }
 
 void MainWindow::drawItem(DRAWSTRUCT* pds, GraphicsComponent* gc) {
+    qDebug("MainWindow::drawItem");        
     gc->draw(pds);
 }
 

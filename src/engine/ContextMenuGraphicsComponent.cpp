@@ -4,7 +4,8 @@
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
         : GraphicsComponent() {
 }
-
+// TODO: these methods are copied straight from PlayerGraphicsCompenent, 
+// they'll need to be altered for context menus
 void ContextMenuGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
     QGraphicsPixmapItem* itm = getPixmapItem();
@@ -18,7 +19,6 @@ void ContextMenuGraphicsComponent::update(GameObject* obj) {
         pds->scale   = 1;
         //pds->degrees = player->getOrientation();
         pds->degrees = 90;
-        
         emit signalDraw(pds, this);
     }
 }

@@ -8,34 +8,41 @@
 #include "GameInfo.h"
 #include "GameObject.h"
 #include "CDriver.h"
+#include "Unit.h"
 #include "../network/netclient.h"
+#include "../network/stream.h"
 
 namespace td {
+
   CDriver::CDriver(MainWindow *mainWindow) {
       mainWindow_ = mainWindow;
   }
 
   CDriver::~CDriver() {
-    delete CDriver::gameTimer_;
-    delete CDriver::human_;
+    delete this -> gameTimer_;
+    delete this -> human_;
+    td::AudioManager::instance()->shutdown();
   }
 
-
-  //void CDriver::bindAll() {
-  // QVector<GameObject>::iterator it;
-  //for(it = CDriver::objects.begin(); it != CDriver::objects.end(); ++it) {
-  // bindSingle(*it);
-  //}
-  //}
-
-  void CDriver::bindSingle(const GameObject& obj) {
-    //  connect(&CDriver::gameTimer_, SIGNAL(timeout()), obj, SLOT(update()));
-  }
   void CDriver::connectToServer(char * servaddr) {
     td::NetworkClient::init(QHostAddress(servaddr));
   }
   void CDriver::disconnectFromServer() {
     td::NetworkClient::instance() -> shutdown();
+  }
+  void CDriver::updateServer(Unit* u)
+  {
+    td::Stream* updates = new Stream();
+    u -> networkWrite(updates);
+    td::NetworkClient::instance() -> send(td::network::kPlayerPosition, updates -> data());
+    delete updates;
+  }
+
+  void CDriver::updatePlayer(Unit* u)
+  {
+    td::Stream* updates = new Stream();
+    u->networkRead(updates);
+    delete updates;
   }
   Player* CDriver::createHumanPlayer(MainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
@@ -59,22 +66,11 @@ namespace td {
                 contextMenu_, SLOT(selectMenuItem(int)));
         connect(gameTimer_,   SIGNAL(timeout()), 
                 human_,       SLOT(update()));
-        
+
         CDriver::gameTimer_ -> start(30);
     }
 
   void CDriver::endGame() {
-    CDriver::gameTimer_ -> stop();
-    //cleanup code
+    this -> gameTimer_ -> stop();
   }
-
-  //int CDriver::loadMap(char* map) {
-  //open map file, parse all map data, create map object,
-  //create tiles and stuff, store everything in map object, store map object
-  //in gameinfo.
-
-  //return false on any type of failure,
-  //return true on success
-  //}
-
 }

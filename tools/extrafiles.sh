@@ -2,7 +2,6 @@
 
 url="http://dl.dropbox.com/u/20219175"
 
-
 ##CHECK DIR
 DIR=`pwd`
 
@@ -28,6 +27,7 @@ elif [ "$OS" == "darwin" ]; then
     mkdir -p '../sound/'
     mkdir -p '../sound/music'
     mkdir -p '../sound/sfx'
+    mkdir -p '../img'
 
     curl -O "$url/SOUNDINFO"
 
@@ -45,6 +45,7 @@ elif [ "$OS" == "linux" ]; then
     mkdir -p '../sound/'
     mkdir -p '../sound/music'
     mkdir -p '../sound/sfx'
+    mkdir -p '../img'
 
     wget "$url/SOUNDINFO"
 
