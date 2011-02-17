@@ -54,12 +54,23 @@ bool AudioManager::setMusicVolume(float gain)
     return false;
 }
 
-void AudioManager::playSfx(QString filename)
+
+void AudioManager::playSfx(QString filename, SoundType type)
 {
-    QFuture<void> future =
-        QtConcurrent::run(this, &AudioManager::streamOgg,
-                          filename, this->sfxGain_);
-    return;
+     float gain;
+
+     if(type == sfx) {
+	  //set gain
+     } else if (type == ntf) {
+	  //set gain
+     } else {
+	  return;
+     }
+     
+     QFuture<void> future =
+	  QtConcurrent::run(this, &AudioManager::streamOgg,
+			    filename, gain);
+     return;
 }
 
 QQueue<QString> AudioManager::musicDir(QString dir)

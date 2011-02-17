@@ -17,6 +17,11 @@
 #define QUEUESIZE 8
 #define BUFFERSIZE (1024*32)
 
+enum SoundType {
+     sfx,
+     ntf,
+};
+
 namespace td
 {
 
@@ -76,6 +81,11 @@ private:
      * The volume/gain of the sound effects.
      */
     float sfxGain_;
+
+    /**
+     * The volume/gain of the notifications.
+     */
+    float notiGain;
 
     /**
      * The volume/gain of the background music.
@@ -221,7 +231,7 @@ public:
      * @author Terence Stenvold
      * @param filename The path to the .ogg file.
      */
-    void playSfx(QString filename);
+    void playSfx(QString filename, SoundType type=sfx);
 
     /**
      * Play an Ogg Vorbis sound file, looping when it reaches the end.
