@@ -1,5 +1,5 @@
 #include "ContextMenuGraphicsComponent.h"
-#include "Player.h"
+#include "../engine/Player.h"
 
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
         : GraphicsComponent() {

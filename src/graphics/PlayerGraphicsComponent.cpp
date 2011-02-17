@@ -1,5 +1,5 @@
 #include "PlayerGraphicsComponent.h"
-#include "Player.h"
+#include "../engine/Player.h"
 
 PlayerGraphicsComponent::PlayerGraphicsComponent()
         : GraphicsComponent()

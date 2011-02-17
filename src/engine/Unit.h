@@ -7,7 +7,7 @@
 #include "GameObject.h"
 #include "PhysicsComponent.h"
 #include "InputComponent.h"
-#include "GraphicsComponent.h"
+#include "../graphics/GraphicsComponent.h"
 
 class Unit : public GameObject {
 public:

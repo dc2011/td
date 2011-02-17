@@ -5,8 +5,8 @@
 #include <QObject>
 #include <QPointF>
 #include <QGraphicsPixmapItem>
-#include "GameObject.h"
 #include "../client/MainWindow.h"
+#include "../engine/GameObject.h"
 
 
 struct DrawParams {
