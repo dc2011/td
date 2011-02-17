@@ -12,6 +12,8 @@
 #include <QTcpSocket>
 #include <QUdpSocket>
 #include <QQueue>
+#include "netmessages.h"
+#include "../util/mutex_magic.h"
 
 #define TD_PORT 26631
 
@@ -43,7 +45,7 @@ namespace td
  *  // Create a stream and write data to it, then send it to the server:
  *  td::Stream s;
  *  s.writeInt(5);
- *  td::NetworkClient::instance()->send(s.data());
+ *  td::NetworkClient::instance()->send(td::network::kPlayerPosition, s.data());
  *
  *  // When the client is exiting:
  *  td::NetworkClient::instance()->shutdown();
@@ -55,6 +57,8 @@ namespace td
 class NetworkClient : public QObject {
     Q_OBJECT
 
+    THREAD_SAFE_SINGLETON
+
 private:
 
     /**
@@ -64,17 +68,6 @@ private:
      * will initialize it the first time that it is retrieved.
      */
     static NetworkClient* instance_;
-    
-    /**
-     * A Mutex to protect instance data from multiple threads.
-     *
-     * This must be used any time instance data is read or updated,
-     * as well as when the singleton object is checked and initialized.
-     *
-     * This is static because it needs to be used in the instance()
-     * method.
-     */
-    static QMutex mutex_;
 
     /**
      * The thread which owns the NetworkClient and its sockets.
@@ -195,12 +188,11 @@ public:
      * data sending happens almost immediately in another thread.
      *
      * @author Terence Stenvold
-     * @param msg as a byteArray 
+     * @param msgType The type of message to be sent. (See netmessages.h)
+     * @param msg The message data as a byte array.
      */
-    void send(const QByteArray& msg) {
-        mutex_.lock();
-        msgQueue_.enqueue(msg);
-        mutex_.unlock();
+    void send(unsigned char msgType, QByteArray msg) {
+        SAFE_OPERATION(msgQueue_.enqueue(msg.prepend(msgType)))
 
         emit msgQueued();
     }

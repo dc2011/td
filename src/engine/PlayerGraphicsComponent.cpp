@@ -18,11 +18,11 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
     }
 }
 
-void PlayerGraphicsComponent::draw(QPoint* pos) {    
+void PlayerGraphicsComponent::draw(QPointF* pos) {
     QGraphicsPixmapItem* itm = getPixmapItem();
     
     if (itm != NULL) {
-        QPixmap pix(100, 100);
+        QPixmap pix(24, 24);
         pix.fill(QColor(0, 0, 255));
         itm->setPixmap(pix);
         itm->update();

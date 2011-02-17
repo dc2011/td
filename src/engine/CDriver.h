@@ -4,8 +4,8 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QVector>
-#include <QString>
-#include <QFileDialog>
+#include "ContextMenu.h"
+#include "ContextMenuGraphicsComponent.h"
 #include "Player.h"
 #include "PlayerPhysicsComponent.h"
 #include "PlayerInputComponent.h"
@@ -23,7 +23,10 @@ namespace td {
     QTimer* gameTimer_;
     Player* human_;
     MainWindow* mainWindow_;
-    static td::Stream* updates_;
+    /**
+     * A context menu that appears around the player.
+     */
+    ContextMenu* contextMenu_;
   public:
     // ctors and dtors
     CDriver(MainWindow* parent = 0);
@@ -37,7 +40,15 @@ namespace td {
      * @return Player*, pointer to new player instance.
      */
     Player* createHumanPlayer(MainWindow *);
-    
+
+    /**
+     * Connects all current GameObjects' SLOTs to a timer SIGNAL.
+     * 
+     * @author Duncan Donaldson
+     * @return void
+     */
+    void bindAll();
+
     /**
      * Connects the client driver to the server. This must be called
      * at some point before the updateServer() method is ever called,
@@ -89,8 +100,9 @@ namespace td {
 
     /**
     * Initialize and start game timer.
-    * [Hijacked and updated by Tom Nightingale]
-    * 
+    * [Hijacked and updated by Tom Nightingale] 
+    * Client side objects are created here.
+    *
     * @author Duncan Donaldson
     * @return void
     */
