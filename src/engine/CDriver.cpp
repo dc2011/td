@@ -13,8 +13,6 @@
 
 namespace td {
 
-  td::Stream* CDriver::updates_;
-
   CDriver::CDriver(MainWindow *mainWindow) {
       mainWindow_ = mainWindow;
   }
@@ -27,15 +25,14 @@ namespace td {
 
   void CDriver::connectToServer(char * servaddr) {
     td::NetworkClient::init(QHostAddress(servaddr));
-    CDriver::updates_ = new Stream();
   }
   void CDriver::disconnectFromServer() {
-    delete CDriver::updates_;
     td::NetworkClient::instance() -> shutdown();
   }
   void CDriver::updateServer(int data) {
-    CDriver::updates_ -> writeInt(data);
-    td::NetworkClient::instance() -> send(CDriver::updates_ -> data());
+    td::Stream* updates = new Stream();
+    //update server here
+    delete updates;
   }
   Player* CDriver::createHumanPlayer(MainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
