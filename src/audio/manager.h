@@ -44,15 +44,13 @@ namespace td
  * A typical use of the AudioManager class looks like this:
  * @code
  *   QString filename = "fire.ogg";
+ *   QQueue musicList = td::AudioManager::instance()->musicDir("sound/music");
  *
- *   // This next line may not be vaild
- *   // Used to show contents of musicList
- *   QQueue musicList = [ "1.ogg" , "2.ogg" , "3.ogg" ]
- *
- *   //Inits the Class
- *   td::AudioManager::instance(); 
- *
+ *   //This is the same call as playSfx(filename, sfx);
  *   td::AudioManager::instance()->playSfx(filename);
+ *   //If the sound is a notification add ntf to the argument list
+ *   td::AudioManager::instance()->playSfx(filename, ntf);
+ *
  *   td::AudioManager::instance()->playMusic(musicList);
  *
  *   //call when you wish all sounds to stop
