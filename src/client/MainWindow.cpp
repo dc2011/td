@@ -48,9 +48,8 @@ void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
     gc->setPixmapItem(pixmap);
 }
 
-void MainWindow::drawItem(DRAWSTRUCT* pds, GraphicsComponent* gc) {
-    qDebug("MainWindow::drawItem");        
-    gc->draw(pds);
+void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc) {
+    gc->draw(dp);
 }
 
 bool MainWindow::event(QEvent* event) {

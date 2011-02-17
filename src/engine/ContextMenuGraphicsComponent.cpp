@@ -11,15 +11,15 @@ void ContextMenuGraphicsComponent::update(GameObject* obj) {
     QGraphicsPixmapItem* itm = getPixmapItem();
 
     if (itm != NULL) {
-        DRAWSTRUCT* pds = (DRAWSTRUCT*) malloc(sizeof(DRAWSTRUCT));
+        DrawParams* dp = (DrawParams*) malloc(sizeof(DrawParams));
 
-        pds->pos     = player->getPos();
-        pds->moving  = player->getVelocity().length() != 0;
-        //pds->scale   = player->getScale();
-        pds->scale   = 1;
-        //pds->degrees = player->getOrientation();
-        pds->degrees = 90;
-        emit signalDraw(pds, this);
+        dp->pos     = player->getPos();
+        dp->moving  = player->getVelocity().length() != 0;
+        //dp->scale   = player->getScale();
+        dp->scale   = 1;
+        //dp->degrees = player->getOrientation();
+        dp->degrees = 90;
+        emit signalDraw(dp, this);
     }
 }
 

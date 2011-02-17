@@ -9,13 +9,13 @@
 #include "../client/MainWindow.h"
 
 
-struct DRAWSTRUCT {
+struct DrawParams {
     QPointF pos; //location
     int degrees; //in degrees 0 is up 180 down...
     float scale; //normal is 1 .5 is half 2 is double
     bool moving; //movement for animation projectiles get bigger/smaller during arc
 };
-Q_DECLARE_METATYPE(DRAWSTRUCT);
+Q_DECLARE_METATYPE(DrawParams);
 
 
 
@@ -55,7 +55,7 @@ public:
      * @param Pointer to the drawstruct that contains all the values on how
      * to render an image.
      */
-    void draw(DRAWSTRUCT* pds);
+    void draw(DrawParams* dp);
 
     /**
      * Gets the QGraphicsPixmapItem that represents this object.
@@ -79,7 +79,7 @@ public:
 
 signals:
     void created(GraphicsComponent* gc);
-    void signalDraw(DRAWSTRUCT* pds, GraphicsComponent* gc);
+    void signalDraw(DrawParams* dp, GraphicsComponent* gc);
 };
 
 #endif
