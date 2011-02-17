@@ -7,6 +7,7 @@
 #include <QKeyEvent>
 
 class GraphicsComponent;
+struct DRAWSTRUCT;
 
 namespace td {
 class MainWindow : public QMainWindow {
@@ -85,7 +86,7 @@ public slots:
      * @author Darryl Pogue
      * @param gc The GraphicsComponent of the game object.
      */
-    void drawItem(QPointF pos, GraphicsComponent* gc);
+    void drawItem(DRAWSTRUCT* pds, GraphicsComponent* gc);
     
 signals:
     void signalKeyPressed(int);

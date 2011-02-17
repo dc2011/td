@@ -14,7 +14,7 @@ ENGINE_HDRS +=  ./engine/ContextMenu.h \
                 ./engine/Tile.h \
                 ./engine/Unit.h \
                 ./engine/PlayerGraphicsComponent.h \
-                ./engine/GraphicsComponent.h \
+                ./engine/GraphicsComponent.h
 
 ENGINE_SRCS +=  ./engine/ContextMenu.cpp \
                 ./engine/ContextMenuGraphicsComponent.cpp \
@@ -31,4 +31,5 @@ ENGINE_SRCS +=  ./engine/ContextMenu.cpp \
                 ./engine/SDriver.cpp \
                 ./engine/Unit.cpp \
                 ./engine/PlayerGraphicsComponent.cpp \
+                ./engine/GraphicsComponent.cpp
 

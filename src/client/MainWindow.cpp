@@ -47,8 +47,8 @@ void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
     gc->setPixmapItem(pixmap);
 }
 
-void MainWindow::drawItem(QPointF pos, GraphicsComponent* gc) {
-    gc->draw(&pos);
+void MainWindow::drawItem(DRAWSTRUCT* pds, GraphicsComponent* gc) {
+    gc->draw(pds);
 }
 
 bool MainWindow::event(QEvent* event) {

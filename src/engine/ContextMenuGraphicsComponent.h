@@ -12,8 +12,14 @@ class ContextMenuGraphicsComponent : public GraphicsComponent {
 public:
     ContextMenuGraphicsComponent();
     virtual ~ContextMenuGraphicsComponent() {}
+    
+    /**
+     * Loads a structure from the item and game component class then sends
+     * the structure to the generic draw slot in GraphicsComponent.
+     *
+     * @author Warren
+     **/
     virtual void update(GameObject* obj);
-    virtual void draw(QPointF* pos);
 };
 
 #endif
