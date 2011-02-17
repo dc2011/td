@@ -81,7 +81,12 @@ private:
      * The volume/gain of the background music.
      */
     float musicGain_;
-
+   
+    /**
+     * The number of audio tracks playing
+     */
+    int playing_;
+ 
     /**
      * Whether the AudioManager has been initialized.
      *

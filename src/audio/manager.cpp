@@ -31,6 +31,7 @@ void AudioManager::startup()
 {
     alInit();
     inited_ = true;
+    SAFE_OPERATION(playing_ = 0);
 }
 
 bool AudioManager::setEffectsVolume(float gain)
@@ -158,6 +159,8 @@ void AudioManager::streamOgg(QString filename, float gain)
         qCritical() << "Error opening " << filename << " for decoding...";
         return;
     }
+    
+    SAFE_OPERATION(playing_++);
 
     do {
         alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
@@ -238,6 +241,7 @@ void AudioManager::streamOgg(QString filename, float gain)
 
     alDeleteSources(1, &source);
     alDeleteBuffers(QUEUESIZE,buffer);
+    SAFE_OPERATION(playing_--);
 }
 
 } /* End namespace td */
