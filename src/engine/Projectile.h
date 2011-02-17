@@ -30,6 +30,14 @@ public:
         duration_ = duration;
     }
 
+    Unit* getSender() {
+        return sender_;
+    }
+
+    Unit* getReceiver() {
+        return receiver_;
+    }
+
 private:
     size_t damage_;
     size_t duration_;

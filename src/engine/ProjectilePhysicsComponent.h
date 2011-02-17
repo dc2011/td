@@ -7,6 +7,14 @@ class ProjectilePhysicsComponent : public PhysicsComponent {
 public:
     ProjectilePhysicsComponent();
     virtual ~ProjectilePhysicsComponent();
+    void applyVelocity(Projectile*);
+
+public slots:
+    virtual void update(Unit*);
+
+private:
+    float maxVelocity_;
+    QLineF path;
 };
 
 #endif
