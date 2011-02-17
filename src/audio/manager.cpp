@@ -1,17 +1,21 @@
 #include "manager.h"
 #include "openal_helper.h"
 
+
 namespace td {
 
 AudioManager* AudioManager::instance_ = NULL;
-
 QMutex AudioManager::mutex_;
+float AudioManager::gainScale[] = {0.1, 0.2, 0.3, 0.4, 0.5, 0.55, 0.6, 0.65, 
+	  0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
 
 AudioManager::AudioManager()
 {
     AudioManager::startup();
-    this->sfxGain_ = 0.9;
-    this->musicGain_ = 0.65;
+    //Should be User Defined as MAX values
+    this->sfxGain_ = 9;
+    this->musicGain_ = 5;
+    this->notiGain_ = 12;    
 }
 
 AudioManager::~AudioManager()
@@ -31,45 +35,30 @@ void AudioManager::startup()
 {
     alInit();
     inited_ = true;
-    SAFE_OPERATION(playing_ = 0);
+    playing_=0;
 }
-
-bool AudioManager::setEffectsVolume(float gain)
-{
-    if (gain > 0 && gain <= 1) {
-        SAFE_OPERATION(this->sfxGain_ = gain);
-        return true;
-    }
-
-    return false;
-}
-
-bool AudioManager::setMusicVolume(float gain)
-{
-    if (gain > 0 && gain <= 1) {
-        SAFE_OPERATION(this->musicGain_ = gain)
-        return true;
-    }
-
-    return false;
-}
-
 
 void AudioManager::playSfx(QString filename, SoundType type)
 {
-     float gain;
+     int gain;
+     int playing;
+
+     playing = playing_;
 
      if(type == sfx) {
-	  //set gain
+	  gain = sfxGain_ - (playing_ / 5);
+	  if(gain < 0) {
+	       gain = 0;
+	  }
      } else if (type == ntf) {
-	  //set gain
+	  gain = notiGain_;	  
      } else {
 	  return;
      }
      
      QFuture<void> future =
 	  QtConcurrent::run(this, &AudioManager::streamOgg,
-			    filename, gain);
+			    filename, gainScale[gain]);
      return;
 }
 
@@ -120,10 +109,19 @@ bool AudioManager::checkError()
 void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
 {
     QString filename;
+    int gain;
+    int playing;
 
+    playing = playing_;   
+
+    gain = musicGain_ - (playing_ / 8);
+    if(gain < 0) {
+	 gain = 0;
+    }
+    
     while (!filenameQueue.empty() && inited_) {
         filename = filenameQueue.dequeue();
-        AudioManager::streamOgg(filename, this->musicGain_);
+        AudioManager::streamOgg(filename, gainScale[gain]);
         /*Sleep for 0.3 sec so playback doesn't overlap*/
         alSleep(0.3f);
 
@@ -171,7 +169,7 @@ void AudioManager::streamOgg(QString filename, float gain)
         return;
     }
     
-    SAFE_OPERATION(playing_++);
+    SAFE_OPERATION(this->playing_++);
 
     do {
         alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
@@ -252,7 +250,7 @@ void AudioManager::streamOgg(QString filename, float gain)
 
     alDeleteSources(1, &source);
     alDeleteBuffers(QUEUESIZE,buffer);
-    SAFE_OPERATION(playing_--);
+    SAFE_OPERATION(this->playing_--;);
 }
 
 } /* End namespace td */

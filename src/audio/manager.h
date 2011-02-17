@@ -78,20 +78,25 @@ private:
     static AudioManager* instance_;
 
     /**
+     * Array containing possible Gain levels
+     */
+    static float gainScale[];
+
+    /**
      * The volume/gain of the sound effects.
      */
-    float sfxGain_;
+    int sfxGain_;
 
     /**
      * The volume/gain of the notifications.
      */
-    float notiGain;
+    int notiGain_;
 
     /**
      * The volume/gain of the background music.
      */
-    float musicGain_;
-   
+    int musicGain_;
+
     /**
      * The number of audio tracks playing
      */
@@ -180,56 +185,11 @@ public:
     void startup();
     
     /**
-     * Set the effects volume.
-     *
-     * @author Terence Stenvold
-     * @param gain The volume of the sound effects, between 0.0 and 1.0.
-     * @return true on success, false otherwise.
-     */
-    bool setEffectsVolume(float gain);
-
-    /**
-     * Get the current effects volume.
-     *
-     * @author Darryl Pogue
-     * @return The current volume of sound effects, ranging 0.0 to 1.0. 
-     */
-    float getEffectsVolume() const {
-        float gain;
-
-        SAFE_OPERATION(gain = sfxGain_);
-
-        return gain;
-    }
-
-    /**
-     * Set the background music volume.
-     * @author Terence Stenvold
-     *
-     * @param gain The volume of the background music, between 0.0 and 1.0.
-     * @return true on success, false otherwise.
-     */
-    bool setMusicVolume(float gain);
-
-    /**
-     * Get the current background music volume.
-     *
-     * @author Darryl Pogue
-     * @return The current volume of background music, ranging 0.0 to 1.0. 
-     */
-    float getMusicVolume() const {
-        float gain;
-
-        SAFE_OPERATION(gain = musicGain_);
-
-        return gain;
-    }
-    
-    /**
      * Plays an Ogg Vorbis sound file.
      *
      * @author Terence Stenvold
      * @param filename The path to the .ogg file.
+     * @param SoundType either ntf for notifcation or sfx. defaults sfx. 
      */
     void playSfx(QString filename, SoundType type=sfx);
 
