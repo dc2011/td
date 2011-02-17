@@ -8,6 +8,7 @@
 #include "GameInfo.h"
 #include "GameObject.h"
 #include "CDriver.h"
+#include "Unit.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 
@@ -29,9 +30,18 @@ namespace td {
   void CDriver::disconnectFromServer() {
     td::NetworkClient::instance() -> shutdown();
   }
-  void CDriver::updateServer(int data) {
+  void CDriver::updateServer(Unit* u)
+  {
     td::Stream* updates = new Stream();
-    //update server here
+    u -> networkWrite(updates);
+    td::NetworkClient::instance() -> send(td::network::kPlayerPosition, updates -> data());
+    delete updates;
+  }
+
+  void CDriver::updatePlayer(Unit* u)
+  {
+    td::Stream* updates = new Stream();
+    u->networkRead(updates);
     delete updates;
   }
   Player* CDriver::createHumanPlayer(MainWindow *gui) {
@@ -62,6 +72,5 @@ namespace td {
 
   void CDriver::endGame() {
     this -> gameTimer_ -> stop();
-    //cleanup code
   }
 }

@@ -13,7 +13,7 @@
 #include "../client/MainWindow.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
-//#include "GameInfo.h"
+#include "Unit.h"
 #include "GameObject.h"
 namespace td {
   class CDriver : public QObject {
@@ -74,11 +74,21 @@ namespace td {
      * whose state you want to send to the server.
      * 
      * @author Duncan Donaldson
-     * @param v the data to send (CHANGE THIS LATER).
+     * @param u the unit object whose state is to be sent to the server.
      *
      * @return void
      */
-    static void updateServer(int data);
+    static void updateServer(Unit* u);
+
+    /**
+     * Reads position updates from the server for a player object.
+     *
+     * @author Duncan Donaldson
+     * @param u the unit object to be updated with server info.
+     *
+     * @return void
+     */
+    static void updatePlayer(Unit* u);
 
     /**
      * Stop game timer.
