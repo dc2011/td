@@ -15,8 +15,6 @@
 #include "netmessages.h"
 #include "../util/mutex_magic.h"
 
-#define TD_PORT 26631
-
 namespace td
 {
 
