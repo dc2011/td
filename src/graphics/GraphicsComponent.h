@@ -6,6 +6,7 @@
 #include <QPointF>
 #include <QGraphicsPixmapItem>
 #include "DrawParams.h"
+#include "PixmapFiles.h"
 #include "../client/MainWindow.h"
 #include "../engine/GameObject.h"
 
@@ -67,6 +68,8 @@ public:
      * @param qgpi The QGraphicsPixmapItem to be stored.
      */
     void setPixmapItem(QGraphicsPixmapItem* qgpi);
+
+    virtual QPixmap getCurrentPixmap() = 0;
 
 signals:
     void created(GraphicsComponent* gc);

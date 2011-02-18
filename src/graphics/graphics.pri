@@ -10,5 +10,6 @@ GRAPHICS_SRCS +=    ./graphics/mapdisplayer.cpp \
 GRAPHICS_HDRS +=    ./graphics/mapdisplayer.h \
                     ./graphics/ContextMenuGraphicsComponent.h \
                     ./graphics/GraphicsComponent.h \
-                    ./graphics/PlayerGraphicsComponent.h
+                    ./graphics/PlayerGraphicsComponent.h \
+                    ./graphics/PixmapFiles.h
 

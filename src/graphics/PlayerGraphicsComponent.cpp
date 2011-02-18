@@ -14,7 +14,7 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
     QGraphicsPixmapItem* itm = getPixmapItem();
 
     if (itm != NULL) {
-        DrawParams* dp = (DrawParams*) malloc(sizeof(DrawParams));
+        DrawParams* dp = new DrawParams();
 
         dp->pos     = player->getPos();
         dp->moving  = player->getVelocity().length() != 0;
@@ -25,5 +25,10 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
         
         emit signalDraw(dp, this);
     }
+}
+
+QPixmap PlayerGraphicsComponent::getCurrentPixmap() {
+    //TODO: add animation logic here?
+    return QPixmap(PIX_PLAYER);
 }
 

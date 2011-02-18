@@ -20,6 +20,13 @@ public:
      * @author Warren
      **/
     virtual void update(GameObject* obj);
+    
+    /**
+     * Gets a pixmap for the object based on its current animation state.
+     *
+     * @author Warren Voelk
+     */
+    virtual QPixmap getCurrentPixmap();
 };
 
 #endif

@@ -11,7 +11,7 @@ void ContextMenuGraphicsComponent::update(GameObject* obj) {
     QGraphicsPixmapItem* itm = getPixmapItem();
 
     if (itm != NULL) {
-        DrawParams* dp = (DrawParams*) malloc(sizeof(DrawParams));
+        DrawParams* dp = new DrawParams();
 
         dp->pos     = player->getPos();
         dp->moving  = player->getVelocity().length() != 0;
@@ -21,5 +21,10 @@ void ContextMenuGraphicsComponent::update(GameObject* obj) {
         dp->degrees = 90;
         emit signalDraw(dp, this);
     }
+}
+
+QPixmap ContextMenuGraphicsComponent::getCurrentPixmap() {
+    //TODO: add animation logic here?
+    return QPixmap(PIX_CONTEXT_MENU);
 }
 

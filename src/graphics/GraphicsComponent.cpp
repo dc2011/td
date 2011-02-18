@@ -34,7 +34,7 @@ void GraphicsComponent::draw(DrawParams* dp) {
     QPointF center;
     
     if (itm != NULL) {
-        itm->setPixmap(QPixmap(QString("../img/arrow.png")));
+        itm->setPixmap(getCurrentPixmap());
     }
     center = itm->boundingRect().center();
     itm->resetMatrix();//important
@@ -44,7 +44,7 @@ void GraphicsComponent::draw(DrawParams* dp) {
     itm->rotate(dp->degrees);
     itm->translate(-center.x(), -center.y());
     if (dp != NULL) {
-        free(dp);
+        delete dp;
     }
 }
 
