@@ -20,8 +20,7 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
         dp->moving  = player->getVelocity().length() != 0;
         //dp->scale   = player->getScale();
         dp->scale   = 1;
-        //dp->degrees = player->getOrientation();
-        dp->degrees = 90;
+        dp->degrees = player->getOrientation();
         
         emit signalDraw(dp, this);
     }

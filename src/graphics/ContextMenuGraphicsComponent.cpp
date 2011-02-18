@@ -18,7 +18,7 @@ void ContextMenuGraphicsComponent::update(GameObject* obj) {
         //dp->scale   = player->getScale();
         dp->scale   = 1;
         //dp->degrees = player->getOrientation();
-        dp->degrees = 90;
+        dp->degrees = 0;
         emit signalDraw(dp, this);
     }
 }

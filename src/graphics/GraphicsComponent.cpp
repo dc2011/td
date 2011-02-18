@@ -41,7 +41,7 @@ void GraphicsComponent::draw(DrawParams* dp) {
     itm->setPos(dp->pos);
     itm->translate(center.x(), center.y());
     itm->setScale(1);
-    itm->rotate(dp->degrees);
+    itm->rotate(dp->degrees * -1);
     itm->translate(-center.x(), -center.y());
     if (dp != NULL) {
         delete dp;
