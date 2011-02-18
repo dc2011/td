@@ -5,18 +5,9 @@
 #include <QObject>
 #include <QPointF>
 #include <QGraphicsPixmapItem>
+#include "DrawParams.h"
 #include "../client/MainWindow.h"
 #include "../engine/GameObject.h"
-
-
-struct DrawParams {
-    QPointF pos; //location
-    int degrees; //in degrees 0 is up 180 down...
-    float scale; //normal is 1 .5 is half 2 is double
-    bool moving; //movement for animation projectiles get bigger/smaller during arc
-};
-Q_DECLARE_METATYPE(DrawParams);
-
 
 
 class GraphicsComponent : public QObject {

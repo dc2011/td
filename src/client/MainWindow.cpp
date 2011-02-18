@@ -3,7 +3,7 @@
 #include <QScrollArea>
 #include "../audio/manager.h"
 
-#include "../engine/GraphicsComponent.h"
+#include "../graphics/GraphicsComponent.h"
 namespace td {
 
 MainWindow* MainWindow::instance_ = NULL;

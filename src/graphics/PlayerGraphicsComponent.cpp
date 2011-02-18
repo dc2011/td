@@ -23,7 +23,6 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
         //dp->degrees = player->getOrientation();
         dp->degrees = 90;
         
-        qDebug("PlayerGraphicsComponent::update");        
         emit signalDraw(dp, this);
     }
 }

@@ -5,9 +5,9 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QKeyEvent>
+#include "../graphics/DrawParams.h"
 
 class GraphicsComponent;
-class DrawParams;
 
 namespace td {
 class MainWindow : public QMainWindow {
