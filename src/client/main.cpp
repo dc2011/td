@@ -9,13 +9,16 @@
 
 int main(int argc, char **argv) {
     QApplication a(argc, argv);
+    QQueue<QString> musicList;
+
     td::MainWindow* qmw = td::MainWindow::init();
     td::CDriver clientDriver(qmw);
     td::Thread* driverThread = new td::Thread();
-    QQueue<QString> musicList = td::AudioManager::instance()->musicDir("../sound/music/");
+    musicList = td::AudioManager::instance()->musicDir("../sound/music/");
     QThreadPool::globalInstance()->setMaxThreadCount(16);
 
-    QObject::connect(driverThread, SIGNAL(started()), &clientDriver, SLOT(startGame()));
+    QObject::connect(driverThread, SIGNAL(started()),
+                     &clientDriver, SLOT(startGame()));
     clientDriver.moveToThread(driverThread);
 
     driverThread->start();

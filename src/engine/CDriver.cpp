@@ -19,8 +19,8 @@ namespace td {
   }
 
   CDriver::~CDriver() {
-    delete this -> gameTimer_;
-    delete this -> human_;
+    delete this->gameTimer_;
+    delete this->human_;
     td::AudioManager::instance()->shutdown();
   }
 
@@ -28,13 +28,14 @@ namespace td {
     td::NetworkClient::init(QHostAddress(servaddr));
   }
   void CDriver::disconnectFromServer() {
-    td::NetworkClient::instance() -> shutdown();
+    td::NetworkClient::instance()->shutdown();
   }
   void CDriver::updateServer(Unit* u)
   {
     td::Stream* updates = new Stream();
-    u -> networkWrite(updates);
-    td::NetworkClient::instance() -> send(td::network::kPlayerPosition, updates -> data());
+    u->networkWrite(updates);
+    td::NetworkClient::instance()->send(td::network::kPlayerPosition,
+                                        updates->data());
     delete updates;
   }
 
@@ -67,10 +68,10 @@ namespace td {
         connect(gameTimer_,   SIGNAL(timeout()), 
                 human_,       SLOT(update()));
 
-        CDriver::gameTimer_ -> start(30);
+        CDriver::gameTimer_->start(30);
     }
 
   void CDriver::endGame() {
-    this -> gameTimer_ -> stop();
+    this->gameTimer_->stop();
   }
 }
