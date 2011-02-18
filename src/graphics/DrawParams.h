@@ -1,6 +1,8 @@
 #ifndef DRAWPARAMS_H
 #define DRAWPARAMS_H
 
+#include <QPointF>
+
 /**
  * Contains all the parameters needed to render a graphical object. The 
  * physics logic updates the logical object's position, scale, etc., and 
@@ -15,6 +17,7 @@
  * @author Dean Morin
  */
 struct DrawParams {
+    DrawParams() :pos(0,0), degrees(90), scale(1), moving(0)  {}
     /** location */
     QPointF pos;
     /** in degrees 0 is up 180 down... */
