@@ -46,7 +46,7 @@ elif [ "$OS" == "darwin" ]; then
 	if [ "$fhash" != "$CHKSUM" ]
 	    then
 	    echo "$fname Out of date....Updating"
-	    curl $url/$line > ../$line
+	    curl $url/$fname > ../$fname
 	else
 	    echo "$fname Up to Date"
 	fi
