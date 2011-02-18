@@ -38,7 +38,7 @@ elif [ "$OS" == "darwin" ]; then
 
 	if [ -e "../$fname" ] 
 	    then
-	    CHKSUM=`md5 "../$fname" | cut -d "=" -f 2 | tr " " ""`
+	    CHKSUM=`md5 "../$fname" | cut -d "=" -f 2 | tr -d " "`
 	else
 	    CHKSUM=""
 	fi
