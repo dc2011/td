@@ -14,7 +14,6 @@ int main(int argc, char **argv) {
     td::Thread* driverThread = new td::Thread();
     QQueue<QString> musicList = td::AudioManager::instance()->musicDir("../sound/music/");
     QThreadPool::globalInstance()->setMaxThreadCount(16);
-    td::AudioManager::instance();
 
     QObject::connect(driverThread, SIGNAL(started()), &clientDriver, SLOT(startGame()));
     clientDriver.moveToThread(driverThread);

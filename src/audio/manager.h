@@ -17,6 +17,11 @@
 #define QUEUESIZE 8
 #define BUFFERSIZE (1024*32)
 
+enum SoundType {
+     sfx,
+     ntf,
+};
+
 namespace td
 {
 
@@ -39,15 +44,13 @@ namespace td
  * A typical use of the AudioManager class looks like this:
  * @code
  *   QString filename = "fire.ogg";
+ *   QQueue musicList = td::AudioManager::instance()->musicDir("sound/music");
  *
- *   // This next line may not be vaild
- *   // Used to show contents of musicList
- *   QQueue musicList = [ "1.ogg" , "2.ogg" , "3.ogg" ]
- *
- *   //Inits the Class
- *   td::AudioManager::instance(); 
- *
+ *   //This is the same call as playSfx(filename, sfx);
  *   td::AudioManager::instance()->playSfx(filename);
+ *   //If the sound is a notification add ntf to the argument list
+ *   td::AudioManager::instance()->playSfx(filename, ntf);
+ *
  *   td::AudioManager::instance()->playMusic(musicList);
  *
  *   //call when you wish all sounds to stop
@@ -73,15 +76,30 @@ private:
     static AudioManager* instance_;
 
     /**
+     * Array containing possible Gain levels
+     */
+    static float gainScale[];
+
+    /**
      * The volume/gain of the sound effects.
      */
-    float sfxGain_;
+    int sfxGain_;
+
+    /**
+     * The volume/gain of the notifications.
+     */
+    int notiGain_;
 
     /**
      * The volume/gain of the background music.
      */
-    float musicGain_;
+    int musicGain_;
 
+    /**
+     * The number of audio tracks playing
+     */
+    int playing_;
+ 
     /**
      * Whether the AudioManager has been initialized.
      *
@@ -165,58 +183,13 @@ public:
     void startup();
     
     /**
-     * Set the effects volume.
-     *
-     * @author Terence Stenvold
-     * @param gain The volume of the sound effects, between 0.0 and 1.0.
-     * @return true on success, false otherwise.
-     */
-    bool setEffectsVolume(float gain);
-
-    /**
-     * Get the current effects volume.
-     *
-     * @author Darryl Pogue
-     * @return The current volume of sound effects, ranging 0.0 to 1.0. 
-     */
-    float getEffectsVolume() const {
-        float gain;
-
-        SAFE_OPERATION(gain = sfxGain_);
-
-        return gain;
-    }
-
-    /**
-     * Set the background music volume.
-     * @author Terence Stenvold
-     *
-     * @param gain The volume of the background music, between 0.0 and 1.0.
-     * @return true on success, false otherwise.
-     */
-    bool setMusicVolume(float gain);
-
-    /**
-     * Get the current background music volume.
-     *
-     * @author Darryl Pogue
-     * @return The current volume of background music, ranging 0.0 to 1.0. 
-     */
-    float getMusicVolume() const {
-        float gain;
-
-        SAFE_OPERATION(gain = musicGain_);
-
-        return gain;
-    }
-    
-    /**
      * Plays an Ogg Vorbis sound file.
      *
      * @author Terence Stenvold
      * @param filename The path to the .ogg file.
+     * @param SoundType either ntf for notifcation or sfx. defaults sfx. 
      */
-    void playSfx(QString filename);
+    void playSfx(QString filename, SoundType type=sfx);
 
     /**
      * Play an Ogg Vorbis sound file, looping when it reaches the end.
@@ -238,7 +211,7 @@ public:
     void playMusic(QQueue<QString> filenameQueue);
 
     /**
-     * Returns a QQueue to be used for playMusic()
+     * Returns a randomized QQueue of files to be used for playMusic()
      * 
      * @author Terence Stenvold
      * @param dir The directory containing ogg files.
