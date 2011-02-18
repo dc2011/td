@@ -11,5 +11,6 @@ GRAPHICS_HDRS +=    ./graphics/mapdisplayer.h \
                     ./graphics/ContextMenuGraphicsComponent.h \
                     ./graphics/GraphicsComponent.h \
                     ./graphics/PlayerGraphicsComponent.h \
-                    ./graphics/PixmapFiles.h
+                    ./graphics/PixmapFiles.h \
+                    ./graphics/DrawParams.h
 
