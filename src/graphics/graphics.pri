@@ -3,7 +3,15 @@ include(../3rdparty/libtiled/libtiled.pri)
 LIBS += ../lib/libtiled.a -lz
 
 GRAPHICS_SRCS +=    ./graphics/mapdisplayer.cpp \
+                    ./graphics/ContextMenuGraphicsComponent.cpp \
+                    ./graphics/GraphicsComponent.cpp \
+                    ./graphics/PlayerGraphicsComponent.cpp \
                     ./graphics/ProjectileGraphicsComponent.cpp
 
 GRAPHICS_HDRS +=    ./graphics/mapdisplayer.h \
-                    ./graphics/ProjectileGraphicsComponent.h
+                    ./graphics/ContextMenuGraphicsComponent.h \
+                    ./graphics/GraphicsComponent.h \
+                    ./graphics/PlayerGraphicsComponent.h \
+                    ./graphics/ProjectileGraphicsComponent.h \
+                    ./graphics/PixmapFiles.h
+

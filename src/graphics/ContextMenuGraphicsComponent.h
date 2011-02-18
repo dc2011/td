@@ -12,8 +12,21 @@ class ContextMenuGraphicsComponent : public GraphicsComponent {
 public:
     ContextMenuGraphicsComponent();
     virtual ~ContextMenuGraphicsComponent() {}
+    
+    /**
+     * Loads a structure from the item and game component class then sends
+     * the structure to the generic draw slot in GraphicsComponent.
+     *
+     * @author Warren
+     **/
     virtual void update(GameObject* obj);
-    virtual void draw(QPointF* pos);
+    
+    /**
+     * Gets a pixmap for the object based on its current animation state.
+     *
+     * @author Warren Voelk
+     */
+    virtual QPixmap getCurrentPixmap();
 };
 
 #endif

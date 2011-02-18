@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QPainter>
 #include <QPointF>
-#include "../engine/GraphicsComponent.h"
+#include "GraphicsComponent.h"
 
 class ProjectileGraphicsComponent : public GraphicsComponent {
     Q_OBJECT

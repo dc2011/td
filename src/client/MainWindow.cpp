@@ -3,7 +3,7 @@
 #include <QScrollArea>
 #include "../audio/manager.h"
 
-#include "../engine/GraphicsComponent.h"
+#include "../graphics/GraphicsComponent.h"
 namespace td {
 
 MainWindow* MainWindow::instance_ = NULL;
@@ -48,8 +48,8 @@ void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
     gc->setPixmapItem(pixmap);
 }
 
-void MainWindow::drawItem(QPointF pos, GraphicsComponent* gc) {
-    gc->draw(&pos);
+void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc) {
+    gc->draw(dp);
 }
 
 bool MainWindow::event(QEvent* event) {

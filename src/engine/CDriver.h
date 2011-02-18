@@ -5,12 +5,12 @@
 #include <QMainWindow>
 #include <QVector>
 #include "ContextMenu.h"
-#include "ContextMenuGraphicsComponent.h"
 #include "Player.h"
 #include "PlayerPhysicsComponent.h"
 #include "PlayerInputComponent.h"
-#include "PlayerGraphicsComponent.h"
 #include "../client/MainWindow.h"
+#include "../graphics/ContextMenuGraphicsComponent.h"
+#include "../graphics/PlayerGraphicsComponent.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 #include "Unit.h"
