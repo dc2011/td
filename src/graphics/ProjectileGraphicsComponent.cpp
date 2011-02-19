@@ -14,18 +14,13 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
     if (!projectile->getDirtyStatus()) //checks if object is dirty.
         return;
     projectile->setToClean();
-
-    //QGraphicsPixmapItem* itm = getPixmapItem();
-
-    //if (itm != NULL) {
-        DrawParams* dp = new DrawParams();
-        dp->pos     = projectile->getPos();
-        dp->moving  = 1; //is always moving
-        //player->getVelocity().length() != 0;
-        dp->scale   = projectile->getScale(); // will likely be a constant value here
-        dp->degrees = projectile->getOrientation();
-        emit signalDraw(dp, this);
-    //}
+    DrawParams* dp = new DrawParams();
+    dp->pos     = projectile->getPos();
+    dp->moving  = 1; //is always moving
+    //player->getVelocity().length() != 0;
+    dp->scale   = projectile->getScale(); // will likely be a constant value here
+    dp->degrees = projectile->getOrientation();
+    emit signalDraw(dp, this);
 }
 
 void ProjectileGraphicsComponent::initPixmaps() {
