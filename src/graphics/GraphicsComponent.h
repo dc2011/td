@@ -1,6 +1,8 @@
 #ifndef GRAPHICSCOMPONENT_H
 #define GRAPHICSCOMPONENT_H
 
+#define OFFSCREEN -10000
+
 #include <QMutexLocker>
 #include <QObject>
 #include <QPointF>

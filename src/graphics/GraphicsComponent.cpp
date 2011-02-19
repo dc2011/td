@@ -83,5 +83,6 @@ void GraphicsComponent::initGraphicsComponent() {
     initPixmaps();
     mutex_.lock();
     pixmapItem_ = new QGraphicsPixmapItem(pixmapImgs[pixmapIndex]);
+    pixmapItem_->setPos(OFFSCREEN,OFFSCREEN);
     mutex_.unlock();
 }
