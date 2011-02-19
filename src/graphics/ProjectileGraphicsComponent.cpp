@@ -12,9 +12,9 @@ ProjectileGraphicsComponent::~ProjectileGraphicsComponent() {}
 void ProjectileGraphicsComponent::update(GameObject* obj) {
     Projectile* projectile = (Projectile*)obj;
     //should cast it to projectile
-    if (!player->getDirtyStatus()) //checks if object is dirty.
+    if (!projectile->getDirtyStatus()) //checks if object is dirty.
         return;
-    player->setToClean();
+    projectile->setToClean();
 
     QGraphicsPixmapItem* itm = getPixmapItem();
 
