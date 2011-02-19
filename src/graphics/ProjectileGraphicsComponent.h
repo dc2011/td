@@ -26,7 +26,7 @@ public:
      *
      * @author Warren Voelk
      */
-    virtual QPixmap getCurrentPixmap();
+    virtual void initPixmaps();
 };
 
 #endif

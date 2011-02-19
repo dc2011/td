@@ -42,10 +42,10 @@ MainWindow* MainWindow::init() {
 }
 
 void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
-    QGraphicsPixmapItem* pixmap = new QGraphicsPixmapItem();
-    scene_->addItem(pixmap);
-
-    gc->setPixmapItem(pixmap);
+    static int i = 0;
+    scene_->addItem(gc->initGraphicsComponent());
+    //gc->getPixmapItem()->update();
+    qDebug("Graphics Objects: %d", ++i);
 }
 
 void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc) {

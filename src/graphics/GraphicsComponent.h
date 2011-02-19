@@ -1,6 +1,8 @@
 #ifndef GRAPHICSCOMPONENT_H
 #define GRAPHICSCOMPONENT_H
 
+#define OFFSCREEN -10000
+
 #include <QMutexLocker>
 #include <QObject>
 #include <QPointF>
@@ -16,9 +18,12 @@ class GraphicsComponent : public QObject {
 
 private:
     QGraphicsPixmapItem* pixmapItem_;
-    QMutex mutex_;
-
+    //QMutex mutex_;
+protected:
+    QPixmap * pixmapImgs;
+    int pixmapIndex;
 public:
+
     /**
      * Sets up the necessary signals and slots to create the 
      * QGraphicsPixmapItem for this component in the rendering thread. This      * is done to ensure that updates on the pixmap item are thread-safe.
@@ -66,7 +71,7 @@ public:
      * @author Dean Morin
      * @return The pixmap pointer, or NULL if it has not been initialized.
      */
-    QGraphicsPixmapItem* getPixmapItem();
+    //QGraphicsPixmapItem* getPixmapItem();
 
     /**
      * Sets the QGraphicsPixmapItem that represents this object.
@@ -75,9 +80,16 @@ public:
      * @author Dean Morin
      * @param qgpi The QGraphicsPixmapItem to be stored.
      */
-    void setPixmapItem(QGraphicsPixmapItem* qgpi);
+    //void setPixmapItem(QGraphicsPixmapItem* qgpi);
 
-    virtual QPixmap getCurrentPixmap() = 0;
+    /**
+     * Called from main. instantiates the QGRaphicsPixmapItem
+     * @author Warren Voelkl
+     */
+    QGraphicsPixmapItem* initGraphicsComponent();
+
+    virtual void initPixmaps() = 0;
+    QPixmap getCurrentPixmap();
 
 signals:
     void created(GraphicsComponent* gc);
