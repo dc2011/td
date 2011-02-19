@@ -18,7 +18,7 @@ class GraphicsComponent : public QObject {
 
 private:
     QGraphicsPixmapItem* pixmapItem_;
-    QMutex mutex_;
+    //QMutex mutex_;
 protected:
     QPixmap * pixmapImgs;
     int pixmapIndex;
@@ -71,7 +71,7 @@ public:
      * @author Dean Morin
      * @return The pixmap pointer, or NULL if it has not been initialized.
      */
-    QGraphicsPixmapItem* getPixmapItem();
+    //QGraphicsPixmapItem* getPixmapItem();
 
     /**
      * Sets the QGraphicsPixmapItem that represents this object.
@@ -80,13 +80,13 @@ public:
      * @author Dean Morin
      * @param qgpi The QGraphicsPixmapItem to be stored.
      */
-    void setPixmapItem(QGraphicsPixmapItem* qgpi);
+    //void setPixmapItem(QGraphicsPixmapItem* qgpi);
 
     /**
      * Called from main. instantiates the QGRaphicsPixmapItem
      * @author Warren Voelkl
      */
-    void initGraphicsComponent();
+    QGraphicsPixmapItem* initGraphicsComponent();
 
     virtual void initPixmaps() = 0;
     QPixmap getCurrentPixmap();

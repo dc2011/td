@@ -14,23 +14,20 @@ GraphicsComponent::GraphicsComponent() {
 void GraphicsComponent::create() {
     emit created(this);
 }
-
+/*
 QGraphicsPixmapItem* GraphicsComponent::getPixmapItem() { 
-    QGraphicsPixmapItem* ret;
-
-    mutex_.lock();
-    ret = pixmapItem_;
-    mutex_.unlock();
-
-    return ret;
+    //mutex_.lock();
+    return pixmapItem_;
+    //mutex_.unlock();
 }
-
+*/
+/*
 void GraphicsComponent::setPixmapItem(QGraphicsPixmapItem* qgpi) {
-    mutex_.lock();
+    //mutex_.lock();
     pixmapItem_ = qgpi;
-    mutex_.unlock();
+    //mutex_.unlock();
 }
-
+*/
 void GraphicsComponent::draw(DrawParams* dp) {
     //double pi = 3.14;
     //double a = pi/180 * 10;
@@ -79,10 +76,11 @@ QPixmap GraphicsComponent::getCurrentPixmap() {
     return pixmapImgs[pixmapIndex];
 }
 
-void GraphicsComponent::initGraphicsComponent() {
+QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
     initPixmaps();
-    mutex_.lock();
+    //mutex_.lock();
     pixmapItem_ = new QGraphicsPixmapItem(pixmapImgs[pixmapIndex]);
     pixmapItem_->setPos(OFFSCREEN,OFFSCREEN);
-    mutex_.unlock();
+    return pixmapItem_;
+    //mutex_.unlock();
 }

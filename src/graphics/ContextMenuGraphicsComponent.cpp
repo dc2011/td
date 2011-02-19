@@ -10,13 +10,13 @@ void ContextMenuGraphicsComponent::update(GameObject* obj) {
     //    return;
     //player->setToClean();
 
-    QGraphicsPixmapItem* itm = getPixmapItem();
-    if (itm != NULL) {
+    //QGraphicsPixmapItem* itm = getPixmapItem();
+    //if (itm != NULL) {
         //trimmed down should only require the position to be set.
         DrawParams* dp = new DrawParams();
         dp->pos     = player->getPos();
         emit signalDraw(dp, this);
-    }
+    //}
 }
 
 void ContextMenuGraphicsComponent::initPixmaps() {

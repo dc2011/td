@@ -15,9 +15,9 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
         return;
     projectile->setToClean();
 
-    QGraphicsPixmapItem* itm = getPixmapItem();
+    //QGraphicsPixmapItem* itm = getPixmapItem();
 
-    if (itm != NULL) {
+    //if (itm != NULL) {
         DrawParams* dp = new DrawParams();
         dp->pos     = projectile->getPos();
         dp->moving  = 1; //is always moving
@@ -25,7 +25,7 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
         dp->scale   = projectile->getScale(); // will likely be a constant value here
         dp->degrees = projectile->getOrientation();
         emit signalDraw(dp, this);
-    }
+    //}
 }
 
 void ProjectileGraphicsComponent::initPixmaps() {
