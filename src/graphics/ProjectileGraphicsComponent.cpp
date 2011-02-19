@@ -1,5 +1,5 @@
 #include "ProjectileGraphicsComponent.h"
-#include "../engine/Player.h"
+#include "../engine/Projectile.h"
 
 ProjectileGraphicsComponent::ProjectileGraphicsComponent()
         : GraphicsComponent()
@@ -10,7 +10,8 @@ ProjectileGraphicsComponent::ProjectileGraphicsComponent()
 ProjectileGraphicsComponent::~ProjectileGraphicsComponent() {}
 
 void ProjectileGraphicsComponent::update(GameObject* obj) {
-    Player* player = (Player*)obj;
+    Projectile* projectile = (Projectile*)obj;
+    //should cast it to projectile
     if (!player->getDirtyStatus()) //checks if object is dirty.
         return;
     player->setToClean();
@@ -19,11 +20,11 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
 
     if (itm != NULL) {
         DrawParams* dp = new DrawParams();
-        dp->pos     = player->getPos();
+        dp->pos     = projectile->getPos();
         dp->moving  = 1; //is always moving
         //player->getVelocity().length() != 0;
-        dp->scale   = player->getScale(); // will likely be a constant value here
-        dp->degrees = player->getOrientation();
+        dp->scale   = projectile->getScale(); // will likely be a constant value here
+        dp->degrees = projectile->getOrientation();
         emit signalDraw(dp, this);
     }
 }
