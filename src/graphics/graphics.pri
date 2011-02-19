@@ -5,12 +5,15 @@ LIBS += ../lib/libtiled.a -lz
 GRAPHICS_SRCS +=    ./graphics/mapdisplayer.cpp \
                     ./graphics/ContextMenuGraphicsComponent.cpp \
                     ./graphics/GraphicsComponent.cpp \
-                    ./graphics/PlayerGraphicsComponent.cpp
+                    ./graphics/PlayerGraphicsComponent.cpp \
+                    ./graphics/ProjectileGraphicsComponent.cpp
+
 
 GRAPHICS_HDRS +=    ./graphics/mapdisplayer.h \
                     ./graphics/ContextMenuGraphicsComponent.h \
                     ./graphics/GraphicsComponent.h \
                     ./graphics/PlayerGraphicsComponent.h \
                     ./graphics/PixmapFiles.h \
-                    ./graphics/DrawParams.h
+                    ./graphics/DrawParams.h \
+                    ./graphics/ProjectileGraphicsComponent.h
 
