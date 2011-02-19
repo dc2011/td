@@ -13,9 +13,9 @@ AudioManager::AudioManager()
 {
     AudioManager::startup();
     //Should be User Defined as MAX values
-    this->sfxGain_ = 9;
-    this->musicGain_ = 5;
-    this->notiGain_ = 12;    
+    sfxGain_ = 9;
+    musicGain_ = 5;
+    notiGain_ = 12;    
 }
 
 AudioManager::~AudioManager()
