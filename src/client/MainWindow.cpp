@@ -42,8 +42,11 @@ MainWindow* MainWindow::init() {
 }
 
 void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
+    static int i = 0;
     gc->initGraphicsComponent();
     scene_->addItem(gc->getPixmapItem());
+    gc->getPixmapItem()->update();
+    qDebug("%d", i++);
 }
 
 void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc) {

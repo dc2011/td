@@ -18,9 +18,9 @@ void GraphicsComponent::create() {
 QGraphicsPixmapItem* GraphicsComponent::getPixmapItem() { 
     QGraphicsPixmapItem* ret;
 
-    //mutex_.lock();
+    mutex_.lock();
     ret = pixmapItem_;
-    //mutex_.unlock();
+    mutex_.unlock();
 
     return ret;
 }
@@ -81,5 +81,7 @@ QPixmap GraphicsComponent::getCurrentPixmap() {
 
 void GraphicsComponent::initGraphicsComponent() {
     initPixmaps();
+    mutex_.lock();
     pixmapItem_ = new QGraphicsPixmapItem(pixmapImgs[pixmapIndex]);
+    mutex_.unlock();
 }
