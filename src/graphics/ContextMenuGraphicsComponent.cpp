@@ -6,9 +6,9 @@ ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
 }
 void ContextMenuGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
-    if (!player->getDirtyStatus()) //checks if object is dirty.
-        return;
-    player->setToClean();
+    //if (!player->getDirtyStatus()) //is client side doesn't really need dirty check
+    //    return;
+    //player->setToClean();
 
     QGraphicsPixmapItem* itm = getPixmapItem();
     if (itm != NULL) {
