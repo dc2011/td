@@ -27,8 +27,11 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
     }
 }
 
-QPixmap PlayerGraphicsComponent::initPixmaps() {
+void PlayerGraphicsComponent::initPixmaps() {
     //TODO: add animation logic here?
-    return QPixmap(PIX_PLAYER_0);
+    pixmapImgs = new QPixmap[PIX_PLAYER_MAX];
+    pixmapIndex = 0;
+    pixmapImgs[pixmapIndex++] = PIX_PLAYER_0;
+    pixmapIndex = 0;
 }
 

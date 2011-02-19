@@ -2,7 +2,7 @@
 #include "../engine/Player.h"
 
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
-        : GraphicsComponent() {
+    : GraphicsComponent() {
 }
 void ContextMenuGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
@@ -19,8 +19,10 @@ void ContextMenuGraphicsComponent::update(GameObject* obj) {
     }
 }
 
-QPixmap ContextMenuGraphicsComponent::initPixmaps() {
-    //TODO: add animation logic here?
-    return QPixmap(PIX_CONTEXT_MENU_0);
+void ContextMenuGraphicsComponent::initPixmaps() {
+    //TODO: add animation images here or just single img
+    pixmapImgs = new QPixmap[PIX_CONTEXT_MENU_MAX];
+    pixmapIndex = 0;
+    pixmapImgs[pixmapIndex] = PIX_CONTEXT_MENU_0;
 }
 

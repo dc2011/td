@@ -42,10 +42,8 @@ MainWindow* MainWindow::init() {
 }
 
 void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
-    QGraphicsPixmapItem* pixmap = new QGraphicsPixmapItem();
-    scene_->addItem(pixmap);
-
-    gc->setPixmapItem(pixmap);
+    gc->initGraphicsComponent();
+    scene_->addItem(gc->getPixmapItem());
 }
 
 void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc) {

@@ -17,12 +17,11 @@ class GraphicsComponent : public QObject {
 private:
     QGraphicsPixmapItem* pixmapItem_;
     QMutex mutex_;
-
 protected:
-    QPixmap * pixmapImg;
+    QPixmap * pixmapImgs;
     int pixmapIndex;
-
 public:
+
     /**
      * Sets up the necessary signals and slots to create the 
      * QGraphicsPixmapItem for this component in the rendering thread. This      * is done to ensure that updates on the pixmap item are thread-safe.
@@ -81,7 +80,13 @@ public:
      */
     void setPixmapItem(QGraphicsPixmapItem* qgpi);
 
-    virtual QPixmap initPixmaps() = 0;
+    /**
+     * Called from main. instantiates the QGRaphicsPixmapItem
+     * @author Warren Voelkl
+     */
+    void initGraphicsComponent();
+
+    virtual void initPixmaps() = 0;
     QPixmap getCurrentPixmap();
 
 signals:
