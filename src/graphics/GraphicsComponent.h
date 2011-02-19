@@ -77,7 +77,7 @@ public:
      */
     void setPixmapItem(QGraphicsPixmapItem* qgpi);
 
-    virtual QPixmap getCurrentPixmap() = 0;
+    virtual QPixmap initPixmaps() = 0;
 
 signals:
     void created(GraphicsComponent* gc);

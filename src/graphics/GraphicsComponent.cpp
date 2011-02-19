@@ -34,7 +34,7 @@ void GraphicsComponent::draw(DrawParams* dp) {
     QPointF center;
     
     if (itm != NULL) {
-        itm->setPixmap(getCurrentPixmap());
+        itm->setPixmap(initPixmaps());
     }
     center = itm->boundingRect().center();
     itm->resetMatrix();//important

@@ -29,7 +29,7 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
     }
 }
 
-QPixmap ProjectileGraphicsComponent::getCurrentPixmap() {
+QPixmap ProjectileGraphicsComponent::initPixmaps() {
     //TODO: add animation logic here?
     return QPixmap(PIX_PROJECTILE);
 }
