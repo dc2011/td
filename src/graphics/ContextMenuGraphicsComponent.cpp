@@ -21,6 +21,6 @@ void ContextMenuGraphicsComponent::update(GameObject* obj) {
 
 QPixmap ContextMenuGraphicsComponent::initPixmaps() {
     //TODO: add animation logic here?
-    return QPixmap(PIX_CONTEXT_MENU);
+    return QPixmap(PIX_CONTEXT_MENU_0);
 }
 
