@@ -48,3 +48,6 @@ void GraphicsComponent::draw(DrawParams* dp) {
     }
 }
 
+QPixmap GraphicsComponent::getCurrentPixmap() {
+    return pixmapImg[pixmapIndex];
+}

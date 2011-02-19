@@ -18,6 +18,10 @@ private:
     QGraphicsPixmapItem* pixmapItem_;
     QMutex mutex_;
 
+protected:
+    QPixmap * pixmapImg;
+    int pixmapIndex;
+
 public:
     /**
      * Sets up the necessary signals and slots to create the 
@@ -78,6 +82,7 @@ public:
     void setPixmapItem(QGraphicsPixmapItem* qgpi);
 
     virtual QPixmap initPixmaps() = 0;
+    QPixmap getCurrentPixmap();
 
 signals:
     void created(GraphicsComponent* gc);
