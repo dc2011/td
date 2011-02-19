@@ -1,15 +1,15 @@
-#include "PlayerGraphicsComponent.h"
+#include "ProjectileGraphicsComponent.h"
 #include "../engine/Player.h"
 
-PlayerGraphicsComponent::PlayerGraphicsComponent()
+ProjectileGraphicsComponent::ProjectileGraphicsComponent()
         : GraphicsComponent()
 {
     /* Do init-type stuff here */
 }
 
-PlayerGraphicsComponent::~PlayerGraphicsComponent() {}
+ProjectileGraphicsComponent::~ProjectileGraphicsComponent() {}
 
-void PlayerGraphicsComponent::update(GameObject* obj) {
+void ProjectileGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
     if (!player->getDirtyStatus()) //checks if object is dirty.
         return;
@@ -28,7 +28,7 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
     }
 }
 
-QPixmap PlayerGraphicsComponent::getCurrentPixmap() {
+QPixmap ProjectileGraphicsComponent::getCurrentPixmap() {
     //TODO: add animation logic here?
     return QPixmap(PIX_PROJECTILE);
 }
