@@ -32,10 +32,26 @@ elif [ "$OS" == "darwin" ]; then
     curl -O "$url/SOUNDINFO"
 
     while read line; 
-    do
-      curl $url/$line > ../$line
-    done < SOUNDINFO;
+    do  
+	fname=`echo "$line" | cut -d " " -f 3`
+	fhash=`echo "$line" | cut -d " " -f 1`
 
+	if [ -e "../$fname" ] 
+	    then
+	    CHKSUM=`md5 "../$fname" | cut -d "=" -f 2 | tr -d " "`
+	else
+	    CHKSUM=""
+	fi
+
+	if [ "$fhash" != "$CHKSUM" ]
+	    then
+	    echo "$fname Out of date....Updating"
+	    curl $url/$fname > ../$fname
+	else
+	    echo "$fname Up to Date"
+	fi
+
+    done < SOUNDINFO;
     rm SOUNDINFO
 
 elif [ "$OS" == "linux" ]; then
@@ -51,10 +67,25 @@ elif [ "$OS" == "linux" ]; then
 
     while read line; 
     do  
-	wget "$url/$line" -O "../$line"
+	fname=`echo "$line" | cut -d " " -f 3`
+	fhash=`echo "$line" | cut -d " " -f 1`
+
+	if [ -e "../$fname" ]; 
+	then
+	    CHKSUM=`md5sum "../$fname" | cut -d " " -f 1`
+	else
+	    CHKSUM=""
+	fi
+
+	if [ "$fhash" != "$CHKSUM" ];
+	then
+	    echo "$fname Out of date....Updating"
+	    wget "$url/$fname" -O "../$fname"
+	else
+	    echo "$fname Up to Date"
+	fi
 
     done < SOUNDINFO;
-
     rm SOUNDINFO
 
 fi

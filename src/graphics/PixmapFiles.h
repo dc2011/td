@@ -3,6 +3,7 @@
 
 #define PIX_CONTEXT_MENU    QString("../img/arrow.png")
 #define PIX_PLAYER          QString("../img/arrow.png")
+#define PIX_PROJECTILE      QString("../img/arrow.png")
 
 #endif
 

@@ -1,6 +1,8 @@
 #ifndef _netmessages_
 #define _netmessages_
 
+#define TD_PORT 26631
+
 namespace td {
 namespace network {
 

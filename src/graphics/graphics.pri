@@ -8,10 +8,12 @@ GRAPHICS_SRCS +=    ./graphics/mapdisplayer.cpp \
                     ./graphics/PlayerGraphicsComponent.cpp \
                     ./graphics/ProjectileGraphicsComponent.cpp
 
+
 GRAPHICS_HDRS +=    ./graphics/mapdisplayer.h \
                     ./graphics/ContextMenuGraphicsComponent.h \
                     ./graphics/GraphicsComponent.h \
                     ./graphics/PlayerGraphicsComponent.h \
-                    ./graphics/ProjectileGraphicsComponent.h \
-                    ./graphics/PixmapFiles.h
+                    ./graphics/PixmapFiles.h \
+                    ./graphics/DrawParams.h \
+                    ./graphics/ProjectileGraphicsComponent.h
 

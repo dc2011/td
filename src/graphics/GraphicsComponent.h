@@ -28,6 +28,14 @@ public:
     GraphicsComponent();
 
     virtual ~GraphicsComponent() {}
+
+    /**
+     * TODO for each GraphicsComponensts update function
+     * 1. check for dirty value
+     * 2. Instantiate DrawParams structure
+     * 3. load only the modifiable values of structure rest will be set to a default.
+     * @author Warren
+     */
     virtual void update(GameObject* obj) = 0;
 
     /**
