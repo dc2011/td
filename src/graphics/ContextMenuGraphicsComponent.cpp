@@ -1,13 +1,21 @@
 #include "ContextMenuGraphicsComponent.h"
+#include "../engine/ContextMenu.h"
 #include "../engine/Player.h"
 
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
 }
-void ContextMenuGraphicsComponent::update(GameObject* obj) {
-    Player* player = (Player*)obj;
-    DrawParams* dp = new DrawParams();
-    dp->pos     = player->getPos();
+
+void ContextMenuGraphicsComponent::update(GameObject *obj) {
+    Player *player = (Player*)obj;
+    QPointF tempMenuPos(player->getPos());
+    DrawParams *dp = new DrawParams();
+
+    tempMenuPos.setX(tempMenuPos.x() - 131);
+    tempMenuPos.setY(tempMenuPos.y() - 171);
+
+    dp->degrees = 0;
+    dp->pos = tempMenuPos;
     emit signalDraw(dp, this);
 }
 

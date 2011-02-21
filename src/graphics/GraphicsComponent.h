@@ -17,10 +17,18 @@ class GraphicsComponent : public QObject {
     Q_OBJECT
 
 private:
+    /**
+     *  the pixelmapItem which is is used to draw a pixel map at a location
+     **/
     QGraphicsPixmapItem* pixmapItem_;
-    //QMutex mutex_;
 protected:
+    /**
+     * container for all pixmaps
+     **/
     QPixmap * pixmapImgs;
+    /**
+     * the current index for the currently drawn pixmap
+     **/
     int pixmapIndex;
 public:
 
@@ -88,7 +96,15 @@ public:
      */
     QGraphicsPixmapItem* initGraphicsComponent();
 
+    /**
+     * the function where the pixmap container is loaded
+     * called on construction of the object but not in the constructor
+     * @author Warren Voelkl
+     */
     virtual void initPixmaps() = 0;
+    /**
+     * returns the current pixmap image pointed to from the pixmapimg
+     */
     QPixmap getCurrentPixmap();
 
 signals:

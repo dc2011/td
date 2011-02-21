@@ -1,6 +1,5 @@
 #include "ContextMenu.h"
 
-
 ContextMenu::ContextMenu(Player* player) : player_(player) {
     graphics_   = new ContextMenuGraphicsComponent();
     menuIsOpen_ = false;
@@ -15,9 +14,7 @@ void ContextMenu::toggleMenu() {
         td::AudioManager::instance()->playSfx("../sound/sfx/tar.ogg");
         qDebug("opens a menu");
         menuIsOpen_ = true;
-        graphics_->update(player_); //remove once the next line is working
-        //((ContextMenuGraphicsComponent) graphics)->showMenu(player_->getPos());
-
+        graphics_->update(player_ ); //remove once the next line is working
     } else {
         td::AudioManager::instance()->playSfx("../sound/sfx/tar.ogg");
         qDebug("closes a menu");

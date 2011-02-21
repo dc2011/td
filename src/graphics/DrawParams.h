@@ -17,6 +17,7 @@
  * @author Dean Morin
  */
 struct DrawParams {
+    /** instantiates the DrawParams structure */
     DrawParams() :pos(0,0), degrees(90), scale(1), moving(0)  {}
     /** location */
     QPointF pos;
@@ -27,7 +28,6 @@ struct DrawParams {
     /** movement for animation projectiles get bigger/smaller during arc */
     bool moving;
 };
-
 Q_DECLARE_METATYPE(DrawParams);
 
 #endif
