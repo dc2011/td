@@ -9,6 +9,7 @@
 #include "GameObject.h"
 #include "CDriver.h"
 #include "Unit.h"
+#include "../graphics/ProjectileGraphicsComponent.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 
@@ -58,9 +59,7 @@ namespace td {
 
   Projectile* CDriver::createProjectile(int key){
       PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
-      //This line doesn't work. Will fix later.
-      //GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
-      GraphicsComponent* projectileGraphics = new PlayerGraphicsComponent();
+      GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
       QPointF* start = new QPointF(10, 10);
       QPointF* end = new QPointF(20, 20);
       return new Projectile(projectilePhysics, projectileGraphics, start, end);
