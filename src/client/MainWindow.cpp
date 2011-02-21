@@ -17,7 +17,7 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     MapDisplayer* map = new MapDisplayer(scene_);
-    map->viewMap(QString("../maps/desert.tmx"));
+    map->viewMap(QString("../maps/testmap.tmx"));
 
     QScrollArea *a = new QScrollArea(this);
     a->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
