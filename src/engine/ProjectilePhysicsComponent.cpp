@@ -1,32 +1,34 @@
 #include "ProjectilePhysicsComponent.h"
 #include "Projectile.h"
+#include <math.h>
+#define PI 3.141592653589793238
 
 ProjectilePhysicsComponent::ProjectilePhysicsComponent() : maxVelocity_(10) {}
 ProjectilePhysicsComponent::~ProjectilePhysicsComponent() {}
 
 void ProjectilePhysicsComponent::update(Unit* projectile)
 {
-    makePath((Projectile*)projectile);
-    setAngle((Projectile*)projectile);
-    //this->applyVelocity((Projectile*)projectile);
+    this->makePath((Projectile*)projectile);
+    this->setAngle((Projectile*)projectile);
+    this->applyVelocity((Projectile*)projectile);
 }
 
 void ProjectilePhysicsComponent::applyVelocity(Projectile* projectile) {
-
+    this->path.setLength(this->path.length() - maxVelocity_);
+    projectile->setPos(this->path.x2(),this->path.y2());
 }
 
 void ProjectilePhysicsComponent::makePath(Projectile* projectile) {
-    path.SetP2(projectile->getSender());
-    path.SetP1(projectile->getReceiver());
-
+    this->path.setP2(*projectile->getSender());
+    this->path.setP1(*projectile->getReceiver());
 }
 
 void ProjectilePhysicsComponent::setAngle(Projectile* projectile) {
 
     int angle = 0;
     int degree = 0;
-    int projX = path.x() - path.x2();
-    int projY = path.y() - path.y2();
+    int projX = this->path.x1() - this->path.x2();
+    int projY = this->path.y1() - this->path.y2();
 
     if (projX == 0 && projY == 0) {
         return;
