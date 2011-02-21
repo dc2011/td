@@ -11,10 +11,17 @@ NetworkServer::NetworkServer()
 {
     udpSocket_ = new QUdpSocket();
     udpSocket_->bind(TD_PORT, QUdpSocket::ShareAddress);
+    connect(this, SIGNAL(msgQueued()), this, SLOT(onMsgQueued()),
+            Qt::QueuedConnection);
     connect(udpSocket_, SIGNAL(readyRead()), this, SLOT(onUDPReceive()));
 }
 
-NetworkServer::~NetworkServer() { }
+NetworkServer::~NetworkServer()
+{
+    mutex_.lock();
+    msgQueue_.clear();
+    mutex_.unlock();
+}
 
 NetworkServer* NetworkServer::init()
 {
@@ -40,6 +47,19 @@ void NetworkServer::shutdown()
     mutex_.unlock();
 
     netthread_->exit(0);
+}
+
+void NetworkServer::onMsgQueued()
+{
+    SAFE_OPERATION(QByteArray tmp = msgQueue_.dequeue())
+
+    bool isUDP = ((unsigned char)tmp.at(0) >= td::network::kBLOCK_UDP);
+
+    if (isUDP) {
+        udpSocket_->writeDatagram(tmp, QHostAddress::Broadcast, TD_PORT);
+    } else {
+        //tcpSocket_->write(tmp);
+    }
 }
 
 void NetworkServer::onUDPReceive()

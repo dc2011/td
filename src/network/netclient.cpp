@@ -79,14 +79,9 @@ void NetworkClient::onUDPReceive()
     QByteArray datagram;
     datagram.resize(udpSocket_->pendingDatagramSize());
     udpSocket_->readDatagram(datagram.data(), datagram.size());
-    Stream s(datagram);
-    /* TODO: Give the stream to an object */
-    /* Pseudocode:
+    Stream* s = new Stream(datagram);
 
-    GameObject* o;
-    o = Driver::instance()->lookupObject(s.readInt()); // Read the Obj ID
-    o->netUpdate(s); // This triggers an event inside the object
-    */
+    emit UDPReceived(s);
 }
 
 void NetworkClient::onTCPReceive()
