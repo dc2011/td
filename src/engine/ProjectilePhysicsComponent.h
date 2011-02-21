@@ -8,6 +8,8 @@ public:
     ProjectilePhysicsComponent();
     virtual ~ProjectilePhysicsComponent();
     void applyVelocity(Projectile*);
+    void setAngle(Projectile*);
+    void makePath(Projectile*);
 
 public slots:
     virtual void update(Unit*);

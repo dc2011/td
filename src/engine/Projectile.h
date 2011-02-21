@@ -10,7 +10,7 @@ class Projectile : public Unit {
     Q_OBJECT
 public:
     Projectile(PhysicsComponent* physics, GraphicsComponent* graphics,
-               Unit* sender, Unit* receiver);
+               QPointF* sender, QPointF* receiver);
 
     virtual void update();
 
@@ -30,19 +30,19 @@ public:
         duration_ = duration;
     }
 
-    Unit* getSender() {
+    QPointF* getSender() {
         return sender_;
     }
 
-    Unit* getReceiver() {
+    QPointF* getReceiver() {
         return receiver_;
     }
 
 private:
     size_t damage_;
     size_t duration_;
-    Unit* sender_;
-    Unit* receiver_;
+    QPointF* sender_;
+    QPointF* receiver_;
 };
 
 #endif // PROJECTILE_H
