@@ -9,8 +9,17 @@
 class Projectile : public Unit {
     Q_OBJECT
 public:
+    /**
+     * Creates new projectile.
+     *
+     * @author Pan Khantidhara
+     * @param physics Physic component.
+     * @param graphic Graphic component.
+     * @param sender Unit, which starts the projectile
+     * @param receiver Unit, which the projectile ends
+     */
     Projectile(PhysicsComponent* physics, GraphicsComponent* graphics,
-               Unit* sender, Unit* receiver);
+               QPointF* start, QPointF* end);
 
     virtual void update();
 
@@ -30,19 +39,27 @@ public:
         duration_ = duration;
     }
 
-    Unit* getSender() {
-        return sender_;
+    QPointF* getStartPoint(){
+        return start_;
     }
 
-    Unit* getReceiver() {
-        return receiver_;
+    void setStartPoint(QPointF* point){
+        start_ = point;
+    }
+
+    QPointF* getEndPoint(){
+        return end_;
+    }
+
+    void setEndPoint(QPointF* point){
+        end_ = point;
     }
 
 private:
     size_t damage_;
     size_t duration_;
-    Unit* sender_;
-    Unit* receiver_;
+    QPointF* start_;
+    QPointF* end_;
 };
 
 #endif // PROJECTILE_H

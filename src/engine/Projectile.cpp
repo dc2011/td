@@ -1,11 +1,11 @@
 #include "Projectile.h"
 
 Projectile::Projectile(PhysicsComponent* physics, GraphicsComponent* graphics,
-                       Unit* sender, Unit* receiver) {
+                       QPointF* start, QPointF* end) {
     physics_ = physics;
     graphics_ = graphics;
-    sender_ = sender;
-    receiver_ = receiver;
+    start_ = start;
+    end_ = end;
 }
 
 void Projectile::update() {

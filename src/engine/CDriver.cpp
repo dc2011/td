@@ -56,6 +56,16 @@ namespace td {
     return new Player((InputComponent*) input, physics, graphics);
   }
 
+  Projectile* CDriver::createProjectile(int key){
+      PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
+      //This line doesn't work. Will fix later.
+      //GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
+      GraphicsComponent* projectileGraphics = new PlayerGraphicsComponent();
+      QPointF* start = new QPointF(10, 10);
+      QPointF* end = new QPointF(20, 20);
+      return new Projectile(projectilePhysics, projectileGraphics, start, end);
+  }
+
     void CDriver::startGame() {
         CDriver::gameTimer_   = new QTimer(this);
         CDriver::human_       = createHumanPlayer(mainWindow_);
@@ -67,6 +77,7 @@ namespace td {
                 contextMenu_, SLOT(selectMenuItem(int)));
         connect(gameTimer_,   SIGNAL(timeout()), 
                 human_,       SLOT(update()));
+        QObject::connect(mainWindow_, SIGNAL(signalKeyPressed(int)), this, SLOT(createProjectile(int)));
 
         CDriver::gameTimer_->start(30);
     }

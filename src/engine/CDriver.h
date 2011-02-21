@@ -4,13 +4,17 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QVector>
+#include <QPointF>
 #include "ContextMenu.h"
 #include "Player.h"
 #include "PlayerPhysicsComponent.h"
 #include "PlayerInputComponent.h"
+#include "Projectile.h"
+#include "ProjectilePhysicsComponent.h"
 #include "../client/MainWindow.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"
 #include "../graphics/PlayerGraphicsComponent.h"
+#include "../graphics/ProjectileGraphicsComponent.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 #include "Unit.h"
@@ -117,6 +121,16 @@ namespace td {
     * @return void
     */
     void startGame();
+
+private slots:
+    /**
+     * Creates a projectile object.
+     *
+     * @author Pan Khantidhara
+     * @param int A key pressed. Doesn't really use it.
+     * @return Pointer to new projectile instance.
+     */
+    Projectile* createProjectile(int key);
   };
 }
 #endif
