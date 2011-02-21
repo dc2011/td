@@ -11,8 +11,9 @@ ProjectileGraphicsComponent::~ProjectileGraphicsComponent() {}
 void ProjectileGraphicsComponent::update(GameObject* obj) {
     Projectile* projectile = (Projectile*)obj;
     //should cast it to projectile
-    if (!projectile->getDirtyStatus()) //checks if object is dirty.
+    if (!projectile->getDirtyStatus()) {//checks if object is dirty.
         return;
+    }
     projectile->setToClean();
     DrawParams* dp = new DrawParams();
     dp->pos     = projectile->getPos();
