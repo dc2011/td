@@ -10,6 +10,10 @@ class PlayerGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
 public:
+    /**
+     * Instantiates a PlayerGraphicsComponent component
+     * @author warren
+     */
     PlayerGraphicsComponent();
     virtual ~PlayerGraphicsComponent();
 

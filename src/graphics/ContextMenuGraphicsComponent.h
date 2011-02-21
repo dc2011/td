@@ -10,6 +10,9 @@ class ContextMenuGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
 public:
+    /**
+     * Instantiates the ContextMenuGraphicsComponent
+     */
     ContextMenuGraphicsComponent();
     virtual ~ContextMenuGraphicsComponent() {}
 
