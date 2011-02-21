@@ -2,9 +2,9 @@
 #define CONTEXTMENU_H
 
 #include <QObject>
-#include "ContextMenuGraphicsComponent.h"
 #include "Player.h"
 #include "../audio/manager.h"
+#include "../graphics/ContextMenuGraphicsComponent.h"
 
 class ContextMenu : public QObject {
     Q_OBJECT

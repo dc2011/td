@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QKeyEvent>
+#include "../graphics/DrawParams.h"
 
 class GraphicsComponent;
 
@@ -85,7 +86,7 @@ public slots:
      * @author Darryl Pogue
      * @param gc The GraphicsComponent of the game object.
      */
-    void drawItem(QPointF pos, GraphicsComponent* gc);
+    void drawItem(DrawParams* dp, GraphicsComponent* gc);
     
 signals:
     void signalKeyPressed(int);

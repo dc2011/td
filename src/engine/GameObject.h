@@ -33,6 +33,7 @@ public:
     void setPos(QPointF& p) {
         pos_.setX(p.x());
         pos_.setY(p.y());
+        setToDirty();
         //qDebug("Pos: (%.2f, %.2f)", (float) pos_.x(), (float) pos_.y());
     }
 
@@ -46,7 +47,26 @@ public:
     void setPos(float x, float y) {
         pos_.setX(x);
         pos_.setY(y);
+        setToDirty();
     }
+
+    /**
+     * Sets the dirty_ variable to dirty
+     * @author Warren Voelkl
+     */
+    void setToDirty() { dirty_ = true; }
+    /**
+     * Sets the dirty_ variable to clean
+     * @author Warren Voelkl
+     */
+    void setToClean() { dirty_ = false; }
+
+    /**
+     * @author Warren Voelkl
+     * @returns bool dirty_
+     */
+    bool getDirtyStatus() { return dirty_; }
+
 
 public slots:
     
@@ -61,5 +81,10 @@ public slots:
 
 protected:
     QPointF pos_;
+    /**
+     * This variable is currently used for checking to see if the object has been drawn
+     *
+     */
+    bool dirty_;
 };
 #endif

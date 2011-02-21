@@ -1,6 +1,7 @@
 #ifndef TMXVIEWER_H
 #define TMXVIEWER_H
 
+#include <QString>
 #include <QGraphicsView>
 
 namespace Tiled {
@@ -14,7 +15,6 @@ class MapDisplayer : public QGraphicsView {
 public:
     explicit MapDisplayer(QGraphicsScene* scene, QWidget* parent = 0);
     ~MapDisplayer();
-
     void viewMap(const QString& fileName);
 
 private:

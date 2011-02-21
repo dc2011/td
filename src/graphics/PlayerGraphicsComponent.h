@@ -12,8 +12,21 @@ class PlayerGraphicsComponent : public GraphicsComponent {
 public:
     PlayerGraphicsComponent();
     virtual ~PlayerGraphicsComponent();
+
+    /**
+     * Loads a structure from the item and game component class then sends
+     * the structure to the generic draw slot in GraphicsComponent.
+     *
+     * @author Warren Voelk
+     */
     virtual void update(GameObject* obj);
-    virtual void draw(QPointF* pos);
+
+    /**
+     * Gets a pixmap for the object based on its current animation state.
+     *
+     * @author Warren Voelk
+     */
+    virtual void initPixmaps();
 };
 
 #endif

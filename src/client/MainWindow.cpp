@@ -3,7 +3,7 @@
 #include <QScrollArea>
 #include "../audio/manager.h"
 
-#include "../engine/GraphicsComponent.h"
+#include "../graphics/GraphicsComponent.h"
 namespace td {
 
 MainWindow* MainWindow::instance_ = NULL;
@@ -42,14 +42,14 @@ MainWindow* MainWindow::init() {
 }
 
 void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
-    QGraphicsPixmapItem* pixmap = new QGraphicsPixmapItem();
-    scene_->addItem(pixmap);
-
-    gc->setPixmapItem(pixmap);
+    static int i = 0;
+    scene_->addItem(gc->initGraphicsComponent());
+    //gc->getPixmapItem()->update();
+    qDebug("Graphics Objects: %d", ++i);
 }
 
-void MainWindow::drawItem(QPointF pos, GraphicsComponent* gc) {
-    gc->draw(&pos);
+void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc) {
+    gc->draw(dp);
 }
 
 bool MainWindow::event(QEvent* event) {
