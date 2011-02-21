@@ -46,7 +46,7 @@ void AudioManager::playSfx(QString filename, SoundType type)
      playing = playing_;
 
      if(type == sfx) {
-	  gain = sfxGain_ - (playing_ / 5);
+	  gain = sfxGain_ - (playing_ / 1);
 	  if(gain < 0) {
 	       gain = 0;
 	  }
