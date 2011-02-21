@@ -1,7 +1,7 @@
 #include "Projectile.h"
 
-Projectile::Projectile(PhysicsComponent* physics, GraphicsComponent* graphics,
-                       QPointF* start, QPointF* end) {
+Projectile::Projectile(PhysicsComponent* physics, 
+        GraphicsComponent* graphics, QPointF* start, QPointF* end) {
     physics_ = physics;
     graphics_ = graphics;
     start_ = start;

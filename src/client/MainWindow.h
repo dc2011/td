@@ -70,12 +70,12 @@ protected:
 
 public slots:
     /**
-     * Creates a graphical representation of a game object.
-     * This creates a QGraphicsPixmapItem to be rendered, adds it to the
-     * graphics scene, and stores it back in the graphics component of the
-     * game object.
+     * Calls the graphics objects initfunction
+     * Which loads all pixmap images then draws the object
+     * offscreen.
      *
      * @author Darryl Pogue
+     * @author Warren Voelkl
      * @param gc The GraphicsComponent of the game object.
      */
     void createGraphicRepr(GraphicsComponent* gc);

@@ -12,6 +12,7 @@
 #include <QTcpSocket>
 #include <QUdpSocket>
 #include <QQueue>
+#include "stream.h"
 #include "netmessages.h"
 #include "../util/mutex_magic.h"
 
@@ -117,6 +118,13 @@ signals:
      * This signal should not be used outside of this class.
      */
     void msgQueued();
+
+    /**
+     * Signal emitted when a message is received over UDP.
+     *
+     * @param s The stream for the network message.
+     */
+    void UDPReceived(Stream* s);
 
 private slots:
     /**

@@ -10,6 +10,10 @@ class ProjectileGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
 public:
+    /**
+     * Instantiates a projectile graphics component
+     * @author warren
+     */
     ProjectileGraphicsComponent();
     virtual ~ProjectileGraphicsComponent();
 
