@@ -25,5 +25,6 @@ ENGINE_SRCS +=  ./engine/ContextMenu.cpp \
                 ./engine/PlayerPhysicsComponent.cpp \
                 ./engine/Projectile.cpp \
                 ./engine/SDriver.cpp \
+                ./engine/Tile.cpp \
                 ./engine/Unit.cpp
 
