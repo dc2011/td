@@ -1,0 +1,27 @@
+#ifndef MAP_H
+#define MAP_H
+
+#include <QObject>
+
+#include "Tile.h"
+
+class Map : public QObject {
+    Q_OBJECT
+
+public:
+    Map(int heightInTiles, int widthInTiles);
+    virtual ~Map() { }
+
+    void loadTestMap();
+
+private:
+    Tile ***tiles_;
+    int heightInTiles_;
+    int widthInTiles_;
+
+public slots:
+    void getTileInfo(int column, int row, int *blockingType);
+
+};
+
+#endif

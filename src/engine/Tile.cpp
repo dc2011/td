@@ -17,7 +17,7 @@
   * @author Luke Queenan
   *
   */
-Tile::Tile(int column, int row, blockingType type)
+Tile::Tile(int row, int column, blockingType type)
 {
     tileID_ = column * MAP_ROWS + row;
     type_ = type;

@@ -49,11 +49,16 @@ namespace td {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent();
     PlayerInputComponent* input = new PlayerInputComponent();
+    CollisionComponent* collision = new CollisionComponent();
     //gui->installEventFilter(input);
     connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
     connect(gui, SIGNAL(signalKeyReleased(int)), input, SLOT(keyReleased(int)));
-    
-    return new Player((InputComponent*) input, physics, graphics);
+    // Connection for collisions -- waiting on map object
+    /*
+    connect(collision, SIGNAL(requestTileInfo(int, int, int*)), map,
+            SLOT(getTileInfo(int, int, int*)));
+    */
+    return new Player((InputComponent*) input, physics, graphics, collision);
   }
 
     void CDriver::startGame() {
