@@ -95,46 +95,46 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
         return;
     }
 
-    if (qAbs(velY) >= qAbs(velX)) {
-        angle = atan(velY / (float)velX) * (180 / PI);
-
-        if (velY > 0) {
-            if (velX == 0) {
-                degree = 0;
-            } else if (velY == velX) {
-                degree = 45;
-            } else if (velY == (-velX)) {
-                degree = 315;
-            } else if (angle < 0) {
-                degree = 360 + angle;
-            } else {
-                degree = angle;
-            }
-        } else if (velY < 0) {
-            if (velX == 0) {
-                degree = 180;
-            } else if (velY == velX) {
-                degree = 225;
-            } else if (velY == (-velX)) {
-                degree = 135;
-            } else {
-                degree = 180 + angle;
-            }
-        }
-    } else if (qAbs(velX) > qAbs(velY)) {
-        angle = atan(velX / (float) velY) * (180 / PI);
+    if (qAbs(velX) >= qAbs(velY)) {
+        angle = atan(velX / (float)velY) * (180 / PI);
 
         if (velX > 0) {
             if (velY == 0) {
-                degree = 90;
+                degree = 0;
+            } else if (velX == velY) {
+                degree = 315;
+            } else if (velX == (-velY)) {
+                degree = 45;
+            } else if (angle < 0) {
+                degree =  -angle;
             } else {
-                degree = 90 - angle;
+                degree = 360 - angle;
             }
         } else if (velX < 0) {
             if (velY == 0) {
+                degree = 180;
+            } else if (velX == velY) {
+                degree = 135;
+            } else if (velX == (-velY)) {
+                degree = 225;
+            } else {
+                degree = 180 - angle;
+            }
+        }
+    } else if (qAbs(velY) > qAbs(velX)) {
+        angle = atan(velY / (float) velX) * (180 / PI);
+
+        if (velY < 0) {
+            if (velX == 0) {
+                degree = 90;
+            } else {
+                degree = 90 + angle;
+            }
+        } else if (velY > 0) {
+            if (velX == 0) {
                 degree = 270;
             } else {
-                degree = 270 - angle;
+                degree = 270 + angle;
             }
         }
     }
