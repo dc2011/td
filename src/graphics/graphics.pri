@@ -6,7 +6,8 @@ GRAPHICS_SRCS +=    ./graphics/mapdisplayer.cpp \
                     ./graphics/ContextMenuGraphicsComponent.cpp \
                     ./graphics/GraphicsComponent.cpp \
                     ./graphics/PlayerGraphicsComponent.cpp \
-                    ./graphics/ProjectileGraphicsComponent.cpp
+                    ./graphics/ProjectileGraphicsComponent.cpp \
+                    ./graphics/TowerGraphicsComponent.cpp
 
 
 GRAPHICS_HDRS +=    ./graphics/mapdisplayer.h \
@@ -15,5 +16,5 @@ GRAPHICS_HDRS +=    ./graphics/mapdisplayer.h \
                     ./graphics/PlayerGraphicsComponent.h \
                     ./graphics/PixmapFiles.h \
                     ./graphics/DrawParams.h \
-                    ./graphics/ProjectileGraphicsComponent.h
-
+                    ./graphics/ProjectileGraphicsComponent.h \
+                    ./graphics/TowerGraphicsComponent.h
