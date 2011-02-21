@@ -67,6 +67,17 @@ public:
      */
     bool getDirtyStatus() { return dirty_; }
 
+    /**
+      * Overloaded < comparator for set implementation
+      *
+      * @author Luke Queenan
+      * @returns bool
+      */
+    bool operator < (const GameObject &right)
+    {
+        return (this->iD_ < right.iD_);
+    }
+
 
 public slots:
     
@@ -86,5 +97,9 @@ protected:
      *
      */
     bool dirty_;
+    /**
+     * The unique ID for each game object
+     */
+    unsigned int iD_;
 };
 #endif
