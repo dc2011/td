@@ -8,27 +8,25 @@ ProjectilePhysicsComponent::~ProjectilePhysicsComponent() {}
 
 void ProjectilePhysicsComponent::update(Unit* projectile)
 {
-    this->makePath((Projectile*)projectile);
-    this->setAngle((Projectile*)projectile);
-    this->applyVelocity((Projectile*)projectile);
+    if (((Projectile*)projectile)->getPath().length() > 1) {
+        this->setAngle((Projectile*)projectile);
+        this->applyVelocity((Projectile*)projectile);
+    }
 }
 
 void ProjectilePhysicsComponent::applyVelocity(Projectile* projectile) {
-    this->path.setLength(this->path.length() - maxVelocity_);
-    projectile->setPos(this->path.x2(),this->path.y2());
-}
-
-void ProjectilePhysicsComponent::makePath(Projectile* projectile) {
-    this->path.setP2(*projectile->getStartPoint());
-    this->path.setP1(*projectile->getEndPoint());
+    projectile->getPath().setLength(projectile->getPath().length() - maxVelocity_);
+    projectile->setPos(projectile->getPath().x2(), projectile->getPath().y2());
+    qDebug("Projectile Position: %.2f,%.2f", projectile->getPos().x(),
+           projectile->getPos().y());
 }
 
 void ProjectilePhysicsComponent::setAngle(Projectile* projectile) {
 
     int angle = 0;
     int degree = 0;
-    int projX = this->path.x1() - this->path.x2();
-    int projY = this->path.y1() - this->path.y2();
+    int projX = projectile->getPath().x1() - projectile->getPath().x2();
+    int projY = projectile->getPath().y1() - projectile->getPath().y2();
 
     if (projX == 0 && projY == 0) {
         return;

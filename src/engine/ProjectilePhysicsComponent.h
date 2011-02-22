@@ -9,14 +9,12 @@ public:
     virtual ~ProjectilePhysicsComponent();
     void applyVelocity(Projectile*);
     void setAngle(Projectile*);
-    void makePath(Projectile*);
 
 public slots:
     virtual void update(Unit*);
 
 private:
     float maxVelocity_;
-    QLineF path;
 };
 
 #endif

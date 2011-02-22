@@ -22,6 +22,7 @@ namespace td {
   CDriver::~CDriver() {
     delete this->gameTimer_;
     delete this->human_;
+    delete this->projectile_;
     td::AudioManager::instance()->shutdown();
   }
 
@@ -57,12 +58,16 @@ namespace td {
     return new Player((InputComponent*) input, physics, graphics);
   }
 
-  Projectile* CDriver::createProjectile(int key){
+  void CDriver::createProjectile(){
+      qDebug("fire projectile");
       PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
       GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
-      QPointF* start = new QPointF(10, 10);
-      QPointF* end = new QPointF(20, 20);
-      return new Projectile(projectilePhysics, projectileGraphics, start, end);
+      QPointF* start = new QPointF(human_->getPos());
+      QPointF* end = new QPointF(100, 100);
+      CDriver::projectile_ = new Projectile(projectilePhysics, projectileGraphics,
+                                         start, end);
+      connect(gameTimer_,   SIGNAL(timeout()),
+                projectile_,       SLOT(update()));
   }
 
     void CDriver::startGame() {
@@ -76,7 +81,7 @@ namespace td {
                 contextMenu_, SLOT(selectMenuItem(int)));
         connect(gameTimer_,   SIGNAL(timeout()), 
                 human_,       SLOT(update()));
-        QObject::connect(mainWindow_, SIGNAL(signalKeyPressed(int)), this, SLOT(createProjectile(int)));
+        QObject::connect(mainWindow_, SIGNAL(signalFPressed()), this, SLOT(createProjectile()));
 
         CDriver::gameTimer_->start(30);
     }

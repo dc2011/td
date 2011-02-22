@@ -55,11 +55,20 @@ public:
         end_ = point;
     }
 
+    QLineF& getPath() {
+        return path_;
+    }
+
+    void setPath(QLineF& path) {
+       path_ = path;
+    }
+
 private:
     size_t damage_;
     size_t duration_;
     QPointF* start_;
     QPointF* end_;
+    QLineF path_;
 };
 
 #endif // PROJECTILE_H

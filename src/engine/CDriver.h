@@ -30,6 +30,7 @@ namespace td {
      * A context menu that appears around the player.
      */
     ContextMenu* contextMenu_;
+    Projectile* projectile_;
   public:
     // ctors and dtors
     CDriver(MainWindow* parent = 0);
@@ -129,7 +130,7 @@ private slots:
      * @param int A key pressed. Doesn't really use it.
      * @return Pointer to new projectile instance.
      */
-    Projectile* createProjectile(int key);
+    void createProjectile();
   };
 }
 #endif
