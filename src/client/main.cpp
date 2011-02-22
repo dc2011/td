@@ -9,12 +9,17 @@
 
 int main(int argc, char **argv) {
     QApplication a(argc, argv);
+    QDir bin(QCoreApplication::applicationDirPath());
     QQueue<QString> musicList;
+
+    /* Set working directory */
+    bin.cdUp();
+    QDir::setCurrent(bin.absolutePath());
 
     td::MainWindow* qmw = td::MainWindow::init();
     td::CDriver clientDriver(qmw);
     td::Thread* driverThread = new td::Thread();
-    musicList = td::AudioManager::instance()->musicDir("../sound/music/");
+    musicList = td::AudioManager::instance()->musicDir("./sound/music/");
     QThreadPool::globalInstance()->setMaxThreadCount(16);
 
     QObject::connect(driverThread, SIGNAL(started()),
