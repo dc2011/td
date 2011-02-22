@@ -17,7 +17,7 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     MapDisplayer* map = new MapDisplayer(scene_);
-    map->viewMap(QString("../maps/desert.tmx"));
+    map->viewMap(QString("../maps/testmap.tmx"));
 
     QScrollArea *a = new QScrollArea(this);
     a->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -42,10 +42,7 @@ MainWindow* MainWindow::init() {
 }
 
 void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
-    QGraphicsPixmapItem* pixmap = new QGraphicsPixmapItem();
-    scene_->addItem(pixmap);
-
-    gc->setPixmapItem(pixmap);
+    scene_->addItem(gc->initGraphicsComponent());
 }
 
 void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc) {

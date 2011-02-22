@@ -1,6 +1,8 @@
 #ifndef GRAPHICSCOMPONENT_H
 #define GRAPHICSCOMPONENT_H
 
+#define OFFSCREEN -10000
+
 #include <QMutexLocker>
 #include <QObject>
 #include <QPointF>
@@ -15,10 +17,21 @@ class GraphicsComponent : public QObject {
     Q_OBJECT
 
 private:
+    /**
+     *  the pixelmapItem which is is used to draw a pixel map at a location
+     **/
     QGraphicsPixmapItem* pixmapItem_;
-    QMutex mutex_;
-
+protected:
+    /**
+     * container for all pixmaps
+     **/
+    QPixmap * pixmapImgs;
+    /**
+     * the current index for the currently drawn pixmap
+     **/
+    int pixmapIndex;
 public:
+
     /**
      * Sets up the necessary signals and slots to create the 
      * QGraphicsPixmapItem for this component in the rendering thread. This      * is done to ensure that updates on the pixmap item are thread-safe.
@@ -66,7 +79,7 @@ public:
      * @author Dean Morin
      * @return The pixmap pointer, or NULL if it has not been initialized.
      */
-    QGraphicsPixmapItem* getPixmapItem();
+    //QGraphicsPixmapItem* getPixmapItem();
 
     /**
      * Sets the QGraphicsPixmapItem that represents this object.
@@ -75,9 +88,24 @@ public:
      * @author Dean Morin
      * @param qgpi The QGraphicsPixmapItem to be stored.
      */
-    void setPixmapItem(QGraphicsPixmapItem* qgpi);
+    //void setPixmapItem(QGraphicsPixmapItem* qgpi);
 
-    virtual QPixmap getCurrentPixmap() = 0;
+    /**
+     * Called from main. instantiates the QGRaphicsPixmapItem
+     * @author Warren Voelkl
+     */
+    QGraphicsPixmapItem* initGraphicsComponent();
+
+    /**
+     * the function where the pixmap container is loaded
+     * called on construction of the object but not in the constructor
+     * @author Warren Voelkl
+     */
+    virtual void initPixmaps() = 0;
+    /**
+     * returns the current pixmap image pointed to from the pixmapimg
+     */
+    QPixmap getCurrentPixmap();
 
 signals:
     void created(GraphicsComponent* gc);

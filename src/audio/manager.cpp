@@ -13,9 +13,9 @@ AudioManager::AudioManager()
 {
     AudioManager::startup();
     //Should be User Defined as MAX values
-    this->sfxGain_ = 9;
-    this->musicGain_ = 5;
-    this->notiGain_ = 12;    
+    sfxGain_ = 9;
+    musicGain_ = 5;
+    notiGain_ = 12;    
 }
 
 AudioManager::~AudioManager()
@@ -46,7 +46,7 @@ void AudioManager::playSfx(QString filename, SoundType type)
      playing = playing_;
 
      if(type == sfx) {
-	  gain = sfxGain_ - (playing_ / 5);
+	  gain = sfxGain_ - (playing_ / 1);
 	  if(gain < 0) {
 	       gain = 0;
 	  }
@@ -169,7 +169,7 @@ void AudioManager::streamOgg(QString filename, float gain)
         return;
     }
     
-    SAFE_OPERATION(this->playing_++);
+    SAFE_OPERATION(playing_++);
 
     do {
         alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
@@ -250,7 +250,7 @@ void AudioManager::streamOgg(QString filename, float gain)
 
     alDeleteSources(1, &source);
     alDeleteBuffers(QUEUESIZE,buffer);
-    SAFE_OPERATION(this->playing_--;);
+    SAFE_OPERATION(playing_--;);
 }
 
 } /* End namespace td */
