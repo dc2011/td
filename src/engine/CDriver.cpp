@@ -15,7 +15,8 @@
 
 namespace td {
 
-  CDriver::CDriver(MainWindow *mainWindow) {
+  CDriver::CDriver(MainWindow *mainWindow)
+      : QObject(), human_(NULL), contextMenu_(NULL), projectile_(NULL) {
       mainWindow_ = mainWindow;
   }
 

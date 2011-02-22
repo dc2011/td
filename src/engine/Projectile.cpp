@@ -4,6 +4,7 @@ Projectile::Projectile(PhysicsComponent* physics, GraphicsComponent* graphics,
                        QPointF* start, QPointF* end) {
     physics_ = physics;
     graphics_ = graphics;
+    input_ = NULL;
     this->setPos(start->x(),start->y());
     start_ = start;
     end_ = end;
