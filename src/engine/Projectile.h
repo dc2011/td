@@ -9,23 +9,66 @@
 class Projectile : public Unit {
     Q_OBJECT
 public:
-    Projectile(PhysicsComponent* physics, Unit* sender, Unit* receiver);
+    /**
+     * Creates new projectile.
+     *
+     * @author Pan Khantidhara
+     * @param physics Physic component.
+     * @param graphic Graphic component.
+     * @param sender Unit, which starts the projectile
+     * @param receiver Unit, which the projectile ends
+     */
+    Projectile(PhysicsComponent* physics, GraphicsComponent* graphics,
+               QPointF* start, QPointF* end);
 
     virtual void update();
 
-    QVector2D& getVelocity();
-    void setVelocity(QVector2D&);
-    size_t getDamage();
-    void setDamage(size_t);
-    size_t getDuration();
-    void setDuration(size_t);
+    size_t getDamage(){
+        return damage_;
+    }
+
+    void setDamage(size_t damage){
+        damage_ = damage;
+    }
+
+    size_t getDuration(){
+        return duration_;
+    }
+
+    void setDuration(size_t duration){
+        duration_ = duration;
+    }
+
+    QPointF* getStartPoint(){
+        return start_;
+    }
+
+    void setStartPoint(QPointF* point){
+        start_ = point;
+    }
+
+    QPointF* getEndPoint(){
+        return end_;
+    }
+
+    void setEndPoint(QPointF* point){
+        end_ = point;
+    }
+
+    QLineF& getPath() {
+        return path_;
+    }
+
+    void setPath(QLineF& path) {
+       path_ = path;
+    }
 
 private:
-    QVector2D velocity_;
     size_t damage_;
     size_t duration_;
-    Unit* sender_;
-    Unit* receiver_;
+    QPointF* start_;
+    QPointF* end_;
+    QLineF path_;
 };
 
 #endif // PROJECTILE_H
