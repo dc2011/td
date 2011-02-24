@@ -3,7 +3,7 @@
 #include <QThreadPool>
 #include "MainWindow.h"
 #include "../util/thread.h"
-#include "../graphics/mapdisplayer.h"
+#include "../graphics/MapDisplayer.h"
 #include "../engine/CDriver.h"
 #include "../audio/manager.h"
 

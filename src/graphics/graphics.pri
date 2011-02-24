@@ -2,7 +2,7 @@ include(../3rdparty/libtiled/libtiled.pri)
 
 LIBS += ../lib/libtiled.a -lz
 
-GRAPHICS_SRCS +=    ./graphics/mapdisplayer.cpp \
+GRAPHICS_SRCS +=    ./graphics/MapDisplayer.cpp \
                     ./graphics/ContextMenuGraphicsComponent.cpp \
                     ./graphics/GraphicsComponent.cpp \
                     ./graphics/PlayerGraphicsComponent.cpp \
@@ -10,7 +10,7 @@ GRAPHICS_SRCS +=    ./graphics/mapdisplayer.cpp \
                     ./graphics/TowerGraphicsComponent.cpp
 
 
-GRAPHICS_HDRS +=    ./graphics/mapdisplayer.h \
+GRAPHICS_HDRS +=    ./graphics/MapDisplayer.h \
                     ./graphics/ContextMenuGraphicsComponent.h \
                     ./graphics/GraphicsComponent.h \
                     ./graphics/PlayerGraphicsComponent.h \

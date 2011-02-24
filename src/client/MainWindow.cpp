@@ -1,5 +1,5 @@
 #include "MainWindow.h"
-#include "graphics/mapdisplayer.h"
+#include "graphics/MapDisplayer.h"
 #include <QScrollArea>
 #include "../audio/manager.h"
 
