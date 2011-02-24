@@ -17,7 +17,7 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     MapDisplayer* map = new MapDisplayer(scene_);
-    map->viewMap(QString("../maps/testmap.tmx"));
+    map->viewMap(QString("./maps/testmap.tmx"));
 
     QScrollArea *a = new QScrollArea(this);
     a->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -72,7 +72,9 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         case Qt::Key_Space:
             emit signalSpacebarPressed();
             break;
-            
+        case Qt::Key_F:
+            emit signalFPressed();
+            break;
         case Qt::Key_1:
         case Qt::Key_2:
         case Qt::Key_3:

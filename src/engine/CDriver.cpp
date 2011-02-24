@@ -9,18 +9,21 @@
 #include "GameObject.h"
 #include "CDriver.h"
 #include "Unit.h"
+#include "../graphics/ProjectileGraphicsComponent.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 
 namespace td {
 
-  CDriver::CDriver(MainWindow *mainWindow) {
+  CDriver::CDriver(MainWindow *mainWindow)
+      : QObject(), human_(NULL), contextMenu_(NULL), projectile_(NULL) {
       mainWindow_ = mainWindow;
   }
 
   CDriver::~CDriver() {
     delete this->gameTimer_;
     delete this->human_;
+    delete this->projectile_;
     td::AudioManager::instance()->shutdown();
   }
 
@@ -61,6 +64,18 @@ namespace td {
     return new Player((InputComponent*) input, physics, graphics, collision);
   }
 
+  void CDriver::createProjectile(){
+      qDebug("fire projectile");
+      PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
+      GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
+      QPointF* start = new QPointF(human_->getPos());
+      QPointF* end = new QPointF(100, 100);
+      CDriver::projectile_ = new Projectile(projectilePhysics, projectileGraphics,
+                                         start, end);
+      connect(gameTimer_,   SIGNAL(timeout()),
+                projectile_,       SLOT(update()));
+  }
+
     void CDriver::startGame() {
         CDriver::gameTimer_   = new QTimer(this);
         CDriver::human_       = createHumanPlayer(mainWindow_);
@@ -72,6 +87,7 @@ namespace td {
                 contextMenu_, SLOT(selectMenuItem(int)));
         connect(gameTimer_,   SIGNAL(timeout()), 
                 human_,       SLOT(update()));
+        QObject::connect(mainWindow_, SIGNAL(signalFPressed()), this, SLOT(createProjectile()));
 
         CDriver::gameTimer_->start(30);
     }

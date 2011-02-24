@@ -4,10 +4,13 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QVector>
+#include <QPointF>
 #include "ContextMenu.h"
 #include "Player.h"
 #include "PlayerPhysicsComponent.h"
 #include "PlayerInputComponent.h"
+#include "Projectile.h"
+#include "ProjectilePhysicsComponent.h"
 #include "../client/MainWindow.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"
 #include "../graphics/PlayerGraphicsComponent.h"
@@ -27,6 +30,7 @@ namespace td {
      * A context menu that appears around the player.
      */
     ContextMenu* contextMenu_;
+    Projectile* projectile_;
   public:
     // ctors and dtors
     CDriver(MainWindow* parent = 0);
@@ -117,6 +121,16 @@ namespace td {
     * @return void
     */
     void startGame();
+
+private slots:
+    /**
+     * Creates a projectile object.
+     *
+     * @author Pan Khantidhara
+     * @param int A key pressed. Doesn't really use it.
+     * @return Pointer to new projectile instance.
+     */
+    void createProjectile();
   };
 }
 #endif

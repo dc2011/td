@@ -93,6 +93,7 @@ signals:
     void signalKeyReleased(int);
     void signalNumberPressed(int);
     void signalSpacebarPressed();
+    void signalFPressed();
 };
 
 } /* end namespace td */
