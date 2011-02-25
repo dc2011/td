@@ -42,13 +42,56 @@ void Map::loadTestMap()
 }
 
 /**
+  * creates basic map creator function
+  *
+  * @author Ian Lee
+  */
+
+void Map::loadTestMap2(){
+    int i , j;
+    blockingType type;
+    for (i = 0 ; i < heightInTiles_; i++){
+        for(j = 0 ; j < widthInTiles_ ; j++){
+
+            type = OPEN; //default type
+            // area to add logic for tile creation
+            if( i ==0 || j == 0 || i == heightInTiles_-1 || j == widthInTiles_ -1 ){
+                type = CLOSED; //border of map gets CLOSED status
+            }
+
+            // end for logic
+            //save into array
+            tiles_[i][j] = new Tile(i,j,type);
+        }
+    }
+
+}
+
+/**
   * Slot for getting a tile's list of occupying units and blocking status
   *
   * For now, this function will only change the blocking type.
   *
   * @author Luke Queenan
   */
-void Map::getTileInfo(int column, int row, int *blockingType)
+void Map::getTileInfo(int row, int column, int *blockingType)
 {
     *blockingType = CLOSED;
+
+    /* //should work @author ian
+    *blockingType = tiles_[row][column]->getType();
+
+    */
+}
+
+/**
+
+  * gets the row and column from coords x,y
+  * stores in pointers row and column
+  *
+  *@author Ian Lee
+  */
+void Map::getTileChoords(double x, double y, int* row, int* column){
+    *row = Math.floor(y / TILE_HEIGHT);
+    *column= Math.floor(x / TILE_WIDTH);
 }

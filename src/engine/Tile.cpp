@@ -4,8 +4,7 @@
 // Temp defines pending a map object
 #define MAP_ROWS 99
 #define MAP_COLS 99
-#define TILE_HEIGHT 10
-#define TILE_WIDTH 10
+
 
 /**
   * The constructor for the tile class

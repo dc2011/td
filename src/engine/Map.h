@@ -13,6 +13,8 @@ public:
     virtual ~Map() { }
 
     void loadTestMap();
+    void getTileCoords(double x, double y, int* row, int* column);
+    void loadTestMap2();
 
 private:
     Tile ***tiles_;
