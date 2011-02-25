@@ -62,6 +62,12 @@ public:
     void showSelectMenu(int type, GameObject *obj);
 
 public slots:
+    /**
+     * Increments the scale factor for the build context menu every tick of the
+     * timer. The timer is stopped when the scale factor reaches a certain amount.
+     *
+     * @author Karl Castillo
+     */
     void animate();
 
 private:

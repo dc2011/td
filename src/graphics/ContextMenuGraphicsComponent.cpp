@@ -2,7 +2,12 @@
 #include "../engine/ContextMenu.h"
 #include "../engine/Player.h"
 
-#define ANIMATION_TIMEOUT 25
+#define ANIMATION_TIMEOUT  25
+#define FLAME_TOWER        49
+#define CANNON_TOWER       50
+#define ARROW_TOWER        51
+#define TAR_TOWER          52
+#define FLAK_TOWER         53
 
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
@@ -64,19 +69,19 @@ void ContextMenuGraphicsComponent::showSelectMenu(int type, GameObject *obj) {
     menuPos.setY(tempMenuPos.y() - 43);
 
     switch(type) {
-    case 49:
+    case FLAME_TOWER:
         imageIndex = 1;
         break;
-    case 50:
+    case CANNON_TOWER:
         imageIndex = 2;
         break;
-    case 51:
+    case ARROW_TOWER:
         imageIndex = 3;
         break;
-    case 52:
+    case TAR_TOWER:
         imageIndex = 4;
         break;
-    case 53:
+    case FLAK_TOWER:
         imageIndex = 5;
         break;
     }
