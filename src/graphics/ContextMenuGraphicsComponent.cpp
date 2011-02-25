@@ -2,14 +2,19 @@
 #include "../engine/ContextMenu.h"
 #include "../engine/Player.h"
 
+#define ANIMATION_TIMEOUT 25
+
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
     imageIndex = 0;
+
+    connect(&animationTimer, SIGNAL(timeout()), this, SLOT(animate()));
 }
 
 void ContextMenuGraphicsComponent::update(GameObject *) {
     DrawParams *dp = new DrawParams();
 
+    dp->scale = scaleFactor;
     dp->degrees = 0;
     dp->pos = menuPos;
 
@@ -34,15 +39,18 @@ void ContextMenuGraphicsComponent::initPixmaps() {
     pixmapIndex = 0;
 }
 
-void ContextMenuGraphicsComponent::showMenu(GameObject *obj)
-{
+void ContextMenuGraphicsComponent::showMenu(GameObject *obj) {
     Player *player = (Player*)obj;
     QPointF tempMenuPos(player->getPos());
 
-    menuPos.setX(tempMenuPos.x() - 131);
-    menuPos.setY(tempMenuPos.y() - 171);
+    menuPos.setX(tempMenuPos.x() - 66);
+    menuPos.setY(tempMenuPos.y() - 86);
 
     imageIndex = 0;
+
+    scaleFactor = 0;
+
+    animationTimer.start(ANIMATION_TIMEOUT);
 
     update(NULL);
 }
@@ -52,8 +60,8 @@ void ContextMenuGraphicsComponent::showSelectMenu(int type, GameObject *obj) {
     Player *player = (Player*)obj;
     QPointF tempMenuPos(player->getPos());
 
-    menuPos.setX(tempMenuPos.x() - 131);
-    menuPos.setY(tempMenuPos.y() - 171);
+    menuPos.setX(tempMenuPos.x() - 66);
+    menuPos.setY(tempMenuPos.y() - 86);
 
     switch(type) {
     case 49:
@@ -73,12 +81,27 @@ void ContextMenuGraphicsComponent::showSelectMenu(int type, GameObject *obj) {
         break;
     }
 
+    scaleFactor = 0;
+
+    animationTimer.start(ANIMATION_TIMEOUT);
+
     update(NULL);
 }
 
 void ContextMenuGraphicsComponent::hideMenu() {
     menuPos.setX(OFFSCREEN);
     menuPos.setY(OFFSCREEN);
+
+    update(NULL);
+}
+
+void ContextMenuGraphicsComponent::animate() {
+
+    scaleFactor += 0.1;
+
+    if(scaleFactor == 0.5) {
+        animationTimer.stop();
+    }
 
     update(NULL);
 }
