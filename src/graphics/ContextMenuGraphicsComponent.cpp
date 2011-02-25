@@ -43,8 +43,8 @@ void ContextMenuGraphicsComponent::showMenu(GameObject *obj) {
     Player *player = (Player*)obj;
     QPointF tempMenuPos(player->getPos());
 
-    menuPos.setX(tempMenuPos.x() - 66);
-    menuPos.setY(tempMenuPos.y() - 86);
+    menuPos.setX(tempMenuPos.x() - 33);
+    menuPos.setY(tempMenuPos.y() - 43);
 
     imageIndex = 0;
 
@@ -60,8 +60,8 @@ void ContextMenuGraphicsComponent::showSelectMenu(int type, GameObject *obj) {
     Player *player = (Player*)obj;
     QPointF tempMenuPos(player->getPos());
 
-    menuPos.setX(tempMenuPos.x() - 66);
-    menuPos.setY(tempMenuPos.y() - 86);
+    menuPos.setX(tempMenuPos.x() - 33);
+    menuPos.setY(tempMenuPos.y() - 43);
 
     switch(type) {
     case 49:
