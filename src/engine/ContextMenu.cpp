@@ -34,7 +34,7 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     menuIsOpen_ = false;
     ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
     ((ContextMenuGraphicsComponent*)graphics_)->showSelectMenu(keyPressed, player_);
-    closeTimer.start(500);
+    closeTimer.start(800);
 }
 
 void ContextMenu::hideSelectMenu() {

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QPainter>
 #include <QPointF>
+#include <QTimer>
 #include "GraphicsComponent.h"
 
 class ContextMenuGraphicsComponent : public GraphicsComponent {
@@ -60,6 +61,15 @@ public:
      */
     void showSelectMenu(int type, GameObject *obj);
 
+public slots:
+    /**
+     * Increments the scale factor for the build context menu every tick of the
+     * timer. The timer is stopped when the scale factor reaches a certain amount.
+     *
+     * @author Karl Castillo
+     */
+    void animate();
+
 private:
     /**
      * Holds the index of the current image that is to be painted.
@@ -70,6 +80,17 @@ private:
      * Holds the position of the position where the menu is to be painted.
      */
     QPointF menuPos;
+
+    /**
+     * Holds the scale factor that determines the size of the context menu.
+     * This variable is for animation purposes only.
+     */
+    float scaleFactor;
+
+    /**
+     * The timer that will cause the animation of the context menu.
+     */
+    QTimer animationTimer;
 };
 
 #endif
