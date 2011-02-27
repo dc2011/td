@@ -70,7 +70,11 @@ QQueue<QString> AudioManager::musicDir(QString dir)
     mDir.setFilter(QDir::Files);
     QList<QString> musicList = mDir.entryList();
     QQueue<QString> musicQueue;
-    
+
+    if(musicList.length() == 0) {
+	 qCritical("AudioManager::musicDir(): No Files or Directory");
+	 return musicQueue;
+    }
     iter = rand() % musicList.length();
 
     for(i = 0; i < musicList.length(); i++) {
@@ -98,7 +102,7 @@ bool AudioManager::checkError()
     if (inited_ == false) {
 	 return true;
     } else if (error != AL_NO_ERROR) {
-	qDebug("AudioManager Error: %d:%s",error, err);
+	qFatal("AudioManager::checkError(): %d:%s",error, err);
         alExit();
         return true;
     }
@@ -159,13 +163,13 @@ void AudioManager::streamOgg(QString filename, float gain)
     alSourcef(source, AL_GAIN, gain);
 
     if ((file = fopen(filename.toAscii().constData(), "rb")) == NULL) {
-        qCritical() << "Cannot open " << filename << " for reading...";
+        qCritical() << "AudioManager::streamOgg(): Cannot open " << filename << " for reading...";
         return;
     }
 
     /* Try opening the given ogg file */
     if (ov_open(file, &oggFile, NULL, 0) != 0) {
-        qCritical() << "Error opening " << filename << " for decoding...";
+        qCritical() << "AudioManager::streamOgg(): Error opening " << filename << " for decoding...";
         return;
     }
     
@@ -206,7 +210,7 @@ void AudioManager::streamOgg(QString filename, float gain)
                 size += result;
 
                 if (result < 0) {
-                    qCritical() << "Ogg Read Failed " << endl;
+                    qCritical() << "AudioManager::streamOgg(): Ogg Read Failed " << endl;
                     break;
                 }
             }
