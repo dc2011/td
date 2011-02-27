@@ -24,11 +24,15 @@ public:
      */
     void setAngle(Projectile*);
 
+    void setScale(Projectile*);
 public slots:
     virtual void update(Unit*);
 
 private:
     float maxVelocity_;
+    double duration_;
+    double increment_;
+    float curSize_;
 };
 
 #endif

@@ -3,7 +3,8 @@
 #include <math.h>
 #define PI 3.141592653589793238
 
-ProjectilePhysicsComponent::ProjectilePhysicsComponent() : maxVelocity_(10) {}
+ProjectilePhysicsComponent::ProjectilePhysicsComponent()
+    : maxVelocity_(10), duration_(-1), increment_(0), curSize_(0.25) {}
 ProjectilePhysicsComponent::~ProjectilePhysicsComponent() {}
 
 void ProjectilePhysicsComponent::update(Unit* projectile)
@@ -11,6 +12,7 @@ void ProjectilePhysicsComponent::update(Unit* projectile)
     if (((Projectile*)projectile)->getPath().length() > maxVelocity_ - 1) {
         this->setAngle((Projectile*)projectile);
         this->applyVelocity((Projectile*)projectile);
+        this->setScale((Projectile*)projectile);
     }
 }
 
@@ -74,4 +76,17 @@ void ProjectilePhysicsComponent::setAngle(Projectile* projectile) {
         }
     }
     projectile->setOrientation(degree);
+}
+
+void ProjectilePhysicsComponent::setScale(Projectile *projectile) {
+
+    if (duration_ < 0) {
+        duration_ = projectile->getPath().length() / maxVelocity_;
+        increment_ = duration_ / 1.5;
+    }
+    if ((curSize_ += increment_) < (duration_ / 2) ) {
+        projectile->setScale(curSize_);
+    } else {
+        increment_ *= -1;
+    }
 }
