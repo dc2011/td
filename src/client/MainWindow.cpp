@@ -103,8 +103,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
      case Qt::Key_Down:
      case Qt::Key_Left:
      case Qt::Key_Right:
-          emit signalKeyPressed(keyEvent->key());
-          qDebug("MainWindow::keyPressEvent(); arrow key press");
+          emit signalKeyPressed(event->key());
           break;
 
      default:
