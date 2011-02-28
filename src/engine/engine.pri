@@ -10,6 +10,7 @@ ENGINE_HDRS +=  ./engine/ContextMenu.h \
                 ./engine/PlayerPhysicsComponent.h \
                 ./engine/Projectile.h \
                 ./engine/ProjectilePhysicsComponent.h \
+                ./engine/ResManager.h \
                 ./engine/SDriver.h \
                 ./engine/Tile.h \
                 ./engine/Unit.h
@@ -26,6 +27,7 @@ ENGINE_SRCS +=  ./engine/ContextMenu.cpp \
                 ./engine/PlayerPhysicsComponent.cpp \
                 ./engine/Projectile.cpp \
                 ./engine/ProjectilePhysicsComponent.cpp \
+                ./engine/ResManager.cpp \
                 ./engine/SDriver.cpp \
                 ./engine/Tile.cpp \
                 ./engine/Unit.cpp

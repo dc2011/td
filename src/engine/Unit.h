@@ -10,6 +10,18 @@
 #include "../graphics/GraphicsComponent.h"
 
 class Unit : public GameObject {
+
+public:
+    /**
+     * Gets the unique class index for this object type.
+     *
+     * @author Darryl Pogue
+     * @return The class index.
+     */
+    static unsigned char clsIdx() {
+        return td::clsidx::kUnit;
+    }
+
 public:
     virtual ~Unit();
 

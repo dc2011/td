@@ -1,6 +1,7 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
+#include "ClsIdx.h"
 #include <QPointF>
 #include "../network/stream.h"
 
@@ -9,11 +10,58 @@
 
 class GameObject : public QObject {
   Q_OBJECT
+
+public:
+    /**
+     * Gets the unique class index for this object type.
+     *
+     * @author Darryl Pogue
+     * @return The class index.
+     */
+    static unsigned char clsIdx() {
+        return td::clsidx::kGameObject;
+    }
+
 public:
     virtual ~GameObject() {};
 
+    /**
+     * Reads the object state from a network stream.
+     * THIS MUST BE IMPLEMENTED BY DERIVED CLASSES.
+     *
+     * @author Darryl Pogue
+     * @param s The network stream.
+     */
     virtual void networkRead(td::Stream* s) = 0;
+
+    /**
+     * Writes the object state to a network stream.
+     * THIS MUST BE IMPLEMENTED BY DERIVED CLASSES.
+     *
+     * @author Darryl Pogue
+     * @param s The network stream.
+     */
     virtual void networkWrite(td::Stream* s) = 0;
+
+    /**
+     * Gets the ID of the object.
+     *
+     * @author Darryl Pogue
+     * @return The object ID.
+     */
+    unsigned int getID() const {
+        return iD_;
+    }
+
+    /**
+     * Sets the ID of the object.
+     *
+     * @author Darryl Pogue
+     * @param id The object ID.
+     */
+    void setID(unsigned int id) {
+        iD_ = id;
+    }
     
     /**
      * Returns object's position co-ords.
@@ -55,6 +103,7 @@ public:
      * @author Warren Voelkl
      */
     void setToDirty() { dirty_ = true; }
+
     /**
      * Sets the dirty_ variable to clean
      * @author Warren Voelkl
