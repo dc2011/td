@@ -2,6 +2,7 @@
 #define CONTEXTMENU_H
 
 #include <QObject>
+#include <QTimer>
 #include "Player.h"
 #include "../audio/manager.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"
@@ -29,6 +30,8 @@ private:
      */
     bool menuIsOpen_;
 
+    QTimer closeTimer;
+
 public slots:
     /**
      * Open a context menu, or close it if it already open.
@@ -44,6 +47,8 @@ public slots:
      * @param keyPressed The numerical key that was pressed.
      */
     void selectMenuItem(int keyPressed);
+
+    void hideSelectMenu();
 };
 
 #endif

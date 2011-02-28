@@ -1,4 +1,4 @@
-#include "mapdisplayer.h"
+#include "MapDisplayer.h"
 
 #include "isometricrenderer.h"
 #include "map.h"

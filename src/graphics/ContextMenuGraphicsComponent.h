@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QPainter>
 #include <QPointF>
+#include <QTimer>
 #include "GraphicsComponent.h"
 
 class ContextMenuGraphicsComponent : public GraphicsComponent {
@@ -30,6 +31,66 @@ public:
      * @author Warren Voelk
      */
     virtual void initPixmaps();
+
+    /**
+     * Changes the index, and sets the position of the context menu to be shown.
+     *
+     * @author Karl Castillo
+     * @param obj - the player object; it will be used as a reference as to where
+     *              the context menu will be painted.
+     */
+    void showMenu(GameObject* obj);
+
+    /**
+     * Hides the context menu by relocating the context menu outside the viewing
+     * area.
+     *
+     * @author Karl Castillo
+     */
+    void hideMenu();
+
+    /**
+     * Changes the index, and sets the position of the context menu to be shown.
+     * This function is called when a user chooses a tower he wishes to build
+     *
+     * @author Karl Castillo
+     * @param type - the keypressed; each keypress (49 - 53) is associated with
+     *               a specific type of tower
+     *        obj - the player object; it will be used as a reference as to where
+     *              the context menu will be painted.
+     */
+    void showSelectMenu(int type, GameObject *obj);
+
+public slots:
+    /**
+     * Increments the scale factor for the build context menu every tick of the
+     * timer. The timer is stopped when the scale factor reaches a certain amount.
+     *
+     * @author Karl Castillo
+     */
+    void animate();
+
+private:
+    /**
+     * Holds the index of the current image that is to be painted.
+     */
+    int imageIndex;
+
+    /**
+     * Holds the position of the position where the menu is to be painted.
+     */
+    QPointF menuPos;
+
+    /**
+     * Holds the scale factor that determines the size of the context menu.
+     * This variable is for animation purposes only.
+     */
+    float scaleFactor;
+
+    /**
+     * The timer that will cause the animation of the context menu.
+     */
+    QTimer animationTimer;
 };
 
 #endif
