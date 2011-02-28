@@ -26,7 +26,8 @@ void ContextMenu::toggleMenu() {
 }
 
 void ContextMenu::selectMenuItem(int keyPressed) {
-    if (!menuIsOpen_ || keyPressed < 49 || keyPressed > 53) {
+    if (!menuIsOpen_ || keyPressed < FLAME_TOWER 
+                     || keyPressed > FLAK_TOWER) {
         return;
     }
     td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
@@ -35,6 +36,24 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
     ((ContextMenuGraphicsComponent*)graphics_)->showSelectMenu(keyPressed, player_);
     closeTimer.start(800);
+    
+    switch (keyPressed) {
+        case FLAME_TOWER:
+            emit signalFlameTowerSelected(player_->getPos());
+            break;
+        case FLAK_TOWER:
+            emit signalFlakTowerSelected(player_->getPos());
+            break;
+        case CANNON_TOWER:
+            emit signalCannonTowerSelected(player_->getPos());
+            break;
+        case ARROW_TOWER:
+            emit signalArrowTowerSelected(player_->getPos());
+            break;
+        case TAR_TOWER:
+            emit signalTarTowerSelected(player_->getPos());
+            break;
+    }
 }
 
 void ContextMenu::hideSelectMenu() {
