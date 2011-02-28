@@ -31,7 +31,7 @@ void ProjectilePhysicsComponent::setAngle(Projectile* projectile) {
     }
 
     if (qAbs(projX) >= qAbs(projY)) {
-        angle = atan(projX / (float)projY) * (180 / PI);
+        angle = atan(projY / (float)projX) * (180 / PI);
 
         if (projX > 0) {
             if (projY == 0) {
@@ -57,7 +57,7 @@ void ProjectilePhysicsComponent::setAngle(Projectile* projectile) {
             }
         }
     } else if (qAbs(projY) > qAbs(projX)) {
-        angle = atan(projY / (float) projX) * (180 / PI);
+        angle = atan(projX / (float) projY) * (180 / PI);
 
         if (projY < 0) {
             if (projX == 0) {

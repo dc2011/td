@@ -96,7 +96,7 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
     }
 
     if (qAbs(velX) >= qAbs(velY)) {
-        angle = atan(velX / (float)velY) * (180 / PI);
+        angle = atan(velY / (float)velX) * (180 / PI);
 
         if (velX > 0) {
             if (velY == 0) {
@@ -106,7 +106,7 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
             } else if (velX == (-velY)) {
                 degree = 45;
             } else if (angle < 0) {
-                degree =  -angle;
+                degree =  (-angle);
             } else {
                 degree = 360 - angle;
             }
@@ -122,7 +122,7 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
             }
         }
     } else if (qAbs(velY) > qAbs(velX)) {
-        angle = atan(velY / (float) velX) * (180 / PI);
+        angle = atan(velX / (float) velY) * (180 / PI);
 
         if (velY < 0) {
             if (velX == 0) {
