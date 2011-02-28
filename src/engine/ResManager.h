@@ -11,6 +11,10 @@ namespace td {
 class ResManager
 {
 private:
+    /**
+     * The storage structure for objects.
+     * This is less than ideal, blame Darryl Pogue.
+     */
     QVector<QList<GameObject*> > objects_;
 
 public:
@@ -35,6 +39,12 @@ public:
      */
     GameObject* findObject(unsigned int id);
 
+    /**
+     * Gets the total number of objects.
+     *
+     * @author Darryl Pogue
+     * @return The number of objects.
+     */
     unsigned int countObjects() const;
 
     /**
