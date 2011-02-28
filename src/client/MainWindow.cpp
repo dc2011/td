@@ -15,6 +15,7 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setFocusPolicy( Qt::NoFocus );
     view_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->grabKeyboard();
 
     MapDisplayer* map = new MapDisplayer(scene_);
     map->viewMap(QString("./maps/testmap.tmx"));
@@ -26,7 +27,7 @@ MainWindow::MainWindow() : QMainWindow() {
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
     view_->setFixedSize(1024,768);
-    this->showFullScreen();
+    //this->showFullScreen();
 }
 
 MainWindow::~MainWindow() {
@@ -49,6 +50,7 @@ void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc) {
     gc->draw(dp);
 }
 
+/*
 bool MainWindow::event(QEvent* event) {
     QKeyEvent* keyEvent;
     switch (event->type()) {
@@ -65,6 +67,7 @@ bool MainWindow::event(QEvent* event) {
     
     return true;
 }
+*/
 
 void MainWindow::keyPressEvent(QKeyEvent * event) {
      switch (event->key()) {
@@ -90,6 +93,13 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
           if(!event->isAutoRepeat()) {
                emit signalNumberPressed(event->key());
           }
+          break;
+
+     case Qt::Key_Up:
+     case Qt::Key_Down:
+     case Qt::Key_Left:
+     case Qt::Key_Right:
+          qDebug("MainWindow::keyPressEvent(); arrow key press");
           break;
 
      default:
