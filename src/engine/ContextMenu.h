@@ -7,6 +7,12 @@
 #include "../audio/manager.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"
 
+#define FLAME_TOWER        49
+#define CANNON_TOWER       50
+#define ARROW_TOWER        51
+#define TAR_TOWER          52
+#define FLAK_TOWER         53
+
 class ContextMenu : public QObject {
     Q_OBJECT
 
@@ -48,7 +54,15 @@ public slots:
      */
     void selectMenuItem(int keyPressed);
 
+ 
     void hideSelectMenu();
+
+signals:
+    void signalFlameTowerSelected(QPointF&);
+    void signalFlakTowerSelected();
+    void signalCannonTowerSelected();
+    void signalArrowTowerSelected();
+    void signalTarTowerSelected();
 };
 
 #endif
