@@ -3,12 +3,12 @@
 
 #include <QObject>
 #include <QEvent>
-
+#include "Tile.h"
 #include "Unit.h"
 
 // This is also located in Tile.h
-enum blockingType {OPEN = 0, CLOSED = 1, NORTH_WEST = 2, NORTH_EAST = 3,
-                   SOUTH_WEST = 4, SOUTH_EAST = 5};
+//enum blockingType {OPEN = 0, CLOSED = 1, NORTH_WEST = 2, NORTH_EAST = 3,
+//                   SOUTH_WEST = 4, SOUTH_EAST = 5};
 
 class Unit;
 class CollisionComponent : public QObject {
@@ -30,8 +30,14 @@ public:
      *
      * @author Luke Queenan
      */
-    bool update();
-
+    bool update(QPointF pos);
+	/**
+	* Return true if pos is in unblocked half of tile.
+	* Return false if pos is in blocked half of tile.
+	*
+	* @author Daniel Wright
+	*/
+	bool semiBlocked(QPointF pos, int type);
 signals:
     void requestTileInfo(int xPos, int yPos, int *blockingType);
 
