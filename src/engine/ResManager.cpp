@@ -43,6 +43,25 @@ GameObject* ResManager::findObject(unsigned int id) {
     return objects_[type][objid];
 }
 
+void ResManager::deleteObject(unsigned int id) {
+    unsigned char type = (id & 0xFF000000) >> 24;
+    unsigned int objid = (id & 0x00FFFFFF);
+
+    GameObject* obj = findObject(id);
+
+    if (obj != NULL) {
+        objects_[type].removeAt(objid);
+        delete obj;
+        obj = NULL;
+    }
+}
+
+void ResManager::deleteObject(GameObject* obj) {
+    deleteObject(obj->getID());
+
+    obj = NULL;
+}
+
 unsigned int ResManager::countObjects() const {
     unsigned int count = 0;
 

@@ -40,6 +40,22 @@ public:
     GameObject* findObject(unsigned int id);
 
     /**
+     * Deletes a GameObject based on its identifier.
+     *
+     * @author Darryl Pogue
+     * @param id The identifier of the object to delete.
+     */
+    void deleteObject(unsigned int id);
+
+    /**
+     * Deletes a GameObject.
+     *
+     * @author Darryl Pogue
+     * @param The GameObject to delete.
+     */
+    void deleteObject(GameObject* obj);
+
+    /**
      * Gets the total number of objects.
      *
      * @author Darryl Pogue
