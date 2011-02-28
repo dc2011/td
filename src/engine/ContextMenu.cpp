@@ -3,6 +3,8 @@
 ContextMenu::ContextMenu(Player* player) : player_(player) {
     graphics_   = new ContextMenuGraphicsComponent();
     menuIsOpen_ = false;
+
+    connect(&closeTimer, SIGNAL(timeout()), this, SLOT(hideSelectMenu()));
 }
 
 ContextMenu::~ContextMenu() {
@@ -14,21 +16,30 @@ void ContextMenu::toggleMenu() {
         td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
         qDebug("opens a menu");
         menuIsOpen_ = true;
-        graphics_->update(player_ ); //remove once the next line is working
+        ((ContextMenuGraphicsComponent*)graphics_)->showMenu(player_);
     } else {
         td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
         qDebug("closes a menu");
         menuIsOpen_ = false;
-        //((ContextMenuGraphicsComponent) graphics)->hideMenu(player_->getPos());
+        ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
     }
 }
 
 void ContextMenu::selectMenuItem(int keyPressed) {
-    if (!menuIsOpen_) {
+    if (!menuIsOpen_ || keyPressed < 49 || keyPressed > 53) {
         return;
     }
+    td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
     qDebug("selects a menu item");
     menuIsOpen_ = false;
-    //((ContextMenuGraphicsComponent) graphics)->displayMenuSelection(player_->getPos());
+    ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
+    ((ContextMenuGraphicsComponent*)graphics_)->showSelectMenu(keyPressed, player_);
+    closeTimer.start(800);
+}
+
+void ContextMenu::hideSelectMenu() {
+    td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
+    ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
+    closeTimer.stop();
 }
 
