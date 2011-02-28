@@ -1,4 +1,5 @@
-ENGINE_HDRS +=  ./engine/ContextMenu.h \
+ENGINE_HDRS +=  ./engine/ArrowTower.h \
+                ./engine/ContextMenu.h \
                 ./engine/CDriver.h \
                 ./engine/Effect.h \
                 ./engine/GameObject.h \
@@ -13,9 +14,12 @@ ENGINE_HDRS +=  ./engine/ContextMenu.h \
                 ./engine/ResManager.h \
                 ./engine/SDriver.h \
                 ./engine/Tile.h \
+                ./engine/TileExtension.h \
+                ./engine/Tower.h \
                 ./engine/Unit.h
 
-ENGINE_SRCS +=  ./engine/ContextMenu.cpp \
+ENGINE_SRCS +=  ./engine/ArrowTower.cpp \
+                ./engine/ContextMenu.cpp \
                 ./engine/CDriver.cpp \
                 ./engine/Effect.cpp \
                 ./engine/GameObject.cpp \
@@ -30,5 +34,7 @@ ENGINE_SRCS +=  ./engine/ContextMenu.cpp \
                 ./engine/ResManager.cpp \
                 ./engine/SDriver.cpp \
                 ./engine/Tile.cpp \
+                ./engine/TileExtension.cpp \
+                ./engine/Tower.cpp \
                 ./engine/Unit.cpp
 
