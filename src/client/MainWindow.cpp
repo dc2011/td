@@ -69,8 +69,10 @@ bool MainWindow::event(QEvent* event) {
 void MainWindow::keyPressEvent(QKeyEvent * event) {
     switch (event->key()) {
         
-        case Qt::Key_Space:
-            emit signalSpacebarPressed();
+        case Qt::Key_Space:            
+	     if(!event->isAutoRepeat()) {
+		  emit signalSpacebarPressed();
+	     }
             break;
         case Qt::Key_F:
             emit signalFPressed();
@@ -85,7 +87,9 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         case Qt::Key_8:
         case Qt::Key_9:
         case Qt::Key_0:
-            emit signalNumberPressed(event->key());
+	     if(!event->isAutoRepeat()) {
+		  emit signalNumberPressed(event->key());
+	     }
             break;
 
         default:
@@ -100,8 +104,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
         case Qt::Key_Down:
         case Qt::Key_Left:
         case Qt::Key_Right:
-            //qDebug("MainWindow::keyReleaseEvent");
-            emit signalKeyReleased(event->key());
+            if(!event->isAutoRepeat()) {
+		 emit signalKeyReleased(event->key());
+	    }
             break;
 
         default:
