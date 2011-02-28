@@ -2,7 +2,7 @@
 #define MAP_H
 
 #include <QObject>
-
+#include <math.h>
 #include "Tile.h"
 
 class Map : public QObject {

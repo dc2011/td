@@ -91,7 +91,7 @@ void Map::getTileInfo(int row, int column, int *blockingType)
   *
   *@author Ian Lee
   */
-void Map::getTileChoords(double x, double y, int* row, int* column){
-    *row = Math.floor(y / TILE_HEIGHT);
-    *column= Math.floor(x / TILE_WIDTH);
+void Map::getTileCoords(double x, double y, int* row, int* column){
+    *row = floor(y / TILE_HEIGHT);
+    *column= floor(x / TILE_WIDTH);
 }
