@@ -42,16 +42,16 @@ void ContextMenu::selectMenuItem(int keyPressed) {
             emit signalFlameTowerSelected(player_->getPos());
             break;
         case FLAK_TOWER:
-            emit signalFlakTowerSelected();
+            emit signalFlakTowerSelected(player_->getPos());
             break;
         case CANNON_TOWER:
-            emit signalCannonTowerSelected();
+            emit signalCannonTowerSelected(player_->getPos());
             break;
         case ARROW_TOWER:
-            emit signalArrowTowerSelected();
+            emit signalArrowTowerSelected(player_->getPos());
             break;
         case TAR_TOWER:
-            emit signalTarTowerSelected();
+            emit signalTarTowerSelected(player_->getPos());
             break;
     }
 }

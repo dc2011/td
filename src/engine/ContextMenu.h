@@ -58,11 +58,30 @@ public slots:
     void hideSelectMenu();
 
 signals:
-    void signalFlameTowerSelected(QPointF&);
-    void signalFlakTowerSelected();
-    void signalCannonTowerSelected();
-    void signalArrowTowerSelected();
-    void signalTarTowerSelected();
+    /**
+     * Emitted when a flame tower is selected to be built.
+     */
+    void signalFlameTowerSelected(QPointF);
+    
+    /**
+     * Emitted when a flak tower is selected to be built.
+     */
+    void signalFlakTowerSelected(QPointF);
+    
+    /**
+     * Emitted when a cannon tower is selected to be built.
+     */
+    void signalCannonTowerSelected(QPointF);
+    
+    /**
+     * Emitted when an arrow tower is selected to be built.
+     */
+    void signalArrowTowerSelected(QPointF);
+    
+    /**
+     * Emitted when a tar tower is selected to be built.
+     */
+    void signalTarTowerSelected(QPointF);
 };
 
 #endif
