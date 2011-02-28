@@ -4,7 +4,7 @@
 #define PI 3.141592653589793238
 
 ProjectilePhysicsComponent::ProjectilePhysicsComponent()
-    : maxVelocity_(10), duration_(-1), increment_(0), curSize_(0.25) {}
+    : maxVelocity_(10), duration_(-1), increment_(0) {}
 ProjectilePhysicsComponent::~ProjectilePhysicsComponent() {}
 
 void ProjectilePhysicsComponent::update(Unit* projectile)
@@ -82,11 +82,13 @@ void ProjectilePhysicsComponent::setScale(Projectile *projectile) {
 
     if (duration_ < 0) {
         duration_ = projectile->getPath().length() / maxVelocity_;
-        increment_ = duration_ / 1.5;
+        increment_ = 0;
     }
-    if ((curSize_ += increment_) < (duration_ / 2) ) {
-        projectile->setScale(curSize_);
-    } else {
-        increment_ *= -1;
+
+    if (increment_++ < (duration_ / 2)) {
+        projectile->setScale(projectile->getScale() + 0.05);
+    } else if (increment_ < duration_) {
+        projectile->setScale(projectile->getScale() - 0.05);
     }
+
 }

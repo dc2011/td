@@ -23,7 +23,14 @@ public:
      * @param Projectile*, pointer to the projectile object
      */
     void setAngle(Projectile*);
-
+    /**
+     * Changes scale to simulate an arc.
+     * This function uses length of path and maxVelocity to set duration.
+     * Scale is changed based on duration.
+     *
+     * @author Marcel Vangrootheest
+     * @param Projectile*, pointer to the projectile object
+     */
     void setScale(Projectile*);
 public slots:
     virtual void update(Unit*);
@@ -32,7 +39,6 @@ private:
     float maxVelocity_;
     double duration_;
     double increment_;
-    float curSize_;
 };
 
 #endif
