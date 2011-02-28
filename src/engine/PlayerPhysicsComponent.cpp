@@ -3,7 +3,7 @@
 #define PI 3.141592653589793238
 #include <math.h>
 PlayerPhysicsComponent::PlayerPhysicsComponent()
-        : accel_(1), decel_(2), maxVelocity_(10) {}
+        : accel_(0.3), decel_(0.6), maxVelocity_(5) {}
 PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
 
 void PlayerPhysicsComponent::update(Unit* player)
@@ -140,5 +140,5 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
     }
 
     player->setOrientation(degree);
-    qDebug("Orientation: %d", degree);
+    //qDebug("Orientation: %d", degree);
 }
