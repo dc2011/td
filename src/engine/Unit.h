@@ -23,6 +23,7 @@ public:
     }
 
 public:
+    Unit();
     virtual ~Unit();
 
     virtual void networkRead(td::Stream* s);

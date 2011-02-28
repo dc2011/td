@@ -23,6 +23,7 @@ public:
     }
 
 public:
+    Player();
     Player(InputComponent* input, PhysicsComponent* physics, 
            GraphicsComponent* graphics);
     

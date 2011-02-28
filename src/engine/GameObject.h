@@ -23,6 +23,7 @@ public:
     }
 
 public:
+    GameObject();
     virtual ~GameObject() {};
 
     /**
