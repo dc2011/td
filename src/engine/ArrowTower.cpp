@@ -1,7 +1,11 @@
 #include "ArrowTower.h"
 
-td::ArrowTower::ArrowTower(PhysicsComponent* physics, 
+namespace td {
+
+ArrowTower::ArrowTower(PhysicsComponent* physics, 
                            GraphicsComponent* graphics)
         : Tower(physics, graphics) {
 }
+
+} // end of namespace td
 

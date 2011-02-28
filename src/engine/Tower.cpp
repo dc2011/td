@@ -1,6 +1,10 @@
 #include "Tower.h"
 
-td::Tower::Tower(PhysicsComponent* physics, GraphicsComponent* graphics) 
+namespace td {
+
+Tower::Tower(PhysicsComponent* physics, GraphicsComponent* graphics) 
         : TileExtension(graphics), physics_(physics) {
-} 
+}
+
+} // end of namespace td
 

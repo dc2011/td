@@ -1,6 +1,10 @@
 #include "TileExtension.h"
 
-td::TileExtension::TileExtension(GraphicsComponent* graphics) 
+namespace td {
+
+TileExtension::TileExtension(GraphicsComponent* graphics) 
         : graphics_(graphics) {
 }
+
+} // end of namespace td
 
