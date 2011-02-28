@@ -43,14 +43,6 @@ public:
         damage_ = damage;
     }
 
-    size_t getDuration(){
-        return duration_;
-    }
-
-    void setDuration(size_t duration){
-        duration_ = duration;
-    }
-
     QPointF* getStartPoint(){
         return start_;
     }
@@ -77,7 +69,6 @@ public:
 
 private:
     size_t damage_;
-    size_t duration_;
     QPointF* start_;
     QPointF* end_;
     QLineF path_;
