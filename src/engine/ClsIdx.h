@@ -11,7 +11,12 @@ enum {
     kPlayer,
     kNPC,
     kProjectile,
+    kContextMenu,
     kTower,
+    kArrowTower,
+    kMap,
+    kTile,
+    kTileExtension,
     kMAX_CLASS_INDEX
 };
 
