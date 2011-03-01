@@ -98,6 +98,7 @@ public:
      */
     void setInputComponent(InputComponent* input) {
         input_ = input;
+        input_->setParent(this);
     }
 
     /**

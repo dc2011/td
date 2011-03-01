@@ -21,6 +21,8 @@ void Unit::networkRead(td::Stream* s) {
 }
 
 void Unit::networkWrite(td::Stream* s) {
+    GameObject::networkWrite(s);
+
     s->writeFloat(this->getPos().x());
     s->writeFloat(this->getPos().y());
 
