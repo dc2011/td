@@ -8,6 +8,11 @@
 
 namespace td {
 
+/**
+ * Resource Manager class for GameObjects.
+ *
+ * @author Darryl Pogue
+ */
 class ResManager
 {
 private:
@@ -18,7 +23,18 @@ private:
     QVector<QList<GameObject*> > objects_;
 
 public:
+    /**
+     * Constructor for the Resource Manager.
+     *
+     * @author Darryl Pogue
+     */
     ResManager();
+
+    /**
+     * Destructor for the Resource Manager.
+     *
+     * @author Darryl Pogue.
+     */
     virtual ~ResManager();
 
     /**
