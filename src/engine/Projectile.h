@@ -21,6 +21,8 @@ public:
     }
 
 public:
+    Projectile();
+
     /**
      * Creates new projectile.
      *

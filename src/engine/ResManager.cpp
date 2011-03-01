@@ -1,5 +1,6 @@
 #include "ResManager.h"
 #include "Player.h"
+#include "Projectile.h"
 
 namespace td {
 
@@ -17,15 +18,22 @@ GameObject* ResManager::createObject(unsigned char type) {
 
     switch (type) {
         case clsidx::kPlayer:
-            ret = new Player(NULL, NULL, NULL);
+            ret = new Player();
             id = (Player::clsIdx() << 24) | objects_[type].size();
             ret->setID(id);
-            objects_[type].append(ret);
+            break;
+        case clsidx::kProjectile:
+            ret = new Projectile();
+            id = (Projectile::clsIdx() << 24) | objects_[type].size();
+            ret->setID(id);
+            break;
         case clsidx::kGameObject:
         case clsidx::kUnit:
         default:
             break;
     }
+
+    objects_[type].append(ret);
 
     return ret;
 }
