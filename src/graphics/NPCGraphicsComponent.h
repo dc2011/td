@@ -1,21 +1,21 @@
-#ifndef TOWERGRAPHICSCOMPONENT_H
-#define TOWERGRAPHICSCOMPONENT_H
+#ifndef NPC_H
+#define NPC_H
 
 #include <QObject>
 #include <QPainter>
 #include <QPointF>
 #include "GraphicsComponent.h"
 
-class TowerGraphicsComponent : public GraphicsComponent {
+class NPCGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
 public:
     /**
-     * Instantiates a Tower graphics component
+     * Instantiates a NPC graphics component
      * @author Warren Voelkl
      */
-    TowerGraphicsComponent();
-    virtual ~TowerGraphicsComponent();
+    NPCGraphicsComponent();
+    virtual ~NPCGraphicsComponent();
 
     /**
      * Loads a structure from the item and game component class then sends
