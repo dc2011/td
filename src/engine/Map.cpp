@@ -11,6 +11,7 @@ namespace td{
     {
         heightInTiles_ = heightInTiles;
         widthInTiles_ = widthInTiles;
+        waypoints = QMap<int,QList<QPoint> >();
         /*
     tiles_ = new Tile**[heightInTiles_];
     for (int i = 0; i < heightInTiles_; i++)
