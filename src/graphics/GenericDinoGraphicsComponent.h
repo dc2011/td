@@ -6,16 +6,16 @@
 #include <QPointF>
 #include "GraphicsComponent.h"
 
-class TowerGraphicsComponent : public GraphicsComponent {
+class GenericDinoGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
 public:
     /**
-     * Instantiates a Tower graphics component
+     * Instantiates a GenericDino graphics component
      * @author Warren Voelkl
      */
-    TowerGraphicsComponent();
-    virtual ~TowerGraphicsComponent();
+    GenericDinoGraphicsComponent();
+    virtual ~GenericDinoGraphicsComponent();
 
     /**
      * Loads a structure from the item and game component class then sends
@@ -31,6 +31,15 @@ public:
      * @author Warren Voelkl
      */
     virtual void initPixmaps();
+
+
+    virtual void animate();
+
+private:
+    /** Slows down how often the images animate from the timer. **/
+    int animateMod;
+    /** The number of times the timer has ticked. **/
+    int animateCount;
 };
 
 #endif
