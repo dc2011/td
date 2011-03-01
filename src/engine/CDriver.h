@@ -71,7 +71,7 @@ public:
      * @author Duncan Donaldson
      * @param obj The GameObject to transmit.
      */
-    void updateServer(GameObject* obj);
+    static void updateServer(GameObject* obj);
 
     /**
      *

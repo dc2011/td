@@ -2,6 +2,10 @@
 #include "Player.h"
 #define PI 3.141592653589793238
 #include <math.h>
+#ifndef SERVER
+#include "CDriver.h"
+#endif
+
 PlayerPhysicsComponent::PlayerPhysicsComponent()
         : accel_(0.3), decel_(0.6), maxVelocity_(5) {}
 PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
@@ -11,6 +15,10 @@ void PlayerPhysicsComponent::update(Unit* player)
     this->applyForce((Player*)player);
     this->applyVelocity((Player*)player);
     this->applyDirection((Player*)player);
+
+#ifndef SERVER
+    td::CDriver::updateServer(player);
+#endif
 }
 
 /* applies velocity to position, currently moves past bounds */
