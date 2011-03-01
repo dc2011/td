@@ -27,7 +27,7 @@ private:
     QGraphicsPixmapItem* pixmapItem_;
 
     /**
-     * The timer that will cause the animation of the context menu.
+     * The timer that will cause the animation of all graphics objects
      */
     static QTimer * animationTimer_;
     td::MainWindow* mainWindow_;
@@ -36,12 +36,26 @@ protected:
      * container for all pixmaps
      **/
     QPixmap * pixmapImgs;
+
     /**
      * the current index for the currently drawn pixmap
      **/
     int pixmapIndex;
+
+    /**
+     * updates the img index
+     * @author Warren Voelkl
+     **/
     void setImgIndex(int index);
+    /**
+     * Creates a connection between the timer and this object
+     * @author Warren Voelkl
+     **/
     void animateConnect();
+    /**
+     * Disconnect the connection between the timer this object
+     * @author Warren Voelkl
+     **/
     void animateDisconnect();
 
     /**
@@ -74,8 +88,6 @@ public:
      */
     virtual void update(GameObject* obj) = 0;
 
-
-
     /**
      * Resets the matrix then builds the transformation matrix from the
      * structure values.
@@ -85,26 +97,6 @@ public:
      * to render an image.
      */
     void draw(DrawParams* dp);
-
-    /**
-     * Gets the QGraphicsPixmapItem that represents this object.
-     * The return value should be checked for NULL, in case the object has
-     * not been created in the graphics context yet.
-     *
-     * @author Darryl Pogue
-     * @author Dean Morin
-     * @return The pixmap pointer, or NULL if it has not been initialized.
-     */
-    //QGraphicsPixmapItem* getPixmapItem();
-
-    /**
-     * Sets the QGraphicsPixmapItem that represents this object.
-     *
-     * @author Darryl Pogue
-     * @author Dean Morin
-     * @param qgpi The QGraphicsPixmapItem to be stored.
-     */
-    //void setPixmapItem(QGraphicsPixmapItem* qgpi);
 
     /**
      * Called from main. instantiates the QGRaphicsPixmapItem
@@ -120,10 +112,15 @@ public:
     virtual void initPixmaps() = 0;
     /**
      * returns the current pixmap image pointed to from the pixmapimg
+     * @author Warren Voelkl
      */
     QPixmap getCurrentPixmap();
 
 public slots:
+    /**
+     * emits a signal to the gui thread when a timer has ticked
+     * @author Warren Voelkl
+     */
     void onTimerTick();
 signals:
     void created(GraphicsComponent* gc);

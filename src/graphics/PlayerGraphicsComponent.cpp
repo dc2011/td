@@ -4,7 +4,7 @@
 PlayerGraphicsComponent::PlayerGraphicsComponent()
         : GraphicsComponent()
 {
-    animateMod = 5;
+    animateMod = 4;
     animateCount = 0;
     animateConnect();
     emit created(this);
