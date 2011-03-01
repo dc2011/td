@@ -20,16 +20,12 @@ MainWindow::MainWindow() : QMainWindow() {
     MapDisplayer* map = new MapDisplayer(scene_);
     map->viewMap(QString("./maps/testmap.tmx"));
 
-    QScrollArea *a = new QScrollArea(this);
-    a->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    a->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    a->releaseKeyboard();
-
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
     view_->setFixedSize(1024,768);
-    //this->showFullScreen();
+    this->showFullScreen();
     
+    // This focus policy may be implied by default...
     this->setFocusPolicy(Qt::StrongFocus);
     this->grabKeyboard();
 }
