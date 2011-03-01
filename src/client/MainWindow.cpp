@@ -12,6 +12,9 @@ MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
 
+    keysTimer_ = new QTimer(this);
+    keysTimer_->start(50);
+
     view_->setFocusPolicy( Qt::NoFocus );
     view_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -28,6 +31,9 @@ MainWindow::MainWindow() : QMainWindow() {
     // This focus policy may be implied by default...
     this->setFocusPolicy(Qt::StrongFocus);
     this->grabKeyboard();
+
+    connect(keysTimer_, SIGNAL(timeout()), this, SLOT(keyHeld()));
+
 }
 
 MainWindow::~MainWindow() {
@@ -50,13 +56,45 @@ void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc) {
     gc->draw(dp);
 }
 
+
+void MainWindow::keyHeld()
+{
+     
+     //do nothing if different directions held
+     if(keysHeld_ & KEYUP && keysHeld_ & KEYDOWN) {
+          emit signalKeyReleased(Qt::Key_Up);
+          emit signalKeyReleased(Qt::Key_Down);
+          return;
+     } else if(keysHeld_ & KEYLEFT && keysHeld_ & KEYRIGHT) {
+          emit signalKeyReleased(Qt::Key_Left);
+          emit signalKeyReleased(Qt::Key_Right);
+          return;
+     }
+
+     if(keysHeld_ & KEYUP) {
+          emit signalKeyPressed(Qt::Key_Up);
+     }
+     if(keysHeld_ & KEYDOWN) {
+          emit signalKeyPressed(Qt::Key_Down);
+     }
+     if(keysHeld_ & KEYLEFT) {
+          emit signalKeyPressed(Qt::Key_Left);
+     }
+     if(keysHeld_ & KEYRIGHT) {
+          emit signalKeyPressed(Qt::Key_Right);
+     }
+}
+
 void MainWindow::keyPressEvent(QKeyEvent * event) {
+     
+     if(event->isAutoRepeat()) {
+          return;
+     }
+     
      switch (event->key()) {
         
-     case Qt::Key_Space:            
-          if(!event->isAutoRepeat()) {
-               emit signalSpacebarPressed();
-          }
+     case Qt::Key_Space:
+          emit signalSpacebarPressed();
           break;
      case Qt::Key_F:
           emit signalFPressed();
@@ -71,16 +109,20 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
      case Qt::Key_8:
      case Qt::Key_9:
      case Qt::Key_0:
-          if(!event->isAutoRepeat()) {
-               emit signalNumberPressed(event->key());
-          }
+          emit signalNumberPressed(event->key());
           break;
 
      case Qt::Key_Up:
+          keysHeld_ |= KEYUP;
+          break;
      case Qt::Key_Down:
+          keysHeld_ |= KEYDOWN;
+          break;
      case Qt::Key_Left:
+          keysHeld_ |= KEYLEFT;
+          break;
      case Qt::Key_Right:
-          emit signalKeyPressed(event->key());
+          keysHeld_ |= KEYRIGHT;
           break;
 
      default:
@@ -90,20 +132,34 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent * event) {
-    switch (event->key()) {
-        case Qt::Key_Up:
-        case Qt::Key_Down:
-        case Qt::Key_Left:
-        case Qt::Key_Right:
-            if(!event->isAutoRepeat()) {
-		 emit signalKeyReleased(event->key());
-	    }
-            break;
 
-        default:
-            QMainWindow::keyPressEvent(event);
-            break;
-    }
+     if(event->isAutoRepeat()) {
+          return;
+     }
+
+     switch (event->key()) {
+
+     case Qt::Key_Up:
+          keysHeld_ ^= KEYUP;
+          emit signalKeyReleased(event->key());
+          break;
+     case Qt::Key_Down:
+          keysHeld_ ^= KEYDOWN;
+          emit signalKeyReleased(event->key());
+          break;
+     case Qt::Key_Left:
+          keysHeld_ ^= KEYLEFT;
+          emit signalKeyReleased(event->key());
+          break;
+     case Qt::Key_Right:
+          keysHeld_ ^= KEYRIGHT;
+          emit signalKeyReleased(event->key());
+          break;
+
+     default:
+          QMainWindow::keyPressEvent(event);
+          break;
+     }
 }
 
 } /* end namespace td */

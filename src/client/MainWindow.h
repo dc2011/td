@@ -5,7 +5,14 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QKeyEvent>
+#include <QTimer>
 #include "../graphics/DrawParams.h"
+
+/*Bitmask Defines*/
+#define KEYUP 1
+#define KEYDOWN 2
+#define KEYLEFT 4
+#define KEYRIGHT 8
 
 class GraphicsComponent;
 
@@ -32,6 +39,16 @@ private:
      * The view which displays the graphics scene.
      */
     QGraphicsView* view_;
+
+    /**
+     * The bitmask of keys held and not released
+     */
+    char keysHeld_;
+
+    /**
+     * The keysPressed Timer
+     */
+    QTimer *keysTimer_;
 
 public:
     /**
@@ -86,6 +103,13 @@ public slots:
      */
     void drawItem(DrawParams* dp, GraphicsComponent* gc);
     
+    /**
+     * Emits signals depending on the keys held down
+     *
+     * @author Terence Stenvold
+     */
+    void keyHeld();
+
 signals:
     void signalKeyPressed(int);
     void signalKeyReleased(int);
