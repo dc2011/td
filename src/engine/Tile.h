@@ -28,6 +28,7 @@ public:
     int getRow();
     void addUnit(Unit *unitToAdd);
     void removeUnit(Unit *unitToRemove);
+    std::set<Unit*> getUnit();
     blockingType getType();
 
 private:

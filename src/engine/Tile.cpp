@@ -76,3 +76,9 @@ void Tile::removeUnit(Unit *unitToRemove)
 {
     currentUnits_.erase(unitToRemove);
 }
+
+std::set<Unit*> Tile::getUnit(){
+    return currentUnits_;
+
+}
+
