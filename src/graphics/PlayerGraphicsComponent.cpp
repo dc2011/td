@@ -46,8 +46,6 @@ void PlayerGraphicsComponent::animate() {
         setImgIndex(0);
         return;
     }
-    qDebug("pixmapIndex %d", pixmapIndex);
-    qDebug("animateCount %d", animateCount);
     if (!(animateCount++ % animateMod)) {
         pixmapIndex = (pixmapIndex != PIX_PLAYER_MAX - 1)? pixmapIndex + 1 : 1;
         setImgIndex(pixmapIndex);
