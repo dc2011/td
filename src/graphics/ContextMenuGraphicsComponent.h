@@ -35,7 +35,7 @@ public:
     /**
      * Changes the index, and sets the position of the context menu to be shown.
      *
-     * @author Karl Castillo
+     * @author Karl Castillo, Warren Voelkl
      * @param obj - the player object; it will be used as a reference as to where
      *              the context menu will be painted.
      */
@@ -53,7 +53,7 @@ public:
      * Changes the index, and sets the position of the context menu to be shown.
      * This function is called when a user chooses a tower he wishes to build
      *
-     * @author Karl Castillo
+     * @author Karl Castillo, Warren Voelkl
      * @param type - the keypressed; each keypress (49 - 53) is associated with
      *               a specific type of tower
      *        obj - the player object; it will be used as a reference as to where
@@ -66,15 +66,11 @@ public slots:
      * Increments the scale factor for the build context menu every tick of the
      * timer. The timer is stopped when the scale factor reaches a certain amount.
      *
-     * @author Karl Castillo
+     * @author Karl Castillo, Warren Voelkl
      */
-    void animate();
+    virtual void animate();
 
 private:
-    /**
-     * Holds the index of the current image that is to be painted.
-     */
-    int imageIndex;
 
     /**
      * Holds the position of the position where the menu is to be painted.
@@ -86,12 +82,5 @@ private:
      * This variable is for animation purposes only.
      */
     float scaleFactor;
-
-    /**
-     * The timer that will cause the animation of the context menu.
-     */
-    QTimer animationTimer;
 };
-
 #endif
-

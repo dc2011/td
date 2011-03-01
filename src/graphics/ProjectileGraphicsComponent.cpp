@@ -4,6 +4,7 @@
 ProjectileGraphicsComponent::ProjectileGraphicsComponent()
         : GraphicsComponent() {
     /* Do init-type stuff here */
+    emit created(this);
 }
 
 ProjectileGraphicsComponent::~ProjectileGraphicsComponent() {}
