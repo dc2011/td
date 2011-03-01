@@ -50,25 +50,6 @@ void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc) {
     gc->draw(dp);
 }
 
-/*
-bool MainWindow::event(QEvent* event) {
-    QKeyEvent* keyEvent;
-    switch (event->type()) {
-    case QEvent::ShortcutOverride:
-	 keyEvent = (QKeyEvent*) event;
-	 emit signalKeyPressed(keyEvent->key());
-	 event->accept();
-	 return true;	 
-    default:
-	 event->ignore();
-	 QMainWindow::event(event);
-	 break;
-    }
-    
-    return true;
-}
-*/
-
 void MainWindow::keyPressEvent(QKeyEvent * event) {
      switch (event->key()) {
         

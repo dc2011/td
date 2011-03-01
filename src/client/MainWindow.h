@@ -57,8 +57,6 @@ public:
     QGraphicsScene* getScene() { return scene_; }
     
 protected:
-    //virtual bool event(QEvent*);
-    
     /**
      * Deals with keyboard presses. Arrow keys are handled elsewhere.
      *
