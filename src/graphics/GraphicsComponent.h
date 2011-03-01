@@ -43,6 +43,16 @@ protected:
     void setImgIndex(int index);
     void animateConnect();
     void animateDisconnect();
+
+    /**
+     * Create the object in the graphics context.
+     * This emits the created signal with a pointer to the current
+     * GraphicsComponent.
+     *
+     * @author Darryl Pogue
+     */
+    void create();
+
 public:
     virtual void animate();
     /**
@@ -64,14 +74,7 @@ public:
      */
     virtual void update(GameObject* obj) = 0;
 
-    /**
-     * Create the object in the graphics context.
-     * This emits the created signal with a pointer to the current
-     * GraphicsComponent.
-     *
-     * @author Darryl Pogue
-     */
-    void create();
+
 
     /**
      * Resets the matrix then builds the transformation matrix from the

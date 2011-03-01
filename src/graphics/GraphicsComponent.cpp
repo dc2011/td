@@ -20,7 +20,7 @@ GraphicsComponent::GraphicsComponent() {
         animationTimer_->start(ANIMATION_TIMEOUT);
     }
     mutex_.unlock();
-    create();
+    //create();
 }
 
 GraphicsComponent::~GraphicsComponent() {

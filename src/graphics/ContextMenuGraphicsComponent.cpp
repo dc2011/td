@@ -12,7 +12,7 @@
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
 
-
+    emit created(this);
 }
 
 void ContextMenuGraphicsComponent::update(GameObject *) {

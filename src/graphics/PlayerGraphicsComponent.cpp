@@ -7,7 +7,7 @@ PlayerGraphicsComponent::PlayerGraphicsComponent()
     animateMod = 5;
     animateCount = 0;
     animateConnect();
-
+    emit created(this);
     /* Do init-type stuff here */
 }
 
