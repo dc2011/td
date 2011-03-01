@@ -2,7 +2,7 @@
 #include "../engine/ContextMenu.h"
 #include "../engine/Player.h"
 
-#define ANIMATION_TIMEOUT  25
+
 #define FLAME_TOWER        49
 #define CANNON_TOWER       50
 #define ARROW_TOWER        51
@@ -11,9 +11,8 @@
 
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
-    imageIndex = 0;
 
-    connect(&animationTimer, SIGNAL(timeout()), this, SLOT(animate()));
+
 }
 
 void ContextMenuGraphicsComponent::update(GameObject *) {
@@ -30,17 +29,12 @@ void ContextMenuGraphicsComponent::initPixmaps() {
     //TODO: add animation images here or just single img
     pixmapImgs = new QPixmap[PIX_CONTEXT_MENU_MAX];
     pixmapIndex = 0;
-    pixmapImgs[pixmapIndex] = PIX_CONTEXT_MENU_MAIN;
-    pixmapIndex++;
-    pixmapImgs[pixmapIndex] = PIX_CONTEXT_MENU_T1;
-    pixmapIndex++;
-    pixmapImgs[pixmapIndex] = PIX_CONTEXT_MENU_T2;
-    pixmapIndex++;
-    pixmapImgs[pixmapIndex] = PIX_CONTEXT_MENU_T3;
-    pixmapIndex++;
-    pixmapImgs[pixmapIndex] = PIX_CONTEXT_MENU_T4;
-    pixmapIndex++;
-    pixmapImgs[pixmapIndex] = PIX_CONTEXT_MENU_T5;
+    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_MAIN;
+    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T1;
+    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T2;
+    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T3;
+    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T4;
+    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T5;
     pixmapIndex = 0;
 }
 
@@ -51,11 +45,10 @@ void ContextMenuGraphicsComponent::showMenu(GameObject *obj) {
     menuPos.setX(tempMenuPos.x() - 33);
     menuPos.setY(tempMenuPos.y() - 43);
 
-    imageIndex = 0;
+    setImgIndex(0);
 
     scaleFactor = 0;
-
-    animationTimer.start(ANIMATION_TIMEOUT);
+    animateConnect();
 
     update(NULL);
 }
@@ -69,26 +62,26 @@ void ContextMenuGraphicsComponent::showSelectMenu(int type, GameObject *obj) {
     menuPos.setY(tempMenuPos.y() - 43);
 
     switch(type) {
+        //going to have some accessor to set img
     case FLAME_TOWER:
-        imageIndex = 1;
+        setImgIndex(1);
         break;
     case CANNON_TOWER:
-        imageIndex = 2;
+        setImgIndex(2);
         break;
     case ARROW_TOWER:
-        imageIndex = 3;
+        setImgIndex(3);
         break;
     case TAR_TOWER:
-        imageIndex = 4;
+        setImgIndex(4);
         break;
     case FLAK_TOWER:
-        imageIndex = 5;
+        setImgIndex(5);
         break;
     }
 
     scaleFactor = 0;
-
-    animationTimer.start(ANIMATION_TIMEOUT);
+    animateConnect();
 
     update(NULL);
 }
@@ -105,7 +98,7 @@ void ContextMenuGraphicsComponent::animate() {
     scaleFactor += 0.1;
 
     if(scaleFactor == 0.5) {
-        animationTimer.stop();
+        animateDisconnect();
     }
 
     update(NULL);

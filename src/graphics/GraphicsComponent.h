@@ -2,25 +2,35 @@
 #define GRAPHICSCOMPONENT_H
 
 #define OFFSCREEN -10000
+#define ANIMATION_TIMEOUT  25
 
 #include <QMutexLocker>
 #include <QObject>
 #include <QPointF>
 #include <QGraphicsPixmapItem>
+#include <QTimer>
 #include "DrawParams.h"
 #include "PixmapFiles.h"
 #include "../client/MainWindow.h"
 #include "../engine/GameObject.h"
+#include "../util/mutex_magic.h"
 
 
 class GraphicsComponent : public QObject {
     Q_OBJECT
+    THREAD_SAFE_SINGLETON
 
 private:
     /**
      *  the pixelmapItem which is is used to draw a pixel map at a location
      **/
     QGraphicsPixmapItem* pixmapItem_;
+
+    /**
+     * The timer that will cause the animation of the context menu.
+     */
+    static QTimer * animationTimer_;
+    td::MainWindow* mainWindow_;
 protected:
     /**
      * container for all pixmaps
@@ -30,8 +40,11 @@ protected:
      * the current index for the currently drawn pixmap
      **/
     int pixmapIndex;
+    void setImgIndex(int index);
+    void animateConnect();
+    void animateDisconnect();
 public:
-
+    virtual void animate();
     /**
      * Sets up the necessary signals and slots to create the 
      * QGraphicsPixmapItem for this component in the rendering thread. This      * is done to ensure that updates on the pixmap item are thread-safe.
@@ -40,7 +53,7 @@ public:
      */
     GraphicsComponent();
 
-    virtual ~GraphicsComponent() {}
+    virtual ~GraphicsComponent();
 
     /**
      * TODO for each GraphicsComponensts update function
@@ -107,9 +120,13 @@ public:
      */
     QPixmap getCurrentPixmap();
 
+public slots:
+    void onTimerTick();
 signals:
     void created(GraphicsComponent* gc);
     void signalDraw(DrawParams* dp, GraphicsComponent* gc);
+    void signalAnimateTick(GraphicsComponent * gc);
+
 };
 
 #endif

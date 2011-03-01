@@ -4,10 +4,15 @@
 PlayerGraphicsComponent::PlayerGraphicsComponent()
         : GraphicsComponent()
 {
+    animateMod = 5;
+    animateCount = 0;
+    animateConnect();
+
     /* Do init-type stuff here */
 }
 
-PlayerGraphicsComponent::~PlayerGraphicsComponent() {}
+//PlayerGraphicsComponent::~PlayerGraphicsComponent() {
+//}
 
 void PlayerGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
@@ -28,6 +33,18 @@ void PlayerGraphicsComponent::initPixmaps() {
     pixmapImgs = new QPixmap[PIX_PLAYER_MAX];
     pixmapIndex = 0;
     pixmapImgs[pixmapIndex++] = PIX_PLAYER_0;
+    pixmapImgs[pixmapIndex++] = PIX_PLAYER_1;
+    pixmapImgs[pixmapIndex++] = PIX_PLAYER_2;
+    pixmapImgs[pixmapIndex++] = PIX_PLAYER_3;
+    pixmapImgs[pixmapIndex++] = PIX_PLAYER_4;
+    pixmapImgs[pixmapIndex++] = PIX_PLAYER_5;
     pixmapIndex = 0;
+}
+
+void PlayerGraphicsComponent::animate() {
+    if (!(animateCount++ % animateMod)) {
+        pixmapIndex = (pixmapIndex != PIX_PLAYER_MAX - 1)? pixmapIndex + 1 : 0;
+        setImgIndex(pixmapIndex);
+    }
 }
 

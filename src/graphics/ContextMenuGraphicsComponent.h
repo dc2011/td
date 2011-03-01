@@ -68,13 +68,9 @@ public slots:
      *
      * @author Karl Castillo
      */
-    void animate();
+    virtual void animate();
 
 private:
-    /**
-     * Holds the index of the current image that is to be painted.
-     */
-    int imageIndex;
 
     /**
      * Holds the position of the position where the menu is to be painted.
@@ -86,11 +82,6 @@ private:
      * This variable is for animation purposes only.
      */
     float scaleFactor;
-
-    /**
-     * The timer that will cause the animation of the context menu.
-     */
-    QTimer animationTimer;
 };
 
 #endif

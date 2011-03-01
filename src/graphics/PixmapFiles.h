@@ -15,7 +15,12 @@
 #define PIX_CONTEXT_MENU_T5     QString("./img/menuFlak.png")
 #define PIX_CONTEXT_MENU_MAX    6
 #define PIX_PLAYER_0            QString("./img/player-stand.png")
-#define PIX_PLAYER_MAX          1
+#define PIX_PLAYER_1            QString("./img/player-move1.png")
+#define PIX_PLAYER_2            QString("./img/player-move2.png")
+#define PIX_PLAYER_3            QString("./img/player-move3.png")
+#define PIX_PLAYER_4            QString("./img/player-move4.png")
+#define PIX_PLAYER_5            QString("./img/player-move5.png")
+#define PIX_PLAYER_MAX          6
 #define PIX_PROJECTILE_0        QString("./img/projectile.png")
 #define PIX_PROJECTILE_MAX      1
 #endif

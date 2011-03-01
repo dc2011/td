@@ -110,4 +110,8 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
     }
 }
 
+void MainWindow::animateItem(GraphicsComponent* gc) {
+    gc->animate();
+}
+
 } /* end namespace td */

@@ -87,6 +87,7 @@ public slots:
      * @param gc The GraphicsComponent of the game object.
      */
     void drawItem(DrawParams* dp, GraphicsComponent* gc);
+    void animateItem(GraphicsComponent* gc);
     
 signals:
     void signalKeyPressed(int);

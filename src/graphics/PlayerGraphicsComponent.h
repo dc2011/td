@@ -15,7 +15,7 @@ public:
      * @author warren
      */
     PlayerGraphicsComponent();
-    virtual ~PlayerGraphicsComponent();
+    //virtual ~PlayerGraphicsComponent();
 
     /**
      * Loads a structure from the item and game component class then sends
@@ -31,6 +31,10 @@ public:
      * @author Warren Voelk
      */
     virtual void initPixmaps();
+    virtual void animate();
+private:
+    int animateMod;
+    int animateCount;
 };
 
 #endif
