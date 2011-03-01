@@ -5,6 +5,7 @@ ENGINE_HDRS +=  ./engine/ArrowTower.h \
                 ./engine/GameObject.h \
                 ./engine/InputComponent.h \
                 ./engine/NPC.h \
+                ./engine/NPCInputComponent.h \
                 ./engine/PlayerInputComponent.h \
                 ./engine/PhysicsComponent.h \
                 ./engine/Player.h \
@@ -25,6 +26,7 @@ ENGINE_SRCS +=  ./engine/ArrowTower.cpp \
                 ./engine/GameObject.cpp \
                 ./engine/InputComponent.cpp \
                 ./engine/NPC.cpp \
+                ./engine/NPCInputComponent.cpp \
                 ./engine/PlayerInputComponent.cpp \
                 ./engine/PhysicsComponent.cpp \
                 ./engine/Player.cpp \
