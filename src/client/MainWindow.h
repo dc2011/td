@@ -102,6 +102,7 @@ public slots:
      * @param gc The GraphicsComponent of the game object.
      */
     void drawItem(DrawParams* dp, GraphicsComponent* gc);
+    void animateItem(GraphicsComponent* gc);
     
     /**
      * Emits signals depending on the keys held down
