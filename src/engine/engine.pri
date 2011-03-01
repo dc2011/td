@@ -1,4 +1,6 @@
+
 ENGINE_HDRS +=  ./engine/CollisionComponent.h \
+                ./engine/ArrowTower.h \
                 ./engine/ContextMenu.h \
                 ./engine/CDriver.h \
                 ./engine/Effect.h \
@@ -14,9 +16,13 @@ ENGINE_HDRS +=  ./engine/CollisionComponent.h \
                 ./engine/ProjectilePhysicsComponent.h \
                 ./engine/SDriver.h \
                 ./engine/Tile.h \
+                ./engine/TileExtension.h \
+                ./engine/Tower.h \
                 ./engine/Unit.h
 
+
 ENGINE_SRCS +=  ./engine/CollisionComponent.cpp \
+                ./engine/ArrowTower.cpp \
                 ./engine/ContextMenu.cpp \
                 ./engine/CDriver.cpp \
                 ./engine/Effect.cpp \
@@ -32,5 +38,7 @@ ENGINE_SRCS +=  ./engine/CollisionComponent.cpp \
                 ./engine/ProjectilePhysicsComponent.cpp \
                 ./engine/SDriver.cpp \
                 ./engine/Tile.cpp \
+                ./engine/TileExtension.cpp \
+                ./engine/Tower.cpp \
                 ./engine/Unit.cpp
 
