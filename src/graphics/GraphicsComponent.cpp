@@ -66,11 +66,13 @@ QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
 }
 
 void GraphicsComponent::animateConnect() {
-    connect(GraphicsComponent::animationTimer_, SIGNAL(timeout()), this, SLOT(onTimerTick()));
+    connect(GraphicsComponent::animationTimer_,
+            SIGNAL(timeout()), this, SLOT(onTimerTick()));
 }
 
 void GraphicsComponent::animateDisconnect() {
-    disconnect(GraphicsComponent::animationTimer_, SIGNAL(timeout()), this, SLOT(onTimerTick()));
+    disconnect(GraphicsComponent::animationTimer_,
+               SIGNAL(timeout()), this, SLOT(onTimerTick()));
 }
 
 void GraphicsComponent::animate() {

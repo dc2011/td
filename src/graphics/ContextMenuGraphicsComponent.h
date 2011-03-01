@@ -83,6 +83,4 @@ private:
      */
     float scaleFactor;
 };
-
 #endif
-
