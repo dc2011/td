@@ -6,6 +6,7 @@ Projectile::Projectile(PhysicsComponent* physics, GraphicsComponent* graphics,
     graphics_ = graphics;
     input_ = NULL;
     this->setPos(start->x(),start->y());
+    scale_ = 0.25;
     start_ = start;
     end_ = end;
     path_ = QLineF(end->x(), end->y(), start->x(), start->y());

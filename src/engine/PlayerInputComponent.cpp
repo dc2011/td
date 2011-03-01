@@ -40,7 +40,7 @@ void PlayerInputComponent::processDirectionKey(int eventType, int key) {
 }
 
 void PlayerInputComponent::keyPressed(int key) {
-    qDebug("PlayerInputComponent::keyPressed(%d);", key);
+     //qDebug("PlayerInputComponent::keyPressed(%d);", key);
     processDirectionKey(QEvent::KeyPress, key);
 
 }

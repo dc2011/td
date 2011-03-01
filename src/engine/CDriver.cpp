@@ -60,7 +60,7 @@ namespace td {
   }
 
   void CDriver::createProjectile(){
-      qDebug("fire projectile");
+      //qDebug("fire projectile");
       PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
       GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
       QPointF* start = new QPointF(human_->getPos());
