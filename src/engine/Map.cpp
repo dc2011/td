@@ -144,37 +144,51 @@ std::set<Unit*> Map::getUnits(double x, double y, double radius){
 
     for (i = 0; i< radius ; i++){
         for(j=0; j+i < radius ; j++){
-            if( i + r <heightInTiles_){
+            if( i + r < heightInTiles_){
+
+                if(j + c < widthInTiles_){
+                    tempUnits = tiles_[i+r][j+c]->getUnit();
+
+                    std::set<Unit*>::iterator iter;
+                    for( iter = tempUnits.begin();iter!= tempUnits.end();iter++){
+                        units.insert(*iter);
+                    }
+                }
+                if(c - j >= 0){
+                    tempUnits = tiles_[i+r][c-j]->getUnit();
+
+                    std::set<Unit*>::iterator iter;
+                    for( iter = tempUnits.begin();iter!= tempUnits.end();iter++){
+                        units.insert(*iter);
+                    }
+                }
 
             }
             if( r - i >= 0){
 
+                if(j + c < widthInTiles_){
+                    tempUnits = tiles_[i+r][j+c]->getUnit();
+
+                    std::set<Unit*>::iterator iter;
+                    for( iter = tempUnits.begin();iter!= tempUnits.end();iter++){
+                        units.insert(*iter);
+                    }
+                }
+                if(c - j >= 0){
+                    tempUnits = tiles_[r-i][c-j]->getUnit();
+
+                    std::set<Unit*>::iterator iter;
+                    for( iter = tempUnits.begin();iter!= tempUnits.end();iter++){
+                        units.insert(*iter);
+                    }
+                }
             }
-            if(j + c < widthInTiles_){
 
-            }
-            if(c - j >= 0){
-
-            }
-
-
-            tempUnits = tiles_[i+r][j+c]->getUnit();
-
-            std::set<Unit*>::iterator iter;
-            for( iter = tempUnits.begin();iter!= tempUnits.end();iter++){
-                units.insert(*iter);
-            }
 
         }
     }
     return units;
-
 }
 
 
-
-
-
-
-
-}
+}//end namespace
