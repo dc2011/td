@@ -2,6 +2,7 @@
 #define _netmessages_
 
 #define TD_PORT 26631
+#define TD_GROUP QHostAddress("232.22.42.1")
 
 namespace td {
 namespace network {
