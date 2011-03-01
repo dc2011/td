@@ -42,8 +42,14 @@ void PlayerGraphicsComponent::initPixmaps() {
 }
 
 void PlayerGraphicsComponent::animate() {
+    if (!isMoving_) {
+        setImgIndex(0);
+        return;
+    }
+    qDebug("pixmapIndex %d", pixmapIndex);
+    qDebug("animateCount %d", animateCount);
     if (!(animateCount++ % animateMod)) {
-        pixmapIndex = (pixmapIndex != PIX_PLAYER_MAX - 1)? pixmapIndex + 1 : 0;
+        pixmapIndex = (pixmapIndex != PIX_PLAYER_MAX - 1)? pixmapIndex + 1 : 1;
         setImgIndex(pixmapIndex);
     }
 }

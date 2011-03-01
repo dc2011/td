@@ -33,6 +33,10 @@ private:
     td::MainWindow* mainWindow_;
 protected:
     /**
+     * If the obect is currently moving used for animations
+     */
+    bool isMoving_;
+    /**
      * container for all pixmaps
      **/
     QPixmap * pixmapImgs;

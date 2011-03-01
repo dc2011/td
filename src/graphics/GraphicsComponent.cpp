@@ -19,13 +19,14 @@ GraphicsComponent::GraphicsComponent() {
         animationTimer_ = new QTimer();
         animationTimer_->start(ANIMATION_TIMEOUT);
     }
+    isMoving_ = 0;
     mutex_.unlock();
     //create();
 }
 
 GraphicsComponent::~GraphicsComponent() {
     delete(pixmapItem_);
-    delete(pixmapImgs);
+    //delete(pixmapImgs);
 
 }
 
@@ -45,6 +46,7 @@ void GraphicsComponent::draw(DrawParams* dp) {
     pixmapItem_->translate(-center.x(), -center.y());
     pixmapItem_->setPos(dp->pos);
     pixmapItem_->setPos(dp->pos);
+    isMoving_ = dp->moving;
     if (dp != NULL) {
         delete dp;
     }
@@ -76,9 +78,6 @@ void GraphicsComponent::animate() {
 }
 
 void GraphicsComponent::setImgIndex(int index) {
-    //if (pixmapItem_ == NULL || pixmapImgs == NULL) {
-    //    return;
-    //}
     pixmapIndex = index;
     pixmapItem_->setPixmap(pixmapImgs[pixmapIndex]);
 }
