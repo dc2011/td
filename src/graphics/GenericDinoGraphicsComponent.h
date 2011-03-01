@@ -32,7 +32,11 @@ public:
      */
     virtual void initPixmaps();
 
-
+    /**
+     * The primary method used to determine the behaviours of animation
+     *
+     * @author Warren Voelkl
+     */
     virtual void animate();
 
 private:
