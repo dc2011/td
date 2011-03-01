@@ -33,6 +33,8 @@ public slots:
 private:
     NPC* parent_;
     QLineF segment_;
+    QList<QPointF> waypoints_;
+    size_t nextDest_;
 };
 
 #endif // NPCINPUTCOMPONENT_H

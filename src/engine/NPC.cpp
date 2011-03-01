@@ -1,7 +1,12 @@
 #include "NPC.h"
 
-NPC::NPC(PhysicsComponent* physics) {
+NPC::NPC(PhysicsComponent* physics, InputComponent* input,
+         GraphicsComponent* graphics) {
     physics_ = physics;
+    input_ = input;
+    graphics_ = graphics;
+    pos_.setX(50);
+    pos_.setY(50);
 }
 
 size_t NPC::getHealth() {
@@ -22,4 +27,5 @@ void NPC::setDamage(size_t damage) {
 
 void NPC::update() {
     physics_->update(this);
+    graphics_->update(this);
 }
