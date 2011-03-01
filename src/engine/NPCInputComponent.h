@@ -15,11 +15,24 @@ public:
     
     void update();
     void setParent(Unit*);
+    /**
+     * This function calculates the force to apply to get to the destination.
+     *
+     * @author Marcel Vangrootheest.
+     */
+    void makeForce();
+    /**
+     * Updates the segment if NPC arrives at the current destination.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void nextDestination();
 
 public slots:
 
 private:
     NPC* parent_;
+    QLineF segment_;
 };
 
 #endif // NPCINPUTCOMPONENT_H
