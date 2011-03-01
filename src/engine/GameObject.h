@@ -42,7 +42,7 @@ public:
      * @author Darryl Pogue
      * @param s The network stream.
      */
-    virtual void networkWrite(td::Stream* s) = 0;
+    virtual void networkWrite(td::Stream* s);
 
     /**
      * Gets the ID of the object.
