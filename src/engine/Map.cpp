@@ -1,5 +1,12 @@
 #include "Map.h"
 
+namespace td{
+
+
+
+    Map* Map::instance_ = NULL;
+    QMutex Map::mutex_;
+
 Map::Map(int heightInTiles, int widthInTiles)
 {
     heightInTiles_ = heightInTiles;
@@ -16,6 +23,18 @@ Map::Map(int heightInTiles, int widthInTiles)
     }
     */
 }
+
+
+Map* Map::init(int heightInTiles,int widthInTiles){
+    if (instance_ != NULL) {
+        return instance_;
+    }
+
+    SAFE_OPERATION(instance_ = new Map(heightInTiles,widthInTiles))
+    return instance_;
+
+}
+
 
 /**
   * This is a testing function pending a real map load function.
@@ -76,12 +95,12 @@ void Map::loadTestMap2(){
   */
 void Map::getTileInfo(int row, int column, int *blockingType)
 {
-    *blockingType = CLOSED;
+    //*blockingType = CLOSED;
 
-    /* //should work @author ian
+    //should work @author ian
     *blockingType = tiles_[row][column]->getType();
 
-    */
+
 }
 
 /**
@@ -94,4 +113,68 @@ void Map::getTileInfo(int row, int column, int *blockingType)
 void Map::getTileCoords(double x, double y, int* row, int* column){
     *row = floor(y / TILE_HEIGHT);
     *column= floor(x / TILE_WIDTH);
+}
+
+/**
+
+  * gets the Tile from coords x,y
+  *
+  *
+  *@author Ian Lee
+  */
+Tile* Map::getTile(double x, double y){
+    int r,c;
+    getTileCoords(x,y,&r,&c);
+    return tiles_[r][c];
+
+}
+/**
+
+  * gets the Units from Tiles surounding coords x,y in radius
+  * currently radius is an int -> number of tiles away
+  *
+  *@author Ian Lee
+  */
+std::set<Unit*> Map::getUnits(double x, double y, double radius){
+    int i,j;
+    int r,c;
+    getTileCoords(x,y,&r,&c);
+    std::set<Unit*> tempUnits;
+    std::set<Unit*> units = std::set<Unit*>();
+
+    for (i = 0; i< radius ; i++){
+        for(j=0; j+i < radius ; j++){
+            if( i + r <heightInTiles_){
+
+            }
+            if( r - i >= 0){
+
+            }
+            if(j + c < widthInTiles_){
+
+            }
+            if(c - j >= 0){
+
+            }
+
+
+            tempUnits = tiles_[i+r][j+c]->getUnit();
+
+            std::set<Unit*>::iterator iter;
+            for( iter = tempUnits.begin();iter!= tempUnits.end();iter++){
+                units.insert(*iter);
+            }
+
+        }
+    }
+    return units;
+
+}
+
+
+
+
+
+
+
 }
