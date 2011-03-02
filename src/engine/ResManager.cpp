@@ -38,16 +38,21 @@ GameObject* ResManager::createObject(unsigned char type) {
     return ret;
 }
 
-void ResManager::addExistingObject(GameObject* obj, unsigned char type, unsigned int id) {
+void ResManager::addExistingObject(GameObject* obj)
+{
+    unsigned char type = (obj->getID() & 0xFF000000) >> 24;
+    int id = obj->getID() & 0x00FFFFFF;
 
-    objects_[type].insert((id & 0x00FFFFFF), obj);
+    while (id >= objects_[type].size()) {
+        objects_[type].append(NULL);
+    }
 
+    objects_[type][id] = obj;
 }
-
 
 GameObject* ResManager::findObject(unsigned int id) {
     unsigned char type = (id & 0xFF000000) >> 24;
-    unsigned int objid = (id & 0x00FFFFFF);
+    int objid = (id & 0x00FFFFFF);
 
     if (type >= clsidx::kMAX_CLASS_INDEX
             || objid >= objects_[type].size())

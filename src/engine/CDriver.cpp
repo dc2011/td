@@ -125,7 +125,7 @@ void CDriver::UDPReceived(Stream* s) {
 
             //read ID and add human to existing objects
             human_->setID(s->readInt());
-            mgr_->addExistingObject(human_, Player::clsIdx(), human_->getID());
+            mgr_->addExistingObject(human_);
             break;
 
         default:
