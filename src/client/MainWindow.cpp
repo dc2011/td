@@ -30,7 +30,7 @@ MainWindow::MainWindow() : QMainWindow() {
     
     // This focus policy may be implied by default...
     this->setFocusPolicy(Qt::StrongFocus);
-    this->grabKeyboard();
+    //this->grabKeyboard();
 
     connect(keysTimer_, SIGNAL(timeout()), this, SLOT(keyHeld()));
 
