@@ -3,6 +3,9 @@
 
 #include "../util/mutex_magic.h"
 #include <QObject>
+#include <QPoint>
+#include <QList>
+#include <QMap>
 #include <QMutex>
 #include <math.h>
 #include "Tile.h"
@@ -16,11 +19,11 @@ namespace td{
 
     private:
                 /**
-             * The static singleton instance of the NetworkClient.
-             *
-             * It should only be retrieved using the instance() method, which
-             * will initialize it the first time that it is retrieved.
-             */
+     * The static singleton instance of the NetworkClient.
+     *
+     * It should only be retrieved using the instance() method, which
+     * will initialize it the first time that it is retrieved.
+     */
                 static Map* instance_;
 
 
@@ -36,7 +39,7 @@ namespace td{
 
 
 
-
+        QMap<int,QList<QPoint> > waypoints;
 
         Tile ***tiles_;
         int heightInTiles_;
@@ -55,8 +58,8 @@ namespace td{
     public:
 
         /**
-         * Create and initialize the NetworkClient instance.
-         * This must be the first NetworkClient function that is called. Once an
+         * Create and initialize the Map instance.
+         * This must be the first Map function that is called. Once an
          * instance has been created, all calls to init() or instance() will
          * return the existing instance.
          *
@@ -97,7 +100,7 @@ namespace td{
       */
         void loadTestMap();
         /**
-      *  basic map creator function
+      *  basic map creator function.
       *
       * @author Ian Lee
       */
@@ -105,7 +108,7 @@ namespace td{
 
         /**
 
-      * gets the row and column from coords x,y
+      * gets the row and column from coords x,y.
       * stores in pointers row and column
       *
       *@author Ian Lee
@@ -113,7 +116,7 @@ namespace td{
         void getTileCoords(double x, double y, int* row, int* column);
         /**
 
-      * gets the Tile from coords x,y
+      * gets the Tile from coords x,y.
       *
       *
       *@author Ian Lee
@@ -122,13 +125,38 @@ namespace td{
 
         /**
 
-      * gets the Units from Tiles surounding coords x,y in radius
+      * gets the Units from Tiles surounding coords x,y in radius.
       * currently radius is an int -> number of tiles away
       *
       *@author Ian Lee
       */
         std::set<Unit*> getUnits(double x, double y, double radius);
 
+        /**
+          * gets all waypoints stored.
+          *
+          * @author Ian Lee
+          */
+        QMap<int,QList<QPoint> > getAllWaypoints(){
+            return waypoints;
+        }
+
+        /**
+          * gets waypoints associated with key
+          *
+          *@author Ian Lee
+          */
+        QList<QPoint> getWaypoints(int key){
+            return waypoints[key];
+        }
+        /**
+          * inserts waypoint list to qmap
+          *
+          *@author Ian Lee
+          */
+        void addWaypoints(int key ,QList<QPoint> newSet){
+            waypoints.insert(key, newSet);
+        }
 
     };
 
