@@ -27,8 +27,8 @@ AudioManager::~AudioManager()
 void AudioManager::shutdown()
 {
     if (inited_) {
-        alExit();
         inited_ = false;
+        alExit();
     }
 }
 

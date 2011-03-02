@@ -23,5 +23,12 @@
 #define PIX_PLAYER_MAX          6
 #define PIX_PROJECTILE_0        QString("./img/projectile.png")
 #define PIX_PROJECTILE_MAX      1
+#define PIX_TOWER_0             QString("./img/arrow.png")
+#define PIX_TOWER_MAX           1
+#define PIX_NPC_0               QString("./img/arrow.png")
+#define PIX_NPC_MAX             1
+#define PIX_GENERICDINO_0       QString("./img/plea-1.png")
+#define PIX_GENERICDINO_1       QString("./img/plea-2.png")
+#define PIX_GENERICDINO_MAX     2
 #endif
 

@@ -12,7 +12,7 @@ class PlayerGraphicsComponent : public GraphicsComponent {
 public:
     /**
      * Instantiates a PlayerGraphicsComponent component
-     * @author warren
+     * @author Warren Voelkl
      */
     PlayerGraphicsComponent();
     //virtual ~PlayerGraphicsComponent();
@@ -21,21 +21,21 @@ public:
      * Loads a structure from the item and game component class then sends
      * the structure to the generic draw slot in GraphicsComponent.
      *
-     * @author Warren Voelk
+     * @author Warren Voelkl
      */
     virtual void update(GameObject* obj);
 
     /**
      * Gets a pixmap for the object based on its current animation state.
      *
-     * @author Warren Voelk
+     * @author Warren Voelkl
      */
     virtual void initPixmaps();
 
     /**
      * The primary method used to determine the behaviours of animation
      *
-     * @author Warren Voelk
+     * @author Warren Voelkl
      */
     virtual void animate();
 
