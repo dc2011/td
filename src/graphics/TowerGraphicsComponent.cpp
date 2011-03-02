@@ -3,6 +3,7 @@
 
 TowerGraphicsComponent::TowerGraphicsComponent()
         : GraphicsComponent() {
+    emit created(this);
     /* Do init-type stuff here */
 }
 

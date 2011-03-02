@@ -5,7 +5,14 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QKeyEvent>
+#include <QTimer>
 #include "../graphics/DrawParams.h"
+
+/*Bitmask Defines*/
+#define KEYUP 1
+#define KEYDOWN 2
+#define KEYLEFT 4
+#define KEYRIGHT 8
 
 class GraphicsComponent;
 
@@ -33,6 +40,16 @@ private:
      */
     QGraphicsView* view_;
 
+    /**
+     * The bitmask of keys held and not released
+     */
+    char keysHeld_;
+
+    /**
+     * The keysPressed Timer
+     */
+    QTimer *keysTimer_;
+
 public:
     /**
      * Creates an instance of the class if one doesn't exist yet.
@@ -57,8 +74,6 @@ public:
     QGraphicsScene* getScene() { return scene_; }
     
 protected:
-    virtual bool event(QEvent*);
-    
     /**
      * Deals with keyboard presses. Arrow keys are handled elsewhere.
      *
@@ -87,7 +102,15 @@ public slots:
      * @param gc The GraphicsComponent of the game object.
      */
     void drawItem(DrawParams* dp, GraphicsComponent* gc);
+    void animateItem(GraphicsComponent* gc);
     
+    /**
+     * Emits signals depending on the keys held down
+     *
+     * @author Terence Stenvold
+     */
+    void keyHeld();
+
 signals:
     void signalKeyPressed(int);
     void signalKeyReleased(int);
