@@ -45,8 +45,15 @@ GameObject* SDriver::updateObject(Stream* s) {
 }
 
 void SDriver::onUDPReceive(Stream* s) {
-    s->readByte(); /* Message Type */
-
+    int message = s->readByte(); /* Message Type */
+    
+    switch(message) {
+        case network::kRequestObjID:
+            //TODO: this
+        default:
+            //TODO: this
+            break;
+    }
     GameObject* obj = updateObject(s);
 
     Stream* out = new Stream();

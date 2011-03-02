@@ -58,18 +58,18 @@ void CDriver::readObject(Stream* s) {
 }
 
 void CDriver::createHumanPlayer(MainWindow *gui) {
-    human_ = (Player*)mgr_->createObject(Player::clsIdx());
-
+    
+    Stream* request = new Stream();
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent();
     PlayerInputComponent* input = new PlayerInputComponent();
 
+    human_ = new Player(input, physics, graphics);
+
     connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
     connect(gui, SIGNAL(signalKeyReleased(int)), input, SLOT(keyReleased(int)));
 
-    human_->setInputComponent(input);
-    human_->setGraphicsComponent(graphics);
-    human_->setPhysicsComponent(physics);
+    NetworkClient::instance()->send(network::kRequestObjID, request->data());
 }
 
   void CDriver::createProjectile(){
@@ -117,9 +117,25 @@ void CDriver::endGame() {
 }
 
 void CDriver::UDPReceived(Stream* s) {
-    s->readByte(); /* Message Type */
+    int message = s->readByte(); /* Message Type */
 
-    this->readObject(s);
+    switch(message) {
+
+        case network::kAssignObjID:
+
+            //read ID and add human to existing objects
+            human_->setID(s->readInt());
+            mgr_->addExistingObject(human_, Player::clsIdx(), human_->getID());
+            break;
+
+        default:
+
+            //TEMPORARY
+            this->readObject(s);
+            break;
+
+    }    
+
 }
 
 } /* end namespace td */
