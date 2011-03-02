@@ -12,6 +12,7 @@ MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
 
+    keysHeld_ = 0;
     keysTimer_ = new QTimer(this);
     keysTimer_->start(50);
 
@@ -26,7 +27,7 @@ MainWindow::MainWindow() : QMainWindow() {
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
     view_->setFixedSize(1024,768);
-    this->showFullScreen();
+    //this->showFullScreen();
     
     // This focus policy may be implied by default...
     this->setFocusPolicy(Qt::StrongFocus);
