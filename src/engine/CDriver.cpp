@@ -69,6 +69,8 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
     connect(gui, SIGNAL(signalKeyReleased(int)), input, SLOT(keyReleased(int)));
 
+    request->writeByte(Player::clsIdx());
+
     NetworkClient::instance()->send(network::kRequestObjID, request->data());
 }
 
@@ -87,6 +89,10 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
 void CDriver::startGame() {
     gameTimer_   = new QTimer(this);
 
+    connectToServer("127.0.0.1");
+    connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
+            this, SLOT(UDPReceived(Stream*)));
+
     createHumanPlayer(mainWindow_);
     contextMenu_ = new ContextMenu(human_);
 
@@ -100,10 +106,6 @@ void CDriver::startGame() {
     /* TODO: Remove this */
     QObject::connect(mainWindow_, SIGNAL(signalFPressed()),
             this, SLOT(createProjectile()));
-
-    connectToServer("127.0.0.1");
-    connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
-            this, SLOT(UDPReceived(Stream*)));
 
     gameTimer_->start(30);
 }
