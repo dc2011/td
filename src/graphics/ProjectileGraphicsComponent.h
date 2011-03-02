@@ -12,7 +12,7 @@ class ProjectileGraphicsComponent : public GraphicsComponent {
 public:
     /**
      * Instantiates a projectile graphics component
-     * @author warren
+     * @author Warren Voelkl
      */
     ProjectileGraphicsComponent();
     virtual ~ProjectileGraphicsComponent();
@@ -21,14 +21,14 @@ public:
      * Loads a structure from the item and game component class then sends
      * the structure to the generic draw slot in GraphicsComponent.
      *
-     * @author Warren Voelk
+     * @author Warren Voelkl
      */
     virtual void update(GameObject* obj);
 
     /**
      * Gets a pixmap for the object based on its current animation state.
      *
-     * @author Warren Voelk
+     * @author Warren Voelkl
      */
     virtual void initPixmaps();
 };
