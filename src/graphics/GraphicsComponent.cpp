@@ -21,13 +21,10 @@ GraphicsComponent::GraphicsComponent() {
     }
     isMoving_ = 0;
     mutex_.unlock();
-    //create();
 }
 
 GraphicsComponent::~GraphicsComponent() {
     delete(pixmapItem_);
-    //delete(pixmapImgs);
-
 }
 
 void GraphicsComponent::create() {
@@ -35,9 +32,6 @@ void GraphicsComponent::create() {
 }
 
 void GraphicsComponent::draw(DrawParams* dp) {
-    if (pixmapItem_ == NULL) {
-        return;
-    }
     QPointF center = pixmapItem_->boundingRect().center();
     pixmapItem_->resetMatrix();//important
     pixmapItem_->translate(center.x(), center.y());
@@ -45,11 +39,9 @@ void GraphicsComponent::draw(DrawParams* dp) {
     pixmapItem_->rotate(dp->degrees * -1);
     pixmapItem_->translate(-center.x(), -center.y());
     pixmapItem_->setPos(dp->pos);
-    pixmapItem_->setPos(dp->pos);
     isMoving_ = dp->moving;
-    if (dp != NULL) {
-        delete dp;
-    }
+    delete dp;
+
 }
 
 QPixmap GraphicsComponent::getCurrentPixmap() {
@@ -66,11 +58,13 @@ QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
 }
 
 void GraphicsComponent::animateConnect() {
-    connect(GraphicsComponent::animationTimer_, SIGNAL(timeout()), this, SLOT(onTimerTick()));
+    connect(GraphicsComponent::animationTimer_,
+            SIGNAL(timeout()), this, SLOT(onTimerTick()));
 }
 
 void GraphicsComponent::animateDisconnect() {
-    disconnect(GraphicsComponent::animationTimer_, SIGNAL(timeout()), this, SLOT(onTimerTick()));
+    disconnect(GraphicsComponent::animationTimer_,
+               SIGNAL(timeout()), this, SLOT(onTimerTick()));
 }
 
 void GraphicsComponent::animate() {

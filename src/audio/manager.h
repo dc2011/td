@@ -187,7 +187,7 @@ public:
      *
      * @author Terence Stenvold
      * @param filename The path to the .ogg file.
-     * @param SoundType either ntf for notifcation or sfx. defaults sfx. 
+     * @param type is a Enum either ntf for notifcation or sfx. defaults sfx. 
      */
     void playSfx(QString filename, SoundType type=sfx);
 
