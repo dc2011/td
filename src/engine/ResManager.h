@@ -45,7 +45,15 @@ public:
      * @return A new GameObject of the given type, or NULL.
      */
     GameObject* createObject(unsigned char type);
-
+    /**
+     * Adds an existing game object to the resource manager.
+     *
+     * @author Duncan Donaldson
+     * @param obj A pointer to the object to be added.
+     * @param type The class index of the type to be added.
+     * @param id The object index of the object to be added.
+     */
+    void addExistingObject(GameObject* obj, unsigned char type, unsigned int id);
     /**
      * Finds a GameObject based on its identifier.
      *
