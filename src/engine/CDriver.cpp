@@ -113,8 +113,6 @@ void CDriver::startGame() {
 void CDriver::endGame() {
     disconnectFromServer();
 
-    AudioManager::instance()->shutdown();
-
     this->gameTimer_->stop();
 }
 
