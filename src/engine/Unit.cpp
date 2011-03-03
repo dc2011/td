@@ -3,12 +3,6 @@
 Unit::Unit() : GameObject(), velocity_(QVector2D(0, 0)),
         force_(QVector2D(0, 0)), orientation_(0), scale_(1) { }
 
-Unit::~Unit() {
-    delete input_;
-    delete physics_;
-    delete graphics_;
-}
-
 void Unit::networkRead(td::Stream* s) {
     float x = s->readFloat();
     float y = s->readFloat();

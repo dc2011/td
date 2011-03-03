@@ -139,6 +139,9 @@ public:
      * @return This object's graphics component;
      */
     GraphicsComponent* getGraphicsComponent() const {
+        if (graphics_ == NULL) {
+            qDebug("GameObject::getGraphicsComponent(); Getting null pointer");
+        }
         return graphics_;
     }
     
@@ -159,6 +162,9 @@ public:
      * @return This object's physics component;
      */
     PhysicsComponent* getPhysicsComponent() const {
+        if (physics_ == NULL) {
+            qDebug("GameObject::getPhysicsComponent(); Getting null pointer");
+        }
         return physics_;
     }
 
@@ -180,6 +186,9 @@ public:
      * @return This object's input component;
      */
     InputComponent* getInputComponent() const {
+        if (input_ == NULL) {
+            qDebug("GameObject::getInputComponent(); Getting null pointer");
+        }
         return input_;
     }
 
@@ -197,7 +206,9 @@ public slots:
     
     /**
      * Pure virtual method that all inheriting classes need to implement.
-     * This method is the starting point for responses to all events that affect the object.
+     * This method is the starting point for responses to all events that 
+     * affect the object.
+     *
      * It is a slot and thus is called when a signal is bound to it.
      * 
      * @author Tom Nightingale

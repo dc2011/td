@@ -24,7 +24,7 @@ public:
 
 public:
     Unit();
-    virtual ~Unit();
+    virtual ~Unit() {}
 
     virtual void networkRead(td::Stream* s);
     virtual void networkWrite(td::Stream* s);
@@ -44,7 +44,8 @@ public:
     void setVelocity(QVector2D&);
 
     /**
-     * Inheriting classes need to define a method of setting their parent (owner) object.
+     * Inheriting classes need to define a method of setting their parent
+     * (owner) object.
      * 
      * @author Tom Nightingale
      */
@@ -54,7 +55,8 @@ public:
     }
     
     /**
-     * Inheriting classes need to define a method of setting their parent (owner) object.
+     * Inheriting classes need to define a method of setting their parent
+     * (owner) object.
      * 
      * @author Tom Nightingale
      */
