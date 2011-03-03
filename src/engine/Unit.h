@@ -44,7 +44,8 @@ public:
     void setVelocity(QVector2D&);
 
     /**
-     * Inheriting classes need to define a method of setting their parent (owner) object.
+     * Inheriting classes need to define a method of setting their parent
+     * (owner) object.
      * 
      * @author Tom Nightingale
      */
@@ -54,7 +55,8 @@ public:
     }
     
     /**
-     * Inheriting classes need to define a method of setting their parent (owner) object.
+     * Inheriting classes need to define a method of setting their parent
+     * (owner) object.
      * 
      * @author Tom Nightingale
      */
@@ -62,22 +64,6 @@ public:
         force_.setX(force.x());
         force_.setY(force.y());
         //qDebug("Force: %d, %d", (int) force.x(), (int) force.y());
-    }
-
-    int getOrientation() {
-        return orientation_;
-    }
-
-    void setOrientation(int orient) {
-        orientation_ = orient;
-    }
-
-    float getScale() {
-        return scale_;
-    }
-
-    void setScale(float scale) {
-        scale_ = scale;
     }
 
     /**
@@ -101,55 +87,14 @@ public:
         input_->setParent(this);
     }
 
-    /**
-     * Gets the PhysicsComponent for this game unit.
-     *
-     * @author Darryl Pogue
-     * @return The object's PhysicsComponent.
-     */
-    PhysicsComponent* getPhysicsComponent() const {
-        return physics_;
-    }
-
-    /**
-     * Sets the PhysicsComponent for this game unit.
-     *
-     * @author Darryl Pogue
-     * @param physics The PhysicsComponent to assign.
-     */
-    void setPhysicsComponent(PhysicsComponent* physics) {
-        physics_ = physics;
-    }
-
-    /**
-     * Gets the GraphicsComponent for this game unit.
-     *
-     * @author Darryl Pogue
-     * @return The object's GraphicsComponent.
-     */
-    GraphicsComponent* getGraphicsComponent() const {
-        return graphics_;
-    }
-
-    /**
-     * Sets the GraphicsComponent for this game unit.
-     *
-     * @author Darryl Pogue
-     * @param graphics The GraphicsComponent to assign.
-     */
-    void setGraphicsComponent(GraphicsComponent* graphics) {
-        graphics_ = graphics;
-    }
-
 protected:
     QVector2D velocity_;
     QVector2D force_;
-    int orientation_;
-    float scale_;
 
+    /**
+     * All input handling logic for this Unit is contained in this component.
+     */
     InputComponent* input_;
-    PhysicsComponent* physics_;
-    GraphicsComponent* graphics_;
 };
 
 #endif

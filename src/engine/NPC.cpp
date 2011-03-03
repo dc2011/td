@@ -7,6 +7,8 @@ NPC::NPC(InputComponent* input,PhysicsComponent* physics, GraphicsComponent* gra
     this->setForce(force);
     input_ = input;
     input_->setParent(this);
+    pos_.setX(50);
+    pos_.setY(50);
 }
 
 size_t NPC::getHealth() {
