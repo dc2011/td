@@ -4,8 +4,8 @@ namespace td{
 
 
 
-    Map* Map::instance_ = NULL;
-    QMutex Map::mutex_;
+    //Map* Map::instance_ = NULL;
+    //QMutex Map::mutex_;
 
     Map::Map(int heightInTiles, int widthInTiles)
     {
@@ -23,17 +23,6 @@ namespace td{
         }
     }
     */
-    }
-
-
-    Map* Map::init(int heightInTiles,int widthInTiles){
-        if (instance_ != NULL) {
-            return instance_;
-        }
-
-        SAFE_OPERATION(instance_ = new Map(heightInTiles,widthInTiles))
-                return instance_;
-
     }
 
 

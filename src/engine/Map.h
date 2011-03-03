@@ -15,29 +15,17 @@ namespace td{
         Q_OBJECT
 
 
-        THREAD_SAFE_SINGLETON
-
-    private:
-                /**
-     * The static singleton instance of the NetworkClient.
-     *
-     * It should only be retrieved using the instance() method, which
-     * will initialize it the first time that it is retrieved.
-     */
-                static Map* instance_;
 
 
 
-
-
-    private:
+    public:
 
         explicit Map(int heightInTiles, int widthInTiles);
 
         virtual ~Map() { }
 
 
-
+    private:
 
         QMap<int,QList<QPoint> > waypoints;
 
@@ -57,38 +45,7 @@ namespace td{
 
     public:
 
-        /**
-         * Create and initialize the Map instance.
-         * This must be the first Map function that is called. Once an
-         * instance has been created, all calls to init() or instance() will
-         * return the existing instance.
-         *
-         * @author Ian Lee
-         * @param heightInTiles number of tiles map is high
-         * @param widthInTiles number of tiles map is wide
-         * @return A pointer to the initialized Map instance.
-         */
-        static Map* init(int heightInTiles,int widthInTiles);
-        /**
-         * not implemented yet
-         * This should only be called once, when the program is exiting.
-         *
-         * @author Ian Lee
-         */
-        static void shutdown();
 
-        /**
-         * Return the instance of the Map.
-         * You MUST call init() to create the initial instance. Once an instance
-         * has been created, all calls to init() or instance() will return the
-         * existing instance.
-         *
-         * @author Ian Lee
-         * @return A pointer to the Map instance.
-         */
-        static Map* instance(){
-            return instance_;
-        }
 
         /**
       * This is a testing function pending a real map load function.
