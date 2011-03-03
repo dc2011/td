@@ -18,7 +18,9 @@ public:
     }
 
 public:
+    NPC() {}
     NPC(PhysicsComponent* physics);
+    virtual ~NPC() {}
 
     virtual void update();
     size_t getHealth();

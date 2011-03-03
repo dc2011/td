@@ -26,7 +26,8 @@ public:
     Player();
     Player(InputComponent* input, PhysicsComponent* physics, 
            GraphicsComponent* graphics);
-    
+    virtual ~Player() {}
+
     virtual void update();
 };
 

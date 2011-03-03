@@ -35,6 +35,8 @@ public:
     Projectile(PhysicsComponent* physics, GraphicsComponent* graphics,
                QPointF* start, QPointF* end);
 
+    virtual ~Projectile() {}
+
     virtual void update();
 
     size_t getDamage(){
