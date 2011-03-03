@@ -139,9 +139,6 @@ public:
      * @return This object's graphics component;
      */
     GraphicsComponent* getGraphicsComponent() const {
-        if (graphics_ == NULL) {
-            qDebug("GameObject::getGraphicsComponent(); Getting null pointer");
-        }
         return graphics_;
     }
     
@@ -176,30 +173,6 @@ public:
      */
     void setPhysicsComponent(PhysicsComponent* physics) {
         physics_ = physics;
-    }
-
-    /**
-     * Get a pointer to this object's input component. Please note that not
-     * all GameObjects will have an input component.
-     *
-     * @author Dean Morin
-     * @return This object's input component;
-     */
-    InputComponent* getInputComponent() const {
-        if (input_ == NULL) {
-            qDebug("GameObject::getInputComponent(); Getting null pointer");
-        }
-        return input_;
-    }
-
-    /**
-     * Set the input component for this object. Please note that not all
-     * GameObjects will have an input component.
-     *
-     * @author Dean Morin
-     */
-    void setInputComponent(InputComponent* input) {
-        input_ = input;
     }
     
 public slots:
@@ -238,12 +211,7 @@ protected:
      * Not all GameObjects will have a physics component.
      */
     PhysicsComponent* physics_;
-
-    /**
-     * All input handling for this GameObject is contained in this component.
-     * Not all GameObjects will have a input component.
-     */
-    InputComponent* input_;
-
 };
+
 #endif
+
