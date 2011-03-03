@@ -47,19 +47,19 @@ void PlayerGraphicsComponent::animate() {
     int pos;
     
     if (!isMoving_) {
-	pixmapIndex = 0;
+        pixmapIndex = 0;
         setImgIndex(pixmapIndex);
         return;
     }
 
     if (pixmapIndex == 0) {
-	 pos = rand() % 2 + 1;
-	 pos == 1 ? pixmapIndex = 0 : pixmapIndex = 3;
+	pos = rand() % 2 + 1;
+        pos == 1 ? pixmapIndex = 0 : pixmapIndex = 3;
     }
     
     if (!(animateCount++ % animateMod)) {
-	++pixmapIndex >= PIX_PLAYER_MAX ? pixmapIndex = 1 : pixmapIndex;
-	setImgIndex(pixmapIndex);
+        ++pixmapIndex >= PIX_PLAYER_MAX ? pixmapIndex = 1 : pixmapIndex;
+        setImgIndex(pixmapIndex);
     }
 }
 
