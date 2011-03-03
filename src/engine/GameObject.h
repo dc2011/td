@@ -120,7 +120,7 @@ public:
      * @returns bool dirty_
      */
     bool getDirtyStatus() { return dirty_; }
-
+    
     /**
       * Overloaded < comparator for set implementation
       *
@@ -133,9 +133,45 @@ public:
     }
 
     /**
-     * Get a pointer to this object's graphics component.
+     * Get the direction of the GameObject, where 0 degrees is east.
      *
      * @author Dean Morin
+     */
+    int getOrientation() {
+        return orientation_;
+    }
+
+    /**
+     * Set the direction of the GameObject, where 0 degrees is east.
+     *
+     * @author Dean Morin
+     */
+    void setOrientation(int orient) {
+        orientation_ = orient;
+    }
+
+    /**
+     * Get the scale of the GameObject, where 1 is unscaled.
+     *
+     * @author Dean Morin
+     */
+    float getScale() {
+        return scale_;
+    }
+
+    /**
+     * Set the scale of the GameObject, where 1 is unscaled.
+     *
+     * @author Dean Morin
+     */
+    void setScale(float scale) {
+        scale_ = scale;
+    }
+
+    /**
+     * Get a pointer to this object's graphics component.
+     *
+     * @author Darryl Pogue
      * @return This object's graphics component;
      */
     GraphicsComponent* getGraphicsComponent() const {
@@ -145,7 +181,7 @@ public:
     /**
      * Set the graphics component for this object.
      *
-     * @author Dean Morin
+     * @author Darryl Pougue
      */
     void setGraphicsComponent(GraphicsComponent* graphics) {
         graphics_ = graphics;
@@ -155,7 +191,7 @@ public:
      * Get a pointer to this object's physics component. Please note that not
      * all GameObjects will have a physics component.
      *
-     * @author Dean Morin
+     * @author Darryl Pogue
      * @return This object's physics component;
      */
     PhysicsComponent* getPhysicsComponent() const {
@@ -169,7 +205,7 @@ public:
      * Set the physics component for this object. Please note that not all
      * GameObjects will have a physics component.
      *
-     * @author Dean Morin
+     * @author Darryl Pougue
      */
     void setPhysicsComponent(PhysicsComponent* physics) {
         physics_ = physics;
@@ -200,6 +236,16 @@ protected:
      * The unique ID for each game object.
      */
     unsigned int iD_;
+   
+    /**
+     * The direction of the GameObject, where 0 degrees is east.
+     */
+    int orientation_;
+
+    /**
+     * The scale of the GameObject, where 1 is unscaled.
+     */
+    float scale_;
 
     /**
      * All rendering logic for this GameObject is contained in this component.

@@ -66,22 +66,6 @@ public:
         //qDebug("Force: %d, %d", (int) force.x(), (int) force.y());
     }
 
-    int getOrientation() {
-        return orientation_;
-    }
-
-    void setOrientation(int orient) {
-        orientation_ = orient;
-    }
-
-    float getScale() {
-        return scale_;
-    }
-
-    void setScale(float scale) {
-        scale_ = scale;
-    }
-
     /**
      * Gets the InputComponent for this game unit.
      *
@@ -106,8 +90,6 @@ public:
 protected:
     QVector2D velocity_;
     QVector2D force_;
-    int orientation_;
-    float scale_;
 
     /**
      * All input handling logic for this Unit is contained in this component.

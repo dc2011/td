@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
 GameObject::GameObject() : pos_(QPointF(0, 0)), dirty_(0), iD_(0),
-        graphics_(NULL), physics_(NULL) { 
+        orientation_(0), scale_(1), graphics_(NULL), physics_(NULL) { 
 }
 
 GameObject::~GameObject() {
