@@ -3,13 +3,32 @@
 
 #include "ClsIdx.h"
 #include <QPointF>
-#include "../network/stream.h"
-
+#include "InputComponent.h"
 #include "PhysicsComponent.h"
+#include "../graphics/GraphicsComponent.h"
+#include "../network/stream.h"
 
 
 class GameObject : public QObject {
   Q_OBJECT
+
+private:
+    /**
+     * All rendering logic for this GameObject is contained in this component.
+     */
+    GraphicsComponent* graphics_;
+    
+    /**
+     * All physics logic for this GameObject is contained in this component.
+     * Not all GameObjects will have a physics component.
+     */
+    PhysicsComponent* physics_;
+
+    /**
+     * All input handling for this GameObject is contained in this component.
+     * Not all GameObjects will have a input component.
+     */
+    InputComponent* input_;
 
 public:
     /**
@@ -75,9 +94,11 @@ public:
     }
     
     /**
-     * Sets object's position co-ords.
+     * Sets the object's coordinates in the game world. This should be the
+     * center of the object.
      * 
      * @author Tom Nightingale
+     * @param p The coordinates of the center of the object.
      */
     void setPos(QPointF& p) {
         pos_.setX(p.x());
@@ -87,7 +108,8 @@ public:
     }
 
     /**
-     * Sets the object's coordinates in the game world.
+     * Sets the object's coordinates in the game world. This should be the
+     * center of the object.
      *
      * @author Darryl Pogue
      * @param x The X coordinate value.
@@ -128,7 +150,67 @@ public:
         return (this->iD_ < right.iD_);
     }
 
+    /**
+     * Get a pointer to this object's graphics component.
+     *
+     * @author Dean Morin
+     * @return This object's graphics component;
+     */
+    GraphicsComponent* getGraphics() {
+        return graphics_;
+    }
+    
+    /**
+     * Set the graphics component for this object.
+     *
+     * @author Dean Morin
+     */
+    void setGraphics(GraphicsComponent* graphics) {
+        graphics_ = graphics;
+    }
 
+    /**
+     * Get a pointer to this object's physics component. Please note that not
+     * all GameObjects will have a physics component.
+     *
+     * @author Dean Morin
+     * @return This object's physics component;
+     */
+    PhysicsComponent* getPhysics() {
+        return physics_;
+    }
+
+    /**
+     * Set the physics component for this object. Please note that not all
+     * GameObjects will have a physics component.
+     *
+     * @author Dean Morin
+     */
+    void setPhysics(PhysicsComponent* physics) {
+        physics_ = physics;
+    }
+
+    /**
+     * Get a pointer to this object's input component. Please note that not
+     * all GameObjects will have an input component.
+     *
+     * @author Dean Morin
+     * @return This object's input component;
+     */
+    InputComponent* getInput() {
+        return input_;
+    }
+
+    /**
+     * Set the input component for this object. Please note that not all
+     * GameObjects will have an input component.
+     *
+     * @author Dean Morin
+     */
+    void setInput(InputComponent* input) {
+        input_ = input;
+    }
+    
 public slots:
     
     /**
