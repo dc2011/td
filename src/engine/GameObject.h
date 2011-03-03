@@ -12,24 +12,6 @@
 class GameObject : public QObject {
   Q_OBJECT
 
-private:
-    /**
-     * All rendering logic for this GameObject is contained in this component.
-     */
-    GraphicsComponent* graphics_;
-    
-    /**
-     * All physics logic for this GameObject is contained in this component.
-     * Not all GameObjects will have a physics component.
-     */
-    PhysicsComponent* physics_;
-
-    /**
-     * All input handling for this GameObject is contained in this component.
-     * Not all GameObjects will have a input component.
-     */
-    InputComponent* input_;
-
 public:
     /**
      * Gets the unique class index for this object type.
@@ -43,7 +25,7 @@ public:
 
 public:
     GameObject();
-    virtual ~GameObject() {};
+    virtual ~GameObject();
 
     /**
      * Reads the object state from a network stream.
@@ -138,7 +120,7 @@ public:
      * @returns bool dirty_
      */
     bool getDirtyStatus() { return dirty_; }
-
+    
     /**
       * Overloaded < comparator for set implementation
       *
@@ -151,21 +133,57 @@ public:
     }
 
     /**
-     * Get a pointer to this object's graphics component.
+     * Get the direction of the GameObject, where 0 degrees is east.
      *
      * @author Dean Morin
+     */
+    int getOrientation() {
+        return orientation_;
+    }
+
+    /**
+     * Set the direction of the GameObject, where 0 degrees is east.
+     *
+     * @author Dean Morin
+     */
+    void setOrientation(int orient) {
+        orientation_ = orient;
+    }
+
+    /**
+     * Get the scale of the GameObject, where 1 is unscaled.
+     *
+     * @author Dean Morin
+     */
+    float getScale() {
+        return scale_;
+    }
+
+    /**
+     * Set the scale of the GameObject, where 1 is unscaled.
+     *
+     * @author Dean Morin
+     */
+    void setScale(float scale) {
+        scale_ = scale;
+    }
+
+    /**
+     * Get a pointer to this object's graphics component.
+     *
+     * @author Darryl Pogue
      * @return This object's graphics component;
      */
-    GraphicsComponent* getGraphics() {
+    GraphicsComponent* getGraphicsComponent() const {
         return graphics_;
     }
     
     /**
      * Set the graphics component for this object.
      *
-     * @author Dean Morin
+     * @author Darryl Pougue
      */
-    void setGraphics(GraphicsComponent* graphics) {
+    void setGraphicsComponent(GraphicsComponent* graphics) {
         graphics_ = graphics;
     }
 
@@ -173,10 +191,13 @@ public:
      * Get a pointer to this object's physics component. Please note that not
      * all GameObjects will have a physics component.
      *
-     * @author Dean Morin
+     * @author Darryl Pogue
      * @return This object's physics component;
      */
-    PhysicsComponent* getPhysics() {
+    PhysicsComponent* getPhysicsComponent() const {
+        if (physics_ == NULL) {
+            qDebug("GameObject::getPhysicsComponent(); Getting null pointer");
+        }
         return physics_;
     }
 
@@ -184,38 +205,19 @@ public:
      * Set the physics component for this object. Please note that not all
      * GameObjects will have a physics component.
      *
-     * @author Dean Morin
+     * @author Darryl Pougue
      */
-    void setPhysics(PhysicsComponent* physics) {
+    void setPhysicsComponent(PhysicsComponent* physics) {
         physics_ = physics;
-    }
-
-    /**
-     * Get a pointer to this object's input component. Please note that not
-     * all GameObjects will have an input component.
-     *
-     * @author Dean Morin
-     * @return This object's input component;
-     */
-    InputComponent* getInput() {
-        return input_;
-    }
-
-    /**
-     * Set the input component for this object. Please note that not all
-     * GameObjects will have an input component.
-     *
-     * @author Dean Morin
-     */
-    void setInput(InputComponent* input) {
-        input_ = input;
     }
     
 public slots:
     
     /**
      * Pure virtual method that all inheriting classes need to implement.
-     * This method is the starting point for responses to all events that affect the object.
+     * This method is the starting point for responses to all events that 
+     * affect the object.
+     *
      * It is a slot and thus is called when a signal is bound to it.
      * 
      * @author Tom Nightingale
@@ -225,13 +227,37 @@ public slots:
 protected:
     QPointF pos_;
     /**
-     * This variable is currently used for checking to see if the object has been drawn
-     *
+     * This variable is currently used for checking to see if the object has 
+     * been drawn.
      */
+    
     bool dirty_;
     /**
-     * The unique ID for each game object
+     * The unique ID for each game object.
      */
     unsigned int iD_;
+   
+    /**
+     * The direction of the GameObject, where 0 degrees is east.
+     */
+    int orientation_;
+
+    /**
+     * The scale of the GameObject, where 1 is unscaled.
+     */
+    float scale_;
+
+    /**
+     * All rendering logic for this GameObject is contained in this component.
+     */
+    GraphicsComponent* graphics_;
+    
+    /**
+     * All physics logic for this GameObject is contained in this component.
+     * Not all GameObjects will have a physics component.
+     */
+    PhysicsComponent* physics_;
 };
+
 #endif
+
