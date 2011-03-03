@@ -54,7 +54,7 @@ void PlayerGraphicsComponent::animate() {
 
     if (pixmapIndex == 0) {
 	pos = rand() % 2 + 1;
-        pos == 1 ? pixmapIndex = 0 : pixmapIndex = 3;
+	pos == 1 ? pixmapIndex = 0 : pixmapIndex = 3;
     }
     
     if (!(animateCount++ % animateMod)) {
