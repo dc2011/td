@@ -1,5 +1,6 @@
 #include "GraphicsComponent.h"
 #include <math.h>
+#include "../engine/GameObject.h"
 
 QTimer * GraphicsComponent::animationTimer_;
 QMutex GraphicsComponent::mutex_;

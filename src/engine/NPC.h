@@ -18,8 +18,9 @@ public:
     }
 
 public:
-    NPC(PhysicsComponent* physics, InputComponent* input,
-        GraphicsComponent* graphics);
+    NPC() {}
+    NPC(PhysicsComponent* physics);
+    virtual ~NPC() {}
 
     virtual void update();
     size_t getHealth();

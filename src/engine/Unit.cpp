@@ -1,13 +1,10 @@
 #include "Unit.h"
 
 Unit::Unit() : GameObject(), velocity_(QVector2D(0, 0)),
-        force_(QVector2D(0, 0)), orientation_(0), scale_(1),
-        input_(NULL), physics_(NULL), graphics_(NULL) { }
+        force_(QVector2D(0, 0)), input_(NULL) { }
 
 Unit::~Unit() {
     delete input_;
-    delete physics_;
-    delete graphics_;
 }
 
 void Unit::networkRead(td::Stream* s) {
