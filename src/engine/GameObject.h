@@ -12,24 +12,6 @@
 class GameObject : public QObject {
   Q_OBJECT
 
-private:
-    /**
-     * All rendering logic for this GameObject is contained in this component.
-     */
-    GraphicsComponent* graphics_;
-    
-    /**
-     * All physics logic for this GameObject is contained in this component.
-     * Not all GameObjects will have a physics component.
-     */
-    PhysicsComponent* physics_;
-
-    /**
-     * All input handling for this GameObject is contained in this component.
-     * Not all GameObjects will have a input component.
-     */
-    InputComponent* input_;
-
 public:
     /**
      * Gets the unique class index for this object type.
@@ -43,7 +25,7 @@ public:
 
 public:
     GameObject();
-    virtual ~GameObject() {};
+    virtual ~GameObject();
 
     /**
      * Reads the object state from a network stream.
@@ -156,7 +138,7 @@ public:
      * @author Dean Morin
      * @return This object's graphics component;
      */
-    GraphicsComponent* getGraphics() {
+    GraphicsComponent* getGraphicsComponent() const {
         return graphics_;
     }
     
@@ -165,7 +147,7 @@ public:
      *
      * @author Dean Morin
      */
-    void setGraphics(GraphicsComponent* graphics) {
+    void setGraphicsComponent(GraphicsComponent* graphics) {
         graphics_ = graphics;
     }
 
@@ -176,7 +158,7 @@ public:
      * @author Dean Morin
      * @return This object's physics component;
      */
-    PhysicsComponent* getPhysics() {
+    PhysicsComponent* getPhysicsComponent() const {
         return physics_;
     }
 
@@ -186,7 +168,7 @@ public:
      *
      * @author Dean Morin
      */
-    void setPhysics(PhysicsComponent* physics) {
+    void setPhysicsComponent(PhysicsComponent* physics) {
         physics_ = physics;
     }
 
@@ -197,7 +179,7 @@ public:
      * @author Dean Morin
      * @return This object's input component;
      */
-    InputComponent* getInput() {
+    InputComponent* getInputComponent() const {
         return input_;
     }
 
@@ -207,7 +189,7 @@ public:
      *
      * @author Dean Morin
      */
-    void setInput(InputComponent* input) {
+    void setInputComponent(InputComponent* input) {
         input_ = input;
     }
     
@@ -225,13 +207,32 @@ public slots:
 protected:
     QPointF pos_;
     /**
-     * This variable is currently used for checking to see if the object has been drawn
-     *
+     * This variable is currently used for checking to see if the object has 
+     * been drawn.
      */
+    
     bool dirty_;
     /**
-     * The unique ID for each game object
+     * The unique ID for each game object.
      */
     unsigned int iD_;
+
+    /**
+     * All rendering logic for this GameObject is contained in this component.
+     */
+    GraphicsComponent* graphics_;
+    
+    /**
+     * All physics logic for this GameObject is contained in this component.
+     * Not all GameObjects will have a physics component.
+     */
+    PhysicsComponent* physics_;
+
+    /**
+     * All input handling for this GameObject is contained in this component.
+     * Not all GameObjects will have a input component.
+     */
+    InputComponent* input_;
+
 };
 #endif

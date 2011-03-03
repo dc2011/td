@@ -146,10 +146,6 @@ protected:
     QVector2D force_;
     int orientation_;
     float scale_;
-
-    InputComponent* input_;
-    PhysicsComponent* physics_;
-    GraphicsComponent* graphics_;
 };
 
 #endif
