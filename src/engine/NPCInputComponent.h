@@ -31,9 +31,13 @@ public:
 public slots:
 
 private:
+    /** The NPC to catch input. */
     NPC* parent_;
+    /** The segment of the path NPC is currently travelling. */
     QLineF segment_;
+    /** List of waypoints that the NPC must travel. */
     QList<QPointF> waypoints_;
+    /** The waypoint that the NPC is currently travelling towards. */
     size_t nextDest_;
 };
 

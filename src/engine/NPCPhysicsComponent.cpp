@@ -3,7 +3,7 @@
 #define PI 3.141592653589793238
 #include <math.h>
 NPCPhysicsComponent::NPCPhysicsComponent()
-        : accel_(1), decel_(2), maxVelocity_(10) {}
+        : accel_(0.1), decel_(0.3), maxVelocity_(3) {}
 NPCPhysicsComponent::~NPCPhysicsComponent() {}
 
 void NPCPhysicsComponent::update(Unit* npc)
@@ -25,28 +25,25 @@ void NPCPhysicsComponent::applyForce(NPC* npc)
     float velX, velY;
     QVector2D force = npc->getForce();
     QVector2D vector = force * npc->getVelocity();
+    QVector2D tempVector = npc->getVelocity();
 
     if (vector.x() >= 0) {
-        npc->getVelocity().setX(force.x() * accel_ +
-                                   npc->getVelocity().x());
-        if (qAbs(vector.x()) > maxVelocity_) {
-            npc->getVelocity().setX(force.x() * maxVelocity_);
-        }
+        tempVector.setX(force.x() * accel_ + tempVector.x());
     } else {
-        npc->getVelocity().setX(force.x() *(accel_ + decel_) +
-                                   npc->getVelocity().x());
+        tempVector.setX(force.x() *(accel_ + decel_) + tempVector.x());
     }
 
     if (vector.y() >= 0) {
-        npc->getVelocity().setY(force.y() * accel_ +
-                                   npc->getVelocity().y());
-
-        if (qAbs(vector.y()) > maxVelocity_) {
-            npc->getVelocity().setY(force.y() * maxVelocity_);
-        }
+        tempVector.setY(force.y() * accel_ + tempVector.y());
     } else {
-        npc->getVelocity().setY(force.y() *(accel_ + decel_) +
-                                   npc->getVelocity().y());
+        tempVector.setY(force.y() *(accel_ + decel_) + tempVector.y());
+    }
+    if (tempVector.length() > maxVelocity_) {
+        npc->getVelocity().setX(tempVector.normalized().x()*maxVelocity_);
+        npc->getVelocity().setY(tempVector.normalized().y()*maxVelocity_);
+    } else {
+        npc->getVelocity().setX(tempVector.x());
+        npc->getVelocity().setY(tempVector.y());
     }
 
     if (force.x() == 0) {
@@ -140,5 +137,4 @@ void NPCPhysicsComponent::applyDirection(NPC* npc)
     }
 
     npc->setOrientation(degree);
-    qDebug("Orientation: %d", degree);
 }

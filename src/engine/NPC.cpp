@@ -11,6 +11,14 @@ NPC::NPC(InputComponent* input,PhysicsComponent* physics, GraphicsComponent* gra
     pos_.setY(50);
 }
 
+NPC::NPC() {
+    QVector2D force(0, 0);
+    this->setForce(force);
+    this->setVelocity(force);
+    pos_.setX(50);
+    pos_.setY(50);
+}
+
 size_t NPC::getHealth() {
     return health_;
 }
@@ -28,6 +36,7 @@ void NPC::setDamage(size_t damage) {
 }
 
 void NPC::update() {
+    input_->update();
     physics_->update(this);
     graphics_->update(this);
 }
