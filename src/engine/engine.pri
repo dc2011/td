@@ -11,6 +11,7 @@ ENGINE_HDRS +=  ./engine/ArrowTower.h \
                 ./engine/PlayerPhysicsComponent.h \
                 ./engine/Projectile.h \
                 ./engine/ProjectilePhysicsComponent.h \
+                ./engine/ResManager.h \
                 ./engine/SDriver.h \
                 ./engine/Tile.h \
                 ./engine/TileExtension.h \
@@ -30,6 +31,7 @@ ENGINE_SRCS +=  ./engine/ArrowTower.cpp \
                 ./engine/PlayerPhysicsComponent.cpp \
                 ./engine/Projectile.cpp \
                 ./engine/ProjectilePhysicsComponent.cpp \
+                ./engine/ResManager.cpp \
                 ./engine/SDriver.cpp \
                 ./engine/Tile.cpp \
                 ./engine/TileExtension.cpp \
