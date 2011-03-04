@@ -12,17 +12,9 @@ namespace td{
         heightInTiles_ = heightInTiles;
         widthInTiles_ = widthInTiles;
         waypoints = QMap<int,QList<QPoint> >();
-        /*
-    tiles_ = new Tile**[heightInTiles_];
-    for (int i = 0; i < heightInTiles_; i++)
-    {
-        tiles_[i] = new Tile*[widthInTiles_];
-        for (int j = 0; j < widthInTiles_; j++)
-        {
-            tiles_[i][j] = new Tile;
-        }
-    }
-    */
+
+
+
     }
 
 
@@ -46,23 +38,23 @@ namespace td{
 
 
     void Map::loadTestMap2(){
-        int i , j;
         blockingType type;
-        for (i = 0 ; i < heightInTiles_; i++){
-            for(j = 0 ; j < widthInTiles_ ; j++){
-
+        tiles_ = new Tile**[heightInTiles_];
+        for (int i = 0; i < heightInTiles_; i++)
+        {
+            tiles_[i] = new Tile*[widthInTiles_];
+            for (int j = 0; j < widthInTiles_; j++)
+            {
                 type = OPEN; //default type
                 // area to add logic for tile creation
                 if( i ==0 || j == 0 || i == heightInTiles_-1 || j == widthInTiles_ -1 ){
                     type = CLOSED; //border of map gets CLOSED status
                 }
-
                 // end for logic
                 //save into array
                 tiles_[i][j] = new Tile(i,j,type);
             }
         }
-
     }
 
 

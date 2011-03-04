@@ -77,6 +77,9 @@ namespace td {
   }
 
     void CDriver::startGame() {
+        // Create hard coded map
+        CDriver::gameMap_     = new Map(16, 21);
+        CDriver::gameMap_->loadTestMap2();
         CDriver::gameTimer_   = new QTimer(this);
         CDriver::human_       = createHumanPlayer(mainWindow_);
         CDriver::contextMenu_ = new ContextMenu(human_);
