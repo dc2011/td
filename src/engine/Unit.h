@@ -10,7 +10,20 @@
 #include "../graphics/GraphicsComponent.h"
 
 class Unit : public GameObject {
+
 public:
+    /**
+     * Gets the unique class index for this object type.
+     *
+     * @author Darryl Pogue
+     * @return The class index.
+     */
+    static unsigned char clsIdx() {
+        return td::clsidx::kUnit;
+    }
+
+public:
+    Unit();
     virtual ~Unit();
 
     virtual void networkRead(td::Stream* s);
@@ -31,7 +44,8 @@ public:
     void setVelocity(QVector2D&);
 
     /**
-     * Inheriting classes need to define a method of setting their parent (owner) object.
+     * Inheriting classes need to define a method of setting their parent
+     * (owner) object.
      * 
      * @author Tom Nightingale
      */
@@ -41,7 +55,8 @@ public:
     }
     
     /**
-     * Inheriting classes need to define a method of setting their parent (owner) object.
+     * Inheriting classes need to define a method of setting their parent
+     * (owner) object.
      * 
      * @author Tom Nightingale
      */
@@ -51,31 +66,35 @@ public:
         //qDebug("Force: %d, %d", (int) force.x(), (int) force.y());
     }
 
-    int getOrientation() {
-        return orientation_;
+    /**
+     * Gets the InputComponent for this game unit.
+     *
+     * @author Darryl Pogue
+     * @return The object's InputComponent.
+     */
+    InputComponent* getInputComponent() const {
+        return input_;
     }
 
-    void setOrientation(int orient) {
-        orientation_ = orient;
-    }
-
-    float getScale() {
-        return scale_;
-    }
-
-    void setScale(float scale) {
-        scale_ = scale;
+    /**
+     * Sets the InputComponent for this game unit.
+     *
+     * @author Darryl Pogue
+     * @param input The InputComponent to assign.
+     */
+    void setInputComponent(InputComponent* input) {
+        input_ = input;
+        input_->setParent(this);
     }
 
 protected:
     QVector2D velocity_;
     QVector2D force_;
-    int orientation_;
-    float scale_;
 
+    /**
+     * All input handling logic for this Unit is contained in this component.
+     */
     InputComponent* input_;
-    PhysicsComponent* physics_;
-    GraphicsComponent* graphics_;
 };
 
 #endif

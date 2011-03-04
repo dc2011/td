@@ -1,4 +1,4 @@
-SERVER_HDRS +=  ./server/SDriver.h
-                
+SERVER_HDRS +=  ./client/MainWindow.h
+
 SERVER_SRCS +=  ./server/main.cpp \
-                ./server/SDriver.cpp
+                ./client/MainWindow.cpp

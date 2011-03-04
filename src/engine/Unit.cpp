@@ -1,9 +1,10 @@
 #include "Unit.h"
 
+Unit::Unit() : GameObject(), velocity_(QVector2D(0, 0)),
+        force_(QVector2D(0, 0)), input_(NULL) { }
+
 Unit::~Unit() {
     delete input_;
-    delete physics_;
-    delete graphics_;
 }
 
 void Unit::networkRead(td::Stream* s) {
@@ -17,6 +18,8 @@ void Unit::networkRead(td::Stream* s) {
 }
 
 void Unit::networkWrite(td::Stream* s) {
+    GameObject::networkWrite(s);
+
     s->writeFloat(this->getPos().x());
     s->writeFloat(this->getPos().y());
 
