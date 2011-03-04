@@ -10,6 +10,7 @@
 #include "CDriver.h"
 #include "Unit.h"
 #include "../graphics/ProjectileGraphicsComponent.h"
+#include "../graphics/TowerGraphicsComponent.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 
@@ -86,6 +87,16 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
                 projectile_,       SLOT(update()));
   }
 
+void CDriver::createTower(int towerType, QPointF pos) {
+    tower_ = new Tower();
+    tower_->setPos(pos);
+    GraphicsComponent* graphics = new TowerGraphicsComponent();
+    //PhysicsComponent*  physics  = new TowerPhysicsComponent();
+    tower_->setGraphicsComponent(graphics);
+    //tower->setPhysicsComponent(physics);
+    connect(gameTimer_, SIGNAL(timeout()), tower_, SLOT(update()));
+}
+
 void CDriver::startGame() {
     gameTimer_   = new QTimer(this);
 
@@ -98,6 +109,9 @@ void CDriver::startGame() {
             contextMenu_, SLOT(selectMenuItem(int)));
     connect(gameTimer_,   SIGNAL(timeout()), 
             human_,       SLOT(update()));
+    /* TODO: alter temp solution */
+    connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
+            this,         SLOT(createTower(int, QPointF)));
 
     /* TODO: Remove this */
     QObject::connect(mainWindow_, SIGNAL(signalFPressed()),

@@ -8,7 +8,6 @@
 #include "../graphics/GraphicsComponent.h"
 #include "../network/stream.h"
 
-
 class GameObject : public QObject {
   Q_OBJECT
 

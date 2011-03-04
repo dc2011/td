@@ -5,9 +5,6 @@
 #include <QPointF>
 
 #include "GameObject.h"
-#include "PhysicsComponent.h"
-#include "InputComponent.h"
-#include "../graphics/GraphicsComponent.h"
 
 class Unit : public GameObject {
 
