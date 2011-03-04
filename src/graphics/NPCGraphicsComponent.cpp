@@ -10,10 +10,11 @@ NPCGraphicsComponent::~NPCGraphicsComponent() {}
 
 void NPCGraphicsComponent::update(GameObject* obj) {
     Player* npc = (Player*)obj;
-    if (!npc->getDirtyStatus()) {//checks if object is dirty.
+    if (!npc->isDirty()) {//checks if object is dirty.
         return;
     }
-    npc->setToClean();
+    npc->resetDirty();
+
     DrawParams* dp = new DrawParams();
     dp->pos     = npc->getPos();
     dp->moving  = 1; //is always moving

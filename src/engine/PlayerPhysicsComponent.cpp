@@ -17,7 +17,7 @@ void PlayerPhysicsComponent::update(Unit* player)
     this->applyDirection((Player*)player);
 
 #ifndef SERVER
-    if (player->getDirtyStatus()) {
+    if (player->isDirty()) {
         td::CDriver::updateServer(player);
     }
 #endif

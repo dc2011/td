@@ -11,10 +11,11 @@ TowerGraphicsComponent::~TowerGraphicsComponent() {}
 
 void TowerGraphicsComponent::update(GameObject* obj) {
     Unit* tower = (Unit*)obj;
-    if (!tower->getDirtyStatus()) {//checks if object is dirty.
+    if (!tower->isDirty()) {//checks if object is dirty.
         return;
     }
-    tower->setToClean();
+    tower->resetDirty();
+
     DrawParams* dp = new DrawParams();
     dp->pos     = tower->getPos();
     dp->moving  = 1;
