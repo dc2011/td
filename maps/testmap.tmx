@@ -343,4 +343,12 @@
    <tile gid="2"/>
   </data>
  </layer>
+ <objectgroup name="path" width="21" height="16">
+  <object x="888" y="625"/>
+  <object x="885" y="99"/>
+  <object x="136" y="99"/>
+  <object x="100" y="529"/>
+  <object x="430" y="534"/>
+  <object x="718" y="385"/>
+ </objectgroup>
 </map>
