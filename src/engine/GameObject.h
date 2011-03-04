@@ -30,8 +30,10 @@ private:
         kScale          = (1 << 2)
     };
 
+protected:
+    GameObject(); /* Protected to enforce "abstract" class */
+
 public:
-    GameObject();
     virtual ~GameObject();
 
     /**
