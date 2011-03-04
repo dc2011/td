@@ -87,7 +87,7 @@ signals:
     /**
      * Emitted when an arrow tower is selected to be built.
      */
-    void signalArrowTowerSelected(QPointF);
+    void signalTowerSelected(int towerType, QPointF pos);
     
     /**
      * Emitted when a tar tower is selected to be built.

@@ -117,7 +117,6 @@ signals:
     void signalNumberPressed(int);
     void signalSpacebarPressed();
     void signalFPressed();
-    void signalTPressed();
 };
 
 } /* end namespace td */

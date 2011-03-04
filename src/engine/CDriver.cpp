@@ -87,8 +87,9 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
                 projectile_,       SLOT(update()));
   }
 
-void CDriver::createTower() {
+void CDriver::createTower(int towerType, QPointF pos) {
     tower_ = new Tower();
+    tower_->setPos(pos);
     GraphicsComponent* graphics = new TowerGraphicsComponent();
     //PhysicsComponent*  physics  = new TowerPhysicsComponent();
     tower_->setGraphicsComponent(graphics);
@@ -108,12 +109,13 @@ void CDriver::startGame() {
             contextMenu_, SLOT(selectMenuItem(int)));
     connect(gameTimer_,   SIGNAL(timeout()), 
             human_,       SLOT(update()));
+    /* TODO: alter temp solution */
+    connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
+            this,         SLOT(createTower(int, QPointF)));
 
     /* TODO: Remove this */
     QObject::connect(mainWindow_, SIGNAL(signalFPressed()),
             this, SLOT(createProjectile()));
-    connect(mainWindow_,  SIGNAL(signalTPressed()),
-            this,         SLOT(createTower()));
 
     connectToServer("127.0.0.1");
     connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),

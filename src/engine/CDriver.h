@@ -126,7 +126,7 @@ private slots:
      *
      * @author Dean Morin
      */
-    void createTower();
+    void createTower(int towerType, QPointF pos);
 
     /**
      *

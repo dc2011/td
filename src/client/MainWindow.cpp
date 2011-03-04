@@ -100,9 +100,6 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
      case Qt::Key_F:
           emit signalFPressed();
           break;
-     case Qt::Key_T:
-          emit signalTPressed();
-          break;
      case Qt::Key_1:
      case Qt::Key_2:
      case Qt::Key_3:
