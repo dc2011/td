@@ -6,6 +6,7 @@ PlayerPhysicsComponent::PlayerPhysicsComponent()
         : accel_(0.3), decel_(0.6), maxVelocity_(5) {}
 PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
 
+int blockingType = 0;
 void PlayerPhysicsComponent::update(Unit* player)
 {
     this->applyForce((Player*)player);
@@ -16,8 +17,14 @@ void PlayerPhysicsComponent::update(Unit* player)
 /* applies velocity to position, currently moves past bounds */
 void PlayerPhysicsComponent::applyVelocity(Player* player)
 {
+    //int collide;
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
-    player->setPos(newPos);
+    //qDebug("POS: x %f y %f", (float)player->getPos().x(), (float)player->getPos().y());
+    //collide = player->collision_->update(newPos);
+    //qDebug("Collision: %d", collide);
+    if(player->collision_->update(newPos)){
+    	player->setPos(newPos);
+    }
 }
 
 void PlayerPhysicsComponent::applyForce(Player* player)

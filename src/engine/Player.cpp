@@ -9,12 +9,13 @@ Player::Player(InputComponent* input, PhysicsComponent* physics,
     
     physics_ = physics;
     graphics_ = new PlayerGraphicsComponent();
-
-    collision_ = collision;
-    collision_->setParent(this);
+	
+    	collision_ = collision;
+    	collision_->setParent(this);
 }
 
 void Player::update() {
     physics_->update(this);
     graphics_->update(this);
 }
+

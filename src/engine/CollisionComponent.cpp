@@ -2,7 +2,7 @@
 
 bool CollisionComponent::update(QPointF pos)
 {
-    qDebug("Calling CollisionComponent");
+    //qDebug("Calling CollisionComponent");
     if (parent_ == NULL)
     {
         qDebug("No Parent for Collision Component");
@@ -34,24 +34,34 @@ bool CollisionComponent::update(QPointF pos)
 }
 
 bool CollisionComponent::semiBlocked(QPointF pos, int type){
+	
+	double posXWhole;
+	double posXFract;
+	double posYWhole;
+	double posYFract;
+	
+	
+	posXWhole = modf(pos.x(), &posXFract);
+	posYWhole = modf(pos.y(), &posYFract);
+	
 	switch(type){
 		case NORTH_WEST:
-			if( (10 - ((int)pos.x() % 10)) < (int)pos.y() ){
+			if( posYFract < (1.0 - posXFract) ){
 				return false;
 			}
 			break;
 		case NORTH_EAST:
-			if( ((int)pos.x() % 10) > ((int)pos.y() % 10) ){
+			if( (posXFract > posYFract) ){
 				return false;
 			}
 			break;
 		case SOUTH_WEST:
-			if( ((int)pos.x() % 10) < ((int)pos.y() % 10) ){
+			if( (posXFract < posYFract) ){
 				return false;
 			}
 			break;
 		case SOUTH_EAST:
-			if( (10 - ((int)pos.x() % 10)) < (int)pos.y() ){
+			if( posYFract > (1.0 - posXFract) ){
 				return false;
 			}
 			break;

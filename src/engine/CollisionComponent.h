@@ -5,6 +5,7 @@
 #include <QEvent>
 #include "Tile.h"
 #include "Unit.h"
+#include <math.h>
 
 // This is also located in Tile.h
 //enum blockingType {OPEN = 0, CLOSED = 1, NORTH_WEST = 2, NORTH_EAST = 3,

@@ -14,10 +14,10 @@ class Player : public Unit {
 public:
     Player(InputComponent* input, PhysicsComponent* physics, 
            GraphicsComponent* graphics, CollisionComponent* collision);
-    
-    virtual void update();
-private:
     CollisionComponent* collision_;
+    virtual void update();
+
+    
 };
 
 #endif
