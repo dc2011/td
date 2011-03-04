@@ -80,8 +80,8 @@ void ContextMenuGraphicsComponent::showSelectMenu(int type, GameObject *obj) {
         break;
     }
 
-    scaleFactor = 0;
-    animateConnect();
+    scaleFactor = 0.5;
+    animateDisconnect();
 
     update(NULL);
 }

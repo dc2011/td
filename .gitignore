@@ -20,3 +20,4 @@ Makefile*
 *.plist
 /td.xcodeproj
 /img
+core

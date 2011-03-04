@@ -16,6 +16,7 @@
 #include "PlayerInputComponent.h"
 #include "Projectile.h"
 #include "ProjectilePhysicsComponent.h"
+#include "Tower.h"
 #include "../client/MainWindow.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"
 #include "../graphics/PlayerGraphicsComponent.h"
@@ -44,6 +45,7 @@ private:
     ContextMenu* contextMenu_;
     Projectile* projectile_;
     NPC* npc_;
+    Tower* tower_;
 
 public:
     // ctors and dtors
@@ -129,6 +131,13 @@ private slots:
      * @return Pointer to new projectile instance.
      */
     void createProjectile();
+
+    /**
+     * Temp testing method.
+     *
+     * @author Dean Morin
+     */
+    void createTower(int towerType, QPointF pos);
 
     /**
      *
