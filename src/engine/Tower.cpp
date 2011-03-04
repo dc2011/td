@@ -3,7 +3,7 @@
 namespace td {
 
 void Tower::update() {
-    //graphics_->update(this);
+    graphics_->update(this);
     //physics_->update(this);
 }
 

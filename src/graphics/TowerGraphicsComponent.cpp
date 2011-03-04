@@ -1,5 +1,5 @@
 #include "TowerGraphicsComponent.h"
-#include "../engine/Unit.h"
+#include "../engine/Tower.h"
 
 TowerGraphicsComponent::TowerGraphicsComponent()
         : GraphicsComponent() {
@@ -10,7 +10,7 @@ TowerGraphicsComponent::TowerGraphicsComponent()
 TowerGraphicsComponent::~TowerGraphicsComponent() {}
 
 void TowerGraphicsComponent::update(GameObject* obj) {
-    Unit* tower = (Unit*)obj;
+/*    Tower* tower = (Tower*)obj;
     if (!tower->getDirtyStatus()) {//checks if object is dirty.
         return;
     }
@@ -21,7 +21,7 @@ void TowerGraphicsComponent::update(GameObject* obj) {
     //player->getVelocity().length() != 0;
     //dp->scale   = tower->getScale();
     dp->degrees = tower->getOrientation();
-    emit signalDraw(dp, this);
+    emit signalDraw(dp, this);*/
 }
 
 void TowerGraphicsComponent::initPixmaps() {
