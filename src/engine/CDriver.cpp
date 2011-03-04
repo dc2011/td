@@ -23,6 +23,8 @@ CDriver::CDriver(MainWindow *mainWindow)
 }
 
 CDriver::~CDriver() {
+    AudioManager::instance()->shutdown();
+
     delete this->gameTimer_;
     delete mgr_;
 }
