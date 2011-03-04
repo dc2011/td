@@ -12,9 +12,8 @@
 #include "DrawParams.h"
 #include "PixmapFiles.h"
 #include "../client/MainWindow.h"
-#include "../engine/GameObject.h"
 #include "../util/mutex_magic.h"
-
+class GameObject;
 
 class GraphicsComponent : public QObject {
     Q_OBJECT

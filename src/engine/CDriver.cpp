@@ -15,49 +15,64 @@
 
 namespace td {
 
-  CDriver::CDriver(MainWindow *mainWindow)
-      : QObject(), human_(NULL), contextMenu_(NULL), projectile_(NULL) {
-      mainWindow_ = mainWindow;
-  }
+CDriver::CDriver(MainWindow *mainWindow)
+        : QObject(), human_(NULL), mainWindow_(mainWindow), contextMenu_(NULL),
+        projectile_(NULL)
+{
+    mgr_ = new ResManager();
+}
 
-  CDriver::~CDriver() {
+CDriver::~CDriver() {
+    AudioManager::instance()->shutdown();
+
     delete this->gameTimer_;
-    delete this->human_;
-    delete this->projectile_;
-    td::AudioManager::instance()->shutdown();
-  }
+    delete mgr_;
+}
 
-  void CDriver::connectToServer(char * servaddr) {
-    td::NetworkClient::init(QHostAddress(servaddr));
-  }
-  void CDriver::disconnectFromServer() {
-    td::NetworkClient::instance()->shutdown();
-  }
-  void CDriver::updateServer(Unit* u)
-  {
-    td::Stream* updates = new Stream();
-    u->networkWrite(updates);
-    td::NetworkClient::instance()->send(td::network::kPlayerPosition,
+void CDriver::connectToServer(const QString& servaddr) {
+    NetworkClient::init(QHostAddress(servaddr));
+}
+
+void CDriver::disconnectFromServer() {
+    NetworkClient::instance()->shutdown();
+}
+
+void CDriver::updateServer(GameObject* obj) {
+    Stream* updates = new Stream();
+
+    obj->networkWrite(updates);
+
+    NetworkClient::instance()->send(network::kPlayerPosition,
                                         updates->data());
     delete updates;
-  }
+}
 
-  void CDriver::updatePlayer(Unit* u)
-  {
-    td::Stream* updates = new Stream();
-    u->networkRead(updates);
-    delete updates;
-  }
-  Player* CDriver::createHumanPlayer(MainWindow *gui) {
+void CDriver::readObject(Stream* s) {
+    unsigned int id = s->readInt();
+
+    GameObject* go = mgr_->findObject(id);
+    if (go == NULL) {
+        go = mgr_->createObject((id & 0xFF000000) >> 24);
+    }
+    
+    go->networkRead(s);
+    delete s;
+}
+
+void CDriver::createHumanPlayer(MainWindow *gui) {
+    human_ = (Player*)mgr_->createObject(Player::clsIdx());
+
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent();
     PlayerInputComponent* input = new PlayerInputComponent();
-    //gui->installEventFilter(input);
+
     connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
     connect(gui, SIGNAL(signalKeyReleased(int)), input, SLOT(keyReleased(int)));
-    
-    return new Player((InputComponent*) input, physics, graphics);
-  }
+
+    human_->setInputComponent(input);
+    human_->setGraphicsComponent(graphics);
+    human_->setPhysicsComponent(physics);
+}
 
   void CDriver::createProjectile(){
       //qDebug("fire projectile");
@@ -71,23 +86,40 @@ namespace td {
                 projectile_,       SLOT(update()));
   }
 
-    void CDriver::startGame() {
-        CDriver::gameTimer_   = new QTimer(this);
-        CDriver::human_       = createHumanPlayer(mainWindow_);
-        CDriver::contextMenu_ = new ContextMenu(human_);
+void CDriver::startGame() {
+    gameTimer_   = new QTimer(this);
 
-        connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
-                contextMenu_, SLOT(toggleMenu()));
-        connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
-                contextMenu_, SLOT(selectMenuItem(int)));
-        connect(gameTimer_,   SIGNAL(timeout()), 
-                human_,       SLOT(update()));
-        QObject::connect(mainWindow_, SIGNAL(signalFPressed()), this, SLOT(createProjectile()));
+    createHumanPlayer(mainWindow_);
+    contextMenu_ = new ContextMenu(human_);
 
-        CDriver::gameTimer_->start(30);
-    }
+    connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
+            contextMenu_, SLOT(toggleMenu()));
+    connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
+            contextMenu_, SLOT(selectMenuItem(int)));
+    connect(gameTimer_,   SIGNAL(timeout()), 
+            human_,       SLOT(update()));
 
-  void CDriver::endGame() {
-    this->gameTimer_->stop();
-  }
+    /* TODO: Remove this */
+    QObject::connect(mainWindow_, SIGNAL(signalFPressed()),
+            this, SLOT(createProjectile()));
+
+    connectToServer("127.0.0.1");
+    connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
+            this, SLOT(UDPReceived(Stream*)));
+
+    gameTimer_->start(30);
 }
+
+void CDriver::endGame() {
+    disconnectFromServer();
+
+    this->gameTimer_->stop();
+}
+
+void CDriver::UDPReceived(Stream* s) {
+    s->readByte(); /* Message Type */
+
+    this->readObject(s);
+}
+
+} /* end namespace td */

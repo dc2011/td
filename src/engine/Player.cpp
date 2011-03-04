@@ -1,5 +1,10 @@
 #include "Player.h"
 
+Player::Player() : Unit() {
+    QVector2D force(0, 0);
+    this->setForce(force);
+}
+
 Player::Player(InputComponent* input, PhysicsComponent* physics,
                GraphicsComponent* graphics) {
     QVector2D force(0, 0);
