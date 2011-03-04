@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject() : pos_(QPointF(0, 0)), dirty_(0), iD_(0),
+GameObject::GameObject() : dirty_(0), iD_(0), pos_(QPointF(0, 0)),
         orientation_(0), scale_(1), graphics_(NULL), physics_(NULL) { 
 }
 
@@ -13,18 +13,18 @@ void GameObject::networkRead(td::Stream* s) {
     /* Do NOT read the object ID here.
        It has already been read by the driver! */
 
-    tmpDirty_ = s->readInt();
+    dirty_ = s->readInt();
 
-    if (tmpDirty_ & kPosition) {
+    if (dirty_ & kPosition) {
         pos_.setX(s->readFloat());
         pos_.setY(s->readFloat());
     }
 
-    if (tmpDirty_ & kOrientation) {
+    if (dirty_ & kOrientation) {
         orientation_ = s->readInt();
     }
 
-    if (tmpDirty_ & kScale) {
+    if (dirty_ & kScale) {
         scale_ = s->readFloat();
     }
 }

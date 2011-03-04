@@ -36,7 +36,8 @@ public:
 
     /**
      * Reads the object state from a network stream.
-     * THIS MUST BE IMPLEMENTED BY DERIVED CLASSES.
+     * You should assign to variables directly inside this function, rather
+     * than using mutator methods to change the values.
      *
      * @author Darryl Pogue
      * @param s The network stream.
@@ -45,7 +46,6 @@ public:
 
     /**
      * Writes the object state to a network stream.
-     * THIS MUST BE IMPLEMENTED BY DERIVED CLASSES.
      *
      * @author Darryl Pogue
      * @param s The network stream.
@@ -61,6 +61,16 @@ protected:
      */
     void setDirty(unsigned int field) {
         dirty_ |= field;
+    }
+
+    /**
+     * Resets the dirty bit for the specified field.
+     *
+     * @author Darryl Pogue
+     * @param field The bit index of the field to be unmarked.
+     */
+    void unsetDirty(unsigned int field) {
+        dirty_ &= ~(field);
     }
 
 public:
@@ -258,12 +268,6 @@ protected:
      * internally but not externally displayed.
      */
     unsigned int dirty_;
-
-    /**
-     * Temporary flags buffer to keep track of which fields need to be read
-     * during a network update.
-     */
-    unsigned int tmpDirty_;
 
     /**
      * The unique ID for each game object.
