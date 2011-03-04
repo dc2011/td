@@ -57,10 +57,9 @@ namespace td {
     connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
     connect(gui, SIGNAL(signalKeyReleased(int)), input, SLOT(keyReleased(int)));
     // Connection for collisions -- waiting on map object
-    /*
-    connect(collision, SIGNAL(requestTileInfo(int, int, int*)), map,
-            SLOT(getTileInfo(int, int, int*)));
-    */
+    connect(collision, SIGNAL(requestTileInfo(int, int, int*)), 
+            gameMap_, SLOT(getTileInfo(int, int, int*)));
+   
     return new Player((InputComponent*) input, physics, graphics, collision);
   }
 

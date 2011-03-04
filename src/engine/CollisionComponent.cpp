@@ -2,17 +2,18 @@
 
 bool CollisionComponent::update(QPointF pos)
 {
-    qDebug("Calling CollisionComponent");
     if (parent_ == NULL)
     {
-        qDebug("No Parent for Collision Component");
         return false;
     }
+
     int blockingType = 0;
 
-    //QPointF currentPosition = parent_->getPos();
-    requestTileInfo((int)pos.x(), (int)pos.y(),
-                    &blockingType);
+    QPointF currentPosition = parent_->getPos();
+    int y = floor(currentPosition.y() / TILE_HEIGHT);
+    int x = floor(currentPosition.x() / TILE_WIDTH);
+
+    emit requestTileInfo(x, y, &blockingType);
 
     if (blockingType == OPEN)
     {

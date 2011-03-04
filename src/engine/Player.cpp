@@ -12,9 +12,14 @@ Player::Player(InputComponent* input, PhysicsComponent* physics,
 
     collision_ = collision;
     collision_->setParent(this);
+
+    this->setPos(100, 100);
 }
 
 void Player::update() {
     physics_->update(this);
+    if (this->getDirtyStatus()) {
+        collision_->update(this->getPos());
+    }
     graphics_->update(this);
 }

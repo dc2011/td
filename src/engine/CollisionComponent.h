@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QEvent>
+#include <math.h>
 #include "Tile.h"
 #include "Unit.h"
 
@@ -37,9 +38,10 @@ public:
 	*
 	* @author Daniel Wright
 	*/
-	bool semiBlocked(QPointF pos, int type);
+    bool semiBlocked(QPointF pos, int type);
+
 signals:
-    void requestTileInfo(int xPos, int yPos, int *blockingType);
+    void requestTileInfo(int row, int col, int *blockingType);
 
 private:
     Unit *parent_;
