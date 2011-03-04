@@ -8,9 +8,8 @@ class Unit;
 class PhysicsComponent : public QObject {
     Q_OBJECT
 public:
-    PhysicsComponent() {}
     virtual ~PhysicsComponent() {}
-    
+
     virtual void update(Unit*) = 0;
 };
 

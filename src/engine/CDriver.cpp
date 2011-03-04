@@ -66,13 +66,16 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent();
     PlayerInputComponent* input = new PlayerInputComponent();
-
-    connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
-    connect(gui, SIGNAL(signalKeyReleased(int)), input, SLOT(keyReleased(int)));
-
+   
     human_->setInputComponent(input);
     human_->setGraphicsComponent(graphics);
     human_->setPhysicsComponent(physics);
+
+    connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
+    connect(gui, SIGNAL(signalKeyReleased(int)), input, SLOT(keyReleased(int)));
+    // Connection for collisions -- waiting on map object
+    connect(physics, SIGNAL(requestTileInfo(int, int, int*)), 
+            gameMap_, SLOT(getTileInfo(int, int, int*)));
 }
 
 void CDriver::createNPC() {
@@ -113,7 +116,11 @@ void CDriver::createTower(int towerType, QPointF pos) {
 }
 
 void CDriver::startGame() {
-    gameTimer_   = new QTimer(this);
+    // Create hard coded map
+    CDriver::gameMap_     = new Map(16, 21);
+    CDriver::gameMap_->loadTestMap2();
+    CDriver::gameTimer_   = new QTimer(this);
+
 
     createHumanPlayer(mainWindow_);
     contextMenu_ = new ContextMenu(human_);

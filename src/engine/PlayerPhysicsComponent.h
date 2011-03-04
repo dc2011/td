@@ -5,9 +5,12 @@
 #include "Player.h"
 
 class PlayerPhysicsComponent : public PhysicsComponent {
+    Q_OBJECT
+
 public:
     PlayerPhysicsComponent();
-    virtual ~PlayerPhysicsComponent();
+    virtual ~PlayerPhysicsComponent() {}
+
     /**
      * Applies a force to the velocity
      * If force is 1 or -1:
@@ -36,7 +39,24 @@ public:
      * @param player, pointer to the player object
      */
     void applyDirection(Player* player);
-    
+
+    /**
+     *
+     * @author Daniel Wright
+     */
+    bool validateMovement(const QPointF& newPos);
+
+    /**
+     * Return true if pos is in unblocked half of tile.
+     * Return false if pos is in blocked half of tile.
+     *
+     * @param pos
+     * @param type
+     *
+     * @author Daniel Wright
+     */
+    bool checkSemiBlocked(QPointF pos, int type);
+
     /**
      * This updates the physics properties of Player.
      * Applies force to velocity, applies velocity to position.
@@ -46,6 +66,9 @@ public:
      */
     virtual void update(Unit* player);
     
+signals:
+    void requestTileInfo(int row, int col, int *blockingType);
+
 private:
     /* data */
     float accel_;

@@ -6,6 +6,7 @@
 
 #include "Unit.h"
 #include "PlayerInputComponent.h"
+#include "CollisionComponent.h"
 #include "../graphics/PlayerGraphicsComponent.h"
 
 class Player : public Unit {
@@ -24,8 +25,6 @@ public:
 
 public:
     Player();
-    Player(InputComponent* input, PhysicsComponent* physics, 
-           GraphicsComponent* graphics);
     virtual ~Player() {}
 
     virtual void update();

@@ -2,13 +2,16 @@
 #include "Player.h"
 #define PI 3.141592653589793238
 #include <math.h>
+
 #ifndef SERVER
 #include "CDriver.h"
 #endif
 
-PlayerPhysicsComponent::PlayerPhysicsComponent()
-        : accel_(0.3), decel_(0.45), maxVelocity_(5) {}
-PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
+PlayerPhysicsComponent::PlayerPhysicsComponent() {
+    accel_ = 0.3;
+    decel_ = 0.6;
+    maxVelocity_ = 5;
+}
 
 void PlayerPhysicsComponent::update(Unit* player)
 {
@@ -27,7 +30,10 @@ void PlayerPhysicsComponent::update(Unit* player)
 void PlayerPhysicsComponent::applyVelocity(Player* player)
 {
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
-    player->setPos(newPos);
+
+    if (validateMovement(newPos)) {
+        player->setPos(newPos);
+    }
 }
 
 void PlayerPhysicsComponent::applyForce(Player* player)
@@ -148,4 +154,72 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
 
     player->setOrientation(degree);
     //qDebug("Orientation: %d", degree);
+}
+
+bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
+    int blockingType = 0;
+
+    int row = floor(newPos.y() / TILE_HEIGHT);
+    int col = floor(newPos.x() / TILE_WIDTH);
+
+    emit requestTileInfo(row, col, &blockingType);
+
+    if (blockingType == OPEN) {
+        return true;
+    }
+
+    else if (blockingType == CLOSED) {
+        return false;
+    }
+
+    else {
+        // TODO: This is where we will call a function to determine what areas
+        // are blocked due to other blocking types or other units
+        if (checkSemiBlocked(newPos, blockingType)) {
+            return true;
+        }
+        return false;
+    }
+}
+
+bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
+
+    double posXWhole;
+    double posXFract;
+    double posYWhole;
+    double posYFract;
+
+    posXWhole = modf(pos.x(), &posXFract);
+    posYWhole = modf(pos.y(), &posYFract);
+
+    switch(type) {
+        case NORTH_WEST:
+            if (posYFract < (1.0 - posXFract)) {
+                return false;
+            }
+            break;
+
+        case NORTH_EAST:
+            if ((posXFract > posYFract)) {
+                return false;
+            }
+            break;
+
+        case SOUTH_WEST:
+            if ((posXFract < posYFract)) {
+                return false;
+            }
+            break;
+
+        case SOUTH_EAST:
+            if (posYFract > (1.0 - posXFract)) {
+                return false;
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    return true;
 }
