@@ -4,6 +4,7 @@
 // System includes
 #include <QObject>
 #include <set>
+#include <QSet>
 
 // Custom includes
 #include "Unit.h"
@@ -28,13 +29,13 @@ public:
     int getRow();
     void addUnit(Unit *unitToAdd);
     void removeUnit(Unit *unitToRemove);
-    std::set<Unit*> getUnit();
+    QSet<Unit*> getUnits();
     blockingType getType();
 
 private:
     int tileID_;
     blockingType type_;
-    std::set<Unit*> currentUnits_;
+    QSet<Unit*> currentUnits_;
 };
 
 #endif

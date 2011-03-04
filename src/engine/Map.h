@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QPoint>
 #include <QList>
+#include <QSet>
 #include <QMap>
 #include <QMutex>
 #include <math.h>
@@ -87,7 +88,7 @@ namespace td{
       *
       *@author Ian Lee
       */
-        std::set<Unit*> getUnits(double x, double y, double radius);
+        QSet<Unit*> getUnits(double x, double y, double radius);
 
         /**
           * gets all waypoints stored.
