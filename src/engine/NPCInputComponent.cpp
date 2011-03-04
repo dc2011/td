@@ -5,11 +5,12 @@
 NPCInputComponent::NPCInputComponent() {
     // initialize segment with first two waypoints
     waypoints_ = QList<QPointF>();
-    waypoints_.push_back(QPointF(50,50));
-    waypoints_.push_back(QPointF(200,50));
-    waypoints_.push_back(QPointF(300,150));
-    waypoints_.push_back(QPointF(350,400));
-    waypoints_.push_back(QPointF(750,750));
+    waypoints_.push_back(QPointF(888,625));
+    waypoints_.push_back(QPointF(885,99));
+    waypoints_.push_back(QPointF(136,99));
+    waypoints_.push_back(QPointF(100,529));
+    waypoints_.push_back(QPointF(430, 534));
+    waypoints_.push_back(QPointF(718, 385));
     nextDest_ = 0;
     segment_ =  QLineF(waypoints_.at(nextDest_).x(),
                        waypoints_.at(nextDest_).y(),
@@ -28,6 +29,7 @@ void NPCInputComponent::update() {
 void NPCInputComponent::setParent(Unit *parent) {
     // Casting Unit* to NPC*.
     parent_ = (NPC*) parent;
+    parent_->setPos(segment_.p1().x(), segment_.p1().y());
 }
 
 void NPCInputComponent::makeForce() {
