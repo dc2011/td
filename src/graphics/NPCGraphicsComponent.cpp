@@ -1,5 +1,5 @@
 #include "NPCGraphicsComponent.h"
-#include "../engine/Player.h"
+#include "../engine/NPC.h"
 
 NPCGraphicsComponent::NPCGraphicsComponent()
         : GraphicsComponent() {
@@ -9,7 +9,7 @@ NPCGraphicsComponent::NPCGraphicsComponent()
 NPCGraphicsComponent::~NPCGraphicsComponent() {}
 
 void NPCGraphicsComponent::update(GameObject* obj) {
-    Player* npc = (Player*)obj;
+    NPC* npc = (NPC*)obj;
     if (!npc->getDirtyStatus()) {//checks if object is dirty.
         return;
     }

@@ -8,6 +8,9 @@
 #include <QPointF>
 #include "ResManager.h"
 #include "ContextMenu.h"
+#include "NPC.h"
+#include "NPCInputComponent.h"
+#include "NPCPhysicsComponent.h"
 #include "Player.h"
 #include "PlayerPhysicsComponent.h"
 #include "PlayerInputComponent.h"
@@ -16,6 +19,7 @@
 #include "../client/MainWindow.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"
 #include "../graphics/PlayerGraphicsComponent.h"
+#include "../graphics/NPCGraphicsComponent.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 #include "Unit.h"

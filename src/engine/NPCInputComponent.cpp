@@ -4,13 +4,13 @@
 NPCInputComponent::NPCInputComponent() {
     // initialize segment with first two waypoints
     waypoints_ = QList<QPointF>();
-    waypoints_.append(QPointF(50,50));
-    waypoints_.append(QPointF(200,50));
-    waypoints_.append(QPointF(300,150));
-    waypoints_.append(QPointF(350,400));
-    waypoints_.append(QPointF(750,750));
+    waypoints_.push_back(QPointF(50,50));
+    waypoints_.push_back(QPointF(200,50));
+    waypoints_.push_back(QPointF(300,150));
+    waypoints_.push_back(QPointF(350,400));
+    waypoints_.push_back(QPointF(750,750));
     nextDest_ = 0;
-    segment_ = QLineF(waypoints_.at(nextDest_++), waypoints_.at(nextDest_++));
+    segment_ =  QLineF(waypoints_.at(nextDest_++), waypoints_.at(nextDest_++));
 }
 
 NPCInputComponent::~NPCInputComponent() { }

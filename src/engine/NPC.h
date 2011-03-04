@@ -23,7 +23,7 @@ public:
 
 public:
     NPC(InputComponent* input,PhysicsComponent* physics, GraphicsComponent* graphics);
-    NPC() {}
+    NPC();
     virtual ~NPC() {}
 
     virtual void update();
