@@ -55,7 +55,6 @@ public:
         maxVelocity_ = velocity;
     }
 
-public slots:
     /**
      * This updates the physics properties of NPC.
      * Applies force to velocity, applies velocity to position.

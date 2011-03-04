@@ -32,7 +32,6 @@ public:
      * @param projectile, pointer to the projectile object
      */
     void setScale(Projectile* projectile);
-public slots:
     /**
      * Updates the projectile's position, orientation and scale
      * until the end of it's path.

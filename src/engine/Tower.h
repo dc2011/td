@@ -22,8 +22,8 @@ public:
 public:
     virtual ~Tower() {}
     
-    virtual void networkRead(td::Stream* s) {}
-    virtual void networkWrite(td::Stream* s) {}
+    virtual void networkRead(td::Stream*) {}
+    virtual void networkWrite(td::Stream*) {}
 
     virtual void update();
 };
