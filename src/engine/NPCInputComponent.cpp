@@ -10,7 +10,8 @@ NPCInputComponent::NPCInputComponent() {
     waypoints_.push_back(QPointF(350,400));
     waypoints_.push_back(QPointF(750,750));
     nextDest_ = 0;
-    segment_ =  QLineF(waypoints_.at(nextDest_++), waypoints_.at(nextDest_++));
+    segment_ =  QLineF(waypoints_.at(nextDest_).x(), waypoints_.at(nextDest_++).y(),
+                       waypoints_.at(nextDest_).x(), waypoints_.at(nextDest_++).y());
 }
 
 NPCInputComponent::~NPCInputComponent() { }
@@ -27,13 +28,13 @@ void NPCInputComponent::setParent(Unit *parent) {
 
 void NPCInputComponent::makeForce() {
     // TODO: randomize force?
-    parent_->getForce().setX(segment_.unitVector().dx());
-    parent_->getForce().setY(segment_.unitVector().dy());
+    QVector2D force = QVector2D((segment_.dx() / segment_.length()), (segment_.dy() / segment_.length()));
+    parent_->setForce(force);
 }
 
 void NPCInputComponent::nextDestination() {
     segment_.setP1(parent_->getPos());
-    if (segment_.length() < parent_->getVelocity().length()) {
+    if (segment_.length() < parent_->getVelocity().length() && nextDest_ < waypoints_.length()) {
         segment_.setP2(waypoints_.at(nextDest_++));
     }
 }

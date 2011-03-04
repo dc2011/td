@@ -43,6 +43,7 @@ private:
      */
     ContextMenu* contextMenu_;
     Projectile* projectile_;
+    NPC* npc_;
 
 public:
     // ctors and dtors
@@ -93,6 +94,12 @@ public:
      * @return pointer to new player instance.
      */
     void createHumanPlayer(MainWindow *);
+
+    /**
+     * creates npc object
+     * @author Marcel Vangrootheest
+     */
+    void createNPC();
 
     /**
      * Stop game timer.
