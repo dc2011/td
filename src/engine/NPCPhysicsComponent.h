@@ -36,6 +36,25 @@ public:
      */
     void applyDirection(NPC*);
 
+    /**
+     * Returns the defined maximum velocity of the NPC.
+     *
+     * @author Marcel Vangrootheest
+     * @return the float maximum velocity
+     */
+    float getMaxVelocity() {
+        return maxVelocity_;
+    }
+    /**
+     * Sets the maximum velocity of NPC to velocity.
+     *
+     * @author Marcel Vangrootheest
+     * @param velocity, the new maximum velocity
+     */
+    void setMaxVelocity(float velocity) {
+        maxVelocity_ = velocity;
+    }
+
 public slots:
     /**
      * This updates the physics properties of NPC.
@@ -48,8 +67,11 @@ public slots:
 
 private:
     /* data */
+    /** The amount to add to velocity when a force is applied. */
     float accel_;
+    /** The amount to subtract from velocity when no force is applied. */
     float decel_;
+    /** The maximum amount a position can change when a force is applied. */
     float maxVelocity_;
 };
 
