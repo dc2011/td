@@ -69,3 +69,9 @@ void ContextMenu::hideSelectMenu() {
     closeTimer.stop();
 }
 
+void ContextMenu::viewResources(bool altHeld) {
+    if (menuIsOpen_) {
+        ((ContextMenuGraphicsComponent*) graphics_)->showResources(altHeld);
+    }
+}
+

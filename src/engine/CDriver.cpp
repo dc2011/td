@@ -143,6 +143,8 @@ void CDriver::startGame() {
             contextMenu_, SLOT(toggleMenu()));
     connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
             contextMenu_, SLOT(selectMenuItem(int)));
+    connect(mainWindow_,  SIGNAL(signalRHeld(bool)),
+            contextMenu_, SLOT(viewResources(bool)));
     connect(gameTimer_,   SIGNAL(timeout()), 
             human_,       SLOT(update()));
     /* TODO: alter temp solution */

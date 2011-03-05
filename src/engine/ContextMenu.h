@@ -68,6 +68,11 @@ public slots:
  
     void hideSelectMenu();
 
+    /**
+     * Shows or hides the resources required to build the towers.
+     */
+    void viewResources(bool altHeld);
+
 signals:
     /**
      * Emitted when a flame tower is selected to be built.
