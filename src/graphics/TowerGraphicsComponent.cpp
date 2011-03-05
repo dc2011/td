@@ -16,12 +16,13 @@ void TowerGraphicsComponent::update(GameObject* obj) {
     //if (!tower->getDirtyStatus()) {//checks if object is dirty.
     //    return;
     //}
-    tower->setToClean();
+    tower->resetDirty();
+
     DrawParams* dp = new DrawParams();
     dp->pos     = tower->getPos();
     dp->moving  = 1;
     //player->getVelocity().length() != 0;
-    dp->scale   = 0.3;//tower->getScale();
+    dp->scale   = 0.25;//tower->getScale();
     dp->degrees = 0 + angle_++; //tower->getOrientation();
     emit signalDraw(dp, this);
 }

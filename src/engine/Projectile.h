@@ -20,6 +20,19 @@ public:
         return td::clsidx::kProjectile;
     }
 
+private:
+    enum {
+        /* GameObject properties */
+        kPosition       = (1 << 0),
+        kOrientation    = (1 << 1),
+        kScale          = (1 << 2),
+
+        /* Projectile properties */
+        kDamage         = (1 << 3),
+        kStartPos       = (1 << 4),
+        kEndPos         = (1 << 5)
+    };
+
 public:
     Projectile();
 
@@ -37,6 +50,24 @@ public:
 
     virtual ~Projectile() {}
 
+    /**
+     * Reads the object state from a network stream.
+     * You should assign to variables directly inside this function, rather
+     * than using mutator methods to change the values.
+     *
+     * @author Darryl Pogue
+     * @param s The network stream.
+     */
+    virtual void networkRead(td::Stream* s);
+
+    /**
+     * Writes the object state to a network stream.
+     *
+     * @author Darryl Pogue
+     * @param s The network stream.
+     */
+    virtual void networkWrite(td::Stream* s);
+
     virtual void update();
 
     size_t getDamage(){
@@ -45,6 +76,7 @@ public:
 
     void setDamage(size_t damage){
         damage_ = damage;
+        setDirty(kDamage);
     }
 
     /**
@@ -65,6 +97,7 @@ public:
      */
     void setStartPoint(QPointF* point){
         start_ = point;
+        setDirty(kStartPos);
     }
 
     /**
@@ -85,6 +118,7 @@ public:
      */
     void setEndPoint(QPointF* point){
         end_ = point;
+        setDirty(kEndPos);
     }
 
     /**

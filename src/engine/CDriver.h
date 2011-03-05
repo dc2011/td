@@ -25,6 +25,7 @@
 #include "../network/stream.h"
 #include "Unit.h"
 #include "GameObject.h"
+#include "Map.h"
 
 namespace td {
 
@@ -39,6 +40,8 @@ private:
     QTimer* gameTimer_;
     Player* human_;
     MainWindow* mainWindow_;
+    // The game map containing all the tiles, waypoints, and access methods
+    Map* gameMap_;
     /**
      * A context menu that appears around the player.
      */

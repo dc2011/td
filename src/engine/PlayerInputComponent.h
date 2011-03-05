@@ -20,9 +20,11 @@ public:
 public slots:
     void keyPressed(int);
     void keyReleased(int);
+    void playerMovement(bool);
 
 private:
     Player* parent_;
+    bool menuIsOpen_;
 };
 
 #endif

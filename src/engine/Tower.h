@@ -22,9 +22,6 @@ public:
 public:
     virtual ~Tower() {}
     
-    virtual void networkRead(td::Stream* s) {}
-    virtual void networkWrite(td::Stream* s) {}
-
     virtual void update();
 };
 } // end of namespace td

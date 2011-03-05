@@ -1,9 +1,10 @@
-ENGINE_HDRS +=  ./engine/ArrowTower.h \
-                ./engine/ContextMenu.h \
+
+ENGINE_HDRS +=  ./engine/ContextMenu.h \
                 ./engine/CDriver.h \
                 ./engine/Effect.h \
                 ./engine/GameObject.h \
                 ./engine/InputComponent.h \
+                ./engine/Map.h \
                 ./engine/NPC.h \
                 ./engine/NPCPhysicsComponent.h \
                 ./engine/NPCInputComponent.h \
@@ -21,17 +22,17 @@ ENGINE_HDRS +=  ./engine/ArrowTower.h \
                 ./engine/Tower.h \
                 ./engine/Unit.h
 
-ENGINE_SRCS +=  ./engine/ArrowTower.cpp \
-                ./engine/ContextMenu.cpp \
+
+ENGINE_SRCS +=  ./engine/ContextMenu.cpp \
                 ./engine/CDriver.cpp \
                 ./engine/Effect.cpp \
                 ./engine/GameObject.cpp \
                 ./engine/InputComponent.cpp \
+                ./engine/Map.cpp \
                 ./engine/NPC.cpp \
                 ./engine/NPCPhysicsComponent.cpp \
                 ./engine/NPCInputComponent.cpp \
                 ./engine/PlayerInputComponent.cpp \
-                ./engine/PhysicsComponent.cpp \
                 ./engine/Player.cpp \
                 ./engine/PlayerPhysicsComponent.cpp \
                 ./engine/Projectile.cpp \

@@ -17,6 +17,42 @@ Projectile::Projectile(PhysicsComponent* physics, GraphicsComponent* graphics,
     path_ = QLineF(end->x(), end->y(), start->x(), start->y());
 }
 
+void Projectile::networkRead(td::Stream* s) {
+    Unit::networkRead(s);
+
+    if (dirty_ & kDamage) {
+        damage_ = s->readInt();
+    }
+
+    if (dirty_ & kStartPos) {
+        start_->setX(s->readFloat());
+        start_->setY(s->readFloat());
+    }
+
+    if (dirty_ & kEndPos) {
+        end_->setX(s->readFloat());
+        end_->setY(s->readFloat());
+    }
+}
+
+void Projectile::networkWrite(td::Stream* s) {
+    Unit::networkWrite(s);
+
+    if (dirty_ & kDamage) {
+        s->writeInt(damage_);
+    }
+
+    if (dirty_ & kStartPos) {
+        s->writeFloat(start_->x());
+        s->writeFloat(start_->y());
+    }
+
+    if (dirty_ & kEndPos) {
+        s->writeFloat(end_->x());
+        s->writeFloat(end_->y());
+    }
+}
+
 void Projectile::update() {
     physics_->update(this);
     graphics_->update(this);
