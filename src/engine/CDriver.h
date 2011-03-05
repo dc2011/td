@@ -8,6 +8,9 @@
 #include <QPointF>
 #include "ResManager.h"
 #include "ContextMenu.h"
+#include "NPC.h"
+#include "NPCInputComponent.h"
+#include "NPCPhysicsComponent.h"
 #include "Player.h"
 #include "PlayerPhysicsComponent.h"
 #include "PlayerInputComponent.h"
@@ -17,6 +20,7 @@
 #include "../client/MainWindow.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"
 #include "../graphics/PlayerGraphicsComponent.h"
+#include "../graphics/NPCGraphicsComponent.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 #include "Unit.h"
@@ -40,6 +44,7 @@ private:
      */
     ContextMenu* contextMenu_;
     Projectile* projectile_;
+    NPC* npc_;
     Tower* tower_;
 
 public:
@@ -91,6 +96,12 @@ public:
      * @return pointer to new player instance.
      */
     void createHumanPlayer(MainWindow *);
+
+    /**
+     * creates npc object
+     * @author Marcel Vangrootheest
+     */
+    void createNPC();
 
     /**
      * Stop game timer.

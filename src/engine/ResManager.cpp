@@ -1,6 +1,7 @@
 #include "ResManager.h"
 #include "Player.h"
 #include "Projectile.h"
+#include "NPC.h"
 
 namespace td {
 
@@ -25,6 +26,11 @@ GameObject* ResManager::createObject(unsigned char type) {
         case clsidx::kProjectile:
             ret = new Projectile();
             id = (Projectile::clsIdx() << 24) | objects_[type].size();
+            ret->setID(id);
+            break;
+        case clsidx::kNPC:
+            ret = new NPC();
+            id = (NPC::clsIdx() << 24) | objects_[type].size();
             ret->setID(id);
             break;
         case clsidx::kGameObject:

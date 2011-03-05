@@ -75,6 +75,21 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     human_->setPhysicsComponent(physics);
 }
 
+void CDriver::createNPC() {
+    npc_ = (NPC*)mgr_->createObject(NPC::clsIdx());
+
+    PhysicsComponent* physics = new NPCPhysicsComponent();
+    GraphicsComponent* graphics = new NPCGraphicsComponent();
+    NPCInputComponent* input = new NPCInputComponent();
+
+    input->setParent(npc_);
+    npc_->setInputComponent(input);
+    npc_->setPhysicsComponent(physics);
+    npc_->setGraphicsComponent(graphics);
+
+    connect(gameTimer_, SIGNAL(timeout()), npc_, SLOT(update()));
+}
+
   void CDriver::createProjectile(){
       //qDebug("fire projectile");
       PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
@@ -102,6 +117,7 @@ void CDriver::startGame() {
 
     createHumanPlayer(mainWindow_);
     contextMenu_ = new ContextMenu(human_);
+    createNPC();
 
     connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
             contextMenu_, SLOT(toggleMenu()));

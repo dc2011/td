@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += qt debug
+CONFIG += qt
 DESTDIR = ../bin
 QT += network
 OBJECTS_DIR = ../obj

@@ -1,5 +1,5 @@
-#ifndef NPC_H
-#define NPC_H
+#ifndef NPCGRAPHICSCOMPONENT_H
+#define NPCGRAPHICSCOMPONENT_H
 
 #include <QObject>
 #include <QPainter>
