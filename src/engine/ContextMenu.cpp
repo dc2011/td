@@ -70,6 +70,8 @@ void ContextMenu::hideSelectMenu() {
 }
 
 void ContextMenu::viewResources(bool altHeld) {
-    ((ContextMenuGraphicsComponent*) graphics_)->showResources(altHeld);
+    if (menuIsOpen_) {
+        ((ContextMenuGraphicsComponent*) graphics_)->showResources(altHeld);
+    }
 }
 
