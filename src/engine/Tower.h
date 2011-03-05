@@ -2,19 +2,27 @@
 #define TOWER_H
 
 #include "TileExtension.h"
-#include "PhysicsComponent.h"
 
 namespace td {
 
 class Tower : public TileExtension {
     Q_OBJECT
 
-private:
-    PhysicsComponent* physics_;
-    
 public:
-    Tower(PhysicsComponent* physics, GraphicsComponent* graphics);
+    /**
+     * Gets the unique class index for this object type.
+     *
+     * @author Darryl Pogue
+     * @return The class index.
+     */
+    static unsigned char clsIdx() {
+        return td::clsidx::kTower;
+    }
+
+public:
     virtual ~Tower() {}
+    
+    virtual void update();
 };
 } // end of namespace td
 

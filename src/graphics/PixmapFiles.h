@@ -24,7 +24,7 @@
 #define PIX_PLAYER_MAX          7
 #define PIX_PROJECTILE_0        QString("./img/projectile.png")
 #define PIX_PROJECTILE_MAX      1
-#define PIX_TOWER_0             QString("./img/arrow.png")
+#define PIX_TOWER_0             QString("./img/towerArrow.png")
 #define PIX_TOWER_MAX           1
 #define PIX_NPC_0               QString("./img/arrow.png")
 #define PIX_NPC_MAX             1

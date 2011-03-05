@@ -17,6 +17,17 @@ class ContextMenu : public QObject {
     Q_OBJECT
 
 public:
+    /**
+     * Gets the unique class index for this object type.
+     *
+     * @author Darryl Pogue
+     * @return The class index.
+     */
+    static unsigned char clsIdx() {
+        return td::clsidx::kContextMenu;
+    }
+
+public:
     ContextMenu(Player* player);
     virtual ~ContextMenu();
 
@@ -71,7 +82,7 @@ signals:
     /**
      * Emitted when an arrow tower is selected to be built.
      */
-    void signalArrowTowerSelected(QPointF);
+    void signalTowerSelected(int towerType, QPointF pos);
     
     /**
      * Emitted when a tar tower is selected to be built.

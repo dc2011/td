@@ -12,32 +12,42 @@ public:
      * This function just adds the vector velocity to the point, pos
      *
      * @author Marcel Vangrootheest , Joel Stewart
-     * @param Projectile*, pointer to the projectile object
+     * @param projectile, pointer to the projectile object
      */
-    void applyVelocity(Projectile*);
+    void applyVelocity(Projectile* projectile);
     /**
      * Applies a direction to the position.
      * This function uses velocity to find angle, pos
      *
      * @author Joel Stewart , Marcel Vangrootheest
-     * @param Projectile*, pointer to the projectile object
+     * @param projectile, pointer to the projectile object
      */
-    void setAngle(Projectile*);
+    void setAngle(Projectile* projectile);
     /**
      * Changes scale to simulate an arc.
      * This function uses length of path and maxVelocity to set duration.
      * Scale is changed based on duration.
      *
      * @author Marcel Vangrootheest
-     * @param Projectile*, pointer to the projectile object
+     * @param projectile, pointer to the projectile object
      */
-    void setScale(Projectile*);
-public slots:
-    virtual void update(Unit*);
+    void setScale(Projectile* projectile);
+
+    /**
+     * Updates the projectile's position, orientation and scale
+     * until the end of it's path.
+     *
+     * @author Marcel Vangrootheest
+     * @param projectile, pointer to the projectile object
+     */
+    virtual void update(Unit* projectile);
 
 private:
+    /** Velocity of the projectile. */
     float maxVelocity_;
+    /**  Time of life for the projectile. */
     double duration_;
+    /** Amount to increment the scale by per tick. */
     double increment_;
 };
 

@@ -16,10 +16,11 @@ PlayerGraphicsComponent::PlayerGraphicsComponent()
 
 void PlayerGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
-    if (!player->getDirtyStatus()) {//checks if object is dirty.
+    if (!player->isDirty()) {//checks if object is dirty.
         return;
     }
-    player->setToClean();
+    player->resetDirty();
+
     DrawParams* dp = new DrawParams();
     dp->pos     = player->getPos();
     dp->moving  = player->getVelocity().length() != 0;

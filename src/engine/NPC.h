@@ -1,12 +1,30 @@
 #ifndef NPC_H
 #define NPC_H
 
+#include <QVector2D>
+#include <QEvent>
+#include <QKeyEvent>
+
 #include "Unit.h"
 
 class NPC : public Unit {
     Q_OBJECT
+
 public:
-    NPC(PhysicsComponent* physics);
+    /**
+     * Gets the unique class index for this object type.
+     *
+     * @author Darryl Pogue
+     * @return The class index.
+     */
+    static unsigned char clsIdx() {
+        return td::clsidx::kNPC;
+    }
+
+public:
+    NPC(InputComponent* input,PhysicsComponent* physics, GraphicsComponent* graphics);
+    NPC();
+    virtual ~NPC() {}
 
     virtual void update();
     size_t getHealth();

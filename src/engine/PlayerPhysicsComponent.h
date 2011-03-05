@@ -5,9 +5,12 @@
 #include "Player.h"
 
 class PlayerPhysicsComponent : public PhysicsComponent {
+    Q_OBJECT
+
 public:
     PlayerPhysicsComponent();
-    virtual ~PlayerPhysicsComponent();
+    virtual ~PlayerPhysicsComponent() {}
+
     /**
      * Applies a force to the velocity
      * If force is 1 or -1:
@@ -17,36 +20,55 @@ public:
      *      Deceleration is applied to velocity while velocity approaches 0.
      *
      * @author Marcel Vangrootheest
-     * @param Player*, pointer to the player object
+     * @param player, pointer to the player object
      */
-    void applyForce(Player*);
+    void applyForce(Player* player);
     /**
      * Applies a velocity to the position.
      * This function just adds the vector velocity to the point, pos
      *
      * @author Marcel Vangrootheest
-     * @param Player*, pointer to the player object
+     * @param player, pointer to the player object
      */
-    void applyVelocity(Player*);
+    void applyVelocity(Player* player);
     /**
      * Applies a direction to the position.
      * This function uses velocity to find angle, pos
      *
      * @author Joel Stewart
-     * @param Player*, pointer to the player object
+     * @param player, pointer to the player object
      */
-    void applyDirection(Player*);
-    
-public slots:
+    void applyDirection(Player* player);
+
+    /**
+     *
+     * @author Daniel Wright
+     */
+    bool validateMovement(const QPointF& newPos);
+
+    /**
+     * Return true if pos is in unblocked half of tile.
+     * Return false if pos is in blocked half of tile.
+     *
+     * @param pos
+     * @param type
+     *
+     * @author Daniel Wright
+     */
+    bool checkSemiBlocked(QPointF pos, int type);
+
     /**
      * This updates the physics properties of Player.
      * Applies force to velocity, applies velocity to position.
      *
      * @author Marcel Vangrootheest
-     * @param Unit*, pointer to the Unit(player object)
+     * @param player, pointer to the Unit(player object)
      */
-    virtual void update(Unit*);
+    virtual void update(Unit* player);
     
+signals:
+    void requestTileInfo(int row, int col, int *blockingType);
+
 private:
     /* data */
     float accel_;

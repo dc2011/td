@@ -2,8 +2,9 @@
 
 namespace td {
 
-Tower::Tower(PhysicsComponent* physics, GraphicsComponent* graphics) 
-        : TileExtension(graphics), physics_(physics) {
+void Tower::update() {
+    graphics_->update(this);
+    //physics_->update(this);
 }
 
 } // end of namespace td
