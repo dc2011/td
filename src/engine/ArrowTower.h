@@ -20,7 +20,6 @@ public:
     }
 
 public:
-    ArrowTower(PhysicsComponent* physics, GraphicsComponent* graphics);
     virtual ~ArrowTower() {}
 };
 } // end of namespace td
