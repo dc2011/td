@@ -17,11 +17,13 @@ void ContextMenu::toggleMenu() {
         qDebug("opens a menu");
         menuIsOpen_ = true;	
         closeTimer.stop();
+	emit signalPlayerMovement(true);
    	((ContextMenuGraphicsComponent*)graphics_)->showMenu(player_);
     } else {
         td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
         qDebug("closes a menu");
         menuIsOpen_ = false;
+	emit signalPlayerMovement(false);
         ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
     }
 }
@@ -35,7 +37,9 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     qDebug("selects a menu item");
     menuIsOpen_ = false;
     ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
-    ((ContextMenuGraphicsComponent*)graphics_)->showSelectMenu(keyPressed, player_);
+    ((ContextMenuGraphicsComponent*)graphics_)->showSelectMenu(keyPressed, player_)
+;
+    emit signalPlayerMovement(false);
     closeTimer.start(800);
     
     switch (keyPressed) {
@@ -46,7 +50,7 @@ void ContextMenu::selectMenuItem(int keyPressed) {
             emit signalFlakTowerSelected(player_->getPos());
             break;
         case CANNON_TOWER:
-            emit signalCannonTowerSelected(player_->getPos());
+            emit  signalCannonTowerSelected(player_->getPos());
             break;
         case ARROW_TOWER:
             emit signalTowerSelected(0, player_->getPos());
