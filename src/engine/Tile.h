@@ -42,11 +42,26 @@ public:
     void removeUnit(Unit *unitToRemove);
     std::set<Unit*> getUnit();
     blockingType getType();
+    
+    /**
+     * Gets the coordinates at the centre of the tile.
+     *
+     * @author Dean Morin
+     * @return The coordinates of the centre of the tile.
+     */
+    QPointF& getPos() {
+        return pos_;
+    }
 
 private:
     int tileID_;
     blockingType type_;
     std::set<Unit*> currentUnits_;
+
+    /**
+     * The coordinates of the centre of the tile.
+     */
+    QPointF pos_;
 };
 
 #endif

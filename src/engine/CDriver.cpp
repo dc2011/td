@@ -109,7 +109,8 @@ void CDriver::createNPC() {
 
 void CDriver::createTower(int towerType, QPointF pos) {
     tower_ = new Tower();
-    tower_->setPos(pos);
+    Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
+    tower_->setPos(currentTile->getPos());
     GraphicsComponent* graphics = new TowerGraphicsComponent();
     //PhysicsComponent*  physics  = new TowerPhysicsComponent();
     tower_->setGraphicsComponent(graphics);
