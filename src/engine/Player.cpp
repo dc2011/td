@@ -23,3 +23,4 @@ void Player::update() {
     }
     graphics_->update(this);
 }
+
