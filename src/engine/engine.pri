@@ -30,7 +30,6 @@ ENGINE_SRCS +=  ./engine/ArrowTower.cpp \
                 ./engine/NPCPhysicsComponent.cpp \
                 ./engine/NPCInputComponent.cpp \
                 ./engine/PlayerInputComponent.cpp \
-                ./engine/PhysicsComponent.cpp \
                 ./engine/Player.cpp \
                 ./engine/PlayerPhysicsComponent.cpp \
                 ./engine/Projectile.cpp \

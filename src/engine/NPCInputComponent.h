@@ -28,8 +28,6 @@ public:
      */
     void nextDestination();
 
-public slots:
-
 private:
     /** The NPC to catch input. */
     NPC* parent_;
