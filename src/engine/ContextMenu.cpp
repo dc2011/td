@@ -17,7 +17,7 @@ void ContextMenu::toggleMenu() {
         qDebug("opens a menu");
         menuIsOpen_ = true;	
         closeTimer.stop();
-   	((ContextMenuGraphicsComponent*)graphics_)->showMenu(player_);
+   	((ContextMenuGraphicsComponent*)graphics_)->showMenu(player_->getPos());
     } else {
         td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
         qDebug("closes a menu");
@@ -35,7 +35,8 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     qDebug("selects a menu item");
     menuIsOpen_ = false;
     ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
-    ((ContextMenuGraphicsComponent*)graphics_)->showSelectMenu(keyPressed, player_);
+    ((ContextMenuGraphicsComponent*)
+            graphics_)->showSelectMenu(keyPressed, player_->getPos());
     closeTimer.start(800);
     
     switch (keyPressed) {

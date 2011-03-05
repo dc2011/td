@@ -38,12 +38,9 @@ void ContextMenuGraphicsComponent::initPixmaps() {
     pixmapIndex = 0;
 }
 
-void ContextMenuGraphicsComponent::showMenu(GameObject *obj) {
-    Player *player = (Player*)obj;
-    QPointF tempMenuPos(player->getPos());
-
-    menuPos.setX(tempMenuPos.x() - 33);
-    menuPos.setY(tempMenuPos.y() - 43);
+void ContextMenuGraphicsComponent::showMenu(QPointF playerPos) {
+    menuPos.setX(playerPos.x() - 33);
+    menuPos.setY(playerPos.y() - 43);
 
     setImgIndex(0);
 
@@ -53,13 +50,9 @@ void ContextMenuGraphicsComponent::showMenu(GameObject *obj) {
     update(NULL);
 }
 
-void ContextMenuGraphicsComponent::showSelectMenu(int type, GameObject *obj) {
-
-    Player *player = (Player*)obj;
-    QPointF tempMenuPos(player->getPos());
-
-    menuPos.setX(tempMenuPos.x() - 33);
-    menuPos.setY(tempMenuPos.y() - 43);
+void ContextMenuGraphicsComponent::showSelectMenu(int type, QPointF playerPos) {
+    menuPos.setX(playerPos.x() - 33);
+    menuPos.setY(playerPos.y() - 43);
 
     switch(type) {
         //going to have some accessor to set img

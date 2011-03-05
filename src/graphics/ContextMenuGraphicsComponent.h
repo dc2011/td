@@ -36,10 +36,10 @@ public:
      * Changes the index, and sets the position of the context menu to be shown.
      *
      * @author Karl Castillo, Warren Voelkl
-     * @param obj - the player object; it will be used as a reference as to where
-     *              the context menu will be painted.
+     * @param playerPos The coordinates of the player, which will be used as a
+     * reference as to where the context menu will be paited.
      */
-    void showMenu(GameObject* obj);
+    void showMenu(QPointF playerPos);
 
     /**
      * Hides the context menu by relocating the context menu outside the viewing
@@ -56,10 +56,10 @@ public:
      * @author Karl Castillo, Warren Voelkl
      * @param type - the keypressed; each keypress (49 - 53) is associated with
      *               a specific type of tower
-     *        obj - the player object; it will be used as a reference as to where
-     *              the context menu will be painted.
+     * @param playerPos The coordinates of the player, which will be used as a
+     * reference as to where the context menu will be paited.
      */
-    void showSelectMenu(int type, GameObject *obj);
+    void showSelectMenu(int type, QPointF playerPos);
 
 public slots:
     /**
