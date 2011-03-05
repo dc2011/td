@@ -3,17 +3,6 @@
 Player::Player() : Unit() {
     QVector2D force(0, 0);
     this->setForce(force);
-}
-
-Player::Player(InputComponent* input, PhysicsComponent* physics,
-               GraphicsComponent* graphics) {
-    QVector2D force(0, 0);
-    this->setForce(force);
-    input_ = input;
-    input_->setParent(this);
-    
-    physics_ = physics;
-    graphics_ = new PlayerGraphicsComponent();
 
     this->setPos(100, 100);
 }
