@@ -61,6 +61,15 @@ public:
      */
     void showSelectMenu(int type, QPointF playerPos);
 
+    /**
+     * Displays the types and amounts of resources required to build each tower.
+     *
+     * @author Karl Castillo
+     * @param show True if the resources should be shown, false if they should
+     * be hidden.
+     */
+    void showResources(bool show);
+
 public slots:
     /**
      * Increments the scale factor for the build context menu every tick of the

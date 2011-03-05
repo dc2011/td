@@ -90,9 +90,20 @@ void ContextMenuGraphicsComponent::animate() {
 
     scaleFactor += 0.1;
 
-    if(scaleFactor == 0.5) {
+    if(scaleFactor >= 0.5) {
         animateDisconnect();
     }
 
     update(NULL);
 }
+    
+void ContextMenuGraphicsComponent::showResources(bool show) {
+    if (show) {
+        qDebug("ContextMenuGraphicsComponent::showResources; show = true");
+        //show the resources
+    } else { 
+        qDebug("ContextMenuGraphicsComponent::showResources; show = false");
+        // hide them
+    }
+}
+
