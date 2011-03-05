@@ -9,8 +9,8 @@ ProjectilePhysicsComponent::~ProjectilePhysicsComponent() {}
 
 void ProjectilePhysicsComponent::update(Unit* projectile)
 {
-    if (((Projectile*)projectile)->getPath().length() > maxVelocity_ - 1) {
-        this->setAngle((Projectile*)projectile);
+    if (((Projectile*)projectile)->getPath().length() >= maxVelocity_) {
+        this->applyDirection((Projectile*)projectile);
         this->applyVelocity((Projectile*)projectile);
         this->setScale((Projectile*)projectile);
     }
@@ -21,7 +21,7 @@ void ProjectilePhysicsComponent::applyVelocity(Projectile* projectile) {
     projectile->setPos(projectile->getPath().x2(), projectile->getPath().y2());
 }
 
-void ProjectilePhysicsComponent::setAngle(Projectile* projectile) {
+void ProjectilePhysicsComponent::applyDirection(Projectile* projectile) {
 
     int angle = 0;
     int degree = 0;

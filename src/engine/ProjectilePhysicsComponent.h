@@ -22,7 +22,7 @@ public:
      * @author Joel Stewart , Marcel Vangrootheest
      * @param projectile, pointer to the projectile object
      */
-    void setAngle(Projectile* projectile);
+    void applyDirection(Projectile* projectile);
     /**
      * Changes scale to simulate an arc.
      * This function uses length of path and maxVelocity to set duration.
