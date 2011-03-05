@@ -1,9 +1,11 @@
 #include "ProjectilePhysicsComponent.h"
 #include "Projectile.h"
-#include <math.h>
 
-ProjectilePhysicsComponent::ProjectilePhysicsComponent()
-    : maxVelocity_(10), accel_(10), decel_(10), duration_(-1), increment_(0) {}
+ProjectilePhysicsComponent::ProjectilePhysicsComponent() {
+    maxVelocity_ = accel_ = decel_ = 10;
+    duration_ = -1;
+    increment_ = 0;
+}
 ProjectilePhysicsComponent::~ProjectilePhysicsComponent() {}
 
 void ProjectilePhysicsComponent::update(Unit* projectile) {

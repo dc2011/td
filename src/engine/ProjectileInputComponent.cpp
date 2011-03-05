@@ -1,6 +1,8 @@
 #include "ProjectileInputComponent.h"
 #include "Projectile.h"
 #include "ProjectilePhysicsComponent.h"
+#define PI 3.141592653589793238
+#include <math.h>
 
 ProjectileInputComponent::ProjectileInputComponent() {}
 
@@ -15,21 +17,26 @@ void ProjectileInputComponent::setParent(Unit *parent) {
 }
 
 void ProjectileInputComponent::makeForce() {
-    if (QLineF(parent_->getPos(), parent_->getPath().p1()).length()
-            < parent_->getVelocity().length()) {
-        parent_->getForce().setX(0);
-        parent_->getForce().setY(0);
+    QVector2D force;
+    QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
+               parent_->getPath().p1().x(), parent_->getPath().p1().y());
+    if (distance.length() < parent_->getVelocity().length()) {
+        force = QVector2D(0,0);
+        parent_->setForce(force);
+        parent_->setPos(parent_->getEndPoint()->x(),
+                        parent_->getEndPoint()->y());
     } else {
-        parent_->getForce().setX(parent_->getPath().unitVector().dx() * -1);
-        parent_->getForce().setY(parent_->getPath().unitVector().dy() * -1);
+        force = QVector2D(parent_->getPath().unitVector().dx() * -1,
+                      parent_->getPath().unitVector().dy() * -1);
+        parent_->setForce(force);
     }
 }
 
-void ProjectileInputComponent::setPath(const QPointF &start,
-                                       const QPointF &end) {
+void ProjectileInputComponent::setPath(QPointF* start, QPointF* end) {
+    parent_->setPos(*start);
     parent_->setStartPoint(start);
     parent_->setEndPoint(end);
-    parent_->getPath().setPoints(end, start);
+    parent_->getPath().setPoints(*end, *start);
     this->applyDirection();
 }
 

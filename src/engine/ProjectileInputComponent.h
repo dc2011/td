@@ -39,16 +39,15 @@ public:
      * @param start, the starting position of the projectile
      * @param end, ending position of the projectile
      */
-    void setPath(const QPointF &start, const QPointF &end);
+    void setPath(QPointF* start, QPointF* end);
 
     /**
      * Applies a direction to the position.
      * This function uses path to find angle
      *
      * @author Joel Stewart , Marcel Vangrootheest
-     * @param projectile, pointer to the projectile object
      */
-    void applyDirection(Projectile* projectile);
+    void applyDirection();
 
 public slots:
 
