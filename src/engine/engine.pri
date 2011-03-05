@@ -1,6 +1,5 @@
 
-ENGINE_HDRS +=  ./engine/CollisionComponent.h \
-                ./engine/ArrowTower.h \
+ENGINE_HDRS +=  ./engine/ArrowTower.h \
                 ./engine/ContextMenu.h \
                 ./engine/CDriver.h \
                 ./engine/Effect.h \
@@ -21,8 +20,7 @@ ENGINE_HDRS +=  ./engine/CollisionComponent.h \
                 ./engine/Unit.h
 
 
-ENGINE_SRCS +=  ./engine/CollisionComponent.cpp \
-                ./engine/ArrowTower.cpp \
+ENGINE_SRCS +=  ./engine/ArrowTower.cpp \
                 ./engine/ContextMenu.cpp \
                 ./engine/CDriver.cpp \
                 ./engine/Effect.cpp \

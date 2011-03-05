@@ -38,8 +38,24 @@ public:
      * @param Player*, pointer to the player object
      */
     void applyDirection(Player*);
-    
-public slots:
+
+    /**
+     *
+     * @author Daniel Wright
+     */
+    bool validateMovement(const QPointF& curPos, const QPointF& newPos);
+
+    /**
+     * Return true if pos is in unblocked half of tile.
+     * Return false if pos is in blocked half of tile.
+     *
+     * @param pos
+     * @param type
+     *
+     * @author Daniel Wright
+     */
+    bool checkSemiBlocked(QPointF pos, int type);
+
     /**
      * This updates the physics properties of Player.
      * Applies force to velocity, applies velocity to position.
@@ -49,6 +65,9 @@ public slots:
      */
     virtual void update(Unit*);
     
+signals:
+    void requestTileInfo(int row, int col, int *blockingType);
+
 private:
     /* data */
     float accel_;
