@@ -93,6 +93,12 @@ signals:
      * Emitted when a tar tower is selected to be built.
      */
     void signalTarTowerSelected(QPointF);
+    
+    /**
+     * Emitted when the menu is shown
+     */
+    void signalPlayerMovement(bool);
+    
 };
 
 #endif

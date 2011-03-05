@@ -66,7 +66,6 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent();
     PlayerInputComponent* input = new PlayerInputComponent();
-   
     human_->setInputComponent(input);
     human_->setGraphicsComponent(graphics);
     human_->setPhysicsComponent(physics);
@@ -126,6 +125,8 @@ void CDriver::startGame() {
     contextMenu_ = new ContextMenu(human_);
     createNPC();
 
+    connect(contextMenu_, SIGNAL(signalPlayerMovement(bool)),
+	    human_->getInputComponent(), SLOT(playerMovement(bool)));
     connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
             contextMenu_, SLOT(toggleMenu()));
     connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
