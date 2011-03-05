@@ -76,7 +76,7 @@ public:
      * Deletes a GameObject.
      *
      * @author Darryl Pogue
-     * @param The GameObject to delete.
+     * @param obj The GameObject to delete.
      */
     void deleteObject(GameObject* obj);
 
