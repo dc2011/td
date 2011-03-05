@@ -20,10 +20,11 @@
 #define PIX_PLAYER_3            QString("./img/player-move3.png")
 #define PIX_PLAYER_4            QString("./img/player-move4.png")
 #define PIX_PLAYER_5            QString("./img/player-move5.png")
-#define PIX_PLAYER_MAX          6
+#define PIX_PLAYER_6            QString("./img/player-move6.png")
+#define PIX_PLAYER_MAX          7
 #define PIX_PROJECTILE_0        QString("./img/projectile.png")
 #define PIX_PROJECTILE_MAX      1
-#define PIX_TOWER_0             QString("./img/arrow.png")
+#define PIX_TOWER_0             QString("./img/towerArrow.png")
 #define PIX_TOWER_MAX           1
 #define PIX_NPC_0               QString("./img/arrow.png")
 #define PIX_NPC_MAX             1

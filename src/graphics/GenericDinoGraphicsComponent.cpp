@@ -13,10 +13,11 @@ GenericDinoGraphicsComponent::~GenericDinoGraphicsComponent() {}
 
 void GenericDinoGraphicsComponent::update(GameObject* obj) {
     Unit* gdgc = (Unit*)obj;
-    if (!gdgc->getDirtyStatus()) {//checks if object is dirty.
+    if (!gdgc->isDirty()) {//checks if object is dirty.
         return;
     }
-    gdgc->setToClean();
+    gdgc->resetDirty();
+
     DrawParams* dp = new DrawParams();
     dp->pos     = gdgc->getPos();
     dp->moving  = 1;

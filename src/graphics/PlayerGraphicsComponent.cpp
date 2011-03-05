@@ -16,10 +16,11 @@ PlayerGraphicsComponent::PlayerGraphicsComponent()
 
 void PlayerGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
-    if (!player->getDirtyStatus()) {//checks if object is dirty.
+    if (!player->isDirty()) {//checks if object is dirty.
         return;
     }
-    player->setToClean();
+    player->resetDirty();
+
     DrawParams* dp = new DrawParams();
     dp->pos     = player->getPos();
     dp->moving  = player->getVelocity().length() != 0;
@@ -38,16 +39,27 @@ void PlayerGraphicsComponent::initPixmaps() {
     pixmapImgs[pixmapIndex++] = PIX_PLAYER_3;
     pixmapImgs[pixmapIndex++] = PIX_PLAYER_4;
     pixmapImgs[pixmapIndex++] = PIX_PLAYER_5;
+    pixmapImgs[pixmapIndex++] = PIX_PLAYER_6;
     pixmapIndex = 0;
 }
 
 void PlayerGraphicsComponent::animate() {
+    
+    int pos;
+    
     if (!isMoving_) {
-        setImgIndex(0);
+        pixmapIndex = 0;
+        setImgIndex(pixmapIndex);
         return;
     }
+
+    if (pixmapIndex == 0) {
+	pos = rand() % 2 + 1;
+	pos == 1 ? pixmapIndex = 0 : pixmapIndex = 3;
+    }
+    
     if (!(animateCount++ % animateMod)) {
-        pixmapIndex = (pixmapIndex != PIX_PLAYER_MAX - 1)? pixmapIndex + 1 : 1;
+        ++pixmapIndex >= PIX_PLAYER_MAX ? pixmapIndex = 1 : pixmapIndex;
         setImgIndex(pixmapIndex);
     }
 }

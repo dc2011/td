@@ -1,41 +1,31 @@
-#include "PlayerPhysicsComponent.h"
-#include "Player.h"
+#include "NPCPhysicsComponent.h"
+#include "NPC.h"
 #define PI 3.141592653589793238
 #include <math.h>
-#ifndef SERVER
-#include "CDriver.h"
-#endif
+NPCPhysicsComponent::NPCPhysicsComponent()
+        : accel_(0.1), decel_(0.3), maxVelocity_(3) {}
+NPCPhysicsComponent::~NPCPhysicsComponent() {}
 
-PlayerPhysicsComponent::PlayerPhysicsComponent()
-        : accel_(0.3), decel_(0.45), maxVelocity_(5) {}
-PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
-
-void PlayerPhysicsComponent::update(Unit* player)
+void NPCPhysicsComponent::update(Unit* npc)
 {
-    this->applyForce((Player*)player);
-    this->applyVelocity((Player*)player);
-    this->applyDirection((Player*)player);
-
-#ifndef SERVER
-    if (player->isDirty()) {
-        td::CDriver::updateServer(player);
-    }
-#endif
+    this->applyForce((NPC*)npc);
+    this->applyVelocity((NPC*)npc);
+    this->applyDirection((NPC*)npc);
 }
 
 /* applies velocity to position, currently moves past bounds */
-void PlayerPhysicsComponent::applyVelocity(Player* player)
+void NPCPhysicsComponent::applyVelocity(NPC* npc)
 {
-    QPointF newPos = player->getPos() + player->getVelocity().toPointF();
-    player->setPos(newPos);
+    QPointF newPos = npc->getPos() + npc->getVelocity().toPointF();
+    npc->setPos(newPos);
 }
 
-void PlayerPhysicsComponent::applyForce(Player* player)
+void NPCPhysicsComponent::applyForce(NPC* npc)
 {
     float velX, velY;
-    QVector2D force = player->getForce();
-    QVector2D vector = force * player->getVelocity();
-    QVector2D tempVector = player->getVelocity();
+    QVector2D force = npc->getForce();
+    QVector2D vector = force * npc->getVelocity();
+    QVector2D tempVector = npc->getVelocity();
 
     if (vector.x() >= 0) {
         tempVector.setX(force.x() * accel_ + tempVector.x());
@@ -49,54 +39,54 @@ void PlayerPhysicsComponent::applyForce(Player* player)
         tempVector.setY(force.y() *(accel_ + decel_) + tempVector.y());
     }
     if (tempVector.length() > maxVelocity_) {
-        player->getVelocity().setX(tempVector.normalized().x()*maxVelocity_);
-        player->getVelocity().setY(tempVector.normalized().y()*maxVelocity_);
+        npc->getVelocity().setX(tempVector.normalized().x()*maxVelocity_);
+        npc->getVelocity().setY(tempVector.normalized().y()*maxVelocity_);
     } else {
-        player->getVelocity().setX(tempVector.x());
-        player->getVelocity().setY(tempVector.y());
+        npc->getVelocity().setX(tempVector.x());
+        npc->getVelocity().setY(tempVector.y());
     }
 
     if (force.x() == 0) {
         // deceleration towards 0
-        if ((velX = player->getVelocity().x()) > 0) {
+        if ((velX = npc->getVelocity().x()) > 0) {
             if ((velX - decel_) < 0) {
-                player->getVelocity().setX(0);
+                npc->getVelocity().setX(0);
             } else {
-                player->getVelocity().setX(velX - decel_);
+                npc->getVelocity().setX(velX - decel_);
             }
-        } else if ((velX = player->getVelocity().x()) < 0) {
+        } else if ((velX = npc->getVelocity().x()) < 0) {
             if ((velX + decel_) > 0) {
-                player->getVelocity().setX(0);
+                npc->getVelocity().setX(0);
             } else {
-                player->getVelocity().setX(velX + decel_);
+                npc->getVelocity().setX(velX + decel_);
             }
         }
     }
 
     if (force.y() == 0) {
         // deceleration towards 0
-        if ((velY = player->getVelocity().y()) > 0) {
+        if ((velY = npc->getVelocity().y()) > 0) {
             if ((velY - decel_) < 0) {
-                player->getVelocity().setY(0);
+                npc->getVelocity().setY(0);
             } else {
-                player->getVelocity().setY(velY - decel_);
+                npc->getVelocity().setY(velY - decel_);
             }
-        } else if ((velY = player->getVelocity().y()) < 0) {
+        } else if ((velY = npc->getVelocity().y()) < 0) {
             if ((velY + decel_) > 0) {
-                player->getVelocity().setY(0);
+                npc->getVelocity().setY(0);
             } else {
-                player->getVelocity().setY(velY + decel_);
+                npc->getVelocity().setY(velY + decel_);
             }
         }
     }
 }
 
-void PlayerPhysicsComponent::applyDirection(Player* player)
+void NPCPhysicsComponent::applyDirection(NPC* npc)
 {
     int angle = 0;
     int degree = 0;
-    int velX = player->getVelocity().x();
-    int velY = player->getVelocity().y();
+    int velX = npc->getVelocity().x();
+    int velY = npc->getVelocity().y();
 
     if (velX == 0 && velY == 0) {
         return;
@@ -146,6 +136,5 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
         }
     }
 
-    player->setOrientation(degree);
-    //qDebug("Orientation: %d", degree);
+    npc->setOrientation(degree);
 }

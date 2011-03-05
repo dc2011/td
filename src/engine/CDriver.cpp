@@ -10,6 +10,7 @@
 #include "CDriver.h"
 #include "Unit.h"
 #include "../graphics/ProjectileGraphicsComponent.h"
+#include "../graphics/TowerGraphicsComponent.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 
@@ -76,6 +77,21 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     NetworkClient::instance()->send(network::kRequestObjID, request->data());
 }
 
+void CDriver::createNPC() {
+    npc_ = (NPC*)mgr_->createObject(NPC::clsIdx());
+
+    PhysicsComponent* physics = new NPCPhysicsComponent();
+    GraphicsComponent* graphics = new NPCGraphicsComponent();
+    NPCInputComponent* input = new NPCInputComponent();
+
+    input->setParent(npc_);
+    npc_->setInputComponent(input);
+    npc_->setPhysicsComponent(physics);
+    npc_->setGraphicsComponent(graphics);
+
+    connect(gameTimer_, SIGNAL(timeout()), npc_, SLOT(update()));
+}
+
   void CDriver::createProjectile(){
       //qDebug("fire projectile");
       PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
@@ -88,6 +104,16 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
                 projectile_,       SLOT(update()));
   }
 
+void CDriver::createTower(int towerType, QPointF pos) {
+    tower_ = new Tower();
+    tower_->setPos(pos);
+    GraphicsComponent* graphics = new TowerGraphicsComponent();
+    //PhysicsComponent*  physics  = new TowerPhysicsComponent();
+    tower_->setGraphicsComponent(graphics);
+    //tower->setPhysicsComponent(physics);
+    connect(gameTimer_, SIGNAL(timeout()), tower_, SLOT(update()));
+}
+
 void CDriver::startGame() {
     gameTimer_   = new QTimer(this);
 
@@ -97,6 +123,7 @@ void CDriver::startGame() {
 
     createHumanPlayer(mainWindow_);
     contextMenu_ = new ContextMenu(human_);
+    createNPC();
 
     connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
             contextMenu_, SLOT(toggleMenu()));
@@ -104,6 +131,9 @@ void CDriver::startGame() {
             contextMenu_, SLOT(selectMenuItem(int)));
     connect(gameTimer_,   SIGNAL(timeout()), 
             human_,       SLOT(update()));
+    /* TODO: alter temp solution */
+    connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
+            this,         SLOT(createTower(int, QPointF)));
 
     /* TODO: Remove this */
     QObject::connect(mainWindow_, SIGNAL(signalFPressed()),

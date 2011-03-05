@@ -2,7 +2,6 @@
 #define TOWER_H
 
 #include "TileExtension.h"
-#include "PhysicsComponent.h"
 
 namespace td {
 
@@ -20,12 +19,10 @@ public:
         return td::clsidx::kTower;
     }
 
-private:
-    PhysicsComponent* physics_;
-    
 public:
-    Tower(PhysicsComponent* physics, GraphicsComponent* graphics);
     virtual ~Tower() {}
+    
+    virtual void update();
 };
 } // end of namespace td
 

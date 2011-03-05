@@ -5,9 +5,6 @@
 #include <QPointF>
 
 #include "GameObject.h"
-#include "PhysicsComponent.h"
-#include "InputComponent.h"
-#include "../graphics/GraphicsComponent.h"
 
 class Unit : public GameObject {
 
@@ -22,11 +19,33 @@ public:
         return td::clsidx::kUnit;
     }
 
+private:
+    enum {
+        kPosition       = (1 << 0),
+        kOrientation    = (1 << 1),
+        kScale          = (1 << 2)
+    };
+
 public:
     Unit();
     virtual ~Unit();
 
+    /**
+     * Reads the object state from a network stream.
+     * You should assign to variables directly inside this function, rather
+     * than using mutator methods to change the values.
+     *
+     * @author Darryl Pogue
+     * @param s The network stream.
+     */
     virtual void networkRead(td::Stream* s);
+
+    /**
+     * Writes the object state to a network stream.
+     *
+     * @author Darryl Pogue
+     * @param s The network stream.
+     */
     virtual void networkWrite(td::Stream* s);
 
     /**

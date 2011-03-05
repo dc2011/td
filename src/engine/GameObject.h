@@ -8,7 +8,6 @@
 #include "../graphics/GraphicsComponent.h"
 #include "../network/stream.h"
 
-
 class GameObject : public QObject {
   Q_OBJECT
 
@@ -23,27 +22,78 @@ public:
         return td::clsidx::kGameObject;
     }
 
+private:
+    enum {
+        kPosition       = (1 << 0),
+        kOrientation    = (1 << 1),
+        kScale          = (1 << 2)
+    };
+
+protected:
+    GameObject(); /* Protected to enforce "abstract" class */
+
 public:
-    GameObject();
     virtual ~GameObject();
 
     /**
      * Reads the object state from a network stream.
-     * THIS MUST BE IMPLEMENTED BY DERIVED CLASSES.
+     * You should assign to variables directly inside this function, rather
+     * than using mutator methods to change the values.
      *
      * @author Darryl Pogue
      * @param s The network stream.
      */
-    virtual void networkRead(td::Stream* s) = 0;
+    virtual void networkRead(td::Stream* s);
 
     /**
      * Writes the object state to a network stream.
-     * THIS MUST BE IMPLEMENTED BY DERIVED CLASSES.
      *
      * @author Darryl Pogue
      * @param s The network stream.
      */
     virtual void networkWrite(td::Stream* s);
+
+protected:
+    /**
+     * Sets the dirty bit for the specified field.
+     *
+     * @author Darryl Pogue
+     * @param field The bit index of the field to be marked.
+     */
+    void setDirty(unsigned int field) {
+        dirty_ |= field;
+    }
+
+    /**
+     * Resets the dirty bit for the specified field.
+     *
+     * @author Darryl Pogue
+     * @param field The bit index of the field to be unmarked.
+     */
+    void unsetDirty(unsigned int field) {
+        dirty_ &= ~(field);
+    }
+
+public:
+    /**
+     * Returns whether this object has fields that have been marked as dirty.
+     *
+     * @author Darryl Pogue
+     * @author Warren Voelkl
+     * @return true if the object is dirty, false otherwise.
+     */
+    bool isDirty() {
+        return (dirty_ != 0);
+    }
+
+    /**
+     * Resets the dirty state for this object.
+     *
+     * @author Darryl Pogue
+     */
+    void resetDirty() {
+        dirty_ = 0;
+    }
 
     /**
      * Gets the ID of the object.
@@ -85,7 +135,7 @@ public:
     void setPos(QPointF& p) {
         pos_.setX(p.x());
         pos_.setY(p.y());
-        setToDirty();
+        setDirty(kPosition);
         //qDebug("Pos: (%.2f, %.2f)", (float) pos_.x(), (float) pos_.y());
     }
 
@@ -100,26 +150,8 @@ public:
     void setPos(float x, float y) {
         pos_.setX(x);
         pos_.setY(y);
-        setToDirty();
+        setDirty(kPosition);
     }
-
-    /**
-     * Sets the dirty_ variable to dirty
-     * @author Warren Voelkl
-     */
-    void setToDirty() { dirty_ = true; }
-
-    /**
-     * Sets the dirty_ variable to clean
-     * @author Warren Voelkl
-     */
-    void setToClean() { dirty_ = false; }
-
-    /**
-     * @author Warren Voelkl
-     * @returns bool dirty_
-     */
-    bool getDirtyStatus() { return dirty_; }
     
     /**
       * Overloaded < comparator for set implementation
@@ -136,6 +168,7 @@ public:
      * Get the direction of the GameObject, where 0 degrees is east.
      *
      * @author Dean Morin
+     * @return The orientation of the GameObject in degrees.
      */
     int getOrientation() {
         return orientation_;
@@ -145,15 +178,18 @@ public:
      * Set the direction of the GameObject, where 0 degrees is east.
      *
      * @author Dean Morin
+     * @param orient The new orientation of the GameObject.
      */
     void setOrientation(int orient) {
         orientation_ = orient;
+        setDirty(kOrientation);
     }
 
     /**
      * Get the scale of the GameObject, where 1 is unscaled.
      *
      * @author Dean Morin
+     * @return The scale of the GameObject.
      */
     float getScale() {
         return scale_;
@@ -163,9 +199,11 @@ public:
      * Set the scale of the GameObject, where 1 is unscaled.
      *
      * @author Dean Morin
+     * @param scale The new scale of the object.
      */
     void setScale(float scale) {
         scale_ = scale;
+        setDirty(kScale);
     }
 
     /**
@@ -181,7 +219,8 @@ public:
     /**
      * Set the graphics component for this object.
      *
-     * @author Darryl Pougue
+     * @author Darryl Pogue
+     * @param graphics The GraphicsComponent to use for rendering.
      */
     void setGraphicsComponent(GraphicsComponent* graphics) {
         graphics_ = graphics;
@@ -205,14 +244,14 @@ public:
      * Set the physics component for this object. Please note that not all
      * GameObjects will have a physics component.
      *
-     * @author Darryl Pougue
+     * @author Darryl Pogue
+     * @param physics The PhysicsComponent to be used for this object.
      */
     void setPhysicsComponent(PhysicsComponent* physics) {
         physics_ = physics;
     }
     
 public slots:
-    
     /**
      * Pure virtual method that all inheriting classes need to implement.
      * This method is the starting point for responses to all events that 
@@ -225,17 +264,21 @@ public slots:
     virtual void update() = 0;
 
 protected:
-    QPointF pos_;
     /**
-     * This variable is currently used for checking to see if the object has 
-     * been drawn.
+     * This keeps track of which values of the object have been updated
+     * internally but not externally displayed.
      */
-    
-    bool dirty_;
+    unsigned int dirty_;
+
     /**
      * The unique ID for each game object.
      */
     unsigned int iD_;
+
+    /**
+     * The position of the GameObject in the world.
+     */
+    QPointF pos_;
    
     /**
      * The direction of the GameObject, where 0 degrees is east.

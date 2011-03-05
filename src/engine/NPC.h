@@ -1,6 +1,10 @@
 #ifndef NPC_H
 #define NPC_H
 
+#include <QVector2D>
+#include <QEvent>
+#include <QKeyEvent>
+
 #include "Unit.h"
 
 class NPC : public Unit {
@@ -18,8 +22,8 @@ public:
     }
 
 public:
-    NPC() {}
-    NPC(PhysicsComponent* physics);
+    NPC(InputComponent* input,PhysicsComponent* physics, GraphicsComponent* graphics);
+    NPC();
     virtual ~NPC() {}
 
     virtual void update();

@@ -8,14 +8,19 @@
 #include <QPointF>
 #include "ResManager.h"
 #include "ContextMenu.h"
+#include "NPC.h"
+#include "NPCInputComponent.h"
+#include "NPCPhysicsComponent.h"
 #include "Player.h"
 #include "PlayerPhysicsComponent.h"
 #include "PlayerInputComponent.h"
 #include "Projectile.h"
 #include "ProjectilePhysicsComponent.h"
+#include "Tower.h"
 #include "../client/MainWindow.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"
 #include "../graphics/PlayerGraphicsComponent.h"
+#include "../graphics/NPCGraphicsComponent.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 #include "Unit.h"
@@ -39,6 +44,8 @@ private:
      */
     ContextMenu* contextMenu_;
     Projectile* projectile_;
+    NPC* npc_;
+    Tower* tower_;
 
 public:
     // ctors and dtors
@@ -91,6 +98,12 @@ public:
     void createHumanPlayer(MainWindow *);
 
     /**
+     * creates npc object
+     * @author Marcel Vangrootheest
+     */
+    void createNPC();
+
+    /**
      * Stop game timer.
      * 
      * @author Duncan Donaldson
@@ -118,6 +131,13 @@ private slots:
      * @return Pointer to new projectile instance.
      */
     void createProjectile();
+
+    /**
+     * Temp testing method.
+     *
+     * @author Dean Morin
+     */
+    void createTower(int towerType, QPointF pos);
 
     /**
      *

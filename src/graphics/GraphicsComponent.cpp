@@ -35,10 +35,12 @@ void GraphicsComponent::create() {
 void GraphicsComponent::draw(DrawParams* dp) {
     QPointF center = pixmapItem_->boundingRect().center();
     pixmapItem_->resetMatrix();//important
-    pixmapItem_->translate(center.x(), center.y());
+    //pixmapItem_->translate(center.x(), center.y());
+    pixmapItem_->setTransformOriginPoint(center);
     pixmapItem_->setScale(dp->scale);
     pixmapItem_->rotate(dp->degrees * -1);
     pixmapItem_->translate(-center.x(), -center.y());
+    //pixmapItem_->setTransformOriginPoint(-center.x(), -center.y());
     pixmapItem_->setPos(dp->pos);
     isMoving_ = dp->moving;
     delete dp;

@@ -2,7 +2,6 @@
 #define TILEEXTENSION_H
 
 #include "GameObject.h"
-#include "../graphics/GraphicsComponent.h"
 
 namespace td {
 
@@ -20,11 +19,7 @@ public:
         return td::clsidx::kTileExtension;
     }
 
-private:
-    GraphicsComponent* graphics_;
-
 public:
-    TileExtension(GraphicsComponent* graphics);
     virtual ~TileExtension() {}
 };
 } // end of namespace td

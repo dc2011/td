@@ -37,7 +37,6 @@ public:
      */
     void applyDirection(Player* player);
     
-public slots:
     /**
      * This updates the physics properties of Player.
      * Applies force to velocity, applies velocity to position.
