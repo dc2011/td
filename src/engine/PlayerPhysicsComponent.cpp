@@ -31,7 +31,7 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
 {
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
 
-    if (validateMovement(player->getPos(), newPos)) {
+    if (validateMovement(newPos)) {
         player->setPos(newPos);
     }
 }
@@ -156,11 +156,11 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
     //qDebug("Orientation: %d", degree);
 }
 
-bool PlayerPhysicsComponent::validateMovement(const QPointF& curPos, const QPointF& newPos) {
+bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
     int blockingType = 0;
 
-    int row = floor(curPos.y() / TILE_HEIGHT);
-    int col = floor(curPos.x() / TILE_WIDTH);
+    int row = floor(newPos.y() / TILE_HEIGHT);
+    int col = floor(newPos.x() / TILE_WIDTH);
 
     emit requestTileInfo(row, col, &blockingType);
 

@@ -44,7 +44,7 @@ public:
      *
      * @author Daniel Wright
      */
-    bool validateMovement(const QPointF& curPos, const QPointF& newPos);
+    bool validateMovement(const QPointF& newPos);
 
     /**
      * Return true if pos is in unblocked half of tile.
