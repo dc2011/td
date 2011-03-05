@@ -15,8 +15,9 @@ void ContextMenu::toggleMenu() {
     if (!menuIsOpen_) {
         td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
         qDebug("opens a menu");
-        menuIsOpen_ = true;
-        ((ContextMenuGraphicsComponent*)graphics_)->showMenu(player_);
+        menuIsOpen_ = true;	
+        closeTimer.stop();
+   	((ContextMenuGraphicsComponent*)graphics_)->showMenu(player_);
     } else {
         td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
         qDebug("closes a menu");
