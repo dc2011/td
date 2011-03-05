@@ -20,9 +20,10 @@ void ProjectileInputComponent::makeForce() {
     QVector2D force;
     QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
                parent_->getPath().p1().x(), parent_->getPath().p1().y());
-    if (distance.length() < parent_->getVelocity().length()) {
+    if (distance.length() <= parent_->getVelocity().length()) {
         force = QVector2D(0,0);
         parent_->setForce(force);
+        parent_->setVelocity(force);
         parent_->setPos(parent_->getEndPoint()->x(),
                         parent_->getEndPoint()->y());
     } else {
