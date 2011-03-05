@@ -66,16 +66,16 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent();
     PlayerInputComponent* input = new PlayerInputComponent();
+   
+    human_->setInputComponent(input);
+    human_->setGraphicsComponent(graphics);
+    human_->setPhysicsComponent(physics);
 
     connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
     connect(gui, SIGNAL(signalKeyReleased(int)), input, SLOT(keyReleased(int)));
     // Connection for collisions -- waiting on map object
     connect(physics, SIGNAL(requestTileInfo(int, int, int*)), 
             gameMap_, SLOT(getTileInfo(int, int, int*)));
-   
-    human_->setInputComponent(input);
-    human_->setGraphicsComponent(graphics);
-    human_->setPhysicsComponent(physics);
 }
 
 void CDriver::createNPC() {

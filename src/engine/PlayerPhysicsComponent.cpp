@@ -13,9 +13,6 @@ PlayerPhysicsComponent::PlayerPhysicsComponent() {
     maxVelocity_ = 5;
 }
 
-PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
-
-int blockingType = 0;
 void PlayerPhysicsComponent::update(Unit* player)
 {
     this->applyForce((Player*)player);

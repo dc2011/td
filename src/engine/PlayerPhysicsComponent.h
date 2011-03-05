@@ -9,6 +9,7 @@ class PlayerPhysicsComponent : public PhysicsComponent {
 
 public:
     PlayerPhysicsComponent();
+    virtual ~PlayerPhysicsComponent() {}
 
     /**
      * Applies a force to the velocity
