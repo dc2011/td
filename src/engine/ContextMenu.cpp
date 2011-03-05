@@ -3,8 +3,6 @@
 ContextMenu::ContextMenu(Player* player) : player_(player) {
     graphics_   = new ContextMenuGraphicsComponent();
     menuIsOpen_ = false;
-
-    connect(&closeTimer, SIGNAL(timeout()), this, SLOT(hideSelectMenu()));
 }
 
 ContextMenu::~ContextMenu() {
@@ -35,7 +33,6 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     menuIsOpen_ = false;
     ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
     ((ContextMenuGraphicsComponent*)graphics_)->showSelectMenu(keyPressed, player_);
-    closeTimer.start(800);
     
     switch (keyPressed) {
         case FLAME_TOWER:
@@ -54,11 +51,5 @@ void ContextMenu::selectMenuItem(int keyPressed) {
             emit signalTarTowerSelected(player_->getPos());
             break;
     }
-}
-
-void ContextMenu::hideSelectMenu() {
-    td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
-    ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
-    closeTimer.stop();
 }
 
