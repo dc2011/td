@@ -100,7 +100,7 @@ void CDriver::createNPC() {
       PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
       GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
       QPointF* start = new QPointF(tower_->getPos());
-      QPointF* end = new QPointF(100, 100);
+      QPointF* end = new QPointF(human_->getPos());
       CDriver::projectile_ = new Projectile(projectilePhysics, projectileGraphics,
                                          start, end);
       connect(gameTimer_,   SIGNAL(timeout()),
