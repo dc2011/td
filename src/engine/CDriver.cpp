@@ -93,10 +93,13 @@ void CDriver::createNPC() {
 }
 
   void CDriver::createProjectile(){
+      if (!tower_) {
+          return;
+      }
       //qDebug("fire projectile");
       PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
       GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
-      QPointF* start = new QPointF(human_->getPos());
+      QPointF* start = new QPointF(tower_->getPos());
       QPointF* end = new QPointF(100, 100);
       CDriver::projectile_ = new Projectile(projectilePhysics, projectileGraphics,
                                          start, end);
