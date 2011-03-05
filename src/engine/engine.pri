@@ -31,7 +31,6 @@ ENGINE_SRCS +=  ./engine/CollisionComponent.cpp \
                 ./engine/Map.cpp \
                 ./engine/NPC.cpp \
                 ./engine/PlayerInputComponent.cpp \
-                ./engine/PhysicsComponent.cpp \
                 ./engine/Player.cpp \
                 ./engine/PlayerPhysicsComponent.cpp \
                 ./engine/Projectile.cpp \

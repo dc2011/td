@@ -5,9 +5,11 @@
 #include "Player.h"
 
 class PlayerPhysicsComponent : public PhysicsComponent {
+    Q_OBJECT
+
 public:
     PlayerPhysicsComponent();
-    virtual ~PlayerPhysicsComponent();
+
     /**
      * Applies a force to the velocity
      * If force is 1 or -1:

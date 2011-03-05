@@ -2,9 +2,11 @@
 #include "Player.h"
 #define PI 3.141592653589793238
 #include <math.h>
-PlayerPhysicsComponent::PlayerPhysicsComponent()
-        : accel_(0.3), decel_(0.6), maxVelocity_(5) {}
-PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
+PlayerPhysicsComponent::PlayerPhysicsComponent() {
+    accel_ = 0.3;
+    decel_ = 0.6;
+    maxVelocity_ = 5;
+}
 
 int blockingType = 0;
 void PlayerPhysicsComponent::update(Unit* player)

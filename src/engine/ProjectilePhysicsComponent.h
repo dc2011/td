@@ -32,7 +32,7 @@ public:
      * @param Projectile*, pointer to the projectile object
      */
     void setScale(Projectile*);
-public slots:
+
     virtual void update(Unit*);
 
 private:
