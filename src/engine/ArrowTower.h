@@ -9,7 +9,17 @@ class ArrowTower : public Tower {
     Q_OBJECT
 
 public:
-    ArrowTower(PhysicsComponent* physics, GraphicsComponent* graphics);
+    /**
+     * Gets the unique class index for this object type.
+     *
+     * @author Darryl Pogue
+     * @return The class index.
+     */
+    static unsigned char clsIdx() {
+        return td::clsidx::kArrowTower;
+    }
+
+public:
     virtual ~ArrowTower() {}
 };
 } // end of namespace td

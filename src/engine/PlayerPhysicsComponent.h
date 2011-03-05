@@ -19,25 +19,25 @@ public:
      *      Deceleration is applied to velocity while velocity approaches 0.
      *
      * @author Marcel Vangrootheest
-     * @param Player*, pointer to the player object
+     * @param player, pointer to the player object
      */
-    void applyForce(Player*);
+    void applyForce(Player* player);
     /**
      * Applies a velocity to the position.
      * This function just adds the vector velocity to the point, pos
      *
      * @author Marcel Vangrootheest
-     * @param Player*, pointer to the player object
+     * @param player, pointer to the player object
      */
-    void applyVelocity(Player*);
+    void applyVelocity(Player* player);
     /**
      * Applies a direction to the position.
      * This function uses velocity to find angle, pos
      *
      * @author Joel Stewart
-     * @param Player*, pointer to the player object
+     * @param player, pointer to the player object
      */
-    void applyDirection(Player*);
+    void applyDirection(Player* player);
 
     /**
      *
@@ -61,9 +61,9 @@ public:
      * Applies force to velocity, applies velocity to position.
      *
      * @author Marcel Vangrootheest
-     * @param Unit*, pointer to the Unit(player object)
+     * @param player, pointer to the Unit(player object)
      */
-    virtual void update(Unit*);
+    virtual void update(Unit* player);
     
 signals:
     void requestTileInfo(int row, int col, int *blockingType);

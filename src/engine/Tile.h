@@ -19,6 +19,18 @@ enum blockingType {OPEN = 0, CLOSED = 1, NORTH_WEST = 2, NORTH_EAST = 3,
 
 class Tile : public QObject {
     Q_OBJECT
+
+public:
+    /**
+     * Gets the unique class index for this object type.
+     *
+     * @author Darryl Pogue
+     * @return The class index.
+     */
+    static unsigned char clsIdx() {
+        return td::clsidx::kTile;
+    }
+
 public:
     Tile();
     Tile(int row, int column, blockingType type);

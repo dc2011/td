@@ -2,11 +2,18 @@
 #include "Player.h"
 #define PI 3.141592653589793238
 #include <math.h>
+
+#ifndef SERVER
+#include "CDriver.h"
+#endif
+
 PlayerPhysicsComponent::PlayerPhysicsComponent() {
     accel_ = 0.3;
     decel_ = 0.6;
     maxVelocity_ = 5;
 }
+
+PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
 
 int blockingType = 0;
 void PlayerPhysicsComponent::update(Unit* player)
@@ -14,6 +21,12 @@ void PlayerPhysicsComponent::update(Unit* player)
     this->applyForce((Player*)player);
     this->applyVelocity((Player*)player);
     this->applyDirection((Player*)player);
+
+#ifndef SERVER
+    if (player->getDirtyStatus()) {
+        td::CDriver::updateServer(player);
+    }
+#endif
 }
 
 /* applies velocity to position, currently moves past bounds */
@@ -31,28 +44,25 @@ void PlayerPhysicsComponent::applyForce(Player* player)
     float velX, velY;
     QVector2D force = player->getForce();
     QVector2D vector = force * player->getVelocity();
+    QVector2D tempVector = player->getVelocity();
 
     if (vector.x() >= 0) {
-        player->getVelocity().setX(force.x() * accel_ +
-                                   player->getVelocity().x());
-        if (qAbs(vector.x()) > maxVelocity_) {
-            player->getVelocity().setX(force.x() * maxVelocity_);
-        }
+        tempVector.setX(force.x() * accel_ + tempVector.x());
     } else {
-        player->getVelocity().setX(force.x() *(accel_ + decel_) +
-                                   player->getVelocity().x());
+        tempVector.setX(force.x() *(accel_ + decel_) + tempVector.x());
     }
 
     if (vector.y() >= 0) {
-        player->getVelocity().setY(force.y() * accel_ +
-                                   player->getVelocity().y());
-
-        if (qAbs(vector.y()) > maxVelocity_) {
-            player->getVelocity().setY(force.y() * maxVelocity_);
-        }
+        tempVector.setY(force.y() * accel_ + tempVector.y());
     } else {
-        player->getVelocity().setY(force.y() *(accel_ + decel_) +
-                                   player->getVelocity().y());
+        tempVector.setY(force.y() *(accel_ + decel_) + tempVector.y());
+    }
+    if (tempVector.length() > maxVelocity_) {
+        player->getVelocity().setX(tempVector.normalized().x()*maxVelocity_);
+        player->getVelocity().setY(tempVector.normalized().y()*maxVelocity_);
+    } else {
+        player->getVelocity().setX(tempVector.x());
+        player->getVelocity().setY(tempVector.y());
     }
 
     if (force.x() == 0) {

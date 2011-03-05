@@ -31,6 +31,10 @@ public:
      * @author Warren Voelkl
      */
     virtual void initPixmaps();
+
+protected:
+    /** TODO: remove, for testing only */
+    int angle_;
 };
 
 #endif
