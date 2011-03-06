@@ -73,8 +73,8 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
     connect(gui, SIGNAL(signalKeyReleased(int)), input, SLOT(keyReleased(int)));
     // Connection for collisions -- waiting on map object
-    connect(physics, SIGNAL(requestTileInfo(int, int, int*)), 
-            gameMap_, SLOT(getTileInfo(int, int, int*)));
+    connect(physics, SIGNAL(requestTileType(double, double, int*)), 
+            gameMap_, SLOT(getTileType(double, double, int*)));
 }
 
 void CDriver::createNPC() {

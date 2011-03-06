@@ -67,7 +67,17 @@ public:
     virtual void update(Unit* player);
     
 signals:
-    void requestTileInfo(int row, int col, int *blockingType);
+    
+    /**
+     * Receives x, y co-ords and returns the type of the tile occuping those 
+     * co-ords.
+     *
+     * @param x
+     * @param y
+     *
+     * @author Ian Lee, Tom Nightingale
+     */
+    void requestTileType(double x, double y, int *blockingType);
 
 private:
     /* data */

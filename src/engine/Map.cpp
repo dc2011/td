@@ -58,14 +58,12 @@ namespace td{
     }
 
 
-    void Map::getTileInfo(int row, int column, int *blockingType)
+    void Map::getTileType(double x, double y, int *blockingType)
     {
-        //*blockingType = CLOSED;
+        int row = floor(newPos.y() / TILE_HEIGHT);
+        int col = floor(newPos.x() / TILE_WIDTH);
 
-        //should work @author ian
         *blockingType = tiles_[row][column]->getType();
-
-
     }
 
 
