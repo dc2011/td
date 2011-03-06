@@ -21,7 +21,7 @@ public:
     }
 
 public:
-    Effect(Unit* unit, size_t duration);
+    Effect(Unit* unit, size_t duration = 0);
     ~Effect();
     void apply();
     size_t getDuration();

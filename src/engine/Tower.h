@@ -2,6 +2,7 @@
 #define TOWER_H
 
 #include "TileExtension.h"
+#include "Effect.h"
 
 namespace td {
 
@@ -23,6 +24,9 @@ public:
     virtual ~Tower() {}
     
     virtual void update();
+
+private:
+    QList<Effect*> effects_;
 };
 } // end of namespace td
 

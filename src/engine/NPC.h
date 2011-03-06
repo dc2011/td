@@ -6,6 +6,7 @@
 #include <QKeyEvent>
 
 #include "Unit.h"
+#include "Effect.h"
 
 class NPC : public Unit {
     Q_OBJECT
@@ -35,6 +36,7 @@ public:
 private:
     size_t health_;
     size_t damage_;
+    QList<Effect*> effects_;
 };
 
 #endif // NPC_H

@@ -7,6 +7,7 @@
 #include "Unit.h"
 #include "PlayerInputComponent.h"
 #include "CollisionComponent.h"
+#include "Effect.h"
 #include "../graphics/PlayerGraphicsComponent.h"
 
 class Player : public Unit {
@@ -28,6 +29,9 @@ public:
     virtual ~Player() {}
 
     virtual void update();
+
+private:
+    QList<Effect*> effects_;
 };
 
 #endif

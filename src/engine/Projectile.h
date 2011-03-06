@@ -5,6 +5,7 @@
 #include <QPointF>
 
 #include "Unit.h"
+#include "Effect.h"
 
 class Projectile : public Unit {
     Q_OBJECT
@@ -32,6 +33,7 @@ private:
         kStartPos       = (1 << 4),
         kEndPos         = (1 << 5)
     };
+    QList<Effect*> effects_;
 
 public:
     Projectile();
