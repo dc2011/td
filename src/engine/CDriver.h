@@ -16,6 +16,7 @@
 #include "PlayerInputComponent.h"
 #include "Projectile.h"
 #include "ProjectilePhysicsComponent.h"
+#include "ProjectileInputComponent.h"
 #include "Tower.h"
 #include "../client/MainWindow.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"

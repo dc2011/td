@@ -99,10 +99,18 @@ void CDriver::createNPC() {
       //qDebug("fire projectile");
       PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
       GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
+      ProjectileInputComponent* input = new ProjectileInputComponent();
+      projectile_ = (Projectile*)mgr_->createObject(Projectile::clsIdx());
+
+      input->setParent(projectile_);
+      projectile_->setPhysicsComponent(projectilePhysics);
+      projectile_->setGraphicsComponent(projectileGraphics);
+
       QPointF* start = new QPointF(tower_->getPos());
       QPointF* end = new QPointF(human_->getPos());
-      CDriver::projectile_ = new Projectile(projectilePhysics, projectileGraphics,
-                                         start, end);
+      input->setPath(start, end);
+      projectile_->setInputComponent(input);
+
       connect(gameTimer_,   SIGNAL(timeout()),
                 projectile_,       SLOT(update()));
   }

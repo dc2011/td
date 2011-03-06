@@ -37,20 +37,6 @@ public:
     Projectile();
 
     /**
-     * Creates new projectile.
-     *
-     * @author Pan Khantidhara, Marcel Vangrootheest
-     * @param physics Physics component.
-     * @param graphic Graphics component.
-     * @param start, where the projectile starts
-     * @param end, where the projectile ends
-     */
-    Projectile(PhysicsComponent* physics, GraphicsComponent* graphics,
-               QPointF* start, QPointF* end);
-
-    virtual ~Projectile() {}
-
-    /**
      * Reads the object state from a network stream.
      * You should assign to variables directly inside this function, rather
      * than using mutator methods to change the values.

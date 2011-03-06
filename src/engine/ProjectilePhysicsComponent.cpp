@@ -1,94 +1,97 @@
 #include "ProjectilePhysicsComponent.h"
 #include "Projectile.h"
-#include <math.h>
-#define PI 3.141592653589793238
 
-ProjectilePhysicsComponent::ProjectilePhysicsComponent()
-    : maxVelocity_(10), duration_(-1), increment_(0) {}
+ProjectilePhysicsComponent::ProjectilePhysicsComponent() {
+    maxVelocity_ = accel_ = decel_ = 10;
+    duration_ = -1;
+    increment_ = 0;
+}
 ProjectilePhysicsComponent::~ProjectilePhysicsComponent() {}
 
-void ProjectilePhysicsComponent::update(Unit* projectile)
-{
-    if (((Projectile*)projectile)->getPath().length() > maxVelocity_ - 1) {
-        this->setAngle((Projectile*)projectile);
-        this->applyVelocity((Projectile*)projectile);
-        this->setScale((Projectile*)projectile);
-    }
-}
-
-void ProjectilePhysicsComponent::applyVelocity(Projectile* projectile) {
-    projectile->getPath().setLength(projectile->getPath().length() - maxVelocity_);
-    projectile->setPos(projectile->getPath().x2(), projectile->getPath().y2());
-}
-
-void ProjectilePhysicsComponent::setAngle(Projectile* projectile) {
-
-    int angle = 0;
-    int degree = 0;
-    int projX = projectile->getPath().x1() - projectile->getPath().x2();
-    int projY = projectile->getPath().y1() - projectile->getPath().y2();
-
-    if (projX == 0 && projY == 0) {
-        return;
-    }
-
-    if (qAbs(projX) >= qAbs(projY)) {
-        angle = atan(projY / (float)projX) * (180 / PI);
-
-        if (projX > 0) {
-            if (projY == 0) {
-                degree = 0;
-            } else if (projX == projY) {
-                degree = 315;
-            } else if (projX == (-projY)) {
-                degree = 45;
-            } else if (angle < 0) {
-                degree =  -angle;
-            } else {
-                degree = 360 - angle;
-            }
-        } else if (projX < 0) {
-            if (projY == 0) {
-                degree = 180;
-            } else if (projX == projY) {
-                degree = 135;
-            } else if (projX == (-projY)) {
-                degree = 225;
-            } else {
-                degree = 180 - angle;
-            }
-        }
-    } else if (qAbs(projY) > qAbs(projX)) {
-        angle = atan(projX / (float) projY) * (180 / PI);
-
-        if (projY < 0) {
-            if (projX == 0) {
-                degree = 90;
-            } else {
-                degree = 90 + angle;
-            }
-        } else if (projY > 0) {
-            if (projX == 0) {
-                degree = 270;
-            } else {
-                degree = 270 + angle;
-            }
-        }
-    }
-    projectile->setOrientation(degree);
+void ProjectilePhysicsComponent::update(Unit* projectile) {
+    this->applyForce((Projectile*)projectile);
+    this->applyVelocity((Projectile*)projectile);
+    this->setScale((Projectile*)projectile);
 }
 
 void ProjectilePhysicsComponent::setScale(Projectile *projectile) {
-
     if (duration_ < 0) {
         duration_ = projectile->getPath().length() / maxVelocity_;
         increment_ = 0;
     }
-
     if (increment_++ < (duration_ / 2)) {
         projectile->setScale(projectile->getScale() + 0.05);
     } else if (increment_ < duration_) {
         projectile->setScale(projectile->getScale() - 0.05);
     }
+}
 
+void ProjectilePhysicsComponent::applyVelocity(Projectile* projectile)
+{
+    QPointF newPos = projectile->getPos()
+                     + projectile->getVelocity().toPointF();
+    projectile->setPos(newPos);
+}
+
+void ProjectilePhysicsComponent::applyForce(Projectile* projectile)
+{
+    float velX, velY;
+    QVector2D force = projectile->getForce();
+    QVector2D vector = force * projectile->getVelocity();
+    QVector2D tempVector = projectile->getVelocity();
+
+    if (vector.x() >= 0) {
+        tempVector.setX(force.x() * accel_ + tempVector.x());
+    } else {
+        tempVector.setX(force.x() *(accel_ + decel_) + tempVector.x());
+    }
+
+    if (vector.y() >= 0) {
+        tempVector.setY(force.y() * accel_ + tempVector.y());
+    } else {
+        tempVector.setY(force.y() *(accel_ + decel_) + tempVector.y());
+    }
+    if (tempVector.length() > maxVelocity_) {
+        projectile->getVelocity().setX(tempVector.normalized().x()
+                                       * maxVelocity_);
+        projectile->getVelocity().setY(tempVector.normalized().y()
+                                       * maxVelocity_);
+    } else {
+        projectile->getVelocity().setX(tempVector.x());
+        projectile->getVelocity().setY(tempVector.y());
+    }
+
+    if (force.x() == 0) {
+        // deceleration towards 0
+        if ((velX = projectile->getVelocity().x()) > 0) {
+            if ((velX - decel_) < 0) {
+                projectile->getVelocity().setX(0);
+            } else {
+                projectile->getVelocity().setX(velX - decel_);
+            }
+        } else if ((velX = projectile->getVelocity().x()) < 0) {
+            if ((velX + decel_) > 0) {
+                projectile->getVelocity().setX(0);
+            } else {
+                projectile->getVelocity().setX(velX + decel_);
+            }
+        }
+    }
+
+    if (force.y() == 0) {
+        // deceleration towards 0
+        if ((velY = projectile->getVelocity().y()) > 0) {
+            if ((velY - decel_) < 0) {
+                projectile->getVelocity().setY(0);
+            } else {
+                projectile->getVelocity().setY(velY - decel_);
+            }
+        } else if ((velY = projectile->getVelocity().y()) < 0) {
+            if ((velY + decel_) > 0) {
+                projectile->getVelocity().setY(0);
+            } else {
+                projectile->getVelocity().setY(velY + decel_);
+            }
+        }
+    }
 }

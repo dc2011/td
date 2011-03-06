@@ -1,3 +1,4 @@
+/** Movement Physics for basic Projectile */
 #ifndef PROJECTILEPHYSICSCOMPONENT_H
 #define PROJECTILEPHYSICSCOMPONENT_H
 
@@ -8,6 +9,18 @@ public:
     ProjectilePhysicsComponent();
     virtual ~ProjectilePhysicsComponent();
     /**
+     * Applies a force to the velocity
+     * If force is 1 or -1:
+     *      Acceleration applied on direction to velocity.
+     *      Deceleration is added if velocity is approaching 0.
+     * If force is 0:
+     *      Deceleration is applied to velocity while velocity approaches 0.
+     *
+     * @author Marcel Vangrootheest
+     * @param projectile, pointer to the NPC object
+     */
+    void applyForce(Projectile* projectile);
+    /**
      * Applies a velocity to the position.
      * This function just adds the vector velocity to the point, pos
      *
@@ -15,14 +28,6 @@ public:
      * @param projectile, pointer to the projectile object
      */
     void applyVelocity(Projectile* projectile);
-    /**
-     * Applies a direction to the position.
-     * This function uses velocity to find angle, pos
-     *
-     * @author Joel Stewart , Marcel Vangrootheest
-     * @param projectile, pointer to the projectile object
-     */
-    void setAngle(Projectile* projectile);
     /**
      * Changes scale to simulate an arc.
      * This function uses length of path and maxVelocity to set duration.
@@ -49,6 +54,10 @@ private:
     double duration_;
     /** Amount to increment the scale by per tick. */
     double increment_;
+    /** Amount to increase velocity by when force applied. */
+    double accel_;
+    /** Amount to decrease velocity when force not applied. */
+    double decel_;
 };
 
 #endif
