@@ -12,6 +12,7 @@
 #define TILE_HEIGHT 48
 #define TILE_WIDTH 48
 
+namespace td {
 
 // May need a better place for this definition since it is needed in collision
 enum blockingType {OPEN = 0, CLOSED = 1, NORTH_WEST = 2, NORTH_EAST = 3,
@@ -63,5 +64,7 @@ private:
      */
     QPointF pos_;
 };
+
+} /* end namespace td */
 
 #endif

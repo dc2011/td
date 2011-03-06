@@ -13,6 +13,8 @@
 #define TAR_TOWER          52
 #define FLAK_TOWER         53
 
+namespace td {
+
 class ContextMenu : public QObject {
     Q_OBJECT
 
@@ -105,6 +107,8 @@ signals:
     void signalPlayerMovement(bool);
     
 };
+
+} /* end namespace td */
 
 #endif
 

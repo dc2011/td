@@ -1,6 +1,8 @@
 #include "ProjectileGraphicsComponent.h"
 #include "../engine/Projectile.h"
 
+namespace td {
+
 ProjectileGraphicsComponent::ProjectileGraphicsComponent()
         : GraphicsComponent() {
     /* Do init-type stuff here */
@@ -34,3 +36,4 @@ void ProjectileGraphicsComponent::initPixmaps() {
 
 }
 
+} /* end namespace td */

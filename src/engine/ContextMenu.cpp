@@ -1,5 +1,7 @@
 #include "ContextMenu.h"
 
+namespace td {
+
 ContextMenu::ContextMenu(Player* player) : player_(player) {
     graphics_   = new ContextMenuGraphicsComponent();
     menuIsOpen_ = false;
@@ -75,3 +77,4 @@ void ContextMenu::viewResources(bool altHeld) {
     }
 }
 
+} /* end namespace td */

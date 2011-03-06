@@ -3,8 +3,10 @@
 
 #include <QString>
 
-#include "PhysicsComponent.h"
+#include "../physics/PhysicsComponent.h"
 #include "Unit.h"
+
+namespace td {
 
 class Effect : public GameObject {
     Q_OBJECT
@@ -30,5 +32,7 @@ private:
     Unit *unit_;
     size_t duration_;
 };
+
+} /* end namespace td */
 
 #endif // EFFECT_H

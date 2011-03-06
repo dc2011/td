@@ -6,6 +6,8 @@
 #include <QPointF>
 #include "GraphicsComponent.h"
 
+namespace td {
+
 class ProjectileGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
@@ -32,6 +34,8 @@ public:
      */
     virtual void initPixmaps();
 };
+
+} /* end namespace td */
 
 #endif
 

@@ -1,5 +1,7 @@
 #include "CollisionComponent.h"
 
+namespace td {
+
 bool CollisionComponent::update(QPointF pos)
 {
     if (parent_ == NULL)
@@ -77,3 +79,4 @@ void CollisionComponent::setParent(Unit *parent)
     parent_ = parent;
 }
 
+} /* end namespace td */

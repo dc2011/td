@@ -9,6 +9,8 @@
 #define TAR_TOWER          52
 #define FLAK_TOWER         53
 
+namespace td {
+
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
 
@@ -107,3 +109,4 @@ void ContextMenuGraphicsComponent::showResources(bool show) {
     }
 }
 
+} /* end namespace td */

@@ -9,8 +9,6 @@
 #include "GameObject.h"
 #include "CDriver.h"
 #include "Unit.h"
-#include "../graphics/ProjectileGraphicsComponent.h"
-#include "../graphics/TowerGraphicsComponent.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 

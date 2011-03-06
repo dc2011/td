@@ -1,5 +1,7 @@
 #include "Projectile.h"
 
+namespace td {
+
 Projectile::Projectile() : Unit() {
     start_ = new QPointF(0,0);
     end_ = new QPointF(0,0);
@@ -50,3 +52,4 @@ void Projectile::update() {
     graphics_->update(this);
 }
 
+} /* end namespace td */

@@ -2,6 +2,7 @@
 #define TOWER_H
 
 #include "TileExtension.h"
+#include "../graphics/TowerGraphicsComponent.h"
 
 namespace td {
 

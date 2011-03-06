@@ -1,6 +1,8 @@
 #include "PlayerGraphicsComponent.h"
 #include "../engine/Player.h"
 
+namespace td {
+
 PlayerGraphicsComponent::PlayerGraphicsComponent()
         : GraphicsComponent()
 {
@@ -64,3 +66,4 @@ void PlayerGraphicsComponent::animate() {
     }
 }
 
+} /* end namespace td */

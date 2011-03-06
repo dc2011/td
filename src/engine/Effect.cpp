@@ -1,5 +1,7 @@
 #include "Effect.h"
 
+namespace td {
+
 Effect::Effect(Unit* unit) {
     unit_ = unit;
 }
@@ -15,3 +17,5 @@ size_t Effect::getDuration(){
 void Effect::setDuration(size_t duration){
     duration_ = duration;
 }
+
+} /* end namespace td */

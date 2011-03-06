@@ -1,6 +1,8 @@
 #include "GenericDinoGraphicsComponent.h"
 #include "../engine/Unit.h"
 
+namespace td {
+
 GenericDinoGraphicsComponent::GenericDinoGraphicsComponent()
         : GraphicsComponent() {
     animateMod = 7;
@@ -42,3 +44,5 @@ void GenericDinoGraphicsComponent::animate() {
         setImgIndex(pixmapIndex);
     }
 }
+
+} /* end namespace td */
