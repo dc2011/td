@@ -162,7 +162,6 @@ void CDriver::UDPReceived(Stream* s) {
 
         default:
 
-            //TEMPORARY
             this->readObject(s);
             break;
 
