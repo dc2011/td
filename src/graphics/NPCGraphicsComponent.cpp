@@ -3,6 +3,9 @@
 
 NPCGraphicsComponent::NPCGraphicsComponent()
         : GraphicsComponent() {
+    animateMod = 4;
+    animateCount = 0;
+    animateConnect();
     emit created(this);
 }
 
@@ -29,5 +32,24 @@ void NPCGraphicsComponent::initPixmaps() {
     pixmapImgs = new QPixmap[PIX_NPC_MAX];
     pixmapIndex = 0;
     pixmapImgs[pixmapIndex++] = PIX_NPC_0;
+    pixmapImgs[pixmapIndex++] = PIX_NPC_1;
+    pixmapImgs[pixmapIndex++] = PIX_NPC_2;
+    pixmapImgs[pixmapIndex++] = PIX_NPC_3;
     pixmapIndex = 0; //sets image back to start
+}
+
+void NPCGraphicsComponent::animate() {
+    
+    int pos;
+    
+    if (!isMoving_) {
+        setImgIndex(pixmapIndex);
+        return;
+    }
+
+    
+    if (!(animateCount++ % animateMod)) {
+        ++pixmapIndex >= PIX_NPC_MAX ? pixmapIndex = 0 : pixmapIndex;
+        setImgIndex(pixmapIndex);
+    }
 }

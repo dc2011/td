@@ -31,6 +31,22 @@ public:
      * @author Warren Voelkl
      */
     virtual void initPixmaps();
+    /**
+     * The primary method used to determine the behaviours of animation
+     *
+     * @author Warren Voelkl, Marcel Vangrootheest
+     */
+    virtual void animate();
+private:
+    /**
+     * Slows down how often the images animate from the timer.
+     */
+    int animateMod;
+
+    /**
+     * The number of times the timer has ticked.
+     */
+    int animateCount;
 };
 
 #endif
