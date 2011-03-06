@@ -155,6 +155,11 @@ protected:
 public:
     TriBounds(QPoint centre, QPoint v1, QPoint v2)
             : Bounds(kTriangle), centre_(centre), vert1_(v1), vert2_(v2) { }
+
+    /**
+     * Destructor.
+     */
+    ~TriBounds() { }
     
     /**
      * Gets the primary vertex of this bounding triangle.
@@ -196,6 +201,61 @@ public:
 private:
     /**
      * Returns whether this bounding triangle intersects the other bounding
+     * box.
+     *
+     * @author Darryl Pogue
+     * @param other The bounding box region to check for intersections.
+     * @return true if there is an intersection, false otherwise.
+     */
+    bool intersectBox(const BoxBounds& other) const;
+    bool intersectTri(const TriBounds& other) const;
+    bool intersectRnd(const RndBounds& other) const;
+};
+
+class RndBounds : public Bounds
+{
+protected:
+    QPoint centre_;
+    int radius_;
+
+public:
+    RndBounds(QPoint centre, int radius)
+            : Bounds(kCircle), centre_(centre), radius_(radius) { }
+
+    /**
+     * Destructor.
+     */
+    ~RndBounds() { }
+
+    QPoint getCentre() const {
+        return centre_;
+    }
+
+    void setCentre(QPoint centre) {
+        centre_ = centre;
+    }
+
+    int getRadius() const {
+        return radius_;
+    }
+
+    void setRadius(int radius) {
+        radius_ = radius;
+    }
+
+    /**
+     * Returns whether this bounding region intersects the other bounding
+     * region.
+     *
+     * @author Darryl Pogue
+     * @param other The bounding region to check for intersections.
+     * @return true if there is an intersection, false otherwise.
+     */
+    virtual bool intersects(const Bounds& other) const;
+
+private:
+    /**
+     * Returns whether this bounding circle intersects the other bounding
      * box.
      *
      * @author Darryl Pogue

@@ -1,4 +1,7 @@
 #include "Bounds.h"
+#include <QLineF>
+#include <cmath>
+#include <cstdlib>
 
 namespace td {
 
@@ -9,6 +12,7 @@ bool BoxBounds::intersects(const Bounds& other) const {
         case kTriangle:
             return intersectTri((const TriBounds&)other);
         case kCircle:
+            return intersectRnd((const RndBounds&)other);
         default:
             return false;
     }
@@ -155,8 +159,43 @@ bool BoxBounds::intersectTri(const TriBounds& other) const {
     return false;
 }
 
-/*bool BoxBounds::intersectCircle(const CircleBounds& other) const {
+bool BoxBounds::intersectRnd(const RndBounds& other) const {
+    int rad = other.getRadius();
+
+    int r = box_.x() + box_.width();
+    int b = box_.y() + box_.height();
+
+    QRect h(box_.x() - rad, box_.y(), r + rad, b);
+    if (h.contains(other.getCentre(), true)) {
+        return true;
+    }
+
+    QRect v(box_.x(), box_.y() - rad, r, b + rad);
+    if (v.contains(other.getCentre(), true)) {
+        return true;
+    }
+
+    QLineF ln(box_.topLeft(), other.getCentre());
+    if (abs((int)ln.length()) <= other.getRadius()) {
+        return true;
+    }
+
+    ln.setPoints(box_.topRight(), other.getCentre());
+    if (abs((int)ln.length()) <= other.getRadius()) {
+        return true;
+    }
+
+    ln.setPoints(box_.bottomLeft(), other.getCentre());
+    if (abs((int)ln.length()) <= other.getRadius()) {
+        return true;
+    }
+
+    ln.setPoints(box_.bottomRight(), other.getCentre());
+    if (abs((int)ln.length()) <= other.getRadius()) {
+        return true;
+    }
+
     return false;
-}*/
+}
 
 } /* end namespace td */
