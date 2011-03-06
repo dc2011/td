@@ -59,6 +59,5 @@ void PlayerInputComponent::keyReleased(int key) {
 }
 
 void PlayerInputComponent::playerMovement(bool move) {
-    qDebug("Fired move");
     menuIsOpen_ = move;
 }
