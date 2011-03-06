@@ -1,7 +1,10 @@
 #include "Effect.h"
 
-Effect::Effect(Unit* unit) {
-    unit_ = unit;
+Effect::Effect(Unit* unit, size_t duration):
+    unit_(unit), duration_(duration){
+}
+
+Effect::~Effect(){
 }
 
 void Effect::apply(){
