@@ -3,6 +3,7 @@
 
 #include "PhysicsComponent.h"
 #include "Player.h"
+#include "../physics/Bounds.h"
 
 class PlayerPhysicsComponent : public PhysicsComponent {
     Q_OBJECT
@@ -74,6 +75,8 @@ private:
     float accel_;
     float decel_;
     float maxVelocity_;
+
+    td::BoxBounds collider_;
 };
 
 #endif

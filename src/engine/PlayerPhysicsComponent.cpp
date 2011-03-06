@@ -7,7 +7,8 @@
 #include "CDriver.h"
 #endif
 
-PlayerPhysicsComponent::PlayerPhysicsComponent() {
+PlayerPhysicsComponent::PlayerPhysicsComponent()
+        : collider_(td::BoxBounds(13, 3, 32, 44)) {
     accel_ = 0.3;
     decel_ = 0.6;
     maxVelocity_ = 5;
