@@ -2,22 +2,16 @@
 #define CDRIVER_H
 
 #include <QTimer>
-#include <QApplication>
-#include <QMainWindow>
-#include <QVector>
 #include <QPointF>
-#include "ResManager.h"
 #include "ContextMenu.h"
+#include "GameObject.h"
+#include "Map.h"
 #include "NPC.h"
 #include "Player.h"
 #include "Projectile.h"
+#include "ResManager.h"
 #include "Tower.h"
 #include "../client/MainWindow.h"
-#include "../network/netclient.h"
-#include "../network/stream.h"
-#include "Unit.h"
-#include "GameObject.h"
-#include "Map.h"
 
 namespace td {
 
@@ -25,25 +19,26 @@ class CDriver : public QObject {
     Q_OBJECT
   
 private:
-    /**
-     * The game object resource manager.
-     */
+    /** The game object resource manager. */
     ResManager* mgr_;
+    /** The central game timer that initiates all object updates. */
     QTimer* gameTimer_;
+    /** The player on this client. */
     Player* human_;
+    /** The main game window, where all graphics will be drawn. */
     MainWindow* mainWindow_;
-    // The game map containing all the tiles, waypoints, and access methods
+    /** The game map containing all the tiles, waypoints, and access methods. */
     Map* gameMap_;
-    /**
-     * A context menu that appears around the player.
-     */
+    /** A context menu that appears around the player. */
     ContextMenu* contextMenu_;
+    /** An enemy unit. */
     NPC* npc_;
+    /** A projectile fired from a tower. */
     Projectile* projectile_;
+    /** A tower built by the players. */
     Tower* tower_;
 
 public:
-    // ctors and dtors
     CDriver(MainWindow* parent = 0);
     ~CDriver();
 
