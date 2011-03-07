@@ -39,6 +39,10 @@ void CDriver::disconnectFromServer() {
 void CDriver::updateServer(GameObject* obj) {
     Stream* updates = new Stream();
 
+    if (obj->getID() == 0xFFFFFFFF) {
+        return;
+    }
+
     obj->networkWrite(updates);
 
     NetworkClient::instance()->send(network::kPlayerPosition,
@@ -65,6 +69,7 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     GraphicsComponent* graphics = new PlayerGraphicsComponent();
     PlayerInputComponent* input = new PlayerInputComponent();
     human_ = new Player();
+    human_->setID(0xFFFFFFFF);
     human_->setInputComponent(input);
     human_->setGraphicsComponent(graphics);
     human_->setPhysicsComponent(physics);
@@ -135,7 +140,7 @@ void CDriver::startGame() {
     gameMap_->loadTestMap2();
     gameTimer_   = new QTimer(this);
 
-    connectToServer("127.0.0.1");
+    connectToServer("192.168.1.106");
     connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
             this, SLOT(UDPReceived(Stream*)));
 
@@ -175,12 +180,14 @@ void CDriver::UDPReceived(Stream* s) {
 
     switch(message) {
         case network::kRequestObjID: /* Hack for Single Player */
+            human_->setID(Player::clsIdx() << 24);
             mgr_->addExistingObject(human_);
             break;
         case network::kAssignObjID:
             //read ID and add human to existing objects
             human_->setID(s->readInt());
             mgr_->addExistingObject(human_);
+            qDebug("Got an ID from the server!");
             break;
         default:
             this->readObject(s);
