@@ -13,6 +13,8 @@
 #define TAR_TOWER          52
 #define FLAK_TOWER         53
 
+namespace td {
+
 class ContextMenu : public QObject {
     Q_OBJECT
 
@@ -47,8 +49,6 @@ private:
      */
     bool menuIsOpen_;
 
-    QTimer closeTimer;
-
 public slots:
     /**
      * Open a context menu, or close it if it already open.
@@ -64,9 +64,6 @@ public slots:
      * @param keyPressed The numerical key that was pressed.
      */
     void selectMenuItem(int keyPressed);
-
- 
-    void hideSelectMenu();
 
     /**
      * Shows or hides the resources required to build the towers.
@@ -105,6 +102,8 @@ signals:
     void signalPlayerMovement(bool);
     
 };
+
+} /* end namespace td */
 
 #endif
 

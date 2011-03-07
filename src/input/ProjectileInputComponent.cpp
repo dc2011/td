@@ -1,8 +1,10 @@
 #include "ProjectileInputComponent.h"
-#include "Projectile.h"
-#include "ProjectilePhysicsComponent.h"
+#include "../engine/Projectile.h"
+#include "../physics/ProjectilePhysicsComponent.h"
 #define PI 3.141592653589793238
 #include <math.h>
+
+namespace td {
 
 ProjectileInputComponent::ProjectileInputComponent() {}
 
@@ -97,3 +99,5 @@ void ProjectileInputComponent::applyDirection() {
     }
     parent_->setOrientation(degree);
 }
+
+} /* end namespace td */

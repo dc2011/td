@@ -1,9 +1,12 @@
 #include "NPCPhysicsComponent.h"
-#include "NPC.h"
+#include "../engine/NPC.h"
 #define PI 3.141592653589793238
 #include <math.h>
+
+namespace td {
+
 NPCPhysicsComponent::NPCPhysicsComponent()
-        : accel_(0.1), decel_(0.3), maxVelocity_(3) {}
+        : accel_(0.4), decel_(0.7), maxVelocity_(3) {}
 NPCPhysicsComponent::~NPCPhysicsComponent() {}
 
 void NPCPhysicsComponent::update(Unit* npc)
@@ -138,3 +141,5 @@ void NPCPhysicsComponent::applyDirection(NPC* npc)
 
     npc->setOrientation(degree);
 }
+
+} /* end namespace td */

@@ -3,10 +3,12 @@
 
 #include "ClsIdx.h"
 #include <QPointF>
-#include "InputComponent.h"
-#include "PhysicsComponent.h"
+#include "../input/InputComponent.h"
+#include "../physics/PhysicsComponent.h"
 #include "../graphics/GraphicsComponent.h"
 #include "../network/stream.h"
+
+namespace td {
 
 class GameObject : public QObject {
   Q_OBJECT
@@ -301,6 +303,8 @@ protected:
      */
     PhysicsComponent* physics_;
 };
+
+} /* end namespace td */
 
 #endif
 

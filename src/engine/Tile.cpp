@@ -5,6 +5,7 @@
 #define MAP_ROWS 99
 #define MAP_COLS 99
 
+namespace td {
 
 /**
   * The constructor for the tile class
@@ -84,4 +85,6 @@ std::set<Unit*> Tile::getUnit(){
     return currentUnits_;
 
 }
+
+} /* end namespace td */
 

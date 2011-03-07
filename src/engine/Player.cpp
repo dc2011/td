@@ -1,5 +1,7 @@
 #include "Player.h"
 
+namespace td {
+
 Player::Player() : Unit() {
     QVector2D force(0, 0);
     this->setForce(force);
@@ -12,3 +14,4 @@ void Player::update() {
     graphics_->update(this);
 }
 
+} /* end namespace td */

@@ -7,6 +7,8 @@
 #include <QTimer>
 #include "GraphicsComponent.h"
 
+namespace td {
+
 class ContextMenuGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
@@ -79,17 +81,33 @@ public slots:
      */
     virtual void animate();
 
+    /**
+     * Closes the select menu after a timeout.
+     *
+     * @author Karl Castillo
+     */
+    void hideSelectMenu();
+
 private:
 
     /**
      * Holds the position of the position where the menu is to be painted.
      */
-    QPointF menuPos;
+    QPointF menuPos_;
 
     /**
      * Holds the scale factor that determines the size of the context menu.
      * This variable is for animation purposes only.
      */
-    float scaleFactor;
+    float scaleFactor_;
+
+    /**
+     * The timer that is used that will close the select menu after a period
+     * of time.
+     */
+    QTimer closeTimer_;
 };
+
+} /* end namespace td */
+
 #endif

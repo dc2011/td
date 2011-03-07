@@ -3,7 +3,11 @@
 #define PROJECTILEPHYSICSCOMPONENT_H
 
 #include "PhysicsComponent.h"
-#include "Projectile.h"
+
+namespace td {
+
+class Projectile;
+
 class ProjectilePhysicsComponent : public PhysicsComponent {
 public:
     ProjectilePhysicsComponent();
@@ -59,5 +63,7 @@ private:
     /** Amount to decrease velocity when force not applied. */
     double decel_;
 };
+
+} /* end namespace td */
 
 #endif

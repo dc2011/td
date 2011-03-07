@@ -2,7 +2,11 @@
 #define PLAYERPHYSICSCOMPONENT_H
 
 #include "PhysicsComponent.h"
-#include "Player.h"
+#include "Bounds.h"
+
+namespace td {
+
+class Player;
 
 class PlayerPhysicsComponent : public PhysicsComponent {
     Q_OBJECT
@@ -84,6 +88,10 @@ private:
     float accel_;
     float decel_;
     float maxVelocity_;
+
+    td::BoxBounds collider_;
 };
+
+} /* end namespace td */
 
 #endif

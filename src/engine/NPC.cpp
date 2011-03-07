@@ -1,5 +1,7 @@
 #include "NPC.h"
 
+namespace td {
+
 NPC::NPC(InputComponent* input,PhysicsComponent* physics, GraphicsComponent* graphics) {
     physics_ = physics;
     graphics_ = graphics;
@@ -40,3 +42,5 @@ void NPC::update() {
     physics_->update(this);
     graphics_->update(this);
 }
+
+} /* end namespace td */

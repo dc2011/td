@@ -1,8 +1,8 @@
 #include "MainWindow.h"
 #include <QScrollArea>
 #include "../audio/manager.h"
-
 #include "../graphics/GraphicsComponent.h"
+
 namespace td {
 
 MainWindow* MainWindow::instance_ = NULL;
