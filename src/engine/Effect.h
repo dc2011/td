@@ -18,7 +18,7 @@ class Effect : public GameObject {
      * @author Pan K.
      */
     enum EffectType{
-        healthChange, damageChange, speedChange, destroy
+        healthChange, damageChange, speedChange, directionChange, destroy
     };
 
 public:
