@@ -53,6 +53,10 @@ void CDriver::updateServer(GameObject* obj) {
 void CDriver::readObject(Stream* s) {
     unsigned int id = s->readInt();
 
+    if (id == human_->getID()) {
+        return;
+    }
+
     GameObject* go = mgr_->findObject(id);
     if (go == NULL) {
 
