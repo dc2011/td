@@ -49,8 +49,6 @@ private:
      */
     bool menuIsOpen_;
 
-    QTimer closeTimer;
-
 public slots:
     /**
      * Open a context menu, or close it if it already open.
@@ -66,9 +64,6 @@ public slots:
      * @param keyPressed The numerical key that was pressed.
      */
     void selectMenuItem(int keyPressed);
-
- 
-    void hideSelectMenu();
 
     /**
      * Shows or hides the resources required to build the towers.
