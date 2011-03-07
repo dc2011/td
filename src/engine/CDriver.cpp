@@ -129,7 +129,7 @@ void CDriver::createTower(int towerType, QPointF pos) {
 void CDriver::startGame() {
     // Create hard coded map
     CDriver::gameMap_     = new Map(16, 21);
-    CDriver::gameMap_->loadTestMap2();
+    CDriver::gameMap_->initMap();
     CDriver::gameTimer_   = new QTimer(this);
 
 

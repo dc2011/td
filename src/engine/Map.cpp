@@ -32,9 +32,9 @@ namespace td{
                 gTile = md->itemAt(row, col);
                 type = OPEN; //default type
                 // area to add logic for tile creation
-                //if( i ==0 || j == 0 || i == heightInTiles_-1 || j == widthInTiles_ -1 ){
-                //    type = CLOSED; //border of map gets CLOSED status
-                //}
+                if( row ==0 || col == 0 || row == heightInTiles_-1 || col == widthInTiles_ -1 ) {
+                    type = CLOSED; //border of map gets CLOSED status
+                }
                 // end for logic
                 //save into array
                 tiles_[row][col] = new Tile(row, col, type);
