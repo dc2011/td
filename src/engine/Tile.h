@@ -7,6 +7,7 @@
 
 // Custom includes
 #include "Unit.h"
+#include "TileExtension.h"
 
 //temp defines
 #define TILE_HEIGHT 48
@@ -58,6 +59,7 @@ private:
     int tileID_;
     blockingType type_;
     std::set<Unit*> currentUnits_;
+    TileExtension tileExtension_;
 
     /**
      * The coordinates of the centre of the tile.
