@@ -3,7 +3,11 @@
 
 #include <QObject>
 #include <QEvent>
+
+namespace td {
+
 class Unit;
+
 class InputComponent : public QObject {
     Q_OBJECT
 public:
@@ -23,5 +27,7 @@ public:
      */
     virtual void update() = 0;
 };
+
+} /* end namespace td */
 
 #endif

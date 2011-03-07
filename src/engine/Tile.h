@@ -8,6 +8,13 @@
 // Custom includes
 #include "Unit.h"
 
+//temp defines
+#define TILE_HEIGHT 48
+#define TILE_WIDTH 48
+
+namespace td {
+
+// May need a better place for this definition since it is needed in collision
 enum blockingType {OPEN = 0, CLOSED = 1, NORTH_WEST = 2, NORTH_EAST = 3,
                    SOUTH_WEST = 4, SOUTH_EAST = 5};
 
@@ -26,19 +33,38 @@ public:
     }
 
 public:
-    Tile(int column, int row, blockingType type);
+    Tile();
+    Tile(int row, int column, blockingType type);
     virtual ~Tile() { }
 
     int getColumn();
     int getRow();
     void addUnit(Unit *unitToAdd);
     void removeUnit(Unit *unitToRemove);
+    std::set<Unit*> getUnit();
     blockingType getType();
+    
+    /**
+     * Gets the coordinates at the centre of the tile.
+     *
+     * @author Dean Morin
+     * @return The coordinates of the centre of the tile.
+     */
+    QPointF& getPos() {
+        return pos_;
+    }
 
 private:
     int tileID_;
     blockingType type_;
     std::set<Unit*> currentUnits_;
+
+    /**
+     * The coordinates of the centre of the tile.
+     */
+    QPointF pos_;
 };
+
+} /* end namespace td */
 
 #endif

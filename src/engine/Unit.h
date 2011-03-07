@@ -6,6 +6,8 @@
 
 #include "GameObject.h"
 
+namespace td {
+
 class Unit : public GameObject {
 
 public:
@@ -115,5 +117,7 @@ protected:
      */
     InputComponent* input_;
 };
+
+} /* end namespace td */
 
 #endif

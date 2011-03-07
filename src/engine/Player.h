@@ -5,8 +5,12 @@
 #include <QKeyEvent>
 
 #include "Unit.h"
-#include "PlayerInputComponent.h"
+#include "../input/PlayerInputComponent.h"
+#include "CollisionComponent.h"
 #include "../graphics/PlayerGraphicsComponent.h"
+#include "../physics/PlayerPhysicsComponent.h"
+
+namespace td {
 
 class Player : public Unit {
     Q_OBJECT
@@ -24,11 +28,11 @@ public:
 
 public:
     Player();
-    Player(InputComponent* input, PhysicsComponent* physics, 
-           GraphicsComponent* graphics);
     virtual ~Player() {}
 
     virtual void update();
 };
+
+}
 
 #endif

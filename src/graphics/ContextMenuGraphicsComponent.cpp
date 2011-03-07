@@ -9,6 +9,8 @@
 #define TAR_TOWER          52
 #define FLAK_TOWER         53
 
+namespace td {
+
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
 
@@ -38,12 +40,9 @@ void ContextMenuGraphicsComponent::initPixmaps() {
     pixmapIndex = 0;
 }
 
-void ContextMenuGraphicsComponent::showMenu(GameObject *obj) {
-    Player *player = (Player*)obj;
-    QPointF tempMenuPos(player->getPos());
-
-    menuPos.setX(tempMenuPos.x() - 33);
-    menuPos.setY(tempMenuPos.y() - 43);
+void ContextMenuGraphicsComponent::showMenu(QPointF playerPos) {
+    menuPos.setX(playerPos.x() - 33);
+    menuPos.setY(playerPos.y() - 43);
 
     setImgIndex(0);
 
@@ -53,13 +52,9 @@ void ContextMenuGraphicsComponent::showMenu(GameObject *obj) {
     update(NULL);
 }
 
-void ContextMenuGraphicsComponent::showSelectMenu(int type, GameObject *obj) {
-
-    Player *player = (Player*)obj;
-    QPointF tempMenuPos(player->getPos());
-
-    menuPos.setX(tempMenuPos.x() - 33);
-    menuPos.setY(tempMenuPos.y() - 43);
+void ContextMenuGraphicsComponent::showSelectMenu(int type, QPointF playerPos) {
+    menuPos.setX(playerPos.x() - 33);
+    menuPos.setY(playerPos.y() - 43);
 
     switch(type) {
         //going to have some accessor to set img
@@ -97,9 +92,21 @@ void ContextMenuGraphicsComponent::animate() {
 
     scaleFactor += 0.1;
 
-    if(scaleFactor == 0.5) {
+    if(scaleFactor >= 0.5) {
         animateDisconnect();
     }
 
     update(NULL);
 }
+    
+void ContextMenuGraphicsComponent::showResources(bool show) {
+    if (show) {
+        qDebug("ContextMenuGraphicsComponent::showResources; show = true");
+        //show the resources
+    } else { 
+        qDebug("ContextMenuGraphicsComponent::showResources; show = false");
+        // hide them
+    }
+}
+
+} /* end namespace td */

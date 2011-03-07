@@ -1,13 +1,15 @@
 #include "PlayerInputComponent.h"
-#include "Player.h"
+#include "../engine/Player.h"
 
-PlayerInputComponent::PlayerInputComponent() {}
+namespace td {
+
+PlayerInputComponent::PlayerInputComponent() {
+    menuIsOpen_ = false;
+}
 
 PlayerInputComponent::~PlayerInputComponent() { }
 
-void PlayerInputComponent::update() {
-    
-}
+void PlayerInputComponent::update() {}
 
 void PlayerInputComponent::setParent(Unit *parent) {
     // Casting Unit* to Player*.
@@ -17,6 +19,14 @@ void PlayerInputComponent::setParent(Unit *parent) {
 void PlayerInputComponent::processDirectionKey(int eventType, int key) {
     int event = (eventType == QEvent::KeyPress) ? 1 : 0;
     QVector2D force = parent_->getForce();
+
+    if(menuIsOpen_) {
+	force.setX(0);
+	force.setY(0);
+	parent_->setForce(force);
+	return;
+    }
+
     
     switch (key) {
         case Qt::Key_Up:
@@ -49,3 +59,9 @@ void PlayerInputComponent::keyReleased(int key) {
     //qDebug("PlayerInputComponent::keyReleased(%d)", key);
     processDirectionKey(QEvent::KeyRelease, key);
 }
+
+void PlayerInputComponent::playerMovement(bool move) {
+    menuIsOpen_ = move;
+}
+
+} /* end namespace td */
