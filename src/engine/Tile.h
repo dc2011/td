@@ -8,6 +8,7 @@
 
 // Custom includes
 #include "Unit.h"
+#include "TileExtension.h"
 
 //temp defines
 #define TILE_HEIGHT 48
@@ -58,8 +59,8 @@ public:
 private:
     int tileID_;
     blockingType type_;
-
     QSet<Unit*> currentUnits_;
+    TileExtension tileExtension_;
 
     /**
      * The coordinates of the centre of the tile.
