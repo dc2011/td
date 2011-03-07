@@ -13,8 +13,21 @@
 #define TAR_TOWER          52
 #define FLAK_TOWER         53
 
+namespace td {
+
 class ContextMenu : public QObject {
     Q_OBJECT
+
+public:
+    /**
+     * Gets the unique class index for this object type.
+     *
+     * @author Darryl Pogue
+     * @return The class index.
+     */
+    static unsigned char clsIdx() {
+        return td::clsidx::kContextMenu;
+    }
 
 public:
     ContextMenu(Player* player);
@@ -36,8 +49,6 @@ private:
      */
     bool menuIsOpen_;
 
-    QTimer closeTimer;
-
 public slots:
     /**
      * Open a context menu, or close it if it already open.
@@ -54,8 +65,10 @@ public slots:
      */
     void selectMenuItem(int keyPressed);
 
- 
-    void hideSelectMenu();
+    /**
+     * Shows or hides the resources required to build the towers.
+     */
+    void viewResources(bool altHeld);
 
 signals:
     /**
@@ -76,13 +89,21 @@ signals:
     /**
      * Emitted when an arrow tower is selected to be built.
      */
-    void signalArrowTowerSelected(QPointF);
+    void signalTowerSelected(int towerType, QPointF pos);
     
     /**
      * Emitted when a tar tower is selected to be built.
      */
     void signalTarTowerSelected(QPointF);
+    
+    /**
+     * Emitted when the menu is shown
+     */
+    void signalPlayerMovement(bool);
+    
 };
+
+} /* end namespace td */
 
 #endif
 

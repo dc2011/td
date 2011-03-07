@@ -1,5 +1,8 @@
 #include "GraphicsComponent.h"
 #include <math.h>
+#include "../engine/GameObject.h"
+
+namespace td {
 
 QTimer * GraphicsComponent::animationTimer_;
 QMutex GraphicsComponent::mutex_;
@@ -81,3 +84,5 @@ void GraphicsComponent::setImgIndex(int index) {
 void GraphicsComponent::onTimerTick() {
     emit signalAnimateTick(this);
 }
+
+} /* end namespace td */

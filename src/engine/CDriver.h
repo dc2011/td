@@ -1,29 +1,34 @@
 #ifndef CDRIVER_H
 #define CDRIVER_H
+
 #include <QTimer>
 #include <QApplication>
 #include <QMainWindow>
 #include <QVector>
 #include <QPointF>
+#include "ResManager.h"
 #include "ContextMenu.h"
+#include "NPC.h"
 #include "Player.h"
-#include "PlayerPhysicsComponent.h"
-#include "PlayerInputComponent.h"
 #include "Projectile.h"
-#include "ProjectilePhysicsComponent.h"
+#include "Tower.h"
 #include "../client/MainWindow.h"
-#include "../graphics/ContextMenuGraphicsComponent.h"
-#include "../graphics/PlayerGraphicsComponent.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 #include "Unit.h"
 #include "GameObject.h"
 #include "Map.h"
+
 namespace td {
-  class CDriver : public QObject {
-      Q_OBJECT
+
+class CDriver : public QObject {
+    Q_OBJECT
   
-  private:
+private:
+    /**
+     * The game object resource manager.
+     */
+    ResManager* mgr_;
     QTimer* gameTimer_;
     Player* human_;
     MainWindow* mainWindow_;
@@ -34,27 +39,13 @@ namespace td {
      */
     ContextMenu* contextMenu_;
     Projectile* projectile_;
-  public:
+    NPC* npc_;
+    Tower* tower_;
+
+public:
     // ctors and dtors
     CDriver(MainWindow* parent = 0);
     ~CDriver();
-
-    /**
-     * Creates a human player object.
-     * Sets event filter for key presses to be passed to PlayerInputComponent.
-     * 
-     * @author Tom Nightingale
-     * @return Player*, pointer to new player instance.
-     */
-    Player* createHumanPlayer(MainWindow *);
-
-    /**
-     * Connects all current GameObjects' SLOTs to a timer SIGNAL.
-     * 
-     * @author Duncan Donaldson
-     * @return void
-     */
-    void bindAll();
 
     /**
      * Connects the client driver to the server. This must be called
@@ -63,39 +54,49 @@ namespace td {
      * to the server.
      * 
      * @author Duncan Donaldson
-     * @return void
      */
-    static void connectToServer(char * servaddr);
+    void connectToServer(const QString& servaddr);
+
     /**
      * Disconnects the client driver from the server,
      * and destroys the stream used to update the server, call this on cleanup.
      * 
      * @author Duncan Donaldson
-     * @return void
      */
-    static void disconnectFromServer();
+    void disconnectFromServer();
 
-   /**
+    /**
      * Sends client updates to the server, static method, this
      * call this method from the update() function of the GameObject
      * whose state you want to send to the server.
      * 
      * @author Duncan Donaldson
-     * @param u the unit object whose state is to be sent to the server.
-     *
-     * @return void
+     * @param obj The GameObject to transmit.
      */
-    static void updateServer(Unit* u);
+    static void updateServer(GameObject* obj);
 
     /**
-     * Reads position updates from the server for a player object.
      *
      * @author Duncan Donaldson
-     * @param u the unit object to be updated with server info.
-     *
-     * @return void
      */
-    static void updatePlayer(Unit* u);
+    void readObject(Stream* s);
+
+    /**
+     * Creates a human player object.
+     * Sets event filter for key presses to be passed to PlayerInputComponent.
+     * 
+     * @author Tom Nightingale
+     * @author Duncan Donaldson
+     * @author Darryl Pogue
+     * @return pointer to new player instance.
+     */
+    void createHumanPlayer(MainWindow *);
+
+    /**
+     * creates npc object
+     * @author Marcel Vangrootheest
+     */
+    void createNPC();
 
     /**
      * Stop game timer.
@@ -105,16 +106,7 @@ namespace td {
      */
     void endGame();
     
-    /**
-     * Load map from file, parse data, store in game info map property
-     * 
-     * @author Duncan Donaldson
-     * @return int
-     */
-    //int loadMap(GameInfo &gi, char* map);
-    
-  public slots:
-
+public slots:
     /**
     * Initialize and start game timer.
     * [Hijacked and updated by Tom Nightingale] 
@@ -134,6 +126,21 @@ private slots:
      * @return Pointer to new projectile instance.
      */
     void createProjectile();
-  };
-}
+
+    /**
+     * Temp testing method.
+     *
+     * @author Dean Morin
+     */
+    void createTower(int towerType, QPointF pos);
+
+    /**
+     *
+     * @author Duncan Donaldson
+     */
+    void UDPReceived(Stream* s);
+};
+
+} /* end namespace td */
+
 #endif

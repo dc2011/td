@@ -2,25 +2,27 @@
 #include "../engine/ContextMenu.h"
 #include "../engine/Player.h"
 
-
 #define FLAME_TOWER        49
 #define CANNON_TOWER       50
 #define ARROW_TOWER        51
 #define TAR_TOWER          52
 #define FLAK_TOWER         53
 
+namespace td {
+
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
 
     emit created(this);
+    connect(&closeTimer_, SIGNAL(timeout()), this, SLOT(hideSelectMenu()));
 }
 
 void ContextMenuGraphicsComponent::update(GameObject *) {
     DrawParams *dp = new DrawParams();
 
-    dp->scale = scaleFactor;
+    dp->scale = scaleFactor_;
     dp->degrees = 0;
-    dp->pos = menuPos;
+    dp->pos = menuPos_;
 
     emit signalDraw(dp, this);
 }
@@ -38,28 +40,26 @@ void ContextMenuGraphicsComponent::initPixmaps() {
     pixmapIndex = 0;
 }
 
-void ContextMenuGraphicsComponent::showMenu(GameObject *obj) {
-    Player *player = (Player*)obj;
-    QPointF tempMenuPos(player->getPos());
+void ContextMenuGraphicsComponent::showMenu(QPointF playerPos) {
+    QPointF tempMenuPos(playerPos);
 
-    menuPos.setX(tempMenuPos.x() - 33);
-    menuPos.setY(tempMenuPos.y() - 43);
+    menuPos_.setX(tempMenuPos.x());
+    menuPos_.setY(tempMenuPos.y());
 
     setImgIndex(0);
 
-    scaleFactor = 0;
+    scaleFactor_ = 0;
     animateConnect();
 
     update(NULL);
 }
 
-void ContextMenuGraphicsComponent::showSelectMenu(int type, GameObject *obj) {
+void ContextMenuGraphicsComponent::showSelectMenu(int type, QPointF playerPos) {
+    QPointF tempMenuPos(playerPos);
+    animateDisconnect();
 
-    Player *player = (Player*)obj;
-    QPointF tempMenuPos(player->getPos());
-
-    menuPos.setX(tempMenuPos.x() - 33);
-    menuPos.setY(tempMenuPos.y() - 43);
+    menuPos_.setX(tempMenuPos.x());
+    menuPos_.setY(tempMenuPos.y());
 
     switch(type) {
         //going to have some accessor to set img
@@ -80,26 +80,43 @@ void ContextMenuGraphicsComponent::showSelectMenu(int type, GameObject *obj) {
         break;
     }
 
-    scaleFactor = 0;
-    animateConnect();
+    closeTimer_.start(500);
+    scaleFactor_ = 0.9;
 
     update(NULL);
 }
 
 void ContextMenuGraphicsComponent::hideMenu() {
-    menuPos.setX(OFFSCREEN);
-    menuPos.setY(OFFSCREEN);
+    menuPos_.setX(OFFSCREEN);
+    menuPos_.setY(OFFSCREEN);
 
     update(NULL);
 }
 
 void ContextMenuGraphicsComponent::animate() {
 
-    scaleFactor += 0.1;
+    scaleFactor_ += 0.1;
 
-    if(scaleFactor == 0.5) {
+    if(scaleFactor_ == 0.5) {
         animateDisconnect();
     }
 
     update(NULL);
 }
+
+void ContextMenuGraphicsComponent::hideSelectMenu() {
+    closeTimer_.stop();
+    hideMenu();
+}
+
+void ContextMenuGraphicsComponent::showResources(bool show) {
+    if (show) {
+        qDebug("ContextMenuGraphicsComponent::showResources; show = true");
+        //show the resources
+    } else {
+        qDebug("ContextMenuGraphicsComponent::showResources; show = false");
+        // hide them
+    }
+}
+
+} /* end namespace td */

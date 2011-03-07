@@ -1,23 +1,53 @@
 #include "PlayerPhysicsComponent.h"
-#include "Player.h"
+#include "../engine/Player.h"
 #define PI 3.141592653589793238
 #include <math.h>
+
+#ifndef SERVER
+#include "../engine/CDriver.h"
+#endif
+
+namespace td {
+
 PlayerPhysicsComponent::PlayerPhysicsComponent()
-        : accel_(0.3), decel_(0.6), maxVelocity_(5) {}
-PlayerPhysicsComponent::~PlayerPhysicsComponent() {}
+        : collider_(td::BoxBounds(13, 3, 32, 44)) {
+    accel_ = 0.3;
+    decel_ = 0.6;
+    maxVelocity_ = 5;
+}
 
 void PlayerPhysicsComponent::update(Unit* player)
 {
     this->applyForce((Player*)player);
     this->applyVelocity((Player*)player);
     this->applyDirection((Player*)player);
+
+#ifndef SERVER
+    if (player->isDirty()) {
+        td::CDriver::updateServer(player);
+    }
+#endif
 }
 
 /* applies velocity to position, currently moves past bounds */
 void PlayerPhysicsComponent::applyVelocity(Player* player)
 {
+    //assuming body of player sprite is from 13,4 to 35, 44
+    
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
-    player->setPos(newPos);
+	QPointF upperRight = player->getPos() + QPointF(11, -20);
+	QPointF upperLeft = player->getPos() + QPointF(-11, -20);
+	QPointF lowerRight = player->getPos() + QPointF(11, 20);
+	QPointF lowerLeft = player->getPos() + QPointF(-11, 20);
+	
+	
+    if (validateMovement(upperRight) && validateMovement(upperLeft) 
+    		&& validateMovement(lowerRight) && validateMovement(lowerLeft)) {
+        player->setPos(newPos);
+    }else{
+    	QVector2D temp(0, 0);
+    	player->setVelocity(temp);
+    }
 }
 
 void PlayerPhysicsComponent::applyForce(Player* player)
@@ -25,28 +55,25 @@ void PlayerPhysicsComponent::applyForce(Player* player)
     float velX, velY;
     QVector2D force = player->getForce();
     QVector2D vector = force * player->getVelocity();
+    QVector2D tempVector = player->getVelocity();
 
     if (vector.x() >= 0) {
-        player->getVelocity().setX(force.x() * accel_ +
-                                   player->getVelocity().x());
-        if (qAbs(vector.x()) > maxVelocity_) {
-            player->getVelocity().setX(force.x() * maxVelocity_);
-        }
+        tempVector.setX(force.x() * accel_ + tempVector.x());
     } else {
-        player->getVelocity().setX(force.x() *(accel_ + decel_) +
-                                   player->getVelocity().x());
+        tempVector.setX(force.x() *(accel_ + decel_) + tempVector.x());
     }
 
     if (vector.y() >= 0) {
-        player->getVelocity().setY(force.y() * accel_ +
-                                   player->getVelocity().y());
-
-        if (qAbs(vector.y()) > maxVelocity_) {
-            player->getVelocity().setY(force.y() * maxVelocity_);
-        }
+        tempVector.setY(force.y() * accel_ + tempVector.y());
     } else {
-        player->getVelocity().setY(force.y() *(accel_ + decel_) +
-                                   player->getVelocity().y());
+        tempVector.setY(force.y() *(accel_ + decel_) + tempVector.y());
+    }
+    if (tempVector.length() > maxVelocity_) {
+        player->getVelocity().setX(tempVector.normalized().x()*maxVelocity_);
+        player->getVelocity().setY(tempVector.normalized().y()*maxVelocity_);
+    } else {
+        player->getVelocity().setX(tempVector.x());
+        player->getVelocity().setY(tempVector.y());
     }
 
     if (force.x() == 0) {
@@ -142,3 +169,68 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
     player->setOrientation(degree);
     //qDebug("Orientation: %d", degree);
 }
+
+bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
+    int blockingType = 0;
+
+    int row = floor(newPos.y() / TILE_HEIGHT);
+    int col = floor(newPos.x() / TILE_WIDTH);
+
+    emit requestTileInfo(row, col, &blockingType);
+
+    if (blockingType == OPEN) {
+        return true;
+    }
+
+    else if (blockingType == CLOSED) {
+        return false;
+    }
+
+    else {
+        // TODO: This is where we will call a function to determine what areas
+        // are blocked due to other blocking types or other units
+        if (checkSemiBlocked(newPos, blockingType)) {
+            return true;
+        }
+        return false;
+    }
+}
+
+bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
+
+    float posX = pos.x() / TILE_WIDTH;
+    float posY = pos.y() / TILE_HEIGHT; 
+
+    switch(type) {
+        case NORTH_WEST:
+            if (posY < (TILE_WIDTH - posX)) {
+                return false;
+            }
+            break;
+
+        case NORTH_EAST:
+            if ((posX > posY)) {
+                return false;
+            }
+            break;
+
+        case SOUTH_WEST:
+            if ((posX < posY)) {
+                return false;
+            }
+            break;
+
+        case SOUTH_EAST:
+            if (posY > (TILE_WIDTH - posX)) {
+                return false;
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    return true;
+}
+
+} /* end namespace td */

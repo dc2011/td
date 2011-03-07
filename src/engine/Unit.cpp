@@ -1,28 +1,20 @@
 #include "Unit.h"
 
+namespace td {
+
+Unit::Unit() : GameObject(), velocity_(QVector2D(0, 0)),
+        force_(QVector2D(0, 0)), input_(NULL) { }
+
 Unit::~Unit() {
     delete input_;
-    delete physics_;
-    delete graphics_;
 }
 
 void Unit::networkRead(td::Stream* s) {
-    float x = s->readFloat();
-    float y = s->readFloat();
-    this->setPos(x, y);
-
-    this->setOrientation(s->readInt());
-
-    this->setScale(s->readFloat());
+    GameObject::networkRead(s);
 }
 
 void Unit::networkWrite(td::Stream* s) {
-    s->writeFloat(this->getPos().x());
-    s->writeFloat(this->getPos().y());
-
-    s->writeInt(this->getOrientation());
-
-    s->writeFloat(this->getScale());
+    GameObject::networkWrite(s);
 }
 
 QVector2D& Unit::getVelocity() {
@@ -32,3 +24,5 @@ QVector2D& Unit::getVelocity() {
 void Unit::setVelocity(QVector2D& velocity) {
     velocity_ = velocity;
 }
+
+} /* end namespace td */

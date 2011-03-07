@@ -3,16 +3,18 @@
 
 #include <QObject>
 
+namespace td {
+
 class Unit;
 
 class PhysicsComponent : public QObject {
     Q_OBJECT
 public:
-    PhysicsComponent();
-    virtual ~PhysicsComponent();
-    
-public slots:
+    virtual ~PhysicsComponent() {}
+
     virtual void update(Unit*) = 0;
 };
+
+} /* end namespace td */
 
 #endif

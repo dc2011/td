@@ -12,9 +12,11 @@
 #include "DrawParams.h"
 #include "PixmapFiles.h"
 #include "../client/MainWindow.h"
-#include "../engine/GameObject.h"
 #include "../util/mutex_magic.h"
 
+namespace td {
+
+class GameObject;
 
 class GraphicsComponent : public QObject {
     Q_OBJECT
@@ -30,7 +32,7 @@ private:
      * The timer that will cause the animation of all graphics objects
      */
     static QTimer * animationTimer_;
-    td::MainWindow* mainWindow_;
+    MainWindow* mainWindow_;
 protected:
     /**
      * If the obect is currently moving used for animations
@@ -142,4 +144,7 @@ signals:
     void signalDraw(DrawParams* dp, GraphicsComponent* gc);
     void signalAnimateTick(GraphicsComponent * gc);
 };
+
+} /* end namespace td */
+
 #endif

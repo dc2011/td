@@ -1,6 +1,8 @@
 #include "ProjectileGraphicsComponent.h"
 #include "../engine/Projectile.h"
 
+namespace td {
+
 ProjectileGraphicsComponent::ProjectileGraphicsComponent()
         : GraphicsComponent() {
     /* Do init-type stuff here */
@@ -12,10 +14,11 @@ ProjectileGraphicsComponent::~ProjectileGraphicsComponent() {}
 void ProjectileGraphicsComponent::update(GameObject* obj) {
     Projectile* projectile = (Projectile*)obj;
     //should cast it to projectile
-    if (!projectile->getDirtyStatus()) {//checks if object is dirty.
+    if (!projectile->isDirty()) {//checks if object is dirty.
         return;
     }
-    projectile->setToClean();
+    projectile->resetDirty();
+
     DrawParams* dp = new DrawParams();
     dp->pos     = projectile->getPos();
     dp->moving  = 1; //is always moving
@@ -27,9 +30,10 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
 
 void ProjectileGraphicsComponent::initPixmaps() {
     //TODO: add animation images here
-    pixmapImgs = new QPixmap[PIX_PROJECTILE_MAX];
+    pixmapImgs = new QPixmap[PIX_PROJECTILE_3_MAX];
     pixmapIndex = 0;
-    pixmapImgs[pixmapIndex] = PIX_PROJECTILE_0;
+    pixmapImgs[pixmapIndex] = PIX_PROJECTILE_3_0;
 
 }
 
+} /* end namespace td */

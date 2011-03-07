@@ -5,6 +5,7 @@
 #define MAP_ROWS 99
 #define MAP_COLS 99
 
+namespace td {
 
 /**
   * The constructor for the tile class
@@ -20,6 +21,9 @@ Tile::Tile(int row, int column, blockingType type)
 {
     tileID_ = column * MAP_ROWS + row;
     type_ = type;
+    int xPos = column * TILE_WIDTH + TILE_WIDTH / 2;
+    int yPos = row * TILE_HEIGHT + TILE_HEIGHT / 2;
+    pos_ = QPointF(xPos, yPos); 
 }
 
 /**
@@ -81,4 +85,6 @@ QSet<Unit*> Tile::getUnits(){
     return currentUnits_;
 
 }
+
+} /* end namespace td */
 
