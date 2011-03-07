@@ -2,14 +2,27 @@
 #define EFFECT_H
 
 #include <QString>
+#include <QTimer>
 
 #include "PhysicsComponent.h"
-#include "Unit.h"
+#include "GameObject.h"
 
 class Effect : public GameObject {
     Q_OBJECT
 
+    /**
+     * List of effect types.
+     *
+     * @author Pan K.
+     */
+    enum EffectType{
+        healthChange, damageChange, speedChange, destroy
+    };
+
 public:
+    Effect(GameObject* unit, EffectType type);
+    ~Effect();
+
     /**
      * Gets the unique class index for this object type.
      *
@@ -20,16 +33,21 @@ public:
         return td::clsidx::kEffect;
     }
 
-public:
-    Effect(Unit* unit, size_t duration = 0);
-    ~Effect();
-    void apply();
-    size_t getDuration();
-    void setDuration(size_t);
+    /**
+     * Apply effect to the unit base on effectType. If the
+     * duration is specified, the effect will repeatly apply
+     * at speed per second (speed/sec).
+     * If the duration is not set, the effect is applied once.
+     *
+     * @author Pan K.
+     * @param duration Specify duration in msec.
+     * @param speed Specify speed/sec
+     */
+    void apply(size_t duration = 0, size_t speed = 0);
 
 private:
-    Unit *unit_;
-    size_t duration_;
+    GameObject *unit_;
+    EffectType type_;
 };
 
 #endif // EFFECT_H
