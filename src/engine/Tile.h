@@ -4,9 +4,11 @@
 // System includes
 #include <QObject>
 #include <set>
+#include <QSet>
 
 // Custom includes
 #include "Unit.h"
+#include "TileExtension.h"
 
 //temp defines
 #define TILE_HEIGHT 48
@@ -41,7 +43,7 @@ public:
     int getRow();
     void addUnit(Unit *unitToAdd);
     void removeUnit(Unit *unitToRemove);
-    std::set<Unit*> getUnit();
+    QSet<Unit*> getUnits();
     blockingType getType();
     
     /**
@@ -57,12 +59,14 @@ public:
 private:
     int tileID_;
     blockingType type_;
-    std::set<Unit*> currentUnits_;
+    QSet<Unit*> currentUnits_;
+    //td::TileExtension tileExtension_;
 
     /**
      * The coordinates of the centre of the tile.
      */
     QPointF pos_;
+
 };
 
 } /* end namespace td */
