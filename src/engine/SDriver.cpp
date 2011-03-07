@@ -35,12 +35,12 @@ GameObject* SDriver::updateObject(Stream* s) {
 
     GameObject* go = mgr_->findObject(id);
     if (go == NULL) {
-        go = mgr_->createObject((id & 0xFF000000) >> 24);
-        go->setID(id);
-        mgr_->addExistingObject(go);
+        go = mgr_->createObjectWithID(id);
     }
 
-    go->networkRead(s);
+    if (go != NULL) {
+        go->networkRead(s);
+    }
     delete s;
 
     return go;
@@ -55,7 +55,7 @@ void SDriver::onUDPReceive(Stream* s) {
         case network::kRequestObjID:
         {
             unsigned char type = s->readByte();
-            go = mgr_->createAddObject(type);
+            go = mgr_->createObject(type);
             out->writeInt(go->getID());
             NetworkServer::instance()->send(network::kAssignObjID,
                     out->data());
@@ -64,6 +64,9 @@ void SDriver::onUDPReceive(Stream* s) {
         default:
         {
             go = this->updateObject(s);
+            if (go == NULL) {
+                break;
+            }
             go->networkWrite(out);
             NetworkServer::instance()->send(network::kPlayerPosition,
                     out->data());
