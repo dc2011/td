@@ -58,12 +58,12 @@ void CDriver::readObject(Stream* s) {
         go = mgr_->createObject((id & 0xFF000000) >> 24);
         go->setID(id);
         mgr_->addExistingObject(go);
-
         if (((id & 0xFF000000) >> 24) == Player::clsIdx()) {
             qDebug("Creating new Player");
             GraphicsComponent* graphics = new PlayerGraphicsComponent();
             go->setGraphicsComponent(graphics);
         }
+        connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
     }
     
     go->networkRead(s);
