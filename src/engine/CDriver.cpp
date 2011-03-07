@@ -185,9 +185,11 @@ void CDriver::UDPReceived(Stream* s) {
             break;
         case network::kAssignObjID:
             //read ID and add human to existing objects
-            human_->setID(s->readInt());
-            mgr_->addExistingObject(human_);
-            qDebug("Got an ID from the server!");
+            if (human_->getID() == 0xFFFFFFFF) {
+                human_->setID(s->readInt());
+                mgr_->addExistingObject(human_);
+                qDebug("Got an ID from the server!");
+            }
             break;
         default:
             this->readObject(s);
