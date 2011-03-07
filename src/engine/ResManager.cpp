@@ -39,6 +39,12 @@ GameObject* ResManager::createObject(unsigned char type) {
             break;
     }
 
+    return ret;
+}
+
+GameObject* ResManager::createAddObject(unsigned char type) {
+    GameObject* ret = createObject(type);
+
     objects_[type].append(ret);
 
     return ret;

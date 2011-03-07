@@ -47,6 +47,15 @@ public:
     GameObject* createObject(unsigned char type);
 
     /**
+     * Creates a GameObject of the given type and adds it to the manager.
+     *
+     * @author Darryl Pogue
+     * @param type The class index of the type to be created.
+     * @return A new GameObject of the given type, or NULL.
+     */
+    GameObject* createAddObject(unsigned char type);
+
+    /**
      * Adds an existing game object to the resource manager.
      *
      * @author Duncan Donaldson

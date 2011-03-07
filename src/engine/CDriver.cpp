@@ -56,6 +56,14 @@ void CDriver::readObject(Stream* s) {
     GameObject* go = mgr_->findObject(id);
     if (go == NULL) {
         go = mgr_->createObject((id & 0xFF000000) >> 24);
+        go->setID(id);
+        mgr_->addExistingObject(go);
+
+        if (((id & 0xFF000000) >> 24) == Player::clsIdx()) {
+            qDebug("Creating new Player");
+            GraphicsComponent* graphics = new PlayerGraphicsComponent();
+            go->setGraphicsComponent(graphics);
+        }
     }
     
     go->networkRead(s);
@@ -86,7 +94,7 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
 }
 
 void CDriver::createNPC() {
-    npc_ = (NPC*)mgr_->createObject(NPC::clsIdx());
+    npc_ = (NPC*)mgr_->createAddObject(NPC::clsIdx());
 
     PhysicsComponent* physics = new NPCPhysicsComponent();
     GraphicsComponent* graphics = new NPCGraphicsComponent();
@@ -108,7 +116,7 @@ void CDriver::createNPC() {
       PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
       GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
       ProjectileInputComponent* input = new ProjectileInputComponent();
-      projectile_ = (Projectile*)mgr_->createObject(Projectile::clsIdx());
+      projectile_ = (Projectile*)mgr_->createAddObject(Projectile::clsIdx());
 
       input->setParent(projectile_);
       projectile_->setPhysicsComponent(projectilePhysics);
