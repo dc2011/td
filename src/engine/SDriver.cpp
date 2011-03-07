@@ -46,25 +46,30 @@ GameObject* SDriver::updateObject(Stream* s) {
 
 void SDriver::onUDPReceive(Stream* s) {
     int message = s->readByte(); /* Message Type */
-    Player* p;
-    Stream* out = new Stream;
+    GameObject* go = NULL;
+    Stream* out = new Stream();
+
     switch(message) {
-
         case network::kRequestObjID:
-
-	  p = (Player*) mgr_->createObject(Player::clsIdx());
-	  out->writeInt(p->getID());
-	  NetworkServer::instance()->send(network::kAssignObjID, out->data());
-	  delete out;
-	  break;
-
+        {
+            unsigned char type = s->readByte();
+            go = mgr_->createObject(type);
+            out->writeInt(go->getID());
+            NetworkServer::instance()->send(network::kAssignObjID,
+                    out->data());
+            break;
+        }
         default:
-	  p = (Player*) this->updateObject(s);
-	  p->networkWrite(out);
-	  NetworkServer::instance()->send(network::kPlayerPosition, out->data());
-	  break;
+        {
+            go = this->updateObject(s);
+            go->networkWrite(out);
+            NetworkServer::instance()->send(network::kPlayerPosition,
+                    out->data());
+            break;
+        }
     }
 
+    delete out;
 }
 
 } /* end namespace td */
