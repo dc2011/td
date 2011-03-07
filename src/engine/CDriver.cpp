@@ -90,8 +90,8 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
             gameMap_, SLOT(getTileInfo(int, int, int*)));
 
     request->writeByte(Player::clsIdx());
-
-    NetworkClient::instance()->send(network::kRequestObjID, request->data());
+    NetworkClient::instance()->send(network::kRequestPlayerID, request->data());
+    delete request;
 }
 
 void CDriver::createNPC() {
@@ -133,14 +133,20 @@ void CDriver::createNPC() {
   }
 
 void CDriver::createTower(int towerType, QPointF pos) {
+
+    Stream* request = new Stream();
     tower_ = new Tower();
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
-    tower_->setPos(currentTile->getPos());
     GraphicsComponent* graphics = new TowerGraphicsComponent();
-    //PhysicsComponent*  physics  = new TowerPhysicsComponent();
+
+    tower_->setPos(currentTile->getPos());
     tower_->setGraphicsComponent(graphics);
-    //tower->setPhysicsComponent(physics);
+    tower_->setID(0xFFFFFFFF);
     connect(gameTimer_, SIGNAL(timeout()), tower_, SLOT(update()));
+    
+    request->writeByte(Tower::clsIdx());
+    NetworkClient::instance()->send(network::kRequestTowerID, request->data());
+    delete request;
 }
 
 void CDriver::startGame() {
@@ -188,11 +194,15 @@ void CDriver::UDPReceived(Stream* s) {
     int message = s->readByte(); /* Message Type */
 
     switch(message) {
-        case network::kRequestObjID: /* Hack for Single Player */
+        case network::kRequestPlayerID: /* Hack for Single Player */
             human_->setID(Player::clsIdx() << 24);
             mgr_->addExistingObject(human_);
             break;
-        case network::kAssignObjID:
+        case network::kRequestTowerID:
+	    tower_->setID(Tower::clsIdx());
+            mgr_->addExistingObject(tower_);
+            break;
+        case network::kAssignPlayerID:
             //read ID and add human to existing objects
             if (human_->getID() == 0xFFFFFFFF) {
                 human_->setID(s->readInt());
@@ -200,6 +210,12 @@ void CDriver::UDPReceived(Stream* s) {
                 qDebug("Got an ID from the server!");
             }
             break;
+        case network::kAssignTowerID:
+	    if(tower_->getID() == 0xFFFFFFFF) {
+	      human_->setID(s->readInt());
+	      mgr_->addExistingObject(tower_);
+	    }
+	    break;
         default:
             this->readObject(s);
             break;

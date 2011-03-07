@@ -52,15 +52,24 @@ void SDriver::onUDPReceive(Stream* s) {
     Stream* out = new Stream();
 
     switch(message) {
-        case network::kRequestObjID:
+        case network::kRequestPlayerID:
         {
             unsigned char type = s->readByte();
             go = mgr_->createObject(type);
             out->writeInt(go->getID());
-            NetworkServer::instance()->send(network::kAssignObjID,
+            NetworkServer::instance()->send(network::kAssignPlayerID,
                     out->data());
             break;
         }
+        case network::kRequestTowerID:
+	{
+	    unsigned char type = s->readByte();
+	    go = mgr_->createObject(type);
+	    out->writeInt(go->getID());
+            NetworkServer::instance()->send(network::kAssignTowerID,
+                    out->data());
+	    break;
+	}
         default:
         {
             go = this->updateObject(s);

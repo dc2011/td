@@ -23,11 +23,20 @@ namespace network {
         /** Indicates a position update for a player */
         kPlayerPosition =   0x80,
         
-        /** Player requests an ID from server **/
-        kRequestObjID = 0x81,
+        /** tower requests an ID from server **/
+        kRequestTowerID = 0x81,
 
-        /** Server Assigns ID to a player **/
-        kAssignObjID = 0x82,
+        /** Server Assigns ID to an Tower **/
+        kAssignTowerID = 0x82,
+	
+	/** Player Requests and ID from server **/
+	kRequestPlayerID = 0x83,
+
+	/** Server Assigns ID to a Player **/
+	kAssignPlayerID = 0x84,
+
+	
+
     };
 
 } /* end namespace td::network */
