@@ -12,6 +12,7 @@ MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
 
+    scene_->setItemIndexMethod(QGraphicsScene::NoIndex);
     keysHeld_ = 0;
     keysTimer_ = new QTimer(this);
     keysTimer_->start(50);

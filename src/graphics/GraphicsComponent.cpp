@@ -77,8 +77,10 @@ void GraphicsComponent::animate() {
 }
 
 void GraphicsComponent::setImgIndex(int index) {
+    mutex_.lock();
     pixmapIndex = index;
     pixmapItem_->setPixmap(pixmapImgs[pixmapIndex]);
+    mutex_.unlock();
 }
 
 void GraphicsComponent::onTimerTick() {
