@@ -34,7 +34,6 @@ MainWindow::MainWindow() : QMainWindow() {
     //this->grabKeyboard();
 
     connect(keysTimer_, SIGNAL(timeout()), this, SLOT(keyHeld()));
-
 }
 
 MainWindow::~MainWindow() {

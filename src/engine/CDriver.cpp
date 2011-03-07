@@ -1,10 +1,13 @@
 #include "CDriver.h"
+#include "GameInfo.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 
 namespace td {
 
-CDriver::CDriver(MainWindow *mainWindow)
+CDriver* CDriver::instance_ = NULL;
+
+CDriver::CDriver(MainWindow* mainWindow)
         : QObject(), human_(NULL), mainWindow_(mainWindow), contextMenu_(NULL),
         projectile_(NULL)
 {
@@ -12,10 +15,21 @@ CDriver::CDriver(MainWindow *mainWindow)
 }
 
 CDriver::~CDriver() {
-    AudioManager::instance()->shutdown();
-
-    delete this->gameTimer_;
+    delete gameTimer_;
     delete mgr_;
+}
+
+CDriver* CDriver::init(MainWindow* mainWindow) {
+    if (instance_ != NULL) {
+        return instance_;
+    }
+    instance_ = new CDriver(mainWindow);
+    return instance_;
+}
+
+void CDriver::shutdown() {
+    delete instance_;
+    instance_ = NULL;
 }
 
 void CDriver::connectToServer(const QString& servaddr) {
