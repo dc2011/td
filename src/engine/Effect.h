@@ -4,8 +4,10 @@
 #include <QString>
 #include <QTimer>
 
-#include "PhysicsComponent.h"
 #include "GameObject.h"
+#include "../physics/PhysicsComponent.h"
+
+namespace td {
 
 class Effect : public GameObject {
     Q_OBJECT
@@ -49,5 +51,7 @@ private:
     GameObject *unit_;
     EffectType type_;
 };
+
+} /* end namespace td */
 
 #endif // EFFECT_H

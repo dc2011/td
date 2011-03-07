@@ -6,6 +6,11 @@
 
 #include "Unit.h"
 #include "Effect.h"
+#include "../input/ProjectileInputComponent.h"
+#include "../physics/ProjectilePhysicsComponent.h"
+#include "../graphics/ProjectileGraphicsComponent.h"
+
+namespace td {
 
 class Projectile : public Unit {
     Q_OBJECT
@@ -147,5 +152,7 @@ private:
      */
     QLineF path_;
 };
+
+} /* end namespace td */
 
 #endif // PROJECTILE_H

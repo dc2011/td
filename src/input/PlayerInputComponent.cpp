@@ -1,5 +1,7 @@
 #include "PlayerInputComponent.h"
-#include "Player.h"
+#include "../engine/Player.h"
+
+namespace td {
 
 PlayerInputComponent::PlayerInputComponent() {
     menuIsOpen_ = false;
@@ -61,3 +63,5 @@ void PlayerInputComponent::keyReleased(int key) {
 void PlayerInputComponent::playerMovement(bool move) {
     menuIsOpen_ = move;
 }
+
+} /* end namespace td */

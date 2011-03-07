@@ -7,6 +7,11 @@
 
 #include "Unit.h"
 #include "Effect.h"
+#include "../input/NPCInputComponent.h"
+#include "../physics/NPCPhysicsComponent.h"
+#include "../graphics/NPCGraphicsComponent.h"
+
+namespace td {
 
 class NPC : public Unit {
     Q_OBJECT
@@ -38,5 +43,7 @@ private:
     size_t damage_;
     QList<Effect*> effects_;
 };
+
+} /* end namespace td */
 
 #endif // NPC_H

@@ -3,6 +3,7 @@
 
 #include "TileExtension.h"
 #include "Effect.h"
+#include "../graphics/TowerGraphicsComponent.h"
 
 namespace td {
 

@@ -1,5 +1,7 @@
 #include "ProjectilePhysicsComponent.h"
-#include "Projectile.h"
+#include "../engine/Projectile.h"
+
+namespace td {
 
 ProjectilePhysicsComponent::ProjectilePhysicsComponent() {
     maxVelocity_ = accel_ = decel_ = 10;
@@ -95,3 +97,5 @@ void ProjectilePhysicsComponent::applyForce(Projectile* projectile)
         }
     }
 }
+
+} /* end namespace td */

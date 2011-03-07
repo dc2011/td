@@ -7,6 +7,8 @@
 #include <QTimer>
 #include "GraphicsComponent.h"
 
+namespace td {
+
 class ContextMenuGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
@@ -92,4 +94,7 @@ private:
      */
     float scaleFactor;
 };
+
+} /* end namespace td */
+
 #endif

@@ -1,10 +1,14 @@
-/** Input directing movement for basic projectile */
 #ifndef PROJECTILEINPUTCOMPONENT
 #define PROJECTILEINPUTCOMPONENT
 
 #include "InputComponent.h"
-#include "Unit.h"
+#include "../engine/Unit.h"
+
+namespace td {
+
 class Projectile;
+
+/** Input directing movement for basic projectile */
 class ProjectileInputComponent : public InputComponent {
     Q_OBJECT
 
@@ -55,5 +59,7 @@ private:
     /** The projectile this component applies to. */
     Projectile* parent_;
 };
+
+} /* end namespace td */
 
 #endif

@@ -5,10 +5,13 @@
 #include <QKeyEvent>
 
 #include "Unit.h"
-#include "PlayerInputComponent.h"
+#include "../input/PlayerInputComponent.h"
 #include "CollisionComponent.h"
 #include "Effect.h"
 #include "../graphics/PlayerGraphicsComponent.h"
+#include "../physics/PlayerPhysicsComponent.h"
+
+namespace td {
 
 class Player : public Unit {
     Q_OBJECT
@@ -33,5 +36,7 @@ public:
 private:
     QList<Effect*> effects_;
 };
+
+}
 
 #endif

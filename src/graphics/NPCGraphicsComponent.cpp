@@ -1,6 +1,8 @@
 #include "NPCGraphicsComponent.h"
 #include "../engine/NPC.h"
 
+namespace td {
+
 NPCGraphicsComponent::NPCGraphicsComponent()
         : GraphicsComponent() {
     animateMod = 4;
@@ -53,3 +55,5 @@ void NPCGraphicsComponent::animate() {
         setImgIndex(pixmapIndex);
     }
 }
+
+} /* end namespace td */

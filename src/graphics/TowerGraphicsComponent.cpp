@@ -1,7 +1,7 @@
 #include "TowerGraphicsComponent.h"
 #include "../engine/Tower.h"
 
-using namespace td;
+namespace td {
 
 TowerGraphicsComponent::TowerGraphicsComponent()
         : GraphicsComponent() {
@@ -34,3 +34,5 @@ void TowerGraphicsComponent::initPixmaps() {
     pixmapImgs[pixmapIndex++] = PIX_TOWER_0;
     pixmapIndex = 0; //sets image back to start
 }
+
+} /* end namespace td */

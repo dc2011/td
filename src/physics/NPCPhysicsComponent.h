@@ -2,7 +2,11 @@
 #define NPCPHYSICSCOMPONENT_H
 
 #include "PhysicsComponent.h"
-#include "NPC.h"
+
+namespace td {
+
+class NPC;
+
 class NPCPhysicsComponent : public PhysicsComponent {
 public:
     NPCPhysicsComponent();
@@ -74,5 +78,6 @@ private:
     float maxVelocity_;
 };
 
+} /* end namespace td */
 
 #endif // NPCPHYSICSCOMPONENT_H

@@ -1,6 +1,8 @@
 #include "NPCInputComponent.h"
-#include "NPC.h"
-#include "NPCPhysicsComponent.h"
+#include "../engine/NPC.h"
+#include "../physics/NPCPhysicsComponent.h"
+
+namespace td {
 
 NPCInputComponent::NPCInputComponent() {
     // initialize segment with first two waypoints
@@ -48,3 +50,5 @@ void NPCInputComponent::nextDestination() {
         segment_.setP2(waypoints_.at(nextDest_++));
     }
 }
+
+} /* end namespace td */
