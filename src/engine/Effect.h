@@ -22,6 +22,7 @@ class Effect : public GameObject {
     };
 
 public:
+    //We might need a pointer to a function istead of using the types
     Effect(GameObject* unit, EffectType type);
     ~Effect();
 
