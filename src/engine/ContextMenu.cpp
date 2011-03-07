@@ -35,6 +35,7 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
     qDebug("selects a menu item");
     menuIsOpen_ = false;
+    emit signalPlayerMovement(false);
     ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
     ((ContextMenuGraphicsComponent*)graphics_)->showSelectMenu(keyPressed, player_->getPos());
     
