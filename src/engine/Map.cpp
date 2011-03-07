@@ -87,56 +87,34 @@ namespace td{
 
     }
 
-    std::set<Unit*> Map::getUnits(double x, double y, double radius){
+    QSet<Unit*> Map::getUnits(double x, double y, double radius){
         int i,j;
         int r,c;
         getTileCoords(x,y,&r,&c);
-        std::set<Unit*> tempUnits;
-        std::set<Unit*> units = std::set<Unit*>();
+
+        QSet<Unit*> units = QSet<Unit*>();
 
         for (i = 0; i< radius ; i++){
             for(j=0; j+i < radius ; j++){
                 if( i + r < heightInTiles_){
 
                     if(j + c < widthInTiles_){
-                        tempUnits = tiles_[i+r][j+c]->getUnit();
-
-                        std::set<Unit*>::iterator iter;
-                        for( iter = tempUnits.begin();iter!= tempUnits.end();iter++){
-                            units.insert(*iter);
-                        }
-                    }
+                        units += tiles_[i+r][j+c]->getUnits();
+                    } 
                     if(c - j >= 0){
-                        tempUnits = tiles_[i+r][c-j]->getUnit();
-
-                        std::set<Unit*>::iterator iter;
-                        for( iter = tempUnits.begin();iter!= tempUnits.end();iter++){
-                            units.insert(*iter);
-                        }
+                        units += tiles_[i+r][c-j]->getUnits();
                     }
 
                 }
                 if( r - i >= 0){
 
                     if(j + c < widthInTiles_){
-                        tempUnits = tiles_[i+r][j+c]->getUnit();
-
-                        std::set<Unit*>::iterator iter;
-                        for( iter = tempUnits.begin();iter!= tempUnits.end();iter++){
-                            units.insert(*iter);
-                        }
+                        units += tiles_[i+r][j+c]->getUnits();
                     }
                     if(c - j >= 0){
-                        tempUnits = tiles_[r-i][c-j]->getUnit();
-
-                        std::set<Unit*>::iterator iter;
-                        for( iter = tempUnits.begin();iter!= tempUnits.end();iter++){
-                            units.insert(*iter);
-                        }
+                        units += tiles_[r-i][c-j]->getUnits();
                     }
                 }
-
-
             }
         }
         return units;
