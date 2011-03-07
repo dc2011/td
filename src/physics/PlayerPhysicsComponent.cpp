@@ -35,10 +35,10 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     //assuming body of player sprite is from 13,4 to 35, 44
     
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
-	QPointF upperRight = player->getPos() + QPointF(11, -20);
-	QPointF upperLeft = player->getPos() + QPointF(-11, -20);
-	QPointF lowerRight = player->getPos() + QPointF(11, 20);
-	QPointF lowerLeft = player->getPos() + QPointF(-11, 20);
+	QPointF upperRight = newPos + QPointF(11, -20);
+	QPointF upperLeft = newPos + QPointF(-11, -20);
+	QPointF lowerRight = newPos + QPointF(11, 20);
+	QPointF lowerLeft = newPos + QPointF(-11, 20);
 	
 	
     if (validateMovement(upperRight) && validateMovement(upperLeft) 
