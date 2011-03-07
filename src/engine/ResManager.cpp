@@ -13,7 +13,7 @@ ResManager::~ResManager() {
     objects_.clear();
 }
 
-GameObject* ResManager::createObject(unsigned char type) {
+GameObject* ResManager::internalCreateObject(unsigned char type) {
     GameObject* ret = NULL;
     unsigned int id = 0;
 
@@ -42,10 +42,28 @@ GameObject* ResManager::createObject(unsigned char type) {
     return ret;
 }
 
-GameObject* ResManager::createAddObject(unsigned char type) {
-    GameObject* ret = createObject(type);
+GameObject* ResManager::createObject(unsigned char type) {
+    GameObject* ret = internalCreateObject(type);
+
+    if (ret == NULL) {
+        return NULL;
+    }
 
     objects_[type].append(ret);
+
+    return ret;
+}
+
+GameObject* ResManager::createObjectWithID(unsigned int id) {
+    GameObject* ret = internalCreateObject((id & 0xFF000000) >> 24);
+
+    if (ret == NULL) {
+        return NULL;
+    }
+
+    ret->setID(id);
+
+    addExistingObject(ret);
 
     return ret;
 }

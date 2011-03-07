@@ -38,7 +38,7 @@ public:
     virtual ~ResManager();
 
     /**
-     * Creates a GameObject of the given type.
+     * Creates a GameObject of the given type and adds it to the manager.
      *
      * @author Darryl Pogue
      * @param type The class index of the type to be created.
@@ -47,13 +47,13 @@ public:
     GameObject* createObject(unsigned char type);
 
     /**
-     * Creates a GameObject of the given type and adds it to the manager.
+     * Creates a GameObject with the given id and adds it to the manager.
      *
      * @author Darryl Pogue
-     * @param type The class index of the type to be created.
-     * @return A new GameObject of the given type, or NULL.
+     * @param id The id of the object to be created.
+     * @return A new GameObject with the given id, or NULL.
      */
-    GameObject* createAddObject(unsigned char type);
+    GameObject* createObjectWithID(unsigned int id);
 
     /**
      * Adds an existing game object to the resource manager.
@@ -107,6 +107,16 @@ public:
     unsigned int countObjectsByType(unsigned char type) const {
         return objects_[type].size();
     }
+
+protected:
+    /**
+     * Creates a GameObject of the given type.
+     *
+     * @author Darryl Pogue
+     * @param type The class index of the type to be created.
+     * @return A new GameObject of the given type, or NULL.
+     */
+    GameObject* internalCreateObject(unsigned char type);
 };
 
 } /* end namespace td */
