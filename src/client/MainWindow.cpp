@@ -2,8 +2,8 @@
 #include "graphics/MapDisplayer.h"
 #include <QScrollArea>
 #include "../audio/manager.h"
-
 #include "../graphics/GraphicsComponent.h"
+
 namespace td {
 
 MainWindow* MainWindow::instance_ = NULL;
@@ -60,107 +60,113 @@ void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc) {
 
 void MainWindow::keyHeld()
 {
-     
-     //do nothing if different directions held
-     if(keysHeld_ & KEYUP && keysHeld_ & KEYDOWN) {
-          emit signalKeyReleased(Qt::Key_Up);
-          emit signalKeyReleased(Qt::Key_Down);
-          return;
-     } else if(keysHeld_ & KEYLEFT && keysHeld_ & KEYRIGHT) {
-          emit signalKeyReleased(Qt::Key_Left);
-          emit signalKeyReleased(Qt::Key_Right);
-          return;
-     }
 
-     if(keysHeld_ & KEYUP) {
-          emit signalKeyPressed(Qt::Key_Up);
-     }
-     if(keysHeld_ & KEYDOWN) {
-          emit signalKeyPressed(Qt::Key_Down);
-     }
-     if(keysHeld_ & KEYLEFT) {
-          emit signalKeyPressed(Qt::Key_Left);
-     }
-     if(keysHeld_ & KEYRIGHT) {
-          emit signalKeyPressed(Qt::Key_Right);
-     }
+    //do nothing if different directions held
+    if(keysHeld_ & KEYUP && keysHeld_ & KEYDOWN) {
+        emit signalKeyReleased(Qt::Key_Up);
+        emit signalKeyReleased(Qt::Key_Down);
+        return;
+    } else if(keysHeld_ & KEYLEFT && keysHeld_ & KEYRIGHT) {
+        emit signalKeyReleased(Qt::Key_Left);
+        emit signalKeyReleased(Qt::Key_Right);
+        return;
+    }
+
+    if(keysHeld_ & KEYUP) {
+        emit signalKeyPressed(Qt::Key_Up);
+    }
+    if(keysHeld_ & KEYDOWN) {
+        emit signalKeyPressed(Qt::Key_Down);
+    }
+    if(keysHeld_ & KEYLEFT) {
+        emit signalKeyPressed(Qt::Key_Left);
+    }
+    if(keysHeld_ & KEYRIGHT) {
+        emit signalKeyPressed(Qt::Key_Right);
+    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent * event) {
-     
-     if(event->isAutoRepeat()) {
-          return;
-     }
-     
-     switch (event->key()) {
-        
-     case Qt::Key_Space:
-          emit signalSpacebarPressed();
-          break;
-     case Qt::Key_F:
-          emit signalFPressed();
-          break;
-     case Qt::Key_1:
-     case Qt::Key_2:
-     case Qt::Key_3:
-     case Qt::Key_4:
-     case Qt::Key_5:
-     case Qt::Key_6:
-     case Qt::Key_7:
-     case Qt::Key_8:
-     case Qt::Key_9:
-     case Qt::Key_0:
-          emit signalNumberPressed(event->key());
-          break;
 
-     case Qt::Key_Up:
-          keysHeld_ |= KEYUP;
-          break;
-     case Qt::Key_Down:
-          keysHeld_ |= KEYDOWN;
-          break;
-     case Qt::Key_Left:
-          keysHeld_ |= KEYLEFT;
-          break;
-     case Qt::Key_Right:
-          keysHeld_ |= KEYRIGHT;
-          break;
+    if(event->isAutoRepeat()) {
+        return;
+    }
 
-     default:
-          QMainWindow::keyPressEvent(event);
-          break;
-     }
+    switch (event->key()) {
+
+        case Qt::Key_Space:
+            emit signalSpacebarPressed();
+            break;
+        case Qt::Key_F:
+            emit signalFPressed();
+            break;
+        case Qt::Key_R:
+            emit signalRHeld(true);
+            break;
+        case Qt::Key_1:
+        case Qt::Key_2:
+        case Qt::Key_3:
+        case Qt::Key_4:
+        case Qt::Key_5:
+        case Qt::Key_6:
+        case Qt::Key_7:
+        case Qt::Key_8:
+        case Qt::Key_9:
+        case Qt::Key_0:
+            emit signalNumberPressed(event->key());
+            break;
+
+        case Qt::Key_Up:
+            keysHeld_ |= KEYUP;
+            break;
+        case Qt::Key_Down:
+            keysHeld_ |= KEYDOWN;
+            break;
+        case Qt::Key_Left:
+            keysHeld_ |= KEYLEFT;
+            break;
+        case Qt::Key_Right:
+            keysHeld_ |= KEYRIGHT;
+            break;
+
+        default:
+            QMainWindow::keyPressEvent(event);
+            break;
+    }
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent * event) {
 
-     if(event->isAutoRepeat()) {
-          return;
-     }
+    if(event->isAutoRepeat()) {
+        return;
+    }
 
-     switch (event->key()) {
+    switch (event->key()) {
 
-     case Qt::Key_Up:
-          keysHeld_ ^= KEYUP;
-          emit signalKeyReleased(event->key());
-          break;
-     case Qt::Key_Down:
-          keysHeld_ ^= KEYDOWN;
-          emit signalKeyReleased(event->key());
-          break;
-     case Qt::Key_Left:
-          keysHeld_ ^= KEYLEFT;
-          emit signalKeyReleased(event->key());
-          break;
-     case Qt::Key_Right:
-          keysHeld_ ^= KEYRIGHT;
-          emit signalKeyReleased(event->key());
-          break;
+        case Qt::Key_Up:
+            keysHeld_ ^= KEYUP;
+            emit signalKeyReleased(event->key());
+            break;
+        case Qt::Key_Down:
+            keysHeld_ ^= KEYDOWN;
+            emit signalKeyReleased(event->key());
+            break;
+        case Qt::Key_Left:
+            keysHeld_ ^= KEYLEFT;
+            emit signalKeyReleased(event->key());
+            break;
+        case Qt::Key_Right:
+            keysHeld_ ^= KEYRIGHT;
+            emit signalKeyReleased(event->key());
+            break;
+        case Qt::Key_R:
+            emit signalRHeld(false);
+            break;
 
-     default:
-          QMainWindow::keyPressEvent(event);
-          break;
-     }
+        default:
+            QMainWindow::keyPressEvent(event);
+            break;
+    }
 }
 
 void MainWindow::animateItem(GraphicsComponent* gc) {

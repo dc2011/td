@@ -9,8 +9,6 @@
 #include "GameObject.h"
 #include "CDriver.h"
 #include "Unit.h"
-#include "../graphics/ProjectileGraphicsComponent.h"
-#include "../graphics/TowerGraphicsComponent.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 
@@ -66,7 +64,6 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     GraphicsComponent* graphics = new PlayerGraphicsComponent();
     PlayerInputComponent* input = new PlayerInputComponent();
-   
     human_->setInputComponent(input);
     human_->setGraphicsComponent(graphics);
     human_->setPhysicsComponent(physics);
@@ -94,20 +91,32 @@ void CDriver::createNPC() {
 }
 
   void CDriver::createProjectile(){
+      if (!tower_) {
+          return;
+      }
       //qDebug("fire projectile");
       PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
       GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
-      QPointF* start = new QPointF(human_->getPos());
-      QPointF* end = new QPointF(100, 100);
-      CDriver::projectile_ = new Projectile(projectilePhysics, projectileGraphics,
-                                         start, end);
+      ProjectileInputComponent* input = new ProjectileInputComponent();
+      projectile_ = (Projectile*)mgr_->createObject(Projectile::clsIdx());
+
+      input->setParent(projectile_);
+      projectile_->setPhysicsComponent(projectilePhysics);
+      projectile_->setGraphicsComponent(projectileGraphics);
+
+      QPointF* start = new QPointF(tower_->getPos());
+      QPointF* end = new QPointF(human_->getPos());
+      input->setPath(start, end);
+      projectile_->setInputComponent(input);
+
       connect(gameTimer_,   SIGNAL(timeout()),
                 projectile_,       SLOT(update()));
   }
 
 void CDriver::createTower(int towerType, QPointF pos) {
     tower_ = new Tower();
-    tower_->setPos(pos);
+    Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
+    tower_->setPos(currentTile->getPos());
     GraphicsComponent* graphics = new TowerGraphicsComponent();
     //PhysicsComponent*  physics  = new TowerPhysicsComponent();
     tower_->setGraphicsComponent(graphics);
@@ -126,10 +135,14 @@ void CDriver::startGame() {
     contextMenu_ = new ContextMenu(human_);
     createNPC();
 
+    connect(contextMenu_, SIGNAL(signalPlayerMovement(bool)),
+	    human_->getInputComponent(), SLOT(playerMovement(bool)));
     connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
             contextMenu_, SLOT(toggleMenu()));
     connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
             contextMenu_, SLOT(selectMenuItem(int)));
+    connect(mainWindow_,  SIGNAL(signalRHeld(bool)),
+            contextMenu_, SLOT(viewResources(bool)));
     connect(gameTimer_,   SIGNAL(timeout()), 
             human_,       SLOT(update()));
     /* TODO: alter temp solution */

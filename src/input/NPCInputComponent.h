@@ -3,9 +3,12 @@
 
 #include <QVector2D>
 #include "InputComponent.h"
-#include "Unit.h"
+#include "../engine/Unit.h"
+
+namespace td {
 
 class NPC;
+
 class NPCInputComponent : public InputComponent {
     Q_OBJECT
     
@@ -38,5 +41,7 @@ private:
     /** The waypoint that the NPC is currently travelling towards. */
     size_t nextDest_;
 };
+
+} /* end namespace td */
 
 #endif // NPCINPUTCOMPONENT_H

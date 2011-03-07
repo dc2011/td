@@ -8,6 +8,8 @@
 #define TAR_TOWER          52
 #define FLAK_TOWER         53
 
+namespace td {
+
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
 
@@ -38,9 +40,8 @@ void ContextMenuGraphicsComponent::initPixmaps() {
     pixmapIndex = 0;
 }
 
-void ContextMenuGraphicsComponent::showMenu(GameObject *obj) {
-    Player *player = (Player*)obj;
-    QPointF tempMenuPos(player->getPos());
+void ContextMenuGraphicsComponent::showMenu(QPointF playerPos) {
+    QPointF tempMenuPos(playerPos);
 
     menuPos_.setX(tempMenuPos.x());
     menuPos_.setY(tempMenuPos.y());
@@ -53,11 +54,9 @@ void ContextMenuGraphicsComponent::showMenu(GameObject *obj) {
     update(NULL);
 }
 
-void ContextMenuGraphicsComponent::showSelectMenu(int type, GameObject *obj) {
+void ContextMenuGraphicsComponent::showSelectMenu(int type, QPointF playerPos) {
 
-    Player *player = (Player*)obj;
-    QPointF tempMenuPos(player->getPos());
-
+    QPointF tempMenuPos(playerPos);
     animateDisconnect();
 
     menuPos_.setX(tempMenuPos.x());
@@ -83,7 +82,6 @@ void ContextMenuGraphicsComponent::showSelectMenu(int type, GameObject *obj) {
     }
 
     closeTimer_.start(500);
-
     scaleFactor_ = 0.9;
 
     update(NULL);
@@ -111,3 +109,5 @@ void ContextMenuGraphicsComponent::hideSelectMenu() {
     closeTimer_.stop();
     hideMenu();
 }
+
+} /* end namespace td */

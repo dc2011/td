@@ -1,6 +1,8 @@
 #include "ProjectileGraphicsComponent.h"
 #include "../engine/Projectile.h"
 
+namespace td {
+
 ProjectileGraphicsComponent::ProjectileGraphicsComponent()
         : GraphicsComponent() {
     /* Do init-type stuff here */
@@ -28,9 +30,10 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
 
 void ProjectileGraphicsComponent::initPixmaps() {
     //TODO: add animation images here
-    pixmapImgs = new QPixmap[PIX_PROJECTILE_MAX];
+    pixmapImgs = new QPixmap[PIX_PROJECTILE_3_MAX];
     pixmapIndex = 0;
-    pixmapImgs[pixmapIndex] = PIX_PROJECTILE_0;
+    pixmapImgs[pixmapIndex] = PIX_PROJECTILE_3_0;
 
 }
 
+} /* end namespace td */

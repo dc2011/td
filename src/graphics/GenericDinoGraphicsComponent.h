@@ -6,6 +6,8 @@
 #include <QPointF>
 #include "GraphicsComponent.h"
 
+namespace td {
+
 class GenericDinoGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
@@ -45,6 +47,8 @@ private:
     /** The number of times the timer has ticked. **/
     int animateCount;
 };
+
+} /* end namespace td */
 
 #endif
 

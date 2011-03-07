@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+namespace td {
+
 class Unit;
 
 class PhysicsComponent : public QObject {
@@ -12,5 +14,7 @@ public:
 
     virtual void update(Unit*) = 0;
 };
+
+} /* end namespace td */
 
 #endif

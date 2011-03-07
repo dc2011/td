@@ -6,6 +6,11 @@
 #include <QKeyEvent>
 
 #include "Unit.h"
+#include "../input/NPCInputComponent.h"
+#include "../physics/NPCPhysicsComponent.h"
+#include "../graphics/NPCGraphicsComponent.h"
+
+namespace td {
 
 class NPC : public Unit {
     Q_OBJECT
@@ -36,5 +41,7 @@ private:
     size_t health_;
     size_t damage_;
 };
+
+} /* end namespace td */
 
 #endif // NPC_H

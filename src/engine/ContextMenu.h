@@ -13,6 +13,8 @@
 #define TAR_TOWER          52
 #define FLAK_TOWER         53
 
+namespace td {
+
 class ContextMenu : public QObject {
     Q_OBJECT
 
@@ -63,6 +65,7 @@ public slots:
      */
     void selectMenuItem(int keyPressed);
 
+
 signals:
     /**
      * Emitted when a flame tower is selected to be built.
@@ -88,7 +91,15 @@ signals:
      * Emitted when a tar tower is selected to be built.
      */
     void signalTarTowerSelected(QPointF);
+    
+    /**
+     * Emitted when the menu is shown
+     */
+    void signalPlayerMovement(bool);
+    
 };
+
+} /* end namespace td */
 
 #endif
 

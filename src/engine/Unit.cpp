@@ -1,5 +1,7 @@
 #include "Unit.h"
 
+namespace td {
+
 Unit::Unit() : GameObject(), velocity_(QVector2D(0, 0)),
         force_(QVector2D(0, 0)), input_(NULL) { }
 
@@ -22,3 +24,5 @@ QVector2D& Unit::getVelocity() {
 void Unit::setVelocity(QVector2D& velocity) {
     velocity_ = velocity;
 }
+
+} /* end namespace td */

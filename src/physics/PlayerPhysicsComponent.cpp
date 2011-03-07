@@ -1,13 +1,16 @@
 #include "PlayerPhysicsComponent.h"
-#include "Player.h"
+#include "../engine/Player.h"
 #define PI 3.141592653589793238
 #include <math.h>
 
 #ifndef SERVER
-#include "CDriver.h"
+#include "../engine/CDriver.h"
 #endif
 
-PlayerPhysicsComponent::PlayerPhysicsComponent() {
+namespace td {
+
+PlayerPhysicsComponent::PlayerPhysicsComponent()
+        : collider_(td::BoxBounds(13, 3, 32, 44)) {
     accel_ = 0.3;
     decel_ = 0.6;
     maxVelocity_ = 5;
@@ -223,3 +226,5 @@ bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
 
     return true;
 }
+
+} /* end namespace td */

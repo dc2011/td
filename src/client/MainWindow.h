@@ -14,9 +14,10 @@
 #define KEYLEFT 4
 #define KEYRIGHT 8
 
+namespace td {
+
 class GraphicsComponent;
 
-namespace td {
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
@@ -116,6 +117,7 @@ signals:
     void signalKeyReleased(int);
     void signalNumberPressed(int);
     void signalSpacebarPressed();
+    void signalRHeld(bool);
     void signalFPressed();
 };
 

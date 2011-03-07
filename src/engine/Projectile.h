@@ -5,6 +5,11 @@
 #include <QPointF>
 
 #include "Unit.h"
+#include "../input/ProjectileInputComponent.h"
+#include "../physics/ProjectilePhysicsComponent.h"
+#include "../graphics/ProjectileGraphicsComponent.h"
+
+namespace td {
 
 class Projectile : public Unit {
     Q_OBJECT
@@ -35,20 +40,6 @@ private:
 
 public:
     Projectile();
-
-    /**
-     * Creates new projectile.
-     *
-     * @author Pan Khantidhara, Marcel Vangrootheest
-     * @param physics Physics component.
-     * @param graphic Graphics component.
-     * @param start, where the projectile starts
-     * @param end, where the projectile ends
-     */
-    Projectile(PhysicsComponent* physics, GraphicsComponent* graphics,
-               QPointF* start, QPointF* end);
-
-    virtual ~Projectile() {}
 
     /**
      * Reads the object state from a network stream.
@@ -159,5 +150,7 @@ private:
      */
     QLineF path_;
 };
+
+} /* end namespace td */
 
 #endif // PROJECTILE_H
