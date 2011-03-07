@@ -85,7 +85,6 @@ void CDriver::NPCCreator() {
 
 void CDriver::NPCDeleter(Unit* npc) {
     npc_.remove((NPC*)npc);
-    disconnect(npc, SLOT(update()));
     mgr_->deleteObject(npc);
 }
 

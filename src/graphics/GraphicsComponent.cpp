@@ -27,6 +27,7 @@ GraphicsComponent::GraphicsComponent() {
 }
 
 GraphicsComponent::~GraphicsComponent() {
+    disconnect(this, SLOT(onTimerTick()));
     delete(pixmapItem_);
 }
 
