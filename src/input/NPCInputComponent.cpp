@@ -48,6 +48,9 @@ void NPCInputComponent::nextDestination() {
     if (segment_.length() < maxValue
             && nextDest_ < waypoints_.length()) {
         segment_.setP2(waypoints_.at(nextDest_++));
+    } else if (segment_.length() < maxValue 
+            && nextDest_ >= waypoints_.length()) {
+       emit deleteUnitLater(parent_);  
     }
 }
 

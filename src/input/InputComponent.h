@@ -26,6 +26,10 @@ public:
      * @author Tom Nightingale
      */
     virtual void update() = 0;
+
+signals:
+    /** signal for deleting a unit within this class */
+    void deleteUnitLater(Unit*);
 };
 
 } /* end namespace td */

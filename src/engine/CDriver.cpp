@@ -83,6 +83,11 @@ void CDriver::NPCCreator() {
     }
 }
 
+void CDriver::NPCDeleter(Unit* npc) {
+    npc_.remove((NPC*)npc);
+    mgr_->deleteObject(npc);
+}
+
 NPC* CDriver::createNPC() {
     NPC* npc = (NPC*)mgr_->createObject(NPC::clsIdx());
 
@@ -94,6 +99,8 @@ NPC* CDriver::createNPC() {
     npc->setInputComponent(input);
     npc->setPhysicsComponent(physics);
     npc->setGraphicsComponent(graphics);
+    connect(input, SIGNAL(deleteUnitLater(Unit*)),
+            this, SLOT(NPCDeleter(Unit*)));
 
     connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
     return npc;

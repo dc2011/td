@@ -147,6 +147,12 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCCreator();
+    /**
+     * Deletes NPC later
+     *
+     * @author Marcel Vangrootheest
+     */
+    void NPCDeleter(Unit*);
 };
 
 } /* end namespace td */
