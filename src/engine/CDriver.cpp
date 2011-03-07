@@ -85,6 +85,7 @@ void CDriver::NPCCreator() {
 
 void CDriver::NPCDeleter(Unit* npc) {
     npc_.remove((NPC*)npc);
+    disconnect(npc, SLOT(update()));
     mgr_->deleteObject(npc);
 }
 
@@ -100,7 +101,7 @@ NPC* CDriver::createNPC() {
     npc->setPhysicsComponent(physics);
     npc->setGraphicsComponent(graphics);
     connect(input, SIGNAL(deleteUnitLater(Unit*)),
-            this, SLOT(NPCDeleter(Unit*)));
+            this, SLOT(NPCDeleter(Unit*)), Qt::QueuedConnection);
 
     connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
     return npc;
