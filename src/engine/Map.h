@@ -41,7 +41,7 @@ namespace td{
       *
       * @author Luke Queenan
       */
-        void getTileInfo(int column, int row, int *blockingType);
+        void getTileType(double column, double row, int *blockingType);
 
     public:
 
@@ -55,7 +55,7 @@ namespace td{
       *
       * @author Luke Queenan
       */
-        void loadTestMap();
+        void initMap();
         /**
       *  basic map creator function.
       *

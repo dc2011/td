@@ -7,6 +7,7 @@
 #include <QKeyEvent>
 #include <QTimer>
 #include "../graphics/DrawParams.h"
+#include "graphics/MapDisplayer.h"
 
 /*Bitmask Defines*/
 #define KEYUP 1
@@ -50,6 +51,12 @@ private:
      */
     QTimer *keysTimer_;
 
+    /**
+     * Tiled map displayer object. Seems to handle parsing and rendering of the
+     * tiled map data.
+     */
+    MapDisplayer * mapDisplayer_;
+
 public:
     /**
      * Creates an instance of the class if one doesn't exist yet.
@@ -72,6 +79,8 @@ public:
     }
     
     QGraphicsScene* getScene() { return scene_; }
+
+    MapDisplayer * getMD() { return mapDisplayer_; }
     
 protected:
     /**

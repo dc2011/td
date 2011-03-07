@@ -1,5 +1,4 @@
 #include "MainWindow.h"
-#include "graphics/MapDisplayer.h"
 #include <QScrollArea>
 #include "../audio/manager.h"
 
@@ -21,8 +20,8 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
 
-    MapDisplayer* map = new MapDisplayer(scene_);
-    map->viewMap(QString("./maps/testmap.tmx"));
+    mapDisplayer_ = new MapDisplayer(scene_);
+    mapDisplayer_->viewMap(QString("./maps/testmap.tmx"));
 
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
