@@ -7,7 +7,6 @@
 #include <QKeyEvent>
 #include <QTimer>
 #include "../graphics/DrawParams.h"
-#include "graphics/MapDisplayer.h"
 
 /*Bitmask Defines*/
 #define KEYUP 1
@@ -17,6 +16,7 @@
 
 namespace td {
 
+class MapDisplayer;
 class GraphicsComponent;
 
 class MainWindow : public QMainWindow {
