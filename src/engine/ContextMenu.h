@@ -49,8 +49,6 @@ private:
      */
     bool menuIsOpen_;
 
-    QTimer closeTimer;
-
 public slots:
     /**
      * Open a context menu, or close it if it already open.
@@ -67,8 +65,7 @@ public slots:
      */
     void selectMenuItem(int keyPressed);
 
- 
-    void hideSelectMenu();
+    void viewResources(bool altHeld);
 
     /**
      * Shows or hides the resources required to build the towers.
