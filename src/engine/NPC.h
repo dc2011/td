@@ -6,6 +6,7 @@
 #include <QKeyEvent>
 
 #include "Unit.h"
+#include "Effect.h"
 #include "../input/NPCInputComponent.h"
 #include "../physics/NPCPhysicsComponent.h"
 #include "../graphics/NPCGraphicsComponent.h"
@@ -40,6 +41,7 @@ public:
 private:
     size_t health_;
     size_t damage_;
+    QList<Effect*> effects_;
 };
 
 } /* end namespace td */

@@ -10,7 +10,10 @@ Player::Player() : Unit() {
 }
 
 void Player::update() {
-    physics_->update(this);
+    if (physics_ != NULL) {
+        physics_->update(this);
+    }
+
     graphics_->update(this);
 }
 

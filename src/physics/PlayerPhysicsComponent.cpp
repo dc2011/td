@@ -173,10 +173,7 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
 bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
     int blockingType = 0;
 
-    int row = floor(newPos.y() / TILE_HEIGHT);
-    int col = floor(newPos.x() / TILE_WIDTH);
-
-    emit requestTileInfo(row, col, &blockingType);
+    emit requestTileType(newPos.x(), newPos.y(), &blockingType);
 
     if (blockingType == OPEN) {
         return true;

@@ -19,20 +19,27 @@ namespace td{
 
 
 
-    void Map::loadTestMap()
-    {
-        int count = 0;
-        // Create top and bottom edges with blocking tiles
-        /*
-    for (count = 0; count < heightInTiles_; count++)
-    {
-        Tile *topRow = new Tile(0, count, CLOSED);
-        tiles_[0][count] = topRow;
-        // Subtract 1 for zero base...
-        tiles_[heightInTiles_ - 1][count] =
-                Tile(heightInTiles_ - 1, count, CLOSED);
-    }
-    */
+    void Map::initMap() {
+        tiles_ = new Tile**[heightInTiles_];
+        //QGraphicsItem * gTile = NULL;
+        //MapDisplayer * md = td::MainWindow::instance()->getMD();
+        blockingType type;
+
+        for (int row = 0; row < heightInTiles_; row++) {
+            tiles_[row] = new Tile*[widthInTiles_];
+
+            for (int col = 0; col < widthInTiles_; col++) {
+                //gTile = md->itemAt(row, col);
+                type = OPEN; //default type
+                // area to add logic for tile creation
+                if( row ==0 || col == 0 || row == heightInTiles_-1 || col == widthInTiles_ -1 ) {
+                    type = CLOSED; //border of map gets CLOSED status
+                }
+                // end for logic
+                //save into array
+                tiles_[row][col] = new Tile(row, col, type);
+            }
+        }
     }
 
 
@@ -58,14 +65,12 @@ namespace td{
     }
 
 
-    void Map::getTileInfo(int row, int column, int *blockingType)
+    void Map::getTileType(double x, double y, int *blockingType)
     {
-        //*blockingType = CLOSED;
+        int row = floor(y / TILE_HEIGHT);
+        int col = floor(x / TILE_WIDTH);
 
-        //should work @author ian
-        *blockingType = tiles_[row][column]->getType();
-
-
+        *blockingType = tiles_[row][col]->getType();
     }
 
 

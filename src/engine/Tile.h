@@ -60,7 +60,6 @@ private:
     int tileID_;
     blockingType type_;
     QSet<Unit*> currentUnits_;
-    //td::TileExtension tileExtension_;
 
     /**
      * The coordinates of the centre of the tile.
