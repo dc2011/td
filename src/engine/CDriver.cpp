@@ -174,12 +174,14 @@ void CDriver::UDPReceived(Stream* s) {
     int message = s->readByte(); /* Message Type */
 
     switch(message) {
+        case network::kRequestObjID: /* Hack for Single Player */
+            mgr_->addExistingObject(human_);
+            break;
         case network::kAssignObjID:
             //read ID and add human to existing objects
             human_->setID(s->readInt());
             mgr_->addExistingObject(human_);
             break;
-
         default:
             this->readObject(s);
             break;
