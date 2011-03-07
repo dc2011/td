@@ -159,7 +159,7 @@ void CDriver::startGame() {
     gameMap_->loadTestMap2();
     gameTimer_   = new QTimer(this);
 
-    connectToServer("192.168.1.106");
+    connectToServer("127.0.0.1");
     connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
             this, SLOT(UDPReceived(Stream*)));
 
