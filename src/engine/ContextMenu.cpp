@@ -5,8 +5,6 @@ namespace td {
 ContextMenu::ContextMenu(Player* player) : player_(player) {
     graphics_   = new ContextMenuGraphicsComponent();
     menuIsOpen_ = false;
-
-    connect(&closeTimer, SIGNAL(timeout()), this, SLOT(hideSelectMenu()));
 }
 
 ContextMenu::~ContextMenu() {
@@ -18,7 +16,6 @@ void ContextMenu::toggleMenu() {
         td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
         qDebug("opens a menu");
         menuIsOpen_ = true;	
-        closeTimer.stop();
 	emit signalPlayerMovement(true);
    	((ContextMenuGraphicsComponent*)graphics_)->showMenu(player_->getPos());
     } else {
@@ -38,11 +35,10 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
     qDebug("selects a menu item");
     menuIsOpen_ = false;
+    emit signalPlayerMovement(false);
     ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
     ((ContextMenuGraphicsComponent*)
             graphics_)->showSelectMenu(keyPressed, player_->getPos());
-    emit signalPlayerMovement(false);
-    closeTimer.start(800);
     
     switch (keyPressed) {
         //change tower type to macros once they're defined in the 
@@ -65,15 +61,9 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     }
 }
 
-void ContextMenu::hideSelectMenu() {
-    td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
-    ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
-    closeTimer.stop();
-}
-
 void ContextMenu::viewResources(bool altHeld) {
     if (menuIsOpen_) {
-        ((ContextMenuGraphicsComponent*) graphics_)->showResources(altHeld);
+	((ContextMenuGraphicsComponent*) graphics_)->showResources(altHeld);
     }
 }
 
