@@ -59,7 +59,6 @@ private:
     int tileID_;
     blockingType type_;
     std::set<Unit*> currentUnits_;
-    TileExtension tileExtension_;
 
     /**
      * The coordinates of the centre of the tile.
