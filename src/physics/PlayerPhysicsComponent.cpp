@@ -33,20 +33,20 @@ void PlayerPhysicsComponent::update(Unit* player)
 void PlayerPhysicsComponent::applyVelocity(Player* player)
 {
     //assuming body of player sprite is from 13,4 to 35, 44
-    
+
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
-	QPointF upperRight = newPos + QPointF(11, -20);
-	QPointF upperLeft = newPos + QPointF(-11, -20);
-	QPointF lowerRight = newPos + QPointF(11, 20);
-	QPointF lowerLeft = newPos + QPointF(-11, 20);
-	
-	
-    if (validateMovement(upperRight) && validateMovement(upperLeft) 
-    		&& validateMovement(lowerRight) && validateMovement(lowerLeft)) {
+    QPointF upperRight = newPos + QPointF(11, -20);
+    QPointF upperLeft = newPos + QPointF(-11, -20);
+    QPointF lowerRight = newPos + QPointF(11, 20);
+    QPointF lowerLeft = newPos + QPointF(-11, 20);
+
+
+    if (validateMovement(upperRight) && validateMovement(upperLeft)
+        && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
         player->setPos(newPos);
     }else{
-    	QVector2D temp(0, 0);
-    	player->setVelocity(temp);
+        QVector2D temp(0, 0);
+        player->setVelocity(temp);
     }
 }
 
@@ -199,7 +199,7 @@ bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
 bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
 
     float posX = pos.x() / TILE_WIDTH;
-    float posY = pos.y() / TILE_HEIGHT; 
+    float posY = pos.y() / TILE_HEIGHT;
 
     switch(type) {
         case NORTH_WEST:
