@@ -8,7 +8,7 @@ QTimer * GraphicsComponent::animationTimer_;
 QMutex GraphicsComponent::mutex_;
     
 GraphicsComponent::GraphicsComponent() {
-    mutex_.lock();
+    
     mainWindow_ = td::MainWindow::instance();
     //td::MainWindow* main = td::MainWindow::instance();
     connect(this, SIGNAL(created(GraphicsComponent*)), 
@@ -23,7 +23,6 @@ GraphicsComponent::GraphicsComponent() {
         animationTimer_->start(ANIMATION_TIMEOUT);
     }
     isMoving_ = 0;
-    mutex_.unlock();
 }
 
 GraphicsComponent::~GraphicsComponent() {
