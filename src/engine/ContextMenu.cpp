@@ -58,4 +58,10 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     }
 }
 
+void ContextMenu::viewResources(bool altHeld) {
+    if (menuIsOpen_) {
+	((ContextMenuGraphicsComponent*) graphics_)->showResources(altHeld);
+    }
+}
+
 } /* end namespace td */

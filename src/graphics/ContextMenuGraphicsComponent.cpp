@@ -110,4 +110,14 @@ void ContextMenuGraphicsComponent::hideSelectMenu() {
     hideMenu();
 }
 
+void ContextMenuGraphicsComponent::showResources(bool show) {
+    if (show) {
+        qDebug("ContextMenuGraphicsComponent::showResources; show = true");
+        //show the resources
+    } else {
+        qDebug("ContextMenuGraphicsComponent::showResources; show = false");
+        // hide them
+    }
+}
+
 } /* end namespace td */

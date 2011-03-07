@@ -65,6 +65,7 @@ public slots:
      */
     void selectMenuItem(int keyPressed);
 
+    void viewResources(bool altHeld);
 
 signals:
     /**
