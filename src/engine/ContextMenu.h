@@ -65,8 +65,6 @@ public slots:
      */
     void selectMenuItem(int keyPressed);
 
-    void viewResources(bool altHeld);
-
     /**
      * Shows or hides the resources required to build the towers.
      */
