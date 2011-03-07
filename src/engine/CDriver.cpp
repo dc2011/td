@@ -211,11 +211,11 @@ void CDriver::UDPReceived(Stream* s) {
             }
             break;
         case network::kAssignTowerID:
-	    if(tower_->getID() == 0xFFFFFFFF) {
-	      human_->setID(s->readInt());
-	      mgr_->addExistingObject(tower_);
-	    }
-	    break;
+            if(tower_->getID() == 0xFFFFFFFF) {
+              tower_->setID(s->readInt());
+              mgr_->addExistingObject(tower_);
+            }
+            break;
         default:
             this->readObject(s);
             break;
