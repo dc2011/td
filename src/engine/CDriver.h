@@ -38,8 +38,8 @@ private:
      * A context menu that appears around the player.
      */
     ContextMenu* contextMenu_;
-    Projectile* projectile_;
     NPC* npc_;
+    Projectile* projectile_;
     Tower* tower_;
 
 public:
