@@ -24,20 +24,20 @@ void ContextMenuGraphicsComponent::update(GameObject *) {
     dp->degrees = 0;
     dp->pos = menuPos_;
 
-    emit signalDraw(dp, this);
+    emit signalDraw(dp,this, LAYER_MENU);
 }
 
 void ContextMenuGraphicsComponent::initPixmaps() {
     //TODO: add animation images here or just single img
     pixmapImgs = new QPixmap[PIX_CONTEXT_MENU_MAX];
     pixmapIndex = 0;
-    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_MAIN;
-    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_RES;
-    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T1;
-    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T2;
-    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T3;
-    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T4;
-    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T5;
+    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_MAIN;
+    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_RES;
+    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T1;
+    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T2;
+    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T3;
+    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T4;
+    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T5;
     pixmapIndex = 0;
 }
 
@@ -96,13 +96,12 @@ void ContextMenuGraphicsComponent::hideMenu() {
 }
 
 void ContextMenuGraphicsComponent::animate() {
-
     scaleFactor_ += 0.2;
 
     if(scaleFactor_ == 1) {
         animateDisconnect();
+	return;
     }
-
     update(NULL);
 }
 
