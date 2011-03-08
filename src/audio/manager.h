@@ -192,6 +192,16 @@ public:
     void playSfx(QString filename, SoundType type=sfx);
 
     /**
+     * Overloaded function that randomly picks and 
+     * Plays an Ogg Vorbis sound file.
+     *
+     * @author Terence Stenvold
+     * @param files the vector of filesname paths to the .ogg files.
+     * @param type is a Enum either ntf for notifcation or sfx. defaults sfx. 
+     */
+    void playSfx(QVector<QString> files, SoundType type=sfx);
+
+    /**
      * Play an Ogg Vorbis sound file, looping when it reaches the end.
      * !!!NOT IMPLEMENTED!!!
      *
