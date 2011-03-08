@@ -8,12 +8,12 @@
 namespace td {
 
 SDriver::SDriver() {
-    gameTimer_ = new QTimer(this);
+    waveTimer_ = new QTimer(this);
     mgr_ = new ResManager();
 }
 
 SDriver::~SDriver() {
-    delete gameTimer_;
+    delete waveTimer_;
     delete mgr_;
 }
 
@@ -22,12 +22,12 @@ void SDriver::startGame() {
     connect(NetworkServer::instance(), SIGNAL(UDPReceived(Stream*)), 
 		    this, SLOT(onUDPReceive(Stream*)));
 
-    this->gameTimer_->start(50);
+    this->waveTimer_->start(50000);
 }
 
 void SDriver::endGame() {
     NetworkServer::shutdown();
-    this->gameTimer_->stop();
+    this->waveTimer_->stop();
 }
 
 GameObject* SDriver::updateObject(Stream* s) {

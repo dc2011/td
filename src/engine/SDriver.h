@@ -18,7 +18,7 @@ class SDriver : public QObject {
     Q_OBJECT 
 
 private:
-    QTimer* gameTimer_;
+    QTimer* waveTimer_;
     ResManager* mgr_;
 
 public:
