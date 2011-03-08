@@ -7,6 +7,8 @@
 #include <QTimer>
 #include "GraphicsComponent.h"
 
+namespace td {
+
 class ContextMenuGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
@@ -28,7 +30,7 @@ public:
     /**
      * Gets a pixmap for the object based on its current animation state.
      *
-     * @author Warren Voelk
+     * @author Warren Voelkl
      */
     virtual void initPixmaps();
 
@@ -36,10 +38,10 @@ public:
      * Changes the index, and sets the position of the context menu to be shown.
      *
      * @author Karl Castillo, Warren Voelkl
-     * @param obj - the player object; it will be used as a reference as to where
-     *              the context menu will be painted.
+     * @param playerPos The coordinates of the player, which will be used as a
+     * reference as to where the context menu will be paited.
      */
-    void showMenu(GameObject* obj);
+    void showMenu(QPointF playerPos);
 
     /**
      * Hides the context menu by relocating the context menu outside the viewing
@@ -56,10 +58,19 @@ public:
      * @author Karl Castillo, Warren Voelkl
      * @param type - the keypressed; each keypress (49 - 53) is associated with
      *               a specific type of tower
-     *        obj - the player object; it will be used as a reference as to where
-     *              the context menu will be painted.
+     * @param playerPos The coordinates of the player, which will be used as a
+     * reference as to where the context menu will be paited.
      */
-    void showSelectMenu(int type, GameObject *obj);
+    void showSelectMenu(int type, QPointF playerPos);
+
+    /**
+     * Displays the types and amounts of resources required to build each tower.
+     *
+     * @author Karl Castillo
+     * @param show True if the resources should be shown, false if they should
+     * be hidden.
+     */
+    void showResources(bool show);
 
 public slots:
     /**
@@ -70,17 +81,33 @@ public slots:
      */
     virtual void animate();
 
+    /**
+     * Closes the select menu after a timeout.
+     *
+     * @author Karl Castillo
+     */
+    void hideSelectMenu();
+
 private:
 
     /**
      * Holds the position of the position where the menu is to be painted.
      */
-    QPointF menuPos;
+    QPointF menuPos_;
 
     /**
      * Holds the scale factor that determines the size of the context menu.
      * This variable is for animation purposes only.
      */
-    float scaleFactor;
+    float scaleFactor_;
+
+    /**
+     * The timer that is used that will close the select menu after a period
+     * of time.
+     */
+    QTimer closeTimer_;
 };
+
+} /* end namespace td */
+
 #endif

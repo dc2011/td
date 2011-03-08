@@ -1,11 +1,14 @@
 #include "GraphicsComponent.h"
 #include <math.h>
+#include "../engine/GameObject.h"
+#include "../engine/CDriver.h"
 
-QTimer * GraphicsComponent::animationTimer_;
+namespace td {
+
 QMutex GraphicsComponent::mutex_;
     
 GraphicsComponent::GraphicsComponent() {
-    mutex_.lock();
+    
     mainWindow_ = td::MainWindow::instance();
     //td::MainWindow* main = td::MainWindow::instance();
     connect(this, SIGNAL(created(GraphicsComponent*)), 
@@ -15,12 +18,7 @@ GraphicsComponent::GraphicsComponent() {
     connect(this, SIGNAL(signalAnimateTick(GraphicsComponent*)),
             mainWindow_, SLOT(animateItem(GraphicsComponent*)));
 
-    if (!animationTimer_) {
-        animationTimer_ = new QTimer();
-        animationTimer_->start(ANIMATION_TIMEOUT);
-    }
     isMoving_ = 0;
-    mutex_.unlock();
 }
 
 GraphicsComponent::~GraphicsComponent() {
@@ -60,12 +58,12 @@ QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
 }
 
 void GraphicsComponent::animateConnect() {
-    connect(GraphicsComponent::animationTimer_,
+    connect(CDriver::getTimer(),
             SIGNAL(timeout()), this, SLOT(onTimerTick()));
 }
 
 void GraphicsComponent::animateDisconnect() {
-    disconnect(GraphicsComponent::animationTimer_,
+    disconnect(CDriver::getTimer(),
                SIGNAL(timeout()), this, SLOT(onTimerTick()));
 }
 
@@ -74,10 +72,14 @@ void GraphicsComponent::animate() {
 }
 
 void GraphicsComponent::setImgIndex(int index) {
+    mutex_.lock();
     pixmapIndex = index;
     pixmapItem_->setPixmap(pixmapImgs[pixmapIndex]);
+    mutex_.unlock();
 }
 
 void GraphicsComponent::onTimerTick() {
     emit signalAnimateTick(this);
 }
+
+} /* end namespace td */

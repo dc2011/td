@@ -6,6 +6,8 @@
 #include <QPointF>
 #include "GraphicsComponent.h"
 
+namespace td {
+
 class PlayerGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
@@ -50,6 +52,8 @@ private:
      */
     int animateCount;
 };
+
+} /* end namespace td */
 
 #endif
 

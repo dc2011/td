@@ -1,17 +1,19 @@
 #include "Effect.h"
 
-Effect::Effect(Unit* unit) {
-    unit_ = unit;
+namespace td {
+
+Effect::Effect(GameObject* unit, EffectType type):
+    unit_(unit), type_(type){
 }
 
-void Effect::apply(){
-    //Apply effect to the unit
+Effect::~Effect(){
 }
 
-size_t Effect::getDuration(){
-    return duration_;
+void Effect::apply(size_t duration, size_t speed){
+    if(duration == 0){ //Apply effect to the unit once
+    } else { //Apply effect to the unit for the duration
+    }
+
 }
 
-void Effect::setDuration(size_t duration){
-    duration_ = duration;
-}
+} /* end namespace td */

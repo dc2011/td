@@ -6,6 +6,9 @@
 #include <QPointF>
 #include "NPCGraphicsComponent.h"
 
+
+namespace td {
+
 class GenericDinoGraphicsComponent : public NPCGraphicsComponent {
     Q_OBJECT
 
@@ -32,6 +35,8 @@ public:
     virtual void animate();
 
 };
+
+} /* end namespace td */
 
 #endif
 

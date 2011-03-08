@@ -1,7 +1,24 @@
 #include "NPC.h"
 
-NPC::NPC(PhysicsComponent* physics) {
+namespace td {
+
+NPC::NPC(InputComponent* input,PhysicsComponent* physics, GraphicsComponent* graphics) {
     physics_ = physics;
+    graphics_ = graphics;
+    QVector2D force(0, 0);
+    this->setForce(force);
+    input_ = input;
+    input_->setParent(this);
+    pos_.setX(50);
+    pos_.setY(50);
+}
+
+NPC::NPC() {
+    QVector2D force(0, 0);
+    this->setForce(force);
+    this->setVelocity(force);
+    pos_.setX(50);
+    pos_.setY(50);
 }
 
 size_t NPC::getHealth() {
@@ -21,5 +38,9 @@ void NPC::setDamage(size_t damage) {
 }
 
 void NPC::update() {
+    input_->update();
     physics_->update(this);
+    graphics_->update(this);
 }
+
+} /* end namespace td */

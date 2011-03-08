@@ -6,6 +6,10 @@
 #include <QPointF>
 #include "GraphicsComponent.h"
 
+namespace td {
+
+class Tower;
+
 class TowerGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
@@ -31,7 +35,13 @@ public:
      * @author Warren Voelkl
      */
     virtual void initPixmaps();
+
+protected:
+    /** TODO: remove, for testing only */
+    int angle_;
 };
+
+} /* end namespace td */
 
 #endif
 
