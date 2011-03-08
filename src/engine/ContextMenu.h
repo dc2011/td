@@ -7,9 +7,9 @@
 #include "../audio/manager.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"
 
-#define FLAME_TOWER        49
+#define ARROW_TOWER        49
 #define CANNON_TOWER       50
-#define ARROW_TOWER        51
+#define FLAME_TOWER        51
 #define TAR_TOWER          52
 #define FLAK_TOWER         53
 

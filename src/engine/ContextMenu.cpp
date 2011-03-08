@@ -28,7 +28,7 @@ void ContextMenu::toggleMenu() {
 }
 
 void ContextMenu::selectMenuItem(int keyPressed) {
-    if (!menuIsOpen_ || keyPressed < FLAME_TOWER 
+    if (!menuIsOpen_ || keyPressed < ARROW_TOWER
                      || keyPressed > FLAK_TOWER) {
         return;
     }
