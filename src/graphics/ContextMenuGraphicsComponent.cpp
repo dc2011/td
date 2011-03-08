@@ -29,15 +29,15 @@ void ContextMenuGraphicsComponent::update(GameObject *) {
 
 void ContextMenuGraphicsComponent::initPixmaps() {
     //TODO: add animation images here or just single img
-    pixmapImgs = new QPixmap[PIX_CONTEXT_MENU_MAX];
-    pixmapIndex = 0;
-    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_MAIN;
-    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T1;
-    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T2;
-    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T3;
-    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T4;
-    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T5;
-    pixmapIndex = 0;
+    pixmapImgs_ = new QPixmap[PIX_CONTEXT_MENU_MAX];
+    pixmapIndex_ = 0;
+    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_MAIN;
+    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T1;
+    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T2;
+    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T3;
+    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T4;
+    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T5;
+    pixmapIndex_ = 0;
 }
 
 void ContextMenuGraphicsComponent::showMenu(QPointF playerPos) {

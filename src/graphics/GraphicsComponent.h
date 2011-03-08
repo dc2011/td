@@ -40,12 +40,22 @@ protected:
     /**
      * container for all pixmaps
      **/
-    QPixmap * pixmapImgs;
+    QPixmap * pixmapImgs_;
 
     /**
      * the current index for the currently drawn pixmap
      **/
-    int pixmapIndex;
+    int pixmapIndex_;
+
+    /**
+     * Slows down how often the images animate from the timer.
+     */
+    int animateMod_;
+
+    /**
+     * The number of times the timer has ticked.
+     */
+    int animateCount_;
 
     /**
      * updates the img index

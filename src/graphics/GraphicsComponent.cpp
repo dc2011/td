@@ -45,13 +45,13 @@ void GraphicsComponent::draw(DrawParams* dp) {
 }
 
 QPixmap GraphicsComponent::getCurrentPixmap() {
-    return pixmapImgs[pixmapIndex];
+    return pixmapImgs_[pixmapIndex_];
 }
 
 QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
     mutex_.lock();
     initPixmaps();
-    pixmapItem_ = new QGraphicsPixmapItem(pixmapImgs[pixmapIndex]);
+    pixmapItem_ = new QGraphicsPixmapItem(pixmapImgs_[pixmapIndex_]);
     pixmapItem_->setPos(OFFSCREEN,OFFSCREEN);
     mutex_.unlock();
     return pixmapItem_;
@@ -73,8 +73,8 @@ void GraphicsComponent::animate() {
 
 void GraphicsComponent::setImgIndex(int index) {
     mutex_.lock();
-    pixmapIndex = index;
-    pixmapItem_->setPixmap(pixmapImgs[pixmapIndex]);
+    pixmapIndex_ = index;
+    pixmapItem_->setPixmap(pixmapImgs_[pixmapIndex_]);
     mutex_.unlock();
 }
 
