@@ -114,6 +114,20 @@ namespace td
             waypoints.insert(key, newSet);
         }
 
+        /**
+          * Adds a unit to the tile at the specified coordinates.
+          *
+          * @author Luke Queenan
+          */
+        void addUnit(double x, double y, Unit* unitToAdd);
+
+        /**
+          * Removes a unit from the tile at the specified coordinates.
+          *
+          * @author Luke Queenan
+          */
+        void removeUnit(double x, double y, Unit* unitToRemove);
+
     };
 
 }

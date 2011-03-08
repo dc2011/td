@@ -23,7 +23,7 @@ Tile::Tile(int row, int column, blockingType type)
     type_ = type;
     int xPos = column * TILE_WIDTH + TILE_WIDTH / 2;
     int yPos = row * TILE_HEIGHT + TILE_HEIGHT / 2;
-    pos_ = QPointF(xPos, yPos); 
+    pos_ = QPointF(xPos, yPos);
 }
 
 /**
