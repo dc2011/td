@@ -24,7 +24,7 @@ void ContextMenuGraphicsComponent::update(GameObject *) {
     dp->degrees = 0;
     dp->pos = menuPos_;
 
-    emit signalDraw(dp, this);
+    emit signalDraw(dp,this, LAYER_MENU);
 }
 
 void ContextMenuGraphicsComponent::initPixmaps() {

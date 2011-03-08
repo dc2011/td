@@ -25,7 +25,7 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
     //player->getVelocity().length() != 0;
     dp->scale   = projectile->getScale(); // will likely be a constant value here
     dp->degrees = projectile->getOrientation();
-    emit signalDraw(dp, this);
+    emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 
 void ProjectileGraphicsComponent::initPixmaps() {

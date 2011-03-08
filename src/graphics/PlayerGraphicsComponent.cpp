@@ -28,7 +28,7 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
     dp->moving  = player->getVelocity().length() != 0;
     //dp->scale   = player->getScale();  will likely be a constant value here
     dp->degrees = player->getOrientation();
-    emit signalDraw(dp, this);
+    emit signalDraw(dp, this, LAYER_PLAYER);
 }
 
 void PlayerGraphicsComponent::initPixmaps() {

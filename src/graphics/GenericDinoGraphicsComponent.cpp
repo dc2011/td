@@ -26,7 +26,7 @@ void GenericDinoGraphicsComponent::update(GameObject* obj) {
     //player->getVelocity().length() != 0;
     //dp->scale   = tower->getScale();
     dp->degrees = gdgc->getOrientation();
-    emit signalDraw(dp, this);
+    emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 
 void GenericDinoGraphicsComponent::initPixmaps() {

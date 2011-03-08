@@ -26,7 +26,7 @@ void NPCGraphicsComponent::update(GameObject* obj) {
     //player->getVelocity().length() != 0;
     //dp->scale   = npc->getScale(); // will likely be a constant value here
     dp->degrees = npc->getOrientation();
-    emit signalDraw(dp, this);
+    emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 
 void NPCGraphicsComponent::initPixmaps() {

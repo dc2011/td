@@ -1,8 +1,6 @@
 #ifndef GRAPHICSCOMPONENT_H
 #define GRAPHICSCOMPONENT_H
 
-#define OFFSCREEN -10000
-
 #include <QMutexLocker>
 #include <QObject>
 #include <QPointF>
@@ -12,6 +10,12 @@
 #include "PixmapFiles.h"
 #include "../client/MainWindow.h"
 #include "../util/mutex_magic.h"
+
+
+#define OFFSCREEN -10000
+#define LAYER_PLAYER 1
+#define LAYER_MENU 2
+#define LAYER_DEFAULT 0
 
 namespace td {
 
@@ -141,7 +145,7 @@ public slots:
 
 signals:
     void created(GraphicsComponent* gc);
-    void signalDraw(DrawParams* dp, GraphicsComponent* gc);
+    void signalDraw(DrawParams* dp, GraphicsComponent* gc, int layer);
     void signalAnimateTick(GraphicsComponent * gc);
 };
 

@@ -13,8 +13,8 @@ GraphicsComponent::GraphicsComponent() {
     //td::MainWindow* main = td::MainWindow::instance();
     connect(this, SIGNAL(created(GraphicsComponent*)), 
             mainWindow_, SLOT(createGraphicRepr(GraphicsComponent*)));
-    connect(this, SIGNAL(signalDraw(DrawParams*, GraphicsComponent*)), 
-            mainWindow_, SLOT(drawItem(DrawParams*, GraphicsComponent*)));
+    connect(this, SIGNAL(signalDraw(DrawParams*, GraphicsComponent*, int)), 
+            mainWindow_, SLOT(drawItem(DrawParams*, GraphicsComponent*, int)));
     connect(this, SIGNAL(signalAnimateTick(GraphicsComponent*)),
             mainWindow_, SLOT(animateItem(GraphicsComponent*)));
 
@@ -42,7 +42,6 @@ void GraphicsComponent::draw(DrawParams* dp, int layer) {
     pixmapItem_->setZValue(layer);
     isMoving_ = dp->moving;
     delete dp;
-
 }
 
 QPixmap GraphicsComponent::getCurrentPixmap() {
