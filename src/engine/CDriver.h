@@ -31,8 +31,10 @@ private:
     Map* gameMap_;
      /** A context menu that appears around the player. */
     ContextMenu* contextMenu_;
-     /** An enemy unit. */
-    NPC* npc_;
+     /** An set of enemy unit. */
+    QSet<NPC*> npc_;
+     /** Keeps track of how many NPCs there currently are. */
+    size_t npcCounter_;
      /** A projectile fired from a tower. */
     Projectile* projectile_;
      /** A tower built by the players. */
@@ -121,8 +123,9 @@ public:
     /**
      * creates npc object
      * @author Marcel Vangrootheest
+     * @returns the reference to an NPC
      */
-    void createNPC();
+    NPC* createNPC();
 
     /**
      * Stop game timer.
@@ -155,9 +158,7 @@ private slots:
     /**
      * Creates a projectile object.
      *
-     * @author Pan Khantidhara
-     * @param int A key pressed. Doesn't really use it.
-     * @return Pointer to new projectile instance.
+     * @author Pan Khantidhara, Marcel Vangrootheest
      */
     void createProjectile();
 
@@ -173,6 +174,19 @@ private slots:
      * @author Duncan Donaldson
      */
     void UDPReceived(Stream* s);
+
+    /**
+     * Creates Npc objects based on the game tick.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void NPCCreator();
+    /**
+     * Deletes NPC later
+     *
+     * @author Marcel Vangrootheest
+     */
+    void NPCDeleter(Unit*);
 };
 
 } /* end namespace td */

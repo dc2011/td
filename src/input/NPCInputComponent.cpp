@@ -1,6 +1,7 @@
 #include "NPCInputComponent.h"
 #include "../engine/NPC.h"
 #include "../physics/NPCPhysicsComponent.h"
+#include <QTime>
 
 namespace td {
 
@@ -19,6 +20,8 @@ NPCInputComponent::NPCInputComponent() {
                        waypoints_.at(nextDest_ + 1).x(),
                        waypoints_.at(nextDest_ + 1).y());
     nextDest_++;
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.msec());
 }
 
 NPCInputComponent::~NPCInputComponent() { }
@@ -35,9 +38,12 @@ void NPCInputComponent::setParent(Unit *parent) {
 }
 
 void NPCInputComponent::makeForce() {
-    // TODO: randomize force?
-    QVector2D force = QVector2D((segment_.dx() / segment_.length()),
-                                (segment_.dy() / segment_.length()));
+    // TODO: apply same random force for longer time period?
+    double rx = (qrand() % 500) / 50.0;
+    double ry = (qrand() % 500) / 50.0;
+    qDebug("rx ry, %f, %f", rx, ry);
+    QVector2D force = QVector2D((segment_.dx() * rx / segment_.length()),
+                                (segment_.dy() * ry / segment_.length()));
     parent_->setForce(force);
 }
 
@@ -48,6 +54,9 @@ void NPCInputComponent::nextDestination() {
     if (segment_.length() < maxValue
             && nextDest_ < waypoints_.length()) {
         segment_.setP2(waypoints_.at(nextDest_++));
+    } else if (segment_.length() < maxValue 
+            && nextDest_ >= waypoints_.length()) {
+       emit deleteUnitLater(parent_);  
     }
 }
 

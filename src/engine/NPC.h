@@ -28,7 +28,6 @@ public:
     }
 
 public:
-    NPC(InputComponent* input,PhysicsComponent* physics, GraphicsComponent* graphics);
     NPC();
     virtual ~NPC() {}
 

@@ -13,6 +13,8 @@ CDriver::CDriver(MainWindow* mainWindow)
         projectile_(NULL)
 {
     mgr_ = new ResManager();
+    npc_ = QSet<NPC*>();
+    npcCounter_ = 0;
 }
 
 CDriver::~CDriver() {
@@ -103,19 +105,33 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     delete request;
 }
 
-void CDriver::createNPC() {
-    npc_ = (NPC*)mgr_->createObject(NPC::clsIdx());
+void CDriver::NPCCreator() {
+    if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
+        npc_.insert(createNPC());
+    }
+}
+
+void CDriver::NPCDeleter(Unit* npc) {
+    npc_.remove((NPC*)npc);
+    mgr_->deleteObject(npc);
+}
+
+NPC* CDriver::createNPC() {
+    NPC* npc = (NPC*)mgr_->createObject(NPC::clsIdx());
 
     PhysicsComponent* physics = new NPCPhysicsComponent();
     GraphicsComponent* graphics = new NPCGraphicsComponent();
     NPCInputComponent* input = new NPCInputComponent();
 
-    input->setParent(npc_);
-    npc_->setInputComponent(input);
-    npc_->setPhysicsComponent(physics);
-    npc_->setGraphicsComponent(graphics);
+    input->setParent(npc);
+    npc->setInputComponent(input);
+    npc->setPhysicsComponent(physics);
+    npc->setGraphicsComponent(graphics);
+    connect(input, SIGNAL(deleteUnitLater(Unit*)),
+            this, SLOT(NPCDeleter(Unit*)), Qt::QueuedConnection);
 
-    connect(gameTimer_, SIGNAL(timeout()), npc_, SLOT(update()));
+    connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
+    return npc;
 }
 
 void CDriver::createProjectile(){
@@ -170,7 +186,6 @@ void CDriver::startGame() {
 
     createHumanPlayer(mainWindow_);
     contextMenu_ = new ContextMenu(human_);
-    createNPC();
 
     connect(contextMenu_, SIGNAL(signalPlayerMovement(bool)),
 	    human_->getInputComponent(), SLOT(playerMovement(bool)));
@@ -182,6 +197,7 @@ void CDriver::startGame() {
             contextMenu_, SLOT(viewResources(bool)));
     connect(gameTimer_,   SIGNAL(timeout()), 
             human_,       SLOT(update()));
+    connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
     /* TODO: alter temp solution */
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
             this,         SLOT(createTower(int, QPointF)));
