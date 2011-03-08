@@ -1,5 +1,5 @@
 #include "NPC.h"
-
+#include "CDriver.h"
 namespace td {
 
 NPC::NPC() {
@@ -30,6 +30,7 @@ void NPC::update() {
     input_->update();
     physics_->update(this);
     graphics_->update(this);
+    CDriver::updateServer(this);
 }
 
 } /* end namespace td */

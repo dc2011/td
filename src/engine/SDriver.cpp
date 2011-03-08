@@ -23,7 +23,7 @@ void SDriver::startGame() {
     connect(NetworkServer::instance(), SIGNAL(UDPReceived(Stream*)), 
 		    this, SLOT(onUDPReceive(Stream*)));
 
-    this->waveTimer_->start(50000);
+    this->waveTimer_->start(15000);
     connect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 }
 
@@ -48,6 +48,7 @@ GameObject* SDriver::updateObject(Stream* s) {
     return go;
 }
 void SDriver::spawnWave() {
+    qDebug("spawned wave");
     for(int i=0; i < 20; ++i) {
 	Stream* out = new Stream();
 	NPC* n;

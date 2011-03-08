@@ -74,8 +74,8 @@ void CDriver::readObject(Stream* s) {
             GraphicsComponent* graphics = new PlayerGraphicsComponent();
             go->setGraphicsComponent(graphics);
 
-            connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
         }
+	connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
     }
     
     go->networkRead(s);
@@ -197,7 +197,7 @@ void CDriver::startGame() {
             contextMenu_, SLOT(viewResources(bool)));
     connect(gameTimer_,   SIGNAL(timeout()), 
             human_,       SLOT(update()));
-    connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
+    // connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
     /* TODO: alter temp solution */
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
             this,         SLOT(createTower(int, QPointF)));
