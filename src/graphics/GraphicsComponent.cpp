@@ -29,7 +29,7 @@ void GraphicsComponent::create() {
     emit created(this);
 }
 
-void GraphicsComponent::draw(DrawParams* dp) {
+void GraphicsComponent::draw(DrawParams* dp, int layer) {
     QPointF center = pixmapItem_->boundingRect().center();
     pixmapItem_->resetMatrix();//important
     //pixmapItem_->translate(center.x(), center.y());
@@ -39,6 +39,7 @@ void GraphicsComponent::draw(DrawParams* dp) {
     pixmapItem_->translate(-center.x(), -center.y());
     //pixmapItem_->setTransformOriginPoint(-center.x(), -center.y());
     pixmapItem_->setPos(dp->pos);
+    pixmapItem_->setZValue(layer);
     isMoving_ = dp->moving;
     delete dp;
 

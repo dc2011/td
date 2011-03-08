@@ -106,11 +106,12 @@ public:
      * Resets the matrix then builds the transformation matrix from the
      * structure values.
      *
-     * @author warren
-     * @param Pointer to the drawstruct that contains all the values on how
+     * @author Warren Voelkl, Terence Stenvold
+     * @param dp Pointer to the drawstruct that contains all the values on how
      * to render an image.
+     * @param layer is what layer to draw image defaults to 0
      */
-    void draw(DrawParams* dp);
+    void draw(DrawParams* dp, int layer=0);
 
     /**
      * Called from main. instantiates the QGRaphicsPixmapItem
