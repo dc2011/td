@@ -53,8 +53,8 @@ void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
     scene_->addItem(gc->initGraphicsComponent());
 }
 
-void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc) {
-    gc->draw(dp);
+void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc, int layer) {
+    gc->draw(dp,layer);
 }
 
 
