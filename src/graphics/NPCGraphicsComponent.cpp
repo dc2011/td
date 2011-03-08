@@ -56,4 +56,9 @@ void NPCGraphicsComponent::animate() {
     }
 }
 
+void NPCGraphicsComponent::showHealth(bool keyHeld) {
+    showHealth_ = keyHeld;
+    qDebug("NPCGraphicsComponent::showHealth(); keyHeld = %d,", keyHeld);
+}
+
 } /* end namespace td */

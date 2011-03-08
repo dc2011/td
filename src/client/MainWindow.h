@@ -117,7 +117,7 @@ signals:
     void signalKeyReleased(int);
     void signalNumberPressed(int);
     void signalSpacebarPressed();
-    void signalRHeld(bool);
+    void signalAltHeld(bool);
     void signalFPressed();
 };
 
