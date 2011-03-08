@@ -98,7 +98,7 @@ void ContextMenuGraphicsComponent::animate() {
 
     scaleFactor_ += 0.1;
 
-    if(scaleFactor_ == 0.5) {
+    if(scaleFactor_ >= 0.5) {
         animateDisconnect();
     }
 

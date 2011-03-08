@@ -2,7 +2,6 @@
 #define GRAPHICSCOMPONENT_H
 
 #define OFFSCREEN -10000
-#define ANIMATION_TIMEOUT  25
 
 #include <QMutexLocker>
 #include <QObject>
@@ -27,12 +26,12 @@ private:
      *  the pixelmapItem which is is used to draw a pixel map at a location
      **/
     QGraphicsPixmapItem* pixmapItem_;
-
+    
     /**
-     * The timer that will cause the animation of all graphics objects
+     * Pointer to the mainwindow
      */
-    static QTimer * animationTimer_;
     MainWindow* mainWindow_;
+
 protected:
     /**
      * If the obect is currently moving used for animations
@@ -56,13 +55,13 @@ protected:
 
     /**
      * Creates a connection between the timer and this object
-     * @author Warren Voelkl
+     * @author Warren Voelkl / Terence Stenvold
      **/
     void animateConnect();
 
     /**
      * Disconnect the connection between the timer this object
-     * @author Warren Voelkl
+     * @author Warren Voelkl / Terence Stenvold
      **/
     void animateDisconnect();
 

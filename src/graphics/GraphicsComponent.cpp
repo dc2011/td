@@ -1,10 +1,10 @@
 #include "GraphicsComponent.h"
 #include <math.h>
 #include "../engine/GameObject.h"
+#include "../engine/CDriver.h"
 
 namespace td {
 
-QTimer * GraphicsComponent::animationTimer_;
 QMutex GraphicsComponent::mutex_;
     
 GraphicsComponent::GraphicsComponent() {
@@ -18,10 +18,6 @@ GraphicsComponent::GraphicsComponent() {
     connect(this, SIGNAL(signalAnimateTick(GraphicsComponent*)),
             mainWindow_, SLOT(animateItem(GraphicsComponent*)));
 
-    if (!animationTimer_) {
-        animationTimer_ = new QTimer();
-        animationTimer_->start(ANIMATION_TIMEOUT);
-    }
     isMoving_ = 0;
 }
 
@@ -62,12 +58,12 @@ QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
 }
 
 void GraphicsComponent::animateConnect() {
-    connect(GraphicsComponent::animationTimer_,
+    connect(CDriver::getTimer(),
             SIGNAL(timeout()), this, SLOT(onTimerTick()));
 }
 
 void GraphicsComponent::animateDisconnect() {
-    disconnect(GraphicsComponent::animationTimer_,
+    disconnect(CDriver::getTimer(),
                SIGNAL(timeout()), this, SLOT(onTimerTick()));
 }
 
