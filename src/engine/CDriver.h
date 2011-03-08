@@ -141,7 +141,11 @@ public:
     static QTimer* getTimer();
 
 
-
+    /**
+    * Getter for gameMap_
+    *
+    * @author Ian Lee
+    */
     Map* getGameMap(){
         return gameMap_;
     }

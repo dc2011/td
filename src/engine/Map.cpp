@@ -128,6 +128,7 @@ namespace td{
         getTileCoords(x, y, &row, &column);
 
         tiles_[row][column]->addUnit(unitToAdd);
+        //qDebug("add to tile: %d, %d",row, column);
     }
 
     void Map::removeUnit(double x, double y, Unit *unitToRemove)
@@ -137,7 +138,8 @@ namespace td{
 
         getTileCoords(x, y, &row, &column);
 
-        tiles_[row][column]->removeUnit(unitToRemove);;
+        tiles_[row][column]->removeUnit(unitToRemove);
+        //qDebug("leaving tile: %d, %d", row, column);
     }
 
 }//end namespace 
