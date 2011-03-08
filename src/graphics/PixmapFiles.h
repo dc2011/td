@@ -8,12 +8,13 @@
  */
 
 #define PIX_CONTEXT_MENU_MAIN   QString("./img/buildmenu.png")
-#define PIX_CONTEXT_MENU_T1     QString("./img/menuFlame.png")
+#define PIX_CONTEXT_MENU_RES    QString("./img/buildResources.png");
+#define PIX_CONTEXT_MENU_T1     QString("./img/menuArrow.png")
 #define PIX_CONTEXT_MENU_T2     QString("./img/menuCannon.png")
-#define PIX_CONTEXT_MENU_T3     QString("./img/menuArrow.png")
+#define PIX_CONTEXT_MENU_T3     QString("./img/menuFlame.png")
 #define PIX_CONTEXT_MENU_T4     QString("./img/menuTar.png")
 #define PIX_CONTEXT_MENU_T5     QString("./img/menuFlak.png")
-#define PIX_CONTEXT_MENU_MAX    6
+#define PIX_CONTEXT_MENU_MAX    7
 #define PIX_PLAYER_0            QString("./img/player-stand.png")
 #define PIX_PLAYER_1            QString("./img/player-move1.png")
 #define PIX_PLAYER_2            QString("./img/player-move2.png")
