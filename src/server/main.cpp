@@ -1,10 +1,10 @@
 #include <QMainWindow>
 
-#include "SDriver.h"
+#include "../engine/SDriver.h"
 
 int main(int argc, char **argv) {
     QCoreApplication a(argc, argv);
-    SDriver d;
+    td::SDriver d;
     
     d.startGame();
     

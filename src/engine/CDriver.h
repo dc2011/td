@@ -1,57 +1,77 @@
 #ifndef CDRIVER_H
 #define CDRIVER_H
+
 #include <QTimer>
-#include <QApplication>
-#include <QMainWindow>
-#include <QVector>
 #include <QPointF>
 #include "ContextMenu.h"
-#include "Player.h"
-#include "PlayerPhysicsComponent.h"
-#include "PlayerInputComponent.h"
-#include "Projectile.h"
-#include "ProjectilePhysicsComponent.h"
-#include "../client/MainWindow.h"
-#include "../graphics/ContextMenuGraphicsComponent.h"
-#include "../graphics/PlayerGraphicsComponent.h"
-#include "../network/netclient.h"
-#include "../network/stream.h"
-#include "Unit.h"
 #include "GameObject.h"
+#include "Map.h"
+#include "NPC.h"
+#include "Player.h"
+#include "Projectile.h"
+#include "ResManager.h"
+#include "Tower.h"
+#include "../client/MainWindow.h"
+
 namespace td {
-  class CDriver : public QObject {
-      Q_OBJECT
+
+class CDriver : public QObject {
+    Q_OBJECT
   
-  private:
-    QTimer* gameTimer_;
+private:
+     /** The game object resource manager. */
+    ResManager* mgr_;
+     /** The central game timer that initiates all object updates. */
+    static QTimer* gameTimer_;
+     /** The player on this client. */
     Player* human_;
+     /** The main game window, where all graphics will be drawn. */
     MainWindow* mainWindow_;
-    /**
-     * A context menu that appears around the player.
-     */
+     /** The game map containing all tiles, waypoints, and access methods. */
+    Map* gameMap_;
+     /** A context menu that appears around the player. */
     ContextMenu* contextMenu_;
+     /** An enemy unit. */
+    NPC* npc_;
+     /** A projectile fired from a tower. */
     Projectile* projectile_;
-  public:
-    // ctors and dtors
+     /** A tower built by the players. */
+    Tower* tower_;
+     /** The single instance of this class that can be created. */
+    static CDriver* instance_;
+    
+    
     CDriver(MainWindow* parent = 0);
     ~CDriver();
 
+public:
     /**
-     * Creates a human player object.
-     * Sets event filter for key presses to be passed to PlayerInputComponent.
-     * 
-     * @author Tom Nightingale
-     * @return Player*, pointer to new player instance.
+     * Creates an instance of the class if one doesn't exist yet.
+     *
+     * @author Dean Morin
+     * @param mainWindow A pointer to the main window where everything is drawn.
+     * @returns An new instance of the class if one doesn't exist yet, or
+     * if one does, it returns a pointer to that instance.
      */
-    Player* createHumanPlayer(MainWindow *);
-
+    static CDriver* init(MainWindow* mainWindow);
+   
     /**
-     * Connects all current GameObjects' SLOTs to a timer SIGNAL.
-     * 
-     * @author Duncan Donaldson
-     * @return void
+     * Calls the dtor for the singleton instance.
+     *
+     * @author Dean Morin
      */
-    void bindAll();
+    static void shutdown();
+   
+    /**
+     * Returns the instance of this Singleton class. Should only be used if
+     * you know that init() has already been called.
+     *
+     * @author Dean Morin
+     * @returns A pointer to the one available instance of this class.
+     */
+    static CDriver* instance() {
+        return instance_;
+    }
 
     /**
      * Connects the client driver to the server. This must be called
@@ -60,39 +80,49 @@ namespace td {
      * to the server.
      * 
      * @author Duncan Donaldson
-     * @return void
      */
-    static void connectToServer(char * servaddr);
+    void connectToServer(const QString& servaddr);
+
     /**
      * Disconnects the client driver from the server,
      * and destroys the stream used to update the server, call this on cleanup.
      * 
      * @author Duncan Donaldson
-     * @return void
      */
-    static void disconnectFromServer();
+    void disconnectFromServer();
 
-   /**
+    /**
      * Sends client updates to the server, static method, this
      * call this method from the update() function of the GameObject
      * whose state you want to send to the server.
      * 
      * @author Duncan Donaldson
-     * @param u the unit object whose state is to be sent to the server.
-     *
-     * @return void
+     * @param obj The GameObject to transmit.
      */
-    static void updateServer(Unit* u);
+    static void updateServer(GameObject* obj);
 
     /**
-     * Reads position updates from the server for a player object.
      *
      * @author Duncan Donaldson
-     * @param u the unit object to be updated with server info.
-     *
-     * @return void
      */
-    static void updatePlayer(Unit* u);
+    void readObject(Stream* s);
+
+    /**
+     * Creates a human player object.
+     * Sets event filter for key presses to be passed to PlayerInputComponent.
+     * 
+     * @author Tom Nightingale
+     * @author Duncan Donaldson
+     * @author Darryl Pogue
+     * @return pointer to new player instance.
+     */
+    void createHumanPlayer(MainWindow *);
+
+    /**
+     * creates npc object
+     * @author Marcel Vangrootheest
+     */
+    void createNPC();
 
     /**
      * Stop game timer.
@@ -101,17 +131,16 @@ namespace td {
      * @return void
      */
     void endGame();
-    
-    /**
-     * Load map from file, parse data, store in game info map property
-     * 
-     * @author Duncan Donaldson
-     * @return int
-     */
-    //int loadMap(GameInfo &gi, char* map);
-    
-  public slots:
 
+    /**
+     * Returns the game timer
+     *
+     * @author Terence Stenvold
+     * @return the game timer
+     */
+    static QTimer* getTimer();
+    
+public slots:
     /**
     * Initialize and start game timer.
     * [Hijacked and updated by Tom Nightingale] 
@@ -131,6 +160,21 @@ private slots:
      * @return Pointer to new projectile instance.
      */
     void createProjectile();
-  };
-}
+
+    /**
+     * Temp testing method.
+     *
+     * @author Dean Morin
+     */
+    void createTower(int towerType, QPointF pos);
+
+    /**
+     *
+     * @author Duncan Donaldson
+     */
+    void UDPReceived(Stream* s);
+};
+
+} /* end namespace td */
+
 #endif

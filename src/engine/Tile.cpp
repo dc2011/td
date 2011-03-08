@@ -4,8 +4,8 @@
 // Temp defines pending a map object
 #define MAP_ROWS 99
 #define MAP_COLS 99
-#define TILE_HEIGHT 10
-#define TILE_WIDTH 10
+
+namespace td {
 
 /**
   * The constructor for the tile class
@@ -17,10 +17,13 @@
   * @author Luke Queenan
   *
   */
-Tile::Tile(int column, int row, blockingType type)
+Tile::Tile(int row, int column, blockingType type)
 {
     tileID_ = column * MAP_ROWS + row;
     type_ = type;
+    int xPos = column * TILE_WIDTH + TILE_WIDTH / 2;
+    int yPos = row * TILE_HEIGHT + TILE_HEIGHT / 2;
+    pos_ = QPointF(xPos, yPos); 
 }
 
 /**
@@ -77,3 +80,11 @@ void Tile::removeUnit(Unit *unitToRemove)
 {
     currentUnits_.erase(unitToRemove);
 }
+
+std::set<Unit*> Tile::getUnit(){
+    return currentUnits_;
+
+}
+
+} /* end namespace td */
+

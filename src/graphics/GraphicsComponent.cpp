@@ -1,75 +1,47 @@
 #include "GraphicsComponent.h"
 #include <math.h>
+#include "../engine/GameObject.h"
+#include "../engine/CDriver.h"
 
+namespace td {
+
+QMutex GraphicsComponent::mutex_;
     
 GraphicsComponent::GraphicsComponent() {
-    td::MainWindow* main = td::MainWindow::instance();
+    
+    mainWindow_ = td::MainWindow::instance();
+    //td::MainWindow* main = td::MainWindow::instance();
     connect(this, SIGNAL(created(GraphicsComponent*)), 
-            main, SLOT(createGraphicRepr(GraphicsComponent*)));
+            mainWindow_, SLOT(createGraphicRepr(GraphicsComponent*)));
     connect(this, SIGNAL(signalDraw(DrawParams*, GraphicsComponent*)), 
-            main, SLOT(drawItem(DrawParams*, GraphicsComponent*)));
-    create();
+            mainWindow_, SLOT(drawItem(DrawParams*, GraphicsComponent*)));
+    connect(this, SIGNAL(signalAnimateTick(GraphicsComponent*)),
+            mainWindow_, SLOT(animateItem(GraphicsComponent*)));
+
+    isMoving_ = 0;
+}
+
+GraphicsComponent::~GraphicsComponent() {
+    delete(pixmapItem_);
 }
 
 void GraphicsComponent::create() {
     emit created(this);
 }
-/*
-QGraphicsPixmapItem* GraphicsComponent::getPixmapItem() { 
-    //mutex_.lock();
-    return pixmapItem_;
-    //mutex_.unlock();
-}
-*/
-/*
-void GraphicsComponent::setPixmapItem(QGraphicsPixmapItem* qgpi) {
-    //mutex_.lock();
-    pixmapItem_ = qgpi;
-    //mutex_.unlock();
-}
-*/
+
 void GraphicsComponent::draw(DrawParams* dp) {
-    //double pi = 3.14;
-    //double a = pi/180 * 10;
-    //double sina = sin(a);
-    //double cosa = cos(a);
-    //QPixmap pixmap = pixmapItem_->pixmap();
-    //int xcenter =pixmap.width();
-    //int ycenter =pixmap.height();
     QPointF center = pixmapItem_->boundingRect().center();
-
-    //pixmap.scaled(QSize(dp->scale, dp->scale), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    //QMatrix translationMatrix(1, 0, 0, 1, xcenter, ycenter);
-    //QMatrix rotationMatrix(cosa, -sina, sina, cosa, 0, 0)t;
-    //QMatrix scalingMatrix(1.1, 0, 0, 1.1, 0, 0);
-    //QMatrix matrix;
-    //matrix.translate(-xcenter, -ycenter);
-    //matrix = matrix * scalingMatrix;
-    //matrix =  translationMatrix * scalingMatrix * QMatrix(1, 0, 0, 1, -xcenter, -ycenter);
-    //matrix = matrix.translate(pixmap.width() / 2,pixmap.height() / 2);
-    //matrix = matrix.scale(dp->scale, dp->scale);
-    //matrix = matrix.rotate(dp->degrees);
-    //matrix = matrix.translate(-pixmap.width() / 2, - pixmap.height() / 2 );
-    //pixmap = pixmap.transformed(scalingMatrix, Qt::SmoothTransformation);
-            //.transforme(transform.rotate(dp->degrees,Qt::XAxis ), Qt::SmoothTransformation);
-    //center = pixmapItem_->boundingRect().center();
-
-
     pixmapItem_->resetMatrix();//important
-    pixmapItem_->translate(center.x(), center.y());
+    //pixmapItem_->translate(center.x(), center.y());
+    pixmapItem_->setTransformOriginPoint(center);
     pixmapItem_->setScale(dp->scale);
     pixmapItem_->rotate(dp->degrees * -1);
     pixmapItem_->translate(-center.x(), -center.y());
+    //pixmapItem_->setTransformOriginPoint(-center.x(), -center.y());
     pixmapItem_->setPos(dp->pos);
+    isMoving_ = dp->moving;
+    delete dp;
 
-    //pixmapItem_->setPixmap(newPixmap);
-
-    //pixmapItem_->setPixmap(pixmap);
-
-    pixmapItem_->setPos(dp->pos);
-    if (dp != NULL) {
-        delete dp;
-    }
 }
 
 QPixmap GraphicsComponent::getCurrentPixmap() {
@@ -77,10 +49,37 @@ QPixmap GraphicsComponent::getCurrentPixmap() {
 }
 
 QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
+    mutex_.lock();
     initPixmaps();
-    //mutex_.lock();
     pixmapItem_ = new QGraphicsPixmapItem(pixmapImgs[pixmapIndex]);
     pixmapItem_->setPos(OFFSCREEN,OFFSCREEN);
+    mutex_.unlock();
     return pixmapItem_;
-    //mutex_.unlock();
 }
+
+void GraphicsComponent::animateConnect() {
+    connect(CDriver::getTimer(),
+            SIGNAL(timeout()), this, SLOT(onTimerTick()));
+}
+
+void GraphicsComponent::animateDisconnect() {
+    disconnect(CDriver::getTimer(),
+               SIGNAL(timeout()), this, SLOT(onTimerTick()));
+}
+
+void GraphicsComponent::animate() {
+    //generic this does not animate.
+}
+
+void GraphicsComponent::setImgIndex(int index) {
+    mutex_.lock();
+    pixmapIndex = index;
+    pixmapItem_->setPixmap(pixmapImgs[pixmapIndex]);
+    mutex_.unlock();
+}
+
+void GraphicsComponent::onTimerTick() {
+    emit signalAnimateTick(this);
+}
+
+} /* end namespace td */

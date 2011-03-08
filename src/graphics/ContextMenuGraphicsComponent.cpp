@@ -2,26 +2,27 @@
 #include "../engine/ContextMenu.h"
 #include "../engine/Player.h"
 
-#define ANIMATION_TIMEOUT  25
 #define FLAME_TOWER        49
 #define CANNON_TOWER       50
 #define ARROW_TOWER        51
 #define TAR_TOWER          52
 #define FLAK_TOWER         53
 
+namespace td {
+
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
-    imageIndex = 0;
 
-    connect(&animationTimer, SIGNAL(timeout()), this, SLOT(animate()));
+    emit created(this);
+    connect(&closeTimer_, SIGNAL(timeout()), this, SLOT(hideSelectMenu()));
 }
 
 void ContextMenuGraphicsComponent::update(GameObject *) {
     DrawParams *dp = new DrawParams();
 
-    dp->scale = scaleFactor;
+    dp->scale = scaleFactor_;
     dp->degrees = 0;
-    dp->pos = menuPos;
+    dp->pos = menuPos_;
 
     emit signalDraw(dp, this);
 }
@@ -30,83 +31,94 @@ void ContextMenuGraphicsComponent::initPixmaps() {
     //TODO: add animation images here or just single img
     pixmapImgs = new QPixmap[PIX_CONTEXT_MENU_MAX];
     pixmapIndex = 0;
-    pixmapImgs[pixmapIndex] = PIX_CONTEXT_MENU_MAIN;
-    pixmapIndex++;
-    pixmapImgs[pixmapIndex] = PIX_CONTEXT_MENU_T1;
-    pixmapIndex++;
-    pixmapImgs[pixmapIndex] = PIX_CONTEXT_MENU_T2;
-    pixmapIndex++;
-    pixmapImgs[pixmapIndex] = PIX_CONTEXT_MENU_T3;
-    pixmapIndex++;
-    pixmapImgs[pixmapIndex] = PIX_CONTEXT_MENU_T4;
-    pixmapIndex++;
-    pixmapImgs[pixmapIndex] = PIX_CONTEXT_MENU_T5;
+    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_MAIN;
+    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T1;
+    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T2;
+    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T3;
+    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T4;
+    pixmapImgs[pixmapIndex++] = PIX_CONTEXT_MENU_T5;
     pixmapIndex = 0;
 }
 
-void ContextMenuGraphicsComponent::showMenu(GameObject *obj) {
-    Player *player = (Player*)obj;
-    QPointF tempMenuPos(player->getPos());
+void ContextMenuGraphicsComponent::showMenu(QPointF playerPos) {
+    QPointF tempMenuPos(playerPos);
 
-    menuPos.setX(tempMenuPos.x() - 33);
-    menuPos.setY(tempMenuPos.y() - 43);
+    menuPos_.setX(tempMenuPos.x());
+    menuPos_.setY(tempMenuPos.y());
 
-    imageIndex = 0;
-
-    scaleFactor = 0;
-
-    animationTimer.start(ANIMATION_TIMEOUT);
+    setImgIndex(0);
+    
+    closeTimer_.stop();
+    scaleFactor_ = 0;
+    animateConnect();
 
     update(NULL);
 }
 
-void ContextMenuGraphicsComponent::showSelectMenu(int type, GameObject *obj) {
+void ContextMenuGraphicsComponent::showSelectMenu(int type, QPointF playerPos) {
+    QPointF tempMenuPos(playerPos);
+    animateDisconnect();
 
-    Player *player = (Player*)obj;
-    QPointF tempMenuPos(player->getPos());
-
-    menuPos.setX(tempMenuPos.x() - 33);
-    menuPos.setY(tempMenuPos.y() - 43);
+    menuPos_.setX(tempMenuPos.x());
+    menuPos_.setY(tempMenuPos.y());
 
     switch(type) {
+        //going to have some accessor to set img
     case FLAME_TOWER:
-        imageIndex = 1;
+        setImgIndex(1);
         break;
     case CANNON_TOWER:
-        imageIndex = 2;
+        setImgIndex(2);
         break;
     case ARROW_TOWER:
-        imageIndex = 3;
+        setImgIndex(3);
         break;
     case TAR_TOWER:
-        imageIndex = 4;
+        setImgIndex(4);
         break;
     case FLAK_TOWER:
-        imageIndex = 5;
+        setImgIndex(5);
         break;
     }
 
-    scaleFactor = 0;
-
-    animationTimer.start(ANIMATION_TIMEOUT);
+    closeTimer_.start(500);
+    scaleFactor_ = 0.9;
 
     update(NULL);
 }
 
 void ContextMenuGraphicsComponent::hideMenu() {
-    menuPos.setX(OFFSCREEN);
-    menuPos.setY(OFFSCREEN);
+    menuPos_.setX(OFFSCREEN);
+    menuPos_.setY(OFFSCREEN);
 
     update(NULL);
 }
 
 void ContextMenuGraphicsComponent::animate() {
-
-    scaleFactor += 0.1;
-
-    if(scaleFactor == 0.5) {
-        animationTimer.stop();
+    
+    if(scaleFactor_ >= 0.5) {
+        animateDisconnect();
+	return;
     }
+
+    scaleFactor_ += 0.1;
 
     update(NULL);
 }
+
+void ContextMenuGraphicsComponent::hideSelectMenu() {
+    closeTimer_.stop();
+    hideMenu();
+}
+
+void ContextMenuGraphicsComponent::showResources(bool show) {
+    if (show) {
+        qDebug("ContextMenuGraphicsComponent::showResources; show = true");
+        //show the resources
+    } else {
+        qDebug("ContextMenuGraphicsComponent::showResources; show = false");
+        // hide them
+    }
+}
+
+} /* end namespace td */

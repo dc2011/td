@@ -5,16 +5,38 @@
 #include <QKeyEvent>
 
 #include "Unit.h"
-#include "PlayerInputComponent.h"
+#include "../input/PlayerInputComponent.h"
+#include "CollisionComponent.h"
+#include "Effect.h"
 #include "../graphics/PlayerGraphicsComponent.h"
+#include "../physics/PlayerPhysicsComponent.h"
+
+namespace td {
 
 class Player : public Unit {
     Q_OBJECT
+
 public:
-    Player(InputComponent* input, PhysicsComponent* physics, 
-           GraphicsComponent* graphics);
-    
+    /**
+     * Gets the unique class index for this object type.
+     *
+     * @author Darryl Pogue
+     * @return The class index.
+     */
+    static unsigned char clsIdx() {
+        return td::clsidx::kPlayer;
+    }
+
+public:
+    Player();
+    virtual ~Player() {}
+
     virtual void update();
+
+private:
+    QList<Effect*> effects_;
 };
+
+}
 
 #endif
