@@ -23,7 +23,7 @@ void Player::networkWrite(Stream* s) {
 
     if (dirty_ & kNickname) {
         s->writeInt(nickname_.length());
-        s->write(nickname_.data());
+        s->write(nickname_.toAscii());
     }
 }
 
