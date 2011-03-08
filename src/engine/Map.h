@@ -9,9 +9,10 @@
 #include <QMap>
 #include <QMutex>
 #include <math.h>
-#include "Tile.h"
 namespace td{
 
+class Unit;
+class Tile;
 class Map : public QObject {
     Q_OBJECT
 

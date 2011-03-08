@@ -1,5 +1,6 @@
 #include "Tile.h"
 #include "Unit.h"
+#include "TileExtension.h"
 
 // Temp defines pending a map object
 #define MAP_ROWS 99
