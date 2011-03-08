@@ -1,29 +1,24 @@
 #include "GraphicsComponent.h"
 #include <math.h>
 #include "../engine/GameObject.h"
+#include "../engine/CDriver.h"
 
 namespace td {
 
-QTimer * GraphicsComponent::animationTimer_;
 QMutex GraphicsComponent::mutex_;
     
 GraphicsComponent::GraphicsComponent() {
-    mutex_.lock();
+    
     mainWindow_ = td::MainWindow::instance();
     //td::MainWindow* main = td::MainWindow::instance();
     connect(this, SIGNAL(created(GraphicsComponent*)), 
             mainWindow_, SLOT(createGraphicRepr(GraphicsComponent*)));
-    connect(this, SIGNAL(signalDraw(DrawParams*, GraphicsComponent*)), 
-            mainWindow_, SLOT(drawItem(DrawParams*, GraphicsComponent*)));
+    connect(this, SIGNAL(signalDraw(DrawParams*, GraphicsComponent*, int)), 
+            mainWindow_, SLOT(drawItem(DrawParams*, GraphicsComponent*, int)));
     connect(this, SIGNAL(signalAnimateTick(GraphicsComponent*)),
             mainWindow_, SLOT(animateItem(GraphicsComponent*)));
 
-    if (!animationTimer_) {
-        animationTimer_ = new QTimer();
-        animationTimer_->start(ANIMATION_TIMEOUT);
-    }
     isMoving_ = 0;
-    mutex_.unlock();
 }
 
 GraphicsComponent::~GraphicsComponent() {
@@ -34,7 +29,7 @@ void GraphicsComponent::create() {
     emit created(this);
 }
 
-void GraphicsComponent::draw(DrawParams* dp) {
+void GraphicsComponent::draw(DrawParams* dp, int layer) {
     QPointF center = pixmapItem_->boundingRect().center();
     pixmapItem_->resetMatrix();//important
     //pixmapItem_->translate(center.x(), center.y());
@@ -44,31 +39,31 @@ void GraphicsComponent::draw(DrawParams* dp) {
     pixmapItem_->translate(-center.x(), -center.y());
     //pixmapItem_->setTransformOriginPoint(-center.x(), -center.y());
     pixmapItem_->setPos(dp->pos);
+    pixmapItem_->setZValue(layer);
     isMoving_ = dp->moving;
     delete dp;
-
 }
 
 QPixmap GraphicsComponent::getCurrentPixmap() {
-    return pixmapImgs[pixmapIndex];
+    return pixmapImgs_[pixmapIndex_];
 }
 
 QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
     mutex_.lock();
     initPixmaps();
-    pixmapItem_ = new QGraphicsPixmapItem(pixmapImgs[pixmapIndex]);
+    pixmapItem_ = new QGraphicsPixmapItem(pixmapImgs_[pixmapIndex_]);
     pixmapItem_->setPos(OFFSCREEN,OFFSCREEN);
     mutex_.unlock();
     return pixmapItem_;
 }
 
 void GraphicsComponent::animateConnect() {
-    connect(GraphicsComponent::animationTimer_,
+    connect(CDriver::getTimer(),
             SIGNAL(timeout()), this, SLOT(onTimerTick()));
 }
 
 void GraphicsComponent::animateDisconnect() {
-    disconnect(GraphicsComponent::animationTimer_,
+    disconnect(CDriver::getTimer(),
                SIGNAL(timeout()), this, SLOT(onTimerTick()));
 }
 
@@ -77,8 +72,10 @@ void GraphicsComponent::animate() {
 }
 
 void GraphicsComponent::setImgIndex(int index) {
-    pixmapIndex = index;
-    pixmapItem_->setPixmap(pixmapImgs[pixmapIndex]);
+    mutex_.lock();
+    pixmapIndex_ = index;
+    pixmapItem_->setPixmap(pixmapImgs_[pixmapIndex_]);
+    mutex_.unlock();
 }
 
 void GraphicsComponent::onTimerTick() {

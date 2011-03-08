@@ -10,14 +10,12 @@
 #include <QMutex>
 #include <math.h>
 #include "Tile.h"
-namespace td{
+namespace td
+{
 
-    class Map : public QObject {
+    class Map : public QObject
+    {
         Q_OBJECT
-
-
-
-
 
     public:
 
@@ -42,7 +40,7 @@ namespace td{
       *
       * @author Luke Queenan
       */
-        void getTileInfo(int column, int row, int *blockingType);
+        void getTileType(double column, double row, int *blockingType);
 
     public:
 
@@ -56,7 +54,7 @@ namespace td{
       *
       * @author Luke Queenan
       */
-        void loadTestMap();
+        void initMap();
         /**
       *  basic map creator function.
       *
@@ -115,6 +113,20 @@ namespace td{
         void addWaypoints(int key ,QList<QPoint> newSet){
             waypoints.insert(key, newSet);
         }
+
+        /**
+          * Adds a unit to the tile at the specified coordinates.
+          *
+          * @author Luke Queenan
+          */
+        void addUnit(double x, double y, Unit* unitToAdd);
+
+        /**
+          * Removes a unit from the tile at the specified coordinates.
+          *
+          * @author Luke Queenan
+          */
+        void removeUnit(double x, double y, Unit* unitToRemove);
 
     };
 

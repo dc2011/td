@@ -5,6 +5,7 @@
 #include <QPointF>
 
 #include "Unit.h"
+#include "Effect.h"
 #include "../input/ProjectileInputComponent.h"
 #include "../physics/ProjectilePhysicsComponent.h"
 #include "../graphics/ProjectileGraphicsComponent.h"
@@ -37,6 +38,7 @@ private:
         kStartPos       = (1 << 4),
         kEndPos         = (1 << 5)
     };
+    QList<Effect*> effects_;
 
 public:
     Projectile();
