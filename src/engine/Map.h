@@ -101,6 +101,20 @@ public:
         waypoints.insert(key, newSet);
     }
 
+    /**
+      * Adds a pointer to a unit to the specified tile.
+      *
+      * @author Luke Queenan
+      */
+    void addUnit(double x, double y, Unit *unitToAdd);
+
+    /**
+      * Removes the unit from the specified tile.
+      *
+      * @author Luke Queenan
+      */
+    void removeUnit(double x, double y, Unit *unitToRemove);
+
 public slots:
     /**
      * Slot for getting a tile's list of occupying units and blocking status
