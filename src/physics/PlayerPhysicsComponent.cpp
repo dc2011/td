@@ -44,7 +44,7 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     if (validateMovement(upperRight) && validateMovement(upperLeft)
         && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
         // Determine if the Player needs to update its tile position.
-        //player->changeTile(newPos);
+        player->changeTile(newPos);
         player->setPos(newPos);
     }else{
         QVector2D temp(0, 0);
