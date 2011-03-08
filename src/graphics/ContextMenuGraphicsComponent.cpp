@@ -96,12 +96,13 @@ void ContextMenuGraphicsComponent::hideMenu() {
 }
 
 void ContextMenuGraphicsComponent::animate() {
-    scaleFactor_ += 0.2;
 
     if(scaleFactor_ == 1) {
         animateDisconnect();
 	return;
     }
+    scaleFactor_ += 0.2;
+
     update(NULL);
 }
 
