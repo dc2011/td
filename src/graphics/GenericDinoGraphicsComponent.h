@@ -4,11 +4,12 @@
 #include <QObject>
 #include <QPainter>
 #include <QPointF>
-#include "GraphicsComponent.h"
+#include "NPCGraphicsComponent.h"
+
 
 namespace td {
 
-class GenericDinoGraphicsComponent : public GraphicsComponent {
+class GenericDinoGraphicsComponent : public NPCGraphicsComponent {
     Q_OBJECT
 
 public:
@@ -18,14 +19,6 @@ public:
      */
     GenericDinoGraphicsComponent();
     virtual ~GenericDinoGraphicsComponent();
-
-    /**
-     * Loads a structure from the item and game component class then sends
-     * the structure to the generic draw slot in GraphicsComponent.
-     *
-     * @author Warren Voelkl
-     */
-    virtual void update(GameObject* obj);
 
     /**
      * Gets a pixmap for the object based on its current animation state.
@@ -41,11 +34,6 @@ public:
      */
     virtual void animate();
 
-private:
-    /** Slows down how often the images animate from the timer. **/
-    int animateMod;
-    /** The number of times the timer has ticked. **/
-    int animateCount;
 };
 
 } /* end namespace td */
