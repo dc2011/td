@@ -21,3 +21,4 @@ Makefile*
 /td.xcodeproj
 /img
 core
+ui_*

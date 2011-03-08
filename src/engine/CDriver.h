@@ -22,7 +22,7 @@ private:
      /** The game object resource manager. */
     ResManager* mgr_;
      /** The central game timer that initiates all object updates. */
-    QTimer* gameTimer_;
+    static QTimer* gameTimer_;
      /** The player on this client. */
     Player* human_;
      /** The main game window, where all graphics will be drawn. */
@@ -131,6 +131,14 @@ public:
      * @return void
      */
     void endGame();
+
+    /**
+     * Returns the game timer
+     *
+     * @author Terence Stenvold
+     * @return the game timer
+     */
+    static QTimer* getTimer();
     
 public slots:
     /**
