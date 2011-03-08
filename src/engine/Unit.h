@@ -5,7 +5,7 @@
 #include <QPointF>
 
 #include "GameObject.h"
-//#include "CDriver.h"
+
 
 namespace td {
 
@@ -109,19 +109,8 @@ public:
         input_->setParent(this);
     }
 
-/*
-    void changeTile(QPointF newPos){
-        //get pointer to map
-        Map* map = td::CDriver.instance().getGameMap();
-        //check if changed tiles
-        if((int)getPos() != (int)newPos){
-            //remove from old tile
-            map->removeUnit(getPos().x(), getPos().y(), &this);
-            //add to new tile
-            map->addUnit(newPos.x(), newPos.y(), &this);
-            //qDebug("moving to tile: %d, %d", (int) getPos().x(), (int) getPos().y());
-        }
-    }*/
+
+    void changeTile(QPointF newPos);
 
 protected:
     QVector2D velocity_;
