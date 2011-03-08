@@ -48,6 +48,16 @@ public:
 
 public slots:
     /**
+     * Spawns a server-side wave and updates all clients.
+     * ****WARNING****
+     * used as-is this will eventually run the server side out of memory
+     * once we get further along with game logic, I will add logic to make sure
+     * a previous wave has been destroyed before spawning a new one.
+     * @author Duncan Donaldson
+     * @return void
+     */
+    void spawnWave();
+    /**
      * Handles a UDP packet receive by updating a currently existing player
      * or adding the player to the players list if the player does not exist.
      * 

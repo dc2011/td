@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QVector>
 #include <QWidget>
+#include "NPC.h"
 #include "SDriver.h"
 
 namespace td {
@@ -23,6 +24,7 @@ void SDriver::startGame() {
 		    this, SLOT(onUDPReceive(Stream*)));
 
     this->waveTimer_->start(50000);
+    connect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 }
 
 void SDriver::endGame() {
@@ -45,7 +47,16 @@ GameObject* SDriver::updateObject(Stream* s) {
 
     return go;
 }
-
+void SDriver::spawnWave() {
+    for(int i=0; i < 20; ++i) {
+	Stream* out = new Stream();
+	NPC* n;
+	n = (NPC*)mgr_->createObject(NPC::clsIdx());
+	n->networkWrite(out);
+	NetworkServer::instance()->send(network::kServerCreateObj, out->data());
+	delete out;
+    }
+}
 void SDriver::onUDPReceive(Stream* s) {
     int message = s->readByte(); /* Message Type */
     GameObject* go = NULL;
