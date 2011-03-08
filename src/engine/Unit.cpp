@@ -1,5 +1,7 @@
 #include "Unit.h"
 #include "CDriver.h"
+#include "Map.h"
+#include "Tile.h"
 
 namespace td {
 
