@@ -1,20 +1,13 @@
-#include <QtGui>
-#include <QTimer>
-#include <QApplication>
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QVector>
-#include <QWidget>
-#include "GameInfo.h"
-#include "GameObject.h"
 #include "CDriver.h"
-#include "Unit.h"
+#include "GameInfo.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 
 namespace td {
 
-CDriver::CDriver(MainWindow *mainWindow)
+CDriver* CDriver::instance_ = NULL;
+
+CDriver::CDriver(MainWindow* mainWindow)
         : QObject(), human_(NULL), mainWindow_(mainWindow), contextMenu_(NULL),
         projectile_(NULL)
 {
@@ -22,10 +15,21 @@ CDriver::CDriver(MainWindow *mainWindow)
 }
 
 CDriver::~CDriver() {
-    AudioManager::instance()->shutdown();
-
-    delete this->gameTimer_;
+    delete gameTimer_;
     delete mgr_;
+}
+
+CDriver* CDriver::init(MainWindow* mainWindow) {
+    if (instance_ != NULL) {
+        return instance_;
+    }
+    instance_ = new CDriver(mainWindow);
+    return instance_;
+}
+
+void CDriver::shutdown() {
+    delete instance_;
+    instance_ = NULL;
 }
 
 void CDriver::connectToServer(const QString& servaddr) {
@@ -113,28 +117,28 @@ void CDriver::createNPC() {
     connect(gameTimer_, SIGNAL(timeout()), npc_, SLOT(update()));
 }
 
-  void CDriver::createProjectile(){
-      if (!tower_) {
-          return;
-      }
-      //qDebug("fire projectile");
-      PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
-      GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
-      ProjectileInputComponent* input = new ProjectileInputComponent();
-      projectile_ = (Projectile*)mgr_->createObject(Projectile::clsIdx());
+void CDriver::createProjectile(){
+    if (!tower_) {
+        return;
+    }
+    //qDebug("fire projectile");
+    PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
+    GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
+    ProjectileInputComponent* input = new ProjectileInputComponent();
+    projectile_ = (Projectile*)mgr_->createObject(Projectile::clsIdx());
 
-      input->setParent(projectile_);
-      projectile_->setPhysicsComponent(projectilePhysics);
-      projectile_->setGraphicsComponent(projectileGraphics);
+    input->setParent(projectile_);
+    projectile_->setPhysicsComponent(projectilePhysics);
+    projectile_->setGraphicsComponent(projectileGraphics);
 
-      QPointF* start = new QPointF(tower_->getPos());
-      QPointF* end = new QPointF(human_->getPos());
-      input->setPath(start, end);
-      projectile_->setInputComponent(input);
+    QPointF* start = new QPointF(tower_->getPos());
+    QPointF* end = new QPointF(human_->getPos());
+    input->setPath(start, end);
+    projectile_->setInputComponent(input);
 
-      connect(gameTimer_,   SIGNAL(timeout()),
-                projectile_,       SLOT(update()));
-  }
+    connect(gameTimer_,   SIGNAL(timeout()),
+            projectile_,       SLOT(update()));
+}
 
 void CDriver::createTower(int towerType, QPointF pos) {
 
