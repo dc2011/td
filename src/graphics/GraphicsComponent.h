@@ -1,9 +1,6 @@
 #ifndef GRAPHICSCOMPONENT_H
 #define GRAPHICSCOMPONENT_H
 
-#define OFFSCREEN -10000
-#define ANIMATION_TIMEOUT  25
-
 #include <QMutexLocker>
 #include <QObject>
 #include <QPointF>
@@ -13,6 +10,12 @@
 #include "PixmapFiles.h"
 #include "../client/MainWindow.h"
 #include "../util/mutex_magic.h"
+
+
+#define OFFSCREEN -10000
+#define LAYER_PLAYER 1
+#define LAYER_MENU 2
+#define LAYER_DEFAULT 0
 
 namespace td {
 
@@ -27,12 +30,12 @@ private:
      *  the pixelmapItem which is is used to draw a pixel map at a location
      **/
     QGraphicsPixmapItem* pixmapItem_;
-
+    
     /**
-     * The timer that will cause the animation of all graphics objects
+     * Pointer to the mainwindow
      */
-    static QTimer * animationTimer_;
     MainWindow* mainWindow_;
+
 protected:
     /**
      * If the obect is currently moving used for animations
@@ -41,12 +44,22 @@ protected:
     /**
      * container for all pixmaps
      **/
-    QPixmap * pixmapImgs;
+    QPixmap * pixmapImgs_;
 
     /**
      * the current index for the currently drawn pixmap
      **/
-    int pixmapIndex;
+    int pixmapIndex_;
+
+    /**
+     * Slows down how often the images animate from the timer.
+     */
+    int animateMod_;
+
+    /**
+     * The number of times the timer has ticked.
+     */
+    int animateCount_;
 
     /**
      * updates the img index
@@ -56,13 +69,13 @@ protected:
 
     /**
      * Creates a connection between the timer and this object
-     * @author Warren Voelkl
+     * @author Warren Voelkl / Terence Stenvold
      **/
     void animateConnect();
 
     /**
      * Disconnect the connection between the timer this object
-     * @author Warren Voelkl
+     * @author Warren Voelkl / Terence Stenvold
      **/
     void animateDisconnect();
 
@@ -107,11 +120,12 @@ public:
      * Resets the matrix then builds the transformation matrix from the
      * structure values.
      *
-     * @author warren
-     * @param Pointer to the drawstruct that contains all the values on how
+     * @author Warren Voelkl, Terence Stenvold
+     * @param dp Pointer to the drawstruct that contains all the values on how
      * to render an image.
+     * @param layer is what layer to draw image defaults to 0
      */
-    void draw(DrawParams* dp);
+    void draw(DrawParams* dp, int layer=0);
 
     /**
      * Called from main. instantiates the QGRaphicsPixmapItem
@@ -141,7 +155,7 @@ public slots:
 
 signals:
     void created(GraphicsComponent* gc);
-    void signalDraw(DrawParams* dp, GraphicsComponent* gc);
+    void signalDraw(DrawParams* dp, GraphicsComponent* gc, int layer);
     void signalAnimateTick(GraphicsComponent * gc);
 };
 

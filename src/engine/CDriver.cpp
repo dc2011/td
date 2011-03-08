@@ -6,6 +6,7 @@
 namespace td {
 
 CDriver* CDriver::instance_ = NULL;
+QTimer* CDriver::gameTimer_;
 
 CDriver::CDriver(MainWindow* mainWindow)
         : QObject(), human_(NULL), mainWindow_(mainWindow), contextMenu_(NULL),
@@ -196,6 +197,10 @@ void CDriver::endGame() {
     disconnectFromServer();
 
     this->gameTimer_->stop();
+}
+
+QTimer* CDriver::getTimer() {
+    return gameTimer_;
 }
 
 void CDriver::UDPReceived(Stream* s) {
