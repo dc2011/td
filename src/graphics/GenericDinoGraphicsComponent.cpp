@@ -2,7 +2,7 @@
 #include "../engine/Unit.h"
 
 GenericDinoGraphicsComponent::GenericDinoGraphicsComponent()
-        : GraphicsComponent() {
+        : NPCGraphicsComponent() {
     animateMod = 7;
     animateCount = 0;
     animateConnect();
@@ -10,21 +10,6 @@ GenericDinoGraphicsComponent::GenericDinoGraphicsComponent()
 }
 
 GenericDinoGraphicsComponent::~GenericDinoGraphicsComponent() {}
-
-void GenericDinoGraphicsComponent::update(GameObject* obj) {
-    Unit* gdgc = (Unit*)obj;
-    if (!gdgc->getDirtyStatus()) {//checks if object is dirty.
-        return;
-    }
-    gdgc->setToClean();
-    DrawParams* dp = new DrawParams();
-    dp->pos     = gdgc->getPos();
-    dp->moving  = 1;
-    //player->getVelocity().length() != 0;
-    //dp->scale   = tower->getScale();
-    dp->degrees = gdgc->getOrientation();
-    emit signalDraw(dp, this);
-}
 
 void GenericDinoGraphicsComponent::initPixmaps() {
     //TODO: add animation images here
