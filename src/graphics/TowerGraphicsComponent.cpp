@@ -29,10 +29,10 @@ void TowerGraphicsComponent::update(GameObject* obj) {
 
 void TowerGraphicsComponent::initPixmaps() {
     //TODO: add animation images here
-    pixmapImgs = new QPixmap[PIX_TOWER_MAX];
-    pixmapIndex = 0;
-    pixmapImgs[pixmapIndex++] = PIX_TOWER_0;
-    pixmapIndex = 0; //sets image back to start
+    pixmapImgs_ = new QPixmap[PIX_TOWER_MAX];
+    pixmapIndex_ = 0;
+    pixmapImgs_[pixmapIndex_++] = PIX_TOWER_0;
+    pixmapIndex_ = 0; //sets image back to start
 }
 
 } /* end namespace td */

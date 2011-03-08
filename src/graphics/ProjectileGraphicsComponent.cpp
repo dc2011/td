@@ -30,9 +30,9 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
 
 void ProjectileGraphicsComponent::initPixmaps() {
     //TODO: add animation images here
-    pixmapImgs = new QPixmap[PIX_PROJECTILE_3_MAX];
-    pixmapIndex = 0;
-    pixmapImgs[pixmapIndex] = PIX_PROJECTILE_3_0;
+    pixmapImgs_ = new QPixmap[PIX_PROJECTILE_3_MAX];
+    pixmapIndex_ = 0;
+    pixmapImgs_[pixmapIndex_] = PIX_PROJECTILE_3_0;
 
 }
 

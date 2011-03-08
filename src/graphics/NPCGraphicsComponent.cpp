@@ -5,8 +5,8 @@ namespace td {
 
 NPCGraphicsComponent::NPCGraphicsComponent()
         : GraphicsComponent() {
-    animateMod = 4;
-    animateCount = 0;
+    animateMod_ = 4;
+    animateCount_ = 0;
     animateConnect();
     emit created(this);
 }
@@ -22,37 +22,32 @@ void NPCGraphicsComponent::update(GameObject* obj) {
 
     DrawParams* dp = new DrawParams();
     dp->pos     = npc->getPos();
-    dp->moving  = 1; //is always moving
-    //player->getVelocity().length() != 0;
-    //dp->scale   = npc->getScale(); // will likely be a constant value here
+    dp->moving  = 1;
     dp->degrees = npc->getOrientation();
     emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 
 void NPCGraphicsComponent::initPixmaps() {
     //TODO: add animation images here
-    pixmapImgs = new QPixmap[PIX_NPC_MAX];
-    pixmapIndex = 0;
-    pixmapImgs[pixmapIndex++] = PIX_NPC_0;
-    pixmapImgs[pixmapIndex++] = PIX_NPC_1;
-    pixmapImgs[pixmapIndex++] = PIX_NPC_2;
-    pixmapImgs[pixmapIndex++] = PIX_NPC_3;
-    pixmapIndex = 0; //sets image back to start
+    pixmapImgs_ = new QPixmap[PIX_NPC_MAX];
+    pixmapIndex_ = 0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_3;
+    pixmapIndex_ = 0; //sets image back to start
 }
 
 void NPCGraphicsComponent::animate() {
-    
-    int pos;
-    
     if (!isMoving_) {
-        setImgIndex(pixmapIndex);
+        setImgIndex(pixmapIndex_);
         return;
     }
 
     
-    if (!(animateCount++ % animateMod)) {
-        ++pixmapIndex >= PIX_NPC_MAX ? pixmapIndex = 0 : pixmapIndex;
-        setImgIndex(pixmapIndex);
+    if (!(animateCount_++ % animateMod_)) {
+        ++pixmapIndex_ >= PIX_NPC_MAX ? pixmapIndex_ = 0 : pixmapIndex_;
+        setImgIndex(pixmapIndex_);
     }
 }
 
