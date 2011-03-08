@@ -1,23 +1,12 @@
 #include "Map.h"
 
 namespace td{
-
-
-
-    //Map* Map::instance_ = NULL;
-    //QMutex Map::mutex_;
-
     Map::Map(int heightInTiles, int widthInTiles)
     {
         heightInTiles_ = heightInTiles;
         widthInTiles_ = widthInTiles;
         waypoints = QMap<int,QList<QPoint> >();
-
-
-
     }
-
-
 
     void Map::initMap() {
         tiles_ = new Tile**[heightInTiles_];
@@ -42,8 +31,6 @@ namespace td{
         }
     }
 
-
-
     void Map::loadTestMap2(){
         blockingType type;
         tiles_ = new Tile**[heightInTiles_];
@@ -64,7 +51,6 @@ namespace td{
         }
     }
 
-
     void Map::getTileType(double x, double y, int *blockingType)
     {
         int row = floor(y / TILE_HEIGHT);
@@ -73,12 +59,10 @@ namespace td{
         *blockingType = tiles_[row][col]->getType();
     }
 
-
     void Map::getTileCoords(double x, double y, int* row, int* column){
         *row = floor(y / TILE_HEIGHT);
         *column= floor(x / TILE_WIDTH);
     }
-
 
     Tile* Map::getTile(double x, double y){
         int r,c;
