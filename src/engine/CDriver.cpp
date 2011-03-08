@@ -2,6 +2,15 @@
 #include "GameInfo.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
+#include "ContextMenu.h"
+#include "GameObject.h"
+#include "Map.h"
+#include "NPC.h"
+#include "Player.h"
+#include "Projectile.h"
+#include "ResManager.h"
+#include "Tower.h"
+#include "../client/MainWindow.h"
 
 namespace td {
 
@@ -95,8 +104,8 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
     connect(gui, SIGNAL(signalKeyReleased(int)), input, SLOT(keyReleased(int)));
     // Connection for collisions -- waiting on map object
-    connect(physics, SIGNAL(requestTileInfo(int, int, int*)), 
-            gameMap_, SLOT(getTileInfo(int, int, int*)));
+    connect(physics, SIGNAL(requestTileType(double, double, int*)), 
+            gameMap_, SLOT(getTileType(double, double, int*)));
 
     request->writeByte(Player::clsIdx());
     NetworkClient::instance()->send(network::kRequestPlayerID, request->data());
@@ -160,9 +169,9 @@ void CDriver::createTower(int towerType, QPointF pos) {
 
 void CDriver::startGame() {
     // Create hard coded map
-    gameMap_     = new Map(16, 21);
-    gameMap_->loadTestMap2();
-    gameTimer_   = new QTimer(this);
+    CDriver::gameMap_     = new Map(16, 21);
+    CDriver::gameMap_->initMap();
+    CDriver::gameTimer_   = new QTimer(this);
 
     connectToServer("127.0.0.1");
     connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
@@ -178,8 +187,10 @@ void CDriver::startGame() {
             contextMenu_, SLOT(toggleMenu()));
     connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
             contextMenu_, SLOT(selectMenuItem(int)));
-    connect(mainWindow_,  SIGNAL(signalRHeld(bool)),
+    connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             contextMenu_, SLOT(viewResources(bool)));
+    connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+            npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
     connect(gameTimer_,   SIGNAL(timeout()), 
             human_,       SLOT(update()));
     /* TODO: alter temp solution */

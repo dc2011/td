@@ -32,10 +32,21 @@ void PlayerPhysicsComponent::update(Unit* player)
 /* applies velocity to position, currently moves past bounds */
 void PlayerPhysicsComponent::applyVelocity(Player* player)
 {
-    QPointF newPos = player->getPos() + player->getVelocity().toPointF();
+    //assuming body of player sprite is from 13,4 to 35, 44
 
-    if (validateMovement(newPos)) {
+    QPointF newPos = player->getPos() + player->getVelocity().toPointF();
+    QPointF upperRight = newPos + QPointF(11, -20);
+    QPointF upperLeft = newPos + QPointF(-11, -20);
+    QPointF lowerRight = newPos + QPointF(11, 20);
+    QPointF lowerLeft = newPos + QPointF(-11, 20);
+
+
+    if (validateMovement(upperRight) && validateMovement(upperLeft)
+        && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
         player->setPos(newPos);
+    }else{
+        QVector2D temp(0, 0);
+        player->setVelocity(temp);
     }
 }
 
@@ -162,10 +173,7 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
 bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
     int blockingType = 0;
 
-    int row = floor(newPos.y() / TILE_HEIGHT);
-    int col = floor(newPos.x() / TILE_WIDTH);
-
-    emit requestTileInfo(row, col, &blockingType);
+    emit requestTileType(newPos.x(), newPos.y(), &blockingType);
 
     if (blockingType == OPEN) {
         return true;
@@ -187,35 +195,30 @@ bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
 
 bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
 
-    double posXWhole;
-    double posXFract;
-    double posYWhole;
-    double posYFract;
-
-    posXWhole = modf(pos.x(), &posXFract);
-    posYWhole = modf(pos.y(), &posYFract);
+    float posX = pos.x() / TILE_WIDTH;
+    float posY = pos.y() / TILE_HEIGHT;
 
     switch(type) {
         case NORTH_WEST:
-            if (posYFract < (1.0 - posXFract)) {
+            if (posY < (TILE_WIDTH - posX)) {
                 return false;
             }
             break;
 
         case NORTH_EAST:
-            if ((posXFract > posYFract)) {
+            if ((posX > posY)) {
                 return false;
             }
             break;
 
         case SOUTH_WEST:
-            if ((posXFract < posYFract)) {
+            if ((posX < posY)) {
                 return false;
             }
             break;
 
         case SOUTH_EAST:
-            if (posYFract > (1.0 - posXFract)) {
+            if (posY > (TILE_WIDTH - posX)) {
                 return false;
             }
             break;

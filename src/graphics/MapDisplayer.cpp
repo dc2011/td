@@ -58,12 +58,12 @@ public:
         setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
 #endif
 
-        qDebug() << tileLayer->height();
-        for (int i = 0; i < tileLayer->width(); i++) {
-          for (int j = 0; j < tileLayer->height(); j++) {
-            qDebug() << "x:" << i << "y:" << j << "tile: " << tileLayer->tileAt(i, j)->id();
-          }
-        }
+        //qDebug() << tileLayer->height();
+        //for (int i = 0; i < tileLayer->width(); i++) {
+        //  for (int j = 0; j < tileLayer->height(); j++) {
+        //    qDebug() << "x:" << i << "y:" << j << "tile: " << tileLayer->tileAt(i, j)->id();
+        //  }
+        //}
     }
 
     QRectF boundingRect() const {
@@ -91,7 +91,7 @@ public:
         setFlag(QGraphicsItem::ItemHasNoContents);
 #endif
         // Create a child item for each object
-        qDebug() << "Map Tiles:";
+        //qDebug() << "Map Tiles:";
         foreach(MapObject * object, objectGroup->objects()) {
           new MapObjectItem(object, renderer, this);
         }
