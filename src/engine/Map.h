@@ -13,122 +13,118 @@
 namespace td
 {
 
-    class Map : public QObject
-    {
-        Q_OBJECT
+class Map : public QObject {
+    Q_OBJECT
 
-    public:
+public:
+    explicit Map(int heightInTiles, int widthInTiles);
+    virtual ~Map() { }
 
-        explicit Map(int heightInTiles, int widthInTiles);
+private:
+    /**  */
+    QMap<int,QList<QPoint> > waypoints;
 
-        virtual ~Map() { }
+    /**  */
+    Tile ***tiles_;
 
+    /**  */
+    int heightInTiles_;
 
-    private:
+    /**  */
+    int widthInTiles_;
 
-        QMap<int,QList<QPoint> > waypoints;
+public:
+    /**
+     * This is a testing function pending a real map load function.
+     *
+     * This function will fill the tiles array and create fully blocked tiles
+     * around the edges of the map. This can be used for collision detection.
+     *
+     * @author Luke Queenan
+     */
+    void initMap();
 
-        Tile ***tiles_;
-        int heightInTiles_;
-        int widthInTiles_;
+    /**
+     * basic map creator function.
+     *
+     * @author Ian Lee
+     */
+    void loadTestMap2();
 
-    public slots:
-        /**
-      * Slot for getting a tile's list of occupying units and blocking status
-      *
-      * For now, this function will only change the blocking type.
-      *
-      * @author Luke Queenan
-      */
-        void getTileType(double column, double row, int *blockingType);
+    /**
+     * gets the row and column from coords x,y.
+     * stores in pointers row and column
+     *
+     *@author Ian Lee
+     */
+    void getTileCoords(double x, double y, int* row, int* column);
 
-    public:
+    /**
+     * gets the Tile from coords x,y.
+     *
+     * @author Ian Lee
+     */
+    Tile* getTile(double x, double y);
 
+    /**
+     * gets the Units from Tiles surounding coords x,y in radius.
+     * currently radius is an int -> number of tiles away
+     *
+     * @author Ian Lee
+     */
+    QSet<Unit*> getUnits(double x, double y, double radius);
 
-
-        /**
-      * This is a testing function pending a real map load function.
-      *
-      * This function will fill the tiles array and create fully blocked tiles
-      * around the edges of the map. This can be used for collision detection.
-      *
-      * @author Luke Queenan
-      */
-        void initMap();
-        /**
-      *  basic map creator function.
+    /**
+      * gets all waypoints stored.
       *
       * @author Ian Lee
       */
-        void loadTestMap2();
+    QMap<int,QList<QPoint> > getAllWaypoints(){
+        return waypoints;
+    }
 
-        /**
+    /**
+     * gets waypoints associated with key
+     *
+     * @author Ian Lee
+     */
+    QList<QPoint> getWaypoints(int key){
+        return waypoints[key];
+    }
 
-      * gets the row and column from coords x,y.
-      * stores in pointers row and column
+    /**
+     * inserts waypoint list to qmap
+     *
+     * @author Ian Lee
+     */
+    void addWaypoints(int key ,QList<QPoint> newSet){
+        waypoints.insert(key, newSet);
+    }
+
+    /**
+      * Adds a pointer to a unit to the specified tile.
       *
-      *@author Ian Lee
+      * @author Luke Queenan
       */
-        void getTileCoords(double x, double y, int* row, int* column);
-        /**
+    void addUnit(double x, double y, Unit *unitToAdd);
 
-      * gets the Tile from coords x,y.
+    /**
+      * Removes the unit from the specified tile.
       *
-      *
-      *@author Ian Lee
+      * @author Luke Queenan
       */
-        Tile* getTile(double x, double y);
+    void removeUnit(double x, double y, Unit *unitToRemove);
 
-        /**
-
-      * gets the Units from Tiles surounding coords x,y in radius.
-      * currently radius is an int -> number of tiles away
-      *
-      *@author Ian Lee
-      */
-        QSet<Unit*> getUnits(double x, double y, double radius);
-
-        /**
-          * gets all waypoints stored.
-          *
-          * @author Ian Lee
-          */
-        QMap<int,QList<QPoint> > getAllWaypoints(){
-            return waypoints;
-        }
-
-        /**
-          * gets waypoints associated with key
-          *
-          *@author Ian Lee
-          */
-        QList<QPoint> getWaypoints(int key){
-            return waypoints[key];
-        }
-        /**
-          * inserts waypoint list to qmap
-          *
-          *@author Ian Lee
-          */
-        void addWaypoints(int key ,QList<QPoint> newSet){
-            waypoints.insert(key, newSet);
-        }
-
-        /**
-          * Adds a unit to the tile at the specified coordinates.
-          *
-          * @author Luke Queenan
-          */
-        void addUnit(double x, double y, Unit* unitToAdd);
-
-        /**
-          * Removes a unit from the tile at the specified coordinates.
-          *
-          * @author Luke Queenan
-          */
-        void removeUnit(double x, double y, Unit* unitToRemove);
-
-    };
+public slots:
+    /**
+     * Slot for getting a tile's list of occupying units and blocking status
+     *
+     * For now, this function will only change the blocking type.
+     *
+     * @author Luke Queenan
+     */
+    void getTileType(double column, double row, int *blockingType);
+};
 
 }
 

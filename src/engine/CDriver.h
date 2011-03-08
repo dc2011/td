@@ -139,6 +139,12 @@ public:
      * @return the game timer
      */
     static QTimer* getTimer();
+
+
+
+    Map* getGameMap(){
+        return gameMap_;
+    }
     
 public slots:
     /**
