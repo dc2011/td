@@ -109,7 +109,12 @@ public:
         input_->setParent(this);
     }
 
-
+    /**
+      * Add & Remove unit from Tile list when changing positions.
+      *
+      * @author Ian Lee
+      * @param newPos The new position for the unit.
+      */
     void changeTile(QPointF newPos);
 
 protected:

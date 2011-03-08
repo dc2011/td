@@ -3,17 +3,19 @@
 
 #include <QTimer>
 #include <QPointF>
-#include "ContextMenu.h"
-#include "GameObject.h"
-#include "Map.h"
-#include "NPC.h"
-#include "Player.h"
-#include "Projectile.h"
-#include "ResManager.h"
-#include "Tower.h"
-#include "../client/MainWindow.h"
 
 namespace td {
+
+class ContextMenu;
+class GameObject;
+class Map;
+class NPC;
+class Player;
+class Projectile;
+class ResManager;
+class Tower;
+class MainWindow;
+class Stream;
 
 class CDriver : public QObject {
     Q_OBJECT
@@ -141,7 +143,11 @@ public:
     static QTimer* getTimer();
 
 
-
+    /**
+    * Getter for gameMap_
+    *
+    * @author Ian Lee
+    */
     Map* getGameMap(){
         return gameMap_;
     }

@@ -2,6 +2,15 @@
 #include "GameInfo.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
+#include "ContextMenu.h"
+#include "GameObject.h"
+#include "Map.h"
+#include "NPC.h"
+#include "Player.h"
+#include "Projectile.h"
+#include "ResManager.h"
+#include "Tower.h"
+#include "../client/MainWindow.h"
 
 namespace td {
 

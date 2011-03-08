@@ -44,11 +44,43 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     if (validateMovement(upperRight) && validateMovement(upperLeft)
         && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
         // Determine if the Player needs to update its tile position.
-        //player->changeTile(newPos);
+        player->changeTile(newPos);
         player->setPos(newPos);
     }else{
-        QVector2D temp(0, 0);
-        player->setVelocity(temp);
+        //int blockingType = 0;
+        //emit requestTileType(newPos.x(), newPos.y(), &blockingType);
+        QPointF newx = QPointF(player->getVelocity().toPointF().x(),0);
+
+
+        newPos = player->getPos() + newx;
+        upperRight = newPos + QPointF(11, -20);
+        upperLeft = newPos + QPointF(-11, -20);
+        lowerRight = newPos + QPointF(11, 20);
+        lowerLeft = newPos + QPointF(-11, 20);
+        if (validateMovement(upperRight) && validateMovement(upperLeft)
+            && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
+            // Determine if the Player needs to update its tile position.
+            player->changeTile(newPos);
+            player->setPos(newPos);
+        } else{
+            QPointF newy = QPointF(0,player->getVelocity().toPointF().y());
+            newPos = player->getPos() + newy;
+            upperRight = newPos + QPointF(11, -20);
+            upperLeft = newPos + QPointF(-11, -20);
+            lowerRight = newPos + QPointF(11, 20);
+            lowerLeft = newPos + QPointF(-11, 20);
+            if (validateMovement(upperRight) && validateMovement(upperLeft)
+                && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
+                // Determine if the Player needs to update its tile position.
+                player->changeTile(newPos);
+                player->setPos(newPos);
+            } else {
+                QVector2D temp(0, 0);
+                player->setVelocity(temp);
+            }
+
+        }
+
     }
 }
 
