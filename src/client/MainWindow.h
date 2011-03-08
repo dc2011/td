@@ -102,7 +102,7 @@ public slots:
      * @author Darryl Pogue
      * @param gc The GraphicsComponent of the game object.
      */
-    void drawItem(DrawParams* dp, GraphicsComponent* gc);
+    void drawItem(DrawParams* dp, GraphicsComponent* gc, int layer);
     void animateItem(GraphicsComponent* gc);
     
     /**

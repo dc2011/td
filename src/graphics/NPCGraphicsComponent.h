@@ -33,6 +33,9 @@ public:
      * @author Warren Voelkl
      */
     virtual void initPixmaps();
+
+protected:
+
     /**
      * The primary method used to determine the behaviours of animation
      *
@@ -41,16 +44,7 @@ public:
     virtual void animate();
 
 private:
-    /**
-     * Slows down how often the images animate from the timer.
-     */
-    int animateMod;
 
-    /**
-     * The number of times the timer has ticked.
-     */
-    int animateCount;
-    
     /**
      * True if the health of the NPC should be displayed.
      */

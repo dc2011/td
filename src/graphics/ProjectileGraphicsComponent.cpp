@@ -25,14 +25,14 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
     //player->getVelocity().length() != 0;
     dp->scale   = projectile->getScale(); // will likely be a constant value here
     dp->degrees = projectile->getOrientation();
-    emit signalDraw(dp, this);
+    emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 
 void ProjectileGraphicsComponent::initPixmaps() {
     //TODO: add animation images here
-    pixmapImgs = new QPixmap[PIX_PROJECTILE_3_MAX];
-    pixmapIndex = 0;
-    pixmapImgs[pixmapIndex] = PIX_PROJECTILE_3_0;
+    pixmapImgs_ = new QPixmap[PIX_PROJECTILE_3_MAX];
+    pixmapIndex_ = 0;
+    pixmapImgs_[pixmapIndex_] = PIX_PROJECTILE_3_0;
 
 }
 

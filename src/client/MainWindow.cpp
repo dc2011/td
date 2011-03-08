@@ -12,6 +12,7 @@ MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
 
+    scene_->setItemIndexMethod(QGraphicsScene::NoIndex);
     keysHeld_ = 0;
     keysTimer_ = new QTimer(this);
     keysTimer_->start(50);
@@ -52,8 +53,8 @@ void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
     scene_->addItem(gc->initGraphicsComponent());
 }
 
-void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc) {
-    gc->draw(dp);
+void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc, int layer) {
+    gc->draw(dp,layer);
 }
 
 
