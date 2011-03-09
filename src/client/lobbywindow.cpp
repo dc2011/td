@@ -11,8 +11,11 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->btnConnect, SIGNAL(triggered()),
+    connect(ui->btnConnect, SIGNAL(clicked()),
             this, SLOT(connectLobby()));
+
+    connect(this, SIGNAL(startGame()),
+            this, SLOT(close()));
 }
 
 LobbyWindow::~LobbyWindow()
@@ -22,12 +25,24 @@ LobbyWindow::~LobbyWindow()
 
 void LobbyWindow::connectLobby()
 {
-    QString ip = ui->lblAddress->text();
+    ui->txtAddress->setDisabled(true);
+    ui->txtUsername->setDisabled(true);
+    ui->btnConnect->setDisabled(true);
+
+    QString ip = ui->txtAddress->text();
     QHostAddress addr(ip);
 
     NetworkClient::init(addr);
     connect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
             this, SLOT(onTCPReceived(Stream*)));
+
+    Stream* s = new Stream();
+    s->writeShort(0x0001);
+    s->writeByte(ui->txtUsername->text().length());
+    s->write(ui->txtUsername->text().toAscii());
+
+    NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
+    delete s;
 }
 
 void LobbyWindow::onTCPReceived(Stream* s)
@@ -39,6 +54,10 @@ void LobbyWindow::onTCPReceived(Stream* s)
         {
             int players = s->readInt();
             ui->lblDisplayCount->setText(QString::number(players));
+
+            if (players == 1) {
+                emit startGame();
+            }
             break;
         }
         case network::kBadVersion:

@@ -151,6 +151,16 @@ public:
     Map* getGameMap(){
         return gameMap_;
     }
+
+    /**
+     * Returns the main window for the game display.
+     *
+     * @author Darryl Pogue
+     * @return The game window.
+     */
+    MainWindow* getWindow() const {
+        return mainWindow_;
+    }
     
 public slots:
     /**

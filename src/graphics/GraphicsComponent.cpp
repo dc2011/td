@@ -9,8 +9,8 @@ QMutex GraphicsComponent::mutex_;
     
 GraphicsComponent::GraphicsComponent() {
     
-    mainWindow_ = td::MainWindow::instance();
-    //td::MainWindow* main = td::MainWindow::instance();
+    mainWindow_ = td::CDriver::instance()->getWindow();
+
     connect(this, SIGNAL(created(GraphicsComponent*)), 
             mainWindow_, SLOT(createGraphicRepr(GraphicsComponent*)));
     connect(this, SIGNAL(signalDraw(DrawParams*, GraphicsComponent*, int)), 

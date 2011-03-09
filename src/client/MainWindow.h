@@ -24,8 +24,6 @@ class MainWindow : public QMainWindow {
 
 private:
 
-    MainWindow();
-    virtual ~MainWindow();
     
     /**
      * The single instance of this class that can be created.
@@ -59,6 +57,8 @@ private:
     MapDisplayer * mapDisplayer_;
 
 public:
+    MainWindow();
+    virtual ~MainWindow();
     /**
      * Creates an instance of the class if one doesn't exist yet.
      *
@@ -120,6 +120,10 @@ public slots:
      * @author Terence Stenvold
      */
     void keyHeld();
+
+    void openWindow() {
+        this->show();
+    }
 
 signals:
     void signalKeyPressed(int);

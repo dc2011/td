@@ -66,7 +66,6 @@ NetworkClient::~NetworkClient()
 
     if (tcpSocket_->isOpen()) {
         tcpSocket_->disconnectFromHost();
-        tcpSocket_->waitForDisconnected(1000);
     }
     delete tcpSocket_;
 

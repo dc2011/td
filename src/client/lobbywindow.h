@@ -20,7 +20,7 @@ public:
     ~LobbyWindow();
 
 signals:
-    void startGame(QHostAddress addr);
+    void startGame();
 
 public slots:
     void connectLobby();
