@@ -12,6 +12,7 @@
 #include <math.h>
 
 namespace Tiled {
+class ObjectGroup;
 class Map;
 }
 
@@ -107,9 +108,18 @@ public:
      *
      * @author Ian Lee
      */
-    void addWaypoints(int key ,QList<QPointF> newSet){
-        waypoints.insert(key, newSet);
+    void addWaypoints(int key ,QList<QPointF>* newSet){
+        waypoints.insert(key, *newSet);
     }
+
+    /**
+     * Makes a list of waypoints based on QPointF and adds it to the Map.
+     *
+     * @author Marcel Vangrootheest
+     * @param key to identify enemy type
+     * @param path the object layer from tiled
+     */
+    void makeWaypoints(int key, Tiled::ObjectGroup* path);
 
     /**
       * Adds a pointer to a unit to the specified tile.

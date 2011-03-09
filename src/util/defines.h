@@ -15,6 +15,19 @@
 #define TILE_BASE       3
 #define TILE_RESOURCE   4
 
+//NPC path key for waypoints
+#define WP_TRICERATOPS  0
+#define WP_ANKLYO       1
+#define WP_SABERTOOTH   2
+#define WP_COMPIES      3
+#define WP_BRONTO       4
+#define WP_TREX         5
+#define WP_STEGO        6
+#define WP_GODZILLA     7
+#define WP_SOG_RAPTOR   8
+#define WP_MAMMOTH      9
+#define WP_PTERO        10
+
 // Temp defines pending a map object
 #define MAP_ROWS 99
 #define MAP_COLS 99

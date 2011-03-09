@@ -26,6 +26,8 @@ namespace td{
         Tiled::Tile * tile = NULL;
         Tiled::TileLayer * tileLayer = tMap_->layerAt(0)->asTileLayer();
         Tiled::TileLayer * towerLayer = tMap_->layerAt(1)->asTileLayer();
+        //Tiled::TileLayer * resLayer = tMap_->layerAt(2)->asTileLayer();
+        Tiled::ObjectGroup * path = tMap_->layerAt(3)->asObjectGroup();
         size_t height = tileLayer->height();
         size_t width = tileLayer->width();
 
@@ -42,10 +44,26 @@ namespace td{
                 if (towerLayer->contains(col, row)
                         && towerLayer->tileAt(col, row) != NULL) {
                     tiles_[row][col]->setActionType(TILE_BUILDABLE);
-                    qDebug("TowerTile at: %d, %d", col, row);
+                    //qDebug("TowerTile at: %d, %d", col, row);
                 }
             }
         }
+        makeWaypoints(WP_PTERO, path);
+
+    }
+
+    void Map::makeWaypoints(int key, Tiled::ObjectGroup* path) {
+        int i = 0;
+        QList<QPointF>* newPath = new QList<QPointF>();
+        QColor c = QColor();
+
+        //Doesn't actually make it green. But still useful.
+        path->setColor(c.green());
+        for (i = 0; i < path->objects().size(); i++) {
+            newPath->push_back(QPointF(path->objects().at(i)->x(),
+                        path->objects().at(i)->y()));
+        }
+        addWaypoints(key, newPath);
     }
 
     void Map::loadTestMap2(){
