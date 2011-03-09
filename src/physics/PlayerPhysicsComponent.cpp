@@ -38,6 +38,13 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     //assuming body of player sprite is from 13,4 to 35, 44
 
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
+
+
+    Map* gameMap = td::CDriver::instance()->getGameMap();
+    QSet<Tile*> targetTiles = gameMap->getTiles(newPos, 2);
+
+
+
     QPointF upperRight;
     QPointF upperLeft;
     QPointF lowerRight;
@@ -56,17 +63,42 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
         lowerRight = newPos + QPointF(20, 11);
         lowerLeft = newPos + QPointF(-20, 11);
     }
+    //QPolygonF polygon = new QPolygonF(upperRight, upperLeft, lowerLeft, lowerRight);
+    bool flag = false;
+    foreach (Tile* targetTile ,targetTiles){
+        /*
+        QPolygonF otherpolygon = targetTile->getBounds();
+        if(polygon.intersected(otherpolygn).count() != 0){
+            flag = true;
+            break;
+        }
 
+        */
+    }
+
+    /*
+    if (!flag) {
+        player->changeTile(newPos);
+        player->setPos(newPos);
+
+        npcs = map->getUnits(newPos.x(), newPos.y(), 3);
+        checkNPCCollision(npcs);
+
+    }
+
+
+
+      */
     if (validateMovement(upperRight) && validateMovement(upperLeft)
         && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
         // Determine if the Player needs to update its tile position.
         player->changeTile(newPos);
         player->setPos(newPos);
+
         npcs = map->getUnits(newPos.x(), newPos.y(), 3);
         checkNPCCollision(npcs);
+
     }else{
-        //int blockingType = 0;
-        //emit requestTileType(newPos.x(), newPos.y(), &blockingType);
         QPointF newx = QPointF(player->getVelocity().toPointF().x(),0);
 
 

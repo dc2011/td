@@ -40,7 +40,9 @@ void Tile::setInitialBounds(int row, int column, blockingType type)
     switch (type)
     {
     case CLOSED:
+
         myBounds_ = QPolygonF(12);
+
     }
 }
 

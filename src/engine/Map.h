@@ -84,6 +84,12 @@ public:
      * @param coords The coordinates to find the tile with.
      */
     Tile* getTile(QPointF coords);
+    /**
+     * Gets the Tiles surounding coordinates coords in radius.
+     *
+     * @author Ian Lee
+     */
+    QSet<Tile*> getTiles(QPointF coords, int radius);
 
     /**
      * gets the Units from Tiles surounding coords x,y in radius.
