@@ -2,10 +2,13 @@
 #include "../engine/Player.h"
 #define PI 3.141592653589793238
 #include <math.h>
-
-#ifndef SERVER
+#include "../engine/Map.h"
+#include "../engine/Tile.h"
 #include "../engine/CDriver.h"
-#endif
+
+/*#ifndef SERVER
+#include "../engine/CDriver.h"
+#endif*/
 
 namespace td {
 
@@ -35,18 +38,32 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     //assuming body of player sprite is from 13,4 to 35, 44
 
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
-    QPointF upperRight = newPos + QPointF(11, -20);
-    QPointF upperLeft = newPos + QPointF(-11, -20);
-    QPointF lowerRight = newPos + QPointF(11, 20);
-    QPointF lowerLeft = newPos + QPointF(-11, 20);
-    std::set<Unit*> npcs;
+    QPointF upperRight;
+    QPointF upperLeft;
+    QPointF lowerRight;
+    QPointF lowerLeft;
+    Map* map = td::CDriver::instance()->getGameMap();
+    QSet<Unit*> npcs;
+
+    if(player->getOrientation() == 0 || player->getOrientation() == 180){
+        upperRight = newPos + QPointF(11, -20);
+        upperLeft = newPos + QPointF(-11, -20);
+        lowerRight = newPos + QPointF(11, 20);
+        lowerLeft = newPos + QPointF(-11, 20);
+    }else{
+        upperRight = newPos + QPointF(20, -11);
+        upperLeft = newPos + QPointF(-20, -11);
+        lowerRight = newPos + QPointF(20, 11);
+        lowerLeft = newPos + QPointF(-20, 11);
+    }
 
     if (validateMovement(upperRight) && validateMovement(upperLeft)
         && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
         // Determine if the Player needs to update its tile position.
         player->changeTile(newPos);
         player->setPos(newPos);
-        //npcs = Map.getUnits(newPos.x(), newPos.y(), 3);
+        npcs = map->getUnits(newPos.x(), newPos.y(), 3);
+        checkNPCCollision(npcs);
     }else{
         //int blockingType = 0;
         //emit requestTileType(newPos.x(), newPos.y(), &blockingType);
@@ -266,9 +283,9 @@ bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
     return true;
 }
 
-void PlayerPhysicsComponent::checkNPCCollision(std::set<Unit*> npcs){
+void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs){
 
-    std::set<Unit*>::iterator it;
+    QSet<Unit*>::iterator it;
     for(it = npcs.begin(); it != npcs.end(); ++it){
         //if(collider_.intersectBox(it.bounds)){
         //  add stun effect to player
