@@ -18,7 +18,7 @@ public:
      * Instantiates a Tower graphics component
      * @author Warren Voelkl
      */
-    TowerGraphicsComponent();
+    TowerGraphicsComponent(QString pixmapPath);
     virtual ~TowerGraphicsComponent();
 
     /**
@@ -36,9 +36,12 @@ public:
      */
     virtual void initPixmaps();
 
-protected:
-    /** TODO: remove, for testing only */
-    int angle_;
+private:
+    /** 
+     * TODO: remove, hack to get multiple towers working until Warren figures
+     * out the static image issue. 
+     */
+    QString pixmapPath_;
 };
 
 } /* end namespace td */
