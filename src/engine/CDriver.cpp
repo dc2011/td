@@ -226,12 +226,13 @@ void CDriver::endGame() {
 }
 
 void CDriver::handleSpacebarPress() {
-    int tileType = gameMap_->getTile(human_->getPos())->getActionType();
+    Tile* currentTile = gameMap_->getTile(human_->getPos());
 
-    switch (tileType) {
+    switch (currentTile->getActionType()) {
 
         case TILE_BUILDABLE:
             contextMenu_->toggleMenu();
+            currentTile->setActionType(TILE_BUILT); 
             break;
         case TILE_BUILT:
         case TILE_BASE:
