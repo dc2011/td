@@ -3,17 +3,18 @@
 #include <QApplication>
 #include <QVector>
 #include <QWidget>
+#include "NPC.h"
 #include "SDriver.h"
 
 namespace td {
 
 SDriver::SDriver() {
-    gameTimer_ = new QTimer(this);
+    waveTimer_ = new QTimer(this);
     mgr_ = new ResManager();
 }
 
 SDriver::~SDriver() {
-    delete gameTimer_;
+    delete waveTimer_;
     delete mgr_;
 }
 
@@ -22,12 +23,13 @@ void SDriver::startGame() {
     connect(NetworkServer::instance(), SIGNAL(UDPReceived(Stream*)), 
 		    this, SLOT(onUDPReceive(Stream*)));
 
-    this->gameTimer_->start(50);
+    this->waveTimer_->start(15000);
+    connect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 }
 
 void SDriver::endGame() {
     NetworkServer::shutdown();
-    this->gameTimer_->stop();
+    this->waveTimer_->stop();
 }
 
 GameObject* SDriver::updateObject(Stream* s) {
@@ -45,7 +47,17 @@ GameObject* SDriver::updateObject(Stream* s) {
 
     return go;
 }
-
+void SDriver::spawnWave() {
+    qDebug("spawned wave");
+    for(int i=0; i < 20; ++i) {
+	    Stream* out = new Stream();
+	    NPC* n;
+	    n = (NPC*)mgr_->createObject(NPC::clsIdx());
+	    n->networkWrite(out);
+	    NetworkServer::instance()->send(network::kServerCreateObj, out->data());
+	    delete out;
+    }
+}
 void SDriver::onUDPReceive(Stream* s) {
     int message = s->readByte(); /* Message Type */
     GameObject* go = NULL;
@@ -62,14 +74,14 @@ void SDriver::onUDPReceive(Stream* s) {
             break;
         }
         case network::kRequestTowerID:
-	{
-	    unsigned char type = s->readByte();
-	    go = mgr_->createObject(type);
-	    out->writeInt(go->getID());
-            NetworkServer::instance()->send(network::kAssignTowerID,
-                    out->data());
-	    break;
-	}
+	    {
+	        unsigned char type = s->readByte();
+	        go = mgr_->createObject(type);
+	        out->writeInt(go->getID());
+                NetworkServer::instance()->send(network::kAssignTowerID,
+                        out->data());
+	        break;
+	    }
         default:
         {
             go = this->updateObject(s);

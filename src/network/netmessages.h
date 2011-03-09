@@ -46,6 +46,10 @@ namespace network {
 
         /** Server Assigns ID to a Player **/
         kAssignPlayerID = 0x84,
+	
+        /** Server has created an object, sending object state to player **/
+        kServerCreateObj = 0x85,
+	
 
     };
 

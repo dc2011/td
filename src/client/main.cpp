@@ -1,5 +1,5 @@
-#include <QObject>
 #include <QApplication>
+#include <QObject>
 #include <QThreadPool>
 #include "MainWindow.h"
 #include "lobbywindow.h"
@@ -45,7 +45,6 @@ int main(int argc, char **argv) {
     td::CDriver::shutdown();
     td::NetworkClient::instance()->shutdown();
     delete lobby;
-
     return exitCode;
 }
 
