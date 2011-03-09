@@ -33,7 +33,7 @@ MainWindow::MainWindow() : QMainWindow() {
 
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
-    scene_->setSceneRect(0,0,WINSIZEX,WINSIZEY);
+    scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
     view_->setFixedSize(mapSize.width(), mapSize.height());
     //this->showFullScreen();
     
