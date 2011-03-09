@@ -78,10 +78,10 @@ void Tile::addUnit(Unit *unitToAdd)
   */
 void Tile::removeUnit(Unit *unitToRemove)
 {
-    currentUnits_.erase(unitToRemove);
+    currentUnits_.remove(unitToRemove);
 }
 
-std::set<Unit*> Tile::getUnit(){
+QSet<Unit*> Tile::getUnits(){
     return currentUnits_;
 
 }
