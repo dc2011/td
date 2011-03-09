@@ -7,7 +7,7 @@ namespace td {
 NPCInputComponent::NPCInputComponent() {
     // initialize segment with first two waypoints
     waypoints_ = QList<QPointF>();
-    waypoints_.push_back(QPointF(888,625));
+    waypoints_.push_back(QPointF(50,50));
     waypoints_.push_back(QPointF(885,99));
     waypoints_.push_back(QPointF(136,99));
     waypoints_.push_back(QPointF(100,529));
