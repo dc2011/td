@@ -1,13 +1,13 @@
-/** Movement Physics for basic Projectile */
+/** Movement Physics for basic Tower */
 #ifndef TOWERPHYSICSCOMPONENT_H
 #define TOWERPHYSICSCOMPONENT_H
 
 #include "PhysicsComponent.h"
-#include "../engine/CDriver.h"
 #include "../engine/GameObject.h"
 #include "../engine/Unit.h"
 #include "../engine/Map.h"
 #include "../engine/TileExtension.h"
+#include "../engine/CDriver.h"
 #include <QPointF>
 #include <set>
 
@@ -43,7 +43,8 @@ public:
     void findTargets(GameObject* tower);
 
     void setNPCs(GameObject* tower, int radius) {
-        enemies_ = Map.getUnits(tower->getPos().x() ,tower->getPos().y() , radius);
+        Map* map = CDriver::instance()->getMap();
+        enemies_ = map->getUnits(tower->getPos().x() ,tower->getPos().y() , radius);
     }
 
     std::set<Unit*> getNPCs() {
@@ -57,6 +58,7 @@ public:
     Unit* getEnemy() {
         return enemy_;
     }
+
 
 private:
     /* data */

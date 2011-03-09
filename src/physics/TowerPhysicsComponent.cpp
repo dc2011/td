@@ -1,14 +1,10 @@
 #include "../physics/TowerPhysicsComponent.h"
 #include "../engine/Tower.h"
-#include "../engine/Unit.h"
-#include <set>
-#include <QPointF>
  #include <QLineF>
 #define PI 3.141592653589793238
 #include <math.h>
 
 namespace td {
-//TowerPhysicsComponent::~TowerPhysicsComponent() {}
 
 void TowerPhysicsComponent::update(GameObject *tower) {
     this->applyDirection((Tower*)tower);
@@ -43,7 +39,7 @@ void TowerPhysicsComponent::findTargets(GameObject* tower) {
 void TowerPhysicsComponent::applyDirection(GameObject* tower) {
 
 
-    this->findTargets(tower);
+    //this->findTargets(tower);
     int angle = 0;
     int degree = 0;
     int velX = getEnemy()->getPos().x() - this->getPos().x();
