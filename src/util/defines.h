@@ -1,6 +1,15 @@
 #ifndef TD_DEFINES_H
 #define TD_DEFINES_H
 
+// TD Version
+// Update this whenever an incompatible change is made, to ensure that features
+// are matched between clients and the server
+#define TD_VERSION      0x0001
+
+// Network information
+#define TD_PORT 26631
+#define TD_GROUP QHostAddress("232.22.42.1")
+
 // based on the number keys used to select the tower
 #define TOWER_ARROW     49
 #define TOWER_CANNON    50
