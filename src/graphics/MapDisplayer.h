@@ -9,6 +9,8 @@ class Map;
 class MapRenderer;
 }
 
+namespace td {
+
 class MapDisplayer : public QGraphicsView {
     Q_OBJECT
 
@@ -17,6 +19,7 @@ public:
     ~MapDisplayer();
     void viewMap(const QString& fileName);
     Tiled::Map* map() { return mMap; }
+    Tiled::MapRenderer* getMRenderer() { return mRenderer; }
 
 private:
     QGraphicsScene* mScene;
@@ -24,4 +27,5 @@ private:
     Tiled::MapRenderer* mRenderer;
 };
 
-#endif // TMXVIEWER_H
+} // namespace td
+
