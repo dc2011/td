@@ -63,20 +63,25 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
         lowerRight = newPos + QPointF(20, 11);
         lowerLeft = newPos + QPointF(-20, 11);
     }
-    //QPolygonF polygon = new QPolygonF(upperRight, upperLeft, lowerLeft, lowerRight);
+    QVector<QPointF> points = QVector<QPointF>();
+    points.append(upperRight);
+    points.append(upperLeft);
+    points.append(lowerLeft);
+    points.append(lowerRight);
+    QPolygonF polygon = QPolygonF(points);
     bool flag = false;
     foreach (Tile* targetTile ,targetTiles){
-        /*
+
         QPolygonF otherpolygon = targetTile->getBounds();
-        if(polygon.intersected(otherpolygn).count() != 0){
+        if(polygon.intersected(otherpolygon).count() != 0){
             flag = true;
             break;
         }
 
-        */
+
     }
 
-    /*
+
     if (!flag) {
         player->changeTile(newPos);
         player->setPos(newPos);
@@ -88,7 +93,7 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
 
 
 
-      */
+/*
     if (validateMovement(upperRight) && validateMovement(upperLeft)
         && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
         // Determine if the Player needs to update its tile position.
@@ -132,7 +137,7 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
 
         }
 
-    }
+    }*/
 }
 
 void PlayerPhysicsComponent::applyForce(Player* player)
