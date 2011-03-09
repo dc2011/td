@@ -5,7 +5,7 @@
 #include <QPointF>
 
 #include "GameObject.h"
-
+#include "../physics/Bounds.h"
 
 namespace td {
 
@@ -21,6 +21,8 @@ public:
     static unsigned char clsIdx() {
         return td::clsidx::kUnit;
     }
+
+    td::Bounds *myBounds_;
 
 private:
     enum {
