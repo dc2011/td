@@ -1,5 +1,5 @@
-#ifndef TILE_H
-#define TILE_H
+#ifndef TD_TILE_H
+#define TD_TILE_H
 
 // System includes
 #include <QObject>
