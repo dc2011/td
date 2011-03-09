@@ -198,7 +198,7 @@ void CDriver::startGame() {
     connect(contextMenu_, SIGNAL(signalPlayerMovement(bool)),
 	    human_->getInputComponent(), SLOT(playerMovement(bool)));
     connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
-            contextMenu_, SLOT(toggleMenu()));
+            this,         SLOT(handleSpacebarPress()));
     connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
             contextMenu_, SLOT(selectMenuItem(int)));
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
@@ -223,6 +223,21 @@ void CDriver::endGame() {
     disconnectFromServer();
 
     this->gameTimer_->stop();
+}
+
+void CDriver::handleSpacebarPress() {
+    int tileType = gameMap_->getTile(human_->getPos())->getActionType();
+
+    switch (tileType) {
+
+        case TILE_BUILDABLE:
+            contextMenu_->toggleMenu();
+            break;
+        case TILE_BUILT:
+        case TILE_BASE:
+        case TILE_RESOURCE:
+            break;
+    }
 }
 
 QTimer* CDriver::getTimer() {
