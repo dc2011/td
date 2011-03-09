@@ -3,6 +3,7 @@
 
 #include <QTimer>
 #include <QPointF>
+#include <QSet>
 
 namespace td {
 
@@ -16,6 +17,7 @@ class ResManager;
 class Tower;
 class MainWindow;
 class Stream;
+class Unit;
 
 class CDriver : public QObject {
     Q_OBJECT
@@ -33,8 +35,10 @@ private:
     Map* gameMap_;
      /** A context menu that appears around the player. */
     ContextMenu* contextMenu_;
-     /** An enemy unit. */
-    NPC* npc_;
+     /** An set of enemy units. */
+    QSet<NPC*> npc_;
+     /** Keeps track of how many NPCs there currently are. */
+    size_t npcCounter_;
      /** A projectile fired from a tower. */
     Projectile* projectile_;
      /** A tower built by the players. */
@@ -123,8 +127,9 @@ public:
     /**
      * creates npc object
      * @author Marcel Vangrootheest
+     * @returns the reference to an NPC
      */
-    void createNPC();
+    NPC* createNPC();
 
     /**
      * Stop game timer.
@@ -141,6 +146,26 @@ public:
      * @return the game timer
      */
     static QTimer* getTimer();
+
+
+    /**
+    * Getter for gameMap_
+    *
+    * @author Ian Lee
+    */
+    Map* getGameMap(){
+        return gameMap_;
+    }
+
+    /**
+     * Gets a pointer to the main window where all graphics are drawn.
+     *
+     * @author Dean Morin, Darryl Pogue. Special thanks to Marcel Vangrootheest.
+     * @return The main window where all graphics are drawn.
+     */
+    MainWindow* getMainWindow() {
+        return mainWindow_;
+    }
     
 public slots:
     /**
@@ -153,13 +178,17 @@ public slots:
     */
     void startGame();
 
+    /**
+     * Called whenenever the spacebar is pressed. It checks the tile type that
+     * the player is currently standing on, and performs the appropriate action.
+     */
+    void handleSpacebarPress();
+
 private slots:
     /**
      * Creates a projectile object.
      *
-     * @author Pan Khantidhara
-     * @param int A key pressed. Doesn't really use it.
-     * @return Pointer to new projectile instance.
+     * @author Pan Khantidhara, Marcel Vangrootheest
      */
     void createProjectile();
 
@@ -175,6 +204,19 @@ private slots:
      * @author Duncan Donaldson
      */
     void UDPReceived(Stream* s);
+
+    /**
+     * Creates Npc objects based on the game tick.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void NPCCreator();
+    /**
+     * Deletes NPC later
+     *
+     * @author Marcel Vangrootheest
+     */
+    void NPCDeleter(Unit*);
 };
 
 } /* end namespace td */

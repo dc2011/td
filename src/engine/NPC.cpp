@@ -1,17 +1,6 @@
 #include "NPC.h"
-
+#include "CDriver.h"
 namespace td {
-
-NPC::NPC(InputComponent* input,PhysicsComponent* physics, GraphicsComponent* graphics) {
-    physics_ = physics;
-    graphics_ = graphics;
-    QVector2D force(0, 0);
-    this->setForce(force);
-    input_ = input;
-    input_->setParent(this);
-    pos_.setX(50);
-    pos_.setY(50);
-}
 
 NPC::NPC() {
     QVector2D force(0, 0);
@@ -37,10 +26,22 @@ void NPC::setDamage(size_t damage) {
     damage_ = damage;
 }
 
+void NPC::initComponents() {
+    PhysicsComponent* physics = new NPCPhysicsComponent();
+    GraphicsComponent* graphics = new NPCGraphicsComponent();
+    NPCInputComponent* input = new NPCInputComponent();
+
+    input->setParent(this);
+    this->setInputComponent(input);
+    this->setPhysicsComponent(physics);
+    this->setGraphicsComponent(graphics);
+}
+
 void NPC::update() {
     input_->update();
     physics_->update(this);
     graphics_->update(this);
+    CDriver::updateServer(this);
 }
 
 } /* end namespace td */

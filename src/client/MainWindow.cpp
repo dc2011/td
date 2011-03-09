@@ -1,12 +1,13 @@
 #include "MainWindow.h"
 #include <QScrollArea>
-#include "../graphics/MapDisplayer.h"
+#include <QSize>
 #include "../audio/manager.h"
 #include "../graphics/GraphicsComponent.h"
+#include "../graphics/MapDisplayer.h"
+#include "maprenderer.h"
+#include "map.h"
 
 namespace td {
-
-MainWindow* MainWindow::instance_ = NULL;
 
 MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
@@ -22,13 +23,16 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
 
-    MapDisplayer * mapDisplayer_ = NULL;
+    //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
-    mapDisplayer_->viewMap(QString("./maps/testmap.tmx"));
+    mapDisplayer_->viewMap(QString("./maps/netbookmap.tmx"));
+    Tiled::MapRenderer* mRenderer = mapDisplayer_->getMRenderer();
+    QSize mapSize = mRenderer->mapSize();
 
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
-    view_->setFixedSize(1024,768);
+    scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
+    view_->setFixedSize(mapSize.width(), mapSize.height());
     //this->showFullScreen();
     
     // This focus policy may be implied by default...
@@ -40,14 +44,6 @@ MainWindow::MainWindow() : QMainWindow() {
 
 MainWindow::~MainWindow() {
     /* driver_.shutdown() or something */
-}
-
-MainWindow* MainWindow::init() {
-    if (instance_ != NULL) {
-        return instance_;
-    }
-    instance_ = new MainWindow();
-    return instance_;
 }
 
 void MainWindow::createGraphicRepr(GraphicsComponent* gc) {

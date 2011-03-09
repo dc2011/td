@@ -1,34 +1,69 @@
 #include "Map.h"
+#include "Tile.h"
+#include "../graphics/MapDisplayer.h"
+#include "../client/MainWindow.h"
+
+/** Tiled headers. */
+#include "isometricrenderer.h"
+#include "map.h"
+#include "mapobject.h"
+#include "mapreader.h"
+#include "objectgroup.h"
+#include "orthogonalrenderer.h"
+#include "tilelayer.h"
+#include "tileset.h"
+#include "tile.h"
 
 namespace td{
-    Map::Map(int heightInTiles, int widthInTiles)
-    {
-        heightInTiles_ = heightInTiles;
-        widthInTiles_ = widthInTiles;
-        waypoints = QMap<int,QList<QPoint> >();
+
+    Map::Map(Tiled::Map * tMap) {
+        tMap_ = tMap;
+        waypoints = QMap<int,QList<QPointF> >();
     }
 
     void Map::initMap() {
-        tiles_ = new Tile**[heightInTiles_];
-        //QGraphicsItem * gTile = NULL;
-        //MapDisplayer * md = td::MainWindow::instance()->getMD();
         blockingType type;
+        Tiled::Tile * tile = NULL;
+        Tiled::TileLayer * tileLayer = tMap_->layerAt(0)->asTileLayer();
+        Tiled::TileLayer * towerLayer = tMap_->layerAt(1)->asTileLayer();
+        //Tiled::TileLayer * resLayer = tMap_->layerAt(2)->asTileLayer();
+        Tiled::ObjectGroup * path = tMap_->layerAt(3)->asObjectGroup();
+        size_t height = tileLayer->height();
+        size_t width = tileLayer->width();
 
-        for (int row = 0; row < heightInTiles_; row++) {
-            tiles_[row] = new Tile*[widthInTiles_];
+        tiles_ = new Tile**[height];
 
-            for (int col = 0; col < widthInTiles_; col++) {
-                //gTile = md->itemAt(row, col);
-                type = OPEN; //default type
-                // area to add logic for tile creation
-                if( row ==0 || col == 0 || row == heightInTiles_-1 || col == widthInTiles_ -1 ) {
-                    type = CLOSED; //border of map gets CLOSED status
-                }
-                // end for logic
+        for (size_t row = 0; row < height; row++) {
+            tiles_[row] = new Tile*[width];
+
+            for (size_t col = 0; col < width; col++) {
+                tile = tileLayer->tileAt(col, row);
+                type = (blockingType) tile->id(); //default type
                 //save into array
                 tiles_[row][col] = new Tile(row, col, type);
+                if (towerLayer->contains(col, row)
+                        && towerLayer->tileAt(col, row) != NULL) {
+                    tiles_[row][col]->setActionType(TILE_BUILDABLE);
+                    //qDebug("TowerTile at: %d, %d", col, row);
+                }
             }
         }
+        makeWaypoints(WP_PTERO, path);
+
+    }
+
+    void Map::makeWaypoints(int key, Tiled::ObjectGroup* path) {
+        int i = 0;
+        QList<QPointF>* newPath = new QList<QPointF>();
+        QColor c = QColor();
+
+        //Doesn't actually make it green. But still useful.
+        path->setColor(c.green());
+        for (i = 0; i < path->objects().size(); i++) {
+            newPath->push_back(QPointF(path->objects().at(i)->position().x()*48,
+                        path->objects().at(i)->position().y() * 48));
+        }
+        addWaypoints(key, newPath);
     }
 
     void Map::loadTestMap2(){
@@ -68,7 +103,10 @@ namespace td{
         int r,c;
         getTileCoords(x,y,&r,&c);
         return tiles_[r][c];
+    }
 
+    Tile* Map::getTile(QPointF coords) {
+        Map::getTile(coords.x(), coords.y());
     }
 
     QSet<Unit*> Map::getUnits(double x, double y, double radius){
@@ -102,6 +140,28 @@ namespace td{
             }
         }
         return units;
+    }
+
+    void Map::addUnit(double x, double y, Unit *unitToAdd)
+    {
+        int row = 0;
+        int column = 0;
+
+        getTileCoords(x, y, &row, &column);
+
+        tiles_[row][column]->addUnit(unitToAdd);
+        //qDebug("add to tile: %d, %d",row, column);
+    }
+
+    void Map::removeUnit(double x, double y, Unit *unitToRemove)
+    {
+        int row = 0;
+        int column = 0;
+
+        getTileCoords(x, y, &row, &column);
+
+        tiles_[row][column]->removeUnit(unitToRemove);
+        //qDebug("leaving tile: %d, %d", row, column);
     }
 
 }//end namespace 

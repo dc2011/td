@@ -54,7 +54,15 @@ public:
      * @param s The network stream.
      */
     virtual void networkWrite(td::Stream* s);
-
+    /**
+     * This function will do any component initialization whenever
+     * a gameobject is created.
+     *
+     * PLEASE IMPLEMENT THIS FOR GREAT JUSTICE.
+     *
+     * @author Duncan Donaldson
+     */
+    virtual void initComponents(){}
 protected:
     /**
      * Sets the dirty bit for the specified field.
