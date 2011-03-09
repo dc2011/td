@@ -16,7 +16,7 @@ PlayerPhysicsComponent::PlayerPhysicsComponent()
     maxVelocity_ = 5;
 }
 
-void PlayerPhysicsComponent::update(Unit* player)
+void PlayerPhysicsComponent::update(GameObject* player)
 {
     this->applyForce((Player*)player);
     this->applyVelocity((Player*)player);

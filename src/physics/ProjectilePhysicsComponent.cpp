@@ -10,7 +10,7 @@ ProjectilePhysicsComponent::ProjectilePhysicsComponent() {
 }
 ProjectilePhysicsComponent::~ProjectilePhysicsComponent() {}
 
-void ProjectilePhysicsComponent::update(Unit* projectile) {
+void ProjectilePhysicsComponent::update(GameObject* projectile) {
     this->applyForce((Projectile*)projectile);
     this->applyVelocity((Projectile*)projectile);
     this->setScale((Projectile*)projectile);

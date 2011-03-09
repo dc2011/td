@@ -13,16 +13,16 @@ void TowerPhysicsComponent::update(GameObject *tower) {
 void TowerPhysicsComponent::findTargets(GameObject* tower) {
     QLineF target;
     target.p1() = tower->getPos();
-    if(getEnemy() != NULL) {
-        target.p2() = getEnemy()->getPos();
+    if(this->getEnemy() != NULL) {
+        target.p2() = this->getEnemy()->getPos();
     } else {
         target.p2() = tower->getPos();
     }
-    Unit* u = new NPC;
+    Unit* u = new NPC();
     this->setNPCs(tower, 10);
-    std::set<Unit*> units = this->getNPCs();
+    QSet<Unit*> units = this->getNPCs();
 
-    std::set<Unit*>::iterator iter;
+    QSet<Unit*>::iterator iter;
     for( iter = units.begin();iter != units.end(); ++iter){
         u = *iter;
         QLineF line;
@@ -39,11 +39,14 @@ void TowerPhysicsComponent::findTargets(GameObject* tower) {
 void TowerPhysicsComponent::applyDirection(GameObject* tower) {
 
 
-    //this->findTargets(tower);
+    this->findTargets(tower);
+    if(this->getEnemy() == NULL) {
+        return;
+    }
     int angle = 0;
     int degree = 0;
-    int velX = getEnemy()->getPos().x() - this->getPos().x();
-    int velY = getEnemy()->getPos().y() - this->getPos().y();
+    int velX = this->getEnemy()->getPos().x() - this->getPos().x();
+    int velY = this->getEnemy()->getPos().y() - this->getPos().y();
 
     if (velX == 0 && velY == 0) {
         return;

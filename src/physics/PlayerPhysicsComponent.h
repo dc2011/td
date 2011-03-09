@@ -3,6 +3,7 @@
 
 #include "PhysicsComponent.h"
 #include "Bounds.h"
+#include "../engine/Unit.h"
 #include <set>
 
 namespace td {
@@ -82,7 +83,7 @@ public:
      * @author Marcel Vangrootheest
      * @param player, pointer to the Unit(player object)
      */
-    virtual void update(Unit* player);
+    virtual void update(GameObject* player);
     
 signals:
     

@@ -9,7 +9,7 @@ NPCPhysicsComponent::NPCPhysicsComponent()
         : accel_(0.2), decel_(0.25), maxVelocity_(2) {}
 NPCPhysicsComponent::~NPCPhysicsComponent() {}
 
-void NPCPhysicsComponent::update(Unit* npc)
+void NPCPhysicsComponent::update(GameObject* npc)
 {
     this->applyForce((NPC*)npc);
     this->applyVelocity((NPC*)npc);

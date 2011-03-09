@@ -3,17 +3,17 @@
 #define TOWERPHYSICSCOMPONENT_H
 
 #include "PhysicsComponent.h"
+#include "../engine/Tower.h"
 #include "../engine/GameObject.h"
-#include "../engine/Unit.h"
+#include "../engine/NPC.h"
 #include "../engine/Map.h"
-#include "../engine/TileExtension.h"
 #include "../engine/CDriver.h"
 #include <QPointF>
-#include <set>
+#include <QSet>
 
 namespace td {
 
-class TowerPhysicsComponent:public TileExtension {
+class TowerPhysicsComponent: public Tower {
     Q_OBJECT
 
 public:
@@ -43,11 +43,11 @@ public:
     void findTargets(GameObject* tower);
 
     void setNPCs(GameObject* tower, int radius) {
-        Map* map = CDriver::instance()->getMap();
+        Map* map = td::CDriver::instance()->getGameMap();
         enemies_ = map->getUnits(tower->getPos().x() ,tower->getPos().y() , radius);
     }
 
-    std::set<Unit*> getNPCs() {
+    QSet<Unit*> getNPCs() {
         return enemies_;
     }
 
@@ -62,7 +62,7 @@ public:
 
 private:
     /* data */
-    std::set<Unit*> enemies_;
+    QSet<Unit*> enemies_;
     Unit* enemy_;
 };
 
