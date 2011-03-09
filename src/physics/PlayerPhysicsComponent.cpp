@@ -39,13 +39,14 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     QPointF upperLeft = newPos + QPointF(-11, -20);
     QPointF lowerRight = newPos + QPointF(11, 20);
     QPointF lowerLeft = newPos + QPointF(-11, 20);
-
+    std::set<Unit*> npcs;
 
     if (validateMovement(upperRight) && validateMovement(upperLeft)
         && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
         // Determine if the Player needs to update its tile position.
         player->changeTile(newPos);
         player->setPos(newPos);
+        //npcs = Map.getUnits(newPos.x(), newPos.y(), 3);
     }else{
         //int blockingType = 0;
         //emit requestTileType(newPos.x(), newPos.y(), &blockingType);
@@ -74,6 +75,7 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
                 // Determine if the Player needs to update its tile position.
                 player->changeTile(newPos);
                 player->setPos(newPos);
+
             } else {
                 QVector2D temp(0, 0);
                 player->setVelocity(temp);
@@ -262,6 +264,17 @@ bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
     }
 
     return true;
+}
+
+void PlayerPhysicsComponent::checkNPCCollision(std::set<Unit*> npcs){
+
+    std::set<Unit*>::iterator it;
+    for(it = npcs.begin(); it != npcs.end(); ++it){
+        //if(collider_.intersectBox(it.bounds)){
+        //  add stun effect to player
+        //  return;
+        //}
+    }
 }
 
 } /* end namespace td */

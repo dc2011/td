@@ -61,6 +61,7 @@ private:
     blockingType type_;
     QSet<Unit*> currentUnits_;
 
+
     /**
      * The coordinates of the centre of the tile.
      */
