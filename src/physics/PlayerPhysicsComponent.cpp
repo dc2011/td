@@ -64,14 +64,31 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
         lowerLeft = newPos + QPointF(-20, 11);
     }
     //QPolygonF
-
+    bool flag = false;
     foreach (Tile* targetTile ,targetTiles){
-       // QPolygonF otherpolygon = targetTile->getBounds();
-        //if(polygon.intersected(otherpolygn).count() != 0){
-        //    break;
-        //}
+        /*
+        QPolygonF otherpolygon = targetTile->getBounds();
+        if(polygon.intersected(otherpolygn).count() != 0){
+            flag = true;
+            break;
+        }
+
+        */
     }
 
+    /*
+    if (!flag) {
+        player->changeTile(newPos);
+        player->setPos(newPos);
+
+        npcs = map->getUnits(newPos.x(), newPos.y(), 3);
+        checkNPCCollision(npcs);
+
+    }
+
+
+
+      */
     if (validateMovement(upperRight) && validateMovement(upperLeft)
         && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
         // Determine if the Player needs to update its tile position.
