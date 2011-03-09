@@ -1,5 +1,5 @@
-#ifndef TMXVIEWER_H
-#define TMXVIEWER_H
+#ifndef TD_MAPDISPLAYER_H
+#define TD_MAPDISPLAYER_H
 
 #include <QString>
 #include <QGraphicsView>
@@ -29,3 +29,4 @@ private:
 
 } // namespace td
 
+#endif // TD_MAPDISPLAYER_H 
