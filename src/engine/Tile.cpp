@@ -18,7 +18,7 @@ Tile::Tile(int row, int column, blockingType type)
 {
     tileID_ = column * MAP_ROWS + row;
     type_ = type;
-    setBounds(type);
+    setBounds(row, column, type);
     actionType_ = TILE_REGULAR;
     int xPos = column * TILE_WIDTH + TILE_WIDTH / 2;
     int yPos = row * TILE_HEIGHT + TILE_HEIGHT / 2;
@@ -35,12 +35,12 @@ Tile::Tile(int row, int column, blockingType type)
   *
   * @author Luke Queenan
   */
-void Tile::setBounds(blockingType type)
+void Tile::setBounds(int row, int column, blockingType type)
 {
     switch (type)
     {
     case CLOSED:
-
+        myBounds_ = QPolygonF(12);
     }
 }
 
