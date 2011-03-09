@@ -13,6 +13,8 @@
 #include "Tower.h"
 #include "Unit.h"
 #include "../client/MainWindow.h"
+#include "map.h"
+#include "../graphics/MapDisplayer.h"
 #include "../util/defines.h"
 
 namespace td {
@@ -182,7 +184,7 @@ void CDriver::createTower(int towerType, QPointF pos) {
 
 void CDriver::startGame() {
     // Create hard coded map
-    CDriver::gameMap_     = new Map(16, 21);
+    CDriver::gameMap_     = new Map(mainWindow_->getMD()->map());
     CDriver::gameMap_->initMap();
     CDriver::gameTimer_   = new QTimer(this);
 

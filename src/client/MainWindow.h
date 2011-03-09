@@ -18,7 +18,7 @@
 
 namespace td {
 
-//class MapDisplayer;
+class MapDisplayer;
 class GraphicsComponent;
 
 class MainWindow : public QMainWindow {
@@ -58,7 +58,7 @@ private:
      * Tiled map displayer object. Seems to handle parsing and rendering of the
      * tiled map data.
      */
-    //MapDisplayer * mapDisplayer_;
+    MapDisplayer * mapDisplayer_;
 
 public:
     /**
@@ -83,7 +83,7 @@ public:
     
     QGraphicsScene* getScene() { return scene_; }
 
-    //MapDisplayer * getMD() { return mapDisplayer_; }
+    MapDisplayer * getMD() { return mapDisplayer_; }
     
 protected:
     /**

@@ -1,8 +1,11 @@
 #include "MainWindow.h"
 #include <QScrollArea>
-#include "../graphics/MapDisplayer.h"
+#include <QSize>
 #include "../audio/manager.h"
 #include "../graphics/GraphicsComponent.h"
+#include "../graphics/MapDisplayer.h"
+#include "maprenderer.h"
+#include "map.h"
 
 namespace td {
 
@@ -22,14 +25,16 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
 
-    MapDisplayer * mapDisplayer_ = NULL;
+    //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
-    mapDisplayer_->viewMap(QString("./maps/testmap.tmx"));
+    mapDisplayer_->viewMap(QString("./maps/netbookmap.tmx"));
+    Tiled::MapRenderer* mRenderer = mapDisplayer_->getMRenderer();
+    QSize mapSize = mRenderer->mapSize();
 
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
-    view_->setFixedSize(WINSIZEX,WINSIZEY);
     scene_->setSceneRect(0,0,WINSIZEX,WINSIZEY);
+    view_->setFixedSize(mapSize.width(), mapSize.height());
     //this->showFullScreen();
     
     // This focus policy may be implied by default...

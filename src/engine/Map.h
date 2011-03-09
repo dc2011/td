@@ -1,5 +1,5 @@
-#ifndef MAP_H
-#define MAP_H
+#ifndef TD_MAP_H
+#define TD_MAP_H
 
 #include "../util/mutex_magic.h"
 #include <QObject>
@@ -9,14 +9,21 @@
 #include <QMap>
 #include <QMutex>
 #include <math.h>
-#include "Tile.h"
-namespace td{
+
+namespace Tiled {
+class Map;
+}
+
+namespace td {
+
+class Unit;
+class Tile;
 
 class Map : public QObject {
     Q_OBJECT
 
 public:
-    explicit Map(int heightInTiles, int widthInTiles);
+    explicit Map(Tiled::Map * tMap);
     virtual ~Map() { }
 
 private:
@@ -25,6 +32,9 @@ private:
 
     /**  */
     Tile ***tiles_;
+
+    /**  */
+    Tiled::Map * tMap_;
 
     /**  */
     int heightInTiles_;
@@ -99,6 +109,20 @@ public:
     void addWaypoints(int key ,QList<QPoint> newSet){
         waypoints.insert(key, newSet);
     }
+
+    /**
+      * Adds a pointer to a unit to the specified tile.
+      *
+      * @author Luke Queenan
+      */
+    void addUnit(double x, double y, Unit *unitToAdd);
+
+    /**
+      * Removes the unit from the specified tile.
+      *
+      * @author Luke Queenan
+      */
+    void removeUnit(double x, double y, Unit *unitToRemove);
 
 public slots:
     /**
