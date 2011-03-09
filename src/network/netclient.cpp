@@ -91,6 +91,10 @@ NetworkClient* NetworkClient::init(QHostAddress servAddr)
 void NetworkClient::shutdown()
 {
     mutex_.lock();
+    if (instance_ == NULL) {
+        mutex_.unlock();
+        return;
+    }
     delete instance_;
     instance_ = NULL;
     mutex_.unlock();

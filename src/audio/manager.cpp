@@ -244,8 +244,8 @@ void AudioManager::streamOgg(QString filename, float gain)
             }
 
             alBufferData(buffer[queue], format, array, size, freq);
-	    alSourceQueueBuffers(source, 1, &buffer[queue])
-	    queue = (++queue == QUEUESIZE ? 0 : queue);
+            alSourceQueueBuffers(source, 1, &buffer[queue]);
+            queue = (++queue == QUEUESIZE ? 0 : queue);
             buffersAvailable--;
             /**Check the amount of buffers queued to see if
             * we should be playing the track right now.

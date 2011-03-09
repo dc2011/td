@@ -16,6 +16,10 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
             this, SLOT(connectLobby()));
     connect(ui->btnStart, SIGNAL(clicked()),
             this, SLOT(tmp_startGame()));
+    connect(ui->chkSingleplayer, SIGNAL(clicked(bool)),
+            ui->btnConnect, SLOT(setDisabled(bool)));
+    connect(ui->chkSingleplayer, SIGNAL(clicked(bool)),
+            ui->btnStart, SLOT(setEnabled(bool)));
 
     connect(this, SIGNAL(startGame()),
             this, SLOT(close()));
@@ -50,6 +54,12 @@ void LobbyWindow::connectLobby()
 
 void LobbyWindow::tmp_startGame()
 {
+    if (ui->chkSingleplayer->isChecked()) {
+        NetworkClient::init(QHostAddress("127.0.0.1"));
+        emit startGame();
+        return;
+    }
+
     Stream s;
     NetworkClient::instance()->send(network::kLobbyStartGame, s.data());
 }
