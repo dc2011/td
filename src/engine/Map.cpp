@@ -106,7 +106,39 @@ namespace td{
     }
 
     Tile* Map::getTile(QPointF coords) {
-        Map::getTile(coords.x(), coords.y());
+        return Map::getTile(coords.x(), coords.y());
+    }
+
+    QSet<Tile*> getTiles(QPointF coords, int radius){
+
+        int i,j,r,c;
+        QSet<Tile*> tempTiles = QSet<Tile*>();
+        getTileCoords(coords.x(),coords.y(),&r,&c);
+
+        for (i = 0; i< radius ; i++){
+            for(j=0; j+i < radius ; j++){
+                if( i + r < heightInTiles_){
+
+                    if(j + c < widthInTiles_){
+                        tempTiles += tiles_[i+r][j+c];
+                    }
+                    if(c - j >= 0){
+                        tempTiles += tiles_[i+r][c-j];
+                    }
+
+                }
+                if( r - i >= 0){
+
+                    if(j + c < widthInTiles_){
+                        tempTiles += tiles_[i+r][j+c];
+                    }
+                    if(c - j >= 0){
+                        tempTiles += tiles_[r-i][c-j];
+                    }
+                }
+            }
+        }
+        return tempTiles;
     }
 
     QSet<Unit*> Map::getUnits(double x, double y, double radius){

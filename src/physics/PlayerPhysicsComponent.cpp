@@ -35,6 +35,13 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     //assuming body of player sprite is from 13,4 to 35, 44
 
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
+
+    Map* gameMap = td::CDriver::getGameMap();
+    QSet<Tile*> targetTile = gameMap->getTiles(newPos.x,newPos.y(), 2);
+
+
+
+
     QPointF upperRight = newPos + QPointF(11, -20);
     QPointF upperLeft = newPos + QPointF(-11, -20);
     QPointF lowerRight = newPos + QPointF(11, 20);
@@ -47,9 +54,10 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
         player->changeTile(newPos);
         player->setPos(newPos);
         //npcs = Map.getUnits(newPos.x(), newPos.y(), 3);
+
+
+
     }else{
-        //int blockingType = 0;
-        //emit requestTileType(newPos.x(), newPos.y(), &blockingType);
         QPointF newx = QPointF(player->getVelocity().toPointF().x(),0);
 
 
