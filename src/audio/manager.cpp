@@ -121,6 +121,7 @@ bool AudioManager::checkError()
     } else if (error != AL_NO_ERROR) {
         qCritical("AudioManager::checkError(): %d:%s", error, err);
         alExit();
+	inited_=false;
         return true;
     }
 
@@ -165,13 +166,14 @@ void AudioManager::streamOgg(QString filename, float gain)
     ALuint tempBuffer;
     ALuint source;
     ALint processed;
-    ALint queued;
+    ALint queued = 0;
     ALint queue = 0;
     ALint play = AL_TRUE;
     ALint playing = AL_TRUE;
-    ALenum format = AL_FORMAT_STEREO16;
+    ALenum format;
     ALsizei freq = 44100;
     OggVorbis_File oggFile;
+    vorbis_info* vorbisInfo;
     /* Created the source and Buffers */
     alGenBuffers(QUEUESIZE, buffer);
     alGenSources(1, &source);
@@ -192,6 +194,15 @@ void AudioManager::streamOgg(QString filename, float gain)
     
     playing_++;
     mutex_.unlock();
+
+    vorbisInfo = ov_info(&oggFile, -1);
+ 
+    if(vorbisInfo->channels == 1) {
+        format = AL_FORMAT_MONO16;
+    }
+    else {
+        format = AL_FORMAT_STEREO16;
+    }
 
     do {
         alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
@@ -215,7 +226,6 @@ void AudioManager::streamOgg(QString filename, float gain)
 
         if (buffersAvailable > 0) {
             size = 0;
-
             /* Read file to we reached a BUFFERSIZE chunk */
             while (size < BUFFERSIZE) {
                 result = ov_read(&oggFile, array + size,
@@ -234,8 +244,8 @@ void AudioManager::streamOgg(QString filename, float gain)
             }
 
             alBufferData(buffer[queue], format, array, size, freq);
-            alSourceQueueBuffers(source, 1, &buffer[queue]);
-            queue = (++queue == QUEUESIZE ? 0 : queue);
+	    alSourceQueueBuffers(source, 1, &buffer[queue]);
+	    queue = (++queue == QUEUESIZE ? 0 : queue);
             buffersAvailable--;
             /**Check the amount of buffers queued to see if
             * we should be playing the track right now.

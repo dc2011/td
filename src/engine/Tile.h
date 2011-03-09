@@ -6,6 +6,7 @@
 #include <set>
 #include <QSet>
 #include <QPointF>
+#include <QPolygon>
 
 #include "../util/defines.h"
 #include "ClsIdx.h"
@@ -79,7 +80,7 @@ private:
     int tileID_;
     blockingType type_;
     QSet<Unit*> currentUnits_;
-    td::Bounds *myBounds_;
+    QPolygonF myBounds_;
     int actionType_;
 
     /**
@@ -87,7 +88,7 @@ private:
      */
     QPointF pos_;
 
-    void setBounds(blockingType type);
+    void setBounds(int row, int column, blockingType type);
 };
 
 } /* end namespace td */
