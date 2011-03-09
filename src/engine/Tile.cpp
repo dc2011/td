@@ -18,7 +18,7 @@ Tile::Tile(int row, int column, blockingType type)
 {
     tileID_ = column * MAP_ROWS + row;
     type_ = type;
-
+    setBounds(type);
     actionType_ = TILE_REGULAR;
     int xPos = column * TILE_WIDTH + TILE_WIDTH / 2;
     int yPos = row * TILE_HEIGHT + TILE_HEIGHT / 2;
@@ -39,6 +39,7 @@ void Tile::setBounds(blockingType type)
 {
     switch (type)
     {
+    case CLOSED:
 
     }
 }
