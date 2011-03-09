@@ -4,15 +4,17 @@
 #include "../client/MainWindow.h"
 
 /** Tiled headers. */
-#include "isometricrenderer.h"
-#include "map.h"
-#include "mapobject.h"
-#include "mapreader.h"
-#include "objectgroup.h"
-#include "orthogonalrenderer.h"
-#include "tilelayer.h"
-#include "tileset.h"
-#include "tile.h"
+// TODO: I am pretty sure we only *actually* need to include map.h and tile.h
+//       here.
+#include <isometricrenderer.h>
+#include <map.h>
+#include <mapobject.h>
+#include <mapreader.h>
+#include <objectgroup.h>
+#include <orthogonalrenderer.h>
+#include <tilelayer.h>
+#include <tileset.h>
+#include <tile.h>
 
 namespace td{
 

@@ -20,7 +20,7 @@
       <x>80</x>
       <y>40</y>
       <width>281</width>
-      <height>121</height>
+      <height>127</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -73,6 +73,13 @@
        </property>
       </widget>
      </item>
+     <item row="4" column="0" colspan="2">
+      <widget class="QPushButton" name="startButton">
+       <property name="text">
+        <string>Start Game</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
   </widget>
@@ -82,7 +89,7 @@
      <x>0</x>
      <y>0</y>
      <width>497</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
