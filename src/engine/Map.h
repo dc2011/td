@@ -28,7 +28,7 @@ public:
 
 private:
     /**  */
-    QMap<int,QList<QPoint> > waypoints;
+    QMap<int,QList<QPointF> > waypoints;
 
     /**  */
     Tile ***tiles_;
@@ -88,7 +88,7 @@ public:
       *
       * @author Ian Lee
       */
-    QMap<int,QList<QPoint> > getAllWaypoints(){
+    QMap<int,QList<QPointF> > getAllWaypoints(){
         return waypoints;
     }
 
@@ -97,7 +97,7 @@ public:
      *
      * @author Ian Lee
      */
-    QList<QPoint> getWaypoints(int key){
+    QList<QPointF> getWaypoints(int key){
         return waypoints[key];
     }
 
@@ -106,7 +106,7 @@ public:
      *
      * @author Ian Lee
      */
-    void addWaypoints(int key ,QList<QPoint> newSet){
+    void addWaypoints(int key ,QList<QPointF> newSet){
         waypoints.insert(key, newSet);
     }
 

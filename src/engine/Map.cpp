@@ -18,7 +18,7 @@ namespace td{
 
     Map::Map(Tiled::Map * tMap) {
         tMap_ = tMap;
-        waypoints = QMap<int,QList<QPoint> >();
+        waypoints = QMap<int,QList<QPointF> >();
     }
 
     void Map::initMap() {
