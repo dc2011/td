@@ -47,10 +47,10 @@ void ContextMenuGraphicsComponent::showMenu(QPointF playerPos) {
     menuPos_.setX(tempMenuPos.x());
     menuPos_.setY(tempMenuPos.y());
 
+    scaleFactor_ = 0;
     setImgIndex(0);
     
     closeTimer_.stop();
-    scaleFactor_ = 0;
     animateConnect();
 
     update(NULL);
