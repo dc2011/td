@@ -156,6 +156,16 @@ public:
     Map* getGameMap(){
         return gameMap_;
     }
+
+    /**
+     * Gets a pointer to the main window where all graphics are drawn.
+     *
+     * @author Dean Morin
+     * @return The main window where all graphics are drawn.
+     */
+    MainWindow* getMainWindow() {
+        return mainWindow_;
+    }
     
 public slots:
     /**

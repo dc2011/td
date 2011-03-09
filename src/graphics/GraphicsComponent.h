@@ -30,11 +30,6 @@ private:
      *  the pixelmapItem which is is used to draw a pixel map at a location
      **/
     QGraphicsPixmapItem* pixmapItem_;
-    
-    /**
-     * Pointer to the mainwindow
-     */
-    MainWindow* mainWindow_;
 
 protected:
     /**

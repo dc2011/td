@@ -9,14 +9,14 @@ QMutex GraphicsComponent::mutex_;
     
 GraphicsComponent::GraphicsComponent() {
     
-    mainWindow_ = td::MainWindow::instance();
-    //td::MainWindow* main = td::MainWindow::instance();
+    MainWindow* mainWindow = CDriver::instance()->getMainWindow();
+    
     connect(this, SIGNAL(created(GraphicsComponent*)), 
-            mainWindow_, SLOT(createGraphicRepr(GraphicsComponent*)));
+            mainWindow, SLOT(createGraphicRepr(GraphicsComponent*)));
     connect(this, SIGNAL(signalDraw(DrawParams*, GraphicsComponent*, int)), 
-            mainWindow_, SLOT(drawItem(DrawParams*, GraphicsComponent*, int)));
+            mainWindow, SLOT(drawItem(DrawParams*, GraphicsComponent*, int)));
     connect(this, SIGNAL(signalAnimateTick(GraphicsComponent*)),
-            mainWindow_, SLOT(animateItem(GraphicsComponent*)));
+            mainWindow, SLOT(animateItem(GraphicsComponent*)));
 
     isMoving_ = 0;
 }
