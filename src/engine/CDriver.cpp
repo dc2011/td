@@ -207,7 +207,7 @@ void CDriver::startGame() {
             //npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
     connect(gameTimer_,   SIGNAL(timeout()), 
             human_,       SLOT(update()));
-    // connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
+    connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
     /* TODO: alter temp solution */
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
             this,         SLOT(createTower(int, QPointF)));

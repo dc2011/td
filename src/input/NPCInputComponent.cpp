@@ -44,7 +44,7 @@ void NPCInputComponent::makeForce() {
     // TODO: apply same random force for longer time period?
     double rx = (qrand() % 500) / 50.0;
     double ry = (qrand() % 500) / 50.0;
-    qDebug("rx ry, %f, %f", rx, ry);
+    //qDebug("rx ry, %f, %f", rx, ry);
     QVector2D force = QVector2D((segment_.dx() * rx / segment_.length()),
                                 (segment_.dy() * ry / segment_.length()));
     parent_->setForce(force);
