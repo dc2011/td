@@ -16,6 +16,7 @@ public:
     explicit MapDisplayer(QGraphicsScene* scene, QWidget* parent = 0);
     ~MapDisplayer();
     void viewMap(const QString& fileName);
+    Tiled::Map* map() { return mMap; }
 
 private:
     QGraphicsScene* mScene;

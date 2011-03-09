@@ -1,5 +1,5 @@
-#ifndef MAP_H
-#define MAP_H
+#ifndef TD_MAP_H
+#define TD_MAP_H
 
 #include "../util/mutex_magic.h"
 #include <QObject>
@@ -9,10 +9,10 @@
 #include <QMap>
 #include <QMutex>
 #include <math.h>
-#include "Tile.h"
-namespace td
-{
+namespace td{
 
+class Unit;
+class Tile;
 class Map : public QObject {
     Q_OBJECT
 

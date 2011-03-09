@@ -1,6 +1,21 @@
 #include "Map.h"
+#include "Tile.h"
+#include "../graphics/MapDisplayer.h"
+#include "../client/MainWindow.h"
+
+/** Tiled headers. */
+#include "isometricrenderer.h"
+#include "map.h"
+#include "mapobject.h"
+#include "mapreader.h"
+#include "objectgroup.h"
+#include "orthogonalrenderer.h"
+#include "tilelayer.h"
+#include "tileset.h"
+#include "tile.h"
 
 namespace td{
+
     Map::Map(int heightInTiles, int widthInTiles)
     {
         heightInTiles_ = heightInTiles;
@@ -10,16 +25,18 @@ namespace td{
 
     void Map::initMap() {
         tiles_ = new Tile**[heightInTiles_];
-        //QGraphicsItem * gTile = NULL;
-        //MapDisplayer * md = td::MainWindow::instance()->getMD();
         blockingType type;
+        Tiled::Tile * tile = NULL;
+        Tiled::TileLayer * tileLayer = MainWindow::instance()->getMD()
+                                         ->map()->layerAt(0)->asTileLayer();
 
         for (int row = 0; row < heightInTiles_; row++) {
             tiles_[row] = new Tile*[widthInTiles_];
 
             for (int col = 0; col < widthInTiles_; col++) {
                 //gTile = md->itemAt(row, col);
-                type = OPEN; //default type
+                tile = tileLayer->tileAt(col, row);
+                type = (blockingType) tile->id(); //default type
                 // area to add logic for tile creation
                 if( row ==0 || col == 0 || row == heightInTiles_-1 || col == widthInTiles_ -1 ) {
                     type = CLOSED; //border of map gets CLOSED status

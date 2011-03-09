@@ -1,14 +1,13 @@
-#ifndef TILE_H
-#define TILE_H
+#ifndef TD_TILE_H
+#define TD_TILE_H
 
 // System includes
 #include <QObject>
 #include <set>
 #include <QSet>
+#include <QPointF>
 
-// Custom includes
-#include "Unit.h"
-#include "TileExtension.h"
+#include "ClsIdx.h"
 
 //temp defines
 #define TILE_HEIGHT 48
@@ -20,6 +19,8 @@ namespace td {
 enum blockingType {OPEN = 0, CLOSED = 1, NORTH_WEST = 2, NORTH_EAST = 3,
                    SOUTH_WEST = 4, SOUTH_EAST = 5};
 
+class Unit;
+
 class Tile : public QObject {
     Q_OBJECT
 
@@ -30,9 +31,7 @@ public:
      * @author Darryl Pogue
      * @return The class index.
      */
-    static unsigned char clsIdx() {
-        return td::clsidx::kTile;
-    }
+    static unsigned char clsIdx() { return clsidx::kTile; }
 
 public:
     Tile();
