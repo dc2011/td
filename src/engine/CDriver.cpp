@@ -74,7 +74,9 @@ void CDriver::readObject(Stream* s) {
             GraphicsComponent* graphics = new PlayerGraphicsComponent();
             go->setGraphicsComponent(graphics);
 
-        }
+        } else {
+	    go->initComponents();
+	}
 	connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
     }
     
@@ -119,17 +121,9 @@ void CDriver::NPCDeleter(Unit* npc) {
 NPC* CDriver::createNPC() {
     NPC* npc = (NPC*)mgr_->createObject(NPC::clsIdx());
 
-    PhysicsComponent* physics = new NPCPhysicsComponent();
-    GraphicsComponent* graphics = new NPCGraphicsComponent();
-    NPCInputComponent* input = new NPCInputComponent();
-
-    input->setParent(npc);
-    npc->setInputComponent(input);
-    npc->setPhysicsComponent(physics);
-    npc->setGraphicsComponent(graphics);
-    connect(input, SIGNAL(deleteUnitLater(Unit*)),
-            this, SLOT(NPCDeleter(Unit*)), Qt::QueuedConnection);
-
+    npc->initComponents();
+    // connect(input, SIGNAL(deleteUnitLater(Unit*)),
+    //this, SLOT(NPCDeleter(Unit*)), Qt::QueuedConnection);
     connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
     return npc;
 }
@@ -162,10 +156,9 @@ void CDriver::createTower(int towerType, QPointF pos) {
     Stream* request = new Stream();
     tower_ = new Tower();
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
-    GraphicsComponent* graphics = new TowerGraphicsComponent();
-
+    
+    tower_->initComponents();
     tower_->setPos(currentTile->getPos());
-    tower_->setGraphicsComponent(graphics);
     tower_->setID(0xFFFFFFFF);
     connect(gameTimer_, SIGNAL(timeout()), tower_, SLOT(update()));
     
@@ -229,6 +222,7 @@ void CDriver::UDPReceived(Stream* s) {
             break;
         case network::kRequestTowerID:
 	    tower_->setID(Tower::clsIdx());
+	    tower_->initComponents();
             mgr_->addExistingObject(tower_);
             break;
         case network::kAssignPlayerID:
@@ -242,6 +236,7 @@ void CDriver::UDPReceived(Stream* s) {
         case network::kAssignTowerID:
             if(tower_->getID() == 0xFFFFFFFF) {
               tower_->setID(s->readInt());
+	      tower_->initComponents();
               mgr_->addExistingObject(tower_);
             }
             break;

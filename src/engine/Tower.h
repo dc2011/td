@@ -23,7 +23,7 @@ public:
 
 public:
     virtual ~Tower() {}
-    
+    virtual void initComponents();
     virtual void update();
 
 private:

@@ -7,6 +7,9 @@ void Tower::update() {
     //physics_->update(this);
     CDriver::updateServer(this);
 }
-
+void Tower::initComponents() {
+    GraphicsComponent* graphics = new TowerGraphicsComponent();
+    this->setGraphicsComponent(graphics);
+}
 } // end of namespace td
 

@@ -49,7 +49,7 @@ public:
      * @param s The network stream.
      */
     virtual void networkWrite(td::Stream* s);
-
+    virtual void initComponents() {}
     /**
      * Inheriting classes need to define a method of setting their parent (owner) object.
      * 

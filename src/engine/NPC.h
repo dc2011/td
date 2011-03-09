@@ -36,6 +36,12 @@ public:
     void setHealth(size_t);
     size_t getDamage();
     void setDamage(size_t);
+    /**
+     * initializes the NPCs components.
+     *
+     * @author Duncan Donaldson
+     */
+    virtual void initComponents();
 
 private:
     size_t health_;

@@ -26,6 +26,17 @@ void NPC::setDamage(size_t damage) {
     damage_ = damage;
 }
 
+void NPC::initComponents() {
+    PhysicsComponent* physics = new NPCPhysicsComponent();
+    GraphicsComponent* graphics = new NPCGraphicsComponent();
+    NPCInputComponent* input = new NPCInputComponent();
+
+    input->setParent(this);
+    this->setInputComponent(input);
+    this->setPhysicsComponent(physics);
+    this->setGraphicsComponent(graphics);
+}
+
 void NPC::update() {
     input_->update();
     physics_->update(this);
