@@ -1,7 +1,19 @@
 #include "CDriver.h"
 #include "GameInfo.h"
+#include "../graphics/PixmapFiles.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
+#include "ContextMenu.h"
+#include "GameObject.h"
+#include "Map.h"
+#include "NPC.h"
+#include "Player.h"
+#include "Projectile.h"
+#include "ResManager.h"
+#include "Tower.h"
+#include "Unit.h"
+#include "../client/MainWindow.h"
+#include "../util/defines.h"
 
 namespace td {
 
@@ -15,6 +27,7 @@ CDriver::CDriver(MainWindow* mainWindow)
     mgr_ = new ResManager();
     npc_ = QSet<NPC*>();
     npcCounter_ = 0;
+    tower_ = NULL;
 }
 
 CDriver::~CDriver() {
@@ -99,8 +112,8 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
     connect(gui, SIGNAL(signalKeyReleased(int)), input, SLOT(keyReleased(int)));
     // Connection for collisions -- waiting on map object
-    connect(physics, SIGNAL(requestTileInfo(int, int, int*)), 
-            gameMap_, SLOT(getTileInfo(int, int, int*)));
+    connect(physics, SIGNAL(requestTileType(double, double, int*)), 
+            gameMap_, SLOT(getTileType(double, double, int*)));
 
     request->writeByte(Player::clsIdx());
     NetworkClient::instance()->send(network::kRequestPlayerID, request->data());
@@ -157,7 +170,7 @@ void CDriver::createTower(int towerType, QPointF pos) {
     tower_ = new Tower();
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
     
-    tower_->initComponents();
+    tower_->initComponents(towerType);
     tower_->setPos(currentTile->getPos());
     tower_->setID(0xFFFFFFFF);
     connect(gameTimer_, SIGNAL(timeout()), tower_, SLOT(update()));
@@ -169,9 +182,9 @@ void CDriver::createTower(int towerType, QPointF pos) {
 
 void CDriver::startGame() {
     // Create hard coded map
-    gameMap_     = new Map(16, 21);
-    gameMap_->loadTestMap2();
-    gameTimer_   = new QTimer(this);
+    CDriver::gameMap_     = new Map(16, 21);
+    CDriver::gameMap_->initMap();
+    CDriver::gameTimer_   = new QTimer(this);
 
     connectToServer("127.0.0.1");
     connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),

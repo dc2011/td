@@ -3,17 +3,21 @@
 
 #include <QTimer>
 #include <QPointF>
-#include "ContextMenu.h"
-#include "GameObject.h"
-#include "Map.h"
-#include "NPC.h"
-#include "Player.h"
-#include "Projectile.h"
-#include "ResManager.h"
-#include "Tower.h"
-#include "../client/MainWindow.h"
+#include <QSet>
 
 namespace td {
+
+class ContextMenu;
+class GameObject;
+class Map;
+class NPC;
+class Player;
+class Projectile;
+class ResManager;
+class Tower;
+class MainWindow;
+class Stream;
+class Unit;
 
 class CDriver : public QObject {
     Q_OBJECT
@@ -31,7 +35,7 @@ private:
     Map* gameMap_;
      /** A context menu that appears around the player. */
     ContextMenu* contextMenu_;
-     /** An set of enemy unit. */
+     /** An set of enemy units. */
     QSet<NPC*> npc_;
      /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;

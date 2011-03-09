@@ -1,6 +1,6 @@
 #include "MainWindow.h"
-#include "graphics/MapDisplayer.h"
 #include <QScrollArea>
+#include "../graphics/MapDisplayer.h"
 #include "../audio/manager.h"
 #include "../graphics/GraphicsComponent.h"
 
@@ -22,8 +22,9 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
 
-    MapDisplayer* map = new MapDisplayer(scene_);
-    map->viewMap(QString("./maps/testmap.tmx"));
+    MapDisplayer * mapDisplayer_ = NULL;
+    mapDisplayer_ = new MapDisplayer(scene_);
+    mapDisplayer_->viewMap(QString("./maps/testmap.tmx"));
 
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
