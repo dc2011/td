@@ -4,10 +4,12 @@
 #include <QVector2D>
 #include "InputComponent.h"
 #include "../engine/Unit.h"
+#include "../util/defines.h"
 
 namespace td {
 
 class NPC;
+class CDriver;
 
 class NPCInputComponent : public InputComponent {
     Q_OBJECT

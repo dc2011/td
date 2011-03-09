@@ -52,7 +52,7 @@ public:
      * @param s The network stream.
      */
     virtual void networkWrite(td::Stream* s);
-
+    virtual void initComponents() {}
     /**
      * Inheriting classes need to define a method of setting their parent (owner) object.
      * 
@@ -118,10 +118,35 @@ public:
       * @param newPos The new position for the unit.
       */
     void changeTile(QPointF newPos);
+    
+    /**
+     * Gets the unit's current health.
+     *
+     * @author Dean Morin
+     * @return The current health of the unit.
+     */
+    short getHealth() {
+        return health_;
+    }
+
+    /**
+     * Sets the unit's current health.
+     *
+     * @author Dean Morin
+     * @param health The new health of the unit.
+     */
+    void setHealth(short health) {
+        health_ = health;
+    }
 
 protected:
     QVector2D velocity_;
     QVector2D force_;
+
+    /**
+     * The current health of the unit.
+     */
+    short health_;
 
     /**
      * All input handling logic for this Unit is contained in this component.

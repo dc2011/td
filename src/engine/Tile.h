@@ -7,12 +7,10 @@
 #include <QSet>
 #include <QPointF>
 
+#include "../util/defines.h"
 #include "ClsIdx.h"
 #include "../physics/Bounds.h"
 
-//temp defines
-#define TILE_HEIGHT 48
-#define TILE_WIDTH 48
 
 namespace td {
 
@@ -45,6 +43,27 @@ public:
     void removeUnit(Unit *unitToRemove);
     QSet<Unit*> getUnits();
     blockingType getType();
+
+    /**
+     * Specifies whether a tile is one of the following:
+     * Regular, buildable, built tower, resource, base
+     *
+     * @author Marcel Vangrootheest
+     * returns the tile's action type
+     */
+    int getActionType() {
+        return actionType_;
+    }
+
+    /**
+     * Sets the action type for the tile.
+     *
+     * @author Marcel Vangrootheest
+     * @param type the new action type for the tile
+     */
+    void setActionType(int type) {
+        actionType_ = type;
+    }
     
     /**
      * Gets the coordinates at the centre of the tile.
@@ -61,6 +80,7 @@ private:
     blockingType type_;
     QSet<Unit*> currentUnits_;
     td::Bounds *myBounds_;
+    int actionType_;
 
     /**
      * The coordinates of the centre of the tile.
