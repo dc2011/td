@@ -7,6 +7,7 @@
 #include <QSet>
 #include <QPointF>
 #include <QPolygon>
+#include <QVector>
 
 #include "../util/defines.h"
 #include "ClsIdx.h"
@@ -76,6 +77,28 @@ public:
         return pos_;
     }
 
+    /**
+      * Gets the tile's bounding area.
+      *
+      * @author Luke Queenan
+      * @return A polygon representing the blocked area of the tile.
+      */
+    QPolygonF getBounds()
+    {
+        return myBounds_;
+    }
+
+    /**
+      * Sets the tile's bounding area.
+      *
+      * @author Luke Queenan
+      * @return void
+      */
+    void setBounds(QPolygonF bounds)
+    {
+        myBounds_ = bounds;
+    }
+
 private:
     int tileID_;
     blockingType type_;
@@ -88,7 +111,7 @@ private:
      */
     QPointF pos_;
 
-    void setBounds(int row, int column, blockingType type);
+    void setInitialBounds(int row, int column, blockingType type);
 };
 
 } /* end namespace td */
