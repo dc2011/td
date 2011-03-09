@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Tower Defense</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="formLayoutWidget">
@@ -25,49 +25,49 @@
     </property>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
-      <widget class="QLabel" name="IPAddressLabel">
+      <widget class="QLabel" name="lblAddress">
        <property name="text">
         <string>IP address</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="IPAddressNetworkAddressEntry">
+      <widget class="QLineEdit" name="txtAddress">
        <property name="text">
         <string>127.0.0.1</string>
        </property>
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="usernameLabel">
+      <widget class="QLabel" name="lblUsername">
        <property name="text">
         <string>Username</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="usernameLineEdit">
+      <widget class="QLineEdit" name="txtUsername">
        <property name="text">
         <string>username</string>
        </property>
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QLabel" name="numConnectedLabel">
+      <widget class="QLabel" name="lblDisplayCount">
        <property name="text">
         <string>0</string>
        </property>
       </widget>
      </item>
      <item row="3" column="0">
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="lblCount">
        <property name="text">
         <string>Number connected:</string>
        </property>
       </widget>
      </item>
      <item row="2" column="0" colspan="2">
-      <widget class="QPushButton" name="connectButton">
+      <widget class="QPushButton" name="btnConnect">
        <property name="text">
         <string>Connect</string>
        </property>
@@ -76,18 +76,5 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>497</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
- </widget>
- <resources/>
- <connections/>
+</widget>
 </ui>
