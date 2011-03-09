@@ -3,8 +3,6 @@
 #define TOWERPHYSICSCOMPONENT_H
 
 #include "PhysicsComponent.h"
-#include "../engine/Tower.h"
-#include "../engine/GameObject.h"
 #include "../engine/NPC.h"
 #include "../engine/Map.h"
 #include "../engine/CDriver.h"
@@ -13,7 +11,9 @@
 
 namespace td {
 
-class TowerPhysicsComponent: public Tower {
+class Tower;
+
+class TowerPhysicsComponent: public PhysicsComponent {
     Q_OBJECT
 
 public:

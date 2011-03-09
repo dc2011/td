@@ -6,6 +6,8 @@
 
 namespace td {
 
+TowerPhysicsComponent::TowerPhysicsComponent() {}
+
 void TowerPhysicsComponent::update(GameObject *tower) {
     this->applyDirection((Tower*)tower);
 }
@@ -19,17 +21,18 @@ void TowerPhysicsComponent::findTargets(GameObject* tower) {
         target.p2() = tower->getPos();
     }
     Unit* u = new NPC();
-    this->setNPCs(tower, 10);
+    this->setNPCs(tower, 3);
     QSet<Unit*> units = this->getNPCs();
 
     QSet<Unit*>::iterator iter;
+
     for( iter = units.begin();iter != units.end(); ++iter){
         u = *iter;
         QLineF line;
         line.p1() = tower->getPos();
         line.p2() = u->getPos();
-        if(this->getEnemy() != NULL && target.length() < 5 ) {
-            break;
+        if(this->getEnemy() != NULL && target.length() < 3 ) {
+            return;
         } else {
             this->setTarget(u);
         }
@@ -45,8 +48,8 @@ void TowerPhysicsComponent::applyDirection(GameObject* tower) {
     }
     int angle = 0;
     int degree = 0;
-    int velX = this->getEnemy()->getPos().x() - this->getPos().x();
-    int velY = this->getEnemy()->getPos().y() - this->getPos().y();
+    int velX = this->getEnemy()->getPos().x() - tower->getPos().x();
+    int velY = this->getEnemy()->getPos().y() - tower->getPos().y();
 
     if (velX == 0 && velY == 0) {
         return;

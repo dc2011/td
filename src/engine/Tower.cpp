@@ -2,6 +2,7 @@
 #include "CDriver.h"
 #include "Effect.h"
 #include "../graphics/TowerGraphicsComponent.h"
+#include "../physics/TowerPhysicsComponent.h"
 #include "../util/defines.h"
 
 namespace td {
@@ -13,6 +14,9 @@ void Tower::update() {
 }
 
 void Tower::initComponents() {
+    PhysicsComponent* physics = new TowerPhysicsComponent();
+
+    this->setPhysicsComponent(physics);
     componentsInitialized_ = false;
 }
 
