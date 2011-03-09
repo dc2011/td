@@ -7,6 +7,7 @@
 #include <QSet>
 #include <QPointF>
 #include <QPolygon>
+#include <QVector>
 
 #include "../util/defines.h"
 #include "ClsIdx.h"
