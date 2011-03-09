@@ -1,30 +1,41 @@
 #include "Map.h"
+#include "Tile.h"
+#include "../graphics/MapDisplayer.h"
+#include "../client/MainWindow.h"
+
+/** Tiled headers. */
+#include "isometricrenderer.h"
+#include "map.h"
+#include "mapobject.h"
+#include "mapreader.h"
+#include "objectgroup.h"
+#include "orthogonalrenderer.h"
+#include "tilelayer.h"
+#include "tileset.h"
+#include "tile.h"
 
 namespace td{
-    Map::Map(int heightInTiles, int widthInTiles)
-    {
-        heightInTiles_ = heightInTiles;
-        widthInTiles_ = widthInTiles;
+
+    Map::Map(Tiled::Map * tMap) {
+        tMap_ = tMap;
         waypoints = QMap<int,QList<QPoint> >();
     }
 
     void Map::initMap() {
-        tiles_ = new Tile**[heightInTiles_];
-        //QGraphicsItem * gTile = NULL;
-        //MapDisplayer * md = td::MainWindow::instance()->getMD();
         blockingType type;
+        Tiled::Tile * tile = NULL;
+        Tiled::TileLayer * tileLayer = tMap_->layerAt(0)->asTileLayer();
+        size_t height = tileLayer->height();
+        size_t width = tileLayer->width();
 
-        for (int row = 0; row < heightInTiles_; row++) {
-            tiles_[row] = new Tile*[widthInTiles_];
+        tiles_ = new Tile**[height];
 
-            for (int col = 0; col < widthInTiles_; col++) {
-                //gTile = md->itemAt(row, col);
-                type = OPEN; //default type
-                // area to add logic for tile creation
-                if( row ==0 || col == 0 || row == heightInTiles_-1 || col == widthInTiles_ -1 ) {
-                    type = CLOSED; //border of map gets CLOSED status
-                }
-                // end for logic
+        for (size_t row = 0; row < height; row++) {
+            tiles_[row] = new Tile*[width];
+
+            for (size_t col = 0; col < width; col++) {
+                tile = tileLayer->tileAt(col, row);
+                type = (blockingType) tile->id(); //default type
                 //save into array
                 tiles_[row][col] = new Tile(row, col, type);
             }
@@ -102,6 +113,28 @@ namespace td{
             }
         }
         return units;
+    }
+
+    void Map::addUnit(double x, double y, Unit *unitToAdd)
+    {
+        int row = 0;
+        int column = 0;
+
+        getTileCoords(x, y, &row, &column);
+
+        tiles_[row][column]->addUnit(unitToAdd);
+        //qDebug("add to tile: %d, %d",row, column);
+    }
+
+    void Map::removeUnit(double x, double y, Unit *unitToRemove)
+    {
+        int row = 0;
+        int column = 0;
+
+        getTileCoords(x, y, &row, &column);
+
+        tiles_[row][column]->removeUnit(unitToRemove);
+        //qDebug("leaving tile: %d, %d", row, column);
     }
 
 }//end namespace 

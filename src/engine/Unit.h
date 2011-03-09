@@ -5,6 +5,7 @@
 #include <QPointF>
 
 #include "GameObject.h"
+#include "../physics/Bounds.h"
 
 namespace td {
 
@@ -20,6 +21,8 @@ public:
     static unsigned char clsIdx() {
         return td::clsidx::kUnit;
     }
+
+    td::Bounds *myBounds_;
 
 private:
     enum {
@@ -107,6 +110,14 @@ public:
         input_ = input;
         input_->setParent(this);
     }
+
+    /**
+      * Add & Remove unit from Tile list when changing positions.
+      *
+      * @author Ian Lee
+      * @param newPos The new position for the unit.
+      */
+    void changeTile(QPointF newPos);
 
 protected:
     QVector2D velocity_;

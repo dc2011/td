@@ -1,5 +1,6 @@
 #include "CDriver.h"
 #include "GameInfo.h"
+#include "../graphics/PixmapFiles.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 #include "ContextMenu.h"
@@ -11,6 +12,9 @@
 #include "ResManager.h"
 #include "Tower.h"
 #include "../client/MainWindow.h"
+#include "map.h"
+#include "../graphics/MapDisplayer.h"
+#include "../util/defines.h"
 
 namespace td {
 
@@ -155,7 +159,17 @@ void CDriver::createTower(int towerType, QPointF pos) {
     Stream* request = new Stream();
     tower_ = new Tower();
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
-    GraphicsComponent* graphics = new TowerGraphicsComponent();
+    
+    QString pixmapPath;
+
+    switch (towerType) {
+        case TOWER_ARROW:   pixmapPath = PIX_TOWER_ARROW;   break;
+        case TOWER_CANNON:  pixmapPath = PIX_TOWER_CANNON;  break;
+        case TOWER_TAR:     pixmapPath = PIX_TOWER_TAR;     break;
+        case TOWER_FLAME:   pixmapPath = PIX_TOWER_FLAME;   break;
+        case TOWER_FLAK:    pixmapPath = PIX_TOWER_FLAK;    break;
+    }
+    GraphicsComponent* graphics = new TowerGraphicsComponent(pixmapPath);
 
     tower_->setPos(currentTile->getPos());
     tower_->setGraphicsComponent(graphics);
@@ -169,7 +183,7 @@ void CDriver::createTower(int towerType, QPointF pos) {
 
 void CDriver::startGame() {
     // Create hard coded map
-    CDriver::gameMap_     = new Map(16, 21);
+    CDriver::gameMap_     = new Map(mainWindow_->getMD()->map());
     CDriver::gameMap_->initMap();
     CDriver::gameTimer_   = new QTimer(this);
 

@@ -3,6 +3,7 @@
 
 #include "PhysicsComponent.h"
 #include "Bounds.h"
+#include <set>
 
 namespace td {
 
@@ -45,6 +46,9 @@ public:
     void applyDirection(Player* player);
 
     /**
+     * Return true if moving to newPos is a valid move.
+     *
+     * @param newPos, Desired position to move to.
      *
      * @author Daniel Wright
      */
@@ -54,12 +58,22 @@ public:
      * Return true if pos is in unblocked half of tile.
      * Return false if pos is in blocked half of tile.
      *
-     * @param pos
-     * @param type
+     * @param pos, Position to be checked
+     * @param type, Blocking type of tile
      *
      * @author Daniel Wright
      */
     bool checkSemiBlocked(QPointF pos, int type);
+
+    /**
+     * Checks set of enemies for collisions with player.
+     * If a collision is detected, adds a stun effect to the player.
+     *
+     * @param npcs, Set of npcs to check for collisions
+     *
+     * @author Daniel Wright
+     */
+    void checkNPCCollision(std::set<Unit*> npcs);
 
     /**
      * This updates the physics properties of Player.
@@ -82,6 +96,7 @@ signals:
      * @author Ian Lee, Tom Nightingale
      */
     void requestTileType(double x, double y, int *blockingType);
+
 
 private:
     /* data */

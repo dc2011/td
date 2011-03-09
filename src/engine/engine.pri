@@ -1,3 +1,6 @@
+include(../3rdparty/libtiled/libtiled.pri)
+
+LIBS += ../lib/libtiled.a -lz
 
 ENGINE_HDRS +=  ./engine/ContextMenu.h \
                 ./engine/CDriver.h \
