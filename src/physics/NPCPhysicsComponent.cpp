@@ -6,7 +6,7 @@
 namespace td {
 
 NPCPhysicsComponent::NPCPhysicsComponent()
-        : accel_(0.4), decel_(0.7), maxVelocity_(3) {}
+        : accel_(0.2), decel_(0.25), maxVelocity_(2) {}
 NPCPhysicsComponent::~NPCPhysicsComponent() {}
 
 void NPCPhysicsComponent::update(Unit* npc)
@@ -20,6 +20,9 @@ void NPCPhysicsComponent::update(Unit* npc)
 void NPCPhysicsComponent::applyVelocity(NPC* npc)
 {
     QPointF newPos = npc->getPos() + npc->getVelocity().toPointF();
+
+    // Determine if the NPC needs to update its tile position.
+    npc->changeTile(newPos);
     npc->setPos(newPos);
 }
 

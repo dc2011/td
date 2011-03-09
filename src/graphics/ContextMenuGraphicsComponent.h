@@ -30,7 +30,7 @@ public:
     /**
      * Gets a pixmap for the object based on its current animation state.
      *
-     * @author Warren Voelk
+     * @author Warren Voelkl
      */
     virtual void initPixmaps();
 

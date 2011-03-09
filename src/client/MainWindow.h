@@ -13,24 +13,18 @@
 #define KEYDOWN 2
 #define KEYLEFT 4
 #define KEYRIGHT 8
+#define WINSIZEX 1024
+#define WINSIZEY 768
 
 namespace td {
 
+class MapDisplayer;
 class GraphicsComponent;
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
 private:
-
-    MainWindow();
-    virtual ~MainWindow();
-    
-    /**
-     * The single instance of this class that can be created.
-     */
-    static MainWindow* instance_;
-    
     /**
      * The graphics scene which contains all the objects
      */
@@ -51,28 +45,19 @@ private:
      */
     QTimer *keysTimer_;
 
+    /**
+     * Tiled map displayer object. Seems to handle parsing and rendering of the
+     * tiled map data.
+     */
+    MapDisplayer * mapDisplayer_;
+
 public:
-    /**
-     * Creates an instance of the class if one doesn't exist yet.
-     *
-     * @author Dean Morin
-     * @returns An new instance of the class if one doesn't exist yet, or
-     * if one does, it returns a pointer to that instance.
-     */
-    static MainWindow* init();
-   
-    /**
-     * Returns the instance of this Singleton class. Should only be used if
-     * you know that init() has already been called.
-     *
-     * @author Dean Morin
-     * @returns A pointer to the one available instance of this class.
-     */
-    static MainWindow* instance() {
-        return instance_;
-    }
+    MainWindow();
+    virtual ~MainWindow();
     
     QGraphicsScene* getScene() { return scene_; }
+
+    MapDisplayer * getMD() { return mapDisplayer_; }
     
 protected:
     /**
@@ -102,7 +87,7 @@ public slots:
      * @author Darryl Pogue
      * @param gc The GraphicsComponent of the game object.
      */
-    void drawItem(DrawParams* dp, GraphicsComponent* gc);
+    void drawItem(DrawParams* dp, GraphicsComponent* gc, int layer);
     void animateItem(GraphicsComponent* gc);
     
     /**
@@ -112,12 +97,21 @@ public slots:
      */
     void keyHeld();
 
+    /**
+     * Blatant hack to workaround stupid thread issues.
+     *
+     * @author Darryl Pogue
+     */
+    void openWindow() {
+        this->show();
+    }
+
 signals:
     void signalKeyPressed(int);
     void signalKeyReleased(int);
     void signalNumberPressed(int);
     void signalSpacebarPressed();
-    void signalRHeld(bool);
+    void signalAltHeld(bool);
     void signalFPressed();
 };
 

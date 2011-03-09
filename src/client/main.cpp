@@ -1,11 +1,11 @@
-#include <QObject>
 #include <QApplication>
+#include <QObject>
 #include <QThreadPool>
 #include "MainWindow.h"
-#include "../util/thread.h"
-#include "../graphics/MapDisplayer.h"
-#include "../engine/CDriver.h"
 #include "../audio/manager.h"
+#include "../engine/CDriver.h"
+#include "../graphics/MapDisplayer.h"
+#include "../util/thread.h"
 
 int main(int argc, char **argv) {
     QApplication a(argc, argv);
@@ -21,15 +21,15 @@ int main(int argc, char **argv) {
 #endif
     QDir::setCurrent(bin.absolutePath());
 
-    td::MainWindow* qmw = td::MainWindow::init();
-    td::CDriver clientDriver(qmw);
+    td::MainWindow* qmw = new td::MainWindow();
+    td::CDriver* clientDriver = td::CDriver::init(qmw);
     td::Thread* driverThread = new td::Thread();
     musicList = td::AudioManager::instance()->musicDir("./sound/music/");
     QThreadPool::globalInstance()->setMaxThreadCount(16);
 
     QObject::connect(driverThread, SIGNAL(started()),
-                     &clientDriver, SLOT(startGame()));
-    clientDriver.moveToThread(driverThread);
+                     clientDriver, SLOT(startGame()));
+    clientDriver->moveToThread(driverThread);
 
     driverThread->start();
     
@@ -39,7 +39,11 @@ int main(int argc, char **argv) {
     // Show the map
     map.viewMap(QString("../maps/desert.tmx"));*/
     qmw->show();
-    
-    return a.exec();
+
+    int exitCode = a.exec();
+    td::AudioManager::instance()->shutdown();
+    td::CDriver::shutdown();
+    delete qmw;
+    return exitCode;
 }
 

@@ -39,6 +39,20 @@ void AudioManager::startup()
     playing_ = 0;
 }
 
+void AudioManager::playSfx(QVector<QString> files, SoundType type) {
+    
+    int rdNum;
+    
+    if(files.size() < 1) {
+	qCritical("AudioManager::playSfx(): Empty Vector");
+	return;
+    }
+    
+    rdNum = rand() % files.size();
+    qDebug("%d",rdNum);
+    playSfx(files[rdNum],type);
+}
+
 void AudioManager::playSfx(QString filename, SoundType type)
 {
     int gain;
@@ -170,12 +184,14 @@ void AudioManager::streamOgg(QString filename, float gain)
     }
 
     /* Try opening the given ogg file */
+    mutex_.lock();
     if (ov_open(file, &oggFile, NULL, 0) != 0) {
         qCritical() << "AudioManager::streamOgg(): Error opening " << filename << " for decoding...";
         return;
     }
-
-    SAFE_OPERATION(playing_++);
+    
+    playing_++;
+    mutex_.unlock();
 
     do {
         alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
@@ -255,9 +271,11 @@ void AudioManager::streamOgg(QString filename, float gain)
         processed--;
     }
 
+    mutex_.lock();
     alDeleteSources(1, &source);
     alDeleteBuffers(QUEUESIZE, buffer);
-    SAFE_OPERATION(playing_--;);
+    playing_--;
+    mutex_.unlock();
 }
 
 } /* End namespace td */
