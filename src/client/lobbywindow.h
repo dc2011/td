@@ -24,6 +24,7 @@ signals:
 
 public slots:
     void connectLobby();
+    void tmp_startGame();
     void onTCPReceived(Stream* s);
 
 private:

@@ -1,5 +1,5 @@
 #include "lobbywindow.h"
-#include "ui_lobbywindow.h"
+#include "../../uic/ui_lobbywindow.h"
 #include "../network/netclient.h"
 #include <QMessageBox>
 
@@ -10,9 +10,12 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
     ui(new Ui::LobbyWindow)
 {
     ui->setupUi(this);
+    ui->btnStart->setEnabled(false);
 
     connect(ui->btnConnect, SIGNAL(clicked()),
             this, SLOT(connectLobby()));
+    connect(ui->btnStart, SIGNAL(clicked()),
+            this, SLOT(tmp_startGame()));
 
     connect(this, SIGNAL(startGame()),
             this, SLOT(close()));
@@ -45,6 +48,12 @@ void LobbyWindow::connectLobby()
     delete s;
 }
 
+void LobbyWindow::tmp_startGame()
+{
+    Stream s;
+    NetworkClient::instance()->send(network::kLobbyStartGame, s.data());
+}
+
 void LobbyWindow::onTCPReceived(Stream* s)
 {
     unsigned char msgType = s->readByte();
@@ -56,8 +65,13 @@ void LobbyWindow::onTCPReceived(Stream* s)
             ui->lblDisplayCount->setText(QString::number(players));
 
             if (players == 1) {
-                emit startGame();
+                ui->btnStart->setEnabled(true);
             }
+            break;
+        }
+        case network::kLobbyStartGame:
+        {
+            emit startGame();
             break;
         }
         case network::kBadVersion:

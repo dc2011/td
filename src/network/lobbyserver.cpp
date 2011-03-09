@@ -33,6 +33,18 @@ void LobbyServer::notifyClients(unsigned char msgType)
                 sock->write(data);
                 sock->flush();
             }
+            break;
+        }
+        case network::kLobbyStartGame:
+        {
+            Stream s;
+            s.writeByte(msgType);
+            QByteArray data = s.data();
+            foreach (QTcpSocket* sock, clients_) {
+                sock->write(data);
+                sock->flush();
+            }
+            break;
         }
     }
 }
@@ -80,6 +92,13 @@ void LobbyServer::readSocket()
             SAFE_OPERATION(connCount_++)
             notifyClients(network::kLobbyWelcome);
             qDebug() << "Number of clients connected = " << connCount_;
+            break;
+        }
+        case network::kLobbyStartGame:
+        {
+            notifyClients(network::kLobbyStartGame);
+            qDebug() << "Starting a game...";
+            /* Here we should be forking */
             break;
         }
     }
