@@ -85,7 +85,10 @@ namespace td{
         int r,c;
         getTileCoords(x,y,&r,&c);
         return tiles_[r][c];
+    }
 
+    Tile* Map::getTile(QPointF coords) {
+        Map::getTile(coords.x(), coords.y());
     }
 
     QSet<Unit*> Map::getUnits(double x, double y, double radius){

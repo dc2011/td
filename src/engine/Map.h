@@ -75,6 +75,14 @@ public:
      * @author Ian Lee
      */
     Tile* getTile(double x, double y);
+    
+    /**
+     * Gets the tile at the coordinates coords.
+     *
+     * @author Dean Morin
+     * @param coords The coordinates to find the tile with.
+     */
+    Tile* getTile(QPointF coords);
 
     /**
      * gets the Units from Tiles surounding coords x,y in radius.

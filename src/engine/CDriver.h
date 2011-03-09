@@ -160,7 +160,7 @@ public:
     /**
      * Gets a pointer to the main window where all graphics are drawn.
      *
-     * @author Dean Morin
+     * @author Dean Morin, Darryl Pogue. Special thanks to Marcel Vangrootheest.
      * @return The main window where all graphics are drawn.
      */
     MainWindow* getMainWindow() {
@@ -177,6 +177,12 @@ public slots:
     * @return void
     */
     void startGame();
+
+    /**
+     * Called whenenever the spacebar is pressed. It checks the tile type that
+     * the player is currently standing on, and performs the appropriate action.
+     */
+    void handleSpacebarPress();
 
 private slots:
     /**
