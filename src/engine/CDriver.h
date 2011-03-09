@@ -3,6 +3,7 @@
 
 #include <QTimer>
 #include <QPointF>
+#include <QString>
 #include "ContextMenu.h"
 #include "GameObject.h"
 #include "Map.h"
