@@ -11,8 +11,19 @@ namespace network {
         /** Used as a separator to indicate TCP messages. */
         kBLOCK_TCP      =   0x00,
 
+        /**
+         * Requests to join the lobby server or indicates the number of players
+         * connected to the lobby.
+         * */
+        kLobbyWelcome   =   0x00,
+
+        /** Indicates or requests that the game starts. */
+        kLobbyStartGame =   0x01,
+
+        kBadVersion     =   0x02,
+
         /** Indicates a block of object updates sent from the server to client. */
-        kServerUpdate   =   0x00,
+        kServerUpdate   =   0x03,
 
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
@@ -29,13 +40,11 @@ namespace network {
         /** Server Assigns ID to an Tower **/
         kAssignTowerID = 0x82,
 	
-	/** Player Requests and ID from server **/
-	kRequestPlayerID = 0x83,
+        /** Player Requests and ID from server **/
+        kRequestPlayerID = 0x83,
 
-	/** Server Assigns ID to a Player **/
-	kAssignPlayerID = 0x84,
-
-	
+        /** Server Assigns ID to a Player **/
+        kAssignPlayerID = 0x84,
 
     };
 

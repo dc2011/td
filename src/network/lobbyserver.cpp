@@ -1,5 +1,6 @@
 #include "lobbyserver.h"
 #include "stream.h"
+#include "netmessages.h"
 
 namespace td {
 
@@ -19,13 +20,13 @@ LobbyServer::~LobbyServer()
     delete tcpServer_;
 }
 
-void LobbyServer::notifyClients(int msgType)
+void LobbyServer::notifyClients(unsigned char msgType)
 {
     switch (msgType) {
-        case kUpdateNumberOfClients:
+        case network::kLobbyWelcome:
         {
             Stream s;
-            s.writeInt(msgType);
+            s.writeByte(msgType);
             SAFE_OPERATION(s.writeInt(connCount_))
             QByteArray data = s.data();
             foreach (QTcpSocket* sock, clients_) {
@@ -46,14 +47,42 @@ void LobbyServer::handleNewConnection()
     qDebug() << "Hi, I'm a server! Who are you?" <<
                 conn->peerAddress().toString();
 
+    connect(conn, SIGNAL(readyRead()),
+            this, SLOT(readSocket()));
     connect(conn, SIGNAL(disconnected()),
             this, SLOT(disconnected()));
     clients_.append(conn);
+}
 
-    qDebug() << "Number of clients connected = " << clients_.size();
+void LobbyServer::readSocket()
+{
+    QTcpSocket* conn = (QTcpSocket*)QObject::sender();
 
-    SAFE_OPERATION(connCount_++)
-    notifyClients(kUpdateNumberOfClients);
+    QByteArray data = conn->readAll();
+    Stream s(data);
+
+    unsigned char msgType = s.readByte();
+
+    switch (msgType) {
+        case network::kLobbyWelcome:
+        {
+            short version = s.readShort();
+            if (version != 0x0001) {
+                Stream rs;
+                rs.writeByte(network::kBadVersion);
+                conn->write(rs.data());
+                conn->close();
+                return;
+            }
+
+            int len = s.readByte();
+            QString nick = QString(s.read(len));
+            SAFE_OPERATION(connCount_++)
+            notifyClients(network::kLobbyWelcome);
+            qDebug() << "Number of clients connected = " << connCount_;
+            break;
+        }
+    }
 }
 
 void LobbyServer::disconnected()
@@ -62,10 +91,13 @@ void LobbyServer::disconnected()
 
     clients_.removeOne(conn);
 
-    qDebug() << "Number of clients connected = " << clients_.size();
+    SAFE_OPERATION(int count = connCount_)
+    if (count > 0) {
+        SAFE_OPERATION(connCount_--)
+    }
 
-    SAFE_OPERATION(connCount_--)
-    notifyClients(kUpdateNumberOfClients);
+    notifyClients(network::kLobbyWelcome);
+    qDebug() << "Number of clients connected = " << connCount_;
 }
 
 } /* end namespace td */

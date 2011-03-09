@@ -15,13 +15,6 @@ class LobbyServer : public QObject
     Q_OBJECT
     THREAD_SAFE_CLASS
 
-public:
-    enum {
-        kUpdateNumberOfClients,
-        kStartGame,
-        kFullGame = kStartGame
-    };
-
 private:
     QTcpServer* tcpServer_;
     unsigned int connCount_;
@@ -32,10 +25,11 @@ public:
     virtual ~LobbyServer();
 
 protected:
-    void notifyClients(int msgType);
+    void notifyClients(unsigned char msgType);
 
 private slots:
     void handleNewConnection();
+    void readSocket();
     void disconnected();
 
 };
