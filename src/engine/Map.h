@@ -2,6 +2,7 @@
 #define TD_MAP_H
 
 #include "../util/mutex_magic.h"
+#include "../util/defines.h"
 #include <QObject>
 #include <QPoint>
 #include <QList>
@@ -11,6 +12,7 @@
 #include <math.h>
 
 namespace Tiled {
+class ObjectGroup;
 class Map;
 }
 
@@ -28,7 +30,7 @@ public:
 
 private:
     /**  */
-    QMap<int,QList<QPoint> > waypoints;
+    QMap<int,QList<QPointF> > waypoints;
 
     /**  */
     Tile ***tiles_;
@@ -74,6 +76,14 @@ public:
      * @author Ian Lee
      */
     Tile* getTile(double x, double y);
+    
+    /**
+     * Gets the tile at the coordinates coords.
+     *
+     * @author Dean Morin
+     * @param coords The coordinates to find the tile with.
+     */
+    Tile* getTile(QPointF coords);
 
     /**
      * gets the Units from Tiles surounding coords x,y in radius.
@@ -88,7 +98,7 @@ public:
       *
       * @author Ian Lee
       */
-    QMap<int,QList<QPoint> > getAllWaypoints(){
+    QMap<int,QList<QPointF> > getAllWaypoints(){
         return waypoints;
     }
 
@@ -97,7 +107,7 @@ public:
      *
      * @author Ian Lee
      */
-    QList<QPoint> getWaypoints(int key){
+    QList<QPointF> getWaypoints(int key){
         return waypoints[key];
     }
 
@@ -106,9 +116,18 @@ public:
      *
      * @author Ian Lee
      */
-    void addWaypoints(int key ,QList<QPoint> newSet){
-        waypoints.insert(key, newSet);
+    void addWaypoints(int key ,QList<QPointF>* newSet){
+        waypoints.insert(key, *newSet);
     }
+
+    /**
+     * Makes a list of waypoints based on QPointF and adds it to the Map.
+     *
+     * @author Marcel Vangrootheest
+     * @param key to identify enemy type
+     * @param path the object layer from tiled
+     */
+    void makeWaypoints(int key, Tiled::ObjectGroup* path);
 
     /**
       * Adds a pointer to a unit to the specified tile.
