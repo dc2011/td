@@ -4,4 +4,4 @@ DESTDIR = ../bin
 QT += network
 OBJECTS_DIR = ../obj
 MOC_DIR = ../moc
-UIC_DIR = ../uic
+UI_DIR = ../uic
