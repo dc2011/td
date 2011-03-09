@@ -87,6 +87,7 @@ private:
      */
     QPointF pos_;
 
+    void setBounds(blockingType type);
 };
 
 } /* end namespace td */

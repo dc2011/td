@@ -18,11 +18,29 @@ Tile::Tile(int row, int column, blockingType type)
 {
     tileID_ = column * MAP_ROWS + row;
     type_ = type;
-    //myBounds_ = new TriBounds()
+
     actionType_ = TILE_REGULAR;
     int xPos = column * TILE_WIDTH + TILE_WIDTH / 2;
     int yPos = row * TILE_HEIGHT + TILE_HEIGHT / 2;
     pos_ = QPointF(xPos, yPos);
+}
+
+/**
+  * Sets the bounding area for a tile.
+  *
+  * The logic for taking a blocking type and converting it to a bounding area.
+  * Closed type will use a box based on the size of the tile, semiclosed tiles
+  * will have a triangle. Open type will not have a bounding box. The
+  * coordinates will be based on the position of the tile in the map.
+  *
+  * @author Luke Queenan
+  */
+void Tile::setBounds(blockingType type)
+{
+    switch (type)
+    {
+
+    }
 }
 
 /**
