@@ -67,6 +67,9 @@ public slots:
 
     /**
      * Shows or hides the resources required to build the towers.
+     * 
+     * @author Dean Morin
+     * @param altHeld True if the resources should be displayed.
      */
     void viewResources(bool altHeld);
 
