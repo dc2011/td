@@ -13,6 +13,8 @@
 #define KEYDOWN 2
 #define KEYLEFT 4
 #define KEYRIGHT 8
+#define WINSIZEX 1024
+#define WINSIZEY 768
 
 namespace td {
 

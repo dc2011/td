@@ -27,7 +27,8 @@ MainWindow::MainWindow() : QMainWindow() {
 
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
-    view_->setFixedSize(1024,768);
+    view_->setFixedSize(WINSIZEX,WINSIZEY);
+    scene_->setSceneRect(0,0,WINSIZEX,WINSIZEY);
     //this->showFullScreen();
     
     // This focus policy may be implied by default...
