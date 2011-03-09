@@ -15,6 +15,7 @@
 #include <QGraphicsScene>
 #include <QStyleOptionGraphicsItem>
 #include <QDebug>
+
 using namespace Tiled;
 
 /**
@@ -130,7 +131,7 @@ public:
 };
 
 
-MapDisplayer::MapDisplayer(QGraphicsScene* scene, QWidget* parent) :
+td::MapDisplayer::MapDisplayer(QGraphicsScene* scene, QWidget* parent) :
     QGraphicsView(parent),
     mScene(scene),
     mMap(0),
@@ -144,14 +145,14 @@ MapDisplayer::MapDisplayer(QGraphicsScene* scene, QWidget* parent) :
     viewport()->setAttribute(Qt::WA_StaticContents);
 }
 
-MapDisplayer::~MapDisplayer()
+td::MapDisplayer::~MapDisplayer()
 {
     qDeleteAll(mMap->tilesets());
     delete mMap;
     delete mRenderer;
 }
 
-void MapDisplayer::viewMap(const QString& fileName)
+void td::MapDisplayer::viewMap(const QString& fileName)
 {
     delete mRenderer;
     mRenderer = 0;

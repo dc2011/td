@@ -1,7 +1,8 @@
-#ifndef MAP_H
-#define MAP_H
+#ifndef TD_MAP_H
+#define TD_MAP_H
 
 #include "../util/mutex_magic.h"
+#include "../util/defines.h"
 #include <QObject>
 #include <QPoint>
 #include <QList>
@@ -9,22 +10,33 @@
 #include <QMap>
 #include <QMutex>
 #include <math.h>
-#include "Tile.h"
-namespace td{
+
+namespace Tiled {
+class ObjectGroup;
+class Map;
+}
+
+namespace td {
+
+class Unit;
+class Tile;
 
 class Map : public QObject {
     Q_OBJECT
 
 public:
-    explicit Map(int heightInTiles, int widthInTiles);
+    explicit Map(Tiled::Map * tMap);
     virtual ~Map() { }
 
 private:
     /**  */
-    QMap<int,QList<QPoint> > waypoints;
+    QMap<int,QList<QPointF> > waypoints;
 
     /**  */
     Tile ***tiles_;
+
+    /**  */
+    Tiled::Map * tMap_;
 
     /**  */
     int heightInTiles_;
@@ -64,6 +76,14 @@ public:
      * @author Ian Lee
      */
     Tile* getTile(double x, double y);
+    
+    /**
+     * Gets the tile at the coordinates coords.
+     *
+     * @author Dean Morin
+     * @param coords The coordinates to find the tile with.
+     */
+    Tile* getTile(QPointF coords);
 
     /**
      * gets the Units from Tiles surounding coords x,y in radius.
@@ -78,7 +98,7 @@ public:
       *
       * @author Ian Lee
       */
-    QMap<int,QList<QPoint> > getAllWaypoints(){
+    QMap<int,QList<QPointF> > getAllWaypoints(){
         return waypoints;
     }
 
@@ -87,7 +107,7 @@ public:
      *
      * @author Ian Lee
      */
-    QList<QPoint> getWaypoints(int key){
+    QList<QPointF> getWaypoints(int key){
         return waypoints[key];
     }
 
@@ -96,9 +116,32 @@ public:
      *
      * @author Ian Lee
      */
-    void addWaypoints(int key ,QList<QPoint> newSet){
-        waypoints.insert(key, newSet);
+    void addWaypoints(int key ,QList<QPointF>* newSet){
+        waypoints.insert(key, *newSet);
     }
+
+    /**
+     * Makes a list of waypoints based on QPointF and adds it to the Map.
+     *
+     * @author Marcel Vangrootheest
+     * @param key to identify enemy type
+     * @param path the object layer from tiled
+     */
+    void makeWaypoints(int key, Tiled::ObjectGroup* path);
+
+    /**
+      * Adds a pointer to a unit to the specified tile.
+      *
+      * @author Luke Queenan
+      */
+    void addUnit(double x, double y, Unit *unitToAdd);
+
+    /**
+      * Removes the unit from the specified tile.
+      *
+      * @author Luke Queenan
+      */
+    void removeUnit(double x, double y, Unit *unitToRemove);
 
 public slots:
     /**
