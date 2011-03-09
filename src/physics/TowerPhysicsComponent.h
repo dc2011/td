@@ -30,9 +30,17 @@ public:
     void applyDirection(GameObject* tower);
 
     /**
-     * This updates the physics properties of Tower.\
+     * This updates the physics properties of Tower.
      */
     virtual void update(GameObject* tower);
+
+    /**
+     * Gathers Targets.
+     *
+     * @author Joel Stewart
+     * @param Tower, pointer to the Tower object
+     */
+    void findTargets(GameObject* tower);
 
     void setNPCs(GameObject* tower, int radius) {
         enemies_ = Map.getUnits(tower->getPos().x() ,tower->getPos().y() , radius);
