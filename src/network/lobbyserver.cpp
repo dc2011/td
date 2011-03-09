@@ -7,7 +7,7 @@ namespace td {
 LobbyServer::LobbyServer(QObject* parent) : QObject(parent), connCount_(0)
 {
     tcpServer_ = new QTcpServer();
-    tcpServer_->listen(QHostAddress::Any, 26631);
+    tcpServer_->listen(QHostAddress::Any, TD_PORT);
 
     qDebug() << "Server is listening for connections";
 
@@ -79,7 +79,7 @@ void LobbyServer::readSocket()
         case network::kLobbyWelcome:
         {
             short version = s.readShort();
-            if (version != 0x0001) {
+            if (version != TD_VERSION) {
                 Stream rs;
                 rs.writeByte(network::kBadVersion);
                 conn->write(rs.data());

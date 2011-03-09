@@ -35,6 +35,7 @@ void LobbyWindow::connectLobby()
     ui->txtAddress->setDisabled(true);
     ui->txtUsername->setDisabled(true);
     ui->btnConnect->setDisabled(true);
+    ui->chkSingleplayer->setDisabled(true);
 
     QString ip = ui->txtAddress->text();
     QHostAddress addr(ip);
@@ -44,7 +45,7 @@ void LobbyWindow::connectLobby()
             this, SLOT(onTCPReceived(Stream*)));
 
     Stream* s = new Stream();
-    s->writeShort(0x0001);
+    s->writeShort(TD_VERSION);
     s->writeByte(ui->txtUsername->text().length());
     s->write(ui->txtUsername->text().toAscii());
 

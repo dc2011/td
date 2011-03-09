@@ -6,6 +6,7 @@
 #include <QTcpSocket>
 #include <QList>
 #include <QMutex>
+#include "../util/defines.h"
 #include "../util/mutex_magic.h"
 
 namespace td {

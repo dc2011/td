@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QHostAddress>
+#include "../util/defines.h"
 #include "../network/stream.h"
 
 namespace Ui {
