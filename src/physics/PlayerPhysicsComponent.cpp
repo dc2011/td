@@ -85,9 +85,9 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     if (!flag) {
         player->changeTile(newPos);
         player->setPos(newPos);
-
+        player->setBounds(polygon);
         npcs = map->getUnits(newPos.x(), newPos.y(), 3);
-        checkNPCCollision(npcs);
+        checkNPCCollision(npcs, player);
 
     }
 
@@ -320,10 +320,16 @@ bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
     return true;
 }
 
-void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs){
+void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
 
     QSet<Unit*>::iterator it;
     for(it = npcs.begin(); it != npcs.end(); ++it){
+        if(player->getBounds().intersected((*it)->getBounds()).count() == 0){
+            //qDebug("Collision");
+        }else{
+            //qDebug("No Collision");
+        }
+
         //if(collider_.intersectBox(it.bounds)){
         //  add stun effect to player
         //  return;
