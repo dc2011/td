@@ -63,7 +63,7 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
         lowerRight = newPos + QPointF(20, 11);
         lowerLeft = newPos + QPointF(-20, 11);
     }
-    //QPolygonF
+    //QPolygonF polygon = new QPolygonF(upperRight, upperLeft, lowerLeft, lowerRight);
     bool flag = false;
     foreach (Tile* targetTile ,targetTiles){
         /*
