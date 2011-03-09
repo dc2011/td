@@ -236,25 +236,25 @@ bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
 
     switch(type) {
         case NORTH_WEST:
-            if (posY < (TILE_WIDTH - posX)) {
+            if (posY > (TILE_WIDTH - posX)) {
                 return false;
             }
             break;
 
         case NORTH_EAST:
-            if ((posX > posY)) {
-                return false;
-            }
-            break;
-
-        case SOUTH_WEST:
             if ((posX < posY)) {
                 return false;
             }
             break;
 
+        case SOUTH_WEST:
+            if ((posX > posY)) {
+                return false;
+            }
+            break;
+
         case SOUTH_EAST:
-            if (posY > (TILE_WIDTH - posX)) {
+            if (posY < (TILE_WIDTH - posX)) {
                 return false;
             }
             break;
