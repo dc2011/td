@@ -51,18 +51,34 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     QPointF lowerLeft;
     Map* map = td::CDriver::instance()->getGameMap();
     QSet<Unit*> npcs;
+    double angle = player->getOrientation();
+    QMatrix matrix = QMatrix();
+    matrix.rotate(-angle);
 
-    if(player->getOrientation() == 0 || player->getOrientation() == 180){
-        upperRight = newPos + QPointF(11, -20);
-        upperLeft = newPos + QPointF(-11, -20);
-        lowerRight = newPos + QPointF(11, 20);
-        lowerLeft = newPos + QPointF(-11, 20);
-    }else{
-        upperRight = newPos + QPointF(20, -11);
-        upperLeft = newPos + QPointF(-20, -11);
-        lowerRight = newPos + QPointF(20, 11);
-        lowerLeft = newPos + QPointF(-20, 11);
-    }
+    upperRight = QPointF(15, -20) * matrix;
+    upperLeft =  QPointF(-5, -20) * matrix;
+    lowerRight = QPointF(15, 20) * matrix;
+    lowerLeft =  QPointF(-5, 20) * matrix;
+    //qDebug("bounding box: \n%d, %d\n%d, %d\n%d, %d\n%d, %d\n",(int) upperRight.x(),(int)  upperRight.y(),(int) upperLeft.x(),(int)  upperLeft.y()
+    //       ,(int) lowerRight.x(), (int) lowerRight.y(),(int) lowerLeft.x(),(int)  lowerLeft.y());
+
+   /*
+
+    upperRight = upperRight * matrix;
+    upperLeft = upperLeft * matrix;
+    lowerRight = lowerRight * matrix;
+    lowerLeft = lowerLeft * matrix;
+*/
+
+    upperRight += newPos ;
+    upperLeft += newPos ;
+    lowerRight += newPos ;
+    lowerLeft += newPos ;
+
+    //qDebug("bounding box: \n%d, %d\n%d, %d\n%d, %d\n%d, %d\n",(int) upperRight.x(),(int)  upperRight.y(),(int) upperLeft.x(),(int)  upperLeft.y()
+     //      ,(int) lowerRight.x(), (int) lowerRight.y(),(int) lowerLeft.x(),(int)  lowerLeft.y());
+
+
     QVector<QPointF> points = QVector<QPointF>();
     points.append(upperRight);
     points.append(upperLeft);
