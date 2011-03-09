@@ -2,6 +2,7 @@
 #define NPCPHYSICSCOMPONENT_H
 
 #include "PhysicsComponent.h"
+#include <QVector>
 
 namespace td {
 

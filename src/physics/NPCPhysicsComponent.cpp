@@ -2,6 +2,7 @@
 #include "../engine/NPC.h"
 #define PI 3.141592653589793238
 #include <math.h>
+#include "../engine/Unit.h"
 
 namespace td {
 
@@ -20,10 +21,26 @@ void NPCPhysicsComponent::update(Unit* npc)
 void NPCPhysicsComponent::applyVelocity(NPC* npc)
 {
     QPointF newPos = npc->getPos() + npc->getVelocity().toPointF();
+    QPointF point;
+    QVector<QPointF> points;
 
     // Determine if the NPC needs to update its tile position.
     npc->changeTile(newPos);
     npc->setPos(newPos);
+
+    //set up Vector to construct bounding Polygon
+    point = QPointF(newPos.x() - npc->getWidth()/2, newPos.y() - npc->getHeight( )/2);
+    points.append(point);
+    point = QPointF(newPos.x() + npc->getWidth()/2, newPos.y() - npc->getHeight()/2);
+    points.append(point);
+    point = QPointF(newPos.x() + npc->getWidth()/2, newPos.y() + npc->getHeight()/2);
+    points.append(point);
+    point = QPointF(newPos.x() - npc->getWidth()/2, newPos.y() + npc->getHeight()/2);
+    points.append(point);
+    point = QPointF(newPos.x() - npc->getWidth()/2, newPos.y() - npc->getHeight( )/2);
+    points.append(point);
+
+    npc->setBounds(QPolygonF(points));
 }
 
 void NPCPhysicsComponent::applyForce(NPC* npc)
