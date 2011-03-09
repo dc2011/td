@@ -1,6 +1,7 @@
 #include "../physics/TowerPhysicsComponent.h"
 #include "../engine/Tower.h"
  #include <QLineF>
+#include <typeinfo>
 #define PI 3.141592653589793238
 #include <math.h>
 
@@ -31,10 +32,14 @@ void TowerPhysicsComponent::findTargets(GameObject* tower) {
         QLineF line;
         line.p1() = tower->getPos();
         line.p2() = u->getPos();
-        if(this->getEnemy() != NULL && target.length() < 3 ) {
+        if(this->getEnemy() != NULL && target.length() < 3 && target.length() != 0) {
             return;
         } else {
-            this->setTarget(u);
+            QString debug = typeid( *u ).name();
+            if(debug.contains("NPC")) {
+                qDebug(debug.toLatin1().data());
+                this->setTarget(u);
+            }
         }
     }
 }
