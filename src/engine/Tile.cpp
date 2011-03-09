@@ -2,10 +2,6 @@
 #include "Unit.h"
 #include "TileExtension.h"
 
-// Temp defines pending a map object
-#define MAP_ROWS 99
-#define MAP_COLS 99
-
 namespace td {
 
 /**
@@ -22,6 +18,7 @@ Tile::Tile(int row, int column, blockingType type)
 {
     tileID_ = column * MAP_ROWS + row;
     type_ = type;
+    actionType_ = TILE_REGULAR;
     int xPos = column * TILE_WIDTH + TILE_WIDTH / 2;
     int yPos = row * TILE_HEIGHT + TILE_HEIGHT / 2;
     pos_ = QPointF(xPos, yPos);

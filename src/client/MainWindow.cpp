@@ -9,8 +9,6 @@
 
 namespace td {
 
-MainWindow* MainWindow::instance_ = NULL;
-
 MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
@@ -33,6 +31,7 @@ MainWindow::MainWindow() : QMainWindow() {
 
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
+    scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
     view_->setFixedSize(mapSize.width(), mapSize.height());
     //this->showFullScreen();
     
@@ -45,14 +44,6 @@ MainWindow::MainWindow() : QMainWindow() {
 
 MainWindow::~MainWindow() {
     /* driver_.shutdown() or something */
-}
-
-MainWindow* MainWindow::init() {
-    if (instance_ != NULL) {
-        return instance_;
-    }
-    instance_ = new MainWindow();
-    return instance_;
 }
 
 void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
