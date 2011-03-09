@@ -229,8 +229,8 @@ bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
 
 bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
 
-    float posX = pos.x() / TILE_WIDTH;
-    float posY = pos.y() / TILE_HEIGHT;
+    float posX = (int) pos.x() % TILE_WIDTH;
+    float posY = (int) pos.y() % TILE_HEIGHT;
 
     switch(type) {
         case NORTH_WEST:
