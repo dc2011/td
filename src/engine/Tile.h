@@ -8,6 +8,7 @@
 #include <QPointF>
 
 #include "ClsIdx.h"
+#include "../physics/Bounds.h"
 
 //temp defines
 #define TILE_HEIGHT 48
@@ -59,7 +60,7 @@ private:
     int tileID_;
     blockingType type_;
     QSet<Unit*> currentUnits_;
-
+    td::Bounds *myBounds_;
 
     /**
      * The coordinates of the centre of the tile.
