@@ -188,8 +188,8 @@ void CDriver::startGame() {
             contextMenu_, SLOT(selectMenuItem(int)));
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             contextMenu_, SLOT(viewResources(bool)));
-    connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
+    //connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+            //npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
     connect(gameTimer_,   SIGNAL(timeout()), 
             human_,       SLOT(update()));
     // connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
