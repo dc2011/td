@@ -99,6 +99,23 @@ void CDriver::readObject(Stream* s) {
     delete s;
 }
 
+void CDriver::destroyObjSync(int id) {
+    Stream* out = new Stream();
+    if(mgr_->findObject(id) == NULL) {
+	return;
+    }
+    mgr_->deleteObject(id);
+    out->writeInt(id);
+    NetworkClient::instance()->send(network::kClientDestroyObj, out->data());
+}
+
+void CDriver::destroyObjLocal(int id) {
+    if(mgr_->findObject(id) == NULL) {
+	return;
+    }
+    mgr_->deleteObject(id);
+}
+
 void CDriver::createHumanPlayer(MainWindow *gui) {
     
     Stream* request = new Stream();
@@ -273,6 +290,12 @@ void CDriver::UDPReceived(Stream* s) {
               mgr_->addExistingObject(tower_);
             }
             break;
+        case network::kServerDestroyObj:
+	{
+	    int id = s->readInt();
+	    destroyObjLocal(id);
+	    break;
+	}
         default:
             this->readObject(s);
             break;

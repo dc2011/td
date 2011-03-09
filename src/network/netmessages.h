@@ -37,6 +37,12 @@ namespace network {
 	
 	/** Server has created an object, sending object state to player **/
 	kServerCreateObj = 0x85,
+        
+        /** Server has destroyed an object, updating all clients **/
+        kServerDestroyObj = 0x86,
+
+        /** Object has been destroyed client-side, notifying server **/
+        kClientDestroyObj = 0x87,    
 	
 
     };

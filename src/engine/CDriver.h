@@ -108,11 +108,27 @@ public:
     static void updateServer(GameObject* obj);
 
     /**
-     *
+     * reads in an object, if it exists, updates it,
+     * if it doesn't exist creates it.
      * @author Duncan Donaldson
      */
     void readObject(Stream* s);
-
+    /**
+     * 
+     * Destroys an object on the client, and notifies the server
+     * that the object has been destroyed.
+     *
+     * @author Duncan Donaldson
+     */
+    void destroyObjSync(int id);
+    /**
+     * 
+     * Destroys an object on the client without notifying
+     * the server of the object destruction.
+     *
+     * @author Duncan Donaldson
+     */
+    void destroyObjLocal(int id);
     /**
      * Creates a human player object.
      * Sets event filter for key presses to be passed to PlayerInputComponent.
@@ -200,6 +216,7 @@ private slots:
     void createTower(int towerType, QPointF pos);
 
     /**
+     * handles a received UDP message.
      *
      * @author Duncan Donaldson
      */
