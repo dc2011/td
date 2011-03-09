@@ -3,8 +3,8 @@
 
 namespace td {
 
-TowerGraphicsComponent::TowerGraphicsComponent()
-        : GraphicsComponent() {
+TowerGraphicsComponent::TowerGraphicsComponent(QString pixmapPath)
+        : GraphicsComponent(), pixmapPath_(pixmapPath) {
     emit created(this);
     /* Do init-type stuff here */
 }
@@ -23,7 +23,7 @@ void TowerGraphicsComponent::update(GameObject* obj) {
     dp->moving  = 1;
     //player->getVelocity().length() != 0;
     dp->scale   = 1;//tower->getScale();
-    dp->degrees = 0 + angle_++; //tower->getOrientation();
+    dp->degrees = tower->getOrientation();
     emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 
@@ -31,7 +31,7 @@ void TowerGraphicsComponent::initPixmaps() {
     //TODO: add animation images here
     pixmapImgs_ = new QPixmap[PIX_TOWER_MAX];
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_TOWER_0;
+    pixmapImgs_[pixmapIndex_++] = pixmapPath_;
     pixmapIndex_ = 0; //sets image back to start
 }
 
