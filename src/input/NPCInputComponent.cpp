@@ -2,12 +2,14 @@
 #include "../engine/NPC.h"
 #include "../physics/NPCPhysicsComponent.h"
 #include "../engine/CDriver.h"
+#include "../engine/Map.h"
 #include <QTime>
 
 namespace td {
 
 NPCInputComponent::NPCInputComponent() {
     // initialize segment with first two waypoints
+    /*
     waypoints_ = QList<QPointF>();
     waypoints_.push_back(QPointF(50,50));
     waypoints_.push_back(QPointF(885,99));
@@ -15,8 +17,9 @@ NPCInputComponent::NPCInputComponent() {
     waypoints_.push_back(QPointF(100,529));
     waypoints_.push_back(QPointF(430, 534));
     waypoints_.push_back(QPointF(718, 385));
+    */
     
-    //waypoints_ = CDriver::getGameMap()->getWaypoints(WP_PTERO);
+    waypoints_ = CDriver::instance()->getGameMap()->getWaypoints(WP_PTERO);
     nextDest_ = 0;
     segment_ =  QLineF(waypoints_.at(nextDest_).x(),
                        waypoints_.at(nextDest_).y(),

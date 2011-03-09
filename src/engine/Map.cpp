@@ -60,8 +60,8 @@ namespace td{
         //Doesn't actually make it green. But still useful.
         path->setColor(c.green());
         for (i = 0; i < path->objects().size(); i++) {
-            newPath->push_back(QPointF(path->objects().at(i)->x(),
-                        path->objects().at(i)->y()));
+            newPath->push_back(QPointF(path->objects().at(i)->position().x()*48,
+                        path->objects().at(i)->position().y() * 48));
         }
         addWaypoints(key, newPath);
     }
