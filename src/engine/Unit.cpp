@@ -12,6 +12,7 @@ Unit::~Unit() {
     // Remove the unit from the map before deleting it
     Map* map = td::CDriver::instance()->getGameMap();
     map->removeUnit(getPos().x(), getPos().y(), this);
+    delete map;
     delete input_;
 }
 
