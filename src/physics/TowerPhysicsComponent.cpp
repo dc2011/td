@@ -7,7 +7,9 @@
 
 namespace td {
 
-TowerPhysicsComponent::TowerPhysicsComponent() {}
+TowerPhysicsComponent::TowerPhysicsComponent() {
+    enemy_ = 0;
+}
 
 void TowerPhysicsComponent::update(GameObject *tower) {
     this->applyDirection((Tower*)tower);
