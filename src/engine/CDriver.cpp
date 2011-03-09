@@ -1,5 +1,6 @@
 #include "CDriver.h"
 #include "GameInfo.h"
+#include "../graphics/PixmapFiles.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 #include "ContextMenu.h"
@@ -11,6 +12,7 @@
 #include "ResManager.h"
 #include "Tower.h"
 #include "../client/MainWindow.h"
+#include "../util/defines.h"
 
 namespace td {
 
@@ -155,7 +157,17 @@ void CDriver::createTower(int towerType, QPointF pos) {
     Stream* request = new Stream();
     tower_ = new Tower();
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
-    GraphicsComponent* graphics = new TowerGraphicsComponent();
+    
+    QString pixmapPath;
+
+    switch (towerType) {
+        case TOWER_ARROW:   pixmapPath = PIX_TOWER_ARROW;   break;
+        case TOWER_CANNON:  pixmapPath = PIX_TOWER_CANNON;  break;
+        case TOWER_TAR:     pixmapPath = PIX_TOWER_TAR;     break;
+        case TOWER_FLAME:   pixmapPath = PIX_TOWER_FLAME;   break;
+        case TOWER_FLAK:    pixmapPath = PIX_TOWER_FLAK;    break;
+    }
+    GraphicsComponent* graphics = new TowerGraphicsComponent(pixmapPath);
 
     tower_->setPos(currentTile->getPos());
     tower_->setGraphicsComponent(graphics);
@@ -187,8 +199,10 @@ void CDriver::startGame() {
             contextMenu_, SLOT(toggleMenu()));
     connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
             contextMenu_, SLOT(selectMenuItem(int)));
-    connect(mainWindow_,  SIGNAL(signalRHeld(bool)),
+    connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             contextMenu_, SLOT(viewResources(bool)));
+    connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+            npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
     connect(gameTimer_,   SIGNAL(timeout()), 
             human_,       SLOT(update()));
     /* TODO: alter temp solution */

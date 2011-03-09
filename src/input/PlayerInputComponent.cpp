@@ -19,10 +19,14 @@ void PlayerInputComponent::setParent(Unit *parent) {
 void PlayerInputComponent::processDirectionKey(int eventType, int key) {
     int event = (eventType == QEvent::KeyPress) ? 1 : 0;
     QVector2D force = parent_->getForce();
+    QVector2D velo = parent_->getVelocity();
 
     if(menuIsOpen_) {
 	force.setX(0);
 	force.setY(0);
+	velo.setX(0);
+	velo.setY(0);
+	parent_->setVelocity(velo);
 	parent_->setForce(force);
 	return;
     }

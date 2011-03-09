@@ -39,6 +39,20 @@ void AudioManager::startup()
     playing_ = 0;
 }
 
+void AudioManager::playSfx(QVector<QString> files, SoundType type) {
+    
+    int rdNum;
+    
+    if(files.size() < 1) {
+	qCritical("AudioManager::playSfx(): Empty Vector");
+	return;
+    }
+    
+    rdNum = rand() % files.size();
+    qDebug("%d",rdNum);
+    playSfx(files[rdNum],type);
+}
+
 void AudioManager::playSfx(QString filename, SoundType type)
 {
     int gain;

@@ -42,8 +42,22 @@ protected:
      * @author Warren Voelkl, Marcel Vangrootheest
      */
     virtual void animate();
+
 private:
 
+    /**
+     * True if the health of the NPC should be displayed.
+     */
+    bool showHealth_;
+
+public slots:
+    /**
+     * Sets the flag specifying whether or not to show an NPC's health bar.
+     * 
+     * @author Dean Morin
+     * @param keyHeld True if the alt key is currently held down.
+     */
+    void showHealth(bool keyHeld);
 };
 
 } /* end namespace td */
