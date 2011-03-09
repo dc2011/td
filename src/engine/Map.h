@@ -9,15 +9,21 @@
 #include <QMap>
 #include <QMutex>
 #include <math.h>
-namespace td{
+
+namespace Tiled {
+class Map;
+}
+
+namespace td {
 
 class Unit;
 class Tile;
+
 class Map : public QObject {
     Q_OBJECT
 
 public:
-    explicit Map(int heightInTiles, int widthInTiles);
+    explicit Map(Tiled::Map * tMap);
     virtual ~Map() { }
 
 private:
@@ -26,6 +32,9 @@ private:
 
     /**  */
     Tile ***tiles_;
+
+    /**  */
+    Tiled::Map * tMap_;
 
     /**  */
     int heightInTiles_;
