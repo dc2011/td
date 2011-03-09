@@ -11,6 +11,7 @@
 #include "Projectile.h"
 #include "ResManager.h"
 #include "Tower.h"
+#include "Unit.h"
 #include "../client/MainWindow.h"
 #include "map.h"
 #include "../graphics/MapDisplayer.h"
@@ -26,6 +27,9 @@ CDriver::CDriver(MainWindow* mainWindow)
         projectile_(NULL)
 {
     mgr_ = new ResManager();
+    npc_ = QSet<NPC*>();
+    npcCounter_ = 0;
+    tower_ = NULL;
 }
 
 CDriver::~CDriver() {
@@ -85,8 +89,10 @@ void CDriver::readObject(Stream* s) {
             GraphicsComponent* graphics = new PlayerGraphicsComponent();
             go->setGraphicsComponent(graphics);
 
-            connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
-        }
+        } else {
+	    go->initComponents();
+	}
+	connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
     }
     
     go->networkRead(s);
@@ -116,19 +122,25 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     delete request;
 }
 
-void CDriver::createNPC() {
-    npc_ = (NPC*)mgr_->createObject(NPC::clsIdx());
+void CDriver::NPCCreator() {
+    if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
+        npc_.insert(createNPC());
+    }
+}
 
-    PhysicsComponent* physics = new NPCPhysicsComponent();
-    GraphicsComponent* graphics = new NPCGraphicsComponent();
-    NPCInputComponent* input = new NPCInputComponent();
+void CDriver::NPCDeleter(Unit* npc) {
+    npc_.remove((NPC*)npc);
+    mgr_->deleteObject(npc);
+}
 
-    input->setParent(npc_);
-    npc_->setInputComponent(input);
-    npc_->setPhysicsComponent(physics);
-    npc_->setGraphicsComponent(graphics);
+NPC* CDriver::createNPC() {
+    NPC* npc = (NPC*)mgr_->createObject(NPC::clsIdx());
 
-    connect(gameTimer_, SIGNAL(timeout()), npc_, SLOT(update()));
+    npc->initComponents();
+    // connect(input, SIGNAL(deleteUnitLater(Unit*)),
+    //this, SLOT(NPCDeleter(Unit*)), Qt::QueuedConnection);
+    connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
+    return npc;
 }
 
 void CDriver::createProjectile(){
@@ -160,19 +172,8 @@ void CDriver::createTower(int towerType, QPointF pos) {
     tower_ = new Tower();
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
     
-    QString pixmapPath;
-
-    switch (towerType) {
-        case TOWER_ARROW:   pixmapPath = PIX_TOWER_ARROW;   break;
-        case TOWER_CANNON:  pixmapPath = PIX_TOWER_CANNON;  break;
-        case TOWER_TAR:     pixmapPath = PIX_TOWER_TAR;     break;
-        case TOWER_FLAME:   pixmapPath = PIX_TOWER_FLAME;   break;
-        case TOWER_FLAK:    pixmapPath = PIX_TOWER_FLAK;    break;
-    }
-    GraphicsComponent* graphics = new TowerGraphicsComponent(pixmapPath);
-
+    tower_->initComponents(towerType);
     tower_->setPos(currentTile->getPos());
-    tower_->setGraphicsComponent(graphics);
     tower_->setID(0xFFFFFFFF);
     connect(gameTimer_, SIGNAL(timeout()), tower_, SLOT(update()));
     
@@ -193,20 +194,20 @@ void CDriver::startGame() {
 
     createHumanPlayer(mainWindow_);
     contextMenu_ = new ContextMenu(human_);
-    createNPC();
 
     connect(contextMenu_, SIGNAL(signalPlayerMovement(bool)),
 	    human_->getInputComponent(), SLOT(playerMovement(bool)));
     connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
-            contextMenu_, SLOT(toggleMenu()));
+            this,         SLOT(handleSpacebarPress()));
     connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
             contextMenu_, SLOT(selectMenuItem(int)));
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             contextMenu_, SLOT(viewResources(bool)));
-    connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
+    //connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+            //npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
     connect(gameTimer_,   SIGNAL(timeout()), 
             human_,       SLOT(update()));
+    connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
     /* TODO: alter temp solution */
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
             this,         SLOT(createTower(int, QPointF)));
@@ -224,6 +225,21 @@ void CDriver::endGame() {
     this->gameTimer_->stop();
 }
 
+void CDriver::handleSpacebarPress() {
+    int tileType = gameMap_->getTile(human_->getPos())->getActionType();
+
+    switch (tileType) {
+
+        case TILE_BUILDABLE:
+            contextMenu_->toggleMenu();
+            break;
+        case TILE_BUILT:
+        case TILE_BASE:
+        case TILE_RESOURCE:
+            break;
+    }
+}
+
 QTimer* CDriver::getTimer() {
     return gameTimer_;
 }
@@ -238,6 +254,7 @@ void CDriver::UDPReceived(Stream* s) {
             break;
         case network::kRequestTowerID:
 	    tower_->setID(Tower::clsIdx());
+	    tower_->initComponents();
             mgr_->addExistingObject(tower_);
             break;
         case network::kAssignPlayerID:
@@ -251,6 +268,7 @@ void CDriver::UDPReceived(Stream* s) {
         case network::kAssignTowerID:
             if(tower_->getID() == 0xFFFFFFFF) {
               tower_->setID(s->readInt());
+	      tower_->initComponents();
               mgr_->addExistingObject(tower_);
             }
             break;
