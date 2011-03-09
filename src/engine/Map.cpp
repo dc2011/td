@@ -121,4 +121,26 @@ namespace td{
         return units;
     }
 
+    void Map::addUnit(double x, double y, Unit *unitToAdd)
+    {
+        int row = 0;
+        int column = 0;
+
+        getTileCoords(x, y, &row, &column);
+
+        tiles_[row][column]->addUnit(unitToAdd);
+        //qDebug("add to tile: %d, %d",row, column);
+    }
+
+    void Map::removeUnit(double x, double y, Unit *unitToRemove)
+    {
+        int row = 0;
+        int column = 0;
+
+        getTileCoords(x, y, &row, &column);
+
+        tiles_[row][column]->removeUnit(unitToRemove);
+        //qDebug("leaving tile: %d, %d", row, column);
+    }
+
 }//end namespace 

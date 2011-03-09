@@ -9,7 +9,6 @@
 #include <QMap>
 #include <QMutex>
 #include <math.h>
-
 namespace td{
 
 class Unit;
@@ -101,6 +100,20 @@ public:
     void addWaypoints(int key ,QList<QPoint> newSet){
         waypoints.insert(key, newSet);
     }
+
+    /**
+      * Adds a pointer to a unit to the specified tile.
+      *
+      * @author Luke Queenan
+      */
+    void addUnit(double x, double y, Unit *unitToAdd);
+
+    /**
+      * Removes the unit from the specified tile.
+      *
+      * @author Luke Queenan
+      */
+    void removeUnit(double x, double y, Unit *unitToRemove);
 
 public slots:
     /**

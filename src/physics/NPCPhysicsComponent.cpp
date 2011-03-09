@@ -20,6 +20,9 @@ void NPCPhysicsComponent::update(Unit* npc)
 void NPCPhysicsComponent::applyVelocity(NPC* npc)
 {
     QPointF newPos = npc->getPos() + npc->getVelocity().toPointF();
+
+    // Determine if the NPC needs to update its tile position.
+    npc->changeTile(newPos);
     npc->setPos(newPos);
 }
 

@@ -6,6 +6,7 @@
 
 #include "GameObject.h"
 
+
 namespace td {
 
 class Unit : public GameObject {
@@ -107,6 +108,14 @@ public:
         input_ = input;
         input_->setParent(this);
     }
+
+    /**
+      * Add & Remove unit from Tile list when changing positions.
+      *
+      * @author Ian Lee
+      * @param newPos The new position for the unit.
+      */
+    void changeTile(QPointF newPos);
 
 protected:
     QVector2D velocity_;
