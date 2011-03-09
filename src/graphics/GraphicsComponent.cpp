@@ -10,7 +10,7 @@ QMutex GraphicsComponent::mutex_;
 GraphicsComponent::GraphicsComponent() {
     
     MainWindow* mainWindow = CDriver::instance()->getMainWindow();
-    
+
     connect(this, SIGNAL(created(GraphicsComponent*)), 
             mainWindow, SLOT(createGraphicRepr(GraphicsComponent*)));
     connect(this, SIGNAL(signalDraw(DrawParams*, GraphicsComponent*, int)), 
