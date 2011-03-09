@@ -40,7 +40,7 @@ void Tile::setBounds(blockingType type)
     switch (type)
     {
     case CLOSED:
-
+        break;
     }
 }
 

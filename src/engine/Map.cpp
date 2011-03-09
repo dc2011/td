@@ -109,7 +109,7 @@ namespace td{
         return Map::getTile(coords.x(), coords.y());
     }
 
-    QSet<Tile*> getTiles(QPointF coords, int radius){
+    QSet<Tile*> Map::getTiles(QPointF coords, int radius){
 
         int i,j,r,c;
         QSet<Tile*> tempTiles = QSet<Tile*>();

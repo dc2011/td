@@ -40,8 +40,8 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
 
 
-    Map* gameMap = td::CDriver::getGameMap();
-    QSet<Tile*> targetTiles = gameMap->getTiles(newPos.x,newPos.y(), 2);
+    Map* gameMap = td::CDriver::instance()->getGameMap();
+    QSet<Tile*> targetTiles = gameMap->getTiles(newPos, 2);
 
 
 
@@ -63,13 +63,13 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
         lowerRight = newPos + QPointF(20, 11);
         lowerLeft = newPos + QPointF(-20, 11);
     }
-    //polygon
+    //QPolygonF
 
     foreach (Tile* targetTile ,targetTiles){
-        Polygon otherpolygon = targetTile->getbounds();
-        if(polygon.intersected(otherpolygn).count() != 0){
-            break;
-        }
+       // QPolygonF otherpolygon = targetTile->getBounds();
+        //if(polygon.intersected(otherpolygn).count() != 0){
+        //    break;
+        //}
     }
 
     if (validateMovement(upperRight) && validateMovement(upperLeft)
