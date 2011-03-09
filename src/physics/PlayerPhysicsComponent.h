@@ -3,12 +3,14 @@
 
 #include "PhysicsComponent.h"
 #include "Bounds.h"
-#include <set>
+#include <QSet>
 
 namespace td {
 
 class Player;
-
+class CDriver;
+class Map;
+class Tile;
 class PlayerPhysicsComponent : public PhysicsComponent {
     Q_OBJECT
 
@@ -73,7 +75,7 @@ public:
      *
      * @author Daniel Wright
      */
-    void checkNPCCollision(std::set<Unit*> npcs);
+    void checkNPCCollision(QSet<Unit*> npcs);
 
     /**
      * This updates the physics properties of Player.
