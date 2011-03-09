@@ -13,32 +13,36 @@ void TowerPhysicsComponent::update(GameObject *tower) {
     this->applyDirection((Tower*)tower);
 }
 
-void TowerPhysicsComponent::findTargets(GameObject* tower) {
+void TowerPhysicsComponent::findTargets(GameObject* tower, int radius) {
     QLineF target;
     target.p1() = tower->getPos();
-    if(this->getEnemy() != NULL) {
-        target.p2() = this->getEnemy()->getPos();
+    Unit* n = new NPC();
+    if(( n = getEnemy()) != NULL) {
+        target.p2() = getEnemy()->getPos();
     } else {
         target.p2() = tower->getPos();
     }
     Unit* u = new NPC();
-    this->setNPCs(tower, 3);
-    QSet<Unit*> units = this->getNPCs();
+    setNPCs(tower, radius);
+    QSet<Unit*> units = getNPCs();
 
     QSet<Unit*>::iterator iter;
 
+    if(units.isEmpty()) {
+        return;
+    }
     for( iter = units.begin();iter != units.end(); ++iter){
         u = *iter;
         QLineF line;
         line.p1() = tower->getPos();
         line.p2() = u->getPos();
-        if(this->getEnemy() != NULL && target.length() < 3 && target.length() != 0) {
+        if(getEnemy() != NULL && target.length() < radius && target.length() != 0) {
             return;
         } else {
             QString debug = typeid( *u ).name();
             if(debug.contains("NPC")) {
                 qDebug(debug.toLatin1().data());
-                this->setTarget(u);
+                setTarget(u);
             }
         }
     }
@@ -47,14 +51,14 @@ void TowerPhysicsComponent::findTargets(GameObject* tower) {
 void TowerPhysicsComponent::applyDirection(GameObject* tower) {
 
 
-    this->findTargets(tower);
-    if(this->getEnemy() == NULL) {
+    this->findTargets(tower, 5);
+    if(getEnemy() == NULL) {
         return;
     }
     int angle = 0;
     int degree = 0;
-    int velX = this->getEnemy()->getPos().x() - tower->getPos().x();
-    int velY = this->getEnemy()->getPos().y() - tower->getPos().y();
+    int velX = getEnemy()->getPos().x() - tower->getPos().x();
+    int velY = getEnemy()->getPos().y() - tower->getPos().y();
 
     if (velX == 0 && velY == 0) {
         return;

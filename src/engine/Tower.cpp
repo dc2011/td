@@ -16,7 +16,7 @@ void Tower::update() {
 void Tower::initComponents() {
     PhysicsComponent* physics = new TowerPhysicsComponent();
 
-    this->setPhysicsComponent(physics);
+    setPhysicsComponent(physics);
     componentsInitialized_ = false;
 }
 

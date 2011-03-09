@@ -40,10 +40,10 @@ public:
      * @author Joel Stewart
      * @param Tower, pointer to the Tower object
      */
-    void findTargets(GameObject* tower);
+    void findTargets(GameObject* tower, int radius);
 
     void setNPCs(GameObject* tower, int radius) {
-        Map* map = td::CDriver::instance()->getGameMap();
+        Map* map = CDriver::instance()->getGameMap();
         enemies_ = map->getUnits(tower->getPos().x() ,tower->getPos().y() , radius);
     }
 
