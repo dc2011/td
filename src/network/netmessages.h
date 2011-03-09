@@ -20,6 +20,7 @@ namespace network {
         /** Indicates or requests that the game starts. */
         kLobbyStartGame =   0x01,
 
+        /** A bad version was detected. */
         kBadVersion     =   0x02,
 
         /** Indicates a block of object updates sent from the server to client. */

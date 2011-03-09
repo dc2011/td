@@ -51,6 +51,16 @@ NetworkClient::~NetworkClient()
 {
 #if QT_VERSION >= 0x040800
     udpSocket_->leaveMulticastGroup(TD_GROUP);
+#else
+    int fd = udpSocket_->socketDescriptor();
+    ip_mreq mreq;
+
+    mreq.imr_multiaddr.s_addr = htonl(TD_GROUP.toIPv4Address());
+    mreq.imr_interface.s_addr = htonl(INADDR_ANY);
+    if (setsockopt(fd, IPPROTO_IP, IP_DROP_MEMBERSHIP, &mreq, sizeof(mreq))
+            < 0) {
+        perror("setsockopt");
+    }
 #endif
     delete udpSocket_;
 
@@ -114,7 +124,10 @@ void NetworkClient::onUDPReceive()
 
 void NetworkClient::onTCPReceive()
 {
-    /* TODO */
+    QByteArray data = tcpSocket_->readAll();
+    Stream* s = new Stream(data);
+
+    emit TCPReceived(s);
 }
 
 } /* End of namespace */

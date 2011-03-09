@@ -126,6 +126,13 @@ signals:
      */
     void UDPReceived(Stream* s);
 
+    /**
+     * Signal emitted when a message is received over TCP.
+     *
+     * @param s The stream for the network message.
+     */
+    void TCPReceived(Stream* s);
+
 private slots:
     /**
      * Called when a message is queued to be sent, sends the message using 
