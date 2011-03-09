@@ -30,6 +30,7 @@ CDriver::CDriver(MainWindow* mainWindow)
     npc_ = QSet<NPC*>();
     npcCounter_ = 0;
     tower_ = NULL;
+    singlePlayer_ = true;
 }
 
 CDriver::~CDriver() {
@@ -60,7 +61,10 @@ void CDriver::disconnectFromServer() {
 
 void CDriver::updateServer(GameObject* obj) {
     Stream* updates = new Stream();
-
+    if(CDriver::instance()->isSinglePlayer() == true) {
+	delete updates;
+	return;
+    }
     if (obj->getID() == 0xFFFFFFFF) {
         return;
     }
@@ -242,6 +246,12 @@ void CDriver::endGame() {
     this->gameTimer_->stop();
 }
 
+bool CDriver::isSinglePlayer() {
+    return singlePlayer_;
+}
+void CDriver::setSinglePlayer(bool singlePlayer) {
+    singlePlayer_ = singlePlayer;
+}
 void CDriver::handleSpacebarPress() {
     Tile* currentTile = gameMap_->getTile(human_->getPos());
 

@@ -1,5 +1,7 @@
 #include "Player.h"
-
+#ifndef SERVER
+#include "CDriver.h"
+#endif
 namespace td {
 
 Player::Player() : Unit() {
@@ -10,6 +12,11 @@ Player::Player() : Unit() {
 }
 
 void Player::update() {
+#ifndef SERVER
+    if(this->isDirty()) {
+	CDriver::updateServer(this);
+    }
+#endif
     if (physics_ != NULL) {
         physics_->update(this);
     }

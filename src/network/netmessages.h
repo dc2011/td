@@ -44,6 +44,7 @@ namespace network {
         /** Object has been destroyed client-side, notifying server **/
         kClientDestroyObj = 0x87,    
 	
+	kServObjectUpdate = 0x88,
 
     };
 

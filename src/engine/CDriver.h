@@ -45,7 +45,8 @@ private:
     Tower* tower_;
      /** The single instance of this class that can be created. */
     static CDriver* instance_;
-    
+    /** Tells objects whether or not the game is being played single player **/
+    bool singlePlayer_;
     
     CDriver(MainWindow* parent = 0);
     ~CDriver();
@@ -182,6 +183,20 @@ public:
     MainWindow* getMainWindow() {
         return mainWindow_;
     }
+    /**
+     * getter for SinglePlayer
+     *
+     * @author Duncan Donaldson
+     * @return whether or not the game is being played single player.
+     */
+    bool isSinglePlayer();
+    /**
+     * sets the value of singlePlayer
+     *
+     * @author Duncan Donaldson
+     * @param the value to set singlePlayer to.
+     */
+    void setSinglePlayer(bool singlePlayer);
     
 public slots:
     /**
@@ -234,6 +249,7 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCDeleter(Unit*);
+
 };
 
 } /* end namespace td */
