@@ -2,6 +2,7 @@
 #define TD_MAP_H
 
 #include "../util/mutex_magic.h"
+#include "../util/defines.h"
 #include <QObject>
 #include <QPoint>
 #include <QList>

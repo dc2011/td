@@ -25,6 +25,7 @@ namespace td{
         blockingType type;
         Tiled::Tile * tile = NULL;
         Tiled::TileLayer * tileLayer = tMap_->layerAt(0)->asTileLayer();
+        Tiled::TileLayer * towerLayer = tMap_->layerAt(1)->asTileLayer();
         size_t height = tileLayer->height();
         size_t width = tileLayer->width();
 
@@ -38,6 +39,11 @@ namespace td{
                 type = (blockingType) tile->id(); //default type
                 //save into array
                 tiles_[row][col] = new Tile(row, col, type);
+                if (towerLayer->contains(col, row)
+                        && towerLayer->tileAt(col, row) != NULL) {
+                    tiles_[row][col]->setActionType(TILE_BUILDABLE);
+                    qDebug("TowerTile at: %d, %d", col, row);
+                }
             }
         }
     }
