@@ -71,17 +71,16 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
             flag = true;
             break;
         }
-
-
     }
 
     if (!flag) {
         player->changeTile(newPos);
         player->setPos(newPos);
         player->setBounds(polygon);
-        npcs = map->getUnits(newPos.x(), newPos.y(), 10);
-        if (npcs.size() != 1)
+        npcs = map->getUnits(newPos.x(), newPos.y(), 3);
+        if (npcs.size() != 1) {
             checkNPCCollision(npcs, player);
+        }
     }
 }
 
