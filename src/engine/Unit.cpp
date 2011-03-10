@@ -31,8 +31,6 @@ void Unit::setVelocity(QVector2D& velocity) {
     velocity_ = velocity;
 }
 
-
-
 void Unit::changeTile(QPointF newPos){
     //get pointer to map
     Map* map = td::CDriver::instance()->getGameMap();

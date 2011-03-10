@@ -47,6 +47,13 @@ GameObject* SDriver::updateObject(Stream* s) {
 
     return go;
 }
+void SDriver::destroyServerObj(int id) {
+    Stream* out = new Stream();
+    mgr_->deleteObject(id);
+    out->writeInt(id);
+    NetworkServer::instance()->send(network::kServerDestroyObj, out->data());
+    delete out;
+}
 void SDriver::spawnWave() {
     qDebug("spawned wave");
     for(int i=0; i < 20; ++i) {
@@ -74,14 +81,20 @@ void SDriver::onUDPReceive(Stream* s) {
             break;
         }
         case network::kRequestTowerID:
-	    {
-	        unsigned char type = s->readByte();
-	        go = mgr_->createObject(type);
-	        out->writeInt(go->getID());
-                NetworkServer::instance()->send(network::kAssignTowerID,
-                        out->data());
-	        break;
-	    }
+	{
+	    unsigned char type = s->readByte();
+	    go = mgr_->createObject(type);
+	    out->writeInt(go->getID());
+	    NetworkServer::instance()->send(network::kAssignTowerID,
+					    out->data());
+	    break;
+	}
+        case network::kClientDestroyObj:
+	{
+	    int id = s->readInt();
+	    destroyServerObj(id);
+	    break;
+	}
         default:
         {
             go = this->updateObject(s);

@@ -6,10 +6,6 @@
 #include "../engine/Tile.h"
 #include "../engine/CDriver.h"
 
-/*#ifndef SERVER
-#include "../engine/CDriver.h"
-#endif*/
-
 namespace td {
 
 PlayerPhysicsComponent::PlayerPhysicsComponent()
@@ -25,11 +21,6 @@ void PlayerPhysicsComponent::update(Unit* player)
     this->applyVelocity((Player*)player);
     this->applyDirection((Player*)player);
 
-#ifndef SERVER
-    if (player->isDirty()) {
-        td::CDriver::updateServer(player);
-    }
-#endif
 }
 
 /* applies velocity to position, currently moves past bounds */
