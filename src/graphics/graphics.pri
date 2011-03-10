@@ -4,6 +4,7 @@ GRAPHICS_SRCS +=    ./graphics/MapDisplayer.cpp \
                     ./graphics/PlayerGraphicsComponent.cpp \
                     ./graphics/ProjectileGraphicsComponent.cpp \
                     ./graphics/TowerGraphicsComponent.cpp \
+                    ./graphics/ResourceGraphicsComponent.cpp \
                     ./graphics/NPCGraphicsComponent.cpp \
                     ./graphics/GenericDinoGraphicsComponent.cpp
 
@@ -16,6 +17,7 @@ GRAPHICS_HDRS +=    ./graphics/MapDisplayer.h \
                     ./graphics/DrawParams.h \
                     ./graphics/ProjectileGraphicsComponent.h \
                     ./graphics/TowerGraphicsComponent.h \
+                    ./graphics/ResourceGraphicsComponent.h \
                     ./graphics/NPCGraphicsComponent.h \
                     ./graphics/GenericDinoGraphicsComponent.h
 HEADERS +=
