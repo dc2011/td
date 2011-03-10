@@ -35,6 +35,11 @@ namespace td{
         size_t height = tileLayer->height();
         size_t width = tileLayer->width();
 
+        // Currently this doesn't work.
+        //tileLayer->setVisible(false);
+        resLayer->setVisible(false);
+        path->setVisible(false);
+
         tiles_ = new Tile**[height];
 
         for (size_t row = 0; row < height; row++) {
@@ -45,7 +50,6 @@ namespace td{
                 type = (blockingType) tile->id();
                 //save into array
                 tiles_[row][col] = new Tile(row, col, type);
-                tiles_[row][col]->setTiledTile(tile);
 
                 // Check for buildable tiles.
                 if (towerLayer->contains(col, row)
@@ -56,7 +60,11 @@ namespace td{
                 // Create resources.
                 if (resLayer->contains(col, row) 
                         && resLayer->tileAt(col, row) != NULL) {
+                    // Grabbing the tile from the resource layer.
+                    tile = resLayer->tileAt(col, row);
                     createResource(tile->id(), tiles_[row][col]);
+                    // Setting the resource tile to the td::Tile.
+                    tiles_[row][col]->setTiledTile(tile);
                 }
             }
         }

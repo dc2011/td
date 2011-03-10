@@ -276,8 +276,11 @@ void CDriver::handleSpacebarPress() {
             contextMenu_->toggleMenu();
             currentTile->setActionType(TILE_BUILT); 
             break;
+
         case TILE_BUILT:
         case TILE_BASE:
+            break;
+
         case TILE_RESOURCE:
             qDebug("Harvesting resource: %d", currentTile->getTiledTile()->id());
             break;

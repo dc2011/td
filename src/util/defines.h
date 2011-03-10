@@ -25,7 +25,12 @@
 #define TILE_RESOURCE   4
 
 // based on the number keys used to select the tower
-#define RESOURCE_LUMBER 0
+#define RESOURCE_LUMBER  0
+#define RESOURCE_CRYSTAL 5
+#define RESOURCE_OIL     3
+#define RESOURCE_TAR     4
+#define RESOURCE_STONE   2
+#define RESOURCE_IRON    1
 
 //NPC path key for waypoints
 #define WP_TRICERATOPS  0
