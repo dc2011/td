@@ -49,8 +49,8 @@ void NPC::isDead() {
 }
 void NPC::update() {
 #ifndef SERVER
-    this->isDead();
     CDriver::updateServer(this);
+    this->isDead();
 #endif
     input_->update();
     physics_->update(this);
