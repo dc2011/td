@@ -72,10 +72,11 @@ public:
      * If a collision is detected, adds a stun effect to the player.
      *
      * @param npcs, Set of npcs to check for collisions
+     * @param player, pointer to the Unit(player object)
      *
      * @author Daniel Wright
      */
-    void checkNPCCollision(QSet<Unit*> npcs);
+    void checkNPCCollision(QSet<Unit*> npcs, Unit* player);
 
     /**
      * This updates the physics properties of Player.
