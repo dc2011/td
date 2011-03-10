@@ -46,10 +46,10 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     QMatrix matrix = QMatrix();
     matrix.rotate(-angle);
 
-    upperRight = QPointF(15, -20) * matrix;
-    upperLeft =  QPointF(-5, -20) * matrix;
-    lowerRight = QPointF(15, 20) * matrix;
-    lowerLeft =  QPointF(-5, 20) * matrix;
+    upperRight = QPointF(15, -15) * matrix;
+    upperLeft =  QPointF(-5, -15) * matrix;
+    lowerRight = QPointF(15, 15) * matrix;
+    lowerLeft =  QPointF(-5, 15) * matrix;
     //qDebug("bounding box: \n%d, %d\n%d, %d\n%d, %d\n%d, %d\n",(int) upperRight.x(),(int)  upperRight.y(),(int) upperLeft.x(),(int)  upperLeft.y()
     //       ,(int) lowerRight.x(), (int) lowerRight.y(),(int) lowerLeft.x(),(int)  lowerLeft.y());
 
