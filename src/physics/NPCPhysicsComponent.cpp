@@ -23,21 +23,27 @@ void NPCPhysicsComponent::applyVelocity(NPC* npc)
     QPointF newPos = npc->getPos() + npc->getVelocity().toPointF();
     QPointF point;
     QVector<QPointF> points;
-
+    QMatrix matrix = QMatrix();
+    matrix.rotate(-npc->getOrientation());
     // Determine if the NPC needs to update its tile position.
     npc->changeTile(newPos);
     npc->setPos(newPos);
 
     //set up Vector to construct bounding Polygon
-    point = QPointF(newPos.x() - npc->getWidth()/2, newPos.y() - npc->getHeight( )/2);
+    point = QPointF(-npc->getWidth()/2, -npc->getHeight( )/2) * matrix;
+    point += newPos;
     points.append(point);
-    point = QPointF(newPos.x() + npc->getWidth()/2, newPos.y() - npc->getHeight()/2);
+    point = QPointF(npc->getWidth()/2, -npc->getHeight()/2) * matrix;
+    point += newPos;
     points.append(point);
-    point = QPointF(newPos.x() + npc->getWidth()/2, newPos.y() + npc->getHeight()/2);
+    point = QPointF(npc->getWidth()/2, npc->getHeight()/2) * matrix;
+    point += newPos;
     points.append(point);
-    point = QPointF(newPos.x() - npc->getWidth()/2, newPos.y() + npc->getHeight()/2);
+    point = QPointF(-npc->getWidth()/2, npc->getHeight()/2) * matrix;
+    point += newPos;
     points.append(point);
-    point = QPointF(newPos.x() - npc->getWidth()/2, newPos.y() - npc->getHeight( )/2);
+    point = QPointF(-npc->getWidth()/2, -npc->getHeight()/2) * matrix;
+    point += newPos;
     points.append(point);
 
     npc->setBounds(QPolygonF(points));

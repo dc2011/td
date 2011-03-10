@@ -8,8 +8,8 @@ NPC::NPC() {
     QVector2D force(0, 0);
     this->setForce(force);
     this->setVelocity(force);
-    this->setHeight(90);
-    this->setWidth(30);
+    this->setHeight(10);
+    this->setWidth(10);
     pos_.setX(50);
     pos_.setY(50);
 }
