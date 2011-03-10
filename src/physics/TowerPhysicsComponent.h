@@ -18,7 +18,7 @@ class TowerPhysicsComponent: public PhysicsComponent {
 
 public:
     TowerPhysicsComponent();
-    virtual ~TowerPhysicsComponent() {}
+    virtual ~TowerPhysicsComponent();
 
     /**
      * Applies a direction to the position.
@@ -42,6 +42,13 @@ public:
      */
     void findTargets(GameObject* tower, int radius);
 
+    /**
+     * Sets NPCs from the towers coords.
+     *
+     * @author Joel Stewart
+     * @param Tower, pointer to the Tower object
+     * @param Radius, size of radius around tower
+     */
     void setNPCs(GameObject* tower, int radius) {
         Map* map = CDriver::instance()->getGameMap();
         enemies_ = map->getUnits(tower->getPos().x() ,tower->getPos().y() , radius);

@@ -3,8 +3,6 @@
 #include "CDriver.h"
 #endif
 #include "Effect.h"
-#include "../graphics/TowerGraphicsComponent.h"
-#include "../physics/TowerPhysicsComponent.h"
 #include "../util/defines.h"
 
 namespace td {
@@ -24,9 +22,7 @@ void Tower::update() {
 }
 
 void Tower::initComponents() {
-    PhysicsComponent* physics = new TowerPhysicsComponent();
 
-    setPhysicsComponent(physics);
     componentsInitialized_ = false;
 }
 
@@ -40,6 +36,10 @@ void Tower::initComponents(int towerType) {
         case TOWER_FLAME:   pixmapPath = PIX_TOWER_FLAME;   break;
         case TOWER_FLAK:    pixmapPath = PIX_TOWER_FLAK;    break;
     }
+    PhysicsComponent* physics = new TowerPhysicsComponent();
+
+    this->setPhysicsComponent(physics);
+
     GraphicsComponent* graphics = new TowerGraphicsComponent(pixmapPath);
 
     this->setGraphicsComponent(graphics);

@@ -9,7 +9,10 @@ namespace td {
 
 TowerPhysicsComponent::TowerPhysicsComponent() {
     enemy_ = 0;
+    enemies_ = QSet<Unit*>();
 }
+
+TowerPhysicsComponent::~TowerPhysicsComponent() {}
 
 void TowerPhysicsComponent::update(GameObject *tower) {
     this->applyDirection((Tower*)tower);
@@ -54,7 +57,7 @@ void TowerPhysicsComponent::applyDirection(GameObject* tower) {
 
 
     this->findTargets(tower, 5);
-    if(getEnemy() == NULL) {
+    if(getEnemy() == NULL || getNPCs().isEmpty()) {
         return;
     }
     int angle = 0;
