@@ -14,6 +14,7 @@ enum {
     kContextMenu,
     kTower,
     kArrowTower,
+    kResource,
     kMap,
     kTile,
     kTileExtension,

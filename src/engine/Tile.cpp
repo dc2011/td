@@ -1,6 +1,5 @@
 #include "Tile.h"
 #include "Unit.h"
-#include "TileExtension.h"
 
 namespace td {
 
@@ -25,26 +24,30 @@ Tile::Tile(int row, int column, blockingType type)
 }
 
 /**
-  * Returns the tile's column position in the array
-  *
-  * @author Luke Queenan
-  * @return The tile's column position in the array
-  */
-int Tile::getColumn()
-{
-    return tileID_ / MAP_ROWS;
-}
+ * PLEASE SEE HEADER FILE FOR WHY THIS HAS BEEN COMMENTED.
+ *
+ * Returns the tile's column position in the array
+ *
+ * @author Luke Queenan
+ * @return The tile's column position in the array
+ */
+//int Tile::getColumn()
+//{
+//    return tileID_ / MAP_ROWS;
+//}
 
 /**
-  * Returns the tile's row position in the array
-  *
-  * @author Luke Queenan
-  * @return The tile's row position in the array
-  */
-int Tile::getRow()
-{
-    return tileID_ % MAP_COLS;
-}
+ * PLEASE SEE HEADER FILE FOR WHY THIS HAS BEEN COMMENTED.
+ *
+ * Returns the tile's row position in the array
+ *
+ * @author Luke Queenan
+ * @return The tile's row position in the array
+ */
+//int Tile::getRow()
+//{
+//    return tileID_ % MAP_COLS;
+//}
 
 /**
   * Returns the tile's blocking type

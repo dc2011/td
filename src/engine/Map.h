@@ -20,6 +20,7 @@ namespace td {
 
 class Unit;
 class Tile;
+class Resource;
 
 class Map : public QObject {
     Q_OBJECT
@@ -43,6 +44,14 @@ private:
 
     /**  */
     int widthInTiles_;
+
+    /**
+     * Creates a resource to be placed on a tile.
+     *
+     * @param type The type of resource to create.
+     * @param tile The tile to add the new resource to.
+     */
+    void createResource(int type, Tile * tile);
 
 public:
     /**

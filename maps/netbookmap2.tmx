@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="21" height="12" tilewidth="48" tileheight="48">
  <tileset firstgid="1" name="map-tiles2" tilewidth="48" tileheight="48">
-  <image source="map-tiles2.png" width="384" height="48"/>
+     <image source="../img/map-tiles2.png" width="384" height="48"/>
  </tileset>
  <tileset firstgid="9" name="tower-layer" tilewidth="48" tileheight="48">
-  <image source="tower-layer.png" width="96" height="48"/>
+     <image source="../img/tower-layer.png" width="96" height="48"/>
  </tileset>
  <tileset firstgid="11" name="resources" tilewidth="48" tileheight="48">
-  <image source="resources.png" width="288" height="48"/>
+     <image source="../img/resources.png" width="288" height="48"/>
  </tileset>
  <layer name="Tile Layer 1" width="21" height="12">
   <data encoding="base64" compression="zlib">

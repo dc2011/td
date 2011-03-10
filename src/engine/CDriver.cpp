@@ -13,7 +13,8 @@
 #include "Tower.h"
 #include "Unit.h"
 #include "../client/MainWindow.h"
-#include "map.h"
+#include <map.h>
+#include <tile.h>
 #include "../graphics/MapDisplayer.h"
 #include "../util/defines.h"
 
@@ -198,6 +199,8 @@ void CDriver::createTower(int towerType, QPointF pos) {
     tower_->initComponents(towerType);
     tower_->setPos(currentTile->getPos());
     tower_->setID(0xFFFFFFFF);
+    currentTile->setExtension(tower_);
+
     connect(gameTimer_, SIGNAL(timeout()), tower_, SLOT(update()));
     if(isSinglePlayer() == true) {
 	mgr_->createObject(Tower::clsIdx());
@@ -211,8 +214,8 @@ void CDriver::createTower(int towerType, QPointF pos) {
 void CDriver::startGame(bool singlePlayer) {
     // Create hard coded map
     CDriver::gameMap_     = new Map(mainWindow_->getMD()->map());
-    CDriver::gameMap_->initMap();
     CDriver::gameTimer_   = new QTimer(this);
+    CDriver::gameMap_->initMap();
     QQueue<QString> musicList;
 
     if(singlePlayer == false) {
@@ -273,9 +276,13 @@ void CDriver::handleSpacebarPress() {
             contextMenu_->toggleMenu();
             currentTile->setActionType(TILE_BUILT); 
             break;
+
         case TILE_BUILT:
         case TILE_BASE:
+            break;
+
         case TILE_RESOURCE:
+            qDebug("Harvesting resource: %d", currentTile->getTiledTile()->id());
             break;
     }
 }
