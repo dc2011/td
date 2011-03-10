@@ -45,7 +45,8 @@ private:
     Tower* tower_;
      /** The single instance of this class that can be created. */
     static CDriver* instance_;
-    
+    /** Tells objects whether or not the game is being played single player **/
+    bool singlePlayer_;
     
     CDriver(MainWindow* parent = 0);
     ~CDriver();
@@ -108,11 +109,27 @@ public:
     static void updateServer(GameObject* obj);
 
     /**
-     *
+     * reads in an object, if it exists, updates it,
+     * if it doesn't exist creates it.
      * @author Duncan Donaldson
      */
     void readObject(Stream* s);
-
+    /**
+     * 
+     * Destroys an object on the client, and notifies the server
+     * that the object has been destroyed.
+     *
+     * @author Duncan Donaldson
+     */
+    void destroyObjSync(int id);
+    /**
+     * 
+     * Destroys an object on the client without notifying
+     * the server of the object destruction.
+     *
+     * @author Duncan Donaldson
+     */
+    void destroyObjLocal(int id);
     /**
      * Creates a human player object.
      * Sets event filter for key presses to be passed to PlayerInputComponent.
@@ -166,6 +183,20 @@ public:
     MainWindow* getMainWindow() {
         return mainWindow_;
     }
+    /**
+     * getter for SinglePlayer
+     *
+     * @author Duncan Donaldson
+     * @return whether or not the game is being played single player.
+     */
+    bool isSinglePlayer();
+    /**
+     * sets the value of singlePlayer
+     *
+     * @author Duncan Donaldson
+     * @param the value to set singlePlayer to.
+     */
+    void setSinglePlayer(bool singlePlayer);
     
 public slots:
     /**
@@ -176,7 +207,7 @@ public slots:
     * @author Duncan Donaldson
     * @return void
     */
-    void startGame();
+    void startGame(bool singlePlayer);
 
     /**
      * Called whenenever the spacebar is pressed. It checks the tile type that
@@ -200,6 +231,7 @@ private slots:
     void createTower(int towerType, QPointF pos);
 
     /**
+     * handles a received UDP message.
      *
      * @author Duncan Donaldson
      */
@@ -217,6 +249,7 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCDeleter(Unit*);
+
 };
 
 } /* end namespace td */

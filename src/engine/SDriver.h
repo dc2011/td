@@ -32,7 +32,6 @@ public:
      * 
      * 
      * @author Duncan Donaldson
-     * @return void
      */
     void startGame();
 
@@ -40,11 +39,26 @@ public:
      * Stop game timer, and shuts down the network server.
      * 
      * @author Duncan Donaldson
-     * @return void
      */
     void endGame();
-
+    /**
+     * If an object exists, updates its values with the ones read.
+     * otherwise creates an object.
+     * 
+     * @author Duncan Donaldson
+     * @author Darryl Pogue
+     * @return returns a reference to the game object that has 
+     * been updated or created
+     */
     GameObject* updateObject(Stream* s);
+    /**
+     * Destroys a server-side object, and tells all clients
+     * to update their local copies of said object.
+     * 
+     * @author Duncan Donaldson
+     * @param id The id of the object to be destroyed.
+     */
+    void destroyServerObj(int id);
 
 public slots:
     /**
@@ -54,7 +68,6 @@ public slots:
      * once we get further along with game logic, I will add logic to make sure
      * a previous wave has been destroyed before spawning a new one.
      * @author Duncan Donaldson
-     * @return void
      */
     void spawnWave();
     /**
@@ -62,7 +75,6 @@ public slots:
      * or adding the player to the players list if the player does not exist.
      * 
      * @author Duncan Donaldson
-     * @return void
      */
     void onUDPReceive(Stream* s);
 };
