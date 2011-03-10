@@ -21,7 +21,7 @@ public:
     ~LobbyWindow();
 
 signals:
-    void startGame();
+    void startGame(bool singlePlayer);
 
 public slots:
     void connectLobby();

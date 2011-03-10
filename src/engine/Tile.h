@@ -10,6 +10,9 @@
 #include "../util/defines.h"
 #include "ClsIdx.h"
 
+namespace Tiled {
+class Tile;
+}
 
 namespace td {
 
@@ -17,6 +20,7 @@ namespace td {
 enum blockingType {OPEN = 0, CLOSED = 1, NORTH_WEST = 2, NORTH_EAST = 3,
                    SOUTH_WEST = 4, SOUTH_EAST = 5};
 
+class TileExtension;
 class Unit;
 
 class Tile : public QObject {
@@ -36,8 +40,12 @@ public:
     Tile(int row, int column, blockingType type);
     virtual ~Tile() { }
 
-    int getColumn();
-    int getRow();
+    // The following two methods are going to be problematic in their current
+    // implementation as they rely on hard-coded MAP_ROWS and MAP_COLUMNS 
+    // values. They also are not being used yet, so I have commented them out.
+    // -- Love, Tom :)
+    //int getColumn();
+    //int getRow();
     void addUnit(Unit *unitToAdd);
     void removeUnit(Unit *unitToRemove);
     QSet<Unit*> getUnits();
@@ -74,11 +82,31 @@ public:
         return pos_;
     }
 
+    /**
+     * Gets this tile's extension object.
+     *
+     * @author Tom Nightingale 
+     * @return The tile extension.
+     */
+    TileExtension * getExtension() { return extension_; }
+    void setExtension(TileExtension * extension) { extension_ = extension; }
+
+    Tiled::Tile * getTiledTile() { return tTile_; }
+    void setTiledTile(Tiled::Tile * tile) { tTile_ = tile; }
+
 private:
     int tileID_;
     blockingType type_;
     QSet<Unit*> currentUnits_;
     int actionType_;
+
+    Tiled::Tile * tTile_;
+
+    /** 
+     * Tiles can have an extension attacted to them. Currently this is a tower 
+     * or a resource. 
+     */
+    TileExtension * extension_;
 
     /**
      * The coordinates of the centre of the tile.
