@@ -23,7 +23,8 @@ GraphicsComponent::GraphicsComponent() {
 }
 
 GraphicsComponent::~GraphicsComponent() {
-    disconnect(this, SLOT(onTimerTick()));
+    CDriver::instance()->getMainWindow()->getScene()->removeItem(pixmapItem_);
+    disconnect();
     new DelayedDelete<QGraphicsPixmapItem>(pixmapItem_);
 }
 

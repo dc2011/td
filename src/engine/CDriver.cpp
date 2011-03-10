@@ -28,7 +28,8 @@ CDriver::CDriver(MainWindow* mainWindow)
         projectile_(NULL)
 {
     mgr_ = new ResManager();
-    npc_ = QSet<NPC*>();
+    //npc_ = QSet<NPC*>();
+    npc_ = QList<NPC*>();
     npcCounter_ = 0;
     tower_ = NULL;
 }
@@ -147,14 +148,33 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
 }
 
 void CDriver::NPCCreator() {
-    if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
-        npc_.insert(createNPC());
+    if (npcCounter_++ % 15 == 0 ){//&& (npcCounter_ % 400) > 300) {
+        npc_.append(createNPC());
+        //npc_.insert(createNPC());
     }
 }
 
-void CDriver::NPCDeleter(Unit* npc) {
-    npc_.remove((NPC*)npc);
+void CDriver::NPCDeleter() {
+    NPC* npc;
+    qDebug("Request to delete NPC");
+    if (npc_.isEmpty()) {
+        return;       
+    }
+    int i = 0;
+    for (i = 0; i < npc_.size(); i++) {
+        qDebug("NPC->ID %08x", npc_.at(i)->getID());
+    }
+    qDebug("NPCDeleter(): value of i: %d", i);
+    npc = npc_.first();
+    npc_.removeFirst();
+    qDebug("NPC found %08x", npc->getID());
     mgr_->deleteObject(npc);
+    npc = NULL;
+}
+
+void CDriver::NPCDeleter(Unit* npc) {
+    //npc_.remove((NPC*)npc);
+    //mgr_->deleteObject(npc);
 }
 
 NPC* CDriver::createNPC() {
@@ -243,6 +263,9 @@ void CDriver::startGame(bool singlePlayer) {
     connect(gameTimer_,   SIGNAL(timeout()), 
             human_,       SLOT(update()));
     connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
+
+    connect(mainWindow_, SIGNAL(signalMPressed()),
+            this, SLOT(NPCDeleter()));
 
     /* TODO: alter temp solution */
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
