@@ -2,15 +2,15 @@
 #include <QObject>
 #include <QThreadPool>
 #include "MainWindow.h"
-#include "../audio/manager.h"
-#include "../engine/CDriver.h"
-#include "../graphics/MapDisplayer.h"
+#include "lobbywindow.h"
 #include "../util/thread.h"
+#include "../engine/CDriver.h"
+#include "../audio/manager.h"
+#include "../network/netclient.h"
 
 int main(int argc, char **argv) {
     QApplication a(argc, argv);
     QDir bin(QCoreApplication::applicationDirPath());
-    QQueue<QString> musicList;
 
     /* Set working directory */
     bin.cdUp();
@@ -21,29 +21,30 @@ int main(int argc, char **argv) {
 #endif
     QDir::setCurrent(bin.absolutePath());
 
+    /* Set the ThreadPool count to allow for lots of audio */
+    QThreadPool::globalInstance()->setMaxThreadCount(16);
+
+    td::LobbyWindow* lobby = new td::LobbyWindow();
     td::MainWindow* qmw = new td::MainWindow();
     td::CDriver* clientDriver = td::CDriver::init(qmw);
     td::Thread* driverThread = new td::Thread();
-    musicList = td::AudioManager::instance()->musicDir("./sound/music/");
-    QThreadPool::globalInstance()->setMaxThreadCount(16);
 
-    QObject::connect(driverThread, SIGNAL(started()),
-                     clientDriver, SLOT(startGame()));
+    QObject::connect(lobby, SIGNAL(startGame(bool)),
+                     clientDriver, SLOT(startGame(bool)));
+    QObject::connect(lobby, SIGNAL(startGame(bool)),
+                     qmw, SLOT(openWindow()));
     clientDriver->moveToThread(driverThread);
 
     driverThread->start();
-    
-    td::AudioManager::instance()->playMusic(musicList);
-   // Construct a map
-    /*MapDisplayer map(qmw.getScene());
-    // Show the map
-    map.viewMap(QString("../maps/desert.tmx"));*/
-    qmw->show();
 
+    lobby->show();
+    
     int exitCode = a.exec();
+
     td::AudioManager::instance()->shutdown();
     td::CDriver::shutdown();
-    delete qmw;
+    td::NetworkClient::instance()->shutdown();
+    delete lobby;
     return exitCode;
 }
 

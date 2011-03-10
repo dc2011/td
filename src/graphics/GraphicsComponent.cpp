@@ -10,7 +10,7 @@ QMutex GraphicsComponent::mutex_;
 GraphicsComponent::GraphicsComponent() {
     
     MainWindow* mainWindow = CDriver::instance()->getMainWindow();
-    
+
     connect(this, SIGNAL(created(GraphicsComponent*)), 
             mainWindow, SLOT(createGraphicRepr(GraphicsComponent*)));
     connect(this, SIGNAL(signalDraw(DrawParams*, GraphicsComponent*, int)), 
@@ -43,6 +43,8 @@ void GraphicsComponent::draw(DrawParams* dp, int layer) {
     pixmapItem_->setZValue(layer);
     isMoving_ = dp->moving;
     delete dp;
+
+    pixmapItem_->update();
 }
 
 QPixmap GraphicsComponent::getCurrentPixmap() {
