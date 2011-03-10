@@ -32,7 +32,6 @@ public:
     virtual void initComponents(int towerType);
 
 private:
-    QList<Effect*> effects_;
 
     /**
      * Set to false when the tower is initialized. On the first network read, 

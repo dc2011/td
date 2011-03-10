@@ -35,4 +35,10 @@ void Player::update() {
     graphics_->update(this);
 }
 
+void Player::createEffect(Effect::EffectType type){
+    Effect* effect = new Effect(this, type);
+    effects_.push_back(effect);
+    effect->apply();
+}
+
 } /* end namespace td */
