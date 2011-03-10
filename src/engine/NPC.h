@@ -43,10 +43,27 @@ public:
      */
     virtual void initComponents();
 
+    int getWidth(){
+        return width_;
+    }
+
+    void setWidth(int width){
+        width_ = width;
+    }
+
+    int getHeight(){
+        return height_;
+    }
+
+    void setHeight(int height){
+        height_ = height;
+    }
 private:
     size_t health_;
     size_t damage_;
     QList<Effect*> effects_;
+    int height_;
+    int width_;
 };
 
 } /* end namespace td */
