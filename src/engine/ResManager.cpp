@@ -35,10 +35,10 @@ GameObject* ResManager::internalCreateObject(unsigned char type) {
             ret->setID(id);
             break;
         case clsidx::kTower:
-	    ret = new Tower();
-	    id = (Tower::clsIdx() <<24) | objects_[type].size();
-	    ret->setID(id);
-	    break;
+            ret = new Tower();
+            id = (Tower::clsIdx() <<24) | objects_[type].size();
+            ret->setID(id);
+            break;
         case clsidx::kGameObject:
         case clsidx::kUnit:
         default:
@@ -106,7 +106,7 @@ void ResManager::deleteObject(unsigned int id) {
     GameObject* obj = findObject(id);
 
     if (obj != NULL) {
-        objects_[type].removeAt(objid);
+        objects_[type][objid] = NULL;
         delete obj;
         obj = NULL;
     }

@@ -1,8 +1,10 @@
-NETWORK_HDRS += ./network/netclient.h \
+NETWORK_HDRS += ./network/lobbyserver.h \
+                ./network/netclient.h \
                 ./network/netserver.h \
                 ./network/stream.h
 
-NETWORK_SRCS += ./network/stream.cpp \
+NETWORK_SRCS += ./network/lobbyserver.cpp \
+                ./network/netclient.cpp \
                 ./network/netserver.cpp \
-                ./network/netclient.cpp
+                ./network/stream.cpp
 

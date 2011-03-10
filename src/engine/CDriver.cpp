@@ -90,9 +90,9 @@ void CDriver::readObject(Stream* s) {
             go->setGraphicsComponent(graphics);
 
         } else {
-	    go->initComponents();
-	}
-	connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
+            go->initComponents();
+        }
+        connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
     }
     
     go->networkRead(s);
@@ -187,10 +187,13 @@ void CDriver::startGame() {
     CDriver::gameMap_     = new Map(mainWindow_->getMD()->map());
     CDriver::gameMap_->initMap();
     CDriver::gameTimer_   = new QTimer(this);
+    QQueue<QString> musicList;
 
-    connectToServer("127.0.0.1");
     connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
             this, SLOT(UDPReceived(Stream*)));
+
+    musicList = td::AudioManager::instance()->musicDir("./sound/music/");
+    td::AudioManager::instance()->playMusic(musicList);
 
     createHumanPlayer(mainWindow_);
     contextMenu_ = new ContextMenu(human_);
@@ -208,6 +211,7 @@ void CDriver::startGame() {
     connect(gameTimer_,   SIGNAL(timeout()), 
             human_,       SLOT(update()));
     connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
+
     /* TODO: alter temp solution */
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
             this,         SLOT(createTower(int, QPointF)));
