@@ -10,6 +10,10 @@ NPC::NPC() {
     this->setVelocity(force);
     pos_.setX(50);
     pos_.setY(50);
+    health_ = 1;
+    #ifndef SERVER
+    connect(this, SIGNAL(dead(int)), CDriver::instance(), SLOT(deadNPC(int)));
+    #endif
 }
 
 size_t NPC::getHealth() {
@@ -38,9 +42,14 @@ void NPC::initComponents() {
     this->setPhysicsComponent(physics);
     this->setGraphicsComponent(graphics);
 }
-
+void NPC::isDead() {
+    if(health_ == 0) {
+        emit dead(this->getID());
+    }
+}
 void NPC::update() {
 #ifndef SERVER
+    this->isDead();
     CDriver::updateServer(this);
 #endif
     input_->update();

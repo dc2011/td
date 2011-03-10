@@ -36,13 +36,15 @@ public:
     void setHealth(size_t);
     size_t getDamage();
     void setDamage(size_t);
+    void isDead();
     /**
      * initializes the NPCs components.
      *
      * @author Duncan Donaldson
      */
     virtual void initComponents();
-
+signals:
+    void dead(int id);
 private:
     size_t health_;
     size_t damage_;

@@ -208,7 +208,7 @@ public slots:
     * @return void
     */
     void startGame(bool singlePlayer);
-
+    void deadNPC(int id);
     /**
      * Called whenenever the spacebar is pressed. It checks the tile type that
      * the player is currently standing on, and performs the appropriate action.

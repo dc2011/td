@@ -287,6 +287,14 @@ void CDriver::handleSpacebarPress() {
     }
 }
 
+void CDriver::deadNPC(int id) {
+    if(singlePlayer_ == true) {
+        destroyObjLocal(id);
+    } else {
+        destroyObjSync(id);
+    }
+}
+
 QTimer* CDriver::getTimer() {
     return gameTimer_;
 }
