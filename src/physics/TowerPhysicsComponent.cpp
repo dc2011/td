@@ -27,7 +27,7 @@ void TowerPhysicsComponent::findTargets(GameObject* tower, int radius) {
     } else {
         target.p2() = tower->getPos();
     }
-    Unit* u = new NPC();
+
     setNPCs(tower, radius);
     QSet<Unit*> units = getNPCs();
 
@@ -37,17 +37,13 @@ void TowerPhysicsComponent::findTargets(GameObject* tower, int radius) {
         return;
     }
     for( iter = units.begin();iter != units.end(); ++iter){
-        u = *iter;
         QLineF line;
         line.p1() = tower->getPos();
-        line.p2() = u->getPos();
         if(getEnemy() != NULL && target.length() < radius && target.length() != 0) {
             return;
         } else {
-            QString debug = typeid( *u ).name();
-            if(debug.contains("NPC")) {
-                qDebug(debug.toLatin1().data());
-                setTarget(u);
+            if((((*iter)->getID()&0xFF000000)>>24) == NPC::clsIdx()) {
+                setTarget(*iter);
             }
         }
     }
