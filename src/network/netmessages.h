@@ -44,9 +44,17 @@ namespace network {
         /** Server Assigns ID to a Player **/
         kAssignPlayerID = 0x84,
 	
-        /** Server has created an object, sending object state to player **/
-        kServerCreateObj = 0x85,
-	
+	/** Server has created an object, sending object state to player **/
+	kServerCreateObj = 0x85,
+        
+        /** Server has destroyed an object, updating all clients **/
+        kServerDestroyObj = 0x86,
+
+        /** Object has been destroyed client-side, notifying server **/
+        kClientDestroyObj = 0x87,    
+
+	/** temp (maybe used later) **/
+	kServObjectUpdate = 0x88,
 
     };
 

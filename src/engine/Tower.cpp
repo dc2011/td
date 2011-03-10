@@ -1,5 +1,7 @@
 #include "Tower.h"
+#ifndef SERVER
 #include "CDriver.h"
+#endif
 #include "Effect.h"
 #include "../graphics/TowerGraphicsComponent.h"
 #include "../util/defines.h"
@@ -7,9 +9,11 @@
 namespace td {
 
 void Tower::update() {
+#ifndef SERVER
+    CDriver::updateServer(this);
+#endif
     graphics_->update(this);
     //physics_->update(this);
-    CDriver::updateServer(this);
 }
 
 void Tower::initComponents() {
