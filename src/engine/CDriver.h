@@ -208,6 +208,11 @@ public slots:
     * @return void
     */
     void startGame(bool singlePlayer);
+    /**
+     * slot that is called to destroy an NPC when its health reaches 0.
+     *
+     * @author Duncan Donaldson
+     */
     void deadNPC(int id);
     /**
      * Called whenenever the spacebar is pressed. It checks the tile type that
