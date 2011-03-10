@@ -42,19 +42,20 @@ namespace td{
 
             for (size_t col = 0; col < width; col++) {
                 tile = tileLayer->tileAt(col, row);
-                type = (blockingType) tile->id(); //default type
+                type = (blockingType) tile->id();
                 //save into array
                 tiles_[row][col] = new Tile(row, col, type);
+
+                // Check for buildable tiles.
                 if (towerLayer->contains(col, row)
                         && towerLayer->tileAt(col, row) != NULL) {
                     tiles_[row][col]->setActionType(TILE_BUILDABLE);
-                    //qDebug("TowerTile at: %d, %d", col, row);
                 }
                 
+                // Create resources.
                 if (resLayer->contains(col, row) 
                         && resLayer->tileAt(col, row) != NULL) {
-                    createResource(RESOURCE_LUMBER, tiles_[row][col]);
-                    qDebug("ResourceTile at: %d, %d", col, row);
+                    createResource(tile->id(), tiles_[row][col]);
                 }
             }
         }
@@ -66,8 +67,11 @@ namespace td{
         Resource * res = new Resource();
         res->initComponents(type);
         res->setPos(tile->getPos());
-        res->setID(0xFFFFFFFF);
-        connect(CDriver::instance()->getTimer(), SIGNAL(timeout()), res, SLOT(update()));
+        res->setID(0xFFFFFFFF); // TODO: Darryl informs me that this is a hack.
+
+        // Connect updates (primarily for graphics component).
+        connect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
+                res, SLOT(update()));
 
         tile->setActionType(TILE_RESOURCE);
         tile->setExtension(res);
