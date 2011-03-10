@@ -39,6 +39,20 @@ void AudioManager::startup()
     playing_ = 0;
 }
 
+void AudioManager::playSfx(QVector<QString> files, SoundType type) {
+    
+    int rdNum;
+    
+    if(files.size() < 1) {
+	qCritical("AudioManager::playSfx(): Empty Vector");
+	return;
+    }
+    
+    rdNum = rand() % files.size();
+    qDebug("%d",rdNum);
+    playSfx(files[rdNum],type);
+}
+
 void AudioManager::playSfx(QString filename, SoundType type)
 {
     int gain;
@@ -107,6 +121,7 @@ bool AudioManager::checkError()
     } else if (error != AL_NO_ERROR) {
         qCritical("AudioManager::checkError(): %d:%s", error, err);
         alExit();
+	inited_=false;
         return true;
     }
 
@@ -151,13 +166,14 @@ void AudioManager::streamOgg(QString filename, float gain)
     ALuint tempBuffer;
     ALuint source;
     ALint processed;
-    ALint queued;
+    ALint queued = 0;
     ALint queue = 0;
     ALint play = AL_TRUE;
     ALint playing = AL_TRUE;
-    ALenum format = AL_FORMAT_STEREO16;
+    ALenum format;
     ALsizei freq = 44100;
     OggVorbis_File oggFile;
+    vorbis_info* vorbisInfo;
     /* Created the source and Buffers */
     alGenBuffers(QUEUESIZE, buffer);
     alGenSources(1, &source);
@@ -170,12 +186,23 @@ void AudioManager::streamOgg(QString filename, float gain)
     }
 
     /* Try opening the given ogg file */
+    mutex_.lock();
     if (ov_open(file, &oggFile, NULL, 0) != 0) {
         qCritical() << "AudioManager::streamOgg(): Error opening " << filename << " for decoding...";
         return;
     }
+    
+    playing_++;
+    mutex_.unlock();
 
-    SAFE_OPERATION(playing_++);
+    vorbisInfo = ov_info(&oggFile, -1);
+ 
+    if(vorbisInfo->channels == 1) {
+        format = AL_FORMAT_MONO16;
+    }
+    else {
+        format = AL_FORMAT_STEREO16;
+    }
 
     do {
         alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
@@ -199,7 +226,6 @@ void AudioManager::streamOgg(QString filename, float gain)
 
         if (buffersAvailable > 0) {
             size = 0;
-
             /* Read file to we reached a BUFFERSIZE chunk */
             while (size < BUFFERSIZE) {
                 result = ov_read(&oggFile, array + size,
@@ -255,9 +281,11 @@ void AudioManager::streamOgg(QString filename, float gain)
         processed--;
     }
 
+    mutex_.lock();
     alDeleteSources(1, &source);
     alDeleteBuffers(QUEUESIZE, buffer);
-    SAFE_OPERATION(playing_--;);
+    playing_--;
+    mutex_.unlock();
 }
 
 } /* End namespace td */

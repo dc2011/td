@@ -14,6 +14,7 @@
 #include <QQueue>
 #include "stream.h"
 #include "netmessages.h"
+#include "../util/defines.h"
 #include "../util/mutex_magic.h"
 
 namespace td
@@ -125,6 +126,13 @@ signals:
      * @param s The stream for the network message.
      */
     void UDPReceived(Stream* s);
+
+    /**
+     * Signal emitted when a message is received over TCP.
+     *
+     * @param s The stream for the network message.
+     */
+    void TCPReceived(Stream* s);
 
 private slots:
     /**

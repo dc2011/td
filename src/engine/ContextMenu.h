@@ -7,12 +7,6 @@
 #include "../audio/manager.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"
 
-#define FLAME_TOWER        49
-#define CANNON_TOWER       50
-#define ARROW_TOWER        51
-#define TAR_TOWER          52
-#define FLAK_TOWER         53
-
 namespace td {
 
 class ContextMenu : public QObject {
@@ -49,8 +43,6 @@ private:
      */
     bool menuIsOpen_;
 
-    QTimer closeTimer;
-
 public slots:
     /**
      * Open a context menu, or close it if it already open.
@@ -67,11 +59,11 @@ public slots:
      */
     void selectMenuItem(int keyPressed);
 
- 
-    void hideSelectMenu();
-
     /**
      * Shows or hides the resources required to build the towers.
+     * 
+     * @author Dean Morin
+     * @param altHeld True if the resources should be displayed.
      */
     void viewResources(bool altHeld);
 

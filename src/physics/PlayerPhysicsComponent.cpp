@@ -32,10 +32,57 @@ void PlayerPhysicsComponent::update(Unit* player)
 /* applies velocity to position, currently moves past bounds */
 void PlayerPhysicsComponent::applyVelocity(Player* player)
 {
-    QPointF newPos = player->getPos() + player->getVelocity().toPointF();
+    //assuming body of player sprite is from 13,4 to 35, 44
 
-    if (validateMovement(newPos)) {
+    QPointF newPos = player->getPos() + player->getVelocity().toPointF();
+    QPointF upperRight = newPos + QPointF(11, -20);
+    QPointF upperLeft = newPos + QPointF(-11, -20);
+    QPointF lowerRight = newPos + QPointF(11, 20);
+    QPointF lowerLeft = newPos + QPointF(-11, 20);
+    std::set<Unit*> npcs;
+
+    if (validateMovement(upperRight) && validateMovement(upperLeft)
+        && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
+        // Determine if the Player needs to update its tile position.
+        player->changeTile(newPos);
         player->setPos(newPos);
+        //npcs = Map.getUnits(newPos.x(), newPos.y(), 3);
+    }else{
+        //int blockingType = 0;
+        //emit requestTileType(newPos.x(), newPos.y(), &blockingType);
+        QPointF newx = QPointF(player->getVelocity().toPointF().x(),0);
+
+
+        newPos = player->getPos() + newx;
+        upperRight = newPos + QPointF(11, -20);
+        upperLeft = newPos + QPointF(-11, -20);
+        lowerRight = newPos + QPointF(11, 20);
+        lowerLeft = newPos + QPointF(-11, 20);
+        if (validateMovement(upperRight) && validateMovement(upperLeft)
+            && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
+            // Determine if the Player needs to update its tile position.
+            player->changeTile(newPos);
+            player->setPos(newPos);
+        } else{
+            QPointF newy = QPointF(0,player->getVelocity().toPointF().y());
+            newPos = player->getPos() + newy;
+            upperRight = newPos + QPointF(11, -20);
+            upperLeft = newPos + QPointF(-11, -20);
+            lowerRight = newPos + QPointF(11, 20);
+            lowerLeft = newPos + QPointF(-11, 20);
+            if (validateMovement(upperRight) && validateMovement(upperLeft)
+                && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
+                // Determine if the Player needs to update its tile position.
+                player->changeTile(newPos);
+                player->setPos(newPos);
+
+            } else {
+                QVector2D temp(0, 0);
+                player->setVelocity(temp);
+            }
+
+        }
+
     }
 }
 
@@ -162,10 +209,7 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
 bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
     int blockingType = 0;
 
-    int row = floor(newPos.y() / TILE_HEIGHT);
-    int col = floor(newPos.x() / TILE_WIDTH);
-
-    emit requestTileInfo(row, col, &blockingType);
+    emit requestTileType(newPos.x(), newPos.y(), &blockingType);
 
     if (blockingType == OPEN) {
         return true;
@@ -187,35 +231,30 @@ bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
 
 bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
 
-    double posXWhole;
-    double posXFract;
-    double posYWhole;
-    double posYFract;
-
-    posXWhole = modf(pos.x(), &posXFract);
-    posYWhole = modf(pos.y(), &posYFract);
+    float posX = (int) pos.x() % TILE_WIDTH;
+    float posY = (int) pos.y() % TILE_HEIGHT;
 
     switch(type) {
         case NORTH_WEST:
-            if (posYFract < (1.0 - posXFract)) {
+            if (posY > (TILE_WIDTH - posX)) {
                 return false;
             }
             break;
 
         case NORTH_EAST:
-            if ((posXFract > posYFract)) {
+            if ((posX < posY)) {
                 return false;
             }
             break;
 
         case SOUTH_WEST:
-            if ((posXFract < posYFract)) {
+            if ((posX > posY)) {
                 return false;
             }
             break;
 
         case SOUTH_EAST:
-            if (posYFract > (1.0 - posXFract)) {
+            if (posY < (TILE_WIDTH - posX)) {
                 return false;
             }
             break;
@@ -225,6 +264,17 @@ bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
     }
 
     return true;
+}
+
+void PlayerPhysicsComponent::checkNPCCollision(std::set<Unit*> npcs){
+
+    std::set<Unit*>::iterator it;
+    for(it = npcs.begin(); it != npcs.end(); ++it){
+        //if(collider_.intersectBox(it.bounds)){
+        //  add stun effect to player
+        //  return;
+        //}
+    }
 }
 
 } /* end namespace td */

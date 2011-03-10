@@ -28,21 +28,21 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
     dp->moving  = player->getVelocity().length() != 0;
     //dp->scale   = player->getScale();  will likely be a constant value here
     dp->degrees = player->getOrientation();
-    emit signalDraw(dp, this);
+    emit signalDraw(dp, this, LAYER_PLAYER);
 }
 
 void PlayerGraphicsComponent::initPixmaps() {
     //TODO: add animation logic here?
-    pixmapImgs = new QPixmap[PIX_PLAYER_MAX];
-    pixmapIndex = 0;
-    pixmapImgs[pixmapIndex++] = PIX_PLAYER_0;
-    pixmapImgs[pixmapIndex++] = PIX_PLAYER_1;
-    pixmapImgs[pixmapIndex++] = PIX_PLAYER_2;
-    pixmapImgs[pixmapIndex++] = PIX_PLAYER_3;
-    pixmapImgs[pixmapIndex++] = PIX_PLAYER_4;
-    pixmapImgs[pixmapIndex++] = PIX_PLAYER_5;
-    pixmapImgs[pixmapIndex++] = PIX_PLAYER_6;
-    pixmapIndex = 0;
+    pixmapImgs_ = new QPixmap[PIX_PLAYER_MAX];
+    pixmapIndex_ = 0;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_4;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_5;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_6;
+    pixmapIndex_ = 0;
 }
 
 void PlayerGraphicsComponent::animate() {
@@ -50,19 +50,19 @@ void PlayerGraphicsComponent::animate() {
     int pos;
     
     if (!isMoving_) {
-        pixmapIndex = 0;
-        setImgIndex(pixmapIndex);
+        pixmapIndex_ = 0;
+        setImgIndex(pixmapIndex_);
         return;
     }
 
-    if (pixmapIndex == 0) {
+    if (pixmapIndex_ == 0) {
 	pos = rand() % 2 + 1;
-	pos == 1 ? pixmapIndex = 0 : pixmapIndex = 3;
+        pos == 1 ? pixmapIndex_ = 0 : pixmapIndex_ = 3;
     }
     
     if (!(animateCount++ % animateMod)) {
-        ++pixmapIndex >= PIX_PLAYER_MAX ? pixmapIndex = 1 : pixmapIndex;
-        setImgIndex(pixmapIndex);
+        ++pixmapIndex_ >= PIX_PLAYER_MAX ? pixmapIndex_ = 1 : pixmapIndex_;
+        setImgIndex(pixmapIndex_);
     }
 }
 

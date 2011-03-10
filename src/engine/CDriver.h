@@ -2,50 +2,82 @@
 #define CDRIVER_H
 
 #include <QTimer>
-#include <QApplication>
-#include <QMainWindow>
-#include <QVector>
 #include <QPointF>
-#include "ResManager.h"
-#include "ContextMenu.h"
-#include "NPC.h"
-#include "Player.h"
-#include "Projectile.h"
-#include "Tower.h"
-#include "../client/MainWindow.h"
-#include "../network/netclient.h"
-#include "../network/stream.h"
-#include "Unit.h"
-#include "GameObject.h"
-#include "Map.h"
+#include <QSet>
 
 namespace td {
+
+class ContextMenu;
+class GameObject;
+class Map;
+class NPC;
+class Player;
+class Projectile;
+class ResManager;
+class Tower;
+class MainWindow;
+class Stream;
+class Unit;
 
 class CDriver : public QObject {
     Q_OBJECT
   
 private:
-    /**
-     * The game object resource manager.
-     */
+     /** The game object resource manager. */
     ResManager* mgr_;
-    QTimer* gameTimer_;
+     /** The central game timer that initiates all object updates. */
+    static QTimer* gameTimer_;
+     /** The player on this client. */
     Player* human_;
+     /** The main game window, where all graphics will be drawn. */
     MainWindow* mainWindow_;
-    // The game map containing all the tiles, waypoints, and access methods
+     /** The game map containing all tiles, waypoints, and access methods. */
     Map* gameMap_;
-    /**
-     * A context menu that appears around the player.
-     */
+     /** A context menu that appears around the player. */
     ContextMenu* contextMenu_;
+     /** An set of enemy units. */
+    QSet<NPC*> npc_;
+     /** Keeps track of how many NPCs there currently are. */
+    size_t npcCounter_;
+     /** A projectile fired from a tower. */
     Projectile* projectile_;
-    NPC* npc_;
+     /** A tower built by the players. */
     Tower* tower_;
-
-public:
-    // ctors and dtors
+     /** The single instance of this class that can be created. */
+    static CDriver* instance_;
+    
+    
     CDriver(MainWindow* parent = 0);
     ~CDriver();
+
+public:
+    /**
+     * Creates an instance of the class if one doesn't exist yet.
+     *
+     * @author Dean Morin
+     * @param mainWindow A pointer to the main window where everything is drawn.
+     * @returns An new instance of the class if one doesn't exist yet, or
+     * if one does, it returns a pointer to that instance.
+     */
+    static CDriver* init(MainWindow* mainWindow);
+   
+    /**
+     * Calls the dtor for the singleton instance.
+     *
+     * @author Dean Morin
+     */
+    static void shutdown();
+   
+    /**
+     * Returns the instance of this Singleton class. Should only be used if
+     * you know that init() has already been called.
+     *
+     * @author Dean Morin
+     * @returns A pointer to the one available instance of this class.
+     */
+    static CDriver* instance() {
+        return instance_;
+    }
 
     /**
      * Connects the client driver to the server. This must be called
@@ -95,8 +127,9 @@ public:
     /**
      * creates npc object
      * @author Marcel Vangrootheest
+     * @returns the reference to an NPC
      */
-    void createNPC();
+    NPC* createNPC();
 
     /**
      * Stop game timer.
@@ -105,6 +138,34 @@ public:
      * @return void
      */
     void endGame();
+
+    /**
+     * Returns the game timer
+     *
+     * @author Terence Stenvold
+     * @return the game timer
+     */
+    static QTimer* getTimer();
+
+
+    /**
+    * Getter for gameMap_
+    *
+    * @author Ian Lee
+    */
+    Map* getGameMap(){
+        return gameMap_;
+    }
+
+    /**
+     * Gets a pointer to the main window where all graphics are drawn.
+     *
+     * @author Dean Morin, Darryl Pogue. Special thanks to Marcel Vangrootheest.
+     * @return The main window where all graphics are drawn.
+     */
+    MainWindow* getMainWindow() {
+        return mainWindow_;
+    }
     
 public slots:
     /**
@@ -117,13 +178,17 @@ public slots:
     */
     void startGame();
 
+    /**
+     * Called whenenever the spacebar is pressed. It checks the tile type that
+     * the player is currently standing on, and performs the appropriate action.
+     */
+    void handleSpacebarPress();
+
 private slots:
     /**
      * Creates a projectile object.
      *
-     * @author Pan Khantidhara
-     * @param int A key pressed. Doesn't really use it.
-     * @return Pointer to new projectile instance.
+     * @author Pan Khantidhara, Marcel Vangrootheest
      */
     void createProjectile();
 
@@ -139,6 +204,19 @@ private slots:
      * @author Duncan Donaldson
      */
     void UDPReceived(Stream* s);
+
+    /**
+     * Creates Npc objects based on the game tick.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void NPCCreator();
+    /**
+     * Deletes NPC later
+     *
+     * @author Marcel Vangrootheest
+     */
+    void NPCDeleter(Unit*);
 };
 
 } /* end namespace td */

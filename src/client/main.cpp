@@ -1,16 +1,16 @@
-#include <QObject>
 #include <QApplication>
+#include <QObject>
 #include <QThreadPool>
 #include "MainWindow.h"
+#include "lobbywindow.h"
 #include "../util/thread.h"
-#include "../graphics/MapDisplayer.h"
 #include "../engine/CDriver.h"
 #include "../audio/manager.h"
+#include "../network/netclient.h"
 
 int main(int argc, char **argv) {
     QApplication a(argc, argv);
     QDir bin(QCoreApplication::applicationDirPath());
-    QQueue<QString> musicList;
 
     /* Set working directory */
     bin.cdUp();
@@ -21,25 +21,30 @@ int main(int argc, char **argv) {
 #endif
     QDir::setCurrent(bin.absolutePath());
 
-    td::MainWindow* qmw = td::MainWindow::init();
-    td::CDriver clientDriver(qmw);
-    td::Thread* driverThread = new td::Thread();
-    musicList = td::AudioManager::instance()->musicDir("./sound/music/");
+    /* Set the ThreadPool count to allow for lots of audio */
     QThreadPool::globalInstance()->setMaxThreadCount(16);
 
-    QObject::connect(driverThread, SIGNAL(started()),
-                     &clientDriver, SLOT(startGame()));
-    clientDriver.moveToThread(driverThread);
+    td::LobbyWindow* lobby = new td::LobbyWindow();
+    td::MainWindow* qmw = new td::MainWindow();
+    td::CDriver* clientDriver = td::CDriver::init(qmw);
+    td::Thread* driverThread = new td::Thread();
+
+    QObject::connect(lobby, SIGNAL(startGame()),
+                     clientDriver, SLOT(startGame()));
+    QObject::connect(lobby, SIGNAL(startGame()),
+                     qmw, SLOT(openWindow()));
+    clientDriver->moveToThread(driverThread);
 
     driverThread->start();
+
+    lobby->show();
     
-    td::AudioManager::instance()->playMusic(musicList);
-   // Construct a map
-    /*MapDisplayer map(qmw.getScene());
-    // Show the map
-    map.viewMap(QString("../maps/desert.tmx"));*/
-    qmw->show();
-    
-    return a.exec();
+    int exitCode = a.exec();
+
+    td::AudioManager::instance()->shutdown();
+    td::CDriver::shutdown();
+    td::NetworkClient::instance()->shutdown();
+    delete lobby;
+    return exitCode;
 }
 

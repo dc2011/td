@@ -1,17 +1,19 @@
 #include "MainWindow.h"
-#include "graphics/MapDisplayer.h"
 #include <QScrollArea>
+#include <QSize>
 #include "../audio/manager.h"
 #include "../graphics/GraphicsComponent.h"
+#include "../graphics/MapDisplayer.h"
+#include "maprenderer.h"
+#include "map.h"
 
 namespace td {
-
-MainWindow* MainWindow::instance_ = NULL;
 
 MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
 
+    scene_->setItemIndexMethod(QGraphicsScene::NoIndex);
     keysHeld_ = 0;
     keysTimer_ = new QTimer(this);
     keysTimer_->start(50);
@@ -21,12 +23,16 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
 
-    MapDisplayer* map = new MapDisplayer(scene_);
-    map->viewMap(QString("./maps/testmap.tmx"));
+    //MapDisplayer * mapDisplayer_ = NULL;
+    mapDisplayer_ = new MapDisplayer(scene_);
+    mapDisplayer_->viewMap(QString("./maps/netbookmap.tmx"));
+    Tiled::MapRenderer* mRenderer = mapDisplayer_->getMRenderer();
+    QSize mapSize = mRenderer->mapSize();
 
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
-    view_->setFixedSize(1024,768);
+    scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
+    view_->setFixedSize(mapSize.width(), mapSize.height());
     //this->showFullScreen();
     
     // This focus policy may be implied by default...
@@ -34,27 +40,18 @@ MainWindow::MainWindow() : QMainWindow() {
     //this->grabKeyboard();
 
     connect(keysTimer_, SIGNAL(timeout()), this, SLOT(keyHeld()));
-
 }
 
 MainWindow::~MainWindow() {
     /* driver_.shutdown() or something */
 }
 
-MainWindow* MainWindow::init() {
-    if (instance_ != NULL) {
-        return instance_;
-    }
-    instance_ = new MainWindow();
-    return instance_;
-}
-
 void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
     scene_->addItem(gc->initGraphicsComponent());
 }
 
-void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc) {
-    gc->draw(dp);
+void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc, int layer) {
+    gc->draw(dp,layer);
 }
 
 
@@ -101,7 +98,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
             emit signalFPressed();
             break;
         case Qt::Key_R:
-            emit signalRHeld(true);
+            emit signalAltHeld(true);
             break;
         case Qt::Key_1:
         case Qt::Key_2:
@@ -160,7 +157,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
             emit signalKeyReleased(event->key());
             break;
         case Qt::Key_R:
-            emit signalRHeld(false);
+            emit signalAltHeld(false);
             break;
 
         default:
