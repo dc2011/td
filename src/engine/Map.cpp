@@ -35,11 +35,6 @@ namespace td{
         size_t height = tileLayer->height();
         size_t width = tileLayer->width();
 
-        // Currently this doesn't work.
-        //tileLayer->setVisible(false);
-        resLayer->setVisible(false);
-        path->setVisible(false);
-
         tiles_ = new Tile**[height];
 
         for (size_t row = 0; row < height; row++) {

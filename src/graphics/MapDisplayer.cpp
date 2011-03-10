@@ -115,11 +115,16 @@ public:
         setFlag(QGraphicsItem::ItemHasNoContents);
 #endif
         // Create a child item for each layer
+        int i = 0;
         foreach(Layer * layer, map->layers()) {
             if (TileLayer* tileLayer = layer->asTileLayer()) {
-                new TileLayerItem(tileLayer, renderer, this);
+                if (i < 2) { // only show the first 2 layers
+                    new TileLayerItem(tileLayer, renderer, this);
+                    i++;
+                }
             } else if (ObjectGroup* objectGroup = layer->asObjectGroup()) {
-                new ObjectGroupItem(objectGroup, renderer, this);
+                // uncomment this line to see the objects again
+                //new ObjectGroupItem(objectGroup, renderer, this);
             }
         }
     }
