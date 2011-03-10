@@ -25,7 +25,7 @@ MainWindow::MainWindow() : QMainWindow() {
 
     //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
-    mapDisplayer_->viewMap(QString("./maps/netbookmap.tmx"));
+    mapDisplayer_->viewMap(QString("./maps/netbookmap2.tmx"));
     Tiled::MapRenderer* mRenderer = mapDisplayer_->getMRenderer();
     QSize mapSize = mRenderer->mapSize();
 
