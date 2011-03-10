@@ -165,7 +165,7 @@ namespace td{
                 if( r - i >= 0){
 
                     if(j + c < widthInTiles_){
-                        units += tiles_[i+r][j+c]->getUnits();
+                        units += tiles_[r-i][j+c]->getUnits();
                     }
                     if(c - j >= 0){
                         units += tiles_[r-i][c-j]->getUnits();
