@@ -22,7 +22,6 @@ namespace td {
             break;
         case velocityChange:
             unit_->setVelocity(tmpVelocity);
-            qDebug("velochanged");
             break;
         default:
             break;

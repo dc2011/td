@@ -3,13 +3,9 @@
 
 #include "PhysicsComponent.h"
 #include "Bounds.h"
-<<<<<<< HEAD
 #include "../engine/Effect.h"
-#include <set>
-=======
 #include "../engine/Unit.h"
 #include <QSet>
->>>>>>> 5c5be8bad46b938d782bb32d3887ad9be7dc3e1b
 
 namespace td {
 
