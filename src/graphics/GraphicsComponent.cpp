@@ -43,6 +43,8 @@ void GraphicsComponent::draw(DrawParams* dp, int layer) {
     pixmapItem_->setZValue(layer);
     isMoving_ = dp->moving;
     delete dp;
+
+    pixmapItem_->update();
 }
 
 QPixmap GraphicsComponent::getCurrentPixmap() {
