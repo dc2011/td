@@ -6,9 +6,12 @@
 #include <set>
 #include <QSet>
 #include <QPointF>
+#include <QPolygon>
+#include <QVector>
 
 #include "../util/defines.h"
 #include "ClsIdx.h"
+#include "../physics/Bounds.h"
 
 namespace Tiled {
 class Tile;
@@ -83,6 +86,37 @@ public:
     }
 
     /**
+      * Gets the tile's bounding area.
+      *
+      * @author Luke Queenan
+      * @return A polygon representing the blocked area of the tile.
+      */
+    QPolygonF getBounds()
+    {
+        return myBounds_;
+    }
+
+    /**
+      * Sets the tile's bounding area.
+      *
+      * @author Luke Queenan
+      * @return void
+      */
+    void setBounds(QPolygonF bounds)
+    {
+        myBounds_ = bounds;
+    }
+
+    /**
+      * Sets the tile's bounding area to blocked.
+      *
+      * This function will set a tile's bounding area to blocked status.
+      *
+      * @author Luke Queenan
+      * @return void
+      */
+    void setBlocked();
+    /**
      * Gets this tile's extension object.
      *
      * @author Tom Nightingale 
@@ -98,6 +132,7 @@ private:
     int tileID_;
     blockingType type_;
     QSet<Unit*> currentUnits_;
+    QPolygonF myBounds_;
     int actionType_;
 
     Tiled::Tile * tTile_;
@@ -113,6 +148,7 @@ private:
      */
     QPointF pos_;
 
+    void setInitialBounds(int row, int column, blockingType type);
 };
 
 } /* end namespace td */

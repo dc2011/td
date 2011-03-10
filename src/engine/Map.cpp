@@ -32,15 +32,14 @@ namespace td{
         Tiled::TileLayer * towerLayer = tMap_->layerAt(1)->asTileLayer();
         Tiled::TileLayer * resLayer = tMap_->layerAt(2)->asTileLayer();
         Tiled::ObjectGroup * path = tMap_->layerAt(3)->asObjectGroup();
-        size_t height = tileLayer->height();
-        size_t width = tileLayer->width();
+        heightInTiles_ = tileLayer->height();
+        widthInTiles_ = tileLayer->width();
 
-        tiles_ = new Tile**[height];
+        tiles_ = new Tile**[heightInTiles_];
+        for (size_t row = 0; row < heightInTiles_; row++) {
+            tiles_[row] = new Tile*[widthInTiles_];
 
-        for (size_t row = 0; row < height; row++) {
-            tiles_[row] = new Tile*[width];
-
-            for (size_t col = 0; col < width; col++) {
+            for (size_t col = 0; col < widthInTiles_; col++) {
                 tile = tileLayer->tileAt(col, row);
                 type = (blockingType) tile->id();
                 //save into array
@@ -135,7 +134,39 @@ namespace td{
     }
 
     Tile* Map::getTile(QPointF coords) {
-        Map::getTile(coords.x(), coords.y());
+        return Map::getTile(coords.x(), coords.y());
+    }
+
+    QSet<Tile*> Map::getTiles(QPointF coords, int radius){
+
+        int i,j,r,c;
+        QSet<Tile*> tempTiles = QSet<Tile*>();
+        getTileCoords(coords.x(),coords.y(),&r,&c);
+
+        for (i = 0; i< radius ; i++){
+            for(j=0; j+i < radius ; j++){
+                if( i + r < heightInTiles_){
+
+                    if(j + c < widthInTiles_){
+                        tempTiles += tiles_[i+r][j+c];
+                    }
+                    if(c - j >= 0){
+                        tempTiles += tiles_[i+r][c-j];
+                    }
+
+                }
+                if( r - i >= 0){
+
+                    if(j + c < widthInTiles_){
+                        tempTiles += tiles_[r-i][j+c];
+                    }
+                    if(c - j >= 0){
+                        tempTiles += tiles_[r-i][c-j];
+                    }
+                }
+            }
+        }
+        return tempTiles;
     }
 
     QSet<Unit*> Map::getUnits(double x, double y, double radius){
@@ -160,7 +191,7 @@ namespace td{
                 if( r - i >= 0){
 
                     if(j + c < widthInTiles_){
-                        units += tiles_[i+r][j+c]->getUnits();
+                        units += tiles_[r-i][j+c]->getUnits();
                     }
                     if(c - j >= 0){
                         units += tiles_[r-i][c-j]->getUnits();
