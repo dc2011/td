@@ -36,7 +36,6 @@ public:
     void setHealth(size_t);
     size_t getDamage();
     void setDamage(size_t);
-    virtual void initComponents();
     /**
      * if an NPC's health reaches 0,
      * emit a signal that will have the NPC destroyed.
