@@ -2,6 +2,8 @@
 #include "Tile.h"
 #include "../graphics/MapDisplayer.h"
 #include "../client/MainWindow.h"
+#include "Resource.h"
+#include "CDriver.h"
 
 /** Tiled headers. */
 // TODO: I am pretty sure we only *actually* need to include map.h and tile.h
@@ -28,30 +30,58 @@ namespace td{
         Tiled::Tile * tile = NULL;
         Tiled::TileLayer * tileLayer = tMap_->layerAt(0)->asTileLayer();
         Tiled::TileLayer * towerLayer = tMap_->layerAt(1)->asTileLayer();
-        //Tiled::TileLayer * resLayer = tMap_->layerAt(2)->asTileLayer();
+        Tiled::TileLayer * resLayer = tMap_->layerAt(2)->asTileLayer();
         Tiled::ObjectGroup * path = tMap_->layerAt(3)->asObjectGroup();
         heightInTiles_ = tileLayer->height();
         widthInTiles_ = tileLayer->width();
 
+        // Currently this doesn't work.
+        //tileLayer->setVisible(false);
+        resLayer->setVisible(false);
+        path->setVisible(false);
         tiles_ = new Tile**[heightInTiles_];
-
         for (size_t row = 0; row < heightInTiles_; row++) {
             tiles_[row] = new Tile*[widthInTiles_];
 
             for (size_t col = 0; col < widthInTiles_; col++) {
                 tile = tileLayer->tileAt(col, row);
-                type = (blockingType) tile->id(); //default type
+                type = (blockingType) tile->id();
                 //save into array
                 tiles_[row][col] = new Tile(row, col, type);
+
+                // Check for buildable tiles.
                 if (towerLayer->contains(col, row)
                         && towerLayer->tileAt(col, row) != NULL) {
                     tiles_[row][col]->setActionType(TILE_BUILDABLE);
-                    //qDebug("TowerTile at: %d, %d", col, row);
+                }
+                
+                // Create resources.
+                if (resLayer->contains(col, row) 
+                        && resLayer->tileAt(col, row) != NULL) {
+                    // Grabbing the tile from the resource layer.
+                    tile = resLayer->tileAt(col, row);
+                    createResource(tile->id(), tiles_[row][col]);
+                    // Setting the resource tile to the td::Tile.
+                    tiles_[row][col]->setTiledTile(tile);
                 }
             }
         }
         makeWaypoints(WP_PTERO, path);
 
+    }
+
+    void Map::createResource(int type, Tile * tile) {
+        Resource * res = new Resource();
+        res->initComponents(type);
+        res->setPos(tile->getPos());
+        res->setID(0xFFFFFFFF); // TODO: Darryl informs me that this is a hack.
+
+        // Connect updates (primarily for graphics component).
+        connect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
+                res, SLOT(update()));
+
+        tile->setActionType(TILE_RESOURCE);
+        tile->setExtension(res);
     }
 
     void Map::makeWaypoints(int key, Tiled::ObjectGroup* path) {
