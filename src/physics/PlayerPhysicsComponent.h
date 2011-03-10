@@ -3,13 +3,20 @@
 
 #include "PhysicsComponent.h"
 #include "Bounds.h"
+<<<<<<< HEAD
 #include "../engine/Effect.h"
 #include <set>
+=======
+#include "../engine/Unit.h"
+#include <QSet>
+>>>>>>> 5c5be8bad46b938d782bb32d3887ad9be7dc3e1b
 
 namespace td {
 
 class Player;
-
+class CDriver;
+class Map;
+class Tile;
 class PlayerPhysicsComponent : public PhysicsComponent {
     Q_OBJECT
 
@@ -71,10 +78,11 @@ public:
      * If a collision is detected, adds a stun effect to the player.
      *
      * @param npcs, Set of npcs to check for collisions
+     * @param player, pointer to the Unit(player object)
      *
      * @author Daniel Wright, Pan K.(add a signal)
      */
-    void checkNPCCollision(std::set<Unit*> npcs);
+    void checkNPCCollision(QSet<Unit*> npcs, Unit* player);
 
     /**
      * This updates the physics properties of Player.
@@ -83,7 +91,7 @@ public:
      * @author Marcel Vangrootheest
      * @param player, pointer to the Unit(player object)
      */
-    virtual void update(Unit* player);
+    virtual void update(GameObject* player);
     
 signals:
     

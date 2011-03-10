@@ -49,7 +49,7 @@ public:
      * @author Marcel Vangrootheest
      * @param projectile, pointer to the projectile object
      */
-    virtual void update(Unit* projectile);
+    virtual void update(GameObject* projectile);
 
 private:
     /** Velocity of the projectile. */
