@@ -30,15 +30,15 @@ namespace td{
         Tiled::TileLayer * towerLayer = tMap_->layerAt(1)->asTileLayer();
         //Tiled::TileLayer * resLayer = tMap_->layerAt(2)->asTileLayer();
         Tiled::ObjectGroup * path = tMap_->layerAt(3)->asObjectGroup();
-        size_t height = tileLayer->height();
-        size_t width = tileLayer->width();
+        heightInTiles_ = tileLayer->height();
+        widthInTiles_ = tileLayer->width();
 
-        tiles_ = new Tile**[height];
+        tiles_ = new Tile**[heightInTiles_];
 
-        for (size_t row = 0; row < height; row++) {
-            tiles_[row] = new Tile*[width];
+        for (size_t row = 0; row < heightInTiles_; row++) {
+            tiles_[row] = new Tile*[widthInTiles_];
 
-            for (size_t col = 0; col < width; col++) {
+            for (size_t col = 0; col < widthInTiles_; col++) {
                 tile = tileLayer->tileAt(col, row);
                 type = (blockingType) tile->id(); //default type
                 //save into array
@@ -165,7 +165,7 @@ namespace td{
                 if( r - i >= 0){
 
                     if(j + c < widthInTiles_){
-                        units += tiles_[i+r][j+c]->getUnits();
+                        units += tiles_[r-i][j+c]->getUnits();
                     }
                     if(c - j >= 0){
                         units += tiles_[r-i][c-j]->getUnits();

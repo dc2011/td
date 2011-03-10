@@ -50,16 +50,18 @@ void Tile::setInitialBounds(int row, int column, blockingType type)
         point.setX(column * TILE_WIDTH + TILE_WIDTH);
         point.setY(row * TILE_HEIGHT);
         points.append(point);
-        // Bottom left corner
-        point.setX(column * TILE_WIDTH);
-        point.setY(row * TILE_HEIGHT + TILE_HEIGHT);
-        points.append(point);
+
         // Bottom right corner
         point.setX(column * TILE_WIDTH + TILE_WIDTH);
         point.setY(row * TILE_HEIGHT + TILE_HEIGHT);
         points.append(point);
+        // Bottom left corner
+        point.setX(column * TILE_WIDTH);
+        point.setY(row * TILE_HEIGHT + TILE_HEIGHT);
+        points.append(point);
         // Create bounding box
         myBounds_ = QPolygonF(points);
+        break;
     case NORTH_WEST:
         // Top right corner
         point.setX(column * TILE_WIDTH + TILE_WIDTH);
@@ -75,6 +77,7 @@ void Tile::setInitialBounds(int row, int column, blockingType type)
         points.append(point);
         // Create bounding box
         myBounds_ = QPolygonF(points);
+        break;
     case NORTH_EAST:
         // Top left corner
         point.setX(column * TILE_WIDTH);
@@ -90,6 +93,7 @@ void Tile::setInitialBounds(int row, int column, blockingType type)
         points.append(point);
         // Create bounding box
         myBounds_ = QPolygonF(points);
+        break;
     case SOUTH_WEST:
         // Top left corner
         point.setX(column * TILE_WIDTH);
@@ -105,6 +109,7 @@ void Tile::setInitialBounds(int row, int column, blockingType type)
         points.append(point);
         // Create bounding box
         myBounds_ = QPolygonF(points);
+        break;
     case SOUTH_EAST:
         // Top left corner
         point.setX(column * TILE_WIDTH);
@@ -120,6 +125,7 @@ void Tile::setInitialBounds(int row, int column, blockingType type)
         points.append(point);
         // Create bounding box
         myBounds_ = QPolygonF(points);
+        break;
     }
 }
 
