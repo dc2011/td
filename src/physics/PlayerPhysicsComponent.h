@@ -3,6 +3,7 @@
 
 #include "PhysicsComponent.h"
 #include "Bounds.h"
+#include "../engine/Effect.h"
 #include <set>
 
 namespace td {
@@ -71,7 +72,7 @@ public:
      *
      * @param npcs, Set of npcs to check for collisions
      *
-     * @author Daniel Wright
+     * @author Daniel Wright, Pan K.(add a signal)
      */
     void checkNPCCollision(std::set<Unit*> npcs);
 
@@ -96,6 +97,13 @@ signals:
      * @author Ian Lee, Tom Nightingale
      */
     void requestTileType(double x, double y, int *blockingType);
+
+    /**
+     * NPC to player collision.
+     *
+     * @author Pan K.
+     */
+    void NPCPlayerCollided(Effect::EffectType);
 
 
 private:

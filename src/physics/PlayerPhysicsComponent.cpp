@@ -262,8 +262,9 @@ void PlayerPhysicsComponent::checkNPCCollision(std::set<Unit*> npcs){
     std::set<Unit*>::iterator it;
     for(it = npcs.begin(); it != npcs.end(); ++it){
         //if(collider_.intersectBox(it.bounds)){
-        //  add stun effect to player
-        //  return;
+          Effect::EffectType effectType = Effect::velocityChange;
+          emit NPCPlayerCollided(effectType);
+          return;
         //}
     }
 }
