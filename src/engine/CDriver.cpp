@@ -198,6 +198,8 @@ void CDriver::createTower(int towerType, QPointF pos) {
     tower_->initComponents(towerType);
     tower_->setPos(currentTile->getPos());
     tower_->setID(0xFFFFFFFF);
+    currentTile->setExtension(tower_);
+
     connect(gameTimer_, SIGNAL(timeout()), tower_, SLOT(update()));
     if(isSinglePlayer() == true) {
 	mgr_->createObject(Tower::clsIdx());
