@@ -3,10 +3,6 @@
 #define PI 3.141592653589793238
 #include <math.h>
 
-#ifndef SERVER
-#include "../engine/CDriver.h"
-#endif
-
 namespace td {
 
 PlayerPhysicsComponent::PlayerPhysicsComponent()
@@ -22,11 +18,6 @@ void PlayerPhysicsComponent::update(GameObject* player)
     this->applyVelocity((Player*)player);
     this->applyDirection((Player*)player);
 
-#ifndef SERVER
-    if (player->isDirty()) {
-        td::CDriver::updateServer(player);
-    }
-#endif
 }
 
 /* applies velocity to position, currently moves past bounds */

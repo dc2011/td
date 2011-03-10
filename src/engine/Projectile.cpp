@@ -1,5 +1,7 @@
 #include "Projectile.h"
-
+#ifndef SERVER
+#include "CDriver.h"
+#endif
 namespace td {
 
 Projectile::Projectile() : Unit() {
@@ -47,6 +49,9 @@ void Projectile::networkWrite(td::Stream* s) {
 }
 
 void Projectile::update() {
+#ifndef SERVER
+    CDriver::updateServer(this);
+#endif
     input_->update();
     physics_->update(this);
     graphics_->update(this);

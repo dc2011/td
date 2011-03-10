@@ -1,5 +1,7 @@
 #include "NPC.h"
+#ifndef SERVER
 #include "CDriver.h"
+#endif
 namespace td {
 
 NPC::NPC() {
@@ -38,10 +40,12 @@ void NPC::initComponents() {
 }
 
 void NPC::update() {
+#ifndef SERVER
+    CDriver::updateServer(this);
+#endif
     input_->update();
     physics_->update(this);
     graphics_->update(this);
-    CDriver::updateServer(this);
 }
 
 } /* end namespace td */

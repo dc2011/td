@@ -14,6 +14,7 @@
 #include <QQueue>
 #include "netmessages.h"
 #include "stream.h"
+#include "../util/defines.h"
 #include "../util/mutex_magic.h"
 
 namespace td
