@@ -2,6 +2,7 @@
 #include <math.h>
 #include "../engine/GameObject.h"
 #include "../engine/CDriver.h"
+#include "../util/DelayedDelete.h"
 
 namespace td {
 
@@ -23,7 +24,7 @@ GraphicsComponent::GraphicsComponent() {
 
 GraphicsComponent::~GraphicsComponent() {
     disconnect(this, SLOT(onTimerTick()));
-    delete(pixmapItem_);
+    new DelayedDelete<QGraphicsPixmapItem>(pixmapItem_);
 }
 
 void GraphicsComponent::create() {
@@ -61,6 +62,7 @@ QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
 }
 
 void GraphicsComponent::animateConnect() {
+    return;
     connect(CDriver::getTimer(),
             SIGNAL(timeout()), this, SLOT(onTimerTick()));
 }

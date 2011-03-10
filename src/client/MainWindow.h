@@ -113,6 +113,7 @@ signals:
     void signalSpacebarPressed();
     void signalAltHeld(bool);
     void signalFPressed();
+    void signalMPressed();
 };
 
 } /* end namespace td */
