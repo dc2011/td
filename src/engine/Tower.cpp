@@ -10,17 +10,17 @@
 namespace td {
 
 void Tower::update() {
-<<<<<<< HEAD
+
     physics_->update(this);
     graphics_->update(this);
     CDriver::updateServer(this);
-=======
+
 #ifndef SERVER
     CDriver::updateServer(this);
 #endif
     graphics_->update(this);
     //physics_->update(this);
->>>>>>> master
+
 }
 
 void Tower::initComponents() {
