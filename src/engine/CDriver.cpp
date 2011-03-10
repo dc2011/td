@@ -13,7 +13,8 @@
 #include "Tower.h"
 #include "Unit.h"
 #include "../client/MainWindow.h"
-#include "map.h"
+#include <map.h>
+#include <tile.h>
 #include "../graphics/MapDisplayer.h"
 #include "../util/defines.h"
 
@@ -278,6 +279,7 @@ void CDriver::handleSpacebarPress() {
         case TILE_BUILT:
         case TILE_BASE:
         case TILE_RESOURCE:
+            qDebug("Harvesting resource: %d", currentTile->getTiledTile()->id());
             break;
     }
 }

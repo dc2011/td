@@ -10,6 +10,9 @@
 #include "../util/defines.h"
 #include "ClsIdx.h"
 
+namespace Tiled {
+class Tile;
+}
 
 namespace td {
 
@@ -88,11 +91,16 @@ public:
     TileExtension * getExtension() { return extension_; }
     void setExtension(TileExtension * extension) { extension_ = extension; }
 
+    Tiled::Tile * getTiledTile() { return tTile_; }
+    void setTiledTile(Tiled::Tile * tile) { tTile_ = tile; }
+
 private:
     int tileID_;
     blockingType type_;
     QSet<Unit*> currentUnits_;
     int actionType_;
+
+    Tiled::Tile * tTile_;
 
     /** 
      * Tiles can have an extension attacted to them. Currently this is a tower 

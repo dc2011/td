@@ -45,6 +45,7 @@ namespace td{
                 type = (blockingType) tile->id();
                 //save into array
                 tiles_[row][col] = new Tile(row, col, type);
+                tiles_[row][col]->setTiledTile(tile);
 
                 // Check for buildable tiles.
                 if (towerLayer->contains(col, row)
