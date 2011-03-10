@@ -37,8 +37,12 @@ public:
     Tile(int row, int column, blockingType type);
     virtual ~Tile() { }
 
-    int getColumn();
-    int getRow();
+    // The following two methods are going to be problematic in their current
+    // implementation as they rely on hard-coded MAP_ROWS and MAP_COLUMNS 
+    // values. They also are not being used yet, so I have commented them out.
+    // -- Love, Tom :)
+    //int getColumn();
+    //int getRow();
     void addUnit(Unit *unitToAdd);
     void removeUnit(Unit *unitToRemove);
     QSet<Unit*> getUnits();
