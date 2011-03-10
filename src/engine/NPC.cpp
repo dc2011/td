@@ -50,11 +50,13 @@ void NPC::isDead() {
 void NPC::update() {
 #ifndef SERVER
     CDriver::updateServer(this);
-    this->isDead();
 #endif
     input_->update();
     physics_->update(this);
     graphics_->update(this);
+#ifndef SERVER
+    this->isDead();
+#endif
 }
 
 } /* end namespace td */
