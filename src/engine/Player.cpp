@@ -1,5 +1,7 @@
 #include "Player.h"
-
+#ifndef SERVER
+#include "CDriver.h"
+#endif
 namespace td {
 
 Player::Player() : Unit(), nickname_("") {
@@ -28,6 +30,11 @@ void Player::networkWrite(Stream* s) {
 }
 
 void Player::update() {
+#ifndef SERVER
+    if(this->isDirty()) {
+	CDriver::updateServer(this);
+    }
+#endif
     if (physics_ != NULL) {
         physics_->update(this);
     }
