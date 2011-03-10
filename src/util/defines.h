@@ -24,6 +24,9 @@
 #define TILE_BASE       3
 #define TILE_RESOURCE   4
 
+// based on the number keys used to select the tower
+#define RESOURCE_LUMBER 0
+
 //NPC path key for waypoints
 #define WP_TRICERATOPS  0
 #define WP_ANKLYO       1

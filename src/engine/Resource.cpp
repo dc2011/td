@@ -16,7 +16,7 @@ void Resource::initComponents() {
     componentsInitialized_ = false;
 }
 
-void Resource::initComponents(int towerType) {
+void Resource::initComponents(int resourceType) {
     QString pixmapPath;
 
     switch (resourceType) {

@@ -185,8 +185,8 @@ void CDriver::createTower(int towerType, QPointF pos) {
 void CDriver::startGame() {
     // Create hard coded map
     CDriver::gameMap_     = new Map(mainWindow_->getMD()->map());
-    CDriver::gameMap_->initMap();
     CDriver::gameTimer_   = new QTimer(this);
+    CDriver::gameMap_->initMap();
     QQueue<QString> musicList;
 
     connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),

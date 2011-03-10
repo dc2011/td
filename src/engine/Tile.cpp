@@ -1,6 +1,5 @@
 #include "Tile.h"
 #include "Unit.h"
-#include "TileExtension.h"
 
 namespace td {
 

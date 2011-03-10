@@ -2,6 +2,8 @@
 #include "Tile.h"
 #include "../graphics/MapDisplayer.h"
 #include "../client/MainWindow.h"
+#include "Resource.h"
+#include "CDriver.h"
 
 /** Tiled headers. */
 // TODO: I am pretty sure we only *actually* need to include map.h and tile.h
@@ -28,7 +30,7 @@ namespace td{
         Tiled::Tile * tile = NULL;
         Tiled::TileLayer * tileLayer = tMap_->layerAt(0)->asTileLayer();
         Tiled::TileLayer * towerLayer = tMap_->layerAt(1)->asTileLayer();
-        //Tiled::TileLayer * resLayer = tMap_->layerAt(2)->asTileLayer();
+        Tiled::TileLayer * resLayer = tMap_->layerAt(2)->asTileLayer();
         Tiled::ObjectGroup * path = tMap_->layerAt(3)->asObjectGroup();
         size_t height = tileLayer->height();
         size_t width = tileLayer->width();
@@ -48,10 +50,27 @@ namespace td{
                     tiles_[row][col]->setActionType(TILE_BUILDABLE);
                     //qDebug("TowerTile at: %d, %d", col, row);
                 }
+                
+                if (resLayer->contains(col, row) 
+                        && resLayer->tileAt(col, row) != NULL) {
+                    createResource(RESOURCE_LUMBER, tiles_[row][col]);
+                    qDebug("ResourceTile at: %d, %d", col, row);
+                }
             }
         }
         makeWaypoints(WP_PTERO, path);
 
+    }
+
+    void Map::createResource(int type, Tile * tile) {
+        Resource * res = new Resource();
+        res->initComponents(type);
+        res->setPos(tile->getPos());
+        res->setID(0xFFFFFFFF);
+        connect(CDriver::instance()->getTimer(), SIGNAL(timeout()), res, SLOT(update()));
+
+        tile->setActionType(TILE_RESOURCE);
+        tile->setExtension(res);
     }
 
     void Map::makeWaypoints(int key, Tiled::ObjectGroup* path) {

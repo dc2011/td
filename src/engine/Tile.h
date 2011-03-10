@@ -17,6 +17,7 @@ namespace td {
 enum blockingType {OPEN = 0, CLOSED = 1, NORTH_WEST = 2, NORTH_EAST = 3,
                    SOUTH_WEST = 4, SOUTH_EAST = 5};
 
+class TileExtension;
 class Unit;
 
 class Tile : public QObject {
@@ -74,11 +75,26 @@ public:
         return pos_;
     }
 
+    /**
+     * Gets this tile's extension object.
+     *
+     * @author Tom Nightingale 
+     * @return The tile extension.
+     */
+    TileExtension * getExtension() { return extension_; }
+    void setExtension(TileExtension * extension) { extension_ = extension; }
+
 private:
     int tileID_;
     blockingType type_;
     QSet<Unit*> currentUnits_;
     int actionType_;
+
+    /** 
+     * Tiles can have an extension attacted to them. Currently this is a tower 
+     * or a resource. 
+     */
+    TileExtension * extension_;
 
     /**
      * The coordinates of the centre of the tile.
