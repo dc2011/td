@@ -15,6 +15,7 @@ ENGINE_HDRS +=  ./engine/ContextMenu.h \
                 ./engine/Tile.h \
                 ./engine/TileExtension.h \
                 ./engine/Tower.h \
+                ./engine/Resource.h \
                 ./engine/Unit.h
 
 
@@ -31,5 +32,6 @@ ENGINE_SRCS +=  ./engine/ContextMenu.cpp \
                 ./engine/Tile.cpp \
                 ./engine/TileExtension.cpp \
                 ./engine/Tower.cpp \
+                ./engine/Resource.cpp \
                 ./engine/Unit.cpp
 
