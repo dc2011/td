@@ -132,7 +132,7 @@ namespace td{
                 if( r - i >= 0){
 
                     if(j + c < widthInTiles_){
-                        tempTiles += tiles_[i+r][j+c];
+                        tempTiles += tiles_[r-i][j+c];
                     }
                     if(c - j >= 0){
                         tempTiles += tiles_[r-i][c-j];

@@ -99,6 +99,16 @@ public:
         myBounds_ = bounds;
     }
 
+    /**
+      * Sets the tile's bounding area to blocked.
+      *
+      * This function will set a tile's bounding area to blocked status.
+      *
+      * @author Luke Queenan
+      * @return void
+      */
+    void setBlocked();
+
 private:
     int tileID_;
     blockingType type_;

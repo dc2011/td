@@ -184,6 +184,35 @@ void Tile::removeUnit(Unit *unitToRemove)
     currentUnits_.remove(unitToRemove);
 }
 
+void Tile::setBlocked()
+{
+/*
+    QPointF point = QPointF();
+    QVector<QPointF> points = QVector<QPointF>();
+
+    // Top left corner
+    point.setX(column * TILE_WIDTH);
+    point.setY(row * TILE_HEIGHT);
+    points.append(point);
+    // Top right corner
+    point.setX(column * TILE_WIDTH + TILE_WIDTH);
+    point.setY(row * TILE_HEIGHT);
+    points.append(point);
+
+    // Bottom right corner
+    point.setX(column * TILE_WIDTH + TILE_WIDTH);
+    point.setY(row * TILE_HEIGHT + TILE_HEIGHT);
+    points.append(point);
+    // Bottom left corner
+    point.setX(column * TILE_WIDTH);
+    point.setY(row * TILE_HEIGHT + TILE_HEIGHT);
+    points.append(point);
+    // Create bounding box
+    myBounds_ = QPolygonF(points);
+    type_ = CLOSED;
+    */
+}
+
 QSet<Unit*> Tile::getUnits(){
     return currentUnits_;
 
