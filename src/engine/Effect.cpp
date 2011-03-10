@@ -21,6 +21,8 @@ namespace td {
         case speedChange:
             break;
         case velocityChange:
+            break;
+        case stunned:
             unit_->setVelocity(tmpVelocity);
             break;
         default:

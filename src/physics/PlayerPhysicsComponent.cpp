@@ -273,7 +273,7 @@ void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
             playerBounds = player->getBounds();
             npcBounds = (*it)->getBounds();
             if (player->getBounds().intersected((*it)->getBounds()).count() != 0) {
-                Effect::EffectType effectType = Effect::velocityChange;
+                Effect::EffectType effectType = Effect::stunned;
                 emit NPCPlayerCollided(effectType);
                 break;
             } else {

@@ -20,8 +20,8 @@ public:
      *
      * @author Pan K.
      */
-    enum EffectType{
-        healthChange, damageChange, speedChange, velocityChange
+    enum EffectType{ // This might need some changes
+        healthChange, damageChange, speedChange, velocityChange, stunned
     };
 
     Effect(Unit* unit, EffectType type);
