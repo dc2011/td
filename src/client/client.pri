@@ -1,13 +1,8 @@
-CLIENT_HDRS +=  ./client/MainWindow.h
+CLIENT_HDRS +=  ./client/MainWindow.h \
+                ./client/lobbywindow.h
 
-CLIENT_SRCS +=   ./client/main.cpp \
-                ./client/MainWindow.cpp
+CLIENT_SRCS +=  ./client/main.cpp \
+                ./client/MainWindow.cpp \
+                ./client/lobbywindow.cpp
 
-HEADERS += \
-    client/lobbywindow.h
-
-SOURCES += \
-    client/lobbywindow.cpp
-
-FORMS += \
-    client/lobbywindow.ui
+FORMS += ./client/lobbywindow.ui

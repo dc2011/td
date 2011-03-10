@@ -2,11 +2,15 @@
 #define LOBBYWINDOW_H
 
 #include <QMainWindow>
-#include <QNetworkAddressEntry>
+#include <QHostAddress>
+#include "../util/defines.h"
+#include "../network/stream.h"
 
 namespace Ui {
     class LobbyWindow;
 }
+
+namespace td {
 
 class LobbyWindow : public QMainWindow
 {
@@ -16,8 +20,18 @@ public:
     explicit LobbyWindow(QWidget *parent = 0);
     ~LobbyWindow();
 
+signals:
+    void startGame();
+
+public slots:
+    void connectLobby();
+    void tmp_startGame();
+    void onTCPReceived(Stream* s);
+
 private:
     Ui::LobbyWindow *ui;
 };
+
+} /* end namespace td */
 
 #endif // LOBBYWINDOW_H
