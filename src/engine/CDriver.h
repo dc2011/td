@@ -207,7 +207,7 @@ public slots:
     * @author Duncan Donaldson
     * @return void
     */
-    void startGame();
+    void startGame(bool singlePlayer);
 
     /**
      * Called whenenever the spacebar is pressed. It checks the tile type that

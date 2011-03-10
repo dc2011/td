@@ -30,7 +30,6 @@ CDriver::CDriver(MainWindow* mainWindow)
     npc_ = QSet<NPC*>();
     npcCounter_ = 0;
     tower_ = NULL;
-    singlePlayer_ = true;
 }
 
 CDriver::~CDriver() {
@@ -137,9 +136,12 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     // Connection for collisions -- waiting on map object
     connect(physics, SIGNAL(requestTileType(double, double, int*)), 
             gameMap_, SLOT(getTileType(double, double, int*)));
-
-    request->writeByte(Player::clsIdx());
-    NetworkClient::instance()->send(network::kRequestPlayerID, request->data());
+    if(isSinglePlayer() == true) {
+	mgr_->createObject(Player::clsIdx());
+    } else {
+	request->writeByte(Player::clsIdx());
+	NetworkClient::instance()->send(network::kRequestPlayerID, request->data());
+    }
     delete request;
 }
 
@@ -197,21 +199,27 @@ void CDriver::createTower(int towerType, QPointF pos) {
     tower_->setPos(currentTile->getPos());
     tower_->setID(0xFFFFFFFF);
     connect(gameTimer_, SIGNAL(timeout()), tower_, SLOT(update()));
-    
-    request->writeByte(Tower::clsIdx());
-    NetworkClient::instance()->send(network::kRequestTowerID, request->data());
+    if(isSinglePlayer() == true) {
+	mgr_->createObject(Tower::clsIdx());
+    } else {
+	request->writeByte(Tower::clsIdx());
+	NetworkClient::instance()->send(network::kRequestTowerID, request->data());
+    }
     delete request;
 }
 
-void CDriver::startGame() {
+void CDriver::startGame(bool singlePlayer) {
     // Create hard coded map
     CDriver::gameMap_     = new Map(mainWindow_->getMD()->map());
     CDriver::gameMap_->initMap();
     CDriver::gameTimer_   = new QTimer(this);
     QQueue<QString> musicList;
 
-    connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
-            this, SLOT(UDPReceived(Stream*)));
+    if(singlePlayer == false) {
+	connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
+		this, SLOT(UDPReceived(Stream*)));
+    }
+    setSinglePlayer(singlePlayer);
 
     musicList = td::AudioManager::instance()->musicDir("./sound/music/");
     td::AudioManager::instance()->playMusic(musicList);
