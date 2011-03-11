@@ -12,9 +12,12 @@
 #include "../util/mutex_magic.h"
 
 
-#define OFFSCREEN -10000
-#define LAYER_PLAYER 1
-#define LAYER_MENU 2
+#define OFFSCREEN -1000
+#define LAYER_TOWER 1
+#define LAYER_PLAYER 2
+#define LAYER_NPC 3
+#define LAYER_FLYNPC 4
+#define LAYER_MENU 5
 #define LAYER_DEFAULT 0
 
 namespace td {

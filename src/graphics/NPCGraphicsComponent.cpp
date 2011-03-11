@@ -24,7 +24,9 @@ void NPCGraphicsComponent::update(GameObject* obj) {
     dp->pos     = npc->getPos();
     dp->moving  = 1;
     dp->degrees = npc->getOrientation();
-    emit signalDraw(dp, this, LAYER_DEFAULT);
+    
+    //TODO: the layers will change with different NPC's
+    emit signalDraw(dp, this, LAYER_FLYNPC);
 }
 
 void NPCGraphicsComponent::initPixmaps() {
