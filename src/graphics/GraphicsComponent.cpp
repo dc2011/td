@@ -51,6 +51,7 @@ QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
 
     pixmapItem_ = new QGraphicsPixmapItem();
     initPixmaps();
+    //qDebug("PixmapIndex_: %d", pixmapIndex_);
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
 
     pixmapItem_->setPos(OFFSCREEN,OFFSCREEN);

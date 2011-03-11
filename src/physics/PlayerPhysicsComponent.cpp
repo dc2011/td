@@ -273,10 +273,10 @@ void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
             playerBounds = player->getBounds();
             npcBounds = (*it)->getBounds();
             if (player->getBounds().intersected((*it)->getBounds()).count() != 0) {
-                qDebug("PlayerPhysicsComponenet, line 276, Collision");
+                //qDebug("PlayerPhysicsComponenet, line 276, Collision");
                 //break;
             } else {
-                qDebug("PlayerPhysicsComponenet, line 279, No Collision");
+                //qDebug("PlayerPhysicsComponenet, line 279, No Collision");
             }
         }
 

@@ -43,6 +43,7 @@ void TowerGraphicsComponent::initPixmaps() {
     pixmapImgs_[pixmapIndex_++] = PIX_TOWER_TAR;
     pixmapImgs_[pixmapIndex_++] = PIX_TOWER_FLAME;
     pixmapImgs_[pixmapIndex_++] = PIX_TOWER_FLAK;
+    setIndexValue();
 }
 
 void TowerGraphicsComponent::setIndexValue() {
