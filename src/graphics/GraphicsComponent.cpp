@@ -33,8 +33,8 @@ void GraphicsComponent::create() {
 }
 
 void GraphicsComponent::deleteComponent() {
+    animateDisconnect();
     emit removeGraphicsItem(this);
-    disconnect();
 }
 
 void GraphicsComponent::draw(DrawParams* dp, int layer) {
