@@ -82,6 +82,13 @@ public slots:
     void createGraphicRepr(GraphicsComponent* gc);
 
     /**
+     * Removes the graphics item from the scene, and wraps it in an object so
+     * that it'll be deleted after all events related to it are removed from
+     * the event queue (ideally).
+     */
+    void removeGraphicRepr(QGraphicsPixmapItem* gpi);
+
+    /**
      * Draws the graphical representation of the game object.
      *
      * @author Darryl Pogue

@@ -85,12 +85,12 @@ protected:
 
 public:
     /**
-     * This generic class does  not need to be implemented if there are no animations
      * This is were all animation logic will be implemented
+     *
      * @author Warren Voelkl
      */
+    virtual void animate() {}
 
-    virtual void animate();
     /**
      * Sets up the necessary signals and slots to create the 
      * QGraphicsPixmapItem for this component in the rendering thread. This
@@ -152,6 +152,7 @@ signals:
     void created(GraphicsComponent* gc);
     void signalDraw(DrawParams* dp, GraphicsComponent* gc, int layer);
     void signalAnimateTick(GraphicsComponent * gc);
+    void removeGraphicsItem(QGraphicsPixmapItem* gpi);
 };
 
 } /* end namespace td */

@@ -18,14 +18,15 @@ GraphicsComponent::GraphicsComponent() {
             mainWindow, SLOT(drawItem(DrawParams*, GraphicsComponent*, int)));
     connect(this, SIGNAL(signalAnimateTick(GraphicsComponent*)),
             mainWindow, SLOT(animateItem(GraphicsComponent*)));
+    connect(this, SIGNAL(removeGraphicsItem(QGraphicsPixmapItem*)),
+            mainWindow, SLOT(removeGraphicRepr(QGraphicsPixmapItem*)));
 
     isMoving_ = 0;
 }
 
 GraphicsComponent::~GraphicsComponent() {
-    CDriver::instance()->getMainWindow()->getScene()->removeItem(pixmapItem_);
+    emit removeGraphicsItem(pixmapItem_);
     disconnect();
-    new DelayedDelete<QGraphicsPixmapItem>(pixmapItem_);
 }
 
 void GraphicsComponent::create() {
@@ -63,7 +64,6 @@ QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
 }
 
 void GraphicsComponent::animateConnect() {
-    return;
     connect(CDriver::getTimer(),
             SIGNAL(timeout()), this, SLOT(onTimerTick()));
 }
@@ -71,10 +71,6 @@ void GraphicsComponent::animateConnect() {
 void GraphicsComponent::animateDisconnect() {
     disconnect(CDriver::getTimer(),
                SIGNAL(timeout()), this, SLOT(onTimerTick()));
-}
-
-void GraphicsComponent::animate() {
-    //generic this does not animate.
 }
 
 void GraphicsComponent::setImgIndex(int index) {
