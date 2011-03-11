@@ -53,6 +53,9 @@ public:
 public slots:
     void update();
 
+signals:
+    void effectFinished(Effect* effect);
+
 private:
     Unit* unit_;
     EffectType type_;

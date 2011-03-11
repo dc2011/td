@@ -44,8 +44,15 @@ void Player::update() {
 
 void Player::createEffect(Effect::EffectType type){
     Effect* effect = new Effect(this, type);
+    QObject::connect(effect, SIGNAL(effectFinished(Effect*)), this, SLOT(deleteEffect(Effect*)));
+
     effects_.push_back(effect);
     effect->apply();
+}
+
+void Player::deleteEffect(Effect* effect){
+    effects_.removeOne(effect);
+    delete effect;
 }
 
 } /* end namespace td */

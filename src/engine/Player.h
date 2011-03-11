@@ -89,6 +89,14 @@ public slots:
      */
     void createEffect(Effect::EffectType type);
 
+    /**
+     * Remove effect from the effect list.
+     *
+     * @author Pan K.
+     * @param effect Effect to delete.
+     */
+    void deleteEffect(Effect* effect);
+
 private:
     QList<Effect*> effects_;
 

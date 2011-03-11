@@ -26,7 +26,12 @@ namespace td {
             unit_->setVelocity(tmpVelocity);
             break;
         default:
-            break;
+            return;
+        }
+
+        duration_--;
+        if(duration_ == 0){
+            emit effectFinished(this);
         }
     }
 
