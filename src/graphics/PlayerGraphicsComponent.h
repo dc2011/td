@@ -4,7 +4,9 @@
 #include <QObject>
 #include <QPainter>
 #include <QPointF>
+#include <QRgb>
 #include "GraphicsComponent.h"
+
 
 namespace td {
 
@@ -41,6 +43,16 @@ public:
      */
     virtual void animate();
 
+    /**
+     * Resets the matrix then builds the transformation matrix from the
+     * structure values.
+     *
+     * @author Warren Voelkl, Terence Stenvold
+     * @param dp Pointer to the drawstruct that contains all the values on how
+     * to render an image.
+     * @param layer is what layer to draw image defaults to 0
+     */
+    virtual void draw(DrawParams* dp, int layer=0);
 
 
 private:
@@ -64,6 +76,7 @@ private:
      * @author Warren Voelkl
      */
     virtual QPixmap * getPixmapArray();
+
 };
 
 } /* end namespace td */

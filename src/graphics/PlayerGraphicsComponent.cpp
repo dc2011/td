@@ -1,5 +1,6 @@
 #include "PlayerGraphicsComponent.h"
 #include "../engine/Player.h"
+#include "../engine/CDriver.h"
 
 namespace td {
 
@@ -34,6 +35,11 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
 }
 
 void PlayerGraphicsComponent::initPixmaps() {
+    label_ = new QGraphicsTextItem(QString("Warren Master Of The Universe"));
+
+    label_->setDefaultTextColor (QColor(0,255,0));
+    CDriver::instance()->getMainWindow()->scene_->addItem(label_);
+
     if (pixmapImgs_) {
         return;
     } else {
@@ -50,6 +56,32 @@ void PlayerGraphicsComponent::initPixmaps() {
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_5;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_6;
     pixmapIndex_ = 0;
+}
+
+void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
+    QPointF center = getPixmapItem()->boundingRect().center();
+
+    getPixmapItem()->resetMatrix();//important
+    //getPixmapItem()->translate(center.x(), center.y());
+    getPixmapItem()->setTransformOriginPoint(center);
+    getPixmapItem()->setScale(dp->scale);
+    getPixmapItem()->rotate(dp->degrees * -1);
+
+    getPixmapItem()->translate(-center.x(), -center.y());
+    //getPixmapItem()->setTransformOriginPoint(-center.x(), -center.y());
+    getPixmapItem()->setPos(dp->pos);
+    getPixmapItem()->setZValue(layer);
+    isMoving_ = dp->moving;
+
+    center = label_->boundingRect().center();
+    //dp->pos.setX(dp->pos + (int)center.x);
+    label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),dp->pos.y() - getPixmapItem()->boundingRect().height());
+    label_->setZValue(layer);
+    label_->update();
+
+    delete dp;
+
+    getPixmapItem()->update();
 }
 
 void PlayerGraphicsComponent::animate() {

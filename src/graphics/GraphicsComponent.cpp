@@ -2,13 +2,12 @@
 #include <math.h>
 #include "../engine/GameObject.h"
 #include "../engine/CDriver.h"
-
 namespace td {
 
 QMutex GraphicsComponent::mutex_;
     
 GraphicsComponent::GraphicsComponent() : pixmapIndex_(0) {
-    
+
     MainWindow* mainWindow = CDriver::instance()->getMainWindow();
 
     connect(this, SIGNAL(created(GraphicsComponent*)), 
@@ -37,6 +36,7 @@ void GraphicsComponent::draw(DrawParams* dp, int layer) {
     pixmapItem_->setTransformOriginPoint(center);
     pixmapItem_->setScale(dp->scale);
     pixmapItem_->rotate(dp->degrees * -1);
+
     pixmapItem_->translate(-center.x(), -center.y());
     //pixmapItem_->setTransformOriginPoint(-center.x(), -center.y());
     pixmapItem_->setPos(dp->pos);
@@ -49,8 +49,12 @@ void GraphicsComponent::draw(DrawParams* dp, int layer) {
 
 QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
     mutex_.lock();
+    label_ = 0;
+
+    pixmapItem_ = new QGraphicsPixmapItem();
     initPixmaps();
-    pixmapItem_ = new QGraphicsPixmapItem(getPixmapArray()[pixmapIndex_]);
+    pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
+
     pixmapItem_->setPos(OFFSCREEN,OFFSCREEN);
     mutex_.unlock();
     return pixmapItem_;
