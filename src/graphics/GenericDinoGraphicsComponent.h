@@ -5,11 +5,12 @@
 #include <QPainter>
 #include <QPointF>
 #include "NPCGraphicsComponent.h"
+#include "GraphicsComponent.h"
 
 
 namespace td {
 
-class GenericDinoGraphicsComponent : public NPCGraphicsComponent {
+    class GenericDinoGraphicsComponent :public GraphicsComponent {//: public NPCGraphicsComponent {
     Q_OBJECT
 
 public:
@@ -33,6 +34,14 @@ public:
      * @author Warren Voelkl
      */
     virtual void animate();
+
+private:
+    static QPixmap * pixmapImgs_;
+
+    /**
+     * @returns the pixmap array from the subclasses
+     */
+    virtual QPixmap * getPixmapArray();
 
 };
 

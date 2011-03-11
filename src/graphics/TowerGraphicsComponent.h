@@ -42,6 +42,16 @@ private:
      * out the static image issue. 
      */
     QString pixmapPath_;
+
+    /**
+     * container for all pixmaps
+     **/
+    static QPixmap * pixmapImgs_;
+
+    /**
+     * @returns the pixmap array from the subclasses
+     */
+    virtual QPixmap * getPixmapArray();
 };
 
 } /* end namespace td */

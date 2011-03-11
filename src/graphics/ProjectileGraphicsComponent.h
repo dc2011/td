@@ -33,6 +33,12 @@ public:
      * @author Warren Voelkl
      */
     virtual void initPixmaps();
+
+    static QPixmap * pixmapImgs_;
+    /**
+     * @returns the pixmap array from the subclasses
+     */
+    virtual QPixmap * getPixmapArray();
 };
 
 } /* end namespace td */

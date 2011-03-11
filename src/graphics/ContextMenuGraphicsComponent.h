@@ -106,6 +106,14 @@ private:
      * of time.
      */
     QTimer closeTimer_;
+
+    static QPixmap * pixmapImgs_;
+    static bool AnimationInitialized;
+
+    /**
+     * @returns the pixmap array from the subclasses
+     */
+    virtual QPixmap * getPixmapArray();
 };
 
 } /* end namespace td */

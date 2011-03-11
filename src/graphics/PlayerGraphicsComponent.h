@@ -41,6 +41,8 @@ public:
      */
     virtual void animate();
 
+
+
 private:
     /**
      * Slows down how often the images animate from the timer.
@@ -51,6 +53,13 @@ private:
      * The number of times the timer has ticked.
      */
     int animateCount;
+
+    /**
+     * container for all pixmaps
+     **/
+    static QPixmap * pixmapImgs_;
+
+    virtual QPixmap * getPixmapArray();
 };
 
 } /* end namespace td */

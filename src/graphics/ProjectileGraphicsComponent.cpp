@@ -3,6 +3,8 @@
 
 namespace td {
 
+    QPixmap * ProjectileGraphicsComponent::pixmapImgs_ = 0;
+
 ProjectileGraphicsComponent::ProjectileGraphicsComponent()
         : GraphicsComponent() {
     /* Do init-type stuff here */
@@ -29,11 +31,20 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
 }
 
 void ProjectileGraphicsComponent::initPixmaps() {
+    if (pixmapImgs_) {
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_PROJECTILE_3_MAX];
+    }
     //TODO: add animation images here
-    pixmapImgs_ = new QPixmap[PIX_PROJECTILE_3_MAX];
+
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_] = PIX_PROJECTILE_3_0;
 
+}
+
+QPixmap * ProjectileGraphicsComponent::getPixmapArray() {
+    return pixmapImgs_;
 }
 
 } /* end namespace td */

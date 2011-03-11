@@ -31,15 +31,17 @@ private:
      **/
     QGraphicsPixmapItem* pixmapItem_;
 
+    /**
+     * @returns the pixmap array from the subclasses
+     */
+    virtual QPixmap * getPixmapArray() = 0;
+
 protected:
     /**
      * If the obect is currently moving used for animations
      */
     bool isMoving_;
-    /**
-     * container for all pixmaps
-     **/
-    QPixmap * pixmapImgs_;
+
 
     /**
      * the current index for the currently drawn pixmap
@@ -134,12 +136,6 @@ public:
      * @author Warren Voelkl
      */
     virtual void initPixmaps() = 0;
-
-    /**
-     * returns the current pixmap image pointed to from the pixmapimg
-     * @author Warren Voelkl
-     */
-    QPixmap getCurrentPixmap();
 
 public slots:
     /**
