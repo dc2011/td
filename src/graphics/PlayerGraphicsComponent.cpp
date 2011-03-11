@@ -75,7 +75,8 @@ void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
 
     center = label_->boundingRect().center();
     //dp->pos.setX(dp->pos + (int)center.x);
-    label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),dp->pos.y() - getPixmapItem()->boundingRect().height());
+    label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
+                   dp->pos.y() - getPixmapItem()->boundingRect().height());
     label_->setZValue(layer);
     label_->update();
 

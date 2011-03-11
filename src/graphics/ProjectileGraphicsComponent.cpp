@@ -25,7 +25,7 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
     dp->pos     = projectile->getPos();
     dp->moving  = 1; //is always moving
     //player->getVelocity().length() != 0;
-    dp->scale   = projectile->getScale(); // will likely be a constant value here
+    dp->scale   = projectile->getScale();
     dp->degrees = projectile->getOrientation();
     emit signalDraw(dp, this, LAYER_DEFAULT);
 }
