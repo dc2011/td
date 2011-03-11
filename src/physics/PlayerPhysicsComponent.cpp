@@ -265,7 +265,6 @@ bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
 }
 
 void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
-    return;
     QSet<Unit*>::iterator it;
     QPolygonF playerBounds;
     QPolygonF npcBounds;

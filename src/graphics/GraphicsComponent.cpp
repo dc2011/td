@@ -18,19 +18,23 @@ GraphicsComponent::GraphicsComponent() {
             mainWindow, SLOT(drawItem(DrawParams*, GraphicsComponent*, int)));
     connect(this, SIGNAL(signalAnimateTick(GraphicsComponent*)),
             mainWindow, SLOT(animateItem(GraphicsComponent*)));
-    connect(this, SIGNAL(removeGraphicsItem(QGraphicsPixmapItem*)),
-            mainWindow, SLOT(removeGraphicRepr(QGraphicsPixmapItem*)));
+    connect(this, SIGNAL(removeGraphicsItem(GraphicsComponent*)),
+            mainWindow, SLOT(removeGraphicRepr(GraphicsComponent*)));
 
     isMoving_ = 0;
 }
 
 GraphicsComponent::~GraphicsComponent() {
-    emit removeGraphicsItem(pixmapItem_);
-    disconnect();
+    delete pixmapItem_;
 }
 
 void GraphicsComponent::create() {
     emit created(this);
+}
+
+void GraphicsComponent::deleteComponent() {
+    emit removeGraphicsItem(this);
+    disconnect();
 }
 
 void GraphicsComponent::draw(DrawParams* dp, int layer) {

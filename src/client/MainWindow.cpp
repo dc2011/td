@@ -51,12 +51,9 @@ void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
     scene_->addItem(gc->initGraphicsComponent());
 }
 
-void MainWindow::removeGraphicRepr(QGraphicsPixmapItem* gpi) {
-    scene_->removeItem(gpi);
-    new DelayedDelete<QGraphicsPixmapItem>(gpi);
-    /*
-    QTimer::singleShot(5000, gpi, SLOT(deleteMe());
-     */
+void MainWindow::removeGraphicRepr(GraphicsComponent* gc) {
+    scene_->removeItem(gc->getPixmapItem());
+    new DelayedDelete<GraphicsComponent>(gc);
 }
 
 void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc, int layer) {
