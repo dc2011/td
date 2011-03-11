@@ -2,6 +2,8 @@
 #define TD_TOWER_H
 
 #include "TileExtension.h"
+#include "../graphics/TowerGraphicsComponent.h"
+#include "../physics/TowerPhysicsComponent.h"
 
 namespace td {
 
