@@ -38,6 +38,7 @@ private:
         kStartPos       = (1 << 4),
         kEndPos         = (1 << 5)
     };
+
     QList<Effect*> effects_;
 
 public:
