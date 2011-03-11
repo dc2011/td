@@ -5,14 +5,14 @@
 
 namespace td {
 
-class Unit;
+class GameObject;
 
 class PhysicsComponent : public QObject {
     Q_OBJECT
 public:
     virtual ~PhysicsComponent() {}
 
-    virtual void update(Unit*) = 0;
+    virtual void update(GameObject*) = 0;
 };
 
 } /* end namespace td */

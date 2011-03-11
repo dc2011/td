@@ -2,6 +2,11 @@
 #include "../engine/Player.h"
 #define PI 3.141592653589793238
 #include <math.h>
+#include <typeinfo>
+#include "../engine/Map.h"
+#include "../engine/Tile.h"
+#include "../engine/CDriver.h"
+#include "../engine/NPC.h"
 
 namespace td {
 
@@ -12,7 +17,7 @@ PlayerPhysicsComponent::PlayerPhysicsComponent()
     maxVelocity_ = 5;
 }
 
-void PlayerPhysicsComponent::update(Unit* player)
+void PlayerPhysicsComponent::update(GameObject* player)
 {
     this->applyForce((Player*)player);
     this->applyVelocity((Player*)player);
@@ -26,54 +31,56 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     //assuming body of player sprite is from 13,4 to 35, 44
 
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
-    QPointF upperRight = newPos + QPointF(11, -20);
-    QPointF upperLeft = newPos + QPointF(-11, -20);
-    QPointF lowerRight = newPos + QPointF(11, 20);
-    QPointF lowerLeft = newPos + QPointF(-11, 20);
-    std::set<Unit*> npcs;
 
-    if (validateMovement(upperRight) && validateMovement(upperLeft)
-        && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
-        // Determine if the Player needs to update its tile position.
+    Map* gameMap = td::CDriver::instance()->getGameMap();
+    QSet<Tile*> targetTiles = gameMap->getTiles(newPos, 2);
+
+    QPointF upperRight;
+    QPointF upperLeft;
+    QPointF lowerRight;
+    QPointF lowerLeft;
+    Map* map = td::CDriver::instance()->getGameMap();
+    QSet<Unit*> npcs;
+    double angle = player->getOrientation();
+    QMatrix matrix = QMatrix();
+    matrix.rotate(-angle);
+
+    upperRight = QPointF(15, -15) * matrix;
+    upperLeft =  QPointF(-5, -15) * matrix;
+    lowerRight = QPointF(15, 15) * matrix;
+    lowerLeft =  QPointF(-5, 15) * matrix;
+
+    upperRight += newPos;
+    upperLeft += newPos;
+    lowerRight += newPos;
+    lowerLeft += newPos;
+
+
+    QVector<QPointF> points = QVector<QPointF>();
+    points.append(upperRight);
+    points.append(upperLeft);
+    points.append(lowerLeft);
+    points.append(lowerRight);
+    points.append(upperRight);
+    QPolygonF polygon = QPolygonF(points);
+    bool flag = false;
+    foreach (Tile* targetTile ,targetTiles){
+
+        QPolygonF otherpolygon = targetTile->getBounds();
+        if(polygon.intersected(otherpolygon).count() != 0){
+            flag = true;
+            break;
+        }
+    }
+
+    if (!flag) {
         player->changeTile(newPos);
         player->setPos(newPos);
-        //npcs = Map.getUnits(newPos.x(), newPos.y(), 3);
-    }else{
-        //int blockingType = 0;
-        //emit requestTileType(newPos.x(), newPos.y(), &blockingType);
-        QPointF newx = QPointF(player->getVelocity().toPointF().x(),0);
-
-
-        newPos = player->getPos() + newx;
-        upperRight = newPos + QPointF(11, -20);
-        upperLeft = newPos + QPointF(-11, -20);
-        lowerRight = newPos + QPointF(11, 20);
-        lowerLeft = newPos + QPointF(-11, 20);
-        if (validateMovement(upperRight) && validateMovement(upperLeft)
-            && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
-            // Determine if the Player needs to update its tile position.
-            player->changeTile(newPos);
-            player->setPos(newPos);
-        } else{
-            QPointF newy = QPointF(0,player->getVelocity().toPointF().y());
-            newPos = player->getPos() + newy;
-            upperRight = newPos + QPointF(11, -20);
-            upperLeft = newPos + QPointF(-11, -20);
-            lowerRight = newPos + QPointF(11, 20);
-            lowerLeft = newPos + QPointF(-11, 20);
-            if (validateMovement(upperRight) && validateMovement(upperLeft)
-                && validateMovement(lowerRight) && validateMovement(lowerLeft)) {
-                // Determine if the Player needs to update its tile position.
-                player->changeTile(newPos);
-                player->setPos(newPos);
-
-            } else {
-                QVector2D temp(0, 0);
-                player->setVelocity(temp);
-            }
-
+        player->setBounds(polygon);
+        npcs = map->getUnits(newPos.x(), newPos.y(), 3);
+        if (npcs.size() != 1) {
+            checkNPCCollision(npcs, player);
         }
-
     }
 }
 
@@ -257,14 +264,22 @@ bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
     return true;
 }
 
-void PlayerPhysicsComponent::checkNPCCollision(std::set<Unit*> npcs){
-
-    std::set<Unit*>::iterator it;
-    for(it = npcs.begin(); it != npcs.end(); ++it){
-        //if(collider_.intersectBox(it.bounds)){
-        //  add stun effect to player
-        //  return;
-        //}
+void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
+    QSet<Unit*>::iterator it;
+    QPolygonF playerBounds;
+    QPolygonF npcBounds;
+    for (it = npcs.begin(); it != npcs.end(); ++it) {
+        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
+            playerBounds = player->getBounds();
+            npcBounds = (*it)->getBounds();
+            if (player->getBounds().intersected((*it)->getBounds()).count() != 0) {
+                Effect::EffectType effectType = Effect::stunned;
+                emit NPCPlayerCollided(effectType);
+                break;
+            } else {
+                //qDebug("PlayerPhysicsComponenet, line 279, No Collision");
+            }
+        }
     }
 }
 

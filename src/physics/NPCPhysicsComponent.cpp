@@ -2,6 +2,7 @@
 #include "../engine/NPC.h"
 #define PI 3.141592653589793238
 #include <math.h>
+#include "../engine/Unit.h"
 
 namespace td {
 
@@ -9,7 +10,7 @@ NPCPhysicsComponent::NPCPhysicsComponent()
         : accel_(0.2), decel_(0.25), maxVelocity_(2) {}
 NPCPhysicsComponent::~NPCPhysicsComponent() {}
 
-void NPCPhysicsComponent::update(Unit* npc)
+void NPCPhysicsComponent::update(GameObject* npc)
 {
     this->applyForce((NPC*)npc);
     this->applyVelocity((NPC*)npc);
@@ -20,10 +21,32 @@ void NPCPhysicsComponent::update(Unit* npc)
 void NPCPhysicsComponent::applyVelocity(NPC* npc)
 {
     QPointF newPos = npc->getPos() + npc->getVelocity().toPointF();
-
+    QPointF point;
+    QVector<QPointF> points;
+    QMatrix matrix = QMatrix();
+    matrix.rotate(-npc->getOrientation());
     // Determine if the NPC needs to update its tile position.
     npc->changeTile(newPos);
     npc->setPos(newPos);
+
+    //set up Vector to construct bounding Polygon
+    point = QPointF(-npc->getWidth()/2, -npc->getHeight( )/2) * matrix;
+    point += newPos;
+    points.append(point);
+    point = QPointF(npc->getWidth()/2, -npc->getHeight()/2) * matrix;
+    point += newPos;
+    points.append(point);
+    point = QPointF(npc->getWidth()/2, npc->getHeight()/2) * matrix;
+    point += newPos;
+    points.append(point);
+    point = QPointF(-npc->getWidth()/2, npc->getHeight()/2) * matrix;
+    point += newPos;
+    points.append(point);
+    point = QPointF(-npc->getWidth()/2, -npc->getHeight()/2) * matrix;
+    point += newPos;
+    points.append(point);
+
+    npc->setBounds(QPolygonF(points));
 }
 
 void NPCPhysicsComponent::applyForce(NPC* npc)
