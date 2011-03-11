@@ -2,6 +2,8 @@
 #define TD_TOWER_H
 
 #include "TileExtension.h"
+#include "../graphics/TowerGraphicsComponent.h"
+#include "../physics/TowerPhysicsComponent.h"
 
 namespace td {
 
@@ -32,7 +34,6 @@ public:
     virtual void initComponents(int towerType);
 
 private:
-    QList<Effect*> effects_;
 
     /**
      * Set to false when the tower is initialized. On the first network read, 

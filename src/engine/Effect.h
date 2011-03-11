@@ -3,8 +3,10 @@
 
 #include <QString>
 #include <QTimer>
+#include <QVector>
 
 #include "GameObject.h"
+#include "Unit.h"
 #include "../physics/PhysicsComponent.h"
 
 namespace td {
@@ -12,17 +14,17 @@ namespace td {
 class Effect : public GameObject {
     Q_OBJECT
 
+public:
     /**
      * List of effect types.
      *
      * @author Pan K.
      */
-    enum EffectType{
-        healthChange, damageChange, speedChange, destroy
+    enum EffectType{ // This might need some changes
+        healthChange, damageChange, speedChange, velocityChange, stunned
     };
 
-public:
-    Effect(GameObject* unit, EffectType type);
+    Effect(Unit* unit, EffectType type);
     ~Effect();
 
     /**
@@ -42,14 +44,22 @@ public:
      * If the duration is not set, the effect is applied once.
      *
      * @author Pan K.
-     * @param duration Specify duration in msec.
-     * @param speed Specify speed/sec
      */
-    void apply(size_t duration = 0, size_t speed = 0);
+    void apply();
+
+    void setDuration(size_t duration);
+    size_t getduration();
+
+public slots:
+    void update();
+
+signals:
+    void effectFinished(Effect* effect);
 
 private:
-    GameObject *unit_;
+    Unit* unit_;
     EffectType type_;
+    size_t duration_;
 };
 
 } /* end namespace td */

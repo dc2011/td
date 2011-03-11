@@ -67,7 +67,7 @@ public:
      * @author Marcel Vangrootheest
      * @param Unit*, pointer to the Unit(NPC object)
      */
-    virtual void update(Unit*);
+    virtual void update(GameObject*);
 
 private:
     /* data */

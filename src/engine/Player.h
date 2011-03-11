@@ -80,6 +80,23 @@ public:
         setDirty(kNickname);
     }
 
+public slots:
+    /**
+     * Sets the nickname associated with this player.
+     *
+     * @author Pan K.
+     * @param type Type of effect.
+     */
+    void createEffect(Effect::EffectType type);
+
+    /**
+     * Remove effect from the effect list.
+     *
+     * @author Pan K.
+     * @param effect Effect to delete.
+     */
+    void deleteEffect(Effect* effect);
+
 private:
     QList<Effect*> effects_;
 

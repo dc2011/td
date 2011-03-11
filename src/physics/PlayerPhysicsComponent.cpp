@@ -17,7 +17,7 @@ PlayerPhysicsComponent::PlayerPhysicsComponent()
     maxVelocity_ = 5;
 }
 
-void PlayerPhysicsComponent::update(Unit* player)
+void PlayerPhysicsComponent::update(GameObject* player)
 {
     this->applyForce((Player*)player);
     this->applyVelocity((Player*)player);
@@ -273,17 +273,13 @@ void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
             playerBounds = player->getBounds();
             npcBounds = (*it)->getBounds();
             if (player->getBounds().intersected((*it)->getBounds()).count() != 0) {
-                qDebug("PlayerPhysicsComponenet, line 276, Collision");
-                //break;
+                Effect::EffectType effectType = Effect::stunned;
+                emit NPCPlayerCollided(effectType);
+                break;
             } else {
-                qDebug("PlayerPhysicsComponenet, line 279, No Collision");
+                //qDebug("PlayerPhysicsComponenet, line 279, No Collision");
             }
         }
-
-        //if(collider_.intersectBox(it.bounds)){
-        //  add stun effect to player
-        //  return;
-        //}
     }
 }
 
