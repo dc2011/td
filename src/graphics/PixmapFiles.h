@@ -40,10 +40,17 @@
 #define PIX_RESOURCE_STONE      QString("./img/Stone.png")
 #define PIX_RESOURCE_IRON       QString("./img/Rock.png")
 #define PIX_RESOURCE_MAX        1
-#define PIX_GENERICDINO_0       QString("./img/ptero-1.png")
-#define PIX_GENERICDINO_1       QString("./img/ptero-2.png")
-#define PIX_GENERICDINO_2       QString("./img/ptero-3.png")
-#define PIX_GENERICDINO_3       QString("./img/ptero-4.png")
-#define PIX_GENERICDINO_MAX     4
+#define PIX_NPC_PTERO_START     0
+#define PIX_NPC_PTERO_0         QString("./img/ptero-1.png")
+#define PIX_NPC_PTERO_1         QString("./img/ptero-2.png")
+#define PIX_NPC_PTERO_2         QString("./img/ptero-3.png")
+#define PIX_NPC_PTERO_3         QString("./img/ptero-4.png")
+#define PIX_NPC_PTERO_MAX       4
+#define PIX_NPC_PLEA_START      PIX_NPC_PTERO_MAX + PIX_NPC_PTERO_START
+#define PIX_NPC_PLEA_0          QString("./img/plea-1.png")
+#define PIX_NPC_PLEA_1          QString("./img/plea-2.png")
+#define PIX_NPC_PLEA_MAX        2
+//this final value will be total of all NPC pix maps
+#define PIX_NPC_TOTAL           PIX_NPC_PTERO_MAX + PIX_NPC_PLEA_MAX
 #endif
 
