@@ -32,7 +32,7 @@ void NPC::setDamage(size_t damage) {
 
 void NPC::initComponents() {
     PhysicsComponent* physics = new NPCPhysicsComponent();
-    GraphicsComponent* graphics = new NPCGraphicsComponent();
+    GraphicsComponent* graphics = new GenericDinoGraphicsComponent();
     NPCInputComponent* input = new NPCInputComponent();
 
     input->setParent(this);

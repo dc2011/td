@@ -10,7 +10,7 @@
 
 namespace td {
 
-    class GenericDinoGraphicsComponent :public GraphicsComponent {//: public NPCGraphicsComponent {
+    class GenericDinoGraphicsComponent :public NPCGraphicsComponent {
     Q_OBJECT
 
 public:
@@ -31,7 +31,7 @@ public:
     /**
      * The primary method used to determine the behaviours of animation
      *
-     * @author Warren Voelkl
+     * @author Warren Voelkl, Marcel Vangrootheest
      */
     virtual void animate();
 

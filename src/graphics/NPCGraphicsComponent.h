@@ -32,21 +32,15 @@ public:
      *
      * @author Warren Voelkl
      */
-    virtual void initPixmaps();
+    virtual void initPixmaps() = 0;
 
     /**
      * @returns the pixmap array from the subclasses
      */
-    virtual QPixmap * getPixmapArray();
+    virtual QPixmap * getPixmapArray() = 0;
 
 protected:
-
-    /**
-     * The primary method used to determine the behaviours of animation
-     *
-     * @author Warren Voelkl, Marcel Vangrootheest
-     */
-    virtual void animate();
+    virtual void animate() = 0;
 
 private:
 
@@ -54,17 +48,6 @@ private:
      * True if the health of the NPC should be displayed.
      */
     bool showHealth_;
-
-    /**
-     * container for all pixmaps which pertain to the current object
-     **/
-    static QPixmap * pixmapImgs_;
-
-    /**
-     * @returns the pixmap array from the current graphics object
-     * @author Warren Voelkl
-     */
-    virtual QPixmap * getPixmapArray();
 
 public slots:
     /**

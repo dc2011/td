@@ -40,13 +40,10 @@
 #define PIX_RESOURCE_STONE      QString("./img/Stone.png")
 #define PIX_RESOURCE_IRON       QString("./img/Rock.png")
 #define PIX_RESOURCE_MAX        1
-#define PIX_NPC_0               QString("./img/ptero-1.png")
-#define PIX_NPC_1               QString("./img/ptero-2.png")
-#define PIX_NPC_2               QString("./img/ptero-3.png")
-#define PIX_NPC_3               QString("./img/ptero-4.png")
-#define PIX_NPC_MAX             4
-#define PIX_GENERICDINO_0       QString("./img/plea-1.png")
-#define PIX_GENERICDINO_1       QString("./img/plea-2.png")
-#define PIX_GENERICDINO_MAX     2
+#define PIX_GENERICDINO_0       QString("./img/ptero-1.png")
+#define PIX_GENERICDINO_1       QString("./img/ptero-2.png")
+#define PIX_GENERICDINO_2       QString("./img/ptero-3.png")
+#define PIX_GENERICDINO_3       QString("./img/ptero-4.png")
+#define PIX_GENERICDINO_MAX     4
 #endif
 

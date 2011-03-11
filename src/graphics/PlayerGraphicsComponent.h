@@ -55,13 +55,6 @@ private:
     int animateCount;
 
     /**
-     * Gets a pixmap for the object based on its current animation state.
-     *
-     * @author Warren Voelkl
-     */
-    virtual void initPixmaps();
-
-    /**
      * container for all pixmaps which pertain to the current object
      **/
     static QPixmap * pixmapImgs_;
