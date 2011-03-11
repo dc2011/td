@@ -65,6 +65,7 @@ public:
     void setHeight(int height){
         height_ = height;
     }
+
 signals:
     /**
      * signal emitted when an NPC needs to be destroyed.
@@ -72,6 +73,7 @@ signals:
      * @author Duncan Donaldson
      */
     void dead(int id);
+
 private:
     size_t health_;
     size_t damage_;
