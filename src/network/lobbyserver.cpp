@@ -84,11 +84,12 @@ void LobbyServer::startGame() {
         QString nick = clients_[conn];
         //sd->addPlayer(conn, nick);
     }
-
-    //sd->startGame();
-
+    clients_.clear();
     connCount_ = 0;
     mutex_.unlock();
+
+    //sd->startGame();
+    gamethread->start();
 }
 
 void LobbyServer::handleNewConnection()
