@@ -44,10 +44,14 @@ void Player::update() {
 
 void Player::createEffect(Effect::EffectType type){
     Effect* effect = new Effect(this, type);
-    QObject::connect(effect, SIGNAL(effectFinished(Effect*)), this, SLOT(deleteEffect(Effect*)));
+    QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
+            this, SLOT(deleteEffect(Effect*)));
+#ifndef SERVER
+    QObject::connect(CDriver::getTimer(), SIGNAL(timeout()),
+            effect, SLOT(update()));
+#endif
 
     effects_.push_back(effect);
-    effect->apply();
 }
 
 void Player::deleteEffect(Effect* effect){
