@@ -12,9 +12,9 @@
 #include "ResManager.h"
 #include "Tower.h"
 #include "Unit.h"
-#include "../client/MainWindow.h"
 #include <map.h>
 #include <tile.h>
+#include "../client/MainWindow.h"
 #include "../graphics/MapDisplayer.h"
 #include "../util/defines.h"
 
