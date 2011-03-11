@@ -3,6 +3,7 @@
 
 #include "PhysicsComponent.h"
 #include "Bounds.h"
+#include "../engine/Effect.h"
 #include "../engine/Unit.h"
 #include <QSet>
 
@@ -75,7 +76,7 @@ public:
      * @param npcs, Set of npcs to check for collisions
      * @param player, pointer to the Unit(player object)
      *
-     * @author Daniel Wright
+     * @author Daniel Wright, Pan K.(add a signal)
      */
     void checkNPCCollision(QSet<Unit*> npcs, Unit* player);
 
@@ -100,6 +101,13 @@ signals:
      * @author Ian Lee, Tom Nightingale
      */
     void requestTileType(double x, double y, int *blockingType);
+
+    /**
+     * NPC to player collision.
+     *
+     * @author Pan K.
+     */
+    void NPCPlayerCollided(Effect::EffectType);
 
 
 private:

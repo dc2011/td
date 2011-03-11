@@ -137,6 +137,8 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     // Connection for collisions -- waiting on map object
     connect(physics, SIGNAL(requestTileType(double, double, int*)), 
             gameMap_, SLOT(getTileType(double, double, int*)));
+    // NPC -> Player effect
+    QObject::connect(physics, SIGNAL(NPCPlayerCollided(Effect::EffectType)), human_, SLOT(createEffect(Effect::EffectType)));
     if(isSinglePlayer() == true) {
 	mgr_->createObject(Player::clsIdx());
     } else {

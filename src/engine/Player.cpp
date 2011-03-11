@@ -42,4 +42,21 @@ void Player::update() {
     graphics_->update(this);
 }
 
+void Player::createEffect(Effect::EffectType type){
+    Effect* effect = new Effect(this, type);
+    QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
+            this, SLOT(deleteEffect(Effect*)));
+#ifndef SERVER
+    QObject::connect(CDriver::getTimer(), SIGNAL(timeout()),
+            effect, SLOT(update()));
+#endif
+
+    effects_.push_back(effect);
+}
+
+void Player::deleteEffect(Effect* effect){
+    effects_.removeOne(effect);
+    delete effect;
+}
+
 } /* end namespace td */
