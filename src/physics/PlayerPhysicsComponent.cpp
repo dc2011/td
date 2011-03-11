@@ -277,7 +277,7 @@ void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
                 emit NPCPlayerCollided(effectType);
                 break;
             } else {
-                qDebug("PlayerPhysicsComponenet, line 279, No Collision");
+                //qDebug("PlayerPhysicsComponenet, line 279, No Collision");
             }
         }
     }
