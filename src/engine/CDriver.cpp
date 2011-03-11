@@ -150,7 +150,7 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
 }
 
 void CDriver::NPCCreator() {
-    if (npcCounter_++ % 15 == 0 ){//&& (npcCounter_ % 400) > 300) {
+    if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
         npc_.append(createNPC());
         //npc_.insert(createNPC());
     }
