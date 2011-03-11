@@ -3,6 +3,8 @@
 
 namespace td {
 
+    QPixmap * PlayerGraphicsComponent::pixmapImgs_ = 0;
+
 PlayerGraphicsComponent::PlayerGraphicsComponent()
         : GraphicsComponent()
 {
@@ -32,8 +34,13 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
 }
 
 void PlayerGraphicsComponent::initPixmaps() {
+    if (pixmapImgs_) {
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_PLAYER_MAX];
+    }
     //TODO: add animation logic here?
-    pixmapImgs_ = new QPixmap[PIX_PLAYER_MAX];
+
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_0;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_1;
@@ -64,6 +71,10 @@ void PlayerGraphicsComponent::animate() {
         ++pixmapIndex_ >= PIX_PLAYER_MAX ? pixmapIndex_ = 1 : pixmapIndex_;
         setImgIndex(pixmapIndex_);
     }
+}
+
+QPixmap * PlayerGraphicsComponent::getPixmapArray() {
+    return pixmapImgs_;
 }
 
 } /* end namespace td */

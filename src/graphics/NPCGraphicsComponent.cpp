@@ -3,6 +3,8 @@
 
 namespace td {
 
+    QPixmap * NPCGraphicsComponent::pixmapImgs_ = 0;
+
 NPCGraphicsComponent::NPCGraphicsComponent()
         : GraphicsComponent() {
     animateMod_ = 4;
@@ -28,8 +30,11 @@ void NPCGraphicsComponent::update(GameObject* obj) {
 }
 
 void NPCGraphicsComponent::initPixmaps() {
-    //TODO: add animation images here
-    pixmapImgs_ = new QPixmap[PIX_NPC_MAX];
+    if (pixmapImgs_) {
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_NPC_MAX];
+    }
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_NPC_0;
     pixmapImgs_[pixmapIndex_++] = PIX_NPC_1;
@@ -54,6 +59,10 @@ void NPCGraphicsComponent::animate() {
 void NPCGraphicsComponent::showHealth(bool keyHeld) {
     showHealth_ = keyHeld;
     qDebug("NPCGraphicsComponent::showHealth(); keyHeld = %d,", keyHeld);
+}
+
+QPixmap * NPCGraphicsComponent::getPixmapArray() {
+    return pixmapImgs_;
 }
 
 } /* end namespace td */

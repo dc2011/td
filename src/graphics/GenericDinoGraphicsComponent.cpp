@@ -3,8 +3,11 @@
 
 namespace td {
 
+    QPixmap * GenericDinoGraphicsComponent::pixmapImgs_ = 0;
+    bool AnimationInitialized = false;
+
 GenericDinoGraphicsComponent::GenericDinoGraphicsComponent()
-        : NPCGraphicsComponent() {
+{//: NPCGraphicsComponent() {
     animateMod_ = 7;
     animateCount_ = 0;
     animateConnect();
@@ -14,8 +17,11 @@ GenericDinoGraphicsComponent::GenericDinoGraphicsComponent()
 GenericDinoGraphicsComponent::~GenericDinoGraphicsComponent() {}
 
 void GenericDinoGraphicsComponent::initPixmaps() {
-    //TODO: add animation images here
-    pixmapImgs_ = new QPixmap[PIX_GENERICDINO_MAX];
+    if (pixmapImgs_) {
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_GENERICDINO_MAX];
+    }
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_GENERICDINO_0;
     pixmapImgs_[pixmapIndex_++] = PIX_GENERICDINO_1;
@@ -23,10 +29,15 @@ void GenericDinoGraphicsComponent::initPixmaps() {
 }
 
 void GenericDinoGraphicsComponent::animate() {
+
     if (!(animateCount_++ % animateMod_)) {
         pixmapIndex_ = (pixmapIndex_)? 0 : 1;
         setImgIndex(pixmapIndex_);
     }
+}
+
+QPixmap * GenericDinoGraphicsComponent::getPixmapArray() {
+    return pixmapImgs_;
 }
 
 } /* end namespace td */

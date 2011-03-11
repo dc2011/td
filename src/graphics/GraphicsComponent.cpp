@@ -7,7 +7,7 @@ namespace td {
 
 QMutex GraphicsComponent::mutex_;
     
-GraphicsComponent::GraphicsComponent() {
+GraphicsComponent::GraphicsComponent() : pixmapIndex_(0) {
     
     MainWindow* mainWindow = CDriver::instance()->getMainWindow();
 
@@ -47,14 +47,10 @@ void GraphicsComponent::draw(DrawParams* dp, int layer) {
     pixmapItem_->update();
 }
 
-QPixmap GraphicsComponent::getCurrentPixmap() {
-    return pixmapImgs_[pixmapIndex_];
-}
-
 QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
     mutex_.lock();
     initPixmaps();
-    pixmapItem_ = new QGraphicsPixmapItem(pixmapImgs_[pixmapIndex_]);
+    pixmapItem_ = new QGraphicsPixmapItem(getPixmapArray()[pixmapIndex_]);
     pixmapItem_->setPos(OFFSCREEN,OFFSCREEN);
     mutex_.unlock();
     return pixmapItem_;
@@ -77,7 +73,7 @@ void GraphicsComponent::animate() {
 void GraphicsComponent::setImgIndex(int index) {
     mutex_.lock();
     pixmapIndex_ = index;
-    pixmapItem_->setPixmap(pixmapImgs_[pixmapIndex_]);
+    pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
     mutex_.unlock();
 }
 
@@ -86,3 +82,6 @@ void GraphicsComponent::onTimerTick() {
 }
 
 } /* end namespace td */
+QPixmap * getPixmapArray() {
+    return 0;
+}

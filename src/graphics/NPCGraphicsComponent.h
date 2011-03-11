@@ -34,6 +34,11 @@ public:
      */
     virtual void initPixmaps();
 
+    /**
+     * @returns the pixmap array from the subclasses
+     */
+    virtual QPixmap * getPixmapArray();
+
 protected:
 
     /**
@@ -49,6 +54,8 @@ private:
      * True if the health of the NPC should be displayed.
      */
     bool showHealth_;
+
+    static QPixmap * pixmapImgs_;
 
 public slots:
     /**
