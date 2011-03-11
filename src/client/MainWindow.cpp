@@ -1,11 +1,12 @@
 #include "MainWindow.h"
 #include <QScrollArea>
 #include <QSize>
+#include "map.h"
+#include "maprenderer.h"
 #include "../audio/manager.h"
 #include "../graphics/GraphicsComponent.h"
 #include "../graphics/MapDisplayer.h"
-#include "maprenderer.h"
-#include "map.h"
+#include "../util/DelayedDelete.h"
 
 namespace td {
 
@@ -50,10 +51,14 @@ void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
     scene_->addItem(gc->initGraphicsComponent());
 }
 
+void MainWindow::removeGraphicRepr(GraphicsComponent* gc) {
+    scene_->removeItem(gc->getPixmapItem());
+    new DelayedDelete<GraphicsComponent>(gc);
+}
+
 void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc, int layer) {
     gc->draw(dp,layer);
 }
-
 
 void MainWindow::keyHeld()
 {

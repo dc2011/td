@@ -2,6 +2,7 @@
 #define NPCPHYSICSCOMPONENT_H
 
 #include "PhysicsComponent.h"
+#include <QVector>
 
 namespace td {
 
@@ -66,7 +67,7 @@ public:
      * @author Marcel Vangrootheest
      * @param Unit*, pointer to the Unit(NPC object)
      */
-    virtual void update(Unit*);
+    virtual void update(GameObject*);
 
 private:
     /* data */

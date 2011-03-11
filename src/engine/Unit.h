@@ -3,6 +3,7 @@
 
 #include <QVector2D>
 #include <QPointF>
+#include <QPolygonF>
 
 #include "GameObject.h"
 #include "../physics/Bounds.h"
@@ -22,7 +23,6 @@ public:
         return td::clsidx::kUnit;
     }
 
-    td::Bounds *myBounds_;
 
 private:
     enum {
@@ -34,6 +34,7 @@ private:
 public:
     Unit();
     virtual ~Unit();
+
 
     /**
      * Reads the object state from a network stream.
@@ -139,6 +140,16 @@ public:
         health_ = health;
     }
 
+    QPolygonF getBounds(){
+        return myBounds_;
+    }
+
+    void setBounds(const QPolygonF bound){
+        myBounds_ = bound;
+    }
+
+
+
 protected:
     QVector2D velocity_;
     QVector2D force_;
@@ -152,6 +163,10 @@ protected:
      * All input handling logic for this Unit is contained in this component.
      */
     InputComponent* input_;
+
+private:
+    QPolygonF myBounds_;
+
 };
 
 } /* end namespace td */

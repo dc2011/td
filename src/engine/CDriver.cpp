@@ -12,9 +12,9 @@
 #include "ResManager.h"
 #include "Tower.h"
 #include "Unit.h"
-#include "../client/MainWindow.h"
 #include <map.h>
 #include <tile.h>
+#include "../client/MainWindow.h"
 #include "../graphics/MapDisplayer.h"
 #include "../util/defines.h"
 
@@ -137,6 +137,8 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     // Connection for collisions -- waiting on map object
     connect(physics, SIGNAL(requestTileType(double, double, int*)), 
             gameMap_, SLOT(getTileType(double, double, int*)));
+    // NPC -> Player effect
+    QObject::connect(physics, SIGNAL(NPCPlayerCollided(Effect::EffectType)), human_, SLOT(createEffect(Effect::EffectType)));
     if(isSinglePlayer() == true) {
 	mgr_->createObject(Player::clsIdx());
     } else {
@@ -195,7 +197,7 @@ void CDriver::createTower(int towerType, QPointF pos) {
     Stream* request = new Stream();
     tower_ = new Tower();
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
-    
+
     tower_->initComponents(towerType);
     tower_->setPos(currentTile->getPos());
     tower_->setID(0xFFFFFFFF);
