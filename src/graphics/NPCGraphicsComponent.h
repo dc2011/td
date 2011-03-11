@@ -32,16 +32,15 @@ public:
      *
      * @author Warren Voelkl
      */
-    virtual void initPixmaps();
-
-protected:
+    virtual void initPixmaps() = 0;
 
     /**
-     * The primary method used to determine the behaviours of animation
-     *
-     * @author Warren Voelkl, Marcel Vangrootheest
+     * @returns the pixmap array from the subclasses
      */
-    virtual void animate();
+    virtual QPixmap * getPixmapArray() = 0;
+
+protected:
+    virtual void animate() = 0;
 
 private:
 

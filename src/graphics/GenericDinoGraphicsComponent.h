@@ -5,11 +5,12 @@
 #include <QPainter>
 #include <QPointF>
 #include "NPCGraphicsComponent.h"
+#include "GraphicsComponent.h"
 
 
 namespace td {
 
-class GenericDinoGraphicsComponent : public NPCGraphicsComponent {
+    class GenericDinoGraphicsComponent :public NPCGraphicsComponent {
     Q_OBJECT
 
 public:
@@ -30,9 +31,21 @@ public:
     /**
      * The primary method used to determine the behaviours of animation
      *
-     * @author Warren Voelkl
+     * @author Warren Voelkl, Marcel Vangrootheest
      */
     virtual void animate();
+
+private:
+    /**
+     * container for all pixmaps which pertain to the current object
+     **/
+    static QPixmap * pixmapImgs_;
+
+    /**
+     * @returns the pixmap array from the current graphics object
+     * @author Warren Voelkl
+     */
+    virtual QPixmap * getPixmapArray();
 
 };
 

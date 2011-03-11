@@ -25,10 +25,6 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
 private:
-    /**
-     * The graphics scene which contains all the objects
-     */
-    QGraphicsScene* scene_;
 
     /**
      * The view which displays the graphics scene.
@@ -58,6 +54,11 @@ public:
     QGraphicsScene* getScene() { return scene_; }
 
     MapDisplayer * getMD() { return mapDisplayer_; }
+
+    /**
+     * The graphics scene which contains all the objects
+     */
+    QGraphicsScene* scene_;
     
 protected:
     /**

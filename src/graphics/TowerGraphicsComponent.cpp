@@ -3,6 +3,7 @@
 
 namespace td {
 
+    QPixmap * TowerGraphicsComponent::pixmapImgs_ = 0;
 TowerGraphicsComponent::TowerGraphicsComponent(QString pixmapPath)
         : GraphicsComponent(), pixmapPath_(pixmapPath) {
     emit created(this);
@@ -28,11 +29,20 @@ void TowerGraphicsComponent::update(GameObject* obj) {
 }
 
 void TowerGraphicsComponent::initPixmaps() {
+    if (pixmapImgs_) {
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_TOWER_MAX];
+    }
     //TODO: add animation images here
-    pixmapImgs_ = new QPixmap[PIX_TOWER_MAX];
+
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = pixmapPath_;
     pixmapIndex_ = 0; //sets image back to start
+}
+
+QPixmap * TowerGraphicsComponent::getPixmapArray() {
+    return pixmapImgs_;
 }
 
 } /* end namespace td */

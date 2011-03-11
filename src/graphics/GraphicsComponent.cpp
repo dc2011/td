@@ -2,13 +2,12 @@
 #include <math.h>
 #include "../engine/GameObject.h"
 #include "../engine/CDriver.h"
-
 namespace td {
 
 QMutex GraphicsComponent::mutex_;
     
-GraphicsComponent::GraphicsComponent() {
-    
+GraphicsComponent::GraphicsComponent() : pixmapIndex_(0) {
+
     MainWindow* mainWindow = CDriver::instance()->getMainWindow();
 
     connect(this, SIGNAL(created(GraphicsComponent*)), 
@@ -37,6 +36,7 @@ void GraphicsComponent::draw(DrawParams* dp, int layer) {
     pixmapItem_->setTransformOriginPoint(center);
     pixmapItem_->setScale(dp->scale);
     pixmapItem_->rotate(dp->degrees * -1);
+
     pixmapItem_->translate(-center.x(), -center.y());
     //pixmapItem_->setTransformOriginPoint(-center.x(), -center.y());
     pixmapItem_->setPos(dp->pos);
@@ -47,14 +47,14 @@ void GraphicsComponent::draw(DrawParams* dp, int layer) {
     pixmapItem_->update();
 }
 
-QPixmap GraphicsComponent::getCurrentPixmap() {
-    return pixmapImgs_[pixmapIndex_];
-}
-
 QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
     mutex_.lock();
+
+
+    pixmapItem_ = new QGraphicsPixmapItem();
     initPixmaps();
-    pixmapItem_ = new QGraphicsPixmapItem(pixmapImgs_[pixmapIndex_]);
+    pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
+
     pixmapItem_->setPos(OFFSCREEN,OFFSCREEN);
     mutex_.unlock();
     return pixmapItem_;
@@ -77,7 +77,7 @@ void GraphicsComponent::animate() {
 void GraphicsComponent::setImgIndex(int index) {
     mutex_.lock();
     pixmapIndex_ = index;
-    pixmapItem_->setPixmap(pixmapImgs_[pixmapIndex_]);
+    pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
     mutex_.unlock();
 }
 
@@ -86,3 +86,6 @@ void GraphicsComponent::onTimerTick() {
 }
 
 } /* end namespace td */
+QPixmap * getPixmapArray() {
+    return 0;
+}

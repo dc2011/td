@@ -106,6 +106,17 @@ private:
      * of time.
      */
     QTimer closeTimer_;
+
+    /**
+     * container for all pixmaps which pertain to the current object
+     **/
+    static QPixmap * pixmapImgs_;
+
+    /**
+     * @returns the pixmap array from the current graphics object
+     * @author Warren Voelkl
+     */
+    virtual QPixmap * getPixmapArray();
 };
 
 } /* end namespace td */

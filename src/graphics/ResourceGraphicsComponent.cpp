@@ -3,6 +3,8 @@
 
 namespace td {
 
+    QPixmap * ResourceGraphicsComponent::pixmapImgs_ = 0;
+
 ResourceGraphicsComponent::ResourceGraphicsComponent(QString pixmapPath)
         : GraphicsComponent(), pixmapPath_(pixmapPath) {
     emit created(this);
@@ -28,11 +30,19 @@ void ResourceGraphicsComponent::update(GameObject* obj) {
 }
 
 void ResourceGraphicsComponent::initPixmaps() {
-    //TODO: add animation images here
-    pixmapImgs_ = new QPixmap[PIX_RESOURCE_MAX];
+    if (pixmapImgs_) {
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_RESOURCE_MAX];
+    }
+
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = pixmapPath_;
     pixmapIndex_ = 0; //sets image back to start
+}
+
+QPixmap * ResourceGraphicsComponent::getPixmapArray() {
+    return pixmapImgs_;
 }
 
 } /* end namespace td */

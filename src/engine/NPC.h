@@ -9,7 +9,7 @@
 #include "Effect.h"
 #include "../input/NPCInputComponent.h"
 #include "../physics/NPCPhysicsComponent.h"
-#include "../graphics/NPCGraphicsComponent.h"
+#include "../graphics/GenericDinoGraphicsComponent.h"
 
 namespace td {
 

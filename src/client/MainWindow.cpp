@@ -6,6 +6,8 @@
 #include "../graphics/MapDisplayer.h"
 #include "maprenderer.h"
 #include "map.h"
+#include <QLabel>
+
 
 namespace td {
 
@@ -47,7 +49,10 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
+
+
     scene_->addItem(gc->initGraphicsComponent());
+
 }
 
 void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc, int layer) {
