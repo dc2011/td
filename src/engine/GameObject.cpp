@@ -8,8 +8,8 @@ GameObject::GameObject() : dirty_(0), iD_(0), pos_(QPointF(0, 0)),
 
 GameObject::~GameObject() {
     disconnect(this, SLOT(update()));
-    delete graphics_;
     delete physics_;
+    graphics_->deleteComponent();
 }
 
 void GameObject::networkRead(td::Stream* s) {

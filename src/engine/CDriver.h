@@ -4,6 +4,7 @@
 #include <QTimer>
 #include <QPointF>
 #include <QSet>
+#include <QList>
 
 namespace td {
 
@@ -36,7 +37,8 @@ private:
      /** A context menu that appears around the player. */
     ContextMenu* contextMenu_;
      /** An set of enemy units. */
-    QSet<NPC*> npc_;
+    //QSet<NPC*> npc_;
+    QList<NPC*> npc_;
      /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
      /** A projectile fired from a tower. */
@@ -251,6 +253,7 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCDeleter(Unit*);
+    void NPCDeleter();
 
 };
 
