@@ -4,7 +4,6 @@
 #include <QTimer>
 #include <QPointF>
 #include <QSet>
-#include <QList>
 
 namespace td {
 
@@ -37,8 +36,7 @@ private:
      /** A context menu that appears around the player. */
     ContextMenu* contextMenu_;
      /** An set of enemy units. */
-    //QSet<NPC*> npc_;
-    QList<NPC*> npc_;
+    QSet<NPC*> npc_;
      /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
      /** A projectile fired from a tower. */
@@ -46,7 +44,7 @@ private:
      /** A tower built by the players. */
     Tower* tower_;
     /** An set of towers. */
-   QSet<Tower*> towers_;
+    QSet<Tower*> towers_;
      /** The single instance of this class that can be created. */
     static CDriver* instance_;
     /** Tells objects whether or not the game is being played single player **/
@@ -253,7 +251,6 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCDeleter(Unit*);
-    void NPCDeleter();
 
 };
 
