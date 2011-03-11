@@ -215,7 +215,7 @@ void CDriver::createTower(int towerType, QPointF pos) {
     Stream* request = new Stream();
     tower_ = new Tower();
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
-    
+
     tower_->initComponents(towerType);
     tower_->setPos(currentTile->getPos());
     tower_->setID(0xFFFFFFFF);
