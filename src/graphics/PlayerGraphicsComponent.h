@@ -71,6 +71,9 @@ private:
      **/
     static QPixmap * pixmapImgs_;
 
+    /** Text to display the current label_ for this item **/
+    QGraphicsTextItem * label_;
+
     /**
      * @returns the pixmap array from the current graphics object
      * @author Warren Voelkl

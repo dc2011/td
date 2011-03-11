@@ -39,8 +39,7 @@ private:
     virtual QPixmap * getPixmapArray() = 0;
 
 protected:
-    /** Text to display the current label_ for this item **/
-    QGraphicsTextItem * label_;
+
 
     /**
      * If the obect is currently moving used for animations

@@ -49,7 +49,7 @@ void GraphicsComponent::draw(DrawParams* dp, int layer) {
 
 QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
     mutex_.lock();
-    label_ = 0;
+
 
     pixmapItem_ = new QGraphicsPixmapItem();
     initPixmaps();
