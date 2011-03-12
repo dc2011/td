@@ -35,15 +35,11 @@ namespace td{
         heightInTiles_ = tileLayer->height();
         widthInTiles_ = tileLayer->width();
 
-        // Currently this doesn't work.
-        //tileLayer->setVisible(false);
-        resLayer->setVisible(false);
-        path->setVisible(false);
         tiles_ = new Tile**[heightInTiles_];
-        for (size_t row = 0; row < heightInTiles_; row++) {
+        for (size_t row = (unsigned) 0; row < heightInTiles_; row++) {
             tiles_[row] = new Tile*[widthInTiles_];
 
-            for (size_t col = 0; col < widthInTiles_; col++) {
+            for (size_t col = (unsigned) 0; col < widthInTiles_; col++) {
                 tile = tileLayer->tileAt(col, row);
                 type = (blockingType) tile->id();
                 //save into array

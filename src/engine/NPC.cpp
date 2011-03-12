@@ -31,8 +31,10 @@ void NPC::setDamage(size_t damage) {
 }
 
 void NPC::initComponents() {
+    static int flipFloper = 0;
+    ++flipFloper = flipFloper % 2;
     PhysicsComponent* physics = new NPCPhysicsComponent();
-    GraphicsComponent* graphics = new NPCGraphicsComponent();
+    GraphicsComponent* graphics = new NPCGraphicsComponent(flipFloper + 1);
     NPCInputComponent* input = new NPCInputComponent();
 
     input->setParent(this);

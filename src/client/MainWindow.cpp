@@ -7,6 +7,9 @@
 #include "../graphics/GraphicsComponent.h"
 #include "../graphics/MapDisplayer.h"
 #include "../util/DelayedDelete.h"
+#include <QLabel>
+
+>>>>>>> upstream/master
 
 namespace td {
 
@@ -63,7 +66,6 @@ void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc, int layer) {
 void MainWindow::keyHeld()
 {
 
-    //do nothing if different directions held
     if(keysHeld_ & KEYUP && keysHeld_ & KEYDOWN) {
         emit signalKeyReleased(Qt::Key_Up);
         emit signalKeyReleased(Qt::Key_Down);

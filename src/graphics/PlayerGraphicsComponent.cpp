@@ -1,7 +1,10 @@
 #include "PlayerGraphicsComponent.h"
 #include "../engine/Player.h"
+#include "../engine/CDriver.h"
 
 namespace td {
+
+    QPixmap * PlayerGraphicsComponent::pixmapImgs_ = 0;
 
 PlayerGraphicsComponent::PlayerGraphicsComponent()
         : GraphicsComponent()
@@ -32,8 +35,18 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
 }
 
 void PlayerGraphicsComponent::initPixmaps() {
+    label_ = new QGraphicsTextItem(QString("Warren Master Of The Universe"));
+
+    label_->setDefaultTextColor (QColor(0,255,0));
+    CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
+
+    if (pixmapImgs_) {
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_PLAYER_MAX];
+    }
     //TODO: add animation logic here?
-    pixmapImgs_ = new QPixmap[PIX_PLAYER_MAX];
+
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_0;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_1;
@@ -43,6 +56,30 @@ void PlayerGraphicsComponent::initPixmaps() {
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_5;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_6;
     pixmapIndex_ = 0;
+}
+
+void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
+    QPointF center = getPixmapItem()->boundingRect().center();
+
+    getPixmapItem()->resetMatrix();//important
+    getPixmapItem()->setTransformOriginPoint(center);
+    //getPixmapItem()->setScale(dp->scale);
+    getPixmapItem()->rotate(-dp->degrees);
+    getPixmapItem()->translate(-center.x(), -center.y());
+
+    getPixmapItem()->setPos(dp->pos);
+    getPixmapItem()->setZValue(layer);
+
+    isMoving_ = dp->moving;
+    //dp->pos.setX(dp->pos + (int)center.x);
+    label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
+                   dp->pos.y() - getPixmapItem()->boundingRect().height());
+    label_->setZValue(layer);
+    label_->update();
+
+    delete dp;
+
+    getPixmapItem()->update();
 }
 
 void PlayerGraphicsComponent::animate() {
@@ -64,6 +101,10 @@ void PlayerGraphicsComponent::animate() {
         ++pixmapIndex_ >= PIX_PLAYER_MAX ? pixmapIndex_ = 1 : pixmapIndex_;
         setImgIndex(pixmapIndex_);
     }
+}
+
+QPixmap * PlayerGraphicsComponent::getPixmapArray() {
+    return pixmapImgs_;
 }
 
 } /* end namespace td */
