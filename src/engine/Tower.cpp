@@ -37,6 +37,9 @@ void Tower::initComponents() {
 }
 
 void Tower::initComponents(int towerType) {
+    PhysicsComponent* physics = new TowerPhysicsComponent();
+    this->setPhysicsComponent(physics);
+
     GraphicsComponent* graphics = new TowerGraphicsComponent(towerType);
     this->setGraphicsComponent(graphics);
 }
