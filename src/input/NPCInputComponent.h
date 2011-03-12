@@ -42,6 +42,8 @@ private:
     QList<QPointF> waypoints_;
     /** The waypoint that the NPC is currently travelling towards. */
     size_t nextDest_;
+    /** Counter used to regulate length of time the force is applied. */
+    size_t forceCounter_;
 };
 
 } /* end namespace td */
