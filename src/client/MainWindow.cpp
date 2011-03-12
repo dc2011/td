@@ -9,8 +9,6 @@
 #include "../util/DelayedDelete.h"
 #include <QLabel>
 
->>>>>>> upstream/master
-
 namespace td {
 
 MainWindow::MainWindow() : QMainWindow() {
