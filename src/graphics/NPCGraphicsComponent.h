@@ -6,6 +6,9 @@
 #include <QPointF>
 #include "GraphicsComponent.h"
 
+#define NPC_PTERO   1
+#define NPC_PLEA    2
+
 namespace td {
 
 class NPCGraphicsComponent : public GraphicsComponent {
@@ -17,6 +20,9 @@ public:
      * @author Warren Voelkl
      */
     NPCGraphicsComponent();
+
+    NPCGraphicsComponent(int npcType);
+
     virtual ~NPCGraphicsComponent();
 
     /**
@@ -35,20 +41,36 @@ public:
     virtual void initPixmaps();
 
 protected:
-
-    /**
-     * The primary method used to determine the behaviours of animation
-     *
-     * @author Warren Voelkl, Marcel Vangrootheest
-     */
     virtual void animate();
 
 private:
+    /** The current set of images to use for this object */
+    int npcType_;
 
     /**
      * True if the health of the NPC should be displayed.
      */
     bool showHealth_;
+
+    int arrayIndexMin_;
+    int arrayIndexMax_;
+
+    /**
+     * container for all pixmaps which pertain to the current object
+     **/
+    static QPixmap * pixmapImgs_;
+
+    /**
+     * @returns the pixmap array from the current graphics object
+     * @author Warren Voelkl
+     */
+    virtual QPixmap * getPixmapArray();
+
+    /**
+     * a switch statement wich will set the animation mod and the min
+     * and max values for wich to index into the NPC pixmap array
+     */
+    void setNonStaticValues();
 
 public slots:
     /**

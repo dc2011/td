@@ -10,6 +10,7 @@
 #include "PixmapFiles.h"
 #include "../client/MainWindow.h"
 #include "../util/mutex_magic.h"
+#include <QGraphicsTextItem>
 
 
 #define OFFSCREEN -1000
@@ -29,20 +30,26 @@ class GraphicsComponent : public QObject {
     THREAD_SAFE_SINGLETON
 
 private:
+
     /**
      *  the pixelmapItem which is is used to draw a pixel map at a location
      **/
     QGraphicsPixmapItem* pixmapItem_;
 
+    /**
+     * @returns the pixmap array from the subclasses
+     */
+    virtual QPixmap * getPixmapArray() = 0;
+
 protected:
+
+
     /**
      * If the obect is currently moving used for animations
      */
     bool isMoving_;
-    /**
-     * container for all pixmaps
-     **/
-    QPixmap * pixmapImgs_;
+
+    QGraphicsPixmapItem * getPixmapItem() { return pixmapItem_; }
 
     /**
      * the current index for the currently drawn pixmap
@@ -123,7 +130,7 @@ public:
      * to render an image.
      * @param layer is what layer to draw image defaults to 0
      */
-    void draw(DrawParams* dp, int layer=0);
+    virtual void draw(DrawParams* dp, int layer=0);
 
     /**
      * Called from main. instantiates the QGRaphicsPixmapItem
@@ -137,12 +144,6 @@ public:
      * @author Warren Voelkl
      */
     virtual void initPixmaps() = 0;
-
-    /**
-     * returns the current pixmap image pointed to from the pixmapimg
-     * @author Warren Voelkl
-     */
-    QPixmap getCurrentPixmap();
 
 public slots:
     /**

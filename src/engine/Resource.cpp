@@ -17,18 +17,7 @@ void Resource::initComponents() {
 }
 
 void Resource::initComponents(int resourceType) {
-    QString pixmapPath;
-
-    switch (resourceType) {
-        case RESOURCE_LUMBER:   pixmapPath = PIX_RESOURCE_LUMBER;   break;
-        case RESOURCE_CRYSTAL:  pixmapPath = PIX_RESOURCE_CRYSTAL;  break;
-        case RESOURCE_OIL:      pixmapPath = PIX_RESOURCE_OIL;      break;
-        case RESOURCE_TAR:      pixmapPath = PIX_RESOURCE_TAR;      break;
-        case RESOURCE_STONE:    pixmapPath = PIX_RESOURCE_STONE;    break;
-        case RESOURCE_IRON:     pixmapPath = PIX_RESOURCE_IRON;     break;
-    }
-    GraphicsComponent* graphics = new ResourceGraphicsComponent(pixmapPath);
-
+    GraphicsComponent* graphics = new ResourceGraphicsComponent(resourceType);
     this->setGraphicsComponent(graphics);
 }
 

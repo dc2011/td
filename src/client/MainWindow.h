@@ -25,6 +25,7 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
 private:
+
     /**
      * The graphics scene which contains all the objects
      */

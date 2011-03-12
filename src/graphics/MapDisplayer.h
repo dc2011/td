@@ -27,6 +27,7 @@ private:
     Tiled::MapRenderer* mRenderer;
 };
 
+
 } // namespace td
 
 #endif // TD_MAPDISPLAYER_H 

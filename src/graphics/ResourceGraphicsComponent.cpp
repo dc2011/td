@@ -1,10 +1,16 @@
 #include "ResourceGraphicsComponent.h"
 #include "../engine/Resource.h"
+#include "../util/defines.h"
+
+
+
 
 namespace td {
 
-ResourceGraphicsComponent::ResourceGraphicsComponent(QString pixmapPath)
-        : GraphicsComponent(), pixmapPath_(pixmapPath) {
+    QPixmap * ResourceGraphicsComponent::pixmapImgs_ = 0;
+
+ResourceGraphicsComponent::ResourceGraphicsComponent(int resourceType)
+        : GraphicsComponent(), resourceType_(resourceType) {
     emit created(this);
     /* Do init-type stuff here */
 }
@@ -13,10 +19,10 @@ ResourceGraphicsComponent::~ResourceGraphicsComponent() {}
 
 void ResourceGraphicsComponent::update(GameObject* obj) {
     Resource* resource = (Resource*)obj;
-    //if (!tower->getDirtyStatus()) {//checks if object is dirty.
+    //if (!resource->getDirtyStatus()) {//checks if object is dirty.
     //    return;
     //}
-    resource->resetDirty();
+    //resource->resetDirty();
 
     DrawParams* dp = new DrawParams();
     dp->pos     = resource->getPos();
@@ -28,11 +34,36 @@ void ResourceGraphicsComponent::update(GameObject* obj) {
 }
 
 void ResourceGraphicsComponent::initPixmaps() {
-    //TODO: add animation images here
-    pixmapImgs_ = new QPixmap[PIX_RESOURCE_MAX];
+    if (pixmapImgs_) {
+        setIndexValue();
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_RESOURCE_MAX];
+    }
+
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = pixmapPath_;
-    pixmapIndex_ = 0; //sets image back to start
+    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_LUMBER;
+    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_CRYSTAL;
+    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_OIL;
+    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_TAR;
+    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_STONE;
+    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_IRON;
+    setIndexValue();
+}
+
+void ResourceGraphicsComponent::setIndexValue() {
+    switch (resourceType_) {
+        case RESOURCE_LUMBER:   pixmapIndex_ = 0;   break;
+        case RESOURCE_CRYSTAL:  pixmapIndex_ = 1;   break;
+        case RESOURCE_OIL:      pixmapIndex_ = 2;   break;
+        case RESOURCE_TAR:      pixmapIndex_ = 3;   break;
+        case RESOURCE_STONE:    pixmapIndex_ = 4;   break;
+        case RESOURCE_IRON:     pixmapIndex_ = 5;   break;
+    }
+}
+
+QPixmap * ResourceGraphicsComponent::getPixmapArray() {
+    return pixmapImgs_;
 }
 
 } /* end namespace td */

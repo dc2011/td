@@ -10,6 +10,8 @@
 
 namespace td {
 
+    QPixmap * ContextMenuGraphicsComponent::pixmapImgs_ = 0;
+
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
 
@@ -28,8 +30,12 @@ void ContextMenuGraphicsComponent::update(GameObject *) {
 }
 
 void ContextMenuGraphicsComponent::initPixmaps() {
-    //TODO: add animation images here or just single img
-    pixmapImgs_ = new QPixmap[PIX_CONTEXT_MENU_MAX];
+    if (pixmapImgs_) {
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_CONTEXT_MENU_MAX];
+    }
+
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_MAIN;
     pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_RES;
@@ -123,6 +129,10 @@ void ContextMenuGraphicsComponent::showResources(bool show) {
     scaleFactor_ = 1;
 
     update(NULL);
+}
+
+QPixmap * ContextMenuGraphicsComponent::getPixmapArray() {
+    return pixmapImgs_;
 }
 
 } /* end namespace td */
