@@ -114,15 +114,15 @@ void NPCPhysicsComponent::applyDirection(NPC* npc)
 {
     int angle = 0;
     int degree = 0;
-    int velX = npc->getVelocity().x();
-    int velY = npc->getVelocity().y();
+    float velX = npc->getVelocity().x();
+    float velY = npc->getVelocity().y();
 
     if (velX == 0 && velY == 0) {
         return;
     }
 
     if (qAbs(velX) >= qAbs(velY)) {
-        angle = atan(velY / (float)velX) * (180 / PI);
+        angle = atan(velY / velX) * (180 / PI);
 
         if (velX > 0) {
             if (velY == 0) {
@@ -148,7 +148,7 @@ void NPCPhysicsComponent::applyDirection(NPC* npc)
             }
         }
     } else if (qAbs(velY) > qAbs(velX)) {
-        angle = atan(velX / (float) velY) * (180 / PI);
+        angle = atan(velX / velY) * (180 / PI);
 
         if (velY < 0) {
             if (velX == 0) {

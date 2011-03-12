@@ -1,9 +1,8 @@
 #include "CDriver.h"
-#include "GameInfo.h"
-#include "../graphics/PixmapFiles.h"
-#include "../network/netclient.h"
-#include "../network/stream.h"
+#include <map.h>
+#include <tile.h>
 #include "ContextMenu.h"
+#include "GameInfo.h"
 #include "GameObject.h"
 #include "Map.h"
 #include "NPC.h"
@@ -12,10 +11,11 @@
 #include "ResManager.h"
 #include "Tower.h"
 #include "Unit.h"
-#include <map.h>
-#include <tile.h>
 #include "../client/MainWindow.h"
 #include "../graphics/MapDisplayer.h"
+#include "../graphics/PixmapFiles.h"
+#include "../network/netclient.h"
+#include "../network/stream.h"
 #include "../util/defines.h"
 
 namespace td {
@@ -62,8 +62,8 @@ void CDriver::disconnectFromServer() {
 void CDriver::updateServer(GameObject* obj) {
     Stream* updates = new Stream();
     if(CDriver::instance()->isSinglePlayer() == true) {
-	delete updates;
-	return;
+        delete updates;
+        return;
     }
     if (obj->getID() == 0xFFFFFFFF) {
         return;
@@ -106,7 +106,7 @@ void CDriver::readObject(Stream* s) {
 void CDriver::destroyObjSync(int id) {
     Stream* out = new Stream();
     if(mgr_->findObject(id) == NULL) {
-	return;
+        return;
     }
     mgr_->deleteObject(id);
     out->writeInt(id);
@@ -115,7 +115,7 @@ void CDriver::destroyObjSync(int id) {
 
 void CDriver::destroyObjLocal(int id) {
     if(mgr_->findObject(id) == NULL) {
-	return;
+        return;
     }
     mgr_->deleteObject(id);
 }
@@ -138,12 +138,14 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     connect(physics, SIGNAL(requestTileType(double, double, int*)), 
             gameMap_, SLOT(getTileType(double, double, int*)));
     // NPC -> Player effect
-    QObject::connect(physics, SIGNAL(NPCPlayerCollided(Effect::EffectType)), human_, SLOT(createEffect(Effect::EffectType)));
+    connect(physics, SIGNAL(NPCPlayerCollided(Effect::EffectType)), 
+            human_, SLOT(createEffect(Effect::EffectType)));
     if(isSinglePlayer() == true) {
-	mgr_->createObject(Player::clsIdx());
+        mgr_->createObject(Player::clsIdx());
     } else {
-	request->writeByte(Player::clsIdx());
-	NetworkClient::instance()->send(network::kRequestPlayerID, request->data());
+        request->writeByte(Player::clsIdx());
+        NetworkClient::instance()->send(network::kRequestPlayerID, 
+                                        request->data());
     }
     delete request;
 }
@@ -188,8 +190,7 @@ void CDriver::createProjectile(){
     input->setPath(start, end);
     projectile_->setInputComponent(input);
 
-    connect(gameTimer_,   SIGNAL(timeout()),
-            projectile_,       SLOT(update()));
+    connect(gameTimer_,  SIGNAL(timeout()), projectile_, SLOT(update()));
 }
 
 void CDriver::createTower(int towerType, QPointF pos) {
@@ -205,10 +206,11 @@ void CDriver::createTower(int towerType, QPointF pos) {
 
     connect(gameTimer_, SIGNAL(timeout()), tower_, SLOT(update()));
     if(isSinglePlayer() == true) {
-	mgr_->createObject(Tower::clsIdx());
+        mgr_->createObject(Tower::clsIdx());
     } else {
-	request->writeByte(Tower::clsIdx());
-	NetworkClient::instance()->send(network::kRequestTowerID, request->data());
+        request->writeByte(Tower::clsIdx());
+        NetworkClient::instance()->send(network::kRequestTowerID, 
+                                        request->data());
     }
     delete request;
 }
@@ -221,8 +223,8 @@ void CDriver::startGame(bool singlePlayer) {
     QQueue<QString> musicList;
 
     if(singlePlayer == false) {
-	connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
-		this, SLOT(UDPReceived(Stream*)));
+        connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
+		        this, SLOT(UDPReceived(Stream*)));
     }
     setSinglePlayer(singlePlayer);
 
@@ -266,9 +268,11 @@ void CDriver::endGame() {
 bool CDriver::isSinglePlayer() {
     return singlePlayer_;
 }
+
 void CDriver::setSinglePlayer(bool singlePlayer) {
     singlePlayer_ = singlePlayer;
 }
+
 void CDriver::handleSpacebarPress() {
     Tile* currentTile = gameMap_->getTile(human_->getPos());
 
@@ -310,8 +314,8 @@ void CDriver::UDPReceived(Stream* s) {
             mgr_->addExistingObject(human_);
             break;
         case network::kRequestTowerID:
-	    tower_->setID(Tower::clsIdx());
-	    tower_->initComponents();
+	        tower_->setID(Tower::clsIdx());
+	        tower_->initComponents();
             mgr_->addExistingObject(tower_);
             break;
         case network::kAssignPlayerID:
@@ -324,17 +328,17 @@ void CDriver::UDPReceived(Stream* s) {
             break;
         case network::kAssignTowerID:
             if(tower_->getID() == 0xFFFFFFFF) {
-              tower_->setID(s->readInt());
-	      tower_->initComponents();
-              mgr_->addExistingObject(tower_);
+                tower_->setID(s->readInt());
+	            tower_->initComponents();
+                mgr_->addExistingObject(tower_);
             }
             break;
         case network::kServerDestroyObj:
-	{
-	    int id = s->readInt();
-	    destroyObjLocal(id);
-	    break;
-	}
+        {  
+	        int id = s->readInt();
+	        destroyObjLocal(id);
+	        break;
+        }
         default:
             this->readObject(s);
             break;
