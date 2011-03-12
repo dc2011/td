@@ -49,10 +49,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
-
-
     scene_->addItem(gc->initGraphicsComponent());
-
 }
 
 void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc, int layer) {
@@ -63,7 +60,6 @@ void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc, int layer) {
 void MainWindow::keyHeld()
 {
 
-    //do nothing if different directions held
     if(keysHeld_ & KEYUP && keysHeld_ & KEYDOWN) {
         emit signalKeyReleased(Qt::Key_Up);
         emit signalKeyReleased(Qt::Key_Down);

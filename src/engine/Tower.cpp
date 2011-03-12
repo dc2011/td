@@ -5,6 +5,16 @@
 #include "Effect.h"
 #include "../util/defines.h"
 
+/**
+// based on the number keys used to select the tower
+#define TOWER_ARROW     49
+#define TOWER_CANNON    50
+#define TOWER_FLAME     51
+#define TOWER_TAR       52
+#define TOWER_FLAK      53
+ */
+
+
 namespace td {
 
 void Tower::update() {
@@ -27,21 +37,7 @@ void Tower::initComponents() {
 }
 
 void Tower::initComponents(int towerType) {
-    QString pixmapPath;
-
-    switch (towerType) {
-        case TOWER_ARROW:   pixmapPath = PIX_TOWER_ARROW;   break;
-        case TOWER_CANNON:  pixmapPath = PIX_TOWER_CANNON;  break;
-        case TOWER_TAR:     pixmapPath = PIX_TOWER_TAR;     break;
-        case TOWER_FLAME:   pixmapPath = PIX_TOWER_FLAME;   break;
-        case TOWER_FLAK:    pixmapPath = PIX_TOWER_FLAK;    break;
-    }
-    PhysicsComponent* physics = new TowerPhysicsComponent();
-
-    this->setPhysicsComponent(physics);
-
-    GraphicsComponent* graphics = new TowerGraphicsComponent(pixmapPath);
-
+    GraphicsComponent* graphics = new TowerGraphicsComponent(towerType);
     this->setGraphicsComponent(graphics);
 }
 

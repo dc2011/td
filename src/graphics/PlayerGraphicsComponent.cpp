@@ -38,7 +38,7 @@ void PlayerGraphicsComponent::initPixmaps() {
     label_ = new QGraphicsTextItem(QString("Warren Master Of The Universe"));
 
     label_->setDefaultTextColor (QColor(0,255,0));
-    CDriver::instance()->getMainWindow()->scene_->addItem(label_);
+    CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
 
     if (pixmapImgs_) {
         return;
@@ -62,18 +62,15 @@ void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
     QPointF center = getPixmapItem()->boundingRect().center();
 
     getPixmapItem()->resetMatrix();//important
-    //getPixmapItem()->translate(center.x(), center.y());
     getPixmapItem()->setTransformOriginPoint(center);
-    getPixmapItem()->setScale(dp->scale);
-    getPixmapItem()->rotate(dp->degrees * -1);
-
+    //getPixmapItem()->setScale(dp->scale);
+    getPixmapItem()->rotate(-dp->degrees);
     getPixmapItem()->translate(-center.x(), -center.y());
-    //getPixmapItem()->setTransformOriginPoint(-center.x(), -center.y());
+
     getPixmapItem()->setPos(dp->pos);
     getPixmapItem()->setZValue(layer);
-    isMoving_ = dp->moving;
 
-    center = label_->boundingRect().center();
+    isMoving_ = dp->moving;
     //dp->pos.setX(dp->pos + (int)center.x);
     label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
                    dp->pos.y() - getPixmapItem()->boundingRect().height());

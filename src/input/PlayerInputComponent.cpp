@@ -22,15 +22,8 @@ void PlayerInputComponent::processDirectionKey(int eventType, int key) {
     QVector2D velo = parent_->getVelocity();
 
     if(menuIsOpen_) {
-	force.setX(0);
-	force.setY(0);
-	velo.setX(0);
-	velo.setY(0);
-	parent_->setVelocity(velo);
-	parent_->setForce(force);
 	return;
     }
-
     
     switch (key) {
         case Qt::Key_Up:
@@ -65,6 +58,17 @@ void PlayerInputComponent::keyReleased(int key) {
 }
 
 void PlayerInputComponent::playerMovement(bool move) {
+
+    QVector2D force = parent_->getForce();
+    QVector2D velo = parent_->getVelocity();
+        
+    force.setX(0);
+    force.setY(0);
+    velo.setX(0);
+    velo.setY(0);
+    parent_->setVelocity(velo);
+    parent_->setForce(force);
+    
     menuIsOpen_ = move;
 }
 
