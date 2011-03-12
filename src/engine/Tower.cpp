@@ -26,9 +26,6 @@ void Tower::update() {
 #ifndef SERVER
     CDriver::updateServer(this);
 #endif
-    graphics_->update(this);
-    //physics_->update(this);
-
 }
 
 void Tower::initComponents() {
@@ -37,6 +34,7 @@ void Tower::initComponents() {
 }
 
 void Tower::initComponents(int towerType) {
+
     PhysicsComponent* physics = new TowerPhysicsComponent();
     this->setPhysicsComponent(physics);
 

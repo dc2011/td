@@ -7,7 +7,9 @@
 
 namespace td {
 
-TowerPhysicsComponent::TowerPhysicsComponent() {
+TowerPhysicsComponent::TowerPhysicsComponent(size_t fireInterval)
+        : fireInterval_(fireInterval) {
+    fireCountdown_ = 0;
     enemy_ = 0;
     enemies_ = QSet<Unit*>();
 }
@@ -16,6 +18,7 @@ TowerPhysicsComponent::~TowerPhysicsComponent() {}
 
 void TowerPhysicsComponent::update(GameObject *tower) {
     this->applyDirection((Tower*)tower);
+    this->fire();
 }
 
 void TowerPhysicsComponent::findTargets(GameObject* tower, int radius) {
@@ -47,6 +50,19 @@ void TowerPhysicsComponent::findTargets(GameObject* tower, int radius) {
             }
         }
     }
+}
+
+void TowerPhysicsComponent::fire() {
+    if (fireCountdown_ != 0) {
+        fireCountdown_--;
+        return;
+    }
+    if (getEnemy() == NULL) {
+        return;
+    }
+
+    qDebug("TowerPhysicsComponent::fire();");
+    fireCountdown_ = fireInterval_;
 }
 
 void TowerPhysicsComponent::applyDirection(GameObject* tower) {
