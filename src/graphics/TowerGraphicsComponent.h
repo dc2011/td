@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QPointF>
 #include "GraphicsComponent.h"
+#include "./util/defines.h"
 
 namespace td {
 
@@ -18,7 +19,7 @@ public:
      * Instantiates a Tower graphics component
      * @author Warren Voelkl
      */
-    TowerGraphicsComponent(QString pixmapPath);
+    TowerGraphicsComponent(int towerType);
     virtual ~TowerGraphicsComponent();
 
     /**
@@ -37,11 +38,23 @@ public:
     virtual void initPixmaps();
 
 private:
-    /** 
-     * TODO: remove, hack to get multiple towers working until Warren figures
-     * out the static image issue. 
+    /** The current image for this graphics component  */
+    int towerType_;
+    /** container for all pixmaps which pertain to the current object */
+    static QPixmap * pixmapImgs_;
+
+    /**
+     * @returns the pixmap array from the current graphics object
+     * @author Warren Voelkl
      */
-    QString pixmapPath_;
+    virtual QPixmap * getPixmapArray();
+
+    /**
+     * Sets the appropriate index for the selected tower so the correct
+     * image is displayed from the pixmaparray
+     * @author Warren Voelkl
+     */
+    void setIndexValue();
 };
 
 } /* end namespace td */
