@@ -16,9 +16,6 @@ void Tower::update() {
 #ifndef SERVER
     CDriver::updateServer(this);
 #endif
-    graphics_->update(this);
-    //physics_->update(this);
-
 }
 
 void Tower::initComponents() {
@@ -28,20 +25,35 @@ void Tower::initComponents() {
 
 void Tower::initComponents(int towerType) {
     QString pixmapPath;
+    size_t fireInterval;
 
     switch (towerType) {
-        case TOWER_ARROW:   pixmapPath = PIX_TOWER_ARROW;   break;
-        case TOWER_CANNON:  pixmapPath = PIX_TOWER_CANNON;  break;
-        case TOWER_TAR:     pixmapPath = PIX_TOWER_TAR;     break;
-        case TOWER_FLAME:   pixmapPath = PIX_TOWER_FLAME;   break;
-        case TOWER_FLAK:    pixmapPath = PIX_TOWER_FLAK;    break;
+        case TOWER_ARROW:   
+            pixmapPath = PIX_TOWER_ARROW;
+            fireInterval = FIRE_INTERVAL_ARROW;
+            break;
+        case TOWER_CANNON:  
+            pixmapPath = PIX_TOWER_CANNON;
+            fireInterval = FIRE_INTERVAL_CANNON;
+            break;
+        case TOWER_TAR:     
+            pixmapPath = PIX_TOWER_TAR;     
+            fireInterval = FIRE_INTERVAL_TAR;
+            break;
+        case TOWER_FLAME:   
+            pixmapPath = PIX_TOWER_FLAME;   
+            fireInterval = FIRE_INTERVAL_FLAME;
+            break;
+        case TOWER_FLAK:    
+            pixmapPath = PIX_TOWER_FLAK;    
+            fireInterval = FIRE_INTERVAL_FLAK;
+            break;
     }
-    PhysicsComponent* physics = new TowerPhysicsComponent();
-
+    
+    PhysicsComponent* physics = new TowerPhysicsComponent(fireInterval);
     this->setPhysicsComponent(physics);
 
     GraphicsComponent* graphics = new TowerGraphicsComponent(pixmapPath);
-
     this->setGraphicsComponent(graphics);
 }
 

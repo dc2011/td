@@ -17,7 +17,7 @@ class TowerPhysicsComponent: public PhysicsComponent {
     Q_OBJECT
 
 public:
-    TowerPhysicsComponent();
+    TowerPhysicsComponent(size_t fireInterval);
     virtual ~TowerPhysicsComponent();
 
     /**
@@ -54,6 +54,13 @@ public:
         enemies_ = map->getUnits(tower->getPos().x() ,tower->getPos().y() , radius);
     }
 
+    /**
+     * Checks to see if the tower can fire, and creates a projectile if it can.
+     *
+     * @author Dean Morin
+     */
+    void fire();
+
     QSet<Unit*> getNPCs() {
         return enemies_;
     }
@@ -66,9 +73,13 @@ public:
         return enemy_;
     }
 
-
 private:
-    /* data */
+    /** The number of ticks beween each shot. */
+    size_t fireInterval_;
+
+    /** Number of game timer ticks before this tower can fire a projectile. */
+    size_t fireCountdown_;
+
     QSet<Unit*> enemies_;
     Unit* enemy_;
 };
