@@ -49,8 +49,6 @@ protected:
      */
     bool isMoving_;
 
-    QGraphicsPixmapItem * getPixmapItem() { return pixmapItem_; }
-
     /**
      * the current index for the currently drawn pixmap
      **/
@@ -95,12 +93,12 @@ protected:
 
 public:
     /**
-     * This generic class does  not need to be implemented if there are no animations
      * This is were all animation logic will be implemented
+     *
      * @author Warren Voelkl
      */
+    virtual void animate() {}
 
-    virtual void animate();
     /**
      * Sets up the necessary signals and slots to create the 
      * QGraphicsPixmapItem for this component in the rendering thread. This
@@ -111,6 +109,14 @@ public:
     GraphicsComponent();
 
     virtual ~GraphicsComponent();
+    
+    /**
+     * Safely deletes the graphics component. It must be deleted after all
+     * events related to it are cleared from the graphics thread event queue.
+     * 
+     * @author Dean Morin
+     */
+    void deleteComponent();
 
     /**
      * TODO for each GraphicsComponensts update function
@@ -145,6 +151,22 @@ public:
      */
     virtual void initPixmaps() = 0;
 
+    /**
+     * returns the current pixmap image pointed to from the pixmapimg
+     * @author Warren Voelkl
+     */
+    QPixmap getCurrentPixmap();
+    
+    /**
+     * Gets the graphics item that can only be changed in the graphics thread.
+     *
+     * @author Dean Morin
+     * @return The graphics item used by this object.
+     */
+    QGraphicsPixmapItem* getPixmapItem() {
+        return pixmapItem_;
+    }
+
 public slots:
     /**
      * emits a signal to the gui thread when a timer has ticked
@@ -156,6 +178,7 @@ signals:
     void created(GraphicsComponent* gc);
     void signalDraw(DrawParams* dp, GraphicsComponent* gc, int layer);
     void signalAnimateTick(GraphicsComponent * gc);
+    void removeGraphicsItem(GraphicsComponent* gc);
 };
 
 } /* end namespace td */

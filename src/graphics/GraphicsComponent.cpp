@@ -2,6 +2,8 @@
 #include <math.h>
 #include "../engine/GameObject.h"
 #include "../engine/CDriver.h"
+#include "../util/DelayedDelete.h"
+
 namespace td {
 
 QMutex GraphicsComponent::mutex_;
@@ -16,17 +18,23 @@ GraphicsComponent::GraphicsComponent() : pixmapIndex_(0) {
             mainWindow, SLOT(drawItem(DrawParams*, GraphicsComponent*, int)));
     connect(this, SIGNAL(signalAnimateTick(GraphicsComponent*)),
             mainWindow, SLOT(animateItem(GraphicsComponent*)));
+    connect(this, SIGNAL(removeGraphicsItem(GraphicsComponent*)),
+            mainWindow, SLOT(removeGraphicRepr(GraphicsComponent*)));
 
     isMoving_ = 0;
 }
 
 GraphicsComponent::~GraphicsComponent() {
-    disconnect(this, SLOT(onTimerTick()));
-    delete(pixmapItem_);
+    delete pixmapItem_;
 }
 
 void GraphicsComponent::create() {
     emit created(this);
+}
+
+void GraphicsComponent::deleteComponent() {
+    animateDisconnect();
+    emit removeGraphicsItem(this);
 }
 
 void GraphicsComponent::draw(DrawParams* dp, int layer) {
@@ -67,10 +75,6 @@ void GraphicsComponent::animateConnect() {
 void GraphicsComponent::animateDisconnect() {
     disconnect(CDriver::getTimer(),
                SIGNAL(timeout()), this, SLOT(onTimerTick()));
-}
-
-void GraphicsComponent::animate() {
-    //generic this does not animate.
 }
 
 void GraphicsComponent::setImgIndex(int index) {
