@@ -46,8 +46,6 @@ protected:
      */
     bool isMoving_;
 
-    QGraphicsPixmapItem * getPixmapItem() { return pixmapItem_; }
-
     /**
      * the current index for the currently drawn pixmap
      **/
