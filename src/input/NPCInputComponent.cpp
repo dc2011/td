@@ -8,19 +8,9 @@
 namespace td {
 
 NPCInputComponent::NPCInputComponent() {
-    // initialize segment with first two waypoints
-    /*
-    waypoints_ = QList<QPointF>();
-    waypoints_.push_back(QPointF(50,50));
-    waypoints_.push_back(QPointF(885,99));
-    waypoints_.push_back(QPointF(136,99));
-    waypoints_.push_back(QPointF(100,529));
-    waypoints_.push_back(QPointF(430, 534));
-    waypoints_.push_back(QPointF(718, 385));
-    */
-    
-    waypoints_ = CDriver::instance()->getGameMap()->getWaypoints(WP_PTERO);
     nextDest_ = 0;
+
+    waypoints_ = CDriver::instance()->getGameMap()->getWaypoints(WP_PTERO);
     segment_ =  QLineF(waypoints_.at(nextDest_).x(),
                        waypoints_.at(nextDest_).y(),
                        waypoints_.at(nextDest_ + 1).x(),
@@ -62,7 +52,9 @@ void NPCInputComponent::nextDestination() {
         segment_.setP2(waypoints_.at(nextDest_++));
     } else if (segment_.length() < maxValue 
             && nextDest_ >= waypoints_.length()) {
-       emit deleteUnitLater(parent_);  
+        disconnect(CDriver::getTimer(), SIGNAL(timeout()),
+                parent_, SLOT(update()));
+        emit deleteUnitLater(parent_);  
     }
 }
 
