@@ -41,7 +41,7 @@ private:
     /** List of waypoints that the NPC must travel. */
     QList<QPointF> waypoints_;
     /** The waypoint that the NPC is currently travelling towards. */
-    size_t nextDest_;
+    int nextDest_;
     /** Counter used to regulate length of time the force is applied. */
     size_t forceCounter_;
 };
