@@ -2,9 +2,6 @@
 #include "../engine/Resource.h"
 #include "../util/defines.h"
 
-
-
-
 namespace td {
 
 QPixmap * ResourceGraphicsComponent::pixmapImgs_ = 0;

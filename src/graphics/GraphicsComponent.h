@@ -67,7 +67,7 @@ public:
      * 
      * @author Dean Morin
      */
-    void deleteComponent();
+    virtual void deleteComponent();
 
     /**
      * This is were all animation logic will be implemented

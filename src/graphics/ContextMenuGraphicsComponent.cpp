@@ -14,7 +14,6 @@ namespace td {
 
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
-
     emit created(this);
     connect(&closeTimer_, SIGNAL(timeout()), this, SLOT(hideSelectMenu()));
 }
