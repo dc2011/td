@@ -18,11 +18,11 @@
 #define TOWER_FLAK      53
 
 // how often the tower type can fire (in game ticks)
-#define FIRE_INTERVAL_ARROW     20
-#define FIRE_INTERVAL_CANNON    120
-#define FIRE_INTERVAL_FLAME     240
-#define FIRE_INTERVAL_TAR       80
-#define FIRE_INTERVAL_FLAK      5
+#define FIRE_INTERVAL_ARROW     45
+#define FIRE_INTERVAL_CANNON    200
+#define FIRE_INTERVAL_FLAME     300
+#define FIRE_INTERVAL_TAR       135
+#define FIRE_INTERVAL_FLAK      15
 
 //Tile action types specifying action for spacebar
 #define TILE_REGULAR    0

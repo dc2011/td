@@ -29,23 +29,23 @@ void Tower::initComponents(int towerType) {
     switch (towerType) {
 
         case TOWER_ARROW:
-            setPhysicsComponent(new ArrowTowerPhysicsComponent());
+            setPhysicsComponent(new ArrowTowerPhysicsComponent(this));
             //setGraphicsComponent(new ArrowTowerGraphicsComponent());
             break;
         case TOWER_CANNON:
-            setPhysicsComponent(new CannonTowerPhysicsComponent());
+            setPhysicsComponent(new CannonTowerPhysicsComponent(this));
             //setGraphicsComponent(new CannonTowerGraphicsComponent());
             break;
         case TOWER_FLAME:
-            setPhysicsComponent(new FlameTowerPhysicsComponent());
+            setPhysicsComponent(new FlameTowerPhysicsComponent(this));
             //setGraphicsComponent(new FlameTowerGraphicsComponent());
             break;
         case TOWER_TAR:
-            setPhysicsComponent(new TarTowerPhysicsComponent());
+            setPhysicsComponent(new TarTowerPhysicsComponent(this));
             //setGraphicsComponent(new TarTowerGraphicsComponent());
             break;
         case TOWER_FLAK:
-            setPhysicsComponent(new FlakTowerPhysicsComponent());
+            setPhysicsComponent(new FlakTowerPhysicsComponent(this));
             //setGraphicsComponent(new FlakTowerGraphicsComponent());
             break;
     }

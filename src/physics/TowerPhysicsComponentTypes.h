@@ -9,7 +9,7 @@ class ArrowTowerPhysicsComponent : public TowerPhysicsComponent {
     Q_OBJECT
 
 public:
-    ArrowTowerPhysicsComponent();
+    ArrowTowerPhysicsComponent(Tower* tower);
     virtual ~ArrowTowerPhysicsComponent() { }
 };
 
@@ -17,7 +17,7 @@ class CannonTowerPhysicsComponent : public TowerPhysicsComponent {
     Q_OBJECT
 
 public:
-    CannonTowerPhysicsComponent();
+    CannonTowerPhysicsComponent(Tower* tower);
     virtual ~CannonTowerPhysicsComponent() { }
 };
 
@@ -25,7 +25,7 @@ class FlameTowerPhysicsComponent : public TowerPhysicsComponent {
     Q_OBJECT
 
 public:
-    FlameTowerPhysicsComponent();
+    FlameTowerPhysicsComponent(Tower* tower);
     virtual ~FlameTowerPhysicsComponent() { }
 };
 
@@ -33,7 +33,7 @@ class TarTowerPhysicsComponent : public TowerPhysicsComponent {
     Q_OBJECT
 
 public:
-    TarTowerPhysicsComponent();
+    TarTowerPhysicsComponent(Tower* tower);
     virtual ~TarTowerPhysicsComponent() { }
 };
 
@@ -41,7 +41,7 @@ class FlakTowerPhysicsComponent : public TowerPhysicsComponent {
     Q_OBJECT
 
 public:
-    FlakTowerPhysicsComponent();
+    FlakTowerPhysicsComponent(Tower* tower);
     virtual ~FlakTowerPhysicsComponent() { }
 };
 

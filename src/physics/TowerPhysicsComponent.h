@@ -17,7 +17,7 @@ class TowerPhysicsComponent: public PhysicsComponent {
     Q_OBJECT
 
 public:
-    TowerPhysicsComponent(size_t fireInterval);
+    TowerPhysicsComponent(Tower* tower, size_t fireInterval);
     virtual ~TowerPhysicsComponent();
 
     /**
@@ -73,6 +73,12 @@ public:
         return enemy_;
     }
 
+private:
+    /** The tower that this component defines. */
+    Tower* tower_;
+    QSet<Unit*> enemies_;
+    Unit* enemy_;
+    
 protected:
     /** The number of ticks beween each shot. */
     size_t fireInterval_;
@@ -80,9 +86,16 @@ protected:
     /** Number of game timer ticks before this tower can fire a projectile. */
     size_t fireCountdown_;
 
-private:
-    QSet<Unit*> enemies_;
-    Unit* enemy_;
+signals:
+    /**
+     * Connected to the createProjectile() slot in CDriver.
+     *
+     * @author Dean Morin
+     * @param source The position of the tower firing the projectile.
+     * @param target The current position of the enemy that the tower has 
+     * tageted.
+     */
+    void fireProjectile(QPointF source, QPointF target);
 };
 
 } /* end namespace td */
