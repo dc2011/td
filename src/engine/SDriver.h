@@ -11,11 +11,13 @@
 #include "Player.h"
 #include "../network/netserver.h"
 #include "../network/stream.h"
+#include "../util/mutex_magic.h"
 
 namespace td {
 
 class SDriver : public QObject {
     Q_OBJECT 
+    THREAD_SAFE_SINGLETON
 
 private:
     QTimer* waveTimer_;
@@ -25,6 +27,8 @@ public:
     // ctors and dtors
     SDriver();
     virtual ~SDriver();
+
+    void addPlayer(QTcpSocket* sock, QString nickname);
 
     /**
      * Starts game timer, initializes network server instance,
@@ -70,13 +74,14 @@ public slots:
      * @author Duncan Donaldson
      */
     void spawnWave();
+
     /**
      * Handles a UDP packet receive by updating a currently existing player
      * or adding the player to the players list if the player does not exist.
      * 
      * @author Duncan Donaldson
      */
-    void onUDPReceive(Stream* s);
+    void onMsgReceive(Stream* s);
 };
 
 } /* end namespace td */

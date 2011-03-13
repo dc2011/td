@@ -35,7 +35,6 @@ NetworkServer* NetworkServer::init()
     netthread_ = new Thread();
     instance_->moveToThread(netthread_);
     instance_->udpSocket_->moveToThread(netthread_);
-    //instance_->tcpSocket_->moveToThread(netthread_);
     netthread_->start();
     return instance_;
 }
@@ -59,8 +58,19 @@ void NetworkServer::onMsgQueued()
     if (isUDP) {
         udpSocket_->writeDatagram(tmp, TD_GROUP, TD_PORT);
     } else {
-        //tcpSocket_->write(tmp);
+        foreach (QTcpSocket* sock, tcpSockets_) {
+            sock->write(tmp);
+        }
     }
+}
+
+void NetworkServer::onTCPReceive()
+{
+    QTcpSocket* sock = (QTcpSocket*)QObject::sender();
+    QByteArray data = sock->readAll();
+    Stream* s = new Stream(data);
+
+    emit msgReceived(s);
 }
 
 void NetworkServer::onUDPReceive()
@@ -70,7 +80,7 @@ void NetworkServer::onUDPReceive()
     udpSocket_->readDatagram(datagram.data(), datagram.size());
     Stream* s = new Stream(datagram);
 
-    emit UDPReceived(s);
+    emit msgReceived(s);
 }
 
 } /* end namespace td */

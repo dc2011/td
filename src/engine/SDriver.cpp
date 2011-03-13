@@ -4,13 +4,20 @@
 #include <QVector>
 #include <QWidget>
 #include "NPC.h"
+#include "Player.h"
 #include "SDriver.h"
 
 namespace td {
 
+QMutex SDriver::mutex_;
+
 SDriver::SDriver() {
     waveTimer_ = new QTimer(this);
     mgr_ = new ResManager();
+
+    NetworkServer::init();
+    connect(NetworkServer::instance(), SIGNAL(msgReceived(Stream*)), 
+		    this, SLOT(onMsgReceive(Stream*)));
 }
 
 SDriver::~SDriver() {
@@ -18,11 +25,16 @@ SDriver::~SDriver() {
     delete mgr_;
 }
 
-void SDriver::startGame() {
-    NetworkServer::init();
-    connect(NetworkServer::instance(), SIGNAL(UDPReceived(Stream*)), 
-		    this, SLOT(onUDPReceive(Stream*)));
+void SDriver::addPlayer(QTcpSocket* sock, QString nickname) {
+    mutex_.lock();
+    NetworkServer::instance()->addConnection(sock);
 
+    Player* p = (Player*)mgr_->createObject(Player::clsIdx());
+    p->setNickname(nickname);
+    mutex_.unlock();
+}
+
+void SDriver::startGame() {
     this->waveTimer_->start(15000);
     connect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 }
@@ -65,7 +77,7 @@ void SDriver::spawnWave() {
 	    delete out;
     }
 }
-void SDriver::onUDPReceive(Stream* s) {
+void SDriver::onMsgReceive(Stream* s) {
     int message = s->readByte(); /* Message Type */
     GameObject* go = NULL;
     Stream* out = new Stream();

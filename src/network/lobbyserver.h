@@ -13,7 +13,7 @@
 
 namespace td {
 
-class LobbyServer : public QObject
+class LobbyServer : public QTcpServer
 {
     Q_OBJECT
     THREAD_SAFE_SINGLETON
@@ -27,7 +27,6 @@ private:
      */
     static LobbyServer* instance_;
 
-    QTcpServer* tcpServer_;
     unsigned int connCount_;
 
     /**
@@ -78,8 +77,15 @@ protected:
 
     void startGame();
 
+    /**
+     * Reimplement and override the default QTcpServer connection behaviour.
+     *
+     * @author Darryl Pogue
+     * @param socketDescriptor The descriptor of the connected socket.
+     */
+    virtual void incomingConnection(int socketDescriptor);
+
 private slots:
-    void handleNewConnection();
     void readSocket();
     void disconnected();
 };

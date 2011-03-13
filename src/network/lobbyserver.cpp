@@ -10,23 +10,16 @@ namespace td {
 LobbyServer* LobbyServer::instance_ = NULL;
 QMutex LobbyServer::mutex_;
 
-LobbyServer::LobbyServer(QObject* parent) : QObject(parent), connCount_(0)
+LobbyServer::LobbyServer(QObject* parent) : QTcpServer(parent), connCount_(0)
 {
-    tcpServer_ = new QTcpServer();
-    tcpServer_->listen(QHostAddress::Any, TD_PORT);
-
+    this->listen(QHostAddress::Any, TD_PORT);
     qDebug() << "Server is listening for connections";
-
-    connect(tcpServer_, SIGNAL(newConnection()),
-            this, SLOT(handleNewConnection()));
 
     SAFE_OPERATION(instance_ = this)
 }
 
 LobbyServer::~LobbyServer()
 {
-    delete tcpServer_;
-
     SAFE_OPERATION(instance_ = NULL)
 }
 
@@ -82,7 +75,7 @@ void LobbyServer::startGame() {
         conn->moveToThread(gamethread);
 
         QString nick = clients_[conn];
-        //sd->addPlayer(conn, nick);
+        sd->addPlayer(conn, nick);
     }
     clients_.clear();
     connCount_ = 0;
@@ -92,12 +85,10 @@ void LobbyServer::startGame() {
     gamethread->start();
 }
 
-void LobbyServer::handleNewConnection()
+void LobbyServer::incomingConnection(int socketDescriptor)
 {
-    QTcpSocket* conn = tcpServer_->nextPendingConnection();
-    if (conn == NULL) {
-        return;
-    }
+    QTcpSocket* conn = new QTcpSocket();
+    conn->setSocketDescriptor(socketDescriptor);
 
     qDebug() << "Hi, I'm a server! Who are you?" <<
                 conn->peerAddress().toString();

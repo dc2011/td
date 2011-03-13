@@ -22,11 +22,9 @@ namespace td
 
 class NetworkServer : public QObject {
     Q_OBJECT
-
     THREAD_SAFE_SINGLETON
 
 private:
-
     /**
      * The static singleton instance of the NetworkServer.
      *
@@ -46,9 +44,9 @@ private:
     QQueue<QByteArray> msgQueue_; 
 
     /**
-     * The tcpSocket listening on the server.
-     */         
-    QTcpSocket* tcpSocket_;
+     * A list of all the TCP connections.
+     */
+    QList<QTcpSocket*> tcpSockets_;
      
     /**
      * The udpSocket listening on the server.
@@ -83,7 +81,7 @@ signals:
      * Signal emitted when a packet is read from UDP.
      * This is used to notify the driver that a packet has been received.
      */
-    void UDPReceived(Stream* s);
+    void msgReceived(Stream* s);
 
 private slots:
     /**
@@ -94,6 +92,15 @@ private slots:
      * @author Terence Stenvold
      */
     void onMsgQueued();
+
+    /**
+     * Called when data is received by the TCP socket, parses the data and
+     * distributes it to the correct object.
+     *
+     * @author Kelvin Lui
+     * @author Darryl Pogue
+     */
+    void onTCPReceive();
 
     /**
      * Called when data is received by the UDP socket, parses the data and
@@ -152,6 +159,17 @@ public:
         SAFE_OPERATION(msgQueue_.enqueue(msg.prepend(msgType)))
 
         emit msgQueued();
+    }
+
+    /**
+     * Adds the specified socket to the list of connected sockets.
+     *
+     * @author Darryl Pogue
+     * @param conn The socket connection to be added.
+     */
+    void addConnection(QTcpSocket* conn) {
+        connect(conn, SIGNAL(readyRead()), this, SLOT(onTCPReceive()));
+        SAFE_OPERATION(tcpSockets_.append(conn))
     }
 };
 
