@@ -99,9 +99,6 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         case Qt::Key_Space:
             emit signalSpacebarPressed();
             break;
-        case Qt::Key_F:
-            emit signalFPressed();
-            break;
         case Qt::Key_R:
             emit signalAltHeld(true);
             break;

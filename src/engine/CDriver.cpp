@@ -171,10 +171,6 @@ NPC* CDriver::createNPC() {
     return npc;
 }
 
-void CDriver::createProjectile() {
-//    CDriver::createProjectile(tower_, end);
-}
-
 void CDriver::createProjectile(QPointF source, QPointF target) {
     if (!tower_) {
         return;
@@ -257,10 +253,6 @@ void CDriver::startGame(bool singlePlayer) {
     /* TODO: alter temp solution */
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
             this,         SLOT(createTower(int, QPointF)));
-
-    /* TODO: Remove this */
-    QObject::connect(mainWindow_, SIGNAL(signalFPressed()),
-            this, SLOT(createProjectile()));
 
     gameTimer_->start(30);
 }

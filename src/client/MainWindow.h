@@ -120,10 +120,37 @@ public slots:
 signals:
     void signalKeyPressed(int);
     void signalKeyReleased(int);
-    void signalNumberPressed(int);
+    
+    /**
+     * The number keys are used to select options from the context menu.
+     * 
+     * Connected to selectMenuItem() in ContextMenu.cpp.
+     *
+     * @author Dean Morin
+     */
+    void signalNumberPressed(int keyPressed);
+
+    /**
+     * The spacebar is essentially the 'action' button. Its function depends on
+     * what object the player is currently standing on.
+     *
+     * Connected to handleSpacebarPress() in CDriver.cpp.
+     *
+     * @author Dean Morin
+     */
     void signalSpacebarPressed();
-    void signalAltHeld(bool);
-    void signalFPressed();
+
+    /**
+     * The alt key shows additional info on the screen when held (enemy health,
+     * player names, tower building resource requirements, etc.). 
+     *
+     * Connected to viewResources() in ContextMenu.cpp, and showHealth() in 
+     * NPCGraphicsComponent.cpp.
+     *
+     * @author Dean Morin
+     * @param keyHeld True if the alt key is currently being held down.
+     */
+    void signalAltHeld(bool keyHeld);
 };
 
 } /* end namespace td */

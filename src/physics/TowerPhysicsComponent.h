@@ -73,9 +73,18 @@ public:
         return enemy_;
     }
 
+    void setRadius(int radius) {
+        radius_ = radius;
+    }
+
+    int getRadius() {
+        return radius_;
+    }
+
 private:
     /** The tower that this component defines. */
     Tower* tower_;
+    int radius_;
     QSet<Unit*> enemies_;
     Unit* enemy_;
     
