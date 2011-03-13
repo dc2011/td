@@ -13,18 +13,37 @@
 #include "../network/stream.h"
 
 namespace td {
-
+class SDriver;
 class SDriver : public QObject {
     Q_OBJECT 
 
 private:
     QTimer* waveTimer_;
     ResManager* mgr_;
+    static SDriver* instance_;
 
 public:
     // ctors and dtors
     SDriver();
     virtual ~SDriver();
+    /**
+     * initializes the single instance of SDriver
+     * 
+     * @author Duncan Donaldson
+     */
+    static SDriver* init();
+    /**
+     * returns the single instance of SDriver.
+     * 
+     * @author Duncan Donaldson
+     */
+    static SDriver* instance();
+    /**
+     * shuts down the instance of SDriver
+     * 
+     * @author Duncan Donaldson
+     */
+    static void shutdown();
 
     /**
      * Starts game timer, initializes network server instance,
@@ -70,6 +89,12 @@ public slots:
      * @author Duncan Donaldson
      */
     void spawnWave();
+    /**
+     * slot that is called to destroy an NPC when its health reaches 0.
+     *
+     * @author Duncan Donaldson
+     */
+    void deadNPC(int id);
     /**
      * Handles a UDP packet receive by updating a currently existing player
      * or adding the player to the players list if the player does not exist.

@@ -2,6 +2,9 @@
 #ifndef SERVER
 #include "CDriver.h"
 #endif
+#ifdef SERVER
+#include "SDriver.h"
+#endif
 namespace td {
 
 NPC::NPC() {
@@ -16,6 +19,10 @@ NPC::NPC() {
     #ifndef SERVER
     connect(this, SIGNAL(dead(int)), CDriver::instance(), SLOT(deadNPC(int)));
     #endif
+    #ifdef SERVER
+    connect(this, SIGNAL(dead(int)), SDriver::instance(), SLOT(deadNPC(int)));
+    #endif
+   
 }
 
 size_t NPC::getHealth() {

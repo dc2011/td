@@ -7,6 +7,7 @@
 #include "SDriver.h"
 
 namespace td {
+SDriver* SDriver::instance_;
 
 SDriver::SDriver() {
     waveTimer_ = new QTimer(this);
@@ -17,7 +18,19 @@ SDriver::~SDriver() {
     delete waveTimer_;
     delete mgr_;
 }
-
+SDriver* SDriver::init() {
+    if (instance_ != NULL) {
+        return instance_;
+    }
+    instance_ = new SDriver;
+    return instance_;
+}
+SDriver* SDriver::instance() {
+    return instance_;
+}
+void SDriver::shutdown() {
+    delete instance_;
+}
 void SDriver::startGame() {
     NetworkServer::init();
     connect(NetworkServer::instance(), SIGNAL(UDPReceived(Stream*)), 
@@ -54,6 +67,7 @@ void SDriver::destroyServerObj(int id) {
     NetworkServer::instance()->send(network::kServerDestroyObj, out->data());
     delete out;
 }
+
 void SDriver::spawnWave() {
     qDebug("spawned wave");
     for(int i=0; i < 20; ++i) {
@@ -65,6 +79,11 @@ void SDriver::spawnWave() {
 	    delete out;
     }
 }
+
+void SDriver::deadNPC(int id) {
+    destroyServerObj(id);
+}
+
 void SDriver::onUDPReceive(Stream* s) {
     int message = s->readByte(); /* Message Type */
     GameObject* go = NULL;
