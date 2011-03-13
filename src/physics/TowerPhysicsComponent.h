@@ -66,11 +66,19 @@ public:
         return enemy_;
     }
 
+    void setRadius(int radius) {
+        radius_ = radius;
+    }
+
+    int getRadius() {
+        return radius_;
+    }
 
 private:
     /* data */
     QSet<Unit*> enemies_;
     Unit* enemy_;
+    int radius_;
 };
 
 } /* end namespace td */
