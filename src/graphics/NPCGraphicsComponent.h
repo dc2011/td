@@ -20,7 +20,7 @@ public:
      * @author Warren Voelkl
      */
     NPCGraphicsComponent();
-
+    
     NPCGraphicsComponent(int npcType);
 
     virtual ~NPCGraphicsComponent();
@@ -40,24 +40,19 @@ public:
      */
     virtual void initPixmaps();
 
-protected:
     virtual void animate();
 
 private:
     /** The current set of images to use for this object */
     int npcType_;
 
-    /**
-     * True if the health of the NPC should be displayed.
-     */
+    /** True if the health of the NPC should be displayed. */
     bool showHealth_;
 
     int arrayIndexMin_;
     int arrayIndexMax_;
 
-    /**
-     * container for all pixmaps which pertain to the current object
-     **/
+    /** Container for all pixmaps which pertain to the current object. */
     static QPixmap * pixmapImgs_;
 
     /**

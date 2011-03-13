@@ -40,6 +40,7 @@ public:
 private:
     /** The current image for this graphics component  */
     int towerType_;
+
     /** container for all pixmaps which pertain to the current object */
     static QPixmap * pixmapImgs_;
 

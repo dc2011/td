@@ -4,13 +4,13 @@
 
 namespace td {
 
-    QPixmap * PlayerGraphicsComponent::pixmapImgs_ = 0;
+QPixmap * PlayerGraphicsComponent::pixmapImgs_ = 0;
 
 PlayerGraphicsComponent::PlayerGraphicsComponent()
         : GraphicsComponent()
 {
-    animateMod = 4;
-    animateCount = 0;
+    animateMod_ = 4;
+    animateCount_ = 0;
     animate_ = true;
     showName_ = false;
     emit created(this);
@@ -29,6 +29,41 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
     //dp->scale   = player->getScale();  will likely be a constant value here
     dp->degrees = player->getOrientation();
     emit signalDraw(dp, this, LAYER_PLAYER);
+}
+
+void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
+
+    if (showName_) {
+    label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
+                   dp->pos.y() - getPixmapItem()->boundingRect().height());
+    label_->setZValue(layer);
+    label_->update();
+    } else {
+        label_->setPos(OFFSCREEN, OFFSCREEN);
+        label_->update();
+    }
+
+    GraphicsComponent::draw(dp, layer);
+}
+
+void PlayerGraphicsComponent::animate() {
+    int pos;
+    
+    if (!isMoving_) {
+        pixmapIndex_ = 0;
+        setImgIndex(pixmapIndex_);
+        return;
+    }
+
+    if (pixmapIndex_ == 0) {
+	pos = rand() % 2 + 1;
+        pos == 1 ? pixmapIndex_ = 0 : pixmapIndex_ = 3;
+    }
+    
+    if (!(animateCount_++ % animateMod_)) {
+        ++pixmapIndex_ >= PIX_PLAYER_MAX ? pixmapIndex_ = 1 : pixmapIndex_;
+        setImgIndex(pixmapIndex_);
+    }
 }
 
 void PlayerGraphicsComponent::initPixmaps() {
@@ -53,46 +88,6 @@ void PlayerGraphicsComponent::initPixmaps() {
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_5;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_6;
     pixmapIndex_ = 0;
-}
-
-void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
-
-    if (showName_) {
-    label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
-                   dp->pos.y() - getPixmapItem()->boundingRect().height());
-    label_->setZValue(layer);
-    label_->update();
-    } else {
-        label_->setPos(OFFSCREEN, OFFSCREEN);
-        label_->update();
-    }
-
-    GraphicsComponent::draw(dp, layer);
-}
-
-void PlayerGraphicsComponent::animate() {
-    
-    int pos;
-    
-    if (!isMoving_) {
-        pixmapIndex_ = 0;
-        setImgIndex(pixmapIndex_);
-        return;
-    }
-
-    if (pixmapIndex_ == 0) {
-	pos = rand() % 2 + 1;
-        pos == 1 ? pixmapIndex_ = 0 : pixmapIndex_ = 3;
-    }
-    
-    if (!(animateCount++ % animateMod)) {
-        ++pixmapIndex_ >= PIX_PLAYER_MAX ? pixmapIndex_ = 1 : pixmapIndex_;
-        setImgIndex(pixmapIndex_);
-    }
-}
-
-QPixmap * PlayerGraphicsComponent::getPixmapArray() {
-    return pixmapImgs_;
 }
 
 } /* end namespace td */

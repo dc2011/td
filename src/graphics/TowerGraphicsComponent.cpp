@@ -3,7 +3,7 @@
 
 namespace td {
 
-    QPixmap * TowerGraphicsComponent::pixmapImgs_ = 0;
+QPixmap * TowerGraphicsComponent::pixmapImgs_ = 0;
 TowerGraphicsComponent::TowerGraphicsComponent(int towerType)
         : GraphicsComponent(), towerType_(towerType) {
     emit created(this);

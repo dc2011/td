@@ -3,7 +3,7 @@
 
 namespace td {
 
-    QPixmap * NPCGraphicsComponent::pixmapImgs_ = 0;
+QPixmap * NPCGraphicsComponent::pixmapImgs_ = 0;
 
 NPCGraphicsComponent::NPCGraphicsComponent()
         : GraphicsComponent() {

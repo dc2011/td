@@ -27,23 +27,9 @@ class GameObject;
 
 class GraphicsComponent : public QObject {
     Q_OBJECT
-    THREAD_SAFE_SINGLETON
-
-private:
-
-    /**
-     *  the pixelmapItem which is is used to draw a pixel map at a location
-     **/
-    QGraphicsPixmapItem* pixmapItem_;
-
-    /**
-     * @returns the pixmap array from the subclasses
-     */
-    virtual QPixmap * getPixmapArray() = 0;
+    //THREAD_SAFE_SINGLETON
 
 protected:
-
-
     /** If the obect is currently moving (used for animations). */
     bool isMoving_;
 
@@ -59,29 +45,11 @@ protected:
     /** True if the GameObject should currently be animate. */
     bool animate_;
 
-    /**
-     * updates the img index
-     * @author Warren Voelkl
-     **/
-    void setImgIndex(int index);
-
-    /**
-     * Create the object in the graphics context.
-     * This emits the created signal with a pointer to the current
-     * GraphicsComponent.
-     *
-     * @author Darryl Pogue
-     */
-    void create();
+private:
+    /** The pixelmapItem which is is used to draw a pixel map at a location. */
+    QGraphicsPixmapItem* pixmapItem_;
 
 public:
-    /**
-     * This is were all animation logic will be implemented
-     *
-     * @author Warren Voelkl
-     */
-    virtual void animate() {}
-
     /**
      * Sets up the necessary signals and slots to create the 
      * QGraphicsPixmapItem for this component in the rendering thread. This
@@ -100,6 +68,13 @@ public:
      * @author Dean Morin
      */
     void deleteComponent();
+
+    /**
+     * This is were all animation logic will be implemented
+     *
+     * @author Warren Voelkl
+     */
+    virtual void animate() { }
 
     /**
      * TODO for each GraphicsComponensts update function
@@ -150,6 +125,17 @@ public:
         return pixmapItem_;
     }
 
+    /**
+     * updates the img index
+     * @author Warren Voelkl
+     **/
+    void setImgIndex(int index);
+
+    /**
+     * @returns the pixmap array from the subclasses
+     */
+    virtual QPixmap * getPixmapArray() = 0;
+    
 signals:
     void created(GraphicsComponent* gc);
     void signalDraw(DrawParams* dp, GraphicsComponent* gc, int layer);

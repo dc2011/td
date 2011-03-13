@@ -6,7 +6,7 @@
 
 namespace td {
 
-QMutex GraphicsComponent::mutex_;
+//QMutex GraphicsComponent::mutex_;
     
 GraphicsComponent::GraphicsComponent() : pixmapIndex_(0) {
 
@@ -27,12 +27,7 @@ GraphicsComponent::~GraphicsComponent() {
     delete pixmapItem_;
 }
 
-void GraphicsComponent::create() {
-    emit created(this);
-}
-
 void GraphicsComponent::deleteComponent() {
-    animate_ = false;
     emit removeGraphicsItem(this);
 }
 
@@ -58,24 +53,24 @@ void GraphicsComponent::draw(DrawParams* dp, int layer) {
 }
 
 QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
-    mutex_.lock();
-
-
+    
+    //mutex_.lock();
     pixmapItem_ = new QGraphicsPixmapItem();
     initPixmaps();
-    //qDebug("PixmapIndex_: %d", pixmapIndex_);
+    
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
-
     pixmapItem_->setPos(OFFSCREEN,OFFSCREEN);
-    mutex_.unlock();
+
+    //mutex_.unlock();
     return pixmapItem_;
 }
 
 void GraphicsComponent::setImgIndex(int index) {
-    mutex_.lock();
+    
+    //mutex_.lock();
     pixmapIndex_ = index;
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
-    mutex_.unlock();
+    //mutex_.unlock();
 }
 
 } /* end namespace td */
