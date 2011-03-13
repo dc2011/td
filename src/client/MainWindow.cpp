@@ -6,8 +6,8 @@
 #include "../audio/manager.h"
 #include "../graphics/GraphicsComponent.h"
 #include "../graphics/MapDisplayer.h"
-#include <QLabel>
 #include "../util/DelayedDelete.h"
+#include <QLabel>
 
 namespace td {
 

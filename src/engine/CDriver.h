@@ -226,6 +226,15 @@ private slots:
     void createProjectile();
 
     /**
+     * Creates a projectile object.
+     *
+     * @author Pan Khantidhara, Marcel Vangrootheest, Dean Morin
+     * @param source The starting point of the projectile.
+     * @param target The destination point of the projectile.
+     */
+    void createProjectile(QPointF source, QPointF target);
+
+    /**
      * Temp testing method.
      *
      * @author Dean Morin
