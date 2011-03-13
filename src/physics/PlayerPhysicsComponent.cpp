@@ -10,8 +10,7 @@
 
 namespace td {
 
-PlayerPhysicsComponent::PlayerPhysicsComponent()
-        : collider_(td::BoxBounds(13, 3, 32, 44)) {
+PlayerPhysicsComponent::PlayerPhysicsComponent() {
     accel_ = 0.3;
     decel_ = 0.6;
     maxVelocity_ = 5;
