@@ -1,6 +1,7 @@
 #include "../physics/TowerPhysicsComponent.h"
 #include "../engine/Tower.h"
- #include <QLineF>
+#include "../engine/Player.h"
+#include <QLineF>
 #include <typeinfo>
 #define PI 3.141592653589793238
 #include <math.h>
@@ -12,6 +13,7 @@ TowerPhysicsComponent::TowerPhysicsComponent(Tower* tower, size_t fireInterval)
     fireCountdown_ = 0;
     enemy_ = 0;
     enemies_ = QSet<Unit*>();
+    radius_ = 5;
 }
 
 TowerPhysicsComponent::~TowerPhysicsComponent() {}
@@ -37,14 +39,20 @@ void TowerPhysicsComponent::findTargets(GameObject* tower, int radius) {
     QSet<Unit*>::iterator iter;
 
     if(units.isEmpty()) {
+        setTarget(0);
         return;
     }
+
+
     for( iter = units.begin();iter != units.end(); ++iter){
         QLineF line;
         line.p1() = tower->getPos();
         if(getEnemy() != NULL && target.length() < radius && target.length() != 0) {
             return;
         } else {
+            if(units.size() == 1 && (((*iter)->getID()&0xFF000000)>>24) == Player::clsIdx()) {
+                   setTarget(0);
+            }
             if((((*iter)->getID()&0xFF000000)>>24) == NPC::clsIdx()) {
                 setTarget(*iter);
             }
@@ -67,7 +75,7 @@ void TowerPhysicsComponent::fire() {
 void TowerPhysicsComponent::applyDirection(GameObject* tower) {
 
 
-    this->findTargets(tower, 5);
+    this->findTargets(tower, getRadius());
     if(getEnemy() == NULL || getNPCs().isEmpty()) {
         return;
     }
