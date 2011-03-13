@@ -17,7 +17,9 @@ NPC::NPC() {
     pos_.setY(50);
     health_ = 1;
     #ifndef SERVER
-    connect(this, SIGNAL(dead(int)), CDriver::instance(), SLOT(deadNPC(int)));
+    if(CDriver::instance()->isSinglePlayer()) {
+        connect(this, SIGNAL(dead(int)), CDriver::instance(), SLOT(deadNPC(int)));
+    }
     #endif
     #ifdef SERVER
     connect(this, SIGNAL(dead(int)), SDriver::instance(), SLOT(deadNPC(int)));
@@ -65,9 +67,7 @@ void NPC::update() {
     input_->update();
     physics_->update(this);
     graphics_->update(this);
-#ifndef SERVER
     this->isDead();
-#endif
 }
 
 } /* end namespace td */

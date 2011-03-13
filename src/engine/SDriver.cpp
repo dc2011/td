@@ -60,6 +60,7 @@ GameObject* SDriver::updateObject(Stream* s) {
 
     return go;
 }
+
 void SDriver::destroyServerObj(int id) {
     Stream* out = new Stream();
     mgr_->deleteObject(id);
@@ -100,20 +101,20 @@ void SDriver::onUDPReceive(Stream* s) {
             break;
         }
         case network::kRequestTowerID:
-	{
-	    unsigned char type = s->readByte();
-	    go = mgr_->createObject(type);
-	    out->writeInt(go->getID());
-	    NetworkServer::instance()->send(network::kAssignTowerID,
-					    out->data());
-	    break;
-	}
+	    {
+	        unsigned char type = s->readByte();
+	        go = mgr_->createObject(type);
+	        out->writeInt(go->getID());
+	        NetworkServer::instance()->send(network::kAssignTowerID,
+					        out->data());
+	        break;
+	    }
         case network::kClientDestroyObj:
-	{
-	    int id = s->readInt();
-	    destroyServerObj(id);
-	    break;
-	}
+	    {
+	        int id = s->readInt();
+	        destroyServerObj(id);
+	        break;
+	    }
         default:
         {
             go = this->updateObject(s);
