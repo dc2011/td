@@ -3,17 +3,9 @@
 #include "CDriver.h"
 #endif
 #include "Effect.h"
+#include "../graphics/TowerGraphicsComponent.h"
+#include "../physics/TowerPhysicsComponentTypes.h"
 #include "../util/defines.h"
-
-/**
-// based on the number keys used to select the tower
-#define TOWER_ARROW     49
-#define TOWER_CANNON    50
-#define TOWER_FLAME     51
-#define TOWER_TAR       52
-#define TOWER_FLAK      53
- */
-
 
 namespace td {
 
@@ -21,14 +13,10 @@ void Tower::update() {
 
     physics_->update(this);
     graphics_->update(this);
-    CDriver::updateServer(this);
 
 #ifndef SERVER
     CDriver::updateServer(this);
 #endif
-    graphics_->update(this);
-    //physics_->update(this);
-
 }
 
 void Tower::initComponents() {
@@ -37,9 +25,32 @@ void Tower::initComponents() {
 }
 
 void Tower::initComponents(int towerType) {
-    PhysicsComponent* physics = new TowerPhysicsComponent();
-    this->setPhysicsComponent(physics);
 
+    switch (towerType) {
+
+        case TOWER_ARROW:
+            setPhysicsComponent(new ArrowTowerPhysicsComponent(this));
+            //setGraphicsComponent(new ArrowTowerGraphicsComponent());
+            break;
+        case TOWER_CANNON:
+            setPhysicsComponent(new CannonTowerPhysicsComponent(this));
+            //setGraphicsComponent(new CannonTowerGraphicsComponent());
+            break;
+        case TOWER_FLAME:
+            setPhysicsComponent(new FlameTowerPhysicsComponent(this));
+            //setGraphicsComponent(new FlameTowerGraphicsComponent());
+            break;
+        case TOWER_TAR:
+            setPhysicsComponent(new TarTowerPhysicsComponent(this));
+            //setGraphicsComponent(new TarTowerGraphicsComponent());
+            break;
+        case TOWER_FLAK:
+            setPhysicsComponent(new FlakTowerPhysicsComponent(this));
+            //setGraphicsComponent(new FlakTowerGraphicsComponent());
+            break;
+    }
+    /* TODO: remove next 2 lines and uncomment the lines in the switch statement
+     * after TowerGraphicsComponentsTypes.h has been added to this branch */
     GraphicsComponent* graphics = new TowerGraphicsComponent(towerType);
     this->setGraphicsComponent(graphics);
 }

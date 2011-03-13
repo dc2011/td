@@ -171,11 +171,10 @@ NPC* CDriver::createNPC() {
     return npc;
 }
 
-void CDriver::createProjectile(){
+void CDriver::createProjectile(QPointF source, QPointF target) {
     if (!tower_) {
         return;
     }
-    //qDebug("fire projectile");
     PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
     GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
     ProjectileInputComponent* input = new ProjectileInputComponent();
@@ -185,8 +184,8 @@ void CDriver::createProjectile(){
     projectile_->setPhysicsComponent(projectilePhysics);
     projectile_->setGraphicsComponent(projectileGraphics);
 
-    QPointF* start = new QPointF(tower_->getPos());
-    QPointF* end = new QPointF(human_->getPos());
+    QPointF* start = new QPointF(source);
+    QPointF* end = new QPointF(target);
     input->setPath(start, end);
     projectile_->setInputComponent(input);
 
@@ -205,6 +204,9 @@ void CDriver::createTower(int towerType, QPointF pos) {
     currentTile->setExtension(tower_);
 
     connect(gameTimer_, SIGNAL(timeout()), tower_, SLOT(update()));
+    connect(tower_->getPhysicsComponent(), 
+            SIGNAL(fireProjectile(QPointF, QPointF)),
+            this, SLOT(createProjectile(QPointF, QPointF)));
     if(isSinglePlayer() == true) {
         mgr_->createObject(Tower::clsIdx());
     } else {
@@ -252,10 +254,6 @@ void CDriver::startGame(bool singlePlayer) {
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
             this,         SLOT(createTower(int, QPointF)));
 
-    /* TODO: Remove this */
-    QObject::connect(mainWindow_, SIGNAL(signalFPressed()),
-            this, SLOT(createProjectile()));
-
     gameTimer_->start(30);
 }
 
@@ -284,6 +282,7 @@ void CDriver::handleSpacebarPress() {
             break;
 
         case TILE_BUILT:
+	    contextMenu_->toggleMenu();
         case TILE_BASE:
             break;
 

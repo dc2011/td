@@ -25,7 +25,7 @@ void TowerGraphicsComponent::update(GameObject* obj) {
     //player->getVelocity().length() != 0;
     dp->scale   = 1;//tower->getScale();
     dp->degrees = tower->getOrientation();
-    emit signalDraw(dp, this, LAYER_DEFAULT);
+    emit signalDraw(dp, this, LAYER_TOWER);
 }
 
 void TowerGraphicsComponent::initPixmaps() {

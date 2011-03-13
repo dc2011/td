@@ -17,6 +17,13 @@
 #define TOWER_TAR       52
 #define TOWER_FLAK      53
 
+// how often the tower type can fire (in game ticks)
+#define FIRE_INTERVAL_ARROW     45
+#define FIRE_INTERVAL_CANNON    200
+#define FIRE_INTERVAL_FLAME     300
+#define FIRE_INTERVAL_TAR       135
+#define FIRE_INTERVAL_FLAK      15
+
 //Tile action types specifying action for spacebar
 #define TILE_REGULAR    0
 #define TILE_BUILDABLE  1
@@ -24,7 +31,7 @@
 #define TILE_BASE       3
 #define TILE_RESOURCE   4
 
-// based on the number keys used to select the tower
+// resources that can be picked up by the player
 #define RESOURCE_LUMBER  0
 #define RESOURCE_CRYSTAL 5
 #define RESOURCE_OIL     3
