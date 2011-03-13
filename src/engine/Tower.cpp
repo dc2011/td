@@ -5,23 +5,12 @@
 #include "Effect.h"
 #include "../util/defines.h"
 
-/**
-// based on the number keys used to select the tower
-#define TOWER_ARROW     49
-#define TOWER_CANNON    50
-#define TOWER_FLAME     51
-#define TOWER_TAR       52
-#define TOWER_FLAK      53
- */
-
-
 namespace td {
 
 void Tower::update() {
 
     physics_->update(this);
     graphics_->update(this);
-    CDriver::updateServer(this);
 
 #ifndef SERVER
     CDriver::updateServer(this);
@@ -35,7 +24,7 @@ void Tower::initComponents() {
 
 void Tower::initComponents(int towerType) {
 
-    PhysicsComponent* physics = new TowerPhysicsComponent();
+    PhysicsComponent* physics = new TowerPhysicsComponent(0);
     this->setPhysicsComponent(physics);
 
     GraphicsComponent* graphics = new TowerGraphicsComponent(towerType);
