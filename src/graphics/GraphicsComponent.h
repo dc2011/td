@@ -44,43 +44,26 @@ private:
 protected:
 
 
-    /**
-     * If the obect is currently moving used for animations
-     */
+    /** If the obect is currently moving (used for animations). */
     bool isMoving_;
 
-    /**
-     * the current index for the currently drawn pixmap
-     **/
+    /** The current index for the currently drawn pixmap. */
     int pixmapIndex_;
 
-    /**
-     * Slows down how often the images animate from the timer.
-     */
+    /** Slows down how often the images animate from the timer. */
     int animateMod_;
 
-    /**
-     * The number of times the timer has ticked.
-     */
+    /** The number of times the timer has ticked. */
     int animateCount_;
+
+    /** True if the GameObject should currently be animate. */
+    bool animate_;
 
     /**
      * updates the img index
      * @author Warren Voelkl
      **/
     void setImgIndex(int index);
-
-    /**
-     * Creates a connection between the timer and this object
-     * @author Warren Voelkl / Terence Stenvold
-     **/
-    void animateConnect();
-
-    /**
-     * Disconnect the connection between the timer this object
-     * @author Warren Voelkl / Terence Stenvold
-     **/
-    void animateDisconnect();
 
     /**
      * Create the object in the graphics context.
@@ -167,17 +150,9 @@ public:
         return pixmapItem_;
     }
 
-public slots:
-    /**
-     * emits a signal to the gui thread when a timer has ticked
-     * @author Warren Voelkl
-     */
-    void onTimerTick();
-
 signals:
     void created(GraphicsComponent* gc);
     void signalDraw(DrawParams* dp, GraphicsComponent* gc, int layer);
-    void signalAnimateTick(GraphicsComponent * gc);
     void removeGraphicsItem(GraphicsComponent* gc);
 };
 

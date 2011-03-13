@@ -73,6 +73,9 @@ private:
 
     /** Text to display the current label_ for this item **/
     QGraphicsTextItem * label_;
+    
+    /** True if alt held down and the players name should be shown. */
+    bool showName_;
 
     /**
      * @returns the pixmap array from the current graphics object
@@ -80,6 +83,17 @@ private:
      */
     virtual QPixmap * getPixmapArray();
 
+public slots:
+    /**
+     * Sets the boolean that determines whether or not the player's nickname
+     * should be displayed.
+     *
+     * @author Dean Morin
+     * @param keyHeld True if the alt key is being held down.
+     */
+    void showName(bool keyHeld) {
+        showName_ = keyHeld;
+    }
 };
 
 } /* end namespace td */

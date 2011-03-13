@@ -16,12 +16,11 @@ GraphicsComponent::GraphicsComponent() : pixmapIndex_(0) {
             mainWindow, SLOT(createGraphicRepr(GraphicsComponent*)));
     connect(this, SIGNAL(signalDraw(DrawParams*, GraphicsComponent*, int)), 
             mainWindow, SLOT(drawItem(DrawParams*, GraphicsComponent*, int)));
-    connect(this, SIGNAL(signalAnimateTick(GraphicsComponent*)),
-            mainWindow, SLOT(animateItem(GraphicsComponent*)));
     connect(this, SIGNAL(removeGraphicsItem(GraphicsComponent*)),
             mainWindow, SLOT(removeGraphicRepr(GraphicsComponent*)));
 
     isMoving_ = 0;
+    animate_ = true;
 }
 
 GraphicsComponent::~GraphicsComponent() {
@@ -33,11 +32,16 @@ void GraphicsComponent::create() {
 }
 
 void GraphicsComponent::deleteComponent() {
-    animateDisconnect();
+    animate_ = false;
     emit removeGraphicsItem(this);
 }
 
 void GraphicsComponent::draw(DrawParams* dp, int layer) {
+
+    if (animate_) {
+        animate();
+    }
+
     QPointF center = pixmapItem_->boundingRect().center();
     pixmapItem_->resetMatrix();//important
     pixmapItem_->setTransformOriginPoint(center);
@@ -67,25 +71,11 @@ QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
     return pixmapItem_;
 }
 
-void GraphicsComponent::animateConnect() {
-    connect(CDriver::getTimer(),
-            SIGNAL(timeout()), this, SLOT(onTimerTick()));
-}
-
-void GraphicsComponent::animateDisconnect() {
-    disconnect(CDriver::getTimer(),
-               SIGNAL(timeout()), this, SLOT(onTimerTick()));
-}
-
 void GraphicsComponent::setImgIndex(int index) {
     mutex_.lock();
     pixmapIndex_ = index;
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
     mutex_.unlock();
-}
-
-void GraphicsComponent::onTimerTick() {
-    emit signalAnimateTick(this);
 }
 
 } /* end namespace td */

@@ -11,7 +11,8 @@ PlayerGraphicsComponent::PlayerGraphicsComponent()
 {
     animateMod = 4;
     animateCount = 0;
-    animateConnect();
+    animate_ = true;
+    showName_ = false;
     emit created(this);
     /* Do init-type stuff here */
 }
@@ -59,27 +60,18 @@ void PlayerGraphicsComponent::initPixmaps() {
 }
 
 void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
-    QPointF center = getPixmapItem()->boundingRect().center();
 
-    getPixmapItem()->resetMatrix();//important
-    getPixmapItem()->setTransformOriginPoint(center);
-    //getPixmapItem()->setScale(dp->scale);
-    getPixmapItem()->rotate(-dp->degrees);
-    getPixmapItem()->translate(-center.x(), -center.y());
-
-    getPixmapItem()->setPos(dp->pos);
-    getPixmapItem()->setZValue(layer);
-
-    isMoving_ = dp->moving;
-    //dp->pos.setX(dp->pos + (int)center.x);
+    if (showName_) {
     label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
                    dp->pos.y() - getPixmapItem()->boundingRect().height());
     label_->setZValue(layer);
     label_->update();
+    } else {
+        label_->setPos(OFFSCREEN, OFFSCREEN);
+        label_->update();
+    }
 
-    delete dp;
-
-    getPixmapItem()->update();
+    GraphicsComponent::draw(dp, layer);
 }
 
 void PlayerGraphicsComponent::animate() {
