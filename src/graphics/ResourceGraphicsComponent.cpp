@@ -7,12 +7,11 @@
 
 namespace td {
 
-    QPixmap * ResourceGraphicsComponent::pixmapImgs_ = 0;
+QPixmap * ResourceGraphicsComponent::pixmapImgs_ = 0;
 
 ResourceGraphicsComponent::ResourceGraphicsComponent(int resourceType)
         : GraphicsComponent(), resourceType_(resourceType) {
     emit created(this);
-    /* Do init-type stuff here */
 }
 
 ResourceGraphicsComponent::~ResourceGraphicsComponent() {}

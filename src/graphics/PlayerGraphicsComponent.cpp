@@ -14,11 +14,7 @@ PlayerGraphicsComponent::PlayerGraphicsComponent()
     animate_ = true;
     showName_ = false;
     emit created(this);
-    /* Do init-type stuff here */
 }
-
-//PlayerGraphicsComponent::~PlayerGraphicsComponent() {
-//}
 
 void PlayerGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;

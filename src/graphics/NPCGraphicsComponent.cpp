@@ -12,7 +12,6 @@ NPCGraphicsComponent::NPCGraphicsComponent()
 NPCGraphicsComponent::NPCGraphicsComponent(int npcType)
     : GraphicsComponent(), npcType_(npcType) {
     emit created(this);
-    animate_ = true;
 }
 
 NPCGraphicsComponent::~NPCGraphicsComponent() {}

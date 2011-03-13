@@ -7,7 +7,6 @@ namespace td {
 TowerGraphicsComponent::TowerGraphicsComponent(int towerType)
         : GraphicsComponent(), towerType_(towerType) {
     emit created(this);
-    /* Do init-type stuff here */
 }
 
 TowerGraphicsComponent::~TowerGraphicsComponent() {}
