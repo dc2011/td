@@ -2,7 +2,6 @@
 #define PLAYERPHYSICSCOMPONENT_H
 
 #include "PhysicsComponent.h"
-#include "Bounds.h"
 #include "../engine/Effect.h"
 #include "../engine/Unit.h"
 #include <QSet>
@@ -116,7 +115,6 @@ private:
     float decel_;
     float maxVelocity_;
 
-    td::BoxBounds collider_;
 };
 
 } /* end namespace td */

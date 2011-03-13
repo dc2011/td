@@ -11,7 +11,6 @@
 
 #include "../util/defines.h"
 #include "ClsIdx.h"
-#include "../physics/Bounds.h"
 
 namespace Tiled {
 class Tile;

@@ -6,7 +6,6 @@
 #include <QPolygonF>
 
 #include "GameObject.h"
-#include "../physics/Bounds.h"
 
 namespace td {
 
