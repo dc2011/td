@@ -73,13 +73,14 @@ public:
         return enemy_;
     }
 
-private:
+protected:
     /** The number of ticks beween each shot. */
     size_t fireInterval_;
 
     /** Number of game timer ticks before this tower can fire a projectile. */
     size_t fireCountdown_;
 
+private:
     QSet<Unit*> enemies_;
     Unit* enemy_;
 };

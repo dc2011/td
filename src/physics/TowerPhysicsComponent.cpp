@@ -8,7 +8,7 @@
 namespace td {
 
 TowerPhysicsComponent::TowerPhysicsComponent(size_t fireInterval)
-        : fireInterval_(fireInterval) {
+        : PhysicsComponent(), fireInterval_(fireInterval) {
     fireCountdown_ = 0;
     enemy_ = 0;
     enemies_ = QSet<Unit*>();
