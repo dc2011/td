@@ -140,6 +140,9 @@ void CDriver::createHumanPlayer(MainWindow *gui) {
     // NPC -> Player effect
     connect(physics, SIGNAL(NPCPlayerCollided(Effect::EffectType)), 
             human_, SLOT(createEffect(Effect::EffectType)));
+    connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+            graphics, SLOT(showName(bool)));
+
     if(isSinglePlayer() == true) {
         mgr_->createObject(Player::clsIdx());
     } else {
@@ -237,7 +240,7 @@ void CDriver::startGame(bool singlePlayer) {
     contextMenu_ = new ContextMenu(human_);
 
     connect(contextMenu_, SIGNAL(signalPlayerMovement(bool)),
-	    human_->getInputComponent(), SLOT(playerMovement(bool)));
+	        human_->getInputComponent(), SLOT(playerMovement(bool)));
     connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
             this,         SLOT(handleSpacebarPress()));
     connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
@@ -282,7 +285,7 @@ void CDriver::handleSpacebarPress() {
             break;
 
         case TILE_BUILT:
-	    contextMenu_->toggleMenu();
+	        contextMenu_->toggleMenu();
         case TILE_BASE:
             break;
 

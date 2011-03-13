@@ -3,7 +3,7 @@
 
 namespace td {
 
-    QPixmap * NPCGraphicsComponent::pixmapImgs_ = 0;
+QPixmap * NPCGraphicsComponent::pixmapImgs_ = 0;
 
 NPCGraphicsComponent::NPCGraphicsComponent()
         : GraphicsComponent() {
@@ -12,7 +12,6 @@ NPCGraphicsComponent::NPCGraphicsComponent()
 NPCGraphicsComponent::NPCGraphicsComponent(int npcType)
     : GraphicsComponent(), npcType_(npcType) {
     emit created(this);
-    animateConnect();
 }
 
 NPCGraphicsComponent::~NPCGraphicsComponent() {}

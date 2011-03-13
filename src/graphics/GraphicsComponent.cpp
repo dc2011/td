@@ -6,7 +6,7 @@
 
 namespace td {
 
-QMutex GraphicsComponent::mutex_;
+//QMutex GraphicsComponent::mutex_;
     
 GraphicsComponent::GraphicsComponent() : pixmapIndex_(0) {
 
@@ -16,28 +16,27 @@ GraphicsComponent::GraphicsComponent() : pixmapIndex_(0) {
             mainWindow, SLOT(createGraphicRepr(GraphicsComponent*)));
     connect(this, SIGNAL(signalDraw(DrawParams*, GraphicsComponent*, int)), 
             mainWindow, SLOT(drawItem(DrawParams*, GraphicsComponent*, int)));
-    connect(this, SIGNAL(signalAnimateTick(GraphicsComponent*)),
-            mainWindow, SLOT(animateItem(GraphicsComponent*)));
     connect(this, SIGNAL(removeGraphicsItem(GraphicsComponent*)),
             mainWindow, SLOT(removeGraphicRepr(GraphicsComponent*)));
 
     isMoving_ = 0;
+    animate_ = true;
 }
 
 GraphicsComponent::~GraphicsComponent() {
     delete pixmapItem_;
 }
 
-void GraphicsComponent::create() {
-    emit created(this);
-}
-
 void GraphicsComponent::deleteComponent() {
-    animateDisconnect();
     emit removeGraphicsItem(this);
 }
 
 void GraphicsComponent::draw(DrawParams* dp, int layer) {
+
+    if (animate_) {
+        animate();
+    }
+
     QPointF center = pixmapItem_->boundingRect().center();
     pixmapItem_->resetMatrix();//important
     pixmapItem_->setTransformOriginPoint(center);
@@ -54,38 +53,24 @@ void GraphicsComponent::draw(DrawParams* dp, int layer) {
 }
 
 QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
-    mutex_.lock();
-
-
+    
+    //mutex_.lock();
     pixmapItem_ = new QGraphicsPixmapItem();
     initPixmaps();
-    //qDebug("PixmapIndex_: %d", pixmapIndex_);
+    
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
-
     pixmapItem_->setPos(OFFSCREEN,OFFSCREEN);
-    mutex_.unlock();
+
+    //mutex_.unlock();
     return pixmapItem_;
 }
 
-void GraphicsComponent::animateConnect() {
-    connect(CDriver::getTimer(),
-            SIGNAL(timeout()), this, SLOT(onTimerTick()));
-}
-
-void GraphicsComponent::animateDisconnect() {
-    disconnect(CDriver::getTimer(),
-               SIGNAL(timeout()), this, SLOT(onTimerTick()));
-}
-
 void GraphicsComponent::setImgIndex(int index) {
-    mutex_.lock();
+    
+    //mutex_.lock();
     pixmapIndex_ = index;
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
-    mutex_.unlock();
-}
-
-void GraphicsComponent::onTimerTick() {
-    emit signalAnimateTick(this);
+    //mutex_.unlock();
 }
 
 } /* end namespace td */

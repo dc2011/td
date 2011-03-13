@@ -7,7 +7,6 @@ namespace td {
 
 ProjectileGraphicsComponent::ProjectileGraphicsComponent()
         : GraphicsComponent() {
-    /* Do init-type stuff here */
     emit created(this);
 }
 
@@ -16,7 +15,7 @@ ProjectileGraphicsComponent::~ProjectileGraphicsComponent() {}
 void ProjectileGraphicsComponent::update(GameObject* obj) {
     Projectile* projectile = (Projectile*)obj;
     //should cast it to projectile
-    if (!projectile->isDirty()) {//checks if object is dirty.
+    if (!projectile->isDirty()) {
         return;
     }
     projectile->resetDirty();

@@ -14,7 +14,6 @@ namespace td {
 
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
-
     emit created(this);
     connect(&closeTimer_, SIGNAL(timeout()), this, SLOT(hideSelectMenu()));
 }
@@ -57,14 +56,14 @@ void ContextMenuGraphicsComponent::showMenu(QPointF playerPos) {
     setImgIndex(0);
     
     closeTimer_.stop();
-    animateConnect();
+    animate_ = true;
 
     update(NULL);
 }
 
 void ContextMenuGraphicsComponent::showSelectMenu(int type, QPointF playerPos) {
     QPointF tempMenuPos(playerPos);
-    animateDisconnect();
+    animate_ = false;
 
     menuPos_.setX(tempMenuPos.x());
     menuPos_.setY(tempMenuPos.y());
@@ -104,7 +103,7 @@ void ContextMenuGraphicsComponent::hideMenu() {
 void ContextMenuGraphicsComponent::animate() {
 
     if(scaleFactor_ == 1) {
-        animateDisconnect();
+        animate_ = false;
 	return;
     }
     scaleFactor_ += 0.2;

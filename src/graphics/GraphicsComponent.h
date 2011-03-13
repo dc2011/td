@@ -27,78 +27,29 @@ class GameObject;
 
 class GraphicsComponent : public QObject {
     Q_OBJECT
-    THREAD_SAFE_SINGLETON
-
-private:
-
-    /**
-     *  the pixelmapItem which is is used to draw a pixel map at a location
-     **/
-    QGraphicsPixmapItem* pixmapItem_;
-
-    /**
-     * @returns the pixmap array from the subclasses
-     */
-    virtual QPixmap * getPixmapArray() = 0;
+    //THREAD_SAFE_SINGLETON
 
 protected:
-
-
-    /**
-     * If the obect is currently moving used for animations
-     */
+    /** If the obect is currently moving (used for animations). */
     bool isMoving_;
 
-    /**
-     * the current index for the currently drawn pixmap
-     **/
+    /** The current index for the currently drawn pixmap. */
     int pixmapIndex_;
 
-    /**
-     * Slows down how often the images animate from the timer.
-     */
+    /** Slows down how often the images animate from the timer. */
     int animateMod_;
 
-    /**
-     * The number of times the timer has ticked.
-     */
+    /** The number of times the timer has ticked. */
     int animateCount_;
 
-    /**
-     * updates the img index
-     * @author Warren Voelkl
-     **/
-    void setImgIndex(int index);
+    /** True if the GameObject should currently be animate. */
+    bool animate_;
 
-    /**
-     * Creates a connection between the timer and this object
-     * @author Warren Voelkl / Terence Stenvold
-     **/
-    void animateConnect();
-
-    /**
-     * Disconnect the connection between the timer this object
-     * @author Warren Voelkl / Terence Stenvold
-     **/
-    void animateDisconnect();
-
-    /**
-     * Create the object in the graphics context.
-     * This emits the created signal with a pointer to the current
-     * GraphicsComponent.
-     *
-     * @author Darryl Pogue
-     */
-    void create();
+private:
+    /** The pixelmapItem which is is used to draw a pixel map at a location. */
+    QGraphicsPixmapItem* pixmapItem_;
 
 public:
-    /**
-     * This is were all animation logic will be implemented
-     *
-     * @author Warren Voelkl
-     */
-    virtual void animate() {}
-
     /**
      * Sets up the necessary signals and slots to create the 
      * QGraphicsPixmapItem for this component in the rendering thread. This
@@ -116,7 +67,14 @@ public:
      * 
      * @author Dean Morin
      */
-    void deleteComponent();
+    virtual void deleteComponent();
+
+    /**
+     * This is were all animation logic will be implemented
+     *
+     * @author Warren Voelkl
+     */
+    virtual void animate() { }
 
     /**
      * TODO for each GraphicsComponensts update function
@@ -167,17 +125,20 @@ public:
         return pixmapItem_;
     }
 
-public slots:
     /**
-     * emits a signal to the gui thread when a timer has ticked
+     * updates the img index
      * @author Warren Voelkl
-     */
-    void onTimerTick();
+     **/
+    void setImgIndex(int index);
 
+    /**
+     * @returns the pixmap array from the subclasses
+     */
+    virtual QPixmap * getPixmapArray() = 0;
+    
 signals:
     void created(GraphicsComponent* gc);
     void signalDraw(DrawParams* dp, GraphicsComponent* gc, int layer);
-    void signalAnimateTick(GraphicsComponent * gc);
     void removeGraphicsItem(GraphicsComponent* gc);
 };
 
