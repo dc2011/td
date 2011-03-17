@@ -24,7 +24,7 @@ private:
     ResManager* mgr_;
     NetworkServer* net_;
 
-    QMap<QString, int> players;
+    QList<Player*> players_;
 
 public:
     // ctors and dtors

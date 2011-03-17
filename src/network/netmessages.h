@@ -23,8 +23,13 @@ namespace network {
         /** Server Assigns ID to a Player **/
         kAssignPlayerID =   0x03,
 
+        /** Indicates a blocks of player objects corresponding to the players in
+         * the current game.
+         */
+        kServerPlayers  =   0x04,
+
         /** Indicates a block of object updates sent from the server to client. */
-        kServerUpdate   =   0x04,
+        kServerUpdate   =   0x05,
 
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
@@ -40,9 +45,6 @@ namespace network {
 
         /** Server Assigns ID to an Tower **/
         kAssignTowerID = 0x82,
-	
-        /** Player Requests and ID from server **/
-        kRequestPlayerID = 0x83,
 	
 	/** Server has created an object, sending object state to player **/
 	kServerCreateObj = 0x85,

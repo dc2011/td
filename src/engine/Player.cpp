@@ -29,6 +29,14 @@ void Player::networkWrite(Stream* s) {
     }
 }
 
+void Player::initComponents() {
+#ifndef SERVER
+    /* Client-side has a Graphics Component */
+    GraphicsComponent* graphics = new PlayerGraphicsComponent();
+    this->setGraphicsComponent(graphics);
+#endif
+}
+
 void Player::update() {
 #ifndef SERVER
     if(this->isDirty()) {

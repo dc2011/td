@@ -30,12 +30,23 @@ unsigned int SDriver::addPlayer(QTcpSocket* sock, QString nickname) {
 
     Player* p = (Player*)mgr_->createObject(Player::clsIdx());
     p->setNickname(nickname);
+    players_.append(p);
     mutex_.unlock();
 
     return p->getID();
 }
 
 void SDriver::startGame() {
+    Stream s;
+    s.writeByte(players_.size());
+
+    foreach (Player* user, players_) {
+        user->networkWrite(&s);
+        user->resetDirty();
+    }
+
+    net_->send(network::kServerPlayers, s.data());
+
     this->waveTimer_->start(15000);
     connect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 }
@@ -84,14 +95,6 @@ void SDriver::onMsgReceive(Stream* s) {
     Stream* out = new Stream();
 
     switch(message) {
-        case network::kRequestPlayerID:
-        {
-            unsigned char type = s->readByte();
-            go = mgr_->createObject(type);
-            out->writeInt(go->getID());
-            net_->send(network::kAssignPlayerID, out->data());
-            break;
-        }
         case network::kRequestTowerID:
         {
             unsigned char type = s->readByte();
