@@ -38,8 +38,11 @@ void ProjectileGraphicsComponent::initPixmaps() {
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_] = PIX_PROJECTILE_0;
-
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_3;
+    pixmapIndex_ = 0;
 }
 
 QPixmap * ProjectileGraphicsComponent::getPixmapArray() {
