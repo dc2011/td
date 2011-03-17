@@ -25,8 +25,11 @@
 #define PIX_PLAYER_5            QString("./img/player-move5.png")
 #define PIX_PLAYER_6            QString("./img/player-move6.png")
 #define PIX_PLAYER_MAX          7
-#define PIX_PROJECTILE_0        QString("./img/projectile.png")
-#define PIX_PROJECTILE_MAX      1
+#define PIX_PROJECTILE_0        QString("./img/arrowProjectile.png")
+#define PIX_PROJECTILE_1        QString("./img/tarCannonProjectile.png")
+#define PIX_PROJECTILE_2        QString("./img/flameProjectile.png")
+#define PIX_PROJECTILE_3        QString("./img/flakProjectile.png")
+#define PIX_PROJECTILE_MAX      4
 #define PIX_PROJECTILE_3_0      QString("./img/projectile-3.png")
 #define PIX_PROJECTILE_3_MAX    1
 #define PIX_TOWER_ARROW         QString("./img/towerArrow.png")
