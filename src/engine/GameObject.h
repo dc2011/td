@@ -1,6 +1,7 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
+#include "../util/defines.h"
 #include "ClsIdx.h"
 #include <QPointF>
 #include "../input/InputComponent.h"
@@ -9,6 +10,8 @@
 #include "../network/stream.h"
 
 namespace td {
+
+class DRIVER;
 
 class GameObject : public QObject {
   Q_OBJECT
@@ -32,7 +35,7 @@ private:
     };
 
 protected:
-    GameObject(); /* Protected to enforce "abstract" class */
+    GameObject(QObject* parent = 0); /* Protected to enforce "abstract" class */
 
 public:
     virtual ~GameObject();
@@ -85,6 +88,16 @@ protected:
     }
 
 public:
+    /**
+     * Returns the game driver to which this game object belongs.
+     *
+     * @author Darryl Pogue
+     * @return The game driver.
+     */
+    DRIVER* getDriver() const {
+        return (DRIVER*)this->parent();
+    }
+
     /**
      * Returns whether this object has fields that have been marked as dirty.
      *

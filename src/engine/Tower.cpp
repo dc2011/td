@@ -9,6 +9,8 @@
 
 namespace td {
 
+Tower::Tower(QObject* parent) : TileExtension(parent) { }
+
 void Tower::update() {
 
     physics_->update(this);

@@ -4,7 +4,7 @@
 #endif
 namespace td {
 
-NPC::NPC() {
+NPC::NPC(QObject* parent) : Unit(parent) {
     QVector2D force(0, 0);
     this->setForce(force);
     this->setVelocity(force);

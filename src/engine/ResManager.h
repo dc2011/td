@@ -8,6 +8,8 @@
 
 namespace td {
 
+class DRIVER;
+
 /**
  * Resource Manager class for GameObjects.
  *
@@ -22,13 +24,19 @@ private:
      */
     QVector<QList<GameObject*> > objects_;
 
+    /**
+     * The current game driver, which is used as a parent for all game objects.
+     */
+    DRIVER* driver_;
+
 public:
     /**
      * Constructor for the Resource Manager.
      *
      * @author Darryl Pogue
+     * @param driver The current game driver.
      */
-    ResManager();
+    ResManager(DRIVER* driver);
 
     /**
      * Destructor for the Resource Manager.

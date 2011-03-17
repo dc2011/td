@@ -11,7 +11,7 @@ namespace td {
 
 SDriver::SDriver() {
     waveTimer_ = new QTimer(this);
-    mgr_ = new ResManager();
+    mgr_ = new ResManager(this);
     net_ = new NetworkServer();
 
     connect(net_, SIGNAL(msgReceived(Stream*)), 

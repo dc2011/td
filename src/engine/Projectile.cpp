@@ -4,7 +4,7 @@
 #endif
 namespace td {
 
-Projectile::Projectile() : Unit() {
+Projectile::Projectile(QObject* parent) : Unit(parent) {
     start_ = new QPointF(0,0);
     end_ = new QPointF(0,0);
     scale_ = 0.25;

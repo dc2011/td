@@ -72,9 +72,11 @@ namespace td{
         res->setPos(tile->getPos());
         res->setID(0xFFFFFFFF); // TODO: Darryl informs me that this is a hack.
 
+#ifndef SERVER
         // Connect updates (primarily for graphics component).
         connect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
                 res, SLOT(update()));
+#endif
 
         tile->setActionType(TILE_RESOURCE);
         tile->setExtension(res);

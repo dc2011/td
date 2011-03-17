@@ -4,7 +4,7 @@
 namespace td {
 
 Effect::Effect(Unit* unit, EffectType type):
-        unit_(unit), type_(type), duration_(40){}
+        GameObject(NULL), unit_(unit), type_(type), duration_(40){}
 
 Effect::~Effect(){}
 
@@ -32,8 +32,10 @@ void Effect::apply(){
 
     duration_--;
     if(duration_ == 0){
+#ifndef SERVER
         QObject::disconnect(CDriver::getTimer(), SIGNAL(timeout()),
                 this, SLOT(update()));
+#endif
         emit effectFinished(this);
     }
 }

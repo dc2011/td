@@ -28,7 +28,7 @@ public:
     }
 
 public:
-    NPC();
+    NPC(QObject* parent = 0);
     virtual ~NPC() {}
 
     virtual void update();

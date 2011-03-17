@@ -42,7 +42,7 @@ private:
     QList<Effect*> effects_;
 
 public:
-    Projectile();
+    Projectile(QObject* parent = 0);
 
     /**
      * Reads the object state from a network stream.

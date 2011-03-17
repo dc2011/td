@@ -22,6 +22,7 @@ public:
     }
 
 public:
+    Tower(QObject* parent = 0);
     virtual ~Tower() {}
     virtual void initComponents();
     virtual void update();

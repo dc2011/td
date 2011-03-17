@@ -27,7 +27,7 @@ CDriver::CDriver(MainWindow* mainWindow)
         : QObject(), human_(NULL), mainWindow_(mainWindow), contextMenu_(NULL),
         projectile_(NULL)
 {
-    mgr_ = new ResManager();
+    mgr_ = new ResManager(this);
     npc_ = QSet<NPC*>();
     npcCounter_ = 0;
     tower_ = NULL;

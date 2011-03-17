@@ -20,6 +20,7 @@ public:
     }
 
 public:
+    TileExtension(QObject* parent = 0);
     virtual ~TileExtension() {}
 };
 } // end of namespace td

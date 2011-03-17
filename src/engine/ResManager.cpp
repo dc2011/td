@@ -6,7 +6,7 @@
 
 namespace td {
 
-ResManager::ResManager() {
+ResManager::ResManager(DRIVER* driver) : driver_(driver) {
     objects_ = QVector<QList<GameObject*> >(clsidx::kMAX_CLASS_INDEX);
 }
 
@@ -20,22 +20,22 @@ GameObject* ResManager::internalCreateObject(unsigned char type) {
 
     switch (type) {
         case clsidx::kPlayer:
-            ret = new Player();
+            ret = new Player((QObject*)driver_);
             id = (Player::clsIdx() << 24) | objects_[type].size();
             ret->setID(id);
             break;
         case clsidx::kProjectile:
-            ret = new Projectile();
+            ret = new Projectile((QObject*)driver_);
             id = (Projectile::clsIdx() << 24) | objects_[type].size();
             ret->setID(id);
             break;
         case clsidx::kNPC:
-            ret = new NPC();
+            ret = new NPC((QObject*)driver_);
             id = (NPC::clsIdx() << 24) | objects_[type].size();
             ret->setID(id);
             break;
         case clsidx::kTower:
-            ret = new Tower();
+            ret = new Tower((QObject*)driver_);
             id = (Tower::clsIdx() <<24) | objects_[type].size();
             ret->setID(id);
             break;

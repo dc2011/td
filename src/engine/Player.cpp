@@ -4,7 +4,7 @@
 #endif
 namespace td {
 
-Player::Player() : Unit(), nickname_("") {
+Player::Player(QObject* parent) : Unit(parent), nickname_("") {
     QVector2D force(0, 0);
     this->setForce(force);
 

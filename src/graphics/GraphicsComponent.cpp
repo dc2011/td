@@ -6,10 +6,10 @@
 
 namespace td {
 
-//QMutex GraphicsComponent::mutex_;
     
 GraphicsComponent::GraphicsComponent() : pixmapIndex_(0) {
 
+#ifndef SERVER    
     MainWindow* mainWindow = CDriver::instance()->getMainWindow();
 
     connect(this, SIGNAL(created(GraphicsComponent*)), 
@@ -18,6 +18,7 @@ GraphicsComponent::GraphicsComponent() : pixmapIndex_(0) {
             mainWindow, SLOT(drawItem(DrawParams*, GraphicsComponent*, int)));
     connect(this, SIGNAL(removeGraphicsItem(GraphicsComponent*)),
             mainWindow, SLOT(removeGraphicRepr(GraphicsComponent*)));
+#endif
 
     isMoving_ = 0;
     animate_ = true;
@@ -54,14 +55,11 @@ void GraphicsComponent::draw(DrawParams* dp, int layer) {
 
 QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
     
-    //mutex_.lock();
     pixmapItem_ = new QGraphicsPixmapItem();
     initPixmaps();
     
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
     pixmapItem_->setPos(OFFSCREEN,OFFSCREEN);
-
-    //mutex_.unlock();
     return pixmapItem_;
 }
 
