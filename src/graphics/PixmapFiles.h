@@ -30,8 +30,6 @@
 #define PIX_PROJECTILE_2        QString("./img/flameProjectile.png")
 #define PIX_PROJECTILE_3        QString("./img/flakProjectile.png")
 #define PIX_PROJECTILE_MAX      4
-#define PIX_PROJECTILE_3_0      QString("./img/projectile-3.png")
-#define PIX_PROJECTILE_3_MAX    1
 #define PIX_TOWER_ARROW         QString("./img/towerArrow.png")
 #define PIX_TOWER_CANNON        QString("./img/towerCannon.png")
 #define PIX_TOWER_TAR           QString("./img/towerTar.png")

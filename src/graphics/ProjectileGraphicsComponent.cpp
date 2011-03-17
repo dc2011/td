@@ -33,7 +33,7 @@ void ProjectileGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_PROJECTILE_3_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PROJECTILE_MAX];
     }
     //TODO: add animation images here
 
