@@ -62,7 +62,7 @@ void LobbyServer::startGame() {
 
     Thread* gamethread = new Thread();
     SDriver* sd = new SDriver();
-    sd->moveToThread(gamethread);
+    connect(this, SIGNAL(startingGame()), sd, SLOT(startGame()));
 
     mutex_.lock();
     foreach (QTcpSocket* conn, clients_.keys()) {
@@ -71,18 +71,23 @@ void LobbyServer::startGame() {
         disconnect(conn, SIGNAL(disconnected()),
                     this, SLOT(disconnected()));
 
-        conn->setParent(NULL);
-        conn->moveToThread(gamethread);
-
         QString nick = clients_[conn];
-        sd->addPlayer(conn, nick);
+        unsigned int id = sd->addPlayer(conn, nick);
+
+        Stream s;
+        s.writeByte(network::kAssignPlayerID);
+        s.writeInt(id);
+
+        conn->write(s.data());
     }
     clients_.clear();
     connCount_ = 0;
     mutex_.unlock();
 
-    //sd->startGame();
+    sd->initNetworking();
+    sd->moveToThread(gamethread);
     gamethread->start();
+    emit startingGame();
 }
 
 void LobbyServer::incomingConnection(int socketDescriptor)

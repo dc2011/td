@@ -9,29 +9,30 @@
 
 namespace td {
 
-QMutex SDriver::mutex_;
-
 SDriver::SDriver() {
     waveTimer_ = new QTimer(this);
     mgr_ = new ResManager();
+    net_ = new NetworkServer();
 
-    NetworkServer::init();
-    connect(NetworkServer::instance(), SIGNAL(msgReceived(Stream*)), 
-		    this, SLOT(onMsgReceive(Stream*)));
+    connect(net_, SIGNAL(msgReceived(Stream*)), 
+            this, SLOT(onMsgReceive(Stream*)));
 }
 
 SDriver::~SDriver() {
+    delete net_;
     delete waveTimer_;
     delete mgr_;
 }
 
-void SDriver::addPlayer(QTcpSocket* sock, QString nickname) {
+unsigned int SDriver::addPlayer(QTcpSocket* sock, QString nickname) {
     mutex_.lock();
-    NetworkServer::instance()->addConnection(sock);
+    net_->addConnection(sock);
 
     Player* p = (Player*)mgr_->createObject(Player::clsIdx());
     p->setNickname(nickname);
     mutex_.unlock();
+
+    return p->getID();
 }
 
 void SDriver::startGame() {
@@ -40,7 +41,7 @@ void SDriver::startGame() {
 }
 
 void SDriver::endGame() {
-    NetworkServer::shutdown();
+    net_->shutdown();
     this->waveTimer_->stop();
 }
 
@@ -63,7 +64,7 @@ void SDriver::destroyServerObj(int id) {
     Stream* out = new Stream();
     mgr_->deleteObject(id);
     out->writeInt(id);
-    NetworkServer::instance()->send(network::kServerDestroyObj, out->data());
+    net_->send(network::kServerDestroyObj, out->data());
     delete out;
 }
 void SDriver::spawnWave() {
@@ -73,7 +74,7 @@ void SDriver::spawnWave() {
 	    NPC* n;
 	    n = (NPC*)mgr_->createObject(NPC::clsIdx());
 	    n->networkWrite(out);
-	    NetworkServer::instance()->send(network::kServerCreateObj, out->data());
+	    net_->send(network::kServerCreateObj, out->data());
 	    delete out;
     }
 }
@@ -88,25 +89,23 @@ void SDriver::onMsgReceive(Stream* s) {
             unsigned char type = s->readByte();
             go = mgr_->createObject(type);
             out->writeInt(go->getID());
-            NetworkServer::instance()->send(network::kAssignPlayerID,
-                    out->data());
+            net_->send(network::kAssignPlayerID, out->data());
             break;
         }
         case network::kRequestTowerID:
-	{
-	    unsigned char type = s->readByte();
-	    go = mgr_->createObject(type);
-	    out->writeInt(go->getID());
-	    NetworkServer::instance()->send(network::kAssignTowerID,
-					    out->data());
-	    break;
-	}
+        {
+            unsigned char type = s->readByte();
+            go = mgr_->createObject(type);
+            out->writeInt(go->getID());
+            net_->send(network::kAssignTowerID, out->data());
+            break;
+        }
         case network::kClientDestroyObj:
-	{
-	    int id = s->readInt();
-	    destroyServerObj(id);
-	    break;
-	}
+        {
+            int id = s->readInt();
+            destroyServerObj(id);
+            break;
+        }
         default:
         {
             go = this->updateObject(s);
@@ -114,8 +113,7 @@ void SDriver::onMsgReceive(Stream* s) {
                 break;
             }
             go->networkWrite(out);
-            NetworkServer::instance()->send(network::kPlayerPosition,
-                    out->data());
+            net_->send(network::kPlayerPosition, out->data());
             break;
         }
     }

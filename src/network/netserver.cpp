@@ -3,14 +3,10 @@
 
 namespace td {
 
-NetworkServer* NetworkServer::instance_ = NULL;
-QMutex NetworkServer::mutex_;
-QThread* NetworkServer::netthread_ = NULL;
-
 NetworkServer::NetworkServer()
 {
+    netthread_ = new Thread();
     udpSocket_ = new QUdpSocket();
-    udpSocket_->bind(TD_PORT, QUdpSocket::ShareAddress);
 
     connect(this, SIGNAL(msgQueued()), this, SLOT(onMsgQueued()),
             Qt::QueuedConnection);
@@ -24,28 +20,21 @@ NetworkServer::~NetworkServer()
     msgQueue_.clear();
 }
 
-NetworkServer* NetworkServer::init()
+void NetworkServer::start()
 {
-    if (instance_ != NULL) {
-        return instance_;
+    udpSocket_->bind(TD_PORT, QUdpSocket::ShareAddress);
+    udpSocket_->moveToThread(netthread_);
+
+    foreach (QTcpSocket* sock, tcpSockets_) {
+        sock->moveToThread(netthread_);
     }
 
-    SAFE_OPERATION(instance_ = new NetworkServer())
-
-    netthread_ = new Thread();
-    instance_->moveToThread(netthread_);
-    instance_->udpSocket_->moveToThread(netthread_);
+    this->moveToThread(netthread_);
     netthread_->start();
-    return instance_;
 }
 
 void NetworkServer::shutdown()
 {
-    mutex_.lock();
-    delete instance_;
-    instance_ = NULL;
-    mutex_.unlock();
-
     netthread_->exit(0);
 }
 

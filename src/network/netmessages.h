@@ -20,8 +20,11 @@ namespace network {
         /** A bad version was detected. */
         kBadVersion     =   0x02,
 
+        /** Server Assigns ID to a Player **/
+        kAssignPlayerID =   0x03,
+
         /** Indicates a block of object updates sent from the server to client. */
-        kServerUpdate   =   0x03,
+        kServerUpdate   =   0x04,
 
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
@@ -40,9 +43,6 @@ namespace network {
 	
         /** Player Requests and ID from server **/
         kRequestPlayerID = 0x83,
-
-        /** Server Assigns ID to a Player **/
-        kAssignPlayerID = 0x84,
 	
 	/** Server has created an object, sending object state to player **/
 	kServerCreateObj = 0x85,

@@ -85,6 +85,9 @@ protected:
      */
     virtual void incomingConnection(int socketDescriptor);
 
+signals:
+    void startingGame();
+
 private slots:
     void readSocket();
     void disconnected();

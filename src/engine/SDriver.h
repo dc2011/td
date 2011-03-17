@@ -17,27 +17,41 @@ namespace td {
 
 class SDriver : public QObject {
     Q_OBJECT 
-    THREAD_SAFE_SINGLETON
+    THREAD_SAFE_CLASS
 
 private:
     QTimer* waveTimer_;
     ResManager* mgr_;
+    NetworkServer* net_;
+
+    QMap<QString, int> players;
 
 public:
     // ctors and dtors
     SDriver();
     virtual ~SDriver();
 
-    void addPlayer(QTcpSocket* sock, QString nickname);
+    /**
+     * Initialize the networking components and make everything run in the right
+     * threads.
+     * This is basically an elaborate hack to avoid QObject::moveToThread issues.
+     *
+     * @author Darryl Pogue
+     */
+    void initNetworking() {
+        net_->start();
+    }
 
     /**
-     * Starts game timer, initializes network server instance,
-     * also connects the onUDPReceived signal to UDPReceived slot.
-     * 
-     * 
-     * @author Duncan Donaldson
+     * Adds the socket to the game session and creates a new player with the
+     * given nickname.
+     *
+     * @author Darryl Pogue
+     * @param sock The socket of the user.
+     * @param nickname The player nickname.
+     * @return The ID of the newly created Player.
      */
-    void startGame();
+    unsigned int addPlayer(QTcpSocket* sock, QString nickname);
 
     /**
      * Stop game timer, and shuts down the network server.
@@ -66,6 +80,14 @@ public:
 
 public slots:
     /**
+     * Starts game timer, makes signal/slot connects, and sends the initial game
+     * state to all clients.
+     * 
+     * @author Duncan Donaldson
+     */
+    void startGame();
+
+    /**
      * Spawns a server-side wave and updates all clients.
      * ****WARNING****
      * used as-is this will eventually run the server side out of memory
@@ -76,7 +98,7 @@ public slots:
     void spawnWave();
 
     /**
-     * Handles a UDP packet receive by updating a currently existing player
+     * Handles a packet receive by updating a currently existing player
      * or adding the player to the players list if the player does not exist.
      * 
      * @author Duncan Donaldson

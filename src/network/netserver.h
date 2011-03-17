@@ -22,21 +22,13 @@ namespace td
 
 class NetworkServer : public QObject {
     Q_OBJECT
-    THREAD_SAFE_SINGLETON
+    THREAD_SAFE_CLASS
 
 private:
     /**
-     * The static singleton instance of the NetworkServer.
-     *
-     * It should only be retrieved using the instance() method, which
-     * will initialize it the first time that it is retrieved.
-     */
-    static NetworkServer* instance_;
-
-    /**
      * The thread which owns the NetworkServer and its sockets.
      */
-    static QThread* netthread_;
+    QThread* netthread_;
 
     /**
      * A QQueue for all the messages to be sent
@@ -53,7 +45,7 @@ private:
      */
     QUdpSocket* udpSocket_;
 
-private:
+public:
     /**
      * Constructor for the server-side networking singleton.
      *
@@ -113,15 +105,11 @@ private slots:
 
 public:
     /**
-     * Create and initialize the NetworkServer instance.
-     * This must be the first NetworkServer function that is called. Once an
-     * instance has been created, all calls to init() or instance() will
-     * return the existing instance.
+     * Starts the network server listening for data transmission.
      *
      * @author Darryl Pogue
-     * @return A pointer to the initialized NetworkServer instance.
      */
-    static NetworkServer* init();
+    void start();
 
     /**
      * Close the network sockets and empty the message buffer queue.
@@ -129,21 +117,7 @@ public:
      *
      * @author Darryl Pogue
      */
-    static void shutdown();
-
-    /**
-     * Return the instance of the NetworkServer.
-     * You MUST call init() to create the initial instance. Once an instance
-     * has been created, all calls to init() or instance() will return the
-     * existing instance.
-     *
-     * @author Terence Stenvold
-     * @author Darryl Pogue
-     * @return A pointer to the NetworkServer instance.
-     */
-    static NetworkServer* instance() {
-        return instance_;
-    }
+    void shutdown();
 
     /** 
      * Send the ByteArray to the connected clients.
@@ -169,6 +143,7 @@ public:
      */
     void addConnection(QTcpSocket* conn) {
         connect(conn, SIGNAL(readyRead()), this, SLOT(onTCPReceive()));
+
         SAFE_OPERATION(tcpSockets_.append(conn))
     }
 };
