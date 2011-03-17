@@ -65,7 +65,7 @@ void CDriver::updateServer(GameObject* obj) {
         delete updates;
         return;
     }
-    if ((obj->getID() & 0xFF000000) >> 24 != Player::clsIdx()) {
+    if (obj->getID() != 0xFFFFFFFF) {
         return;
     }
 
@@ -79,7 +79,7 @@ void CDriver::updateServer(GameObject* obj) {
 void CDriver::readObject(Stream* s) {
     unsigned int id = s->readInt();
 
-    if (id == playerID_ || ((id & 0xFF000000) >> 24) != Player::clsIdx()) {
+    if (id == playerID_) {
         s->read(s->size() - s->position());
         return;
     }
