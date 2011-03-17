@@ -56,8 +56,6 @@ void LobbyWindow::connectLobby()
 void LobbyWindow::tmp_startGame()
 {
     if (ui->chkSingleplayer->isChecked()) {
-        disconnect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
-                this, SLOT(onTCPReceived(Stream*)));
         emit startGame(true);
         return;
     }

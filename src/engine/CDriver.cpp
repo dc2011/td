@@ -137,13 +137,13 @@ void CDriver::makeLocalPlayer(Player* player) {
     connect(physics, SIGNAL(NPCPlayerCollided(Effect::EffectType)), 
             human_, SLOT(createEffect(Effect::EffectType)));
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            human_->getGraphicsComponent(), SLOT(showName(bool)));
+            player->getGraphicsComponent(), SLOT(showName(bool)));
 
     /* Set up the build context menu */
     contextMenu_ = new ContextMenu(human_);
 
     connect(contextMenu_, SIGNAL(signalPlayerMovement(bool)),
-	        human_->getInputComponent(), SLOT(playerMovement(bool)));
+	        input,        SLOT(playerMovement(bool)));
     connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
             this,         SLOT(handleSpacebarPress()));
     connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
@@ -243,6 +243,9 @@ void CDriver::startGame(bool singlePlayer) {
     if (singlePlayer) {
         Player* player = (Player*)mgr_->createObject(Player::clsIdx());
         playerID_ = player->getID();
+
+        player->initComponents();
+        connect(gameTimer_, SIGNAL(timeout()), player, SLOT(update()));
 
         this->makeLocalPlayer(player);
     }
