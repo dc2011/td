@@ -2,7 +2,7 @@
 #define _mutex_magic_
 
 #define THREAD_SAFE_CLASS \
-private: \
+protected: \
     /** 
      A Mutex to protect data from multiple threads. 
       
