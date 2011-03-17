@@ -49,6 +49,7 @@ void NetworkServer::onMsgQueued()
     } else {
         foreach (QTcpSocket* sock, tcpSockets_) {
             sock->write(tmp);
+            sock->flush();
         }
     }
 }

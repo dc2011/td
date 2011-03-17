@@ -80,6 +80,7 @@ void CDriver::readObject(Stream* s) {
     unsigned int id = s->readInt();
 
     if (id == playerID_) {
+        s->read(s->size() - s->position());
         return;
     }
 
@@ -90,12 +91,10 @@ void CDriver::readObject(Stream* s) {
         go->initComponents();
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
 
-        delete s;
         return;
     }
     
     go->networkRead(s);
-    delete s;
 }
 
 void CDriver::destroyObjSync(int id) {
@@ -308,12 +307,6 @@ void CDriver::UDPReceived(Stream* s) {
         case network::kAssignPlayerID:
             playerID_ = s->readInt();
             qDebug("My player ID is %08X", playerID_);
-            //read ID and add human to existing objects
-            /*if (human_->getID() == 0xFFFFFFFF) {
-                human_->setID(s->readInt());
-                mgr_->addExistingObject(human_);
-                qDebug("Got an ID from the server!");
-            }*/
             break;
         case network::kServerPlayers:
         {
@@ -347,6 +340,12 @@ void CDriver::UDPReceived(Stream* s) {
         default:
             this->readObject(s);
             break;
+    }
+
+    if (!s->eof()) {
+        this->UDPReceived(s);
+    } else {
+        delete s;
     }
 }
 

@@ -94,6 +94,7 @@ void LobbyServer::incomingConnection(int socketDescriptor)
 {
     QTcpSocket* conn = new QTcpSocket();
     conn->setSocketDescriptor(socketDescriptor);
+    conn->setSocketOption(QAbstractSocket::LowDelayOption, true);
 
     qDebug() << "Hi, I'm a server! Who are you?" <<
                 conn->peerAddress().toString();
