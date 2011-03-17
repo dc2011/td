@@ -3,6 +3,8 @@
 #include "CDriver.h"
 #endif
 #include "Effect.h"
+#include "../graphics/TowerGraphicsComponent.h"
+#include "../physics/TowerPhysicsComponentTypes.h"
 #include "../util/defines.h"
 
 namespace td {
@@ -11,14 +13,10 @@ void Tower::update() {
 
     physics_->update(this);
     graphics_->update(this);
-    CDriver::updateServer(this);
 
 #ifndef SERVER
     CDriver::updateServer(this);
 #endif
-    graphics_->update(this);
-    //physics_->update(this);
-
 }
 
 void Tower::initComponents() {
@@ -27,21 +25,33 @@ void Tower::initComponents() {
 }
 
 void Tower::initComponents(int towerType) {
-    QString pixmapPath;
 
     switch (towerType) {
-        case TOWER_ARROW:   pixmapPath = PIX_TOWER_ARROW;   break;
-        case TOWER_CANNON:  pixmapPath = PIX_TOWER_CANNON;  break;
-        case TOWER_TAR:     pixmapPath = PIX_TOWER_TAR;     break;
-        case TOWER_FLAME:   pixmapPath = PIX_TOWER_FLAME;   break;
-        case TOWER_FLAK:    pixmapPath = PIX_TOWER_FLAK;    break;
+
+        case TOWER_ARROW:
+            setPhysicsComponent(new ArrowTowerPhysicsComponent(this));
+            //setGraphicsComponent(new ArrowTowerGraphicsComponent());
+            break;
+        case TOWER_CANNON:
+            setPhysicsComponent(new CannonTowerPhysicsComponent(this));
+            //setGraphicsComponent(new CannonTowerGraphicsComponent());
+            break;
+        case TOWER_FLAME:
+            setPhysicsComponent(new FlameTowerPhysicsComponent(this));
+            //setGraphicsComponent(new FlameTowerGraphicsComponent());
+            break;
+        case TOWER_TAR:
+            setPhysicsComponent(new TarTowerPhysicsComponent(this));
+            //setGraphicsComponent(new TarTowerGraphicsComponent());
+            break;
+        case TOWER_FLAK:
+            setPhysicsComponent(new FlakTowerPhysicsComponent(this));
+            //setGraphicsComponent(new FlakTowerGraphicsComponent());
+            break;
     }
-    PhysicsComponent* physics = new TowerPhysicsComponent();
-
-    this->setPhysicsComponent(physics);
-
-    GraphicsComponent* graphics = new TowerGraphicsComponent(pixmapPath);
-
+    /* TODO: remove next 2 lines and uncomment the lines in the switch statement
+     * after TowerGraphicsComponentsTypes.h has been added to this branch */
+    GraphicsComponent* graphics = new TowerGraphicsComponent(towerType);
     this->setGraphicsComponent(graphics);
 }
 

@@ -10,9 +10,10 @@
 
 namespace td {
 
+    QPixmap * ContextMenuGraphicsComponent::pixmapImgs_ = 0;
+
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
-
     emit created(this);
     connect(&closeTimer_, SIGNAL(timeout()), this, SLOT(hideSelectMenu()));
 }
@@ -28,8 +29,12 @@ void ContextMenuGraphicsComponent::update(GameObject *) {
 }
 
 void ContextMenuGraphicsComponent::initPixmaps() {
-    //TODO: add animation images here or just single img
-    pixmapImgs_ = new QPixmap[PIX_CONTEXT_MENU_MAX];
+    if (pixmapImgs_) {
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_CONTEXT_MENU_MAX];
+    }
+
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_MAIN;
     pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_RES;
@@ -51,14 +56,14 @@ void ContextMenuGraphicsComponent::showMenu(QPointF playerPos) {
     setImgIndex(0);
     
     closeTimer_.stop();
-    animateConnect();
+    animate_ = true;
 
     update(NULL);
 }
 
 void ContextMenuGraphicsComponent::showSelectMenu(int type, QPointF playerPos) {
     QPointF tempMenuPos(playerPos);
-    animateDisconnect();
+    animate_ = false;
 
     menuPos_.setX(tempMenuPos.x());
     menuPos_.setY(tempMenuPos.y());
@@ -98,7 +103,7 @@ void ContextMenuGraphicsComponent::hideMenu() {
 void ContextMenuGraphicsComponent::animate() {
 
     if(scaleFactor_ == 1) {
-        animateDisconnect();
+        animate_ = false;
 	return;
     }
     scaleFactor_ += 0.2;
@@ -123,6 +128,10 @@ void ContextMenuGraphicsComponent::showResources(bool show) {
     scaleFactor_ = 1;
 
     update(NULL);
+}
+
+QPixmap * ContextMenuGraphicsComponent::getPixmapArray() {
+    return pixmapImgs_;
 }
 
 } /* end namespace td */

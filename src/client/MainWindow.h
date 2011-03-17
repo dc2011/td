@@ -25,6 +25,7 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
 private:
+
     /**
      * The graphics scene which contains all the objects
      */
@@ -82,13 +83,22 @@ public slots:
     void createGraphicRepr(GraphicsComponent* gc);
 
     /**
+     * Removes the graphics item from the scene, and wraps the graphics
+     * component in an object so that it'll be deleted after all events related
+     * to it are removed from the event queue (ideally).
+     *
+     * @author Dean Morin
+     * @param gc The object to safely delete.
+     */
+    void removeGraphicRepr(GraphicsComponent* gc);
+
+    /**
      * Draws the graphical representation of the game object.
      *
      * @author Darryl Pogue
      * @param gc The GraphicsComponent of the game object.
      */
     void drawItem(DrawParams* dp, GraphicsComponent* gc, int layer);
-    void animateItem(GraphicsComponent* gc);
     
     /**
      * Emits signals depending on the keys held down
@@ -109,10 +119,37 @@ public slots:
 signals:
     void signalKeyPressed(int);
     void signalKeyReleased(int);
-    void signalNumberPressed(int);
+    
+    /**
+     * The number keys are used to select options from the context menu.
+     * 
+     * Connected to selectMenuItem() in ContextMenu.cpp.
+     *
+     * @author Dean Morin
+     */
+    void signalNumberPressed(int keyPressed);
+
+    /**
+     * The spacebar is essentially the 'action' button. Its function depends on
+     * what object the player is currently standing on.
+     *
+     * Connected to handleSpacebarPress() in CDriver.cpp.
+     *
+     * @author Dean Morin
+     */
     void signalSpacebarPressed();
-    void signalAltHeld(bool);
-    void signalFPressed();
+
+    /**
+     * The alt key shows additional info on the screen when held (enemy health,
+     * player names, tower building resource requirements, etc.). 
+     *
+     * Connected to viewResources() in ContextMenu.cpp, and showHealth() in 
+     * NPCGraphicsComponent.cpp.
+     *
+     * @author Dean Morin
+     * @param keyHeld True if the alt key is currently being held down.
+     */
+    void signalAltHeld(bool keyHeld);
 };
 
 } /* end namespace td */

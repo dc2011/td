@@ -3,10 +3,10 @@
 
 namespace td {
 
-TowerGraphicsComponent::TowerGraphicsComponent(QString pixmapPath)
-        : GraphicsComponent(), pixmapPath_(pixmapPath) {
+QPixmap * TowerGraphicsComponent::pixmapImgs_ = 0;
+TowerGraphicsComponent::TowerGraphicsComponent(int towerType)
+        : GraphicsComponent(), towerType_(towerType) {
     emit created(this);
-    /* Do init-type stuff here */
 }
 
 TowerGraphicsComponent::~TowerGraphicsComponent() {}
@@ -24,15 +24,39 @@ void TowerGraphicsComponent::update(GameObject* obj) {
     //player->getVelocity().length() != 0;
     dp->scale   = 1;//tower->getScale();
     dp->degrees = tower->getOrientation();
-    emit signalDraw(dp, this, LAYER_DEFAULT);
+    emit signalDraw(dp, this, LAYER_TOWER);
 }
 
 void TowerGraphicsComponent::initPixmaps() {
+    if (pixmapImgs_) {
+        setIndexValue();
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_TOWER_MAX];
+    }
     //TODO: add animation images here
-    pixmapImgs_ = new QPixmap[PIX_TOWER_MAX];
+
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = pixmapPath_;
-    pixmapIndex_ = 0; //sets image back to start
+    pixmapImgs_[pixmapIndex_++] = PIX_TOWER_ARROW;
+    pixmapImgs_[pixmapIndex_++] = PIX_TOWER_CANNON;
+    pixmapImgs_[pixmapIndex_++] = PIX_TOWER_TAR;
+    pixmapImgs_[pixmapIndex_++] = PIX_TOWER_FLAME;
+    pixmapImgs_[pixmapIndex_++] = PIX_TOWER_FLAK;
+    setIndexValue();
+}
+
+void TowerGraphicsComponent::setIndexValue() {
+    switch (towerType_) {
+        case TOWER_ARROW:   pixmapIndex_ = 0;   break;
+        case TOWER_CANNON:  pixmapIndex_ = 1;   break;
+        case TOWER_TAR:     pixmapIndex_ = 2;   break;
+        case TOWER_FLAME:   pixmapIndex_ = 3;   break;
+        case TOWER_FLAK:    pixmapIndex_ = 4;   break;
+    }
+}
+
+QPixmap * TowerGraphicsComponent::getPixmapArray() {
+    return pixmapImgs_;
 }
 
 } /* end namespace td */

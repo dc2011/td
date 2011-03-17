@@ -1,20 +1,20 @@
 #include "PlayerGraphicsComponent.h"
 #include "../engine/Player.h"
+#include "../engine/CDriver.h"
 
 namespace td {
+
+QPixmap * PlayerGraphicsComponent::pixmapImgs_ = 0;
 
 PlayerGraphicsComponent::PlayerGraphicsComponent()
         : GraphicsComponent()
 {
-    animateMod = 4;
-    animateCount = 0;
-    animateConnect();
+    animateMod_ = 4;
+    animateCount_ = 0;
+    animate_ = true;
+    showName_ = false;
     emit created(this);
-    /* Do init-type stuff here */
 }
-
-//PlayerGraphicsComponent::~PlayerGraphicsComponent() {
-//}
 
 void PlayerGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
@@ -31,22 +31,22 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
     emit signalDraw(dp, this, LAYER_PLAYER);
 }
 
-void PlayerGraphicsComponent::initPixmaps() {
-    //TODO: add animation logic here?
-    pixmapImgs_ = new QPixmap[PIX_PLAYER_MAX];
-    pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_2;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_3;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_4;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_5;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_6;
-    pixmapIndex_ = 0;
+void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
+
+    if (showName_) {
+    label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
+                   dp->pos.y() - getPixmapItem()->boundingRect().height());
+    label_->setZValue(layer);
+    label_->update();
+    } else {
+        label_->setPos(OFFSCREEN, OFFSCREEN);
+        label_->update();
+    }
+
+    GraphicsComponent::draw(dp, layer);
 }
 
 void PlayerGraphicsComponent::animate() {
-    
     int pos;
     
     if (!isMoving_) {
@@ -60,10 +60,34 @@ void PlayerGraphicsComponent::animate() {
         pos == 1 ? pixmapIndex_ = 0 : pixmapIndex_ = 3;
     }
     
-    if (!(animateCount++ % animateMod)) {
+    if (!(animateCount_++ % animateMod_)) {
         ++pixmapIndex_ >= PIX_PLAYER_MAX ? pixmapIndex_ = 1 : pixmapIndex_;
         setImgIndex(pixmapIndex_);
     }
+}
+
+void PlayerGraphicsComponent::initPixmaps() {
+    label_ = new QGraphicsTextItem(QString("Warren Master Of The Universe"));
+
+    label_->setDefaultTextColor (QColor(0,255,0));
+    CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
+
+    if (pixmapImgs_) {
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_PLAYER_MAX];
+    }
+    //TODO: add animation logic here?
+
+    pixmapIndex_ = 0;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_4;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_5;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_6;
+    pixmapIndex_ = 0;
 }
 
 } /* end namespace td */

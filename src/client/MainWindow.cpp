@@ -1,11 +1,13 @@
 #include "MainWindow.h"
 #include <QScrollArea>
 #include <QSize>
+#include "map.h"
+#include "maprenderer.h"
 #include "../audio/manager.h"
 #include "../graphics/GraphicsComponent.h"
 #include "../graphics/MapDisplayer.h"
-#include "maprenderer.h"
-#include "map.h"
+#include "../util/DelayedDelete.h"
+#include <QLabel>
 
 namespace td {
 
@@ -50,15 +52,18 @@ void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
     scene_->addItem(gc->initGraphicsComponent());
 }
 
+void MainWindow::removeGraphicRepr(GraphicsComponent* gc) {
+    scene_->removeItem(gc->getPixmapItem());
+    new DelayedDelete<GraphicsComponent>(gc);
+}
+
 void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc, int layer) {
     gc->draw(dp,layer);
 }
 
-
 void MainWindow::keyHeld()
 {
 
-    //do nothing if different directions held
     if(keysHeld_ & KEYUP && keysHeld_ & KEYDOWN) {
         emit signalKeyReleased(Qt::Key_Up);
         emit signalKeyReleased(Qt::Key_Down);
@@ -93,9 +98,6 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
 
         case Qt::Key_Space:
             emit signalSpacebarPressed();
-            break;
-        case Qt::Key_F:
-            emit signalFPressed();
             break;
         case Qt::Key_R:
             emit signalAltHeld(true);
@@ -164,10 +166,6 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
             QMainWindow::keyPressEvent(event);
             break;
     }
-}
-
-void MainWindow::animateItem(GraphicsComponent* gc) {
-    gc->animate();
 }
 
 } /* end namespace td */
