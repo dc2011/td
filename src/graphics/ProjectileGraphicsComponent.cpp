@@ -38,7 +38,7 @@ void ProjectileGraphicsComponent::initPixmaps() {
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_] = PIX_PROJECTILE_3_0;
+    pixmapImgs_[pixmapIndex_] = PIX_PROJECTILE_0;
 
 }
 
