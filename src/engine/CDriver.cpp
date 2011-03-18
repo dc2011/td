@@ -65,7 +65,7 @@ void CDriver::updateServer(GameObject* obj) {
         delete updates;
         return;
     }
-    if (obj->getID() != 0xFFFFFFFF) {
+    if (obj->getID() == 0xFFFFFFFF) {
         return;
     }
 
@@ -228,12 +228,12 @@ void CDriver::startGame(bool singlePlayer) {
     CDriver::gameMap_->initMap();
     QQueue<QString> musicList;
 
-    if(singlePlayer == false) {
+    /*if(singlePlayer == false) {
         connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
-		        this, SLOT(UDPReceived(Stream*)));
+                this, SLOT(UDPReceived(Stream*)));
         connect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
-		        this, SLOT(UDPReceived(Stream*)));
-    }
+                this, SLOT(UDPReceived(Stream*)));
+    }*/
     setSinglePlayer(singlePlayer);
 
     musicList = td::AudioManager::instance()->musicDir("./sound/music/");

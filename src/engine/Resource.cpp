@@ -9,7 +9,7 @@ namespace td {
 void Resource::update() {
     graphics_->update(this);
     //physics_->update(this);
-    CDriver::updateServer(this);
+    //CDriver::updateServer(this);
 }
 
 void Resource::initComponents() {
