@@ -9,7 +9,7 @@
 namespace td {
 
 /**
- * Resource Manager class for GameObjects.
+ * Manager class for GameObjects.
  *
  * @author Darryl Pogue
  */
