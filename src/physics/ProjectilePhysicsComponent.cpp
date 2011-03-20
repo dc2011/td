@@ -1,5 +1,9 @@
 #include "ProjectilePhysicsComponent.h"
 #include "../engine/Projectile.h"
+#include "../engine/Map.h"
+#include "../engine/Tile.h"
+#include "../engine/CDriver.h"
+#include "../engine/NPC.h"
 
 namespace td {
 
@@ -32,7 +36,39 @@ void ProjectilePhysicsComponent::applyVelocity(Projectile* projectile)
 {
     QPointF newPos = projectile->getPos()
                      + projectile->getVelocity().toPointF();
+
+    Map* map = td::CDriver::instance()->getGameMap();
+    QSet<Unit*> npcs;
+    QVector<QPointF> points = QVector<QPointF>();
+    points.append(newPos);
+    QPointF point;
+
+    QMatrix matrix = QMatrix();
+    matrix.rotate(-projectile->getOrientation());
+
+    point = QPointF(-projectile->getWidth()/2, -projectile->getHeight( )/2) * matrix;
+    point += newPos;
+    points.append(point);
+    point = QPointF(projectile->getWidth()/2, -projectile->getHeight()/2) * matrix;
+    point += newPos;
+    points.append(point);
+    point = QPointF(projectile->getWidth()/2, projectile->getHeight()/2) * matrix;
+    point += newPos;
+    points.append(point);
+    point = QPointF(-projectile->getWidth()/2, projectile->getHeight()/2) * matrix;
+    point += newPos;
+    points.append(point);
+    point = QPointF(-projectile->getWidth()/2, -projectile->getHeight()/2) * matrix;
+    point += newPos;
+    points.append(point);
+
+    npcs = map->getUnits(newPos.x(), newPos.y(), 1);
     projectile->setPos(newPos);
+    projectile->setBounds(QPolygonF(points));
+    if(!npcs.empty()){
+        checkNPCCollision(npcs, projectile);
+    }
+
 }
 
 void ProjectilePhysicsComponent::applyForce(Projectile* projectile)
@@ -98,4 +134,27 @@ void ProjectilePhysicsComponent::applyForce(Projectile* projectile)
     }
 }
 
+
+void ProjectilePhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* projectile){
+    QSet<Unit*>::iterator it;
+    QPolygonF projBounds;
+    QPolygonF npcBounds;
+
+    for (it = npcs.begin(); it != npcs.end(); ++it) {
+        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()){
+            projBounds = projectile->getBounds();
+            npcBounds = (*it)->getBounds();
+            if(projectile->getBounds().intersected((*it)->getBounds()).count() != 0){
+                //create projectile effect
+                //add effect to npc
+                //qDebug("Enemy hit");
+                break;
+            }else{
+                //qDebug("No hit");
+            }
+
+        }
+    }
+
+}
 } /* end namespace td */

@@ -10,6 +10,8 @@ Projectile::Projectile() : Unit() {
     scale_ = 0.25;
     path_ = QLineF(end_->x(), end_->y(), start_->x(), start_->y());
     this->pos_ = QPointF(0,0);
+    this->setHeight(10);
+    this->setWidth(48);
 }
 
 void Projectile::networkRead(td::Stream* s) {

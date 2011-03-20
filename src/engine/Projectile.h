@@ -135,6 +135,21 @@ public:
        path_ = path;
     }
 
+    int getWidth(){
+        return width_;
+    }
+
+    void setWidth(int width){
+        width_ = width;
+    }
+
+    int getHeight(){
+        return height_;
+    }
+
+    void setHeight(int height){
+        height_ = height;
+    }
 private:
     size_t damage_;
     /**
@@ -152,6 +167,8 @@ private:
      * or the current projectile position. First position should be set to end.
      */
     QLineF path_;
+    int height_;
+    int width_;
 };
 
 } /* end namespace td */
