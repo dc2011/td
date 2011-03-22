@@ -27,11 +27,6 @@ public:
     virtual void update();
 
     /**
-     * TODO: remove once objects are being created by the server (it's a hack).
-     */
-    virtual void initComponents(int towerType);
-
-    /**
      * Sets the tower type (arrow, cannon, tar, flame, or flak).
      *
      * @author Darryl Pogue
@@ -43,16 +38,8 @@ public:
 
 private:
     int type_;
-
-    /**
-     * Set to false when the tower is initialized. On the first network read, 
-     * this flag will be checked, the components will be actually initialized,
-     * and the flag will be set to true. This is needed because towers require
-     * an argument (the tower type) in order to know what type of tower to
-     * become.
-     */
-    bool componentsInitialized_;
 };
+
 } // end of namespace td
 
 #endif
