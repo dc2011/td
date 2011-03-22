@@ -223,17 +223,11 @@ void CDriver::createTower(int towerType, QPointF pos) {
 
 void CDriver::startGame(bool singlePlayer) {
     // Create hard coded map
-    CDriver::gameMap_     = new Map(mainWindow_->getMD()->map());
-    CDriver::gameTimer_   = new QTimer(this);
-    CDriver::gameMap_->initMap();
+    gameMap_ = new Map(mainWindow_->getMD()->map());
+    gameTimer_ = new QTimer(this);
+    gameMap_->initMap();
     QQueue<QString> musicList;
 
-    /*if(singlePlayer == false) {
-        connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
-                this, SLOT(UDPReceived(Stream*)));
-        connect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
-                this, SLOT(UDPReceived(Stream*)));
-    }*/
     setSinglePlayer(singlePlayer);
 
     musicList = td::AudioManager::instance()->musicDir("./sound/music/");
