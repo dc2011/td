@@ -43,11 +43,11 @@ private:
     Projectile* projectile_;
      /** A tower built by the players. */
     Tower* tower_;
-    /** An set of towers. */
+     /** An set of towers. */
     QSet<Tower*> towers_;
      /** The single instance of this class that can be created. */
     static CDriver* instance_;
-    /** Tells objects whether or not the game is being played single player **/
+     /** Tells objects whether or not the game is being played single player **/
     bool singlePlayer_;
     
     CDriver(MainWindow* parent = 0);

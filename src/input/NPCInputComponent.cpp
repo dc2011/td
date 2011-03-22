@@ -61,6 +61,7 @@ void NPCInputComponent::nextDestination() {
         disconnect(CDriver::getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
         emit deleteUnitLater(parent_);  
+        qDebug("emit");
     }
 }
 

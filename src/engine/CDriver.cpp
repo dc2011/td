@@ -253,7 +253,7 @@ void CDriver::startGame(bool singlePlayer) {
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
             this,         SLOT(createTower(int, QPointF)));
 
-    gameTimer_->start(30);
+    gameTimer_->start(10);
 }
 
 void CDriver::endGame() {
@@ -292,8 +292,9 @@ void CDriver::handleSpacebarPress() {
 }
 
 void CDriver::deleteNPC(NPC* marcel) {
+    qDebug("me?");
     npc_.remove(marcel); 
-    delete marcel; 
+    marcel->deleteLater(); 
 }
 
 QTimer* CDriver::getTimer() {

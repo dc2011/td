@@ -44,6 +44,13 @@ private:
     int nextDest_;
     /** Counter used to regulate length of time the force is applied. */
     size_t forceCounter_;
+
+signals:
+    /**
+     * TEMP HACK
+     * @author Dean Morin
+     */
+    void deleteUnitLater(NPC*);
 };
 
 } /* end namespace td */
