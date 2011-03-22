@@ -9,6 +9,9 @@
 #include <QHostAddress>
 #include "ResManager.h"
 #include "Player.h"
+#include "Tower.h"
+#include "NPC.h"
+#include "Resource.h"
 #include "../network/netserver.h"
 #include "../network/stream.h"
 
@@ -59,6 +62,20 @@ public:
      * @param id The id of the object to be destroyed.
      */
     void destroyServerObj(int id);
+
+private:
+    /**
+     * Creates a new tower of the given type.
+     *
+     * @author Darryl Pogue
+     * @param type The type of tower to create.
+     * @return A pointer to the new tower.
+     */
+    Tower* createTower(int type);
+
+    //NPC* createNPC(int type);
+
+    //Resource* createResource(int type);
 
 public slots:
     /**
