@@ -22,21 +22,19 @@ void Tower::update() {
     graphics_->update(this);
 }
 
-void Player::networkRead(Stream* s) {
-    Unit::networkRead(s);
-
+void Tower::networkRead(Stream* s) {
+    TileExtension::networkRead(s);
+    
     if (dirty_ & kType) {
-        int len = s->readInt();
-        nickname_ = QString(s->read(len));
+        type_ = s->readInt();
     }
 }
 
-void Player::networkWrite(Stream* s) {
-    Unit::networkWrite(s);
+void Tower::networkWrite(Stream* s) {
+    TileExtension::networkWrite(s);
 
-    if (dirty_ & kNickname) {
-        s->writeInt(nickname_.length());
-        s->write(nickname_.toAscii());
+    if (dirty_ & kType) {
+        s->writeInt(type_);
     }
 }
 
