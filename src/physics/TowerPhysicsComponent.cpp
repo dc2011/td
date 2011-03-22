@@ -51,7 +51,8 @@ void TowerPhysicsComponent::findTargets(GameObject* tower, int radius) {
             return;
 
         } else {
-            if (enemies_.size() == 1 && (((*iter)->getID()&0xFF000000)>>24) == Player::clsIdx()) {
+            if (enemies_.size() == 1 &&
+                (((*iter)->getID()&0xFF000000)>>24) == Player::clsIdx()) {
                 target_ = NULL;
             }
             if((((*iter)->getID()&0xFF000000)>>24) == NPC::clsIdx()) {

@@ -51,7 +51,7 @@ public:
      */
     void setNPCs(GameObject* tower, int radius) {
         Map* map = CDriver::instance()->getGameMap();
-        enemies_ = map->getUnits(tower->getPos().x() ,tower->getPos().y() , radius);
+        enemies_ = map->getUnits(tower->getPos().x() ,tower->getPos().y() ,radius);
     }
 
     /**
@@ -61,22 +61,51 @@ public:
      */
     void fire();
 
+    /**
+     * returns current enemies in sight.
+     *
+     * @author Joel Stewart
+     */
     QSet<Unit*> getEnemies() {
         return enemies_;
     }
 
+    /**
+     * Set current Target
+     *
+     * @author Joel Stewart
+     * @param Unit, pointer to target your setting
+     */
     void setTarget(Unit* target) {
         target_ = target;
     }
 
+    /**
+     * gets current target.
+     *
+     * @author Joel Stewart
+     * @return current target
+     */
     Unit* getTarget() {
         return target_;
     }
 
+    /**
+     * Sets radius value of tower
+     *
+     * @author Joel Stewart
+     * @param radius, sets radius_
+     */
     void setRadius(int radius) {
         radius_ = radius;
     }
 
+    /**
+     * returns radius value of the tower
+     *
+     * @author Joel Stewart
+     * @return int, radius value
+     */
     int getRadius() {
         return radius_;
     }
