@@ -3,7 +3,7 @@
 #include "CDriver.h"
 #endif
 #include "Effect.h"
-#include "../graphics/TowerGraphicsComponent.h"
+#include "../graphics/TowerGraphicsComponentTypes.h"
 #include "../physics/TowerPhysicsComponentTypes.h"
 #include "../util/defines.h"
 
@@ -30,29 +30,29 @@ void Tower::initComponents(int towerType) {
 
         case TOWER_ARROW:
             setPhysicsComponent(new ArrowTowerPhysicsComponent(this));
-            //setGraphicsComponent(new ArrowTowerGraphicsComponent());
+            setGraphicsComponent(new ArrowTowerGraphicsComponent());
             break;
         case TOWER_CANNON:
             setPhysicsComponent(new CannonTowerPhysicsComponent(this));
-            //setGraphicsComponent(new CannonTowerGraphicsComponent());
+            setGraphicsComponent(new CannonTowerGraphicsComponent());
             break;
         case TOWER_FLAME:
             setPhysicsComponent(new FlameTowerPhysicsComponent(this));
-            //setGraphicsComponent(new FlameTowerGraphicsComponent());
+            setGraphicsComponent(new FlameTowerGraphicsComponent());
             break;
         case TOWER_TAR:
             setPhysicsComponent(new TarTowerPhysicsComponent(this));
-            //setGraphicsComponent(new TarTowerGraphicsComponent());
+            setGraphicsComponent(new TarTowerGraphicsComponent());
             break;
         case TOWER_FLAK:
             setPhysicsComponent(new FlakTowerPhysicsComponent(this));
-            //setGraphicsComponent(new FlakTowerGraphicsComponent());
+            setGraphicsComponent(new FlakTowerGraphicsComponent());
             break;
     }
     /* TODO: remove next 2 lines and uncomment the lines in the switch statement
-     * after TowerGraphicsComponentsTypes.h has been added to this branch */
+     * after TowerGraphicsComponentsTypes.h has been added to this branch *
     GraphicsComponent* graphics = new TowerGraphicsComponent(towerType);
-    this->setGraphicsComponent(graphics);
+    this->setGraphicsComponent(graphics);*/
 }
 
 } // end of namespace td

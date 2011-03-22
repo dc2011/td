@@ -14,8 +14,8 @@ void ArrowTowerGraphicsComponent::initPixmaps() {
         return;
     }
 
-    //pixmapImgs_ = new QPixmap[PIX_TOWER_MAX];
-    //pixmapImgs_[0] = ...;
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_ARROW;
 }
 
 void CannonTowerGraphicsComponent::initPixmaps() {
@@ -23,8 +23,8 @@ void CannonTowerGraphicsComponent::initPixmaps() {
         return;
     }
 
-    //pixmapImgs_ = new QPixmap[PIX_TOWER_MAX];
-    //pixmapImgs_[0] = ...;
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_CANNON;
 }
 
 void TarTowerGraphicsComponent::initPixmaps() {
@@ -32,8 +32,8 @@ void TarTowerGraphicsComponent::initPixmaps() {
         return;
     }
 
-    //pixmapImgs_ = new QPixmap[PIX_TOWER_MAX];
-    //pixmapImgs_[0] = ...;
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_TAR;
 }
 
 void FlameTowerGraphicsComponent::initPixmaps() {
@@ -41,8 +41,8 @@ void FlameTowerGraphicsComponent::initPixmaps() {
         return;
     }
 
-    //pixmapImgs_ = new QPixmap[PIX_TOWER_MAX];
-    //pixmapImgs_[0] = ...;
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_FLAME;
 }
 
 void FlakTowerGraphicsComponent::initPixmaps() {
@@ -50,8 +50,8 @@ void FlakTowerGraphicsComponent::initPixmaps() {
         return;
     }
 
-    //pixmapImgs_ = new QPixmap[PIX_TOWER_MAX];
-    //pixmapImgs_[0] = ...;
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_FLAK;
 }
 
 } /* end namespace td */
