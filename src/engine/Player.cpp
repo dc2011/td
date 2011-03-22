@@ -32,7 +32,7 @@ void Player::networkWrite(Stream* s) {
 void Player::update() {
 #ifndef SERVER
     if(this->isDirty()) {
-	CDriver::updateServer(this);
+        CDriver::updateServer(this);
     }
 #endif
     if (physics_ != NULL) {

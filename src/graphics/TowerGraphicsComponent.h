@@ -19,7 +19,7 @@ public:
      * Instantiates a Tower graphics component
      * @author Warren Voelkl
      */
-    TowerGraphicsComponent(int towerType);
+    TowerGraphicsComponent();
     virtual ~TowerGraphicsComponent();
 
     /**
@@ -35,20 +35,14 @@ public:
      *
      * @author Warren Voelkl
      */
-    virtual void initPixmaps();
+    virtual void initPixmaps() = 0;
 
 private:
-    /** The current image for this graphics component  */
-    int towerType_;
-
-    /** container for all pixmaps which pertain to the current object */
-    static QPixmap * pixmapImgs_;
-
     /**
      * @returns the pixmap array from the current graphics object
      * @author Warren Voelkl
      */
-    virtual QPixmap * getPixmapArray();
+    virtual QPixmap * getPixmapArray() = 0;
 
     /**
      * Sets the appropriate index for the selected tower so the correct
