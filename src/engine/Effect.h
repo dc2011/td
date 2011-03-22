@@ -48,7 +48,13 @@ public:
     void apply();
 
     void setDuration(size_t duration);
-    size_t getduration();
+    size_t getDuration();
+
+    void setVelocityChangeValue(QVector2D velocity);
+    QVector2D getVelocityChangeValue();
+
+    void setHealthChangeValue(int healthChange);
+    int getHealthChangeValue();
 
 public slots:
     void update();
@@ -60,6 +66,8 @@ private:
     Unit* unit_;
     EffectType type_;
     size_t duration_;
+    int healthChangeValue_;
+    QVector2D velocityChangeValue_;
 };
 
 } /* end namespace td */

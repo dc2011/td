@@ -4,7 +4,7 @@
 namespace td {
 
 Effect::Effect(Unit* unit, EffectType type):
-        unit_(unit), type_(type), duration_(40){}
+        unit_(unit), type_(type), duration_(40), healthChangeValue_(-1), velocityChangeValue_(0,0){}
 
 Effect::~Effect(){}
 
@@ -13,9 +13,10 @@ void Effect::update(){
 }
 
 void Effect::apply(){
-    QVector2D tmpVelocity(0,0);
     switch (type_){
     case healthChange:
+        qDebug("Before health: ");
+        unit_->setHealth(unit_->getHealth() + healthChangeValue_);
         break;
     case damageChange:
         break;
@@ -24,7 +25,7 @@ void Effect::apply(){
     case velocityChange:
         break;
     case stunned:
-        unit_->setVelocity(tmpVelocity);
+        unit_->setVelocity(velocityChangeValue_);
         break;
     default:
         return;
@@ -36,6 +37,30 @@ void Effect::apply(){
                 this, SLOT(update()));
         emit effectFinished(this);
     }
+}
+
+void Effect::setDuration(size_t duration) {
+    duration_ = duration;
+}
+
+size_t Effect::getDuration() {
+    return duration_;
+}
+
+void Effect::setVelocityChangeValue(QVector2D velocity) {
+    velocityChangeValue_ = velocity;
+}
+
+QVector2D Effect::getVelocityChangeValue() {
+    return velocityChangeValue_;
+}
+
+void Effect::setHealthChangeValue(int healthChange) {
+    healthChangeValue_ = healthChange;
+}
+
+int Effect::getHealthChangeValue() {
+    return healthChangeValue_;
 }
 
 } /* end namespace td */
