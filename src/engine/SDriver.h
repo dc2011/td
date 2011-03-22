@@ -18,14 +18,24 @@
 
 namespace td {
 
+class Map;
+
 class SDriver : public QObject {
     Q_OBJECT 
     THREAD_SAFE_CLASS
 
 private:
     QTimer* waveTimer_;
+    /**
+     * The game object resource manager.
+     */
     ResManager* mgr_;
     NetworkServer* net_;
+
+    /**
+     * The game map containing all tiles, waypoints, and access methods.
+     */
+    Map* gameMap_;
 
     QList<Player*> players_;
 

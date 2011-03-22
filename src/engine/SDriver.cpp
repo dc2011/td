@@ -5,6 +5,7 @@
 #include <QWidget>
 #include "NPC.h"
 #include "Player.h"
+#include "Map.h"
 #include "SDriver.h"
 
 namespace td {
@@ -13,6 +14,7 @@ SDriver::SDriver() {
     waveTimer_ = new QTimer(this);
     mgr_ = new ResManager(this);
     net_ = new NetworkServer();
+    gameMap_ = new Map(QString("./maps/netbookmap2.tmx"));
 
     connect(net_, SIGNAL(msgReceived(Stream*)), 
             this, SLOT(onMsgReceive(Stream*)));
