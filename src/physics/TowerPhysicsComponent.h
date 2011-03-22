@@ -105,6 +105,16 @@ signals:
      * tageted.
      */
     void fireProjectile(QPointF source, QPointF target);
+
+public slots:
+    /**
+     * Sets the target_ member to null if the NPC dies.
+     *
+     * Connected to signalNPCDied() in the NPC class.
+     *
+     * @author Dean Morin
+     */
+    void targetDied();
 };
 
 } /* end namespace td */

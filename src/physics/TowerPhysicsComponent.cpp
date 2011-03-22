@@ -136,4 +136,8 @@ void TowerPhysicsComponent::applyDirection(GameObject* tower) {
     tower->setOrientation(degree);
 }
 
+void TowerPhysicsComponent::targetDied() {
+    target_ = NULL;
+}
+
 }

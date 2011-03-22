@@ -69,6 +69,8 @@ signals:
     /**
      * Emitted when this NPC dies to allow towers to find a new target.
      *
+     * Connected to the targetDied() slot in TowerPhysicsComponent.
+     *
      * @author Dean Morin
      */
     void signalNPCDied();
