@@ -56,7 +56,7 @@ void NPCInputComponent::nextDestination() {
             && nextDest_ >= waypoints_.length()) {
         disconnect(CDriver::getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
-        delete parent_;  
+        emit deleteUnitLater(parent_);  
     }
 }
 

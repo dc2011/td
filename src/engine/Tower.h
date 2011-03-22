@@ -21,18 +21,18 @@ public:
         return td::clsidx::kTower;
     }
 
-//private:
-    //enum {
-        //kPosition       = (1 << 0),
-        //kOrientation    = (1 << 1),
-        //kScale          = (1 << 2),
-        //kType           = (1 << 3)
-    //};
+private:
+    enum {
+        kPosition       = (1 << 0),
+        kOrientation    = (1 << 1),
+        kScale          = (1 << 2),
+        kType           = (1 << 3)
+    };
 
-//public:
-    //virtual ~Tower() {}
-    //virtual void initComponents();
-    //virtual void update();
+public:
+    virtual ~Tower() {}
+    virtual void initComponents();
+    virtual void update();
 
     /**
      * Sets the tower type (arrow, cannon, tar, flame, or flak).
@@ -40,13 +40,13 @@ public:
      * @author Darryl Pogue
      * @param The type of tower.
      */
-    //void setType(int type) {
-        //type_ = type;
-    //}
+    void setType(int type) {
+        type_ = type;
+    }
 
-//private:
-    //int type_;
-//};
+private:
+    int type_;
+};
 
 } // end of namespace td
 
