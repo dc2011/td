@@ -46,19 +46,24 @@ void ProjectilePhysicsComponent::applyVelocity(Projectile* projectile)
     QMatrix matrix = QMatrix();
     matrix.rotate(-projectile->getOrientation());
 
-    point = QPointF(-projectile->getWidth()/2, -projectile->getHeight( )/2) * matrix;
+    point = QPointF(-((projectile->getWidth()/2) * projectile->getScale() ),
+                        -((projectile->getHeight( )/2) * projectile->getScale())) * matrix;
     point += newPos;
     points.append(point);
-    point = QPointF(projectile->getWidth()/2, -projectile->getHeight()/2) * matrix;
+    point = QPointF((projectile->getWidth()/2) * projectile->getScale(),
+                        -((projectile->getHeight()/2) * projectile->getScale())) * matrix;
     point += newPos;
     points.append(point);
-    point = QPointF(projectile->getWidth()/2, projectile->getHeight()/2) * matrix;
+    point = QPointF((projectile->getWidth()/2) * projectile->getScale(),
+                        (projectile->getHeight()/2) * projectile->getScale()) * matrix;
     point += newPos;
     points.append(point);
-    point = QPointF(-projectile->getWidth()/2, projectile->getHeight()/2) * matrix;
+    point = QPointF(-((projectile->getWidth()/2) * projectile->getScale()),
+                        (projectile->getHeight()/2) * projectile->getScale()) * matrix;
     point += newPos;
     points.append(point);
-    point = QPointF(-projectile->getWidth()/2, -projectile->getHeight()/2) * matrix;
+    point = QPointF(-((projectile->getWidth()/2) * projectile->getScale() ),
+                        -((projectile->getHeight( )/2) * projectile->getScale())) * matrix;
     point += newPos;
     points.append(point);
 
