@@ -11,7 +11,7 @@ void Resource::update() {
     //physics_->update(this);
 
 #ifndef SERVER
-    CDriver::updateServer(this);
+    //CDriver::updateServer(this);
 #endif
 }
 
@@ -20,8 +20,10 @@ void Resource::initComponents() {
 }
 
 void Resource::initComponents(int resourceType) {
+#ifndef SERVER
     GraphicsComponent* graphics = new ResourceGraphicsComponent(resourceType);
     this->setGraphicsComponent(graphics);
+#endif
 }
 
 } // end of namespace td

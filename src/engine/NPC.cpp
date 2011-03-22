@@ -31,16 +31,19 @@ void NPC::setDamage(size_t damage) {
 }
 
 void NPC::initComponents() {
+#ifndef SERVER
     static int flipFloper = 0;
     ++flipFloper = flipFloper % 2;
-    PhysicsComponent* physics = new NPCPhysicsComponent();
     GraphicsComponent* graphics = new NPCGraphicsComponent(flipFloper + 1);
+    this->setGraphicsComponent(graphics);
+#endif
+
+    PhysicsComponent* physics = new NPCPhysicsComponent();
     NPCInputComponent* input = new NPCInputComponent();
 
     input->setParent(this);
     this->setInputComponent(input);
     this->setPhysicsComponent(physics);
-    this->setGraphicsComponent(graphics);
 }
 
 void NPC::update() {

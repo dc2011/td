@@ -2,8 +2,7 @@ include(../3rdparty/libtiled/libtiled.pri)
 
 LIBS += ../lib/libtiled.a -lz
 
-ENGINE_HDRS +=  ./engine/ContextMenu.h \
-                ./engine/Effect.h \
+ENGINE_HDRS +=  ./engine/Effect.h \
                 ./engine/GameObject.h \
                 ./engine/Map.h \
                 ./engine/NPC.h \
@@ -17,8 +16,7 @@ ENGINE_HDRS +=  ./engine/ContextMenu.h \
                 ./engine/Unit.h
 
 
-ENGINE_SRCS +=  ./engine/ContextMenu.cpp \
-                ./engine/Effect.cpp \
+ENGINE_SRCS +=  ./engine/Effect.cpp \
                 ./engine/GameObject.cpp \
                 ./engine/Map.cpp \
                 ./engine/NPC.cpp \
@@ -33,9 +31,11 @@ ENGINE_SRCS +=  ./engine/ContextMenu.cpp \
 
 # Client-side engine headers and sources
 ENGINE_HDRS_C +=    $$ENGINE_HDRS \
+                    ./engine/ContextMenu.h \
                     ./engine/CDriver.h
 
 ENGINE_SRCS_C +=    $$ENGINE_SRCS \
+                    ./engine/ContextMenu.cpp \
                     ./engine/CDriver.cpp
 
 # Server-side engine headers and sources

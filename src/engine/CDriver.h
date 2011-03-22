@@ -27,6 +27,10 @@ private:
     ResManager* mgr_;
      /** The central game timer that initiates all object updates. */
     static QTimer* gameTimer_;
+
+    /** The ID of the player object. */
+    unsigned int playerID_;
+
      /** The player on this client. */
     Player* human_;
      /** The main game window, where all graphics will be drawn. */
@@ -132,16 +136,17 @@ public:
      * @author Duncan Donaldson
      */
     void destroyObjLocal(int id);
+
     /**
-     * Creates a human player object.
+     * Sets a player as the local human player object.
      * Sets event filter for key presses to be passed to PlayerInputComponent.
      * 
      * @author Tom Nightingale
      * @author Duncan Donaldson
      * @author Darryl Pogue
-     * @return pointer to new player instance.
+     * @param player The player object to make the local player.
      */
-    void createHumanPlayer(MainWindow *);
+    void makeLocalPlayer(Player* player);
 
     /**
      * creates npc object

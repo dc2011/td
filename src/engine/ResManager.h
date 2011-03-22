@@ -11,7 +11,7 @@ namespace td {
 class DRIVER;
 
 /**
- * Resource Manager class for GameObjects.
+ * Manager class for GameObjects.
  *
  * @author Darryl Pogue
  */

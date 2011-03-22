@@ -66,6 +66,7 @@ public:
      * @author Duncan Donaldson
      */
     virtual void initComponents(){}
+
 protected:
     /**
      * Sets the dirty bit for the specified field.

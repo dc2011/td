@@ -1,9 +1,12 @@
 #include "NPCInputComponent.h"
 #include "../engine/NPC.h"
 #include "../physics/NPCPhysicsComponent.h"
-#include "../engine/CDriver.h"
 #include "../engine/Map.h"
 #include <QTime>
+
+#ifndef SERVER
+#    include "../engine/CDriver.h"
+#endif
 
 namespace td {
 
@@ -11,11 +14,13 @@ NPCInputComponent::NPCInputComponent() {
     nextDest_ = 0;
     forceCounter_ = 0;
 
+#ifndef SERVER
     waypoints_ = CDriver::instance()->getGameMap()->getWaypoints(WP_PTERO);
     segment_ =  QLineF(waypoints_.at(nextDest_).x(),
                        waypoints_.at(nextDest_).y(),
                        waypoints_.at(nextDest_ + 1).x(),
                        waypoints_.at(nextDest_ + 1).y());
+#endif
     nextDest_++;
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
@@ -54,9 +59,11 @@ void NPCInputComponent::nextDestination() {
         segment_.setP2(waypoints_.at(nextDest_++));
     } else if (segment_.length() < maxValue * 5
             && nextDest_ >= waypoints_.length()) {
+#ifndef SERVER
         disconnect(CDriver::getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
         emit deleteUnitLater(parent_);  
+#endif
     }
 }
 

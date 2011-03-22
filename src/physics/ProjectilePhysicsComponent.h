@@ -1,4 +1,3 @@
-/** Movement Physics for basic Projectile */
 #ifndef PROJECTILEPHYSICSCOMPONENT_H
 #define PROJECTILEPHYSICSCOMPONENT_H
 
@@ -8,6 +7,7 @@ namespace td {
 
 class Projectile;
 
+/** Movement Physics for basic Projectile */
 class ProjectilePhysicsComponent : public PhysicsComponent {
 public:
     ProjectilePhysicsComponent();

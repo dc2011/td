@@ -1,4 +1,3 @@
-/** Movement Physics for basic Tower */
 #ifndef TOWERPHYSICSCOMPONENT_H
 #define TOWERPHYSICSCOMPONENT_H
 
@@ -13,6 +12,7 @@ namespace td {
 
 class Tower;
 
+/** Movement Physics for basic Tower */
 class TowerPhysicsComponent: public PhysicsComponent {
     Q_OBJECT
 
@@ -50,8 +50,10 @@ public:
      * @param Radius, size of radius around tower
      */
     void setNPCs(GameObject* tower, int radius) {
+#ifndef SERVER
         Map* map = CDriver::instance()->getGameMap();
         enemies_ = map->getUnits(tower->getPos().x() ,tower->getPos().y() , radius);
+#endif
     }
 
     /**

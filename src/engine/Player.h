@@ -57,6 +57,14 @@ public:
      */
     virtual void networkWrite(td::Stream* s);
 
+    /**
+     * This function will do any component initialization whenever
+     * a gameobject is created.
+     *
+     * @author Darryl Pogue
+     */
+    virtual void initComponents();
+
     virtual void update();
 
     /**
