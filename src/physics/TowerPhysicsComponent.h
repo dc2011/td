@@ -61,7 +61,7 @@ public:
      */
     void fire();
 
-    QSet<Unit*> getNPCs() {
+    QSet<Unit*> getEnemies() {
         return enemies_;
     }
 

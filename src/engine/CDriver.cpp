@@ -291,6 +291,11 @@ void CDriver::handleSpacebarPress() {
     }
 }
 
+void CDriver::deleteNPC(NPC* marcel) {
+    npc_.remove(marcel); 
+    delete marcel; 
+}
+
 QTimer* CDriver::getTimer() {
     return gameTimer_;
 }

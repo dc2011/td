@@ -34,16 +34,15 @@ void TowerPhysicsComponent::findTargets(GameObject* tower, int radius) {
     }
 
     setNPCs(tower, radius);
-    QSet<Unit*> units = getNPCs();
-
-    if (units.isEmpty()) {
-        setTarget(0);
+    
+    if (enemies_.isEmpty()) {
+        target_ = NULL;
         return;
     }
 
     QSet<Unit*>::iterator iter;
 
-    for (iter = units.begin(); iter != units.end(); ++iter) {
+    for (iter = enemies_.begin(); iter != enemies_.end(); ++iter) {
         QLineF line;
         line.p1() = tower->getPos();
 
@@ -52,11 +51,11 @@ void TowerPhysicsComponent::findTargets(GameObject* tower, int radius) {
             return;
 
         } else {
-            if (units.size() == 1 && (((*iter)->getID()&0xFF000000)>>24) == Player::clsIdx()) {
-                   setTarget(0);
+            if (enemies_.size() == 1 && (((*iter)->getID()&0xFF000000)>>24) == Player::clsIdx()) {
+                target_ = NULL;
             }
             if((((*iter)->getID()&0xFF000000)>>24) == NPC::clsIdx()) {
-                setTarget(*iter);
+                target_ = *iter;
             }
         }
     }
@@ -78,7 +77,7 @@ void TowerPhysicsComponent::applyDirection(GameObject* tower) {
 
 
     this->findTargets(tower, getRadius());
-    if(target_ == NULL || getNPCs().isEmpty()) {
+    if(target_ == NULL || enemies_.isEmpty()) {
         return;
     }
     int angle = 0;

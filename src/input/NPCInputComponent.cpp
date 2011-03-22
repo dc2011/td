@@ -19,6 +19,10 @@ NPCInputComponent::NPCInputComponent() {
     nextDest_++;
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
+    
+    //TODO: look at me, I'm probably a temporary hack
+    connect(this, SIGNAL(deleteUnitLater(NPC*)),
+            CDriver::instance(), SLOT(deleteNPC(NPC*)));
 }
 
 NPCInputComponent::~NPCInputComponent() { }
