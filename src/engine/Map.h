@@ -14,6 +14,7 @@
 namespace Tiled {
 class ObjectGroup;
 class Map;
+class MapReader;
 }
 
 namespace td {
@@ -27,6 +28,7 @@ class Map : public QObject {
 
 public:
     explicit Map(Tiled::Map * tMap);
+    explicit Map(const QString& filename);
     virtual ~Map() { }
 
 private:
