@@ -78,6 +78,23 @@ void SDriver::destroyServerObj(int id) {
     net_->send(network::kServerDestroyObj, out->data());
     delete out;
 }
+
+Tower* SDriver::createTower(int type) {
+    Tower* tower = (Tower*)mgr_->createObject(Tower::clsIdx());
+
+    tower->setType(type);
+
+    tower->initComponents();
+
+    return tower;
+}
+
+/*NPC* SDriver::createNPC(int type) {
+}*/
+
+/*Resource* SDriver::createResource(int type) {
+}*/
+
 void SDriver::spawnWave() {
     qDebug("spawned wave");
     for(int i=0; i < 20; ++i) {

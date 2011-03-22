@@ -90,7 +90,6 @@ void CDriver::readObject(Stream* s) {
         go->networkRead(s);
         go->initComponents();
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
-
         return;
     }
     
@@ -200,9 +199,10 @@ void CDriver::createTower(int towerType, QPointF pos) {
 
     Stream* request = new Stream();
     tower_ = new Tower();
+    tower_->setType(towerType);
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
 
-    tower_->initComponents(towerType);
+    tower_->initComponents();
     tower_->setPos(currentTile->getPos());
     tower_->setID(0xFFFFFFFF);
     currentTile->setExtension(tower_);
