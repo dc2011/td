@@ -14,15 +14,20 @@
 #include "Resource.h"
 #include "../network/netserver.h"
 #include "../network/stream.h"
+#include "../util/mutex_magic.h"
 
 namespace td {
 
 class SDriver : public QObject {
     Q_OBJECT 
+    THREAD_SAFE_CLASS
 
 private:
     QTimer* waveTimer_;
     ResManager* mgr_;
+    NetworkServer* net_;
+
+    QList<Player*> players_;
 
 public:
     // ctors and dtors
@@ -30,13 +35,26 @@ public:
     virtual ~SDriver();
 
     /**
-     * Starts game timer, initializes network server instance,
-     * also connects the onUDPReceived signal to UDPReceived slot.
-     * 
-     * 
-     * @author Duncan Donaldson
+     * Initialize the networking components and make everything run in the right
+     * threads.
+     * This is basically an elaborate hack to avoid QObject::moveToThread issues.
+     *
+     * @author Darryl Pogue
      */
-    void startGame();
+    void initNetworking() {
+        net_->start();
+    }
+
+    /**
+     * Adds the socket to the game session and creates a new player with the
+     * given nickname.
+     *
+     * @author Darryl Pogue
+     * @param sock The socket of the user.
+     * @param nickname The player nickname.
+     * @return The ID of the newly created Player.
+     */
+    unsigned int addPlayer(QTcpSocket* sock, QString nickname);
 
     /**
      * Stop game timer, and shuts down the network server.
@@ -79,6 +97,14 @@ private:
 
 public slots:
     /**
+     * Starts game timer, makes signal/slot connects, and sends the initial game
+     * state to all clients.
+     * 
+     * @author Duncan Donaldson
+     */
+    void startGame();
+
+    /**
      * Spawns a server-side wave and updates all clients.
      * ****WARNING****
      * used as-is this will eventually run the server side out of memory
@@ -87,13 +113,14 @@ public slots:
      * @author Duncan Donaldson
      */
     void spawnWave();
+
     /**
-     * Handles a UDP packet receive by updating a currently existing player
+     * Handles a packet receive by updating a currently existing player
      * or adding the player to the players list if the player does not exist.
      * 
      * @author Duncan Donaldson
      */
-    void onUDPReceive(Stream* s);
+    void onMsgReceive(Stream* s);
 };
 
 } /* end namespace td */

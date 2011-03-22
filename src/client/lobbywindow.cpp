@@ -1,6 +1,7 @@
 #include "lobbywindow.h"
 #include "../../uic/ui_lobbywindow.h"
 #include "../network/netclient.h"
+#include "../engine/CDriver.h"
 #include <QMessageBox>
 
 namespace td {
@@ -81,6 +82,12 @@ void LobbyWindow::onTCPReceived(Stream* s)
         }
         case network::kLobbyStartGame:
         {
+            connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
+                    CDriver::instance(), SLOT(UDPReceived(Stream*)));
+            connect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
+                    CDriver::instance(), SLOT(UDPReceived(Stream*)));
+            disconnect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
+                    this, SLOT(onTCPReceived(Stream*)));
             emit startGame(false);
             break;
         }

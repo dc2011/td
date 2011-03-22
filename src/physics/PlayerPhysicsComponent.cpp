@@ -31,6 +31,10 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
 
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
 
+    if (player->getPos() == newPos) {
+        return;
+    }
+
     Map* gameMap = td::CDriver::instance()->getGameMap();
     QSet<Tile*> targetTiles = gameMap->getTiles(newPos, 2);
 
@@ -199,8 +203,10 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
         }
     }
 
-    player->setOrientation(degree);
-    //qDebug("Orientation: %d", degree);
+    if (player->getOrientation() != degree) {
+        player->setOrientation(degree);
+        //qDebug("Orientation: %d", degree);
+    }
 }
 
 bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
