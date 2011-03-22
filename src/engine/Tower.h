@@ -31,7 +31,18 @@ public:
      */
     virtual void initComponents(int towerType);
 
+    /**
+     * Sets the tower type (arrow, cannon, tar, flame, or flak).
+     *
+     * @author Darryl Pogue
+     * @param The type of tower.
+     */
+    void setType(int type) {
+        type_ = type;
+    }
+
 private:
+    int type_;
 
     /**
      * Set to false when the tower is initialized. On the first network read, 
