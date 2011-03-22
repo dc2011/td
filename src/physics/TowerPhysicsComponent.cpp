@@ -11,7 +11,7 @@ namespace td {
 TowerPhysicsComponent::TowerPhysicsComponent(Tower* tower, size_t fireInterval)
         : PhysicsComponent(), tower_(tower), fireInterval_(fireInterval) {
     fireCountdown_ = 0;
-    enemy_ = 0;
+    target_ = 0;
     enemies_ = QSet<Unit*>();
     radius_ = 5;
 }
@@ -24,33 +24,35 @@ void TowerPhysicsComponent::update(GameObject *tower) {
 }
 
 void TowerPhysicsComponent::findTargets(GameObject* tower, int radius) {
-    QLineF target;
-    target.p1() = tower->getPos();
-    Unit* n = new NPC();
-    if(( n = getEnemy()) != NULL) {
-        target.p2() = getEnemy()->getPos();
+    QLineF projectilePath;
+    projectilePath.p1() = tower->getPos();
+
+    if (target_ != NULL) {
+        projectilePath.p2() = target_->getPos();
     } else {
-        target.p2() = tower->getPos();
+        projectilePath.p2() = tower->getPos();
     }
 
     setNPCs(tower, radius);
     QSet<Unit*> units = getNPCs();
 
-    QSet<Unit*>::iterator iter;
-
-    if(units.isEmpty()) {
+    if (units.isEmpty()) {
         setTarget(0);
         return;
     }
 
+    QSet<Unit*>::iterator iter;
 
-    for( iter = units.begin();iter != units.end(); ++iter){
+    for (iter = units.begin(); iter != units.end(); ++iter) {
         QLineF line;
         line.p1() = tower->getPos();
-        if(getEnemy() != NULL && target.length() < radius && target.length() != 0) {
+
+        if (target_ != NULL && projectilePath.length() < radius 
+                && projectilePath.length() != 0) {
             return;
+
         } else {
-            if(units.size() == 1 && (((*iter)->getID()&0xFF000000)>>24) == Player::clsIdx()) {
+            if (units.size() == 1 && (((*iter)->getID()&0xFF000000)>>24) == Player::clsIdx()) {
                    setTarget(0);
             }
             if((((*iter)->getID()&0xFF000000)>>24) == NPC::clsIdx()) {
@@ -65,10 +67,10 @@ void TowerPhysicsComponent::fire() {
         fireCountdown_--;
         return;
     }
-    if (getEnemy() == NULL) {
+    if (target_ == NULL) {
         return;
     }
-    emit fireProjectile(tower_->getPos(), enemy_->getPos());
+    emit fireProjectile(tower_->getPos(), target_->getPos());
     fireCountdown_ = fireInterval_;
 }
 
@@ -76,13 +78,13 @@ void TowerPhysicsComponent::applyDirection(GameObject* tower) {
 
 
     this->findTargets(tower, getRadius());
-    if(getEnemy() == NULL || getNPCs().isEmpty()) {
+    if(target_ == NULL || getNPCs().isEmpty()) {
         return;
     }
     int angle = 0;
     int degree = 0;
-    int velX = getEnemy()->getPos().x() - tower->getPos().x();
-    int velY = getEnemy()->getPos().y() - tower->getPos().y();
+    int velX = target_->getPos().x() - tower->getPos().x();
+    int velY = target_->getPos().y() - tower->getPos().y();
 
     if (velX == 0 && velY == 0) {
         return;

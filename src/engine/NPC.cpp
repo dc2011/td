@@ -14,6 +14,10 @@ NPC::NPC() {
     pos_.setY(50);
 }
 
+NPC::~NPC() {
+    emit signalNPCDied();
+}
+
 size_t NPC::getHealth() {
     return health_;
 }
