@@ -13,6 +13,7 @@
 #include <errno.h>
 #include <sys/types.h>
 #include "../util/mutex_magic.h"
+#include "openal_helper.h"
 
 #define QUEUESIZE 8
 #define BUFFERSIZE (1024*32)
@@ -103,12 +104,12 @@ private:
     /**
      * Pauses the capturing from micx
      */
-    bool capturePause_;
+    static bool capturePause_;
 
     /**
      * stops the capture thread
      */
-    bool captureStop_;
+    static bool captureStop_;
  
     /**
      * Whether the AudioManager has been initialized.
@@ -123,6 +124,14 @@ private:
     explicit AudioManager();
     ~AudioManager();
     
+    /**
+     * Captures audio from the microphone
+     * eventually transfer across the network
+     *
+     * @author Terence Stenvold
+     */
+    void captureMic();
+
     /**
      * Does a check for openal errors and destroys the openal 
      * context if any are found
@@ -141,7 +150,7 @@ private:
      * @param filename the path to file.
      * @param gain is a float with a default param of 1.0
      */
-    void streamOgg(QString filename, float gain = 1);
+    void streamFile(QString filename, float gain = 1);
 
     /**
      * Goes through all the filenames in the queue
@@ -151,6 +160,38 @@ private:
      * @param filenameQueue queue<QString> of filenames of ogg files.     *
      */
     void playMusicQueue(QQueue<QString> filenameQueue);
+
+    /**
+     * cleans up the buffers and source 
+     *
+     * @author Terence Stenvold
+     * @param source is the openal playable source
+     * @param buffer is the array of buffers
+     */
+    void cleanUp(ALuint *source, ALuint *buffer);
+
+    /**
+     * Clears buffers that have been played already
+     *
+     * @author Terence Stenvold
+     * @param source is the openal playable source
+     * @param buffersAvailable reference to the number of buffers to fill
+     * @param playing boolean whether the track in playing
+     * @param play boolean to set if it needs to be played or not
+     */
+    void clearProcessedBuffers
+	(ALuint *source, int &buffersAvailable, ALint *playing, ALint* play);
+
+    /**
+     * Opens an ogg file and sets the format
+     *
+     * @author Terence Stenvold
+     * @param file is the file pointer
+     * @param oggFile is the ogg vorbis file descriptor
+     * @param format is the openal output format
+     */
+    void openOgg(FILE *file, OggVorbis_File *oggFile, ALenum *format);
+
 
 public:
 
