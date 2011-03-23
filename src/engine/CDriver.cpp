@@ -89,6 +89,9 @@ void CDriver::readObject(Stream* s) {
         go = mgr_->createObjectWithID(id);
         go->networkRead(s);
         go->initComponents();
+
+        delete s;
+
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
         return;
     }

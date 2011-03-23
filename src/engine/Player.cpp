@@ -34,6 +34,9 @@ void Player::initComponents() {
     /* Client-side has a Graphics Component */
     graphics_ = new PlayerGraphicsComponent();
     graphics_->update(this);
+    if(this->isDirty()) {
+        CDriver::updateServer(this);
+    }
 #endif
 }
 

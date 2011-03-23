@@ -13,7 +13,6 @@ TowerPhysicsComponent::TowerPhysicsComponent(Tower* tower, size_t fireInterval,
           fireInterval_(fireInterval), radius_(radius) {
     fireCountdown_ = 0;
     target_ = NULL;
-
     enemies_ = QSet<Unit*>();
     projectilePath_.setP1(tower->getPos());
 }

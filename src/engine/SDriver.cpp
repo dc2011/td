@@ -111,7 +111,9 @@ void SDriver::deadNPC(int id) {
     destroyServerObj(id);
 }
 
+
 void SDriver::onMsgReceive(Stream* s) {
+
     int message = s->readByte(); /* Message Type */
     GameObject* go = NULL;
     Stream* out = new Stream();
@@ -126,11 +128,11 @@ void SDriver::onMsgReceive(Stream* s) {
             break;
         }
         case network::kClientDestroyObj:
-	{
-	    int id = s->readInt();
-	    destroyServerObj(id);
-	    break;
-	}
+	    {
+	        int id = s->readInt();
+	        destroyServerObj(id);
+	        break;
+	    }
         default:
         {
             go = this->updateObject(s);

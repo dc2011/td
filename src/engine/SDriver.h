@@ -31,26 +31,7 @@ private:
 public:
     // ctors and dtors
     SDriver();
-    virtual ~SDriver();
-    /**
-     * initializes the single instance of SDriver
-     * 
-     * @author Duncan Donaldson
-     */
-    static SDriver* init();
-    /**
-     * returns the single instance of SDriver.
-     * 
-     * @author Duncan Donaldson
-     */
-    static SDriver* instance();
-    /**
-     * shuts down the instance of SDriver
-     * 
-     * @author Duncan Donaldson
-     */
-    static void shutdown();
-
+    virtual ~SDriver(); 
     /**
      * Initialize the networking components and make everything run in the right
      * threads.
@@ -130,15 +111,15 @@ public slots:
      * @author Duncan Donaldson
      */
     void spawnWave();
-
     /**
+     * Handles a packet received by updating a currently existing player
      * slot that is called to destroy an NPC when its health reaches 0.
      *
      * @author Duncan Donaldson
      */
     void deadNPC(int id);
     /**
-     * Handles a packet received by updating a currently existing player
+     * Handles a UDP packet receive by updating a currently existing player
      * or adding the player to the players list if the player does not exist.
      * 
      * @author Duncan Donaldson
