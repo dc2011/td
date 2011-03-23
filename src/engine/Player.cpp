@@ -29,15 +29,24 @@ void Player::networkWrite(Stream* s) {
     }
 }
 
-void Player::update() {
+void Player::initComponents() {
 #ifndef SERVER
-    if(this->isDirty()) {
-        CDriver::updateServer(this);
-    }
+    /* Client-side has a Graphics Component */
+    graphics_ = new PlayerGraphicsComponent();
+    graphics_->update(this);
 #endif
+}
+
+void Player::update() {
     if (physics_ != NULL) {
         physics_->update(this);
     }
+
+#ifndef SERVER
+    if (this->isDirty()) {
+        CDriver::updateServer(this);
+    }
+#endif
 
     graphics_->update(this);
 }

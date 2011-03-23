@@ -24,8 +24,8 @@ CDriver* CDriver::instance_ = NULL;
 QTimer* CDriver::gameTimer_;
 
 CDriver::CDriver(MainWindow* mainWindow)
-        : QObject(), human_(NULL), mainWindow_(mainWindow), contextMenu_(NULL),
-        projectile_(NULL)
+        : QObject(), playerID_(0xFFFFFFFF), human_(NULL), mainWindow_(mainWindow),
+        contextMenu_(NULL), projectile_(NULL)
 {
     mgr_ = new ResManager();
     npc_ = QSet<NPC*>();
@@ -79,7 +79,8 @@ void CDriver::updateServer(GameObject* obj) {
 void CDriver::readObject(Stream* s) {
     unsigned int id = s->readInt();
 
-    if (id == human_->getID()) {
+    if (id == playerID_) {
+        s->read(s->size() - s->position());
         return;
     }
 
@@ -88,14 +89,11 @@ void CDriver::readObject(Stream* s) {
         go = mgr_->createObjectWithID(id);
         go->networkRead(s);
         go->initComponents();
-        delete s;
-
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
         return;
     }
     
     go->networkRead(s);
-    delete s;
 }
 
 void CDriver::destroyObjSync(int id) {
@@ -115,37 +113,44 @@ void CDriver::destroyObjLocal(int id) {
     mgr_->deleteObject(id);
 }
 
-void CDriver::createHumanPlayer(MainWindow *gui) {
-    
-    Stream* request = new Stream();
+void CDriver::makeLocalPlayer(Player* player) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
-    GraphicsComponent* graphics = new PlayerGraphicsComponent();
     PlayerInputComponent* input = new PlayerInputComponent();
-    human_ = new Player();
-    human_->setID(0xFFFFFFFF);
-    human_->setInputComponent(input);
-    human_->setGraphicsComponent(graphics);
-    human_->setPhysicsComponent(physics);
 
-    connect(gui, SIGNAL(signalKeyPressed(int)), input, SLOT(keyPressed(int)));
-    connect(gui, SIGNAL(signalKeyReleased(int)), input, SLOT(keyReleased(int)));
+    player->setPhysicsComponent(physics);
+    player->setInputComponent(input);
+    human_ = player;
+
+    /* Connect to arrow key events */
+    connect(mainWindow_, SIGNAL(signalKeyPressed(int)),
+            input, SLOT(keyPressed(int)));
+    connect(mainWindow_, SIGNAL(signalKeyReleased(int)),
+            input, SLOT(keyReleased(int)));
+
     // Connection for collisions -- waiting on map object
     connect(physics, SIGNAL(requestTileType(double, double, int*)), 
             gameMap_, SLOT(getTileType(double, double, int*)));
+
     // NPC -> Player effect
     connect(physics, SIGNAL(NPCPlayerCollided(Effect::EffectType)), 
             human_, SLOT(createEffect(Effect::EffectType)));
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            graphics, SLOT(showName(bool)));
+            player->getGraphicsComponent(), SLOT(showName(bool)));
 
-    if(isSinglePlayer() == true) {
-        mgr_->createObject(Player::clsIdx());
-    } else {
-        request->writeByte(Player::clsIdx());
-        NetworkClient::instance()->send(network::kRequestPlayerID, 
-                                        request->data());
-    }
-    delete request;
+    /* Set up the build context menu */
+    contextMenu_ = new ContextMenu(human_);
+
+    connect(contextMenu_, SIGNAL(signalPlayerMovement(bool)),
+	        input,        SLOT(playerMovement(bool)));
+    connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
+            this,         SLOT(handleSpacebarPress()));
+    connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
+            contextMenu_, SLOT(selectMenuItem(int)));
+    connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+            contextMenu_, SLOT(viewResources(bool)));
+    /* TODO: alter temp solution */
+    connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
+            this,         SLOT(createTower(int, QPointF)));
 }
 
 void CDriver::NPCCreator() {
@@ -218,40 +223,29 @@ void CDriver::createTower(int towerType, QPointF pos) {
 
 void CDriver::startGame(bool singlePlayer) {
     // Create hard coded map
-    CDriver::gameMap_     = new Map(mainWindow_->getMD()->map());
-    CDriver::gameTimer_   = new QTimer(this);
-    CDriver::gameMap_->initMap();
+    gameMap_ = new Map(mainWindow_->getMD()->map());
+    gameTimer_ = new QTimer(this);
+    gameMap_->initMap();
     QQueue<QString> musicList;
 
-    if(singlePlayer == false) {
-        connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
-		        this, SLOT(UDPReceived(Stream*)));
-    }
     setSinglePlayer(singlePlayer);
 
     musicList = td::AudioManager::instance()->musicDir("./sound/music/");
     td::AudioManager::instance()->playMusic(musicList);
 
-    createHumanPlayer(mainWindow_);
-    contextMenu_ = new ContextMenu(human_);
+    if (singlePlayer) {
+        Player* player = (Player*)mgr_->createObject(Player::clsIdx());
+        playerID_ = player->getID();
 
-    connect(contextMenu_, SIGNAL(signalPlayerMovement(bool)),
-	        human_->getInputComponent(), SLOT(playerMovement(bool)));
-    connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
-            this,         SLOT(handleSpacebarPress()));
-    connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
-            contextMenu_, SLOT(selectMenuItem(int)));
-    connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            contextMenu_, SLOT(viewResources(bool)));
+        player->initComponents();
+        connect(gameTimer_, SIGNAL(timeout()), player, SLOT(update()));
+
+        this->makeLocalPlayer(player);
+    }
+
+    connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
     //connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             //npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
-    connect(gameTimer_,   SIGNAL(timeout()), 
-            human_,       SLOT(update()));
-    connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
-
-    /* TODO: alter temp solution */
-    connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
-            this,         SLOT(createTower(int, QPointF)));
 
     gameTimer_->start(30);
 }
@@ -307,23 +301,31 @@ void CDriver::UDPReceived(Stream* s) {
     int message = s->readByte(); /* Message Type */
 
     switch(message) {
-        case network::kRequestPlayerID: /* Hack for Single Player */
-            human_->setID(Player::clsIdx() << 24);
-            mgr_->addExistingObject(human_);
-            break;
         case network::kRequestTowerID:
 	        tower_->setID(Tower::clsIdx());
 	        tower_->initComponents();
             mgr_->addExistingObject(tower_);
             break;
         case network::kAssignPlayerID:
-            //read ID and add human to existing objects
-            if (human_->getID() == 0xFFFFFFFF) {
-                human_->setID(s->readInt());
-                mgr_->addExistingObject(human_);
-                qDebug("Got an ID from the server!");
+            playerID_ = s->readInt();
+            qDebug("My player ID is %08X", playerID_);
+            break;
+        case network::kServerPlayers:
+        {
+            int count = s->readByte();
+            for (int i = 0; i < count; i++) {
+                unsigned int id = s->readInt();
+                GameObject* go = mgr_->createObjectWithID(id);
+                go->networkRead(s);
+                go->initComponents();
+                connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
+
+                if (id == playerID_) {
+                    this->makeLocalPlayer((Player*)go);
+                }
             }
             break;
+        }
         case network::kAssignTowerID:
             if(tower_->getID() == 0xFFFFFFFF) {
                 tower_->setID(s->readInt());
@@ -340,6 +342,12 @@ void CDriver::UDPReceived(Stream* s) {
         default:
             this->readObject(s);
             break;
+    }
+
+    if (!s->eof()) {
+        this->UDPReceived(s);
+    } else {
+        delete s;
     }
 }
 
