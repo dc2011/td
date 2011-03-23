@@ -33,13 +33,16 @@ void ProjectileGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_PROJECTILE_3_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PROJECTILE_MAX];
     }
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_] = PIX_PROJECTILE_3_0;
-
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_3;
+    pixmapIndex_ = 0;
 }
 
 QPixmap * ProjectileGraphicsComponent::getPixmapArray() {
