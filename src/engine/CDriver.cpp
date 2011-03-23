@@ -253,7 +253,7 @@ void CDriver::startGame(bool singlePlayer) {
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
             this,         SLOT(createTower(int, QPointF)));
 
-    gameTimer_->start(10);
+    gameTimer_->start(30);
 }
 
 void CDriver::endGame() {

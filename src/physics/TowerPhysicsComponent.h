@@ -36,12 +36,11 @@ public:
     virtual void update(GameObject* tower);
 
     /**
-     * Gathers Targets.
+     * Finds the next target.
      *
-     * @author Joel Stewart
-     * @param Tower, pointer to the Tower object
+     * @author Joel Stewart, Dean Morin
      */
-    void findTargets(GameObject* tower, int radius);
+    void findTarget();
 
     /**
      * Sets NPCs from the towers coords.

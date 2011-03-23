@@ -12,9 +12,9 @@ TowerPhysicsComponent::TowerPhysicsComponent(Tower* tower, size_t fireInterval,
         : PhysicsComponent(), tower_(tower), 
           fireInterval_(fireInterval), radius_(radius) {
     fireCountdown_ = 0;
-    target_ = 0;
+    target_ = NULL;
     enemies_ = QSet<Unit*>();
-    projectilePath_.p1() = tower->getPos();
+    projectilePath_.setP1(tower->getPos());
 }
 
 TowerPhysicsComponent::~TowerPhysicsComponent() {}
@@ -24,16 +24,19 @@ void TowerPhysicsComponent::update(GameObject *tower) {
     this->fire();
 }
 
-void TowerPhysicsComponent::findTargets(GameObject* tower, int radius) {
+void TowerPhysicsComponent::findTarget() {
     
-
     if (target_ != NULL) {
-        projectilePath_.p2() = target_->getPos();
-    } else {
-        projectilePath_.p2() = tower->getPos();
+        projectilePath_.setP2(target_->getPos());
+        if (projectilePath_.length() < radius_) {
+            return;
+        }
+        disconnect(target_, SIGNAL(signalNPCDied()), this, SLOT(targetDied()));
     }
-
-    setNPCs(tower, radius);
+    target_ = NULL;
+    
+    
+    setNPCs(tower_, radius_);
  
     if (enemies_.isEmpty()) {
         target_ = NULL;
@@ -44,18 +47,9 @@ void TowerPhysicsComponent::findTargets(GameObject* tower, int radius) {
 
     for (iter = enemies_.begin(); iter != enemies_.end(); ++iter) {
 
-        if (target_ != NULL && projectilePath_.length() < radius 
-                && projectilePath_.length() != 0) {
-            return;
-
-        } else {
-            if (enemies_.size() == 1 &&
-                (((*iter)->getID()&0xFF000000)>>24) == Player::clsIdx()) {
-                target_ = NULL;
-            }
-            if((((*iter)->getID()&0xFF000000)>>24) == NPC::clsIdx()) {
-                target_ = *iter;
-            }
+        if((((*iter)->getID()&0xFF000000)>>24) == NPC::clsIdx()) {
+            target_ = *iter;
+            connect(target_, SIGNAL(signalNPCDied()), this, SLOT(targetDied()));
         }
     }
 }
@@ -74,8 +68,7 @@ void TowerPhysicsComponent::fire() {
 
 void TowerPhysicsComponent::applyDirection(GameObject* tower) {
 
-
-    this->findTargets(tower, getRadius());
+    this->findTarget();
     if(target_ == NULL || enemies_.isEmpty()) {
         return;
     }
