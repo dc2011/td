@@ -116,6 +116,7 @@ public:
      * @author Duncan Donaldson
      */
     void readObject(Stream* s);
+
     /**
      * 
      * Destroys an object on the client, and notifies the server
@@ -124,6 +125,8 @@ public:
      * @author Duncan Donaldson
      */
     void destroyObjSync(int id);
+
+public slots:
     /**
      * 
      * Destroys an object on the client without notifying
@@ -132,6 +135,8 @@ public:
      * @author Duncan Donaldson
      */
     void destroyObjLocal(int id);
+
+public:
     /**
      * Creates a human player object.
      * Sets event filter for key presses to be passed to PlayerInputComponent.
