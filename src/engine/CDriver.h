@@ -1,9 +1,9 @@
 #ifndef CDRIVER_H
 #define CDRIVER_H
 
-#include <QTimer>
 #include <QPointF>
 #include <QSet>
+#include "Driver.h"
 
 namespace td {
 
@@ -19,15 +19,10 @@ class MainWindow;
 class Stream;
 class Unit;
 
-class CDriver : public QObject {
+class CDriver : public Driver {
     Q_OBJECT
   
 private:
-     /** The game object resource manager. */
-    ResManager* mgr_;
-     /** The central game timer that initiates all object updates. */
-    static QTimer* gameTimer_;
-
     /** The ID of the player object. */
     unsigned int playerID_;
 
@@ -35,8 +30,6 @@ private:
     Player* human_;
      /** The main game window, where all graphics will be drawn. */
     MainWindow* mainWindow_;
-     /** The game map containing all tiles, waypoints, and access methods. */
-    Map* gameMap_;
      /** A context menu that appears around the player. */
     ContextMenu* contextMenu_;
      /** An set of enemy units. */
@@ -162,24 +155,6 @@ public:
      * @return void
      */
     void endGame();
-
-    /**
-     * Returns the game timer
-     *
-     * @author Terence Stenvold
-     * @return the game timer
-     */
-    static QTimer* getTimer();
-
-
-    /**
-    * Getter for gameMap_
-    *
-    * @author Ian Lee
-    */
-    Map* getGameMap(){
-        return gameMap_;
-    }
 
     /**
      * Gets a pointer to the main window where all graphics are drawn.

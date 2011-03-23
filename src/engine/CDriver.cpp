@@ -21,11 +21,10 @@
 namespace td {
 
 CDriver* CDriver::instance_ = NULL;
-QTimer* CDriver::gameTimer_;
 
 CDriver::CDriver(MainWindow* mainWindow)
-        : QObject(), playerID_(0xFFFFFFFF), human_(NULL), mainWindow_(mainWindow),
-        contextMenu_(NULL), projectile_(NULL)
+        : Driver(), playerID_(0xFFFFFFFF), human_(NULL),
+        mainWindow_(mainWindow), contextMenu_(NULL), projectile_(NULL)
 {
     mgr_ = new ResManager(this);
     npc_ = QSet<NPC*>();
@@ -34,8 +33,6 @@ CDriver::CDriver(MainWindow* mainWindow)
 }
 
 CDriver::~CDriver() {
-    delete gameTimer_;
-    delete mgr_;
 }
 
 CDriver* CDriver::init(MainWindow* mainWindow) {
@@ -283,10 +280,6 @@ void CDriver::handleSpacebarPress() {
             qDebug("Harvesting resource: %d", currentTile->getTiledTile()->id());
             break;
     }
-}
-
-QTimer* CDriver::getTimer() {
-    return gameTimer_;
 }
 
 void CDriver::UDPReceived(Stream* s) {

@@ -2,7 +2,8 @@ include(../3rdparty/libtiled/libtiled.pri)
 
 LIBS += ../lib/libtiled.a -lz
 
-ENGINE_HDRS +=  ./engine/Effect.h \
+ENGINE_HDRS +=  ./engine/Driver.h \
+                ./engine/Effect.h \
                 ./engine/GameObject.h \
                 ./engine/Map.h \
                 ./engine/NPC.h \
@@ -16,7 +17,8 @@ ENGINE_HDRS +=  ./engine/Effect.h \
                 ./engine/Unit.h
 
 
-ENGINE_SRCS +=  ./engine/Effect.cpp \
+ENGINE_SRCS +=  ./engine/Driver.cpp \
+                ./engine/Effect.cpp \
                 ./engine/GameObject.cpp \
                 ./engine/Map.cpp \
                 ./engine/NPC.cpp \

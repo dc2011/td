@@ -32,10 +32,8 @@ void Effect::apply(){
 
     duration_--;
     if(duration_ == 0){
-#ifndef SERVER
-        QObject::disconnect(CDriver::getTimer(), SIGNAL(timeout()),
-                this, SLOT(update()));
-#endif
+        disconnect(unit_->getDriver()->getTimer(), SIGNAL(timeout()),
+                    this, SLOT(update()));
         emit effectFinished(this);
     }
 }

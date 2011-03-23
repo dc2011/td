@@ -8,7 +8,7 @@
 
 namespace td {
 
-class DRIVER;
+class Driver;
 
 /**
  * Manager class for GameObjects.
@@ -27,7 +27,7 @@ private:
     /**
      * The current game driver, which is used as a parent for all game objects.
      */
-    DRIVER* driver_;
+    Driver* driver_;
 
 public:
     /**
@@ -36,7 +36,7 @@ public:
      * @author Darryl Pogue
      * @param driver The current game driver.
      */
-    ResManager(DRIVER* driver);
+    ResManager(Driver* driver);
 
     /**
      * Destructor for the Resource Manager.

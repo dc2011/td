@@ -1,41 +1,27 @@
 #ifndef SDRIVER_H
 #define SDRIVER_H
 
-#include <QTimer>
-#include <QApplication>
-#include <QObject>
+#include "Driver.h"
+#include "../network/netserver.h"
+#include "../util/mutex_magic.h"
+
 #include <QVector>
 #include <QMap>
 #include <QHostAddress>
-#include "ResManager.h"
-#include "Player.h"
-#include "Tower.h"
-#include "NPC.h"
-#include "Resource.h"
-#include "../network/netserver.h"
-#include "../network/stream.h"
-#include "../util/mutex_magic.h"
 
 namespace td {
 
-class Map;
+class Player;
+class Tower;
+class NPC;
+class Resource;
 
-class SDriver : public QObject {
+class SDriver : public Driver {
     Q_OBJECT 
     THREAD_SAFE_CLASS
 
 private:
-    QTimer* waveTimer_;
-    /**
-     * The game object resource manager.
-     */
-    ResManager* mgr_;
     NetworkServer* net_;
-
-    /**
-     * The game map containing all tiles, waypoints, and access methods.
-     */
-    Map* gameMap_;
 
     QList<Player*> players_;
 

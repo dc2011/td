@@ -11,7 +11,7 @@
 
 namespace td {
 
-class DRIVER;
+class Driver;
 
 class GameObject : public QObject {
   Q_OBJECT
@@ -95,8 +95,8 @@ public:
      * @author Darryl Pogue
      * @return The game driver.
      */
-    DRIVER* getDriver() const {
-        return (DRIVER*)this->parent();
+    Driver* getDriver() const {
+        return (Driver*)this->parent();
     }
 
     /**

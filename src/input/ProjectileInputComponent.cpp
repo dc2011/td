@@ -1,7 +1,7 @@
 #include "ProjectileInputComponent.h"
 #include "../engine/Projectile.h"
 #include "../physics/ProjectilePhysicsComponent.h"
-#include "../engine/CDriver.h"
+#include "../engine/Driver.h"
 #define PI 3.141592653589793238
 #include <math.h>
 
@@ -24,10 +24,8 @@ void ProjectileInputComponent::makeForce() {
     QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
                parent_->getPath().p1().x(), parent_->getPath().p1().y());
     if (distance.length() <= parent_->getVelocity().length()) {
-#ifndef SERVER
-        disconnect(CDriver::getTimer(), SIGNAL(timeout()),
+        disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
-#endif
         //delete and start check for collisions here
     } else {
         force = QVector2D(parent_->getPath().unitVector().dx() * -1,

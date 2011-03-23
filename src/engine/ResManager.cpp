@@ -6,7 +6,7 @@
 
 namespace td {
 
-ResManager::ResManager(DRIVER* driver) : driver_(driver) {
+ResManager::ResManager(Driver* driver) : driver_(driver) {
     objects_ = QVector<QList<GameObject*> >(clsidx::kMAX_CLASS_INDEX);
 }
 

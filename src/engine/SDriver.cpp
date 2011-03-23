@@ -3,18 +3,18 @@
 #include <QApplication>
 #include <QVector>
 #include <QWidget>
-#include "NPC.h"
-#include "Player.h"
-#include "Map.h"
 #include "SDriver.h"
+#include "Player.h"
+#include "Tower.h"
+#include "NPC.h"
+#include "Resource.h"
 
 namespace td {
 
-SDriver::SDriver() {
-    waveTimer_ = new QTimer(this);
-    mgr_ = new ResManager(this);
-    net_ = new NetworkServer();
+SDriver::SDriver() : Driver() {
+    gameTimer_ = new QTimer(this);
     gameMap_ = new Map(QString("./maps/netbookmap2.tmx"));
+    net_ = new NetworkServer();
 
     connect(net_, SIGNAL(msgReceived(Stream*)), 
             this, SLOT(onMsgReceive(Stream*)));
@@ -22,8 +22,6 @@ SDriver::SDriver() {
 
 SDriver::~SDriver() {
     delete net_;
-    delete waveTimer_;
-    delete mgr_;
 }
 
 unsigned int SDriver::addPlayer(QTcpSocket* sock, QString nickname) {
@@ -49,13 +47,13 @@ void SDriver::startGame() {
 
     net_->send(network::kServerPlayers, s.data());
 
-    this->waveTimer_->start(15000);
-    connect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
+    this->gameTimer_->start(15000);
+    connect(gameTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 }
 
 void SDriver::endGame() {
     net_->shutdown();
-    this->waveTimer_->stop();
+    this->gameTimer_->stop();
 }
 
 GameObject* SDriver::updateObject(Stream* s) {
