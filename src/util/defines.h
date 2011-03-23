@@ -8,7 +8,10 @@
 
 // Network information
 #define TD_PORT 26631
-#define TD_GROUP QHostAddress("232.22.42.1")
+#define TD_GROUP(x) QHostAddress(QString("232.22.42.") + QString::number(x))
+
+// milliseconds between game ticks
+#define GAME_TICK_INTERVAL  30
 
 // based on the number keys used to select the tower
 #define TOWER_ARROW     49
@@ -78,7 +81,9 @@
 
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20
+#define TAR_TIME        10
 #define ARROW_TIME      1
+#define NO_TIME         0
 
 //NPC path key for waypoints
 //TODO: either take out or change to something generic
@@ -108,9 +113,10 @@
 #define TAR_VELOCITY    10
 #define FLAK_VELOCITY   15
 
-// healthbar size, in pixels
+// healthbar info (sizes are in pixels)
 #define HEALTHBAR_WIDTH     50
 #define HEALTHBAR_HEIGHT    4
+#define DAMAGE_DISPLAY_TIME 50
 
 // resource collection bar size, in pixels
 #define RESBAR_WIDTH    30

@@ -12,6 +12,7 @@ public:
     ArrowTowerPhysicsComponent(Tower* tower);
     virtual ~ArrowTowerPhysicsComponent() { }
     virtual void update(GameObject *tower);
+    bool isValidTarget(Unit *);
     void fire();
 };
 
@@ -22,6 +23,7 @@ public:
     CannonTowerPhysicsComponent(Tower* tower);
     virtual ~CannonTowerPhysicsComponent() { }
     virtual void update(GameObject *tower);
+    bool isValidTarget(Unit *);
     void fire();
 };
 
@@ -35,6 +37,7 @@ public:
     void findDirectionToShoot();
     void useDirection(Tower* tower);
     void applyDuration();
+    bool isValidTarget(Unit *);
     void fire();
 private:
     int duration_;
@@ -54,6 +57,7 @@ public:
     TarTowerPhysicsComponent(Tower* tower);
     virtual ~TarTowerPhysicsComponent() { }
     virtual void update(GameObject *tower);
+    bool isValidTarget(Unit *);
     void fire();
 };
 
@@ -64,6 +68,7 @@ public:
     FlakTowerPhysicsComponent(Tower* tower);
     virtual ~FlakTowerPhysicsComponent() { }
     virtual void update(GameObject *tower);
+    bool isValidTarget(Unit *);
     void fire();
 };
 

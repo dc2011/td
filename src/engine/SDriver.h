@@ -4,6 +4,7 @@
 #include <QSet>
 #include <QList>
 #include "Driver.h"
+#include "NPCWave.h"
 #include "../network/netserver.h"
 #include "../util/mutex_magic.h"
 
@@ -22,6 +23,7 @@ private:
     NetworkServer* net_;
     QList<Player*> players_;
     QSet<GameObject*> updates_;
+    QList<NPCWave*> waves_;
 
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
@@ -91,6 +93,16 @@ public:
      */
     virtual void updateRT(GameObject* obj);
 
+    /**
+     * Sends an arbitrary network message to all connected clients.
+     * If you are calling this function, you are probably doing it wrong.
+     *
+     * @author Darryl Pogue
+     * @param msgType The type of message to be sent. (See netmessages.h)
+     * @param msg The message data as a byte array.
+     */
+    virtual void sendNetMessage(unsigned char msgType, QByteArray msg);
+
 protected slots:
     virtual void onTimerTick();
 
@@ -127,28 +139,6 @@ public slots:
         return net_;
     }
 
-private:
-    /**
-     * Creates a new tower of the given type.
-     *
-     * @author Darryl Pogue
-     * @param type The type of tower to create.
-     * @return A pointer to the new tower.
-     */
-    Tower* createTower(int type);
-
-    /**
-     * Creates a new NPC of the given type.
-     *
-     * @author Darryl Pogue
-     * @author Marcel Vangrootheest
-     * @param type The type of NPC to create.
-     * @return A pointer to the new NPC.
-     */
-    NPC* createNPC(int type);
-
-    //Resource* createResource(int type);
-
 public slots:
     /**
      * Starts game timer, makes signal/slot connects, and sends the initial game
@@ -181,6 +171,18 @@ public slots:
      * @author Duncan Donaldson
      */
     void onMsgReceive(Stream* s);
+
+    /**
+     * Creates projectile on server and send message to client for creation.
+     * Connected to fire() in TowerPhysicsComponent
+     *
+     * @author Marcel Vangrootheest
+     * @param projType The type of the projectile (Arrow, Cannon, etc).
+     * @param source The starting point of the projectile.
+     * @param target The destination point of the projectile.
+     */
+    void requestProjectile(int projType, QPointF source,
+            QPointF target, Unit* enemy);
 };
 
 } /* end namespace td */

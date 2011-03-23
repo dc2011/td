@@ -13,6 +13,8 @@
 
 namespace td {
 
+class NPCWave;
+
 class NPC : public Unit {
     Q_OBJECT
 
@@ -32,7 +34,8 @@ private:
         kPosition       = (1 << 0),
         kOrientation    = (1 << 1),
         kScale          = (1 << 2),
-        kType           = (1 << 3)
+        kType           = (1 << 3),
+        kHealth         = (1 << 4)
     };
 
 public:
@@ -105,6 +108,29 @@ public:
         type_ = type;
         setDirty(kType);
     }
+    int getType() {
+        return type_;
+    }
+
+    /**
+     * Returns the wave that owns the NPC.
+     *
+     * @author Darryl Pogue
+     * @return The NPCWave to which the NPC belongs.
+     */
+    NPCWave* getWave() const {
+        return wave_;
+    }
+
+    /**
+     * Sets the wave that owns the NPC.
+     *
+     * @author Darryl Pogue
+     * @param wave The NPCWave to which the NPC belongs.
+     */
+    void setWave(NPCWave* wave) {
+        wave_ = wave;
+    }
 
 signals:
     /**
@@ -114,11 +140,23 @@ signals:
      */
     void dead(int id);
 
+    /**
+     * Stops applying an effect.
+     * Used when replacing an effect in a list.
+     * Connected to effectStop() in Effect.
+     *
+     * @author Marcel Vangrootheest
+     * @param type The type of Effect.
+     */
+    void stopEffect(uint type);
+
 public slots:
     /**
      * Add effect to the effect list.
+     * Replaces effect if type already exists in list.
      *
      * @author Pan K.
+     * @author Marcel Vangrootheest
      * @param type Type of effect.
      */
     void createEffect(Effect* effect);
@@ -127,6 +165,7 @@ public slots:
      * Remove effect from the effect list.
      *
      * @author Pan K.
+     * @author Marcel Vangrootheest
      * @param effect Effect to delete.
      */
     void deleteEffect(Effect* effect);
@@ -135,10 +174,13 @@ private:
     int health_;
     int damage_;
     int maxHealth_;
-    QList<Effect*> effects_;
+    QList<Effect> effects_;
     int height_;
     int width_;
     int type_;
+
+    /** The wave to which this NPC belongs. */
+    NPCWave* wave_;
 
 signals:
     /**

@@ -38,6 +38,10 @@ private:
     /** Graphical progress bar for a resource's progress. */
     QGraphicsRectItem* resourceProgressBar_;
 
+    /** The current resource this object is carrying */
+    int resourceType_;
+    QGraphicsPixmapItem* resourcePixmapItem_;
+
 public:
     /**
      * Instantiates a PlayerGraphicsComponent component
@@ -89,6 +93,12 @@ public:
     void setShowName(bool showName) {
         showName_ = showName;
     }
+    /**
+     * Instantiates a PlayerGraphicsComponent component
+     * @param resourceType the resource that player is holding or 0 for dropping
+     * @author Warren Voelkl
+     */
+    virtual void setCurrentResource(int resourceType);
     
 private:
     /**

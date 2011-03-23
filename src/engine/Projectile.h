@@ -34,7 +34,8 @@ private:
         kDamage         = (1 << 3),
         kStartPos       = (1 << 4),
         kEndPos         = (1 << 5),
-        kType           = (1 << 6)
+        kTargetType     = (1 << 6),
+        kType           = (1 << 7)
     };
 
 public:
@@ -47,6 +48,15 @@ public:
      */
     virtual void initComponents();
 
+    /**
+     * Sets path of the projectile for input
+     *
+     * @param source The source point of the path.
+     * @param target The target point of the path.
+     * @param enemy  The enemy unit firing at.
+     *
+     * @author Marcel Vangrootheest
+     */
     void setPath(QPointF source, QPointF target, Unit* enemy);
 
     /**
@@ -157,6 +167,7 @@ public:
 
     void setEnemy(Unit* enemy){
         enemy_ = enemy;
+        setDirty(kTargetType);
     }
     /**
      * Checks for collision between projectile and npcs
@@ -189,6 +200,16 @@ public:
     void setHeight(int height){
         height_ = height;
     }
+
+public slots:
+    /**
+     * Sets the enemy_ member to null if the NPC dies.
+     *
+     * Connected to signalNPCDied() in the NPC class.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void enemyDied();
 
 signals:
     /**

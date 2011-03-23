@@ -17,7 +17,7 @@ public:
     /**
      * Constructor.
      */
-    ArrowTowerGraphicsComponent() : TowerGraphicsComponent() { }
+    ArrowTowerGraphicsComponent();
 
     /**
      * Destructor.
@@ -54,7 +54,7 @@ public:
     /**
      * Constructor.
      */
-    CannonTowerGraphicsComponent() : TowerGraphicsComponent() { }
+    CannonTowerGraphicsComponent();
 
     /**
      * Destructor.
@@ -91,7 +91,7 @@ public:
     /**
      * Constructor.
      */
-    TarTowerGraphicsComponent() : TowerGraphicsComponent() { }
+    TarTowerGraphicsComponent();
 
     /**
      * Destructor.
@@ -128,7 +128,7 @@ public:
     /**
      * Constructor.
      */
-    FlameTowerGraphicsComponent() : TowerGraphicsComponent() { }
+    FlameTowerGraphicsComponent();
 
     /**
      * Destructor.
@@ -165,7 +165,7 @@ public:
     /**
      * Constructor.
      */
-    FlakTowerGraphicsComponent() : TowerGraphicsComponent() { }
+    FlakTowerGraphicsComponent();
 
     /**
      * Destructor.
