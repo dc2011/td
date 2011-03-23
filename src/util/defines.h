@@ -104,7 +104,7 @@
 //Projectile Velocity
 #define ARROW_VELOCITY  15
 #define CANNON_VELOCITY 10
-#define FIRE_VELOCITY   10
+#define FIRE_VELOCITY   6
 #define TAR_VELOCITY    10
 #define FLAK_VELOCITY   15
 
