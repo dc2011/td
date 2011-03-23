@@ -200,7 +200,7 @@ void FlameTowerPhysicsComponent::fire() {
     // TODO: move to projectilePC, once the different types have been created
     //PLAY_SFX(tower_, SfxManager::projectileFireFlame);
     emit fireProjectile(PROJ_FIRE, tower_->getPos(), flamePath_.p2(),
-            target_);
+            endPoint_);
     fireCountdown_ = fireInterval_;
     foundTarget_ = false;
 }
