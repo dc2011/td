@@ -99,6 +99,16 @@ private:
      * The number of audio tracks playing
      */
     int playing_;
+
+    /**
+     * Pauses the capturing from micx
+     */
+    bool capturePause_;
+
+    /**
+     * stops the capture thread
+     */
+    bool captureStop_;
  
     /**
      * Whether the AudioManager has been initialized.
