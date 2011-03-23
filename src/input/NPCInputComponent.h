@@ -44,6 +44,17 @@ private:
     int nextDest_;
     /** Counter used to regulate length of time the force is applied. */
     size_t forceCounter_;
+
+signals:
+    /**
+     * Deletes the unit when it reaches the players' base.
+     *
+     * Connected to the slot NPCDeleter() in SDriver
+     *
+     * @author Dean Morin
+     * @param The id of the NPC to be deleted.
+     */
+    void deleteUnitLater(int id);
 };
 
 } /* end namespace td */

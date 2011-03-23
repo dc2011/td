@@ -7,7 +7,12 @@
 
 namespace td {
 
-ProjectileInputComponent::ProjectileInputComponent() {}
+ProjectileInputComponent::ProjectileInputComponent() {
+    
+    connect(this, SIGNAL(deleteProjectileLater(int)),
+            CDriver::instance(), SLOT(destroyObjLocal(int)), 
+            Qt::QueuedConnection);
+}
 
 ProjectileInputComponent::~ProjectileInputComponent() { }
 
@@ -26,7 +31,9 @@ void ProjectileInputComponent::makeForce() {
     if (distance.length() <= parent_->getVelocity().length()) {
         disconnect(CDriver::getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
-        //delete and start check for collisions here
+        
+        //check for collisions here
+        emit deleteProjectileLater(parent_->getID());
     } else {
         force = QVector2D(parent_->getPath().unitVector().dx() * -1,
                       parent_->getPath().unitVector().dy() * -1);

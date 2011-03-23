@@ -17,7 +17,6 @@ SDriver::SDriver() {
     connect(net_, SIGNAL(msgReceived(Stream*)), 
             this, SLOT(onMsgReceive(Stream*)));
 }
-
 SDriver::~SDriver() {
     delete net_;
     delete waveTimer_;
@@ -71,6 +70,7 @@ GameObject* SDriver::updateObject(Stream* s) {
 
     return go;
 }
+
 void SDriver::destroyServerObj(int id) {
     Stream* out = new Stream();
     mgr_->deleteObject(id);
@@ -106,7 +106,14 @@ void SDriver::spawnWave() {
 	    delete out;
     }
 }
+
+void SDriver::deadNPC(int id) {
+    destroyServerObj(id);
+}
+
+
 void SDriver::onMsgReceive(Stream* s) {
+
     int message = s->readByte(); /* Message Type */
     GameObject* go = NULL;
     Stream* out = new Stream();
@@ -121,11 +128,11 @@ void SDriver::onMsgReceive(Stream* s) {
             break;
         }
         case network::kClientDestroyObj:
-        {
-            int id = s->readInt();
-            destroyServerObj(id);
-            break;
-        }
+	    {
+	        int id = s->readInt();
+	        destroyServerObj(id);
+	        break;
+	    }
         default:
         {
             go = this->updateObject(s);

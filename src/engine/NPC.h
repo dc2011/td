@@ -29,7 +29,7 @@ public:
 
 public:
     NPC();
-    virtual ~NPC() {}
+    virtual ~NPC();
 
     virtual void update();
     size_t getHealth();
@@ -38,6 +38,13 @@ public:
     void setDamage(size_t);
     size_t getMaxHealth();
     void setMaxHealth(size_t);
+    /**
+     * if an NPC's health reaches 0,
+     * emit a signal that will have the NPC destroyed.
+     *
+     * @author Duncan Donaldson
+     */
+    void isDead();
     /**
      * initializes the NPCs components.
      *
@@ -60,6 +67,15 @@ public:
     void setHeight(int height){
         height_ = height;
     }
+
+signals:
+    /**
+     * signal emitted when an NPC needs to be destroyed.
+     *
+     * @author Duncan Donaldson
+     */
+    void dead(int id);
+
 private:
     size_t health_;
     size_t damage_;
@@ -67,6 +83,16 @@ private:
     QList<Effect*> effects_;
     int height_;
     int width_;
+
+signals:
+    /**
+     * Emitted when this NPC dies to allow towers to find a new target.
+     *
+     * Connected to the targetDied() slot in TowerPhysicsComponent.
+     *
+     * @author Dean Morin
+     */
+    void signalNPCDied();
 };
 
 } /* end namespace td */

@@ -17,7 +17,7 @@
 #include "../util/mutex_magic.h"
 
 namespace td {
-
+class SDriver;
 class SDriver : public QObject {
     Q_OBJECT 
     THREAD_SAFE_CLASS
@@ -26,14 +26,12 @@ private:
     QTimer* waveTimer_;
     ResManager* mgr_;
     NetworkServer* net_;
-
     QList<Player*> players_;
 
 public:
     // ctors and dtors
     SDriver();
-    virtual ~SDriver();
-
+    virtual ~SDriver(); 
     /**
      * Initialize the networking components and make everything run in the right
      * threads.
@@ -113,9 +111,15 @@ public slots:
      * @author Duncan Donaldson
      */
     void spawnWave();
-
     /**
-     * Handles a packet receive by updating a currently existing player
+     * Handles a packet received by updating a currently existing player
+     * slot that is called to destroy an NPC when its health reaches 0.
+     *
+     * @author Duncan Donaldson
+     */
+    void deadNPC(int id);
+    /**
+     * Handles a UDP packet receive by updating a currently existing player
      * or adding the player to the players list if the player does not exist.
      * 
      * @author Duncan Donaldson
