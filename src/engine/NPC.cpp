@@ -2,6 +2,9 @@
 #ifndef SERVER
 #include "CDriver.h"
 #endif
+//#ifdef SERVER
+//#include "SDriver.h"
+//#endif
 namespace td {
 
 NPC::NPC() {
@@ -12,6 +15,16 @@ NPC::NPC() {
     this->setWidth(30);
     pos_.setX(50);
     pos_.setY(50);
+    health_ = 1;
+    #ifndef SERVER
+    if(CDriver::instance()->isSinglePlayer()) {
+        connect(this, SIGNAL(dead(int)), CDriver::instance(), SLOT(deadNPC(int)));
+    }
+    #endif
+    //#ifdef SERVER
+    //connect(this, SIGNAL(dead(int)), SDriver::instance(), SLOT(deadNPC(int)));
+    // #endif
+   
 }
 
 NPC::~NPC() {
@@ -46,7 +59,11 @@ void NPC::initComponents() {
     this->setPhysicsComponent(physics);
     this->setGraphicsComponent(graphics);
 }
-
+void NPC::isDead() {
+    if(health_ == 0) {
+        emit dead(this->getID());
+    }
+}
 void NPC::update() {
 #ifndef SERVER
     CDriver::updateServer(this);
@@ -54,6 +71,7 @@ void NPC::update() {
     input_->update();
     physics_->update(this);
     graphics_->update(this);
+    this->isDead();
 }
 
 } /* end namespace td */

@@ -37,6 +37,13 @@ public:
     size_t getDamage();
     void setDamage(size_t);
     /**
+     * if an NPC's health reaches 0,
+     * emit a signal that will have the NPC destroyed.
+     *
+     * @author Duncan Donaldson
+     */
+    void isDead();
+    /**
      * initializes the NPCs components.
      *
      * @author Duncan Donaldson
@@ -58,6 +65,15 @@ public:
     void setHeight(int height){
         height_ = height;
     }
+
+signals:
+    /**
+     * signal emitted when an NPC needs to be destroyed.
+     *
+     * @author Duncan Donaldson
+     */
+    void dead(int id);
+
 private:
     size_t health_;
     size_t damage_;
