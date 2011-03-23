@@ -65,12 +65,12 @@ public:
         return enemies_;
     }
 
-    void setTarget(Unit* enemy) {
-        enemy_ = enemy;
+    void setTarget(Unit* target) {
+        target_ = target;
     }
 
-    Unit* getEnemy() {
-        return enemy_;
+    Unit* getTarget() {
+        return target_;
     }
 
     void setRadius(int radius) {
@@ -86,7 +86,7 @@ private:
     Tower* tower_;
     int radius_;
     QSet<Unit*> enemies_;
-    Unit* enemy_;
+    Unit* target_;
     
 protected:
     /** The number of ticks beween each shot. */
@@ -105,6 +105,16 @@ signals:
      * tageted.
      */
     void fireProjectile(QPointF source, QPointF target);
+
+public slots:
+    /**
+     * Sets the target_ member to null if the NPC dies.
+     *
+     * Connected to signalNPCDied() in the NPC class.
+     *
+     * @author Dean Morin
+     */
+    void targetDied();
 };
 
 } /* end namespace td */

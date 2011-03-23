@@ -21,27 +21,52 @@ public:
         return td::clsidx::kTower;
     }
 
+private:
+    enum {
+        kPosition       = (1 << 0),
+        kOrientation    = (1 << 1),
+        kScale          = (1 << 2),
+        kType           = (1 << 3)
+    };
+
 public:
     virtual ~Tower() {}
     virtual void initComponents();
+    
+    /**
+     * Reads the object state from a network stream.
+     * You should assign to variables directly inside this function, rather
+     * than using mutator methods to change the values.
+     *
+     * @author Darryl Pogue, Dean Morin
+     * @param s The network stream.
+     */
+    virtual void networkRead(td::Stream* s);
+
+    /**
+     * Writes the object state to a network stream.
+     *
+     * @author Darryl Pogue, Dean Morin
+     * @param s The network stream.
+     */
+    virtual void networkWrite(td::Stream* s);
+    
     virtual void update();
 
     /**
-     * TODO: remove once objects are being created by the server (it's a hack).
+     * Sets the tower type (arrow, cannon, tar, flame, or flak).
+     *
+     * @author Darryl Pogue
+     * @param The type of tower.
      */
-    virtual void initComponents(int towerType);
+    void setType(int type) {
+        type_ = type;
+    }
 
 private:
-
-    /**
-     * Set to false when the tower is initialized. On the first network read, 
-     * this flag will be checked, the components will be actually initialized,
-     * and the flag will be set to true. This is needed because towers require
-     * an argument (the tower type) in order to know what type of tower to
-     * become.
-     */
-    bool componentsInitialized_;
+    int type_;
 };
+
 } // end of namespace td
 
 #endif

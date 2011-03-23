@@ -29,7 +29,7 @@ public:
 
 public:
     NPC();
-    virtual ~NPC() {}
+    virtual ~NPC();
 
     virtual void update();
     size_t getHealth();
@@ -80,6 +80,16 @@ private:
     QList<Effect*> effects_;
     int height_;
     int width_;
+
+signals:
+    /**
+     * Emitted when this NPC dies to allow towers to find a new target.
+     *
+     * Connected to the targetDied() slot in TowerPhysicsComponent.
+     *
+     * @author Dean Morin
+     */
+    void signalNPCDied();
 };
 
 } /* end namespace td */

@@ -13,7 +13,6 @@ SDriver::SDriver() {
     waveTimer_ = new QTimer(this);
     mgr_ = new ResManager();
 }
-
 SDriver::~SDriver() {
     delete waveTimer_;
     delete mgr_;
@@ -68,6 +67,22 @@ void SDriver::destroyServerObj(int id) {
     NetworkServer::instance()->send(network::kServerDestroyObj, out->data());
     delete out;
 }
+
+Tower* SDriver::createTower(int type) {
+    Tower* tower = (Tower*)mgr_->createObject(Tower::clsIdx());
+
+    tower->setType(type);
+
+    tower->initComponents();
+
+    return tower;
+}
+
+/*NPC* SDriver::createNPC(int type) {
+}*/
+
+/*Resource* SDriver::createResource(int type) {
+}*/
 
 void SDriver::spawnWave() {
     qDebug("spawned wave");
