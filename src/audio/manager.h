@@ -215,6 +215,30 @@ public:
     }
 
     /**
+     * Toggles pausing of the capture
+     * thread
+     * 
+     * @author Terence Stenvold
+     */
+    static void toggleCapturePause() {
+	mutex_.lock();
+	capturePause_ = !capturePause_;
+	mutex_.unlock();
+    }
+
+    /**
+     * toggles the stopping of the capture
+     * thread
+     * 
+     * @author Terence Stenvold
+     */
+    static void toggleCaptureStop() {
+	mutex_.lock();
+	captureStop_ = !captureStop_;
+	mutex_.unlock();
+    }
+
+    /**
      * Destroy the OpenAL context and try to clean up any resources.
      * This must be called manually when the main application exits to ensure
      * that OpenAL is properly deinitialized and that all open sound files
