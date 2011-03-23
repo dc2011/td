@@ -34,7 +34,7 @@ public:
     /**
      * This updates the physics properties of Tower.
      */
-    virtual void update(GameObject* tower);
+    //virtual void update(GameObject* tower);
 
     /**
      * Finds the next target. Once a target is aquired, it remains the target
@@ -101,13 +101,8 @@ public:
         return radius_;
     }
 
+
 private:
-    /** The tower that this component defines. */
-    Tower* tower_;
-
-    /** All enemies that are potentially in range of the tower. */
-    QSet<Unit*> enemies_;
-
     /** The enemy that's currently being tracked by the tower. */
     Unit* target_;
 
@@ -115,6 +110,12 @@ private:
     QLineF projectilePath_;
     
 protected:
+    /** The tower that this component defines. */
+    Tower* tower_;
+
+    /** All enemies that are potentially in range of the tower. */
+    QSet<Unit*> enemies_;
+
     /** The number of ticks beween each shot. */
     size_t fireInterval_;
 

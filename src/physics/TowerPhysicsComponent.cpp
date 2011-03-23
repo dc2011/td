@@ -17,10 +17,11 @@ TowerPhysicsComponent::TowerPhysicsComponent(Tower* tower, size_t fireInterval,
 
 TowerPhysicsComponent::~TowerPhysicsComponent() {}
 
+/*
 void TowerPhysicsComponent::update(GameObject *tower) {
     this->applyDirection((Tower*)tower);
     this->fire();
-}
+} */
 
 void TowerPhysicsComponent::findTarget() {
     
