@@ -6,8 +6,8 @@
 int main(int argc, char **argv) {
     QCoreApplication a(argc, argv);
     //td::LobbyServer* ls = new td::LobbyServer();
-    td::SDriver::init();
-    td::SDriver::instance()->startGame();
+    td::SDriver s;
+    s.startGame();
     
     return a.exec();
 }

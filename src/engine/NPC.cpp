@@ -2,9 +2,9 @@
 #ifndef SERVER
 #include "CDriver.h"
 #endif
-#ifdef SERVER
-#include "SDriver.h"
-#endif
+//#ifdef SERVER
+//#include "SDriver.h"
+//#endif
 namespace td {
 
 NPC::NPC() {
@@ -21,9 +21,9 @@ NPC::NPC() {
         connect(this, SIGNAL(dead(int)), CDriver::instance(), SLOT(deadNPC(int)));
     }
     #endif
-    #ifdef SERVER
-    connect(this, SIGNAL(dead(int)), SDriver::instance(), SLOT(deadNPC(int)));
-    #endif
+    //#ifdef SERVER
+    //connect(this, SIGNAL(dead(int)), SDriver::instance(), SLOT(deadNPC(int)));
+    // #endif
    
 }
 

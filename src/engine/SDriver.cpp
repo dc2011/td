@@ -7,7 +7,6 @@
 #include "SDriver.h"
 
 namespace td {
-SDriver* SDriver::instance_;
 
 SDriver::SDriver() {
     waveTimer_ = new QTimer(this);
@@ -17,19 +16,7 @@ SDriver::~SDriver() {
     delete waveTimer_;
     delete mgr_;
 }
-SDriver* SDriver::init() {
-    if (instance_ != NULL) {
-        return instance_;
-    }
-    instance_ = new SDriver;
-    return instance_;
-}
-SDriver* SDriver::instance() {
-    return instance_;
-}
-void SDriver::shutdown() {
-    delete instance_;
-}
+
 void SDriver::startGame() {
     NetworkServer::init();
     connect(NetworkServer::instance(), SIGNAL(UDPReceived(Stream*)), 
