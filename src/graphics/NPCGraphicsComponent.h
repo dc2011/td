@@ -59,14 +59,14 @@ private:
     /** The current set of images to use for this object */
     int npcType_;
 
-    /** True if the health of the NPC should be displayed. */
-    bool showHealth_;
-
     int arrayIndexMin_;
     int arrayIndexMax_;
 
     /** Container for all pixmaps which pertain to the current object. */
     static QPixmap * pixmapImgs_;
+
+    /** True if the health of the NPC should be displayed. */
+    static bool showHealth_;
     
     /**  */
     QGraphicsRectItem* healthbarItem_;
