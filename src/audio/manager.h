@@ -258,6 +258,14 @@ public:
     void startup();
     
     /**
+     * Starts the thread for captureing
+     * the mic
+     *
+     * @author Terence Stenvold
+     */
+    void startCapture();
+
+    /**
      * Plays an Ogg Vorbis sound file.
      *
      * @author Terence Stenvold

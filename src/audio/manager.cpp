@@ -40,6 +40,14 @@ void AudioManager::startup()
     playing_ = 0;
 }
 
+
+void AudioManager::startCapture()
+{
+    QFuture<void> future =
+	QtConcurrent::run(this, &AudioManager::captureMic);
+}
+
+
 void AudioManager::playSfx(QVector<QString> files, SoundType type) {
     
     int rdNum;
