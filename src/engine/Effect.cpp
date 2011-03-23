@@ -1,11 +1,12 @@
 #include "Effect.h"
-#include "CDriver.h"
+#include "Driver.h"
 
 namespace td {
 
 Effect::Effect(Unit* unit, int duration, uint type, bool timerEnabled):
         GameObject(NULL), unit_(unit), duration_(duration),
-        type_(type), timerEnabled_(timerEnabled), applyEnabled_(true) {}
+        type_(type), timerEnabled_(timerEnabled), applyEnabled_(true),
+        timer_(unit->getDriver()->getTimer()) {}
 
 Effect::Effect(const Effect& e) : GameObject() {
     type_ = e.type_;
@@ -14,6 +15,7 @@ Effect::Effect(const Effect& e) : GameObject() {
     velocityChangeValue_ = e.velocityChangeValue_;
     healthChangeValue_ = e.healthChangeValue_;
     timerEnabled_ = e.timerEnabled_;
+    timer_ = e.timer_;
 }
 
 Effect& Effect::operator=(const Effect &rhs) {
@@ -59,8 +61,7 @@ void Effect::apply() {}
 void Effect::countdown() {
     duration_--;
     if(duration_ <= 0){
-        disconnect(unit_->getDriver()->getTimer(), SIGNAL(timeout()),
-              this, SLOT(update()));
+        disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
         emit effectFinished(this);
     }
 }

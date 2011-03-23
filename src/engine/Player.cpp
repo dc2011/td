@@ -77,6 +77,7 @@ void Player::createEffect(Effect* effect){
 
 void Player::deleteEffect(Effect* effect){
     effects_.removeOne(*effect);
+    delete effect;
 }
 
 void Player::startHarvesting(int type) {
