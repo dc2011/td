@@ -26,20 +26,21 @@ void TowerPhysicsComponent::update(GameObject *tower) {
 
 void TowerPhysicsComponent::findTarget() {
     
+    // check if there's an npc currently being tracked
     if (target_ != NULL) {
         projectilePath_.setP2(target_->getPos());
+        // return if the npc is still within range
         if (projectilePath_.length() < radius_) {
             return;
         }
         disconnect(target_, SIGNAL(signalNPCDied()), this, SLOT(targetDied()));
+        target_ = NULL;
     }
-    target_ = NULL;
     
-    
+    // get all npcs within range 
     setNPCs(tower_, radius_);
  
     if (enemies_.isEmpty()) {
-        target_ = NULL;
         return;
     }
 
