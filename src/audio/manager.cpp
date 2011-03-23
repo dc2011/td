@@ -253,7 +253,8 @@ void AudioManager::streamFile(QString filename, float gain)
                 size += result;
 
                 if (result < 0) {
-                    qCritical() << "AudioManager::streamFile(): Ogg Read Failed " << endl;
+                    qCritical() << "AudioManager::streamFile(): Ogg Read Failed "
+				<< endl;
                     break;
                 }
             }
@@ -298,7 +299,7 @@ void AudioManager::cleanUp(ALuint *source, ALuint *buffer)
 
     alGetSourcei(*source, AL_BUFFERS_PROCESSED, &processed);
 
-    while (processed) {
+    while (processed && !checkError()) {
         alSourceUnqueueBuffers(*source, 1, &tempBuffer);
         processed--;
     }
