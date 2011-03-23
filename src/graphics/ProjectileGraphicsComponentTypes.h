@@ -1,11 +1,11 @@
-#ifndef TD_NPCGRAPHICSCOMPONENTTYPES_H
-#define TD_NPCGRAPHICSCOMPONENTTYPES_H
+#ifndef TD_PROJECTILEGRAPHICSCOMPONENTTYPES_H
+#define TD_PROJECTILEGRAPHICSCOMPONENTTYPES_H
 
-#include "NPCGraphicsComponent.h"
+#include "ProjectileGraphicsComponent.h"
 
 namespace td {
 
-class NormNPCGraphicsComponent : public NPCGraphicsComponent
+class ArrowProjectileGraphicsComponent : public ProjectileGraphicsComponent
 {
     Q_OBJECT
 
@@ -14,10 +14,15 @@ private:
     static QPixmap* pixmapImgs_;
 
 public:
-    NormNPCGraphicsComponent() : NPCGraphicsComponent() {
-        emit created(this);
-    }
-    virtual ~NormNPCGraphicsComponent() { }
+    /**
+     * Constructor.
+     */
+    ArrowProjectileGraphicsComponent() : ProjectileGraphicsComponent() { }
+
+    /**
+     * Destructor.
+     */
+    virtual ~ArrowProjectileGraphicsComponent() { }
 
     /**
      * Initializes the static array of pixmaps.
@@ -35,13 +40,9 @@ public:
     virtual QPixmap* getPixmapArray() {
         return pixmapImgs_;
     }
-
-private:
-    virtual void setNonStaticValues();
-    virtual void setLayer(DrawParams* dp);
 };
 
-class SlowNPCGraphicsComponent : public NPCGraphicsComponent
+class CannonProjectileGraphicsComponent : public ProjectileGraphicsComponent
 {
     Q_OBJECT
 
@@ -50,10 +51,15 @@ private:
     static QPixmap* pixmapImgs_;
 
 public:
-    SlowNPCGraphicsComponent() : NPCGraphicsComponent() {
-        emit created(this);
-    }
-    virtual ~SlowNPCGraphicsComponent() { }
+    /**
+     * Constructor.
+     */
+    CannonProjectileGraphicsComponent() : ProjectileGraphicsComponent() { }
+
+    /**
+     * Destructor.
+     */
+    virtual ~CannonProjectileGraphicsComponent() { }
 
     /**
      * Initializes the static array of pixmaps.
@@ -71,13 +77,9 @@ public:
     virtual QPixmap* getPixmapArray() {
         return pixmapImgs_;
     }
-
-private:
-    virtual void setNonStaticValues();
-    virtual void setLayer(DrawParams* dp);
 };
 
-class FastNPCGraphicsComponent : public NPCGraphicsComponent
+class TarProjectileGraphicsComponent : public ProjectileGraphicsComponent
 {
     Q_OBJECT
 
@@ -86,10 +88,15 @@ private:
     static QPixmap* pixmapImgs_;
 
 public:
-    FastNPCGraphicsComponent() : NPCGraphicsComponent() {
-        emit created(this);
-    }
-    virtual ~FastNPCGraphicsComponent() { }
+    /**
+     * Constructor.
+     */
+    TarProjectileGraphicsComponent() : ProjectileGraphicsComponent() { }
+
+    /**
+     * Destructor.
+     */
+    virtual ~TarProjectileGraphicsComponent() { }
 
     /**
      * Initializes the static array of pixmaps.
@@ -107,13 +114,9 @@ public:
     virtual QPixmap* getPixmapArray() {
         return pixmapImgs_;
     }
-
-private:
-    virtual void setNonStaticValues();
-    virtual void setLayer(DrawParams* dp);
 };
 
-class FlyNPCGraphicsComponent : public NPCGraphicsComponent
+class FireProjectileGraphicsComponent : public ProjectileGraphicsComponent
 {
     Q_OBJECT
 
@@ -122,10 +125,15 @@ private:
     static QPixmap* pixmapImgs_;
 
 public:
-    FlyNPCGraphicsComponent() : NPCGraphicsComponent() {
-        emit created(this);
-    }
-    virtual ~FlyNPCGraphicsComponent() { }
+    /**
+     * Constructor.
+     */
+    FireProjectileGraphicsComponent() : ProjectileGraphicsComponent() { }
+
+    /**
+     * Destructor.
+     */
+    virtual ~FireProjectileGraphicsComponent() { }
 
     /**
      * Initializes the static array of pixmaps.
@@ -143,13 +151,9 @@ public:
     virtual QPixmap* getPixmapArray() {
         return pixmapImgs_;
     }
-
-private:
-    virtual void setNonStaticValues();
-    virtual void setLayer(DrawParams* dp);
 };
 
-class BossNPCGraphicsComponent : public NPCGraphicsComponent
+class FlakProjectileGraphicsComponent : public ProjectileGraphicsComponent
 {
     Q_OBJECT
 
@@ -158,10 +162,15 @@ private:
     static QPixmap* pixmapImgs_;
 
 public:
-    BossNPCGraphicsComponent() : NPCGraphicsComponent() {
-        emit created(this);
-    }
-    virtual ~BossNPCGraphicsComponent() { }
+    /**
+     * Constructor.
+     */
+    FlakProjectileGraphicsComponent() : ProjectileGraphicsComponent() { }
+
+    /**
+     * Destructor.
+     */
+    virtual ~FlakProjectileGraphicsComponent() { }
 
     /**
      * Initializes the static array of pixmaps.
@@ -179,12 +188,9 @@ public:
     virtual QPixmap* getPixmapArray() {
         return pixmapImgs_;
     }
-
-private:
-    virtual void setNonStaticValues();
-    virtual void setLayer(DrawParams* dp);
 };
 
 } /* end namespace td */
 
 #endif
+

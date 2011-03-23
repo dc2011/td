@@ -29,6 +29,15 @@ private:
     /** True if the player's name is currently being shown. */
     bool nameShowing_;
 
+    /** True if the resource progress bar is being shown. */
+    bool resourceProgressShowing_;
+
+    /** % amount of resource progress, from 0 to 1. */
+    double resourceProgress_;
+
+    /** Graphical progress bar for a resource's progress. */
+    QGraphicsRectItem* resourceProgressBar_;
+
 public:
     /**
      * Instantiates a PlayerGraphicsComponent component

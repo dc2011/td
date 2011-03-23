@@ -3,8 +3,6 @@
 
 namespace td {
 
-    QPixmap * ProjectileGraphicsComponent::pixmapImgs_ = 0;
-
 ProjectileGraphicsComponent::ProjectileGraphicsComponent()
         : GraphicsComponent() {
     emit created(this);
@@ -27,26 +25,6 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
     dp->scale   = projectile->getScale();
     dp->degrees = projectile->getOrientation();
     emit signalDraw(dp, this, LAYER_DEFAULT);
-}
-
-void ProjectileGraphicsComponent::initPixmaps() {
-    if (pixmapImgs_) {
-        return;
-    } else {
-        pixmapImgs_ = new QPixmap[PIX_PROJECTILE_MAX];
-    }
-    //TODO: add animation images here
-
-    pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_2;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_3;
-    pixmapIndex_ = 0;
-}
-
-QPixmap * ProjectileGraphicsComponent::getPixmapArray() {
-    return pixmapImgs_;
 }
 
 } /* end namespace td */

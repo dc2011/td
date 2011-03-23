@@ -40,12 +40,12 @@ public:
     virtual ~NPC();
 
     virtual void update();
-    size_t getHealth();
-    void setHealth(size_t);
-    size_t getDamage();
-    void setDamage(size_t);
-    size_t getMaxHealth();
-    void setMaxHealth(size_t);
+    int getHealth();
+    void setHealth(int);
+    int getDamage();
+    void setDamage(int);
+    int getMaxHealth();
+    void setMaxHealth(int);
     /**
      * if an NPC's health reaches 0,
      * emit a signal that will have the NPC destroyed.
@@ -132,9 +132,9 @@ public slots:
     void deleteEffect(Effect* effect);
 
 private:
-    size_t health_;
-    size_t damage_;
-    size_t maxHealth_;
+    int health_;
+    int damage_;
+    int maxHealth_;
     QList<Effect*> effects_;
     int height_;
     int width_;
