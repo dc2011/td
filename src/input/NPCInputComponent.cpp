@@ -20,9 +20,8 @@ NPCInputComponent::NPCInputComponent() {
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
     
-    //TODO: look at me, I'm probably a temporary hack
-    connect(this, SIGNAL(deleteUnitLater(NPC*)),
-            CDriver::instance(), SLOT(deleteNPC(NPC*)));
+    connect(this, SIGNAL(deleteUnitLater(Unit*)),
+            CDriver::instance(), SLOT(NPCDeleter(Unit*)), Qt::QueuedConnection);
 }
 
 NPCInputComponent::~NPCInputComponent() { }
@@ -60,8 +59,8 @@ void NPCInputComponent::nextDestination() {
             && nextDest_ >= waypoints_.length()) {
         disconnect(CDriver::getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
+        // TODO: damage players' base
         emit deleteUnitLater(parent_);  
-        qDebug("emit");
     }
 }
 

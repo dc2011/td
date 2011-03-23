@@ -216,15 +216,6 @@ public slots:
      * the player is currently standing on, and performs the appropriate action.
      */
     void handleSpacebarPress();
-    
-    /**
-     * Deletes an NPC.
-     * WARNING! IT'S A HACK!
-     *
-     * @author Dean Morin
-     */
-    void deleteNPC(NPC* marcel);
-
 
 private slots:
     /**
@@ -256,13 +247,13 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCCreator();
+
     /**
      * Deletes NPC later
      *
      * @author Marcel Vangrootheest
      */
     void NPCDeleter(Unit*);
-
 };
 
 } /* end namespace td */

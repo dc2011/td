@@ -7,6 +7,7 @@
 #include "../engine/Map.h"
 #include "../engine/CDriver.h"
 #include <QPointF>
+#include <QLineF>
 #include <QSet>
 
 namespace td {
@@ -17,7 +18,7 @@ class TowerPhysicsComponent: public PhysicsComponent {
     Q_OBJECT
 
 public:
-    TowerPhysicsComponent(Tower* tower, size_t fireInterval);
+    TowerPhysicsComponent(Tower* tower, size_t fireInterval, int radius);
     virtual ~TowerPhysicsComponent();
 
     /**
@@ -113,14 +114,17 @@ public:
 private:
     /** The tower that this component defines. */
     Tower* tower_;
-    int radius_;
     QSet<Unit*> enemies_;
     Unit* target_;
+    QLineF projectilePath_;
     
 protected:
     /** The number of ticks beween each shot. */
     size_t fireInterval_;
 
+    /** The range of the tower. */
+    int radius_;
+    
     /** Number of game timer ticks before this tower can fire a projectile. */
     size_t fireCountdown_;
 

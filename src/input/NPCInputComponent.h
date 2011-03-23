@@ -47,10 +47,13 @@ private:
 
 signals:
     /**
-     * TEMP HACK
+     * Deletes the unit when it reaches the players' base.
+     *
+     * Connected to the slot NPCDeleter() in SDriver
+     *
      * @author Dean Morin
      */
-    void deleteUnitLater(NPC*);
+    void deleteUnitLater(Unit*);
 };
 
 } /* end namespace td */
