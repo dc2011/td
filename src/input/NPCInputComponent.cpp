@@ -20,8 +20,8 @@ NPCInputComponent::NPCInputComponent() {
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
     
-    connect(this, SIGNAL(deleteUnitLater(Unit*)),
-            CDriver::instance(), SLOT(NPCDeleter(Unit*)), Qt::QueuedConnection);
+    connect(this, SIGNAL(deleteUnitLater(int)),
+            CDriver::instance(), SLOT(deadNPC(int)), Qt::QueuedConnection);
 }
 
 NPCInputComponent::~NPCInputComponent() { }
@@ -60,7 +60,7 @@ void NPCInputComponent::nextDestination() {
         disconnect(CDriver::getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
         // TODO: damage players' base
-        emit deleteUnitLater(parent_);  
+        emit deleteUnitLater(parent_->getID());  
     }
 }
 

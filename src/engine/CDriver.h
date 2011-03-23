@@ -121,25 +121,6 @@ public:
      */
     void readObject(Stream* s);
 
-    /**
-     * 
-     * Destroys an object on the client, and notifies the server
-     * that the object has been destroyed.
-     *
-     * @author Duncan Donaldson
-     */
-    void destroyObjSync(int id);
-
-public slots:
-    /**
-     * 
-     * Destroys an object on the client without notifying
-     * the server of the object destruction.
-     *
-     * @author Duncan Donaldson
-     */
-    void destroyObjLocal(int id);
-
 public:
     /**
      * Sets a player as the local human player object.
@@ -219,12 +200,32 @@ public slots:
     * @return void
     */
     void startGame(bool singlePlayer);
+
+    /**
+     * 
+     * Destroys an object on the client, and notifies the server
+     * that the object has been destroyed.
+     *
+     * @author Duncan Donaldson
+     */
+    void destroyObjSync(int id);
+
+    /**
+     * 
+     * Destroys an object on the client without notifying
+     * the server of the object destruction.
+     *
+     * @author Duncan Donaldson
+     */
+    void destroyObjLocal(int id);
+
     /**
      * slot that is called to destroy an NPC when its health reaches 0.
      *
      * @author Duncan Donaldson
      */
     void deadNPC(int id);
+
     /**
      * Called whenenever the spacebar is pressed. It checks the tile type that
      * the player is currently standing on, and performs the appropriate action.
@@ -261,13 +262,6 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCCreator();
-
-    /**
-     * Deletes NPC later
-     *
-     * @author Marcel Vangrootheest
-     */
-    void NPCDeleter(Unit*);
 };
 
 } /* end namespace td */

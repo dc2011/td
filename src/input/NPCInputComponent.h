@@ -52,8 +52,9 @@ signals:
      * Connected to the slot NPCDeleter() in SDriver
      *
      * @author Dean Morin
+     * @param The id of the NPC to be deleted.
      */
-    void deleteUnitLater(Unit*);
+    void deleteUnitLater(int id);
 };
 
 } /* end namespace td */

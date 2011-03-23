@@ -116,6 +116,16 @@ void CDriver::destroyObjLocal(int id) {
     mgr_->deleteObject(id);
 }
 
+void CDriver::deadNPC(int id) {
+    npc_.remove((NPC*) mgr_->findObject(id));
+
+    if(singlePlayer_ == true) {
+        destroyObjLocal(id);
+    } else {
+        destroyObjSync(id);
+    }
+}
+
 void CDriver::makeLocalPlayer(Player* player) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     PlayerInputComponent* input = new PlayerInputComponent();
@@ -160,11 +170,6 @@ void CDriver::NPCCreator() {
     if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
         npc_.insert(createNPC());
     }
-}
-
-void CDriver::NPCDeleter(Unit* npc) {
-    npc_.remove((NPC*)npc);
-    mgr_->deleteObject(npc);
 }
 
 NPC* CDriver::createNPC() {
@@ -285,14 +290,6 @@ void CDriver::handleSpacebarPress() {
         case TILE_RESOURCE:
             qDebug("Harvesting resource: %d", currentTile->getTiledTile()->id());
             break;
-    }
-}
-
-void CDriver::deadNPC(int id) {
-    if(singlePlayer_ == true) {
-        destroyObjLocal(id);
-    } else {
-        destroyObjSync(id);
     }
 }
 
