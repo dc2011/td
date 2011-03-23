@@ -18,7 +18,8 @@ PlayerGraphicsComponent::PlayerGraphicsComponent()
 
 void PlayerGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
-    if (!player->isDirty()) {//checks if object is dirty.
+    if (!player->isDirty() && pixmapIndex_ == 0) {
+        //checks if object is dirty or in mid-animation
         return;
     }
     player->resetDirty();

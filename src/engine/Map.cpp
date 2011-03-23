@@ -5,7 +5,7 @@
 #include "Resource.h"
 #include "CDriver.h"
 
-/** Tiled headers. */
+/* Tiled headers. */
 // TODO: I am pretty sure we only *actually* need to include map.h and tile.h
 //       here.
 #include <isometricrenderer.h>
