@@ -5,6 +5,7 @@
 namespace td {
 
 QPixmap * NPCGraphicsComponent::pixmapImgs_ = 0;
+bool NPCGraphicsComponent::showHealth_    = 0;
 
 NPCGraphicsComponent::NPCGraphicsComponent()
         : GraphicsComponent() {
@@ -12,10 +13,14 @@ NPCGraphicsComponent::NPCGraphicsComponent()
 
 NPCGraphicsComponent::NPCGraphicsComponent(int npcType)
     : GraphicsComponent(), npcType_(npcType) {
+    connect(CDriver::instance()->getMainWindow(),  SIGNAL(signalAltHeld(bool)),
+            this, SLOT(showHealth(bool)));
     emit created(this);
 }
 
-NPCGraphicsComponent::~NPCGraphicsComponent() {}
+NPCGraphicsComponent::~NPCGraphicsComponent() {
+    disconnect(this);
+}
 
 void NPCGraphicsComponent::update(GameObject* obj) {
     NPC* npc = (NPC*)obj;
@@ -39,21 +44,22 @@ void NPCGraphicsComponent::update(GameObject* obj) {
 
 void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {
 
-    if (1/*showHealth_*/) {
+    if (showHealth_) {
+        healthbarItem_->setVisible(true);
     healthbarItem_->setRect(QRectF(0, 0, (96*npcHealth), 7));
-    if(npcHealth > 0.25 && npcHealth < 0.51) {
-        healthbarItem_->setBrush(QBrush(Qt::yellow));
-    } else if (npcHealth <= 0.25) {
-        healthbarItem_->setBrush(QBrush(Qt::red));
-    } else {
-        healthbarItem_->setBrush(QBrush(Qt::green));
-    }
+        if(npcHealth > 0.25 && npcHealth < 0.51) {
+            healthbarItem_->setBrush(QBrush(Qt::yellow));
+        } else if (npcHealth <= 0.25) {
+            healthbarItem_->setBrush(QBrush(Qt::red));
+        } else {
+            healthbarItem_->setBrush(QBrush(Qt::green));
+        }
     healthbarItem_->setPos((dp->pos.x() - healthbarItem_->boundingRect().center().x()),
-                   (dp->pos.y() - getPixmapItem()->boundingRect().height()));
+                   (dp->pos.y() - (getPixmapItem()->boundingRect().height())/2));
     healthbarItem_->setZValue(layer);
     healthbarItem_->update();
     } else {
-        healthbarItem_->setPos(OFFSCREEN, OFFSCREEN);
+        healthbarItem_->setVisible(false);
         healthbarItem_->update();
     }
 
@@ -66,7 +72,7 @@ void NPCGraphicsComponent::showHealth(bool keyHeld) {
 }
 
 void NPCGraphicsComponent::initPixmaps() {
-    healthbarItem_ = new QGraphicsRectItem(QRectF(0, 0, 96, 7));
+    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
     npcHealth = 1;
     CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
     if (pixmapImgs_) {

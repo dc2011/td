@@ -37,10 +37,12 @@ void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
     if (showName_) {
     label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
                    dp->pos.y() - getPixmapItem()->boundingRect().height());
+    label_->setVisible(true);
     label_->setZValue(layer);
     label_->update();
     } else {
-        label_->setPos(OFFSCREEN, OFFSCREEN);
+        //label_->setPos(OFFSCREEN, OFFSCREEN);
+        label_->setVisible(false);
         label_->update();
     }
 
@@ -68,7 +70,7 @@ void PlayerGraphicsComponent::animate() {
 }
 
 void PlayerGraphicsComponent::initPixmaps() {
-    label_ = new QGraphicsTextItem(QString("Warren Master Of The Universe"));
+    label_ = new QGraphicsTextItem(QString("Bone Ron"));
 
     label_->setDefaultTextColor (QColor(0,255,0));
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
