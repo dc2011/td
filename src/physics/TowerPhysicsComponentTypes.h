@@ -33,16 +33,17 @@ public:
     virtual ~FlameTowerPhysicsComponent() { }
     virtual void update(GameObject *tower);
     void findDirectionToShoot();
-    void useDirection();
+    void useDirection(Tower* tower);
     void applyDuration();
     void fire();
 private:
     int duration_;
     /** The line between the tower and its current target. */
     QLineF flamePath_;
-    QPointF rotationEndPoint_;
     /** The enemy that's currently being tracked by the tower. */
     Unit* endPoint_;
+    bool foundTarget_;
+    bool ready_;
 
 };
 

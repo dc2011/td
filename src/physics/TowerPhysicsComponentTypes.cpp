@@ -55,27 +55,25 @@ void CannonTowerPhysicsComponent::fire() {
 
 FlameTowerPhysicsComponent::FlameTowerPhysicsComponent(Tower* tower)
         : TowerPhysicsComponent(tower, FIRE_INTERVAL_FLAME, RADIUS_FLAME),duration_(0) {
+    foundTarget_ = false;
+    ready_ = false;
 }
 
 void FlameTowerPhysicsComponent::update(GameObject *tower){
-    this->useDirection();
+    this->useDirection((Tower*)tower);
     this->applyDuration();
     this->fire();
 }
 
 void FlameTowerPhysicsComponent::findDirectionToShoot(){
     // check if there's an npc currently being tracked
-
-    if (duration_ < 70) {
-
-        if (flamePath_.length() < RADIUS_FLAME) {
-            return;
-            flamePath_.setLength(flamePath_.length() + 6);
-        }
-        duration_++;
+    if(foundTarget_) {
         return;
+    }
+    if(fireCountdown_ == 0) {
+        ready_ = true;
     } else {
-        duration_ = 0;
+        return;
     }
     flamePath_.setP1(tower_->getPos());
     flamePath_.setP2(tower_->getPos());
@@ -87,6 +85,7 @@ void FlameTowerPhysicsComponent::findDirectionToShoot(){
                              ceil((double) getRadius() / TILE_SIZE));
 
     if (enemies_.isEmpty()) {
+        foundTarget_ = false;
         return;
     }
 
@@ -98,26 +97,26 @@ void FlameTowerPhysicsComponent::findDirectionToShoot(){
         // make sure that the unit is not a player
         if((((*iter)->getID()&0xFF000000)>>24) == NPC::clsIdx()) {
             flamePath_.setP2((*iter)->getPos());
-            flamePath_.setLength(1);
             // check that they're actually in range
             if (flamePath_.length() < getRadius()) {
                 endPoint_ = *iter;
-                rotationEndPoint_ = endPoint_->getPos();
+                flamePath_.setLength(getRadius());
+                foundTarget_ = true;
                 return;
             }
         }
     }
 }
 
-void FlameTowerPhysicsComponent::useDirection(){
+void FlameTowerPhysicsComponent::useDirection(Tower *tower){
     this->findDirectionToShoot();
-    if(endPoint_ == NULL) {
+    if(!foundTarget_ && !ready_) {
         return;
     }
     int angle = 0;
     int degree = 0;
-    int velX = rotationEndPoint_.x() - tower_->getPos().x();
-    int velY = rotationEndPoint_.y() - tower_->getPos().y();
+    int velX = flamePath_.p2().x() - tower->getPos().x();
+    int velY = flamePath_.p2().y() - tower->getPos().y();
 
     if (velX == 0 && velY == 0) {
         return;
@@ -166,28 +165,29 @@ void FlameTowerPhysicsComponent::useDirection(){
             }
         }
     }
-    tower_->setOrientation(degree);
+    tower->setOrientation(degree);
 }
 
 void FlameTowerPhysicsComponent::applyDuration(){
-    if(duration_ > 60) {
-        flamePath_.setLength(0);
-    }
+
 }
 
 void FlameTowerPhysicsComponent::fire() {
+
     if (fireCountdown_ != 0) {
-        fireCountdown_--;
-        return;
+            fireCountdown_--;
+            ready_ = false;
+            return;
     }
-    if (target_ == NULL) {
+    if(!foundTarget_) {
         return;
     }
     // TODO: move to projectilePC, once the different types have been created
     //PLAY_SFX(tower_, SfxManager::projectileFireFlame);
-    emit fireProjectile(PROJ_FIRE, tower_->getPos(), target_->getPos(),
+    emit fireProjectile(PROJ_FIRE, tower_->getPos(), flamePath_.p2(),
             target_);
     fireCountdown_ = fireInterval_;
+    foundTarget_ = false;
 }
 
 TarTowerPhysicsComponent::TarTowerPhysicsComponent(Tower* tower)

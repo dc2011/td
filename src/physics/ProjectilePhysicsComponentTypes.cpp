@@ -35,9 +35,14 @@ void CannonProjectilePhysicsComponent::setScale(Projectile *projectile) {
 }
 
 FireProjectilePhysicsComponent::FireProjectilePhysicsComponent()
-    : ProjectilePhysicsComponent(FIRE_VELOCITY) {}
+    : ProjectilePhysicsComponent(FIRE_VELOCITY) { duration_ = 0;}
 
-void FireProjectilePhysicsComponent::setScale(Projectile*) {}
+void FireProjectilePhysicsComponent::setScale(Projectile* projectile) {
+projectile->setScale(1.0);
+if(++duration_ > 15 && duration_ < 60) {
+    projectile->setPos(projectile->getEndPoint()->x(),projectile->getEndPoint()->y());
+}
+}
 
 TarProjectilePhysicsComponent::TarProjectilePhysicsComponent()
     : ProjectilePhysicsComponent(TAR_VELOCITY) {}

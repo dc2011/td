@@ -20,7 +20,7 @@
 // how often the tower type can fire (in game ticks)
 #define FIRE_INTERVAL_ARROW     45
 #define FIRE_INTERVAL_CANNON    120
-#define FIRE_INTERVAL_FLAME     300
+#define FIRE_INTERVAL_FLAME     70
 #define FIRE_INTERVAL_TAR       90
 #define FIRE_INTERVAL_FLAK      15
 
