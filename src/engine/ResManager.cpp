@@ -122,7 +122,7 @@ unsigned int ResManager::countObjects() const {
     unsigned int count = 0;
 
     for (int i = 0; i < clsidx::kMAX_CLASS_INDEX; i++) {
-        count += objects_[i].size();
+        count += countObjectsByType(i);
     }
 
     return count;

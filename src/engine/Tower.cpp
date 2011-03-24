@@ -14,9 +14,10 @@ Tower::Tower(QObject* parent) : TileExtension(parent) { }
 void Tower::update() {
 #ifndef SERVER
     if(this->isDirty()) {
-        CDriver::updateServer(this);
+        ((CDriver*)getDriver())->updateServer(this);
     }
 #endif
+
     if (physics_ != NULL) {
         physics_->update(this);
     }

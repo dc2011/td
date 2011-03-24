@@ -105,7 +105,7 @@ public:
      * @author Duncan Donaldson
      * @param obj The GameObject to transmit.
      */
-    static void updateServer(GameObject* obj);
+    void updateServer(GameObject* obj);
 
     /**
      * reads in an object, if it exists, updates it,

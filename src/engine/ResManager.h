@@ -113,7 +113,13 @@ public:
      * @return The number of objects of the given type.
      */
     unsigned int countObjectsByType(unsigned char type) const {
-        return objects_[type].size();
+        unsigned int ret = 0;
+        for (int i = 0; i < objects_[type].size(); i++) {
+            if (objects_[type][i] != NULL) {
+                ret++;
+            }
+        }
+        return ret;
     }
 
 protected:

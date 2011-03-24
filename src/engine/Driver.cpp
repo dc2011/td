@@ -14,4 +14,15 @@ Driver::~Driver()
     delete gameTimer_;
 }
 
+void Driver::destroyObject(GameObject* obj) {
+    mgr_->deleteObject(obj);
+}
+
+void Driver::destroyObject(unsigned int id) {
+    GameObject* go = mgr_->findObject(id);
+    if (go != NULL) {
+        mgr_->deleteObject(go);
+    }
+}
+
 } /* end namespace td */

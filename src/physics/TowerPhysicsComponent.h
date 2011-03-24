@@ -50,10 +50,8 @@ public:
      * @param Radius, size of radius around tower
      */
     void setNPCs(GameObject* tower, int radius) {
-#ifndef SERVER
-        Map* map = CDriver::instance()->getGameMap();
+        Map* map = tower->getDriver()->getGameMap();
         enemies_ = map->getUnits(tower->getPos().x() ,tower->getPos().y() , radius);
-#endif
     }
 
     /**

@@ -48,7 +48,7 @@ void NPC::initComponents() {
 
 void NPC::update() {
 #ifndef SERVER
-    CDriver::updateServer(this);
+    ((CDriver*)getDriver())->updateServer(this);
 #endif
     input_->update();
     physics_->update(this);

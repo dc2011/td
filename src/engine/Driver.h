@@ -51,6 +51,28 @@ public:
         return gameTimer_;
     }
 
+    /**
+     * Destroys a GameObject and removes it from the ResManager.
+     *
+     * @author Darryl Pogue
+     * @author Duncan Donaldson
+     * @author Dean Morin
+     * @author Marcel van Grootheest
+     * @param obj The GameObject to be destroyed.
+     */
+    virtual void destroyObject(GameObject* obj);
+
+    /**
+     * Destroys a GameObject by id  and removes it from the ResManager.
+     *
+     * @author Darryl Pogue
+     * @author Duncan Donaldson
+     * @author Dean Morin
+     * @author Marcel van Grootheest
+     * @param id The id of the GameObject to be destroyed.
+     */
+    virtual void destroyObject(unsigned int id);
+
 };
 
 } /* end namespace td */

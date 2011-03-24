@@ -50,7 +50,7 @@ void Projectile::networkWrite(td::Stream* s) {
 
 void Projectile::update() {
 #ifndef SERVER
-    CDriver::updateServer(this);
+    ((CDriver*)getDriver())->updateServer(this);
 #endif
     input_->update();
     physics_->update(this);

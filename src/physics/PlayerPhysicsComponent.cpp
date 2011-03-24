@@ -27,7 +27,6 @@ void PlayerPhysicsComponent::update(GameObject* player)
 /* applies velocity to position, currently moves past bounds */
 void PlayerPhysicsComponent::applyVelocity(Player* player)
 {
-#ifndef SERVER
     //assuming body of player sprite is from 13,4 to 35, 44
 
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
@@ -36,14 +35,13 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
         return;
     }
 
-    Map* gameMap = td::CDriver::instance()->getGameMap();
+    Map* gameMap = player->getDriver()->getGameMap();
     QSet<Tile*> targetTiles = gameMap->getTiles(newPos, 2);
 
     QPointF upperRight;
     QPointF upperLeft;
     QPointF lowerRight;
     QPointF lowerLeft;
-    Map* map = td::CDriver::instance()->getGameMap();
     QSet<Unit*> npcs;
     double angle = player->getOrientation();
     QMatrix matrix = QMatrix();
@@ -81,12 +79,11 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
         player->changeTile(newPos);
         player->setPos(newPos);
         player->setBounds(polygon);
-        npcs = map->getUnits(newPos.x(), newPos.y(), 3);
+        npcs = gameMap->getUnits(newPos.x(), newPos.y(), 3);
         if (npcs.size() != 1) {
             checkNPCCollision(npcs, player);
         }
     }
-#endif
 }
 
 void PlayerPhysicsComponent::applyForce(Player* player)

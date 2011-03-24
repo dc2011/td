@@ -27,7 +27,6 @@ CDriver::CDriver(MainWindow* mainWindow)
         mainWindow_(mainWindow), contextMenu_(NULL), projectile_(NULL)
 {
     mgr_ = new ResManager(this);
-    npc_ = QSet<NPC*>();
     npcCounter_ = 0;
     tower_ = NULL;
 }
@@ -57,14 +56,11 @@ void CDriver::disconnectFromServer() {
 }
 
 void CDriver::updateServer(GameObject* obj) {
+    if(isSinglePlayer() || obj->getID() == 0xFFFFFFFF) {
+        return;
+    }
+
     Stream* updates = new Stream();
-    if(CDriver::instance()->isSinglePlayer() == true) {
-        delete updates;
-        return;
-    }
-    if (obj->getID() == 0xFFFFFFFF) {
-        return;
-    }
 
     obj->networkWrite(updates);
 
@@ -195,7 +191,7 @@ void CDriver::createProjectile(QPointF source, QPointF target) {
 void CDriver::createTower(int towerType, QPointF pos) {
 
     Stream* request = new Stream();
-    tower_ = new Tower();
+    tower_ = new Tower(this);
     tower_->setType(towerType);
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
 
@@ -321,7 +317,7 @@ void CDriver::UDPReceived(Stream* s) {
         case network::kServerDestroyObj:
         {  
 	        int id = s->readInt();
-	        destroyObjLocal(id);
+	        destroyObject(id);
 	        break;
         }
         default:

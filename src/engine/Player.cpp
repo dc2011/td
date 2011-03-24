@@ -47,7 +47,7 @@ void Player::update() {
 
 #ifndef SERVER
     if (this->isDirty()) {
-        CDriver::updateServer(this);
+        ((CDriver*)getDriver())->updateServer(this);
     }
 #endif
 
