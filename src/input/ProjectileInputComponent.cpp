@@ -5,9 +5,20 @@
 #define PI 3.141592653589793238
 #include <math.h>
 
+#ifndef SERVER
+#    include "../engine/CDriver.h"
+#endif
+
 namespace td {
 
-ProjectileInputComponent::ProjectileInputComponent() {}
+ProjectileInputComponent::ProjectileInputComponent() {
+    
+#ifndef SERVER
+    connect(this, SIGNAL(deleteProjectileLater(int)),
+            CDriver::instance(), SLOT(destroyObjLocal(int)), 
+            Qt::QueuedConnection);
+#endif
+}
 
 ProjectileInputComponent::~ProjectileInputComponent() { }
 
@@ -26,7 +37,9 @@ void ProjectileInputComponent::makeForce() {
     if (distance.length() <= parent_->getVelocity().length()) {
         disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
-        //delete and start check for collisions here
+        
+        //check for collisions here
+        emit deleteProjectileLater(parent_->getID());
     } else {
         force = QVector2D(parent_->getPath().unitVector().dx() * -1,
                       parent_->getPath().unitVector().dy() * -1);

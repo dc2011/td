@@ -25,6 +25,22 @@ void Tower::update() {
     graphics_->update(this);
 }
 
+void Tower::networkRead(Stream* s) {
+    TileExtension::networkRead(s);
+    
+    if (dirty_ & kType) {
+        type_ = s->readInt();
+    }
+}
+
+void Tower::networkWrite(Stream* s) {
+    TileExtension::networkWrite(s);
+
+    if (dirty_ & kType) {
+        s->writeInt(type_);
+    }
+}
+
 void Tower::initComponents() {
     switch (type_) {
         case TOWER_ARROW:

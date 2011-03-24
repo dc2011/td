@@ -40,11 +40,11 @@ private:
     Projectile* projectile_;
      /** A tower built by the players. */
     Tower* tower_;
-    /** An set of towers. */
+     /** An set of towers. */
     QSet<Tower*> towers_;
      /** The single instance of this class that can be created. */
     static CDriver* instance_;
-    /** Tells objects whether or not the game is being played single player **/
+     /** Tells objects whether or not the game is being played single player **/
     bool singlePlayer_;
     
     CDriver(MainWindow* parent = 0);
@@ -113,23 +113,8 @@ public:
      * @author Duncan Donaldson
      */
     void readObject(Stream* s);
-    /**
-     * 
-     * Destroys an object on the client, and notifies the server
-     * that the object has been destroyed.
-     *
-     * @author Duncan Donaldson
-     */
-    void destroyObjSync(int id);
-    /**
-     * 
-     * Destroys an object on the client without notifying
-     * the server of the object destruction.
-     *
-     * @author Duncan Donaldson
-     */
-    void destroyObjLocal(int id);
 
+public:
     /**
      * Sets a player as the local human player object.
      * Sets event filter for key presses to be passed to PlayerInputComponent.
@@ -192,6 +177,31 @@ public slots:
     void startGame(bool singlePlayer);
 
     /**
+     * 
+     * Destroys an object on the client, and notifies the server
+     * that the object has been destroyed.
+     *
+     * @author Duncan Donaldson
+     */
+    void destroyObjSync(int id);
+
+    /**
+     * 
+     * Destroys an object on the client without notifying
+     * the server of the object destruction.
+     *
+     * @author Duncan Donaldson
+     */
+    void destroyObjLocal(int id);
+
+    /**
+     * slot that is called to destroy an NPC when its health reaches 0.
+     *
+     * @author Duncan Donaldson
+     */
+    void deadNPC(int id);
+
+    /**
      * Called whenenever the spacebar is pressed. It checks the tile type that
      * the player is currently standing on, and performs the appropriate action.
      */
@@ -227,13 +237,6 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCCreator();
-    /**
-     * Deletes NPC later
-     *
-     * @author Marcel Vangrootheest
-     */
-    void NPCDeleter(Unit*);
-
 };
 
 } /* end namespace td */

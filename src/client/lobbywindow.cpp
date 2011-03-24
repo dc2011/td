@@ -21,7 +21,6 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
             ui->btnConnect, SLOT(setDisabled(bool)));
     connect(ui->chkSingleplayer, SIGNAL(clicked(bool)),
             ui->btnStart, SLOT(setEnabled(bool)));
-
     connect(this, SIGNAL(startGame(bool)),
             this, SLOT(close()));
 }
