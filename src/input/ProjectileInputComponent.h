@@ -53,7 +53,15 @@ public:
      */
     void applyDirection();
 
-public slots:
+signals:
+    /**
+     * Deletes the projectile.
+     *
+     * Connected to deleteObjLocal() in CDriver.
+     *
+     * @author Dean Morin
+     */
+    void deleteProjectileLater(int id);
 
 private:
     /** The projectile this component applies to. */

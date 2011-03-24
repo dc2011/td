@@ -86,6 +86,9 @@ void CDriver::readObject(Stream* s) {
         go = mgr_->createObjectWithID(id);
         go->networkRead(s);
         go->initComponents();
+
+        delete s;
+
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
         return;
     }
@@ -108,6 +111,16 @@ void CDriver::destroyObjLocal(int id) {
         return;
     }
     mgr_->deleteObject(id);
+}
+
+void CDriver::deadNPC(int id) {
+    npc_.remove((NPC*) mgr_->findObject(id));
+
+    if(singlePlayer_ == true) {
+        destroyObjLocal(id);
+    } else {
+        destroyObjSync(id);
+    }
 }
 
 void CDriver::makeLocalPlayer(Player* player) {
@@ -134,6 +147,7 @@ void CDriver::makeLocalPlayer(Player* player) {
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             player->getGraphicsComponent(), SLOT(showName(bool)));
 
+
     /* Set up the build context menu */
     contextMenu_ = new ContextMenu(human_);
 
@@ -154,11 +168,6 @@ void CDriver::NPCCreator() {
     if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
         npc_.insert(createNPC());
     }
-}
-
-void CDriver::NPCDeleter(Unit* npc) {
-    npc_.remove((NPC*)npc);
-    mgr_->deleteObject(npc);
 }
 
 NPC* CDriver::createNPC() {

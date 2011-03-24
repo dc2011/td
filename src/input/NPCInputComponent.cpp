@@ -17,6 +17,11 @@ NPCInputComponent::NPCInputComponent() {
     nextDest_++;
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
+    
+#ifndef SERVER
+    connect(this, SIGNAL(deleteUnitLater(int)),
+            CDriver::instance(), SLOT(deadNPC(int)), Qt::QueuedConnection);
+#endif
 }
 
 NPCInputComponent::~NPCInputComponent() { }
@@ -61,7 +66,8 @@ void NPCInputComponent::nextDestination() {
             && nextDest_ >= waypoints_.length()) {
         disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
-        emit deleteUnitLater(parent_);  
+        // TODO: damage players' base
+        emit deleteUnitLater(parent_->getID());  
     }
 }
 

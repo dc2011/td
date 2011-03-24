@@ -24,6 +24,13 @@
 #define FIRE_INTERVAL_TAR       135
 #define FIRE_INTERVAL_FLAK      15
 
+// a tower's range
+#define RADIUS_ARROW    5
+#define RADIUS_CANNON   5
+#define RADIUS_FLAME    5
+#define RADIUS_TAR      5
+#define RADIUS_FLAK     5
+
 //Tile action types specifying action for spacebar
 #define TILE_REGULAR    0
 #define TILE_BUILDABLE  1
