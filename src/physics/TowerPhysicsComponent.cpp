@@ -1,4 +1,5 @@
-#include "../physics/TowerPhysicsComponent.h"
+#include "TowerPhysicsComponent.h"
+#include "../audio/SfxManager.h"
 #include "../engine/Tower.h"
 #include "../engine/Player.h"
 #include <typeinfo>
@@ -46,7 +47,8 @@ void TowerPhysicsComponent::findTarget() {
     QSet<Unit*>::iterator iter;
 
     for (iter = enemies_.begin(); iter != enemies_.end(); ++iter) {
-
+        
+        // this would be the place to add a priority algorithm if we need one
         if((((*iter)->getID()&0xFF000000)>>24) == NPC::clsIdx()) {
             target_ = *iter;
             connect(target_, SIGNAL(signalNPCDied()), this, SLOT(targetDied()));
@@ -62,6 +64,8 @@ void TowerPhysicsComponent::fire() {
     if (target_ == NULL) {
         return;
     }
+    // TODO: move to projectilePC, once the different types have been created
+    PLAY_SFX(SfxManager::projectileFireArrow);
     emit fireProjectile(tower_->getPos(), target_->getPos());
     fireCountdown_ = fireInterval_;
 }

@@ -6,8 +6,8 @@
 
 namespace td {
 
-    
-GraphicsComponent::GraphicsComponent() : pixmapIndex_(0) {
+GraphicsComponent::GraphicsComponent() 
+        : pixmapIndex_(0), isMoving_(false), animate_(true) {
 
 #ifndef SERVER    
     MainWindow* mainWindow = CDriver::instance()->getMainWindow();
@@ -19,9 +19,6 @@ GraphicsComponent::GraphicsComponent() : pixmapIndex_(0) {
     connect(this, SIGNAL(removeGraphicsItem(GraphicsComponent*)),
             mainWindow, SLOT(removeGraphicRepr(GraphicsComponent*)));
 #endif
-
-    isMoving_ = 0;
-    animate_ = true;
 }
 
 GraphicsComponent::~GraphicsComponent() {
@@ -60,15 +57,14 @@ QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
     
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
     pixmapItem_->setPos(OFFSCREEN,OFFSCREEN);
+
     return pixmapItem_;
 }
 
 void GraphicsComponent::setImgIndex(int index) {
     
-    //mutex_.lock();
     pixmapIndex_ = index;
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
-    //mutex_.unlock();
 }
 
 } /* end namespace td */

@@ -40,15 +40,13 @@ void AudioManager::startup()
     playing_ = 0;
 }
 
-
 void AudioManager::startCapture()
 {
     QFuture<void> future =
 	QtConcurrent::run(this, &AudioManager::captureMic);
 }
 
-
-void AudioManager::playSfx(QVector<QString> files, SoundType type) {
+void AudioManager::playSfx(QStringList files, SoundType type) {
     
     int rdNum;
     
@@ -58,7 +56,6 @@ void AudioManager::playSfx(QVector<QString> files, SoundType type) {
     }
     
     rdNum = rand() % files.size();
-    qDebug("%d",rdNum);
     playSfx(files[rdNum],type);
 }
 
@@ -79,7 +76,8 @@ void AudioManager::playSfx(QString filename, SoundType type)
     } else {
         return;
     }
-
+    
+    filename = SFXPATH + filename + SFXFILEEXTENSION;
     QFuture<void> future =
         QtConcurrent::run(this, &AudioManager::streamFile,
                           filename, gainScale[gain]);

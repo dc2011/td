@@ -288,41 +288,27 @@ public slots:
     virtual void update() = 0;
 
 protected:
-    /**
-     * This keeps track of which values of the object have been updated
-     * internally but not externally displayed.
-     */
+    /** This keeps track of which values of the object have been updated
+     *  internally but not externally displayed. */
     unsigned int dirty_;
 
-    /**
-     * The unique ID for each game object.
-     */
+    /** The unique ID for each game object. */
     unsigned int iD_;
 
-    /**
-     * The position of the GameObject in the world.
-     */
+    /** The position of the GameObject in the world. */
     QPointF pos_;
    
-    /**
-     * The direction of the GameObject, where 0 degrees is east.
-     */
+    /** The direction of the GameObject, where 0 degrees is east. */
     int orientation_;
 
-    /**
-     * The scale of the GameObject, where 1 is unscaled.
-     */
+    /** The scale of the GameObject, where 1 is unscaled. */
     float scale_;
 
-    /**
-     * All rendering logic for this GameObject is contained in this component.
-     */
+    /** All rendering logic for this object is contained in this component.*/
     GraphicsComponent* graphics_;
     
-    /**
-     * All physics logic for this GameObject is contained in this component.
-     * Not all GameObjects will have a physics component.
-     */
+    /** All physics logic for this GameObject is contained in this component.
+     *  Not all GameObjects will have a physics component. */
     PhysicsComponent* physics_;
 };
 

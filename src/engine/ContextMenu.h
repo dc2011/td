@@ -4,8 +4,7 @@
 #include <QObject>
 #include <QTimer>
 #include "Player.h"
-#include "../audio/manager.h"
-#include "../graphics/ContextMenuGraphicsComponent.h"
+class ContextMenuGraphicsComponent;
 
 namespace td {
 
