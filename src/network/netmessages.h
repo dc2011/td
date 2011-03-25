@@ -46,6 +46,12 @@ namespace network {
          */
         kServerUpdate   =   0x05,
 
+        /**
+         * Indicates a deletion of a game object, sent from the server to clients.
+         * See Also @ref destroyobject
+         */
+        kDestroyObject  =   0x06,
+
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
@@ -161,5 +167,15 @@ namespace network {
  *  byte objCount;
  *    // The serialized object states, read with td::GameObject::networkRead
  *  td::GameObject[objCount] objects
+ * @endcode
+ *
+ * @section destroyobject Destroy Object Message
+ * This message is sent from the server to clients to inform them of the
+ * destruction of the object with the specified ID.
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kDestroyObject
+ *    // The ID of the object to be destroyed
+ *  int objID
  * @endcode
  */

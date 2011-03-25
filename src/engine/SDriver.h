@@ -66,14 +66,28 @@ public:
      * been updated or created
      */
     GameObject* updateObject(Stream* s);
+
     /**
-     * Destroys a server-side object, and tells all clients
-     * to update their local copies of said object.
-     * 
+     * Destroys a GameObject and removes it from the ResManager.
+     *
+     * @author Darryl Pogue
      * @author Duncan Donaldson
-     * @param id The id of the object to be destroyed.
+     * @author Dean Morin
+     * @author Marcel van Grootheest
+     * @param obj The GameObject to be destroyed.
      */
-    void destroyServerObj(int id);
+    virtual void destroyObject(GameObject* obj);
+
+    /**
+     * Destroys a GameObject by id  and removes it from the ResManager.
+     *
+     * @author Darryl Pogue
+     * @author Duncan Donaldson
+     * @author Dean Morin
+     * @author Marcel van Grootheest
+     * @param id The id of the GameObject to be destroyed.
+     */
+    virtual void destroyObject(unsigned int id);
 
 private:
     /**

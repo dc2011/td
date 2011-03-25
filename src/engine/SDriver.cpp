@@ -71,12 +71,23 @@ GameObject* SDriver::updateObject(Stream* s) {
     return go;
 }
 
-void SDriver::destroyServerObj(int id) {
-    Stream* out = new Stream();
-    mgr_->deleteObject(id);
-    out->writeInt(id);
-    net_->send(network::kServerDestroyObj, out->data());
-    delete out;
+void SDriver::destroyObject(GameObject* obj) {
+    int id = obj->getID();
+    Driver::destroyObject(obj);
+
+    Stream s;
+    s.writeInt(id);
+
+    net_->send(network::kDestroyObject, s.data());
+}
+
+void SDriver::destroyObject(unsigned int id) {
+    Driver::destroyObject(id);
+
+    Stream s;
+    s.writeInt(id);
+
+    net_->send(network::kDestroyObject, s.data());
 }
 
 Tower* SDriver::createTower(int type) {
@@ -108,7 +119,7 @@ void SDriver::spawnWave() {
 }
 
 void SDriver::deadNPC(int id) {
-    destroyServerObj(id);
+    destroyObject(id);
 }
 
 
@@ -127,12 +138,6 @@ void SDriver::onMsgReceive(Stream* s) {
             net_->send(network::kAssignTowerID, out->data());
             break;
         }
-        case network::kClientDestroyObj:
-	    {
-	        int id = s->readInt();
-	        destroyServerObj(id);
-	        break;
-	    }
         default:
         {
             go = this->updateObject(s);
