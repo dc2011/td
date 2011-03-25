@@ -16,11 +16,13 @@ NPC::NPC(QObject* parent) : Unit(parent) {
     pos_.setX(50);
     pos_.setY(50);
     health_ = 1;
-    #ifndef SERVER
-    if(CDriver::instance()->isSinglePlayer()) {
-        connect(this, SIGNAL(dead(int)), CDriver::instance(), SLOT(deadNPC(int)));
+
+#ifndef SERVER
+    if (CDriver::instance()->isSinglePlayer()) {
+        connect(this, SIGNAL(dead(int)),
+                getDriver(), SLOT(destroyObject(int)));
     }
-    #endif
+#endif
     //#ifdef SERVER
     //connect(this, SIGNAL(dead(int)), SDriver::instance(), SLOT(deadNPC(int)));
     // #endif

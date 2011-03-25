@@ -32,8 +32,7 @@ private:
     MainWindow* mainWindow_;
      /** A context menu that appears around the player. */
     ContextMenu* contextMenu_;
-     /** An set of enemy units. */
-    QSet<NPC*> npc_;
+
      /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
      /** A projectile fired from a tower. */
@@ -175,13 +174,6 @@ public slots:
     * @return void
     */
     void startGame(bool singlePlayer);
-
-    /**
-     * slot that is called to destroy an NPC when its health reaches 0.
-     *
-     * @author Duncan Donaldson
-     */
-    void deadNPC(int id);
 
     /**
      * Called whenenever the spacebar is pressed. It checks the tile type that

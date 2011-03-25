@@ -19,7 +19,7 @@ NPCInputComponent::NPCInputComponent() {
     
 #ifndef SERVER
     connect(this, SIGNAL(deleteUnitLater(int)),
-            CDriver::instance(), SLOT(deadNPC(int)), Qt::QueuedConnection);
+            CDriver::instance(), SLOT(destroyObject(int)), Qt::QueuedConnection);
 #endif
 }
 

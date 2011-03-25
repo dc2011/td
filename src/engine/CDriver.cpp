@@ -92,10 +92,6 @@ void CDriver::readObject(Stream* s) {
     go->networkRead(s);
 }
 
-void CDriver::deadNPC(int id) {
-    npc_.remove((NPC*) mgr_->findObject(id));
-}
-
 void CDriver::makeLocalPlayer(Player* player) {
     PhysicsComponent* physics = new PlayerPhysicsComponent();
     PlayerInputComponent* input = new PlayerInputComponent();
@@ -139,7 +135,7 @@ void CDriver::makeLocalPlayer(Player* player) {
 
 void CDriver::NPCCreator() {
     if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
-        npc_.insert(createNPC());
+        createNPC();
     }
 }
 
