@@ -269,7 +269,7 @@ void AudioManager::streamFile(QString filename, float gain)
             */
             alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
 
-            if (queued > 0 && play) {
+            if (queued > 2 && play) {
                 alSourcePlay(source);
                 play = AL_FALSE;
             }
