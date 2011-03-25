@@ -11,7 +11,7 @@
 #include "ResManager.h"
 #include "Tower.h"
 #include "Unit.h"
-#include "../audio/manager.h"
+#include "../audio/SfxManager.h"
 #include "../client/MainWindow.h"
 #include "../graphics/MapDisplayer.h"
 #include "../graphics/PixmapFiles.h"
@@ -289,6 +289,8 @@ void CDriver::handleSpacebarPress() {
             break;
 
         case TILE_RESOURCE:
+            // TODO: remove SFX and do it properly
+            PLAY_SFX(SfxManager::resourceLumber);
             qDebug("Harvesting resource: %d", currentTile->getTiledTile()->id());
             break;
     }

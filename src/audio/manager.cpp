@@ -49,7 +49,6 @@ void AudioManager::playSfx(QStringList files, SoundType type) {
     }
     
     rdNum = rand() % files.size();
-    //qDebug("%d",rdNum);
     playSfx(files[rdNum],type);
 }
 

@@ -16,13 +16,13 @@ ContextMenu::~ContextMenu() {
 
 void ContextMenu::toggleMenu() {
     if (!menuIsOpen_) {
-        PLAY_SFX(SfxManager::towerFireTar);
+        PLAY_SFX(SfxManager::projectileFireTar);
         qDebug("opens a menu");
         menuIsOpen_ = true;	
 	emit signalPlayerMovement(true);
    	((ContextMenuGraphicsComponent*)graphics_)->showMenu(player_->getPos());
     } else {
-        PLAY_SFX(SfxManager::towerFireTar);
+        PLAY_SFX(SfxManager::projectileFireTar);
         qDebug("closes a menu");
         menuIsOpen_ = false;
 	emit signalPlayerMovement(false);
@@ -35,7 +35,7 @@ void ContextMenu::selectMenuItem(int keyPressed) {
                      || keyPressed > TOWER_FLAK) {
         return;
     }
-    PLAY_SFX(SfxManager::towerFireTar);
+    PLAY_SFX(SfxManager::projectileFireTar);
     qDebug("selects a menu item");
     menuIsOpen_ = false;
     emit signalPlayerMovement(false);
