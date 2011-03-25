@@ -30,9 +30,6 @@ class GraphicsComponent : public QObject {
     //THREAD_SAFE_SINGLETON
 
 protected:
-    /** If the obect is currently moving (used for animations). */
-    bool isMoving_;
-
     /** The current index for the currently drawn pixmap. */
     int pixmapIndex_;
 
@@ -41,6 +38,9 @@ protected:
 
     /** The number of times the timer has ticked. */
     int animateCount_;
+
+    /** If the obect is currently moving (used for animations). */
+    bool isMoving_;
 
     /** True if the GameObject should currently be animate. */
     bool animate_;
@@ -134,11 +134,19 @@ public:
     /**
      * @returns the pixmap array from the subclasses
      */
-    virtual QPixmap * getPixmapArray() = 0;
+    virtual QPixmap* getPixmapArray() = 0;
     
 signals:
     void created(GraphicsComponent* gc);
     void signalDraw(DrawParams* dp, GraphicsComponent* gc, int layer);
+
+    /**
+     * Lets the graphics thread know that this object should be deleted.
+     * Connected to removeGraphicRepr in MainWindow.
+     *
+     * @author Dean Morin
+     * @param gc The graphics component to be deleted
+     */
     void removeGraphicsItem(GraphicsComponent* gc);
 };
 
