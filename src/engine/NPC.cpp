@@ -2,9 +2,8 @@
 #ifndef SERVER
 #include "CDriver.h"
 #endif
-//#ifdef SERVER
-//#include "SDriver.h"
-//#endif
+#include <QObject>
+
 namespace td {
 
 NPC::NPC(QObject* parent) : Unit(parent) {
@@ -17,16 +16,8 @@ NPC::NPC(QObject* parent) : Unit(parent) {
     pos_.setY(50);
     health_ = 1;
 
-#ifndef SERVER
-    if (CDriver::instance()->isSinglePlayer()) {
-        connect(this, SIGNAL(dead(int)),
-                getDriver(), SLOT(destroyObject(int)));
-    }
-#endif
-    //#ifdef SERVER
-    //connect(this, SIGNAL(dead(int)), SDriver::instance(), SLOT(deadNPC(int)));
-    // #endif
-   
+    connect(this, SIGNAL(dead(int)),
+            parent, SLOT(destroyObject(int)), Qt::QueuedConnection);
 }
 
 NPC::~NPC() {
