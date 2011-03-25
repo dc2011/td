@@ -267,7 +267,7 @@ void AudioManager::streamFile(QString filename, float gain)
             */
             alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
 
-            if (queued > 0 && play) {
+            if (queued > 2 && play) {
                 alSourcePlay(source);
                 play = AL_FALSE;
             }
@@ -336,14 +336,13 @@ void AudioManager::openOgg(FILE *file, OggVorbis_File *oggFile, ALenum *format)
 {
 
     vorbis_info* vorbisInfo;
-    qDebug("Before opening file");
     if (ov_open(file, oggFile, NULL, 0) != 0) {
         qCritical() << "AudioManager::openOgg(): Error opening file for decoding...";
         return;
     }
-    qDebug("after opening file");
+
     vorbisInfo = ov_info(oggFile, -1);
-    qDebug("file info");
+
     if(vorbisInfo->channels == 1) {
         *format = AL_FORMAT_MONO16;
     }
