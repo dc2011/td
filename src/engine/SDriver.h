@@ -79,6 +79,16 @@ public:
      */
     void destroyServerObj(int id);
 
+    /**
+     * Gets the NetworkServer object used by this SDriver.
+     *
+     * @author Dean Morin
+     * @return The NetworkServer object used by this SDriver.
+     */
+    NetworkServer* getNet() {
+        return net_;
+    }
+
 private:
     /**
      * Creates a new tower of the given type.

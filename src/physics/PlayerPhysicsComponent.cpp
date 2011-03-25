@@ -279,7 +279,7 @@ void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
             if (player->getBounds().intersected((*it)->getBounds()).count() != 0) {
 
                 if (playCollisionSfx_) {
-                    PLAY_SFX(SfxManager::playerHitsNpc);
+                    PLAY_SFX(player, SfxManager::playerHitsNpc);
                 }
 
                 Effect::EffectType effectType = Effect::stunned;

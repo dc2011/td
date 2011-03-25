@@ -292,7 +292,7 @@ void CDriver::handleSpacebarPress() {
 
         case TILE_RESOURCE:
             // TODO: remove SFX and do it properly
-            PLAY_SFX(SfxManager::resourceLumber);
+            PLAY_LOCAL_SFX(SfxManager::resourceLumber);
             qDebug("Harvesting resource: %d", currentTile->getTiledTile()->id());
             break;
     }
