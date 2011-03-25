@@ -92,31 +92,8 @@ void CDriver::readObject(Stream* s) {
     go->networkRead(s);
 }
 
-void CDriver::destroyObjSync(int id) {
-    Stream* out = new Stream();
-    if(mgr_->findObject(id) == NULL) {
-        return;
-    }
-    mgr_->deleteObject(id);
-    out->writeInt(id);
-    NetworkClient::instance()->send(network::kClientDestroyObj, out->data());
-}
-
-void CDriver::destroyObjLocal(int id) {
-    if(mgr_->findObject(id) == NULL) {
-        return;
-    }
-    mgr_->deleteObject(id);
-}
-
 void CDriver::deadNPC(int id) {
     npc_.remove((NPC*) mgr_->findObject(id));
-
-    if(singlePlayer_ == true) {
-        destroyObjLocal(id);
-    } else {
-        destroyObjSync(id);
-    }
 }
 
 void CDriver::makeLocalPlayer(Player* player) {
@@ -323,7 +300,7 @@ void CDriver::UDPReceived(Stream* s) {
                 mgr_->addExistingObject(tower_);
             }
             break;
-        case network::kServerDestroyObj:
+        case network::kDestroyObject:
         {  
 	        int id = s->readInt();
 	        destroyObject(id);

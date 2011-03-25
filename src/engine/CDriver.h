@@ -177,24 +177,6 @@ public slots:
     void startGame(bool singlePlayer);
 
     /**
-     * 
-     * Destroys an object on the client, and notifies the server
-     * that the object has been destroyed.
-     *
-     * @author Duncan Donaldson
-     */
-    void destroyObjSync(int id);
-
-    /**
-     * 
-     * Destroys an object on the client without notifying
-     * the server of the object destruction.
-     *
-     * @author Duncan Donaldson
-     */
-    void destroyObjLocal(int id);
-
-    /**
      * slot that is called to destroy an NPC when its health reaches 0.
      *
      * @author Duncan Donaldson

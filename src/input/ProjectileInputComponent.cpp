@@ -15,7 +15,7 @@ ProjectileInputComponent::ProjectileInputComponent() {
     
 #ifndef SERVER
     connect(this, SIGNAL(deleteProjectileLater(int)),
-            CDriver::instance(), SLOT(destroyObjLocal(int)), 
+            CDriver::instance(), SLOT(destroyObject(int)), 
             Qt::QueuedConnection);
 #endif
 }
