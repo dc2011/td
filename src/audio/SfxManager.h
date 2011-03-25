@@ -4,14 +4,16 @@
 #include <QStringList>
 #include "manager.h"
 
-#define PLAY_SFX(x)  td::AudioManager::instance()->playSfx(x)
+#define PLAY_SFX(x)             AudioManager::instance()->playSfx(x)
+//#define PLAY_SFX(x)             SfxManager::makeSfxNetworkMsg(x)
+//#define PLAY_NOTIFICATON(x)     SfxManager::makeSfxNetworkMsg(x, ntf)
 
 namespace td {
 
 /**
  * The purpose of this class is to keep all of the SFX filename info in one
  * place. Don't include the path and file extension when adding filenames in
- * the .cpp file; they will be added on in the audio manager.
+ * the .cpp file; they will be added on in makeSfxNetworkMsg.
  * 
  * eg. use:
  *  "tar-1" instead of "./sound/sfx/tar-1.ogg"
@@ -19,6 +21,13 @@ namespace td {
  * To play a sound effect anywhere in the program, use the PLAY_SFX macro:
  * @code
  *  PLAY_SFX(SfxManager::projectileFireArrow);
+ * @endcode
+ * The more SFX that are currently playing, the lower the gain will be for this
+ * SFX.
+ *
+ * To play a notification (a SFX that should always be played at full gain) use:
+ * @code
+ *  PLAY_NOTIFICATION(SfxManager::towerBuildingStarted);
  * @endcode
  *
  * @author Dean Morin
@@ -60,6 +69,14 @@ public:
     static QStringList playerSelectsMenuItem;
     static QStringList playerLevelsUp;
     static QStringList playerHitsNpc;
+    
+    /**
+     * Randomly returns a SFX from the list sfxList.
+     *
+     * @author Dean Morin, Terry Stenvold
+     * @param sfxList A list of SFX that can be used in this situation.
+     */
+    static void makeSfxNetworkMsg(QStringList sfxList, int type=0);
 };
 
 } // end namespace td

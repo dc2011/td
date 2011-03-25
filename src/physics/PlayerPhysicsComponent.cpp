@@ -11,10 +11,8 @@
 
 namespace td {
 
-PlayerPhysicsComponent::PlayerPhysicsComponent() {
-    accel_ = 0.3;
-    decel_ = 0.6;
-    maxVelocity_ = 5;
+PlayerPhysicsComponent::PlayerPhysicsComponent() 
+        : accel_(0.3), decel_(0.6), maxVelocity_(5), playCollisionSfx_(true) {
 }
 
 void PlayerPhysicsComponent::update(GameObject* player)
@@ -279,7 +277,11 @@ void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
             playerBounds = player->getBounds();
             npcBounds = (*it)->getBounds();
             if (player->getBounds().intersected((*it)->getBounds()).count() != 0) {
-                PLAY_SFX(SfxManager::playerHitsNpc);
+
+                if (playCollisionSfx_) {
+                    PLAY_SFX(SfxManager::playerHitsNpc);
+                }
+
                 Effect::EffectType effectType = Effect::stunned;
                 emit NPCPlayerCollided(effectType);
                 break;

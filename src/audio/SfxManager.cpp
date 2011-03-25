@@ -58,5 +58,21 @@ QStringList SfxManager::playerLevelsUp
 QStringList SfxManager::playerHitsNpc
         = QStringList() << "peffect-1" << "peffect-2";
 
+
+void SfxManager::makeSfxNetworkMsg(QStringList sfxList, int type) {
+    int rdNum;
+    
+    if(sfxList.size() < 1) {
+	    qCritical("SfxManager::makeSfxNetworkMsg(): Empty List");
+	    return;
+    }
+    
+    rdNum = rand() % sfxList.size();
+    QString filename = SFXPATH + sfxList[rdNum] + SFXFILEEXTENSION;
+    // NOTE: type will usually be zero (unimportant)
+    //addAudioNetworkMessage(filename, type);
+}
+
+
 } // end namespace td
 

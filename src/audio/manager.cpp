@@ -49,7 +49,8 @@ void AudioManager::playSfx(QStringList files, SoundType type) {
     }
     
     rdNum = rand() % files.size();
-    playSfx(files[rdNum],type);
+    QString filename = SFXPATH + files[rdNum] + SFXFILEEXTENSION;
+    playSfx(filename,type);
 }
 
 void AudioManager::playSfx(QString filename, SoundType type)
@@ -70,7 +71,6 @@ void AudioManager::playSfx(QString filename, SoundType type)
         return;
     }
     
-    filename = SFXPATH + filename + SFXFILEEXTENSION;
     QFuture<void> future =
         QtConcurrent::run(this, &AudioManager::streamOgg,
                           filename, gainScale[gain]);

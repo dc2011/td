@@ -165,6 +165,8 @@ void CDriver::makeLocalPlayer(Player* player) {
     /* TODO: alter temp solution */
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
             this,         SLOT(createTower(int, QPointF)));
+    connect(human_, SIGNAL(signalEmptyEffectList()),
+            physics, SLOT(okayToPlayCollisionSfx()));
 }
 
 void CDriver::NPCCreator() {
