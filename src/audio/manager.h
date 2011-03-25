@@ -16,6 +16,8 @@
 
 #define QUEUESIZE 8
 #define BUFFERSIZE (1024*32)
+#define SFXPATH "./sound/sfx/"
+#define SFXFILEEXTENSION ".ogg"
 
 enum SoundType {
      sfx,
@@ -196,10 +198,10 @@ public:
      * Plays an Ogg Vorbis sound file.
      *
      * @author Terence Stenvold
-     * @param files the vector of filesname paths to the .ogg files.
+     * @param files the list of filesname paths to the .ogg files.
      * @param type is a Enum either ntf for notifcation or sfx. defaults sfx. 
      */
-    void playSfx(QVector<QString> files, SoundType type=sfx);
+    void playSfx(QStringList files, SoundType type=sfx);
 
     /**
      * Play an Ogg Vorbis sound file, looping when it reaches the end.

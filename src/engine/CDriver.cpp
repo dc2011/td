@@ -11,6 +11,7 @@
 #include "ResManager.h"
 #include "Tower.h"
 #include "Unit.h"
+#include "../audio/manager.h"
 #include "../client/MainWindow.h"
 #include "../graphics/MapDisplayer.h"
 #include "../graphics/PixmapFiles.h"

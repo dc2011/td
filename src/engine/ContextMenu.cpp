@@ -1,4 +1,6 @@
 #include "ContextMenu.h"
+#include "../audio/SfxManager.h"
+#include "../graphics/ContextMenuGraphicsComponent.h"
 #include "../util/defines.h"
 
 namespace td {
@@ -14,13 +16,13 @@ ContextMenu::~ContextMenu() {
 
 void ContextMenu::toggleMenu() {
     if (!menuIsOpen_) {
-        td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
+        PLAY_SFX(SfxManager::towerFireTar);
         qDebug("opens a menu");
         menuIsOpen_ = true;	
 	emit signalPlayerMovement(true);
    	((ContextMenuGraphicsComponent*)graphics_)->showMenu(player_->getPos());
     } else {
-        td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
+        PLAY_SFX(SfxManager::towerFireTar);
         qDebug("closes a menu");
         menuIsOpen_ = false;
 	emit signalPlayerMovement(false);
@@ -33,7 +35,7 @@ void ContextMenu::selectMenuItem(int keyPressed) {
                      || keyPressed > TOWER_FLAK) {
         return;
     }
-    td::AudioManager::instance()->playSfx("./sound/sfx/tar.ogg");
+    PLAY_SFX(SfxManager::towerFireTar);
     qDebug("selects a menu item");
     menuIsOpen_ = false;
     emit signalPlayerMovement(false);
