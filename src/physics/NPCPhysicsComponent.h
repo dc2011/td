@@ -10,7 +10,7 @@ class NPC;
 
 class NPCPhysicsComponent : public PhysicsComponent {
 public:
-    NPCPhysicsComponent();
+    NPCPhysicsComponent(float a, float d, float mV);
     virtual ~NPCPhysicsComponent();
     /**
      * Applies a force to the velocity
