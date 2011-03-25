@@ -61,6 +61,28 @@ public:
     }
 
     /**
+     * Sets the acceleration of NPC to accel
+     * (Mainly for Effects)
+     *
+     * @author Marcel Vangrootheest
+     * @param accel the new acceleration amount
+     */
+    void setAccel(float accel) {
+        accel_ = accel;
+    }
+
+    /**
+     * Sets the deceleration of NPC to decel
+     * (Mainly for Effects)
+     *
+     * @author Marcel Vangrootheest
+     * @param decel the new deceleration amount
+     */
+    void setDecel(float decel) {
+        decel_ = decel;
+    }
+
+    /**
      * This updates the physics properties of NPC.
      * Applies force to velocity, applies velocity to position.
      *
@@ -69,12 +91,14 @@ public:
      */
     virtual void update(GameObject*);
 
-private:
+protected:
     /* data */
     /** The amount to add to velocity when a force is applied. */
     float accel_;
+
     /** The amount to subtract from velocity when no force is applied. */
     float decel_;
+
     /** The maximum amount a position can change when a force is applied. */
     float maxVelocity_;
 };
