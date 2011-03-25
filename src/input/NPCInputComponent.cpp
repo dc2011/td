@@ -14,7 +14,6 @@ namespace td {
 NPCInputComponent::NPCInputComponent() {
     nextDest_ = 0;
     forceCounter_ = 0;
-    nextDest_++;
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
     
@@ -40,6 +39,7 @@ void NPCInputComponent::setParent(Unit *parent) {
                        waypoints_.at(nextDest_).y(),
                        waypoints_.at(nextDest_ + 1).x(),
                        waypoints_.at(nextDest_ + 1).y());
+    nextDest_++;
 
     parent_->setPos(segment_.p1().x(), segment_.p1().y());
 }

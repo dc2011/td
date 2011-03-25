@@ -67,6 +67,7 @@ public:
      */
     GameObject* updateObject(Stream* s);
 
+public slots:
     /**
      * Destroys a GameObject and removes it from the ResManager.
      *
@@ -87,7 +88,7 @@ public:
      * @author Marcel van Grootheest
      * @param id The id of the GameObject to be destroyed.
      */
-    virtual void destroyObject(unsigned int id);
+    virtual void destroyObject(int id);
 
 private:
     /**

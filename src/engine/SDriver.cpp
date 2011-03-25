@@ -81,7 +81,7 @@ void SDriver::destroyObject(GameObject* obj) {
     net_->send(network::kDestroyObject, s.data());
 }
 
-void SDriver::destroyObject(unsigned int id) {
+void SDriver::destroyObject(int id) {
     Driver::destroyObject(id);
 
     Stream s;

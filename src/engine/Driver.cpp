@@ -18,7 +18,7 @@ void Driver::destroyObject(GameObject* obj) {
     mgr_->deleteObject(obj);
 }
 
-void Driver::destroyObject(unsigned int id) {
+void Driver::destroyObject(int id) {
     GameObject* go = mgr_->findObject(id);
     if (go != NULL) {
         mgr_->deleteObject(go);

@@ -51,6 +51,7 @@ public:
         return gameTimer_;
     }
 
+public slots:
     /**
      * Destroys a GameObject and removes it from the ResManager.
      *
@@ -71,7 +72,7 @@ public:
      * @author Marcel van Grootheest
      * @param id The id of the GameObject to be destroyed.
      */
-    virtual void destroyObject(unsigned int id);
+    virtual void destroyObject(int id);
 
 };
 
