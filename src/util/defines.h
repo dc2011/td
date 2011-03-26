@@ -46,6 +46,13 @@
 #define RESOURCE_STONE   2
 #define RESOURCE_IRON    1
 
+// NPC types
+#define NPC_NORM    0
+#define NPC_SLOW    1
+#define NPC_FAST    2
+#define NPC_FLY     3
+#define NPC_BOSS    4
+
 //NPC path key for waypoints
 #define WP_TRICERATOPS  0
 #define WP_ANKLYO       1
