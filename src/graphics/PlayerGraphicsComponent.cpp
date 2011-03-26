@@ -7,12 +7,10 @@ namespace td {
 QPixmap * PlayerGraphicsComponent::pixmapImgs_ = 0;
 
 PlayerGraphicsComponent::PlayerGraphicsComponent()
-        : GraphicsComponent()
+        : GraphicsComponent(), showName_(false), nameShowing_(false)
 {
     animateMod_ = 4;
-    animateCount_ = 0;
-    animate_ = true;
-    showName_ = false;
+    animateCount_ = 0; 
     emit created(this);
 }
 
@@ -33,15 +31,19 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
 }
 
 void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
-
+    
     if (showName_) {
-    label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
-                   dp->pos.y() - getPixmapItem()->boundingRect().height());
-    label_->setZValue(layer);
-    label_->update();
-    } else {
-        label_->setPos(OFFSCREEN, OFFSCREEN);
+        label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
+                       dp->pos.y() - getPixmapItem()->boundingRect().height());
+        label_->setZValue(layer);
         label_->update();
+        nameShowing_ = true;
+    } else {
+        if (nameShowing_) {
+            label_->setPos(OFFSCREEN, OFFSCREEN);
+            label_->update();
+            nameShowing_ = false;
+        }
     }
 
     GraphicsComponent::draw(dp, layer);

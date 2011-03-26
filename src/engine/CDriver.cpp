@@ -149,7 +149,7 @@ void CDriver::makeLocalPlayer(Player* player) {
     connect(physics, SIGNAL(NPCPlayerCollided(Effect::EffectType)), 
             human_, SLOT(createEffect(Effect::EffectType)));
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            player->getGraphicsComponent(), SLOT(showName(bool)));
+            player, SLOT(showName(bool)));
 
     /* Set up the build context menu */
     contextMenu_ = new ContextMenu(human_);

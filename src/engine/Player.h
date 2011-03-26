@@ -105,6 +105,18 @@ public slots:
      */
     void deleteEffect(Effect* effect);
 
+    /**
+     * Sets the boolean that determines whether or not the player's nickname
+     * should be displayed.
+     *
+     * @author Dean Morin
+     * @param keyHeld True if the alt key is being held down.
+     */
+    void showName(bool keyHeld) {
+        ((PlayerGraphicsComponent*) graphics_)->setShowName(keyHeld);
+        setDirty(1);
+    }
+
 private:
     QList<Effect*> effects_;
 
