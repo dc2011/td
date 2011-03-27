@@ -33,19 +33,15 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
 void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
     
     if (showName_) {
-    label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
-                   dp->pos.y() - getPixmapItem()->boundingRect().height());
-    label_->setVisible(true);
-    label_->setZValue(layer);
-    label_->update();
-    } else {
-        //label_->setPos(OFFSCREEN, OFFSCREEN);
-        label_->setVisible(false);
+        label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
+                       dp->pos.y() - getPixmapItem()->boundingRect().height());
+        label_->setZValue(layer);
+        label_->setVisible(true);
         label_->update();
         nameShowing_ = true;
     } else {
         if (nameShowing_) {
-            label_->setPos(OFFSCREEN, OFFSCREEN);
+            label_->setVisible(false);
             label_->update();
             nameShowing_ = false;
         }
@@ -79,6 +75,7 @@ void PlayerGraphicsComponent::initPixmaps() {
 
     label_->setDefaultTextColor (QColor(0,255,0));
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
+    label_->setVisible(false);
 
     if (pixmapImgs_) {
         return;
