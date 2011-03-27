@@ -40,6 +40,14 @@ private:
      * resource to become.
      */
     bool componentsInitialized_;
+
+signals:
+    /**
+     * Emitted whenever a resource is harvested from a resource mine.
+     * 
+     * @author Dean Morin
+     */
+    void signalHarvestResource(int type);
 };
 } // end of namespace td
 

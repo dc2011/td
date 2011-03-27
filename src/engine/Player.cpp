@@ -4,7 +4,7 @@
 #endif
 namespace td {
 
-Player::Player() : Unit(), nickname_("") {
+Player::Player() : Unit(), nickname_(""), resource_(RESOURCE_NONE) {
     QVector2D force(0, 0);
     this->setForce(force);
 
