@@ -174,7 +174,7 @@ void CDriver::NPCCreator() {
     if (npcCounter_++ % 20 == 0 && (npcCounter_ % 400) > 300) {
         npc_.insert(createNPC(NPC_NORM));
     }
-    if (npcCounter_++ % 10 == 0 && (npcCounter_ % 800) > 700) {
+    if (npcCounter_ % 40 == 0 && (npcCounter_ % 1400) > 1000) {
         npc_.insert(createNPC(NPC_SLOW));
     }
 }
