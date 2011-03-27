@@ -6,8 +6,8 @@
 
 namespace td {
 
-NPCPhysicsComponent::NPCPhysicsComponent()
-        : accel_(0.2), decel_(0.25), maxVelocity_(2) {}
+NPCPhysicsComponent::NPCPhysicsComponent(float a, float d, float mV)
+        : accel_(a), decel_(d), maxVelocity_(mV) {}
 NPCPhysicsComponent::~NPCPhysicsComponent() {}
 
 void NPCPhysicsComponent::update(GameObject* npc)

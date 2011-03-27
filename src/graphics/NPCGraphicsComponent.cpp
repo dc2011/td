@@ -9,12 +9,6 @@ bool NPCGraphicsComponent::showHealth_    = 0;
 
 NPCGraphicsComponent::NPCGraphicsComponent()
         : GraphicsComponent() {
-}
-
-NPCGraphicsComponent::NPCGraphicsComponent(int npcType)
-    : GraphicsComponent(), npcType_(npcType) {
-    connect(CDriver::instance()->getMainWindow(),  SIGNAL(signalAltHeld(bool)),
-            this, SLOT(showHealth(bool)));
     emit created(this);
 }
 
@@ -38,8 +32,8 @@ void NPCGraphicsComponent::update(GameObject* obj) {
     if(npcHealth < 0) {
         npcHealth = 0;
     }
-    //TODO: the layers will change with different NPC's
-    emit signalDraw(dp, this, LAYER_FLYNPC);
+    
+    setLayer(dp);
 }
 
 void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {
@@ -66,45 +60,8 @@ void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {
     GraphicsComponent::draw(dp, layer);
 }
 
-
 void NPCGraphicsComponent::showHealth(bool keyHeld) {
     showHealth_ = keyHeld;
-}
-
-void NPCGraphicsComponent::initPixmaps() {
-    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
-    npcHealth = 1;
-    CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
-    if (pixmapImgs_) {
-        setNonStaticValues();
-        return;
-    } else {
-        pixmapImgs_ = new QPixmap[PIX_NPC_TOTAL];
-    }
-    pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_2;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_3;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PLEA_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PLEA_1;
-    setNonStaticValues();
-}
-
-void NPCGraphicsComponent::setNonStaticValues() {
-    switch (npcType_) {
-    case NPC_PTERO:
-        animateMod_ = 4;
-        arrayIndexMin_ = pixmapIndex_ = PIX_NPC_PTERO_START;
-        arrayIndexMax_ = PIX_NPC_PTERO_START + PIX_NPC_PTERO_MAX - 1;
-
-        break;
-    case NPC_PLEA:
-        animateMod_ = 6;
-        arrayIndexMin_ = pixmapIndex_ = PIX_NPC_PLEA_START;
-        arrayIndexMax_ = PIX_NPC_PLEA_START + PIX_NPC_PLEA_MAX - 1;
-        break;
-    }
 }
 
 QPixmap * NPCGraphicsComponent::getPixmapArray() {
