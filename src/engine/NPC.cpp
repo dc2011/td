@@ -50,6 +50,14 @@ void NPC::setDamage(size_t damage) {
     damage_ = damage;
 }
 
+size_t NPC::getMaxHealth() {
+    return maxHealth_;
+}
+
+void NPC::setMaxHealth(size_t maxHealth) {
+    maxHealth_ = maxHealth;
+}
+
 void NPC::initComponents() {
     /*
     static int flipFloper = 0;

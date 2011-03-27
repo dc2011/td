@@ -149,7 +149,8 @@ void CDriver::makeLocalPlayer(Player* player) {
     connect(physics, SIGNAL(NPCPlayerCollided(Effect::EffectType)), 
             human_, SLOT(createEffect(Effect::EffectType)));
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            player->getGraphicsComponent(), SLOT(showName(bool)));
+            player, SLOT(showName(bool)));
+
 
     /* Set up the build context menu */
     contextMenu_ = new ContextMenu(human_);
@@ -165,6 +166,8 @@ void CDriver::makeLocalPlayer(Player* player) {
     /* TODO: alter temp solution */
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
             this,         SLOT(createTower(int, QPointF)));
+    connect(human_, SIGNAL(signalEmptyEffectList()),
+            physics, SLOT(okayToPlayCollisionSfx()));
 }
 
 void CDriver::NPCCreator() {
@@ -294,7 +297,7 @@ void CDriver::handleSpacebarPress() {
 
         case TILE_RESOURCE:
             // TODO: remove SFX and do it properly
-            PLAY_SFX(SfxManager::resourceLumber);
+            PLAY_LOCAL_SFX(SfxManager::resourceLumber);
             qDebug("Harvesting resource: %d", currentTile->getTiledTile()->id());
             break;
     }

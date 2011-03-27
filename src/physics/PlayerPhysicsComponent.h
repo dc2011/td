@@ -108,6 +108,15 @@ signals:
      */
     void NPCPlayerCollided(Effect::EffectType);
 
+public slots:
+    /**
+     * Says that it's okay to play another player/NPC collision sfx.
+     *
+     * @author Dean Morin
+     */
+    void okayToPlayCollisionSfx() {
+        playCollisionSfx_ = true;
+    }
 
 private:
     /* data */
@@ -115,6 +124,8 @@ private:
     float decel_;
     float maxVelocity_;
 
+    /** True if the player doesn't have any current collision effects applied */
+    bool playCollisionSfx_;
 };
 
 } /* end namespace td */
