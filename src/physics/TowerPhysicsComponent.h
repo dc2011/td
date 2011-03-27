@@ -5,9 +5,10 @@
 #include "../engine/NPC.h"
 #include "../engine/Map.h"
 #include "../engine/CDriver.h"
-#include <QPointF>
 #include <QLineF>
+#include <QPointF>
 #include <QSet>
+#include <QtDebug>
 
 namespace td {
 
@@ -36,23 +37,13 @@ public:
     virtual void update(GameObject* tower);
 
     /**
-     * Finds the next target.
+     * Finds the next target. Once a target is aquired, it remains the target
+     * until it gets out of range. At that point, the new target will be the 
+     * first in the enemies_ set.
      *
      * @author Joel Stewart, Dean Morin
      */
     void findTarget();
-
-    /**
-     * Sets NPCs from the towers coords.
-     *
-     * @author Joel Stewart
-     * @param Tower, pointer to the Tower object
-     * @param Radius, size of radius around tower
-     */
-    void setNPCs(GameObject* tower, int radius) {
-        Map* map = CDriver::instance()->getGameMap();
-        enemies_ = map->getUnits(tower->getPos().x() ,tower->getPos().y() ,radius);
-    }
 
     /**
      * Checks to see if the tower can fire, and creates a projectile if it can.
@@ -113,8 +104,14 @@ public:
 private:
     /** The tower that this component defines. */
     Tower* tower_;
+
+    /** All enemies that are potentially in range of the tower. */
     QSet<Unit*> enemies_;
+
+    /** The enemy that's currently being tracked by the tower. */
     Unit* target_;
+
+    /** The line between the tower and its current target. */
     QLineF projectilePath_;
     
 protected:
