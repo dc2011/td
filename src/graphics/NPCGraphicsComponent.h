@@ -33,7 +33,7 @@ public:
      *
      * @author Warren Voelkl
      */
-    virtual void update(GameObject* obj) = 0;
+    virtual void update(GameObject* obj);
 
     /**
      * Resets the matrix then builds the transformation matrix from the
@@ -76,6 +76,8 @@ private:
      * and max values for wich to index into the NPC pixmap array
      */
     virtual void setNonStaticValues() = 0;
+
+    virtual void setLayer(DrawParams* dp) = 0;
 
 protected:
     int arrayIndexMin_;

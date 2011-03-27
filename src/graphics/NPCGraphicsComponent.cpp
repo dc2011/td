@@ -12,17 +12,28 @@ NPCGraphicsComponent::NPCGraphicsComponent()
     emit created(this);
 }
 
-/*
-NPCGraphicsComponent::NPCGraphicsComponent(int npcType)
-    : GraphicsComponent(), npcType_(npcType) {
-    connect(CDriver::instance()->getMainWindow(),  SIGNAL(signalAltHeld(bool)),
-            this, SLOT(showHealth(bool)));
-    emit created(this);
-}
-*/
-
 NPCGraphicsComponent::~NPCGraphicsComponent() {
     disconnect(this);
+}
+
+void NPCGraphicsComponent::update(GameObject* obj) {
+    NPC* npc = (NPC*)obj;
+    if (!npc->isDirty()) {
+        return;
+    }
+    npc->resetDirty();
+
+    DrawParams* dp = new DrawParams();
+    dp->pos     = npc->getPos();
+    dp->moving  = 1;
+    dp->degrees = npc->getOrientation();
+    //npcHealth   = (npc->getHealth()/npc->getMaxHealth()); This is the real thing. Commented until damage works.
+    npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
+    if(npcHealth < 0) {
+        npcHealth = 0;
+    }
+    
+    setLayer(dp);
 }
 
 void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {

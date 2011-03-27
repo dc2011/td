@@ -34,16 +34,9 @@ public:
         return pixmapImgs_;
     }
 
-    /**
-     * Loads a structure from the item and game component class then sends
-     * the structure to the generic draw slot in GraphicsComponent.
-     *
-     * @author Warren Voelkl
-     */
-    virtual void update(GameObject* obj);
-
 private:
     virtual void setNonStaticValues();
+    virtual void setLayer(DrawParams* dp);
 };
 
 class SlowNPCGraphicsComponent : public NPCGraphicsComponent
@@ -75,16 +68,9 @@ public:
         return pixmapImgs_;
     }
 
-    /**
-     * Loads a structure from the item and game component class then sends
-     * the structure to the generic draw slot in GraphicsComponent.
-     *
-     * @author Warren Voelkl
-     */
-    virtual void update(GameObject* obj);
-
 private:
     virtual void setNonStaticValues();
+    virtual void setLayer(DrawParams* dp);
 };
 
 class FastNPCGraphicsComponent : public NPCGraphicsComponent
@@ -116,16 +102,9 @@ public:
         return pixmapImgs_;
     }
 
-    /**
-     * Loads a structure from the item and game component class then sends
-     * the structure to the generic draw slot in GraphicsComponent.
-     *
-     * @author Warren Voelkl
-     */
-    virtual void update(GameObject* obj);
-
 private:
     virtual void setNonStaticValues();
+    virtual void setLayer(DrawParams* dp);
 };
 
 class FlyNPCGraphicsComponent : public NPCGraphicsComponent
@@ -157,16 +136,9 @@ public:
         return pixmapImgs_;
     }
 
-    /**
-     * Loads a structure from the item and game component class then sends
-     * the structure to the generic draw slot in GraphicsComponent.
-     *
-     * @author Warren Voelkl
-     */
-    virtual void update(GameObject* obj);
-
 private:
     virtual void setNonStaticValues();
+    virtual void setLayer(DrawParams* dp);
 };
 
 class BossNPCGraphicsComponent : public NPCGraphicsComponent
@@ -198,16 +170,9 @@ public:
         return pixmapImgs_;
     }
 
-    /**
-     * Loads a structure from the item and game component class then sends
-     * the structure to the generic draw slot in GraphicsComponent.
-     *
-     * @author Warren Voelkl
-     */
-    virtual void update(GameObject* obj);
-
 private:
     virtual void setNonStaticValues();
+    virtual void setLayer(DrawParams* dp);
 };
 
 } /* end namespace td */

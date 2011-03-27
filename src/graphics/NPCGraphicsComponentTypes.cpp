@@ -30,23 +30,7 @@ void NormNPCGraphicsComponent::initPixmaps() {
     setNonStaticValues();
 }
 
-void NormNPCGraphicsComponent::update(GameObject* obj) {
-    NPC* npc = (NPC*)obj;
-    if (!npc->isDirty()) {
-        return;
-    }
-    npc->resetDirty();
-
-    DrawParams* dp = new DrawParams();
-    dp->pos     = npc->getPos();
-    dp->moving  = 1;
-    dp->degrees = npc->getOrientation();
-    //npcHealth   = (npc->getHealth()/npc->getMaxHealth()); This is the real thing. Commented until damage works.
-    npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
-    if(npcHealth < 0) {
-        npcHealth = 0;
-    }
-    
+void NormNPCGraphicsComponent::setLayer(DrawParams* dp) {    
     emit signalDraw(dp, this, LAYER_NPC);
 }
 
@@ -73,23 +57,7 @@ void SlowNPCGraphicsComponent::initPixmaps() {
     setNonStaticValues();
 }
 
-void SlowNPCGraphicsComponent::update(GameObject* obj) {
-    NPC* npc = (NPC*)obj;
-    if (!npc->isDirty()) {
-        return;
-    }
-    npc->resetDirty();
-
-    DrawParams* dp = new DrawParams();
-    dp->pos     = npc->getPos();
-    dp->moving  = 1;
-    dp->degrees = npc->getOrientation();
-    //npcHealth   = (npc->getHealth()/npc->getMaxHealth()); This is the real thing. Commented until damage works.
-    npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
-    if(npcHealth < 0) {
-        npcHealth = 0;
-    }
-    
+void SlowNPCGraphicsComponent::setLayer(DrawParams* dp) {    
     emit signalDraw(dp, this, LAYER_NPC);
 }
 
@@ -118,23 +86,7 @@ void FastNPCGraphicsComponent::initPixmaps() {
     setNonStaticValues();
 }
 
-void FastNPCGraphicsComponent::update(GameObject* obj) {
-    NPC* npc = (NPC*)obj;
-    if (!npc->isDirty()) {
-        return;
-    }
-    npc->resetDirty();
-
-    DrawParams* dp = new DrawParams();
-    dp->pos     = npc->getPos();
-    dp->moving  = 1;
-    dp->degrees = npc->getOrientation();
-    //npcHealth   = (npc->getHealth()/npc->getMaxHealth()); This is the real thing. Commented until damage works.
-    npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
-    if(npcHealth < 0) {
-        npcHealth = 0;
-    }
-    
+void FastNPCGraphicsComponent::setLayer(DrawParams* dp) {    
     emit signalDraw(dp, this, LAYER_NPC);
 }
 
@@ -162,23 +114,7 @@ void FlyNPCGraphicsComponent::initPixmaps() {
     setNonStaticValues();
 }
 
-void FlyNPCGraphicsComponent::update(GameObject* obj) {
-    NPC* npc = (NPC*)obj;
-    if (!npc->isDirty()) {
-        return;
-    }
-    npc->resetDirty();
-
-    DrawParams* dp = new DrawParams();
-    dp->pos     = npc->getPos();
-    dp->moving  = 1;
-    dp->degrees = npc->getOrientation();
-    //npcHealth   = (npc->getHealth()/npc->getMaxHealth()); This is the real thing. Commented until damage works.
-    npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
-    if(npcHealth < 0) {
-        npcHealth = 0;
-    }
-    
+void FlyNPCGraphicsComponent::setLayer(DrawParams* dp) {
     emit signalDraw(dp, this, LAYER_FLYNPC);
 }
 
@@ -207,23 +143,7 @@ void BossNPCGraphicsComponent::initPixmaps() {
     setNonStaticValues();
 }
 
-void BossNPCGraphicsComponent::update(GameObject* obj) {
-    NPC* npc = (NPC*)obj;
-    if (!npc->isDirty()) {
-        return;
-    }
-    npc->resetDirty();
-
-    DrawParams* dp = new DrawParams();
-    dp->pos     = npc->getPos();
-    dp->moving  = 1;
-    dp->degrees = npc->getOrientation();
-    //npcHealth   = (npc->getHealth()/npc->getMaxHealth()); This is the real thing. Commented until damage works.
-    npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
-    if(npcHealth < 0) {
-        npcHealth = 0;
-    }
-    
+void BossNPCGraphicsComponent::setLayer(DrawParams* dp) {
     emit signalDraw(dp, this, LAYER_NPC);
 }
 
