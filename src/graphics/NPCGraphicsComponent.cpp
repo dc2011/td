@@ -13,6 +13,7 @@ NPCGraphicsComponent::NPCGraphicsComponent()
 }
 
 NPCGraphicsComponent::~NPCGraphicsComponent() {
+    delete healthbarItem_;
     disconnect(this);
 }
 
@@ -60,6 +61,12 @@ void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {
     }
 
     GraphicsComponent::draw(dp, layer);
+}
+
+void NPCGraphicsComponent::initHealthbar() {
+    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
+    npcHealth = 1;
+    CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
 }
 
 void NPCGraphicsComponent::showHealth(bool keyHeld) {

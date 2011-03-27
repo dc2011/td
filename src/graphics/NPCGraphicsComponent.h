@@ -62,6 +62,13 @@ private:
     /** Container for all pixmaps which pertain to the current object. */
     static QPixmap * pixmapImgs_;
 
+    /**  */
+    QGraphicsRectItem* healthbarItem_;
+    
+    /** Percentage of health in decimal form (0 to 1).  */
+    double npcHealth;
+
+
     /** True if the health of the NPC should be displayed. */
     static bool showHealth_;
 
@@ -76,18 +83,15 @@ private:
      * and max values for wich to index into the NPC pixmap array
      */
     virtual void setNonStaticValues() = 0;
-
+    
     virtual void setLayer(DrawParams* dp) = 0;
 
 protected:
+
     int arrayIndexMin_;
     int arrayIndexMax_;
-
-    /**  */
-    QGraphicsRectItem* healthbarItem_;
     
-    /** Percentage of health in decimal form (0 to 1).  */
-    double npcHealth;
+    void initHealthbar();
 
 public slots:
     /**
