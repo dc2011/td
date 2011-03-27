@@ -13,6 +13,7 @@ NPCGraphicsComponent::NPCGraphicsComponent()
 }
 
 NPCGraphicsComponent::~NPCGraphicsComponent() {
+    delete healthbarItem_;
     disconnect(this);
 }
 
@@ -40,7 +41,7 @@ void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {
 
     if (showHealth_) {
         healthbarItem_->setVisible(true);
-    healthbarItem_->setRect(QRectF(0, 0, (96*npcHealth), 7));
+        healthbarItem_->setRect(QRectF(0, 0, (96*npcHealth), 7));
         if(npcHealth > 0.25 && npcHealth < 0.51) {
             healthbarItem_->setBrush(QBrush(Qt::yellow));
         } else if (npcHealth <= 0.25) {
@@ -48,16 +49,24 @@ void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {
         } else {
             healthbarItem_->setBrush(QBrush(Qt::green));
         }
-    healthbarItem_->setPos((dp->pos.x() - healthbarItem_->boundingRect().center().x()),
-                   (dp->pos.y() - (getPixmapItem()->boundingRect().height())/2));
-    healthbarItem_->setZValue(layer);
-    healthbarItem_->update();
+        healthbarItem_->setPos((dp->pos.x()
+                    - healthbarItem_->boundingRect().center().x()),
+                    (dp->pos.y()
+                    - (getPixmapItem()->boundingRect().height())/2));
+        healthbarItem_->setZValue(layer);
+        healthbarItem_->update();
     } else {
         healthbarItem_->setVisible(false);
         healthbarItem_->update();
     }
 
     GraphicsComponent::draw(dp, layer);
+}
+
+void NPCGraphicsComponent::initHealthbar() {
+    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
+    npcHealth = 1;
+    CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
 }
 
 void NPCGraphicsComponent::showHealth(bool keyHeld) {

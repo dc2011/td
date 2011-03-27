@@ -13,9 +13,8 @@ QPixmap* BossNPCGraphicsComponent::pixmapImgs_ = NULL;
 
 //TODO: need pics and animation for this yet
 void NormNPCGraphicsComponent::initPixmaps() {
-    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
-    npcHealth = 1;
-    CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
+    initHealthbar();
+
     if (pixmapImgs_) {
         setNonStaticValues();
         return;
@@ -42,9 +41,8 @@ void NormNPCGraphicsComponent::setNonStaticValues() {
 
 //TODO: need pics and animation for this yet
 void SlowNPCGraphicsComponent::initPixmaps() {
-    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
-    npcHealth = 1;
-    CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
+    initHealthbar();
+
     if (pixmapImgs_) {
         setNonStaticValues();
         return;
@@ -69,9 +67,8 @@ void SlowNPCGraphicsComponent::setNonStaticValues() {
 
 //TODO: need pics and animation for this yet
 void FastNPCGraphicsComponent::initPixmaps() {
-    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
-    npcHealth = 1;
-    CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
+    initHealthbar();
+
     if (pixmapImgs_) {
         setNonStaticValues();
         return;
@@ -97,9 +94,8 @@ void FastNPCGraphicsComponent::setNonStaticValues() {
 }
 
 void FlyNPCGraphicsComponent::initPixmaps() {
-    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
-    npcHealth = 1;
-    CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
+    initHealthbar();
+
     if (pixmapImgs_) {
         setNonStaticValues();
         return;
@@ -126,9 +122,8 @@ void FlyNPCGraphicsComponent::setNonStaticValues() {
 
 //TODO: need pics and animation for this yet
 void BossNPCGraphicsComponent::initPixmaps() {
-    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
-    npcHealth = 1;
-    CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
+    initHealthbar();
+
     if (pixmapImgs_) {
         setNonStaticValues();
         return;
