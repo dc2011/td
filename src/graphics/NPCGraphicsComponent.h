@@ -21,7 +21,7 @@ public:
      */
     NPCGraphicsComponent();
     
-    NPCGraphicsComponent(int npcType);
+    //NPCGraphicsComponent(int npcType);
 
     virtual ~NPCGraphicsComponent();
 
@@ -31,14 +31,14 @@ public:
      *
      * @author Warren Voelkl
      */
-    virtual void update(GameObject* obj);
+    virtual void update(GameObject* obj) = 0;
 
     /**
      * Gets a pixmap for the object based on its current animation state.
      *
      * @author Warren Voelkl
      */
-    virtual void initPixmaps();
+    virtual void initPixmaps() = 0;
 
     virtual void animate();
 
@@ -59,13 +59,13 @@ private:
      * @returns the pixmap array from the current graphics object
      * @author Warren Voelkl
      */
-    virtual QPixmap * getPixmapArray();
+    virtual QPixmap * getPixmapArray() = 0;
 
     /**
      * a switch statement wich will set the animation mod and the min
      * and max values for wich to index into the NPC pixmap array
      */
-    void setNonStaticValues();
+    virtual void setNonStaticValues() = 0;
 
 public slots:
     /**

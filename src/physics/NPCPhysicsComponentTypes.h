@@ -10,7 +10,7 @@ class NormNPCPhysicsComponent : public NPCPhysicsComponent {
 
 public:
     NormNPCPhysicsComponent();
-    virtual ~FastNPCPhysicsComponent() {}
+    virtual ~NormNPCPhysicsComponent() {}
 };
 
 class SlowNPCPhysicsComponent : public NPCPhysicsComponent {

@@ -136,9 +136,10 @@ public:
     /**
      * creates npc object
      * @author Marcel Vangrootheest
+     * @param npcType NPC type (norm, slow, fast, fly, boss)
      * @returns the reference to an NPC
      */
-    NPC* createNPC();
+    NPC* createNPC(int npcType);
 
     /**
      * Stop game timer.

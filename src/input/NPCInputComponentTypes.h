@@ -10,7 +10,7 @@ class NormNPCInputComponent : public NPCInputComponent {
 
 public:
     NormNPCInputComponent() : NPCInputComponent() {}
-    virtual ~FastNPCInputComponent() {}
+    virtual ~NormNPCInputComponent() {}
 };
 
 class SlowNPCInputComponent : public NPCInputComponent {

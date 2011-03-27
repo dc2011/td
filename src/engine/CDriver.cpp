@@ -168,13 +168,17 @@ void CDriver::makeLocalPlayer(Player* player) {
 }
 
 void CDriver::NPCCreator() {
-    if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
-        npc_.insert(createNPC());
+    if (npcCounter_++ % 20 == 0 && (npcCounter_ % 400) > 300) {
+        npc_.insert(createNPC(NPC_NORM));
+    }
+    if (npcCounter_++ % 10 == 0 && (npcCounter_ % 800) > 700) {
+        npc_.insert(createNPC(NPC_SLOW));
     }
 }
 
-NPC* CDriver::createNPC() {
+NPC* CDriver::createNPC(int npcType) {
     NPC* npc = (NPC*)mgr_->createObject(NPC::clsIdx());
+    npc->setType(npcType);
 
     npc->initComponents();
     // connect(input, SIGNAL(deleteUnitLater(Unit*)),
