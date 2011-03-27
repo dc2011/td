@@ -1,7 +1,5 @@
 #include "NPC.h"
-#ifndef SERVER
-#include "CDriver.h"
-#endif
+#include "Driver.h"
 #include <QObject>
 
 namespace td {
@@ -69,11 +67,13 @@ void NPC::isDead() {
     }
 }
 void NPC::update() {
-#ifndef SERVER
-    ((CDriver*)getDriver())->updateServer(this);
-#endif
     input_->update();
     physics_->update(this);
+
+    if (isDirty()) {
+        getDriver()->updateRT(this);
+    }
+
     graphics_->update(this);
     this->isDead();
 }

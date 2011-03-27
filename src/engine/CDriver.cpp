@@ -56,18 +56,16 @@ void CDriver::disconnectFromServer() {
     NetworkClient::instance()->shutdown();
 }
 
-void CDriver::updateServer(GameObject* obj) {
-    if(isSinglePlayer() || obj->getID() == 0xFFFFFFFF) {
+void CDriver::updateRT(GameObject* obj) {
+    if (obj->getClsIdx() != Player::clsIdx() || isSinglePlayer()) {
+        /* Only send updates for players, and only if there's a server */
         return;
     }
 
-    Stream* updates = new Stream();
+    Stream s;
+    obj->networkWrite(&s);
 
-    obj->networkWrite(updates);
-
-    NetworkClient::instance()->send(network::kPlayerPosition,
-                                        updates->data());
-    delete updates;
+    NetworkClient::instance()->send(network::kPlayerPosition, s.data());
 }
 
 void CDriver::readObject(Stream* s) {
@@ -83,8 +81,6 @@ void CDriver::readObject(Stream* s) {
         go = mgr_->createObjectWithID(id);
         go->networkRead(s);
         go->initComponents();
-
-        delete s;
 
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
         return;
@@ -217,9 +213,10 @@ void CDriver::startGame(bool singlePlayer) {
         connect(gameTimer_, SIGNAL(timeout()), player, SLOT(update()));
 
         this->makeLocalPlayer(player);
+
+        connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
     }
 
-    connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
     //connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             //npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
 

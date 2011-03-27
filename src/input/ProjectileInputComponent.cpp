@@ -5,20 +5,9 @@
 #define PI 3.141592653589793238
 #include <math.h>
 
-#ifndef SERVER
-#    include "../engine/CDriver.h"
-#endif
-
 namespace td {
 
-ProjectileInputComponent::ProjectileInputComponent() {
-    
-#ifndef SERVER
-    connect(this, SIGNAL(deleteProjectileLater(int)),
-            CDriver::instance(), SLOT(destroyObject(int)), 
-            Qt::QueuedConnection);
-#endif
-}
+ProjectileInputComponent::ProjectileInputComponent() { }
 
 ProjectileInputComponent::~ProjectileInputComponent() { }
 
@@ -28,6 +17,10 @@ void ProjectileInputComponent::update() {
 
 void ProjectileInputComponent::setParent(Unit *parent) {
     parent_ = (Projectile*) parent;
+
+    connect(this, SIGNAL(deleteProjectileLater(int)),
+            parent_->getDriver(), SLOT(destroyObject(int)), 
+            Qt::QueuedConnection);
 }
 
 void ProjectileInputComponent::makeForce() {

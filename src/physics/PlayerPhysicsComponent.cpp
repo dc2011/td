@@ -6,7 +6,7 @@
 #include "../audio/SfxManager.h"
 #include "../engine/Map.h"
 #include "../engine/Tile.h"
-#include "../engine/CDriver.h"
+#include "../engine/Driver.h"
 #include "../engine/NPC.h"
 
 namespace td {

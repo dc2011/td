@@ -35,6 +35,17 @@ unsigned int SDriver::addPlayer(QTcpSocket* sock, QString nickname) {
     return p->getID();
 }
 
+void SDriver::update(GameObject* obj) {
+    updates_.insert(obj);
+}
+
+void SDriver::updateRT(GameObject* obj) {
+    Stream s;
+    obj->networkWrite(&s);
+
+    net_->send(network::kPlayerPosition, s.data());
+}
+
 void SDriver::startGame() {
     Stream s;
     s.writeByte(players_.size());

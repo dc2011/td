@@ -49,9 +49,6 @@ void Projectile::networkWrite(td::Stream* s) {
 }
 
 void Projectile::update() {
-#ifndef SERVER
-    ((CDriver*)getDriver())->updateServer(this);
-#endif
     input_->update();
     physics_->update(this);
     graphics_->update(this);

@@ -5,22 +5,12 @@
 #include "../engine/Driver.h"
 #include <QTime>
 
-#ifndef SERVER
-#    include "../engine/CDriver.h"
-#endif
-
 namespace td {
 
 NPCInputComponent::NPCInputComponent() {
-    nextDest_ = 0;
     forceCounter_ = 0;
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
-    
-#ifndef SERVER
-    connect(this, SIGNAL(deleteUnitLater(int)),
-            CDriver::instance(), SLOT(destroyObject(int)), Qt::QueuedConnection);
-#endif
 }
 
 NPCInputComponent::~NPCInputComponent() { }
@@ -33,6 +23,11 @@ void NPCInputComponent::update() {
 void NPCInputComponent::setParent(Unit *parent) {
     // Casting Unit* to NPC*.
     parent_ = (NPC*) parent;
+    nextDest_ = 0;
+
+    connect(this, SIGNAL(deleteUnitLater(int)),
+            parent_->getDriver(), SLOT(destroyObject(int)),
+            Qt::QueuedConnection);
 
     waypoints_ = parent->getDriver()->getGameMap() ->getWaypoints(WP_PTERO);
     segment_ =  QLineF(waypoints_.at(nextDest_).x(),

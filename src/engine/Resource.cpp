@@ -7,12 +7,12 @@
 namespace td {
 
 void Resource::update() {
+    if (isDirty()) {
+        //getDriver()->update(this);
+    }
+
     graphics_->update(this);
     //physics_->update(this);
-
-#ifndef SERVER
-    //CDriver::updateServer(this);
-#endif
 }
 
 void Resource::initComponents() {

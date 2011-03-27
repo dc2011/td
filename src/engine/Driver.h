@@ -32,6 +32,26 @@ public:
     virtual ~Driver();
 
     /**
+     * Notifies the driver of an update to an object.
+     * On the server, this is used to build a network message to synchronize
+     * the object state across clients.
+     *
+     * @author Darryl Pogue
+     * @param obj The GameObject that has been updated.
+     */
+    virtual void update(GameObject* obj) = 0;
+
+    /**
+     * Notifies the driver of a real-time update to an object.
+     * This is used to build a network message sent streaming to other
+     * clients to synchronize the object state.
+     *
+     * @author Darryl Pogue
+     * @param obj The GameObject that has been updated.
+     */
+    virtual void updateRT(GameObject* obj) = 0;
+
+    /**
      * Gets the game map.
      *
      * @author Ian Lee

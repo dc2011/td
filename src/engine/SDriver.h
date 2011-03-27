@@ -1,13 +1,11 @@
 #ifndef SDRIVER_H
 #define SDRIVER_H
 
+#include <QSet>
+#include <QList>
 #include "Driver.h"
 #include "../network/netserver.h"
 #include "../util/mutex_magic.h"
-
-#include <QVector>
-#include <QMap>
-#include <QHostAddress>
 
 namespace td {
 
@@ -23,6 +21,7 @@ class SDriver : public Driver {
 private:
     NetworkServer* net_;
     QList<Player*> players_;
+    QSet<GameObject*> updates_;
 
 public:
     // ctors and dtors
@@ -66,6 +65,28 @@ public:
      * been updated or created
      */
     GameObject* updateObject(Stream* s);
+
+    /**
+     * Notifies the driver of an update to an object.
+     * On the server, this is used to build a network message to synchronize
+     * the object state across clients.
+     *
+     * @author Darryl Pogue
+     * @author Duncan Donaldson
+     * @param obj The GameObject that has been updated.
+     */
+    virtual void update(GameObject* obj);
+
+    /**
+     * Notifies the driver of a real-time update to an object.
+     * This is used to build a network message sent streaming to other
+     * clients to synchronize the object state.
+     *
+     * @author Darryl Pogue
+     * @author Duncan Donaldson
+     * @param obj The GameObject that has been updated.
+     */
+    virtual void updateRT(GameObject* obj);
 
 public slots:
     /**

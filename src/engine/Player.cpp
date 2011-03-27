@@ -1,10 +1,6 @@
 #include "Player.h"
 #include "Driver.h"
 
-#ifndef SERVER
-#    include "CDriver.h"
-#endif
-
 namespace td {
 
 Player::Player(QObject* parent) : Unit(parent), nickname_("") {
@@ -45,13 +41,13 @@ void Player::update() {
         physics_->update(this);
     }
 
-#ifndef SERVER
-    if (this->isDirty()) {
-        ((CDriver*)getDriver())->updateServer(this);
+    if (isDirty()) {
+        getDriver()->updateRT(this);
     }
-#endif
 
-    graphics_->update(this);
+    if (graphics_ != NULL) {
+        graphics_->update(this);
+    }
 }
 
 void Player::createEffect(Effect::EffectType type){

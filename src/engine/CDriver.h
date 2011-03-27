@@ -97,21 +97,30 @@ public:
     void disconnectFromServer();
 
     /**
-     * Sends client updates to the server, static method, this
-     * call this method from the update() function of the GameObject
-     * whose state you want to send to the server.
-     * 
-     * @author Duncan Donaldson
-     * @param obj The GameObject to transmit.
-     */
-    void updateServer(GameObject* obj);
-
-    /**
      * reads in an object, if it exists, updates it,
      * if it doesn't exist creates it.
      * @author Duncan Donaldson
      */
     void readObject(Stream* s);
+
+    /**
+     * Notifies the driver of an update to an object. Does nothing.
+     *
+     * @author Darryl Pogue
+     * @param obj The GameObject that has been updated.
+     */
+    virtual void update(GameObject* obj) { }
+
+    /**
+     * Notifies the driver of a real-time update to an object.
+     * This is used to build a network message sent streaming to other
+     * clients to synchronize the object state.
+     *
+     * @author Darryl Pogue
+     * @author Duncan Donaldson
+     * @param obj The GameObject that has been updated.
+     */
+    virtual void updateRT(GameObject* obj);
 
 public:
     /**

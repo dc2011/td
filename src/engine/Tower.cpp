@@ -12,17 +12,17 @@ namespace td {
 Tower::Tower(QObject* parent) : TileExtension(parent) { }
 
 void Tower::update() {
-#ifndef SERVER
-    if(this->isDirty()) {
-        ((CDriver*)getDriver())->updateServer(this);
-    }
-#endif
-
     if (physics_ != NULL) {
         physics_->update(this);
     }
 
-    graphics_->update(this);
+    if (isDirty()) {
+        getDriver()->update(this);
+    }
+
+    if (graphics_ != NULL) {
+        graphics_->update(this);
+    }
 }
 
 void Tower::networkRead(Stream* s) {

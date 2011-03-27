@@ -130,6 +130,16 @@ public:
     }
 
     /**
+     * Gets the class index of the object.
+     *
+     * @author Darryl Pogue
+     * @return The object's class index.
+     */
+    unsigned char getClsIdx() const {
+        return (iD_ & 0xFF000000) >> 24;
+    }
+
+    /**
      * Sets the ID of the object.
      *
      * @author Darryl Pogue
