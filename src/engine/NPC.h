@@ -36,6 +36,8 @@ public:
     void setHealth(size_t);
     size_t getDamage();
     void setDamage(size_t);
+    size_t getMaxHealth();
+    void setMaxHealth(size_t);
     /**
      * if an NPC's health reaches 0,
      * emit a signal that will have the NPC destroyed.
@@ -77,6 +79,7 @@ signals:
 private:
     size_t health_;
     size_t damage_;
+    size_t maxHealth_;
     QList<Effect*> effects_;
     int height_;
     int width_;

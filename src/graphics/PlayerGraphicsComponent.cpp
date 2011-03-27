@@ -71,7 +71,7 @@ void PlayerGraphicsComponent::animate() {
 }
 
 void PlayerGraphicsComponent::initPixmaps() {
-    label_ = new QGraphicsTextItem(QString("Warren Master Of The Universe"));
+    label_ = new QGraphicsTextItem(QString("Bone Ron"));
 
     label_->setDefaultTextColor (QColor(0,255,0));
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);

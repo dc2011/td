@@ -151,6 +151,7 @@ void CDriver::makeLocalPlayer(Player* player) {
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             player, SLOT(showName(bool)));
 
+
     /* Set up the build context menu */
     contextMenu_ = new ContextMenu(human_);
 
