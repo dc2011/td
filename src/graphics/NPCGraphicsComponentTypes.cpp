@@ -1,4 +1,6 @@
 #include "NPCGraphicsComponentTypes.h"
+#include "../engine/CDriver.h"
+#include "../engine/NPC.h"
 
 namespace td {
 
@@ -11,6 +13,9 @@ QPixmap* BossNPCGraphicsComponent::pixmapImgs_ = NULL;
 
 //TODO: need pics and animation for this yet
 void NormNPCGraphicsComponent::initPixmaps() {
+    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
+    npcHealth = 1;
+    CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
     if (pixmapImgs_) {
         setNonStaticValues();
         return;
@@ -36,6 +41,11 @@ void NormNPCGraphicsComponent::update(GameObject* obj) {
     dp->pos     = npc->getPos();
     dp->moving  = 1;
     dp->degrees = npc->getOrientation();
+    //npcHealth   = (npc->getHealth()/npc->getMaxHealth()); This is the real thing. Commented until damage works.
+    npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
+    if(npcHealth < 0) {
+        npcHealth = 0;
+    }
     
     emit signalDraw(dp, this, LAYER_NPC);
 }
@@ -48,6 +58,9 @@ void NormNPCGraphicsComponent::setNonStaticValues() {
 
 //TODO: need pics and animation for this yet
 void SlowNPCGraphicsComponent::initPixmaps() {
+    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
+    npcHealth = 1;
+    CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
     if (pixmapImgs_) {
         setNonStaticValues();
         return;
@@ -71,6 +84,11 @@ void SlowNPCGraphicsComponent::update(GameObject* obj) {
     dp->pos     = npc->getPos();
     dp->moving  = 1;
     dp->degrees = npc->getOrientation();
+    //npcHealth   = (npc->getHealth()/npc->getMaxHealth()); This is the real thing. Commented until damage works.
+    npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
+    if(npcHealth < 0) {
+        npcHealth = 0;
+    }
     
     emit signalDraw(dp, this, LAYER_NPC);
 }
@@ -83,6 +101,9 @@ void SlowNPCGraphicsComponent::setNonStaticValues() {
 
 //TODO: need pics and animation for this yet
 void FastNPCGraphicsComponent::initPixmaps() {
+    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
+    npcHealth = 1;
+    CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
     if (pixmapImgs_) {
         setNonStaticValues();
         return;
@@ -108,6 +129,11 @@ void FastNPCGraphicsComponent::update(GameObject* obj) {
     dp->pos     = npc->getPos();
     dp->moving  = 1;
     dp->degrees = npc->getOrientation();
+    //npcHealth   = (npc->getHealth()/npc->getMaxHealth()); This is the real thing. Commented until damage works.
+    npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
+    if(npcHealth < 0) {
+        npcHealth = 0;
+    }
     
     emit signalDraw(dp, this, LAYER_NPC);
 }
@@ -119,6 +145,9 @@ void FastNPCGraphicsComponent::setNonStaticValues() {
 }
 
 void FlyNPCGraphicsComponent::initPixmaps() {
+    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
+    npcHealth = 1;
+    CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
     if (pixmapImgs_) {
         setNonStaticValues();
         return;
@@ -144,6 +173,11 @@ void FlyNPCGraphicsComponent::update(GameObject* obj) {
     dp->pos     = npc->getPos();
     dp->moving  = 1;
     dp->degrees = npc->getOrientation();
+    //npcHealth   = (npc->getHealth()/npc->getMaxHealth()); This is the real thing. Commented until damage works.
+    npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
+    if(npcHealth < 0) {
+        npcHealth = 0;
+    }
     
     emit signalDraw(dp, this, LAYER_FLYNPC);
 }
@@ -156,6 +190,9 @@ void FlyNPCGraphicsComponent::setNonStaticValues() {
 
 //TODO: need pics and animation for this yet
 void BossNPCGraphicsComponent::initPixmaps() {
+    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
+    npcHealth = 1;
+    CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
     if (pixmapImgs_) {
         setNonStaticValues();
         return;
@@ -181,6 +218,11 @@ void BossNPCGraphicsComponent::update(GameObject* obj) {
     dp->pos     = npc->getPos();
     dp->moving  = 1;
     dp->degrees = npc->getOrientation();
+    //npcHealth   = (npc->getHealth()/npc->getMaxHealth()); This is the real thing. Commented until damage works.
+    npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
+    if(npcHealth < 0) {
+        npcHealth = 0;
+    }
     
     emit signalDraw(dp, this, LAYER_NPC);
 }
