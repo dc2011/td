@@ -191,8 +191,9 @@ private:
      * @param file is the file pointer
      * @param oggFile is the ogg vorbis file descriptor
      * @param format is the openal output format
+     * @param freq is the frequency to play at
      */
-    void openOgg(FILE *file, OggVorbis_File *oggFile, ALenum *format);
+    void openOgg(FILE *, OggVorbis_File *, ALenum *, ALsizei *);
 
 
 public:

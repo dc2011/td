@@ -3,6 +3,7 @@
 #include "../network/netclient.h"
 #include "../engine/CDriver.h"
 #include <QMessageBox>
+#include "../audio/SfxManager.h"
 
 namespace td {
 
@@ -49,12 +50,15 @@ void LobbyWindow::connectLobby()
     s->writeByte(ui->txtUsername->text().length());
     s->write(ui->txtUsername->text().toAscii());
 
+    PLAY_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
     delete s;
 }
 
 void LobbyWindow::tmp_startGame()
 {
+    PLAY_SFX(SfxManager::lobbyStart);
+    sleep(1);
     if (ui->chkSingleplayer->isChecked()) {
         emit startGame(true);
         return;

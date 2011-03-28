@@ -51,7 +51,10 @@ public:
 
     // NPC death 
     static QStringList npcPterodactylDies;
-    
+
+    //Game winning
+    static QStringList winTheGame;
+
     // resource picked up
     static QStringList resourceLumber;
 
@@ -60,6 +63,13 @@ public:
     static QStringList playerSelectsMenuItem;
     static QStringList playerLevelsUp;
     static QStringList playerHitsNpc;
+    
+    //lobby SFX
+    static QStringList lobbyStart;
+    static QStringList lobbySingle;
+    static QStringList lobbyMulti;
+    static QStringList lobbyConnect;
+
 };
 
 } // end namespace td

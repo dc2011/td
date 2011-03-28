@@ -231,7 +231,7 @@ void AudioManager::streamFile(QString filename, float gain)
         return;
     }
 
-    openOgg(file, &oggFile, &format);
+    openOgg(file, &oggFile, &format, &freq);
  
     do {
 
@@ -332,7 +332,8 @@ void AudioManager::clearProcessedBuffers
     }
 }
 
-void AudioManager::openOgg(FILE *file, OggVorbis_File *oggFile, ALenum *format)
+void AudioManager::openOgg(FILE *file, OggVorbis_File *oggFile, 
+			   ALenum *format, ALsizei *freq)
 {
 
     vorbis_info* vorbisInfo;
@@ -350,6 +351,7 @@ void AudioManager::openOgg(FILE *file, OggVorbis_File *oggFile, ALenum *format)
         *format = AL_FORMAT_STEREO16;
     }
 
+    *freq = vorbisInfo->rate;
 }
 
 } /* End namespace td */

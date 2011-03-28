@@ -58,5 +58,15 @@ QStringList SfxManager::playerLevelsUp
 QStringList SfxManager::playerHitsNpc
         = QStringList() << "peffect-1" << "peffect-2";
 
+//lobby SFX
+QStringList SfxManager::lobbyStart 
+        = QStringList() << "start";
+QStringList SfxManager::lobbySingle
+        = QStringList() << "single";
+QStringList SfxManager::lobbyMulti
+        = QStringList() << "multi";
+QStringList SfxManager::lobbyConnect
+        = QStringList() << "connecting";
+
 } // end namespace td
 
