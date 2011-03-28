@@ -12,7 +12,6 @@ NPC::NPC(QObject* parent) : Unit(parent) {
     this->setWidth(30);
     pos_.setX(50);
     pos_.setY(50);
-    health_ = 1;
 
     connect(this, SIGNAL(dead(int)),
             parent, SLOT(destroyObject(int)), Qt::QueuedConnection);
@@ -47,12 +46,12 @@ void NPC::setMaxHealth(size_t maxHealth) {
 }
 
 void NPC::initComponents() {
-#ifndef SERVER
+    /*
     static int flipFloper = 0;
     ++flipFloper = flipFloper % 2;
+    PhysicsComponent* physics = new NPCPhysicsComponent(0.2, 0.25, 2);
     GraphicsComponent* graphics = new NPCGraphicsComponent(flipFloper + 1);
     this->setGraphicsComponent(graphics);
-#endif
 
     PhysicsComponent* physics = new NPCPhysicsComponent();
     NPCInputComponent* input = new NPCInputComponent();
@@ -60,6 +59,63 @@ void NPC::initComponents() {
     input->setParent(this);
     this->setInputComponent(input);
     this->setPhysicsComponent(physics);
+    this->setGraphicsComponent(graphics);
+    */
+    NPCInputComponent* input;
+
+    switch(type_) {
+        case NPC_NORM:
+            maxHealth_ = health_ = 100;
+            input = new NormNPCInputComponent();
+            input->setParent(this);
+            setPhysicsComponent(new NormNPCPhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new NormNPCGraphicsComponent());
+#endif
+            setInputComponent(input);
+            break;
+        case NPC_SLOW:
+            maxHealth_ = health_ = 200;
+            input = new SlowNPCInputComponent();
+            input->setParent(this);
+            setPhysicsComponent(new SlowNPCPhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new SlowNPCGraphicsComponent());
+#endif
+            setInputComponent(input);
+            break;
+        case NPC_FAST:
+            maxHealth_ = health_ = 50;
+            input = new FastNPCInputComponent();
+            input->setParent(this);
+            setPhysicsComponent(new FastNPCPhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new FastNPCGraphicsComponent());
+#endif
+            setInputComponent(input);
+            break;
+        case NPC_FLY:
+            maxHealth_ = health_ = 100;
+            input = new FlyNPCInputComponent();
+            input->setParent(this);
+            setPhysicsComponent(new FlyNPCPhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new FlyNPCGraphicsComponent());
+#endif
+            setInputComponent(input);
+            break;
+        case NPC_BOSS:
+            maxHealth_ = health_ = 300;
+            input = new BossNPCInputComponent();
+            input->setParent(this);
+            setPhysicsComponent(new BossNPCPhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new BossNPCGraphicsComponent());
+#endif
+            setInputComponent(input);
+            break;
+
+    }
 }
 void NPC::isDead() {
     if(health_ == 0) {

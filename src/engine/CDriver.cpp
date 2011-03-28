@@ -111,7 +111,7 @@ void CDriver::makeLocalPlayer(Player* player) {
     connect(physics, SIGNAL(NPCPlayerCollided(Effect::EffectType)), 
             human_, SLOT(createEffect(Effect::EffectType)));
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            player->getGraphicsComponent(), SLOT(showName(bool)));
+            player, SLOT(showName(bool)));
 
 
     /* Set up the build context menu */
@@ -128,20 +128,28 @@ void CDriver::makeLocalPlayer(Player* player) {
     /* TODO: alter temp solution */
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
             this,         SLOT(createTower(int, QPointF)));
+    connect(human_, SIGNAL(signalEmptyEffectList()),
+            physics, SLOT(okayToPlayCollisionSfx()));
 }
 
 void CDriver::NPCCreator() {
     if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
-        createNPC();
+        createNPC(NPC_NORM);
+    }
+    if (npcCounter_ % 40 == 0 && (npcCounter_ % 1400) > 1000) {
+        createNPC(NPC_SLOW);
     }
 }
 
-NPC* CDriver::createNPC() {
+NPC* CDriver::createNPC(int npcType) {
     NPC* npc = (NPC*)mgr_->createObject(NPC::clsIdx());
+    npc->setType(npcType);
 
     npc->initComponents();
     // connect(input, SIGNAL(deleteUnitLater(Unit*)),
     //this, SLOT(NPCDeleter(Unit*)), Qt::QueuedConnection);
+    connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+            npc->getGraphicsComponent(), SLOT(showHealth(bool)));
     connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
     return npc;
 }
@@ -244,17 +252,15 @@ void CDriver::handleSpacebarPress() {
 
         case TILE_BUILDABLE:
             contextMenu_->toggleMenu();
-            currentTile->setActionType(TILE_BUILT); 
             break;
 
         case TILE_BUILT:
-	        contextMenu_->toggleMenu();
         case TILE_BASE:
             break;
 
         case TILE_RESOURCE:
             // TODO: remove SFX and do it properly
-            PLAY_SFX(SfxManager::resourceLumber);
+            PLAY_LOCAL_SFX(SfxManager::resourceLumber);
             qDebug("Harvesting resource: %d", currentTile->getTiledTile()->id());
             break;
     }

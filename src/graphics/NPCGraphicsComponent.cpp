@@ -9,16 +9,11 @@ bool NPCGraphicsComponent::showHealth_    = 0;
 
 NPCGraphicsComponent::NPCGraphicsComponent()
         : GraphicsComponent() {
-}
-
-NPCGraphicsComponent::NPCGraphicsComponent(int npcType)
-    : GraphicsComponent(), npcType_(npcType) {
-    connect(CDriver::instance()->getMainWindow(),  SIGNAL(signalAltHeld(bool)),
-            this, SLOT(showHealth(bool)));
     emit created(this);
 }
 
 NPCGraphicsComponent::~NPCGraphicsComponent() {
+    delete healthbarItem_;
     disconnect(this);
 }
 
@@ -38,15 +33,15 @@ void NPCGraphicsComponent::update(GameObject* obj) {
     if(npcHealth < 0) {
         npcHealth = 0;
     }
-    //TODO: the layers will change with different NPC's
-    emit signalDraw(dp, this, LAYER_FLYNPC);
+    
+    setLayer(dp);
 }
 
 void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {
 
     if (showHealth_) {
         healthbarItem_->setVisible(true);
-    healthbarItem_->setRect(QRectF(0, 0, (96*npcHealth), 7));
+        healthbarItem_->setRect(QRectF(0, 0, (96*npcHealth), 7));
         if(npcHealth > 0.25 && npcHealth < 0.51) {
             healthbarItem_->setBrush(QBrush(Qt::yellow));
         } else if (npcHealth <= 0.25) {
@@ -54,10 +49,12 @@ void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {
         } else {
             healthbarItem_->setBrush(QBrush(Qt::green));
         }
-    healthbarItem_->setPos((dp->pos.x() - healthbarItem_->boundingRect().center().x()),
-                   (dp->pos.y() - (getPixmapItem()->boundingRect().height())/2));
-    healthbarItem_->setZValue(layer);
-    healthbarItem_->update();
+        healthbarItem_->setPos((dp->pos.x()
+                    - healthbarItem_->boundingRect().center().x()),
+                    (dp->pos.y()
+                    - (getPixmapItem()->boundingRect().height())/2));
+        healthbarItem_->setZValue(layer);
+        healthbarItem_->update();
     } else {
         healthbarItem_->setVisible(false);
         healthbarItem_->update();
@@ -66,45 +63,14 @@ void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {
     GraphicsComponent::draw(dp, layer);
 }
 
-
-void NPCGraphicsComponent::showHealth(bool keyHeld) {
-    showHealth_ = keyHeld;
-}
-
-void NPCGraphicsComponent::initPixmaps() {
+void NPCGraphicsComponent::initHealthbar() {
     healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
     npcHealth = 1;
     CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
-    if (pixmapImgs_) {
-        setNonStaticValues();
-        return;
-    } else {
-        pixmapImgs_ = new QPixmap[PIX_NPC_TOTAL];
-    }
-    pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_2;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_3;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PLEA_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PLEA_1;
-    setNonStaticValues();
 }
 
-void NPCGraphicsComponent::setNonStaticValues() {
-    switch (npcType_) {
-    case NPC_PTERO:
-        animateMod_ = 4;
-        arrayIndexMin_ = pixmapIndex_ = PIX_NPC_PTERO_START;
-        arrayIndexMax_ = PIX_NPC_PTERO_START + PIX_NPC_PTERO_MAX - 1;
-
-        break;
-    case NPC_PLEA:
-        animateMod_ = 6;
-        arrayIndexMin_ = pixmapIndex_ = PIX_NPC_PLEA_START;
-        arrayIndexMax_ = PIX_NPC_PLEA_START + PIX_NPC_PLEA_MAX - 1;
-        break;
-    }
+void NPCGraphicsComponent::showHealth(bool keyHeld) {
+    showHealth_ = keyHeld;
 }
 
 QPixmap * NPCGraphicsComponent::getPixmapArray() {

@@ -4,7 +4,7 @@
 namespace td {
 
 Effect::Effect(Unit* unit, EffectType type):
-        GameObject(NULL), unit_(unit), type_(type), duration_(40){}
+        GameObject(NULL), unit_(unit), type_(type), duration_(20){}
 
 Effect::~Effect(){}
 

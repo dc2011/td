@@ -2,6 +2,9 @@
 #include "../audio/SfxManager.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"
 #include "../util/defines.h"
+#include "../engine/Tile.h"
+#include "../engine/CDriver.h"
+#include "../engine/Map.h"
 
 namespace td {
 
@@ -16,13 +19,13 @@ ContextMenu::~ContextMenu() {
 
 void ContextMenu::toggleMenu() {
     if (!menuIsOpen_) {
-        PLAY_SFX(SfxManager::projectileFireTar);
+        PLAY_LOCAL_SFX(SfxManager::projectileFireTar);
         qDebug("opens a menu");
         menuIsOpen_ = true;	
 	emit signalPlayerMovement(true);
    	((ContextMenuGraphicsComponent*)graphics_)->showMenu(player_->getPos());
     } else {
-        PLAY_SFX(SfxManager::projectileFireTar);
+        PLAY_LOCAL_SFX(SfxManager::projectileFireTar);
         qDebug("closes a menu");
         menuIsOpen_ = false;
 	emit signalPlayerMovement(false);
@@ -35,13 +38,17 @@ void ContextMenu::selectMenuItem(int keyPressed) {
                      || keyPressed > TOWER_FLAK) {
         return;
     }
-    PLAY_SFX(SfxManager::projectileFireTar);
+    PLAY_LOCAL_SFX(SfxManager::projectileFireTar);
     qDebug("selects a menu item");
     menuIsOpen_ = false;
     emit signalPlayerMovement(false);
     ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
     ((ContextMenuGraphicsComponent*)
-            graphics_)->showSelectMenu(keyPressed, player_->getPos());
+     graphics_)->showSelectMenu(keyPressed, player_->getPos());
+    
+    Map *gameMap_ = CDriver::instance()->getGameMap();
+    Tile *cTile = gameMap_->getTile(CDriver::instance()->getHuman()->getPos());
+    cTile->setActionType(TILE_BUILT);
     
     switch (keyPressed) {
         

@@ -62,6 +62,9 @@ void Player::createEffect(Effect::EffectType type){
 
 void Player::deleteEffect(Effect* effect){
     effects_.removeOne(effect);
+    if (effects_.empty()) {
+        emit signalEmptyEffectList();
+    }
     delete effect;
 }
 

@@ -137,9 +137,10 @@ public:
     /**
      * creates npc object
      * @author Marcel Vangrootheest
+     * @param npcType NPC type (norm, slow, fast, fly, boss)
      * @returns the reference to an NPC
      */
-    NPC* createNPC();
+    NPC* createNPC(int npcType);
 
     /**
      * Stop game timer.
@@ -148,6 +149,15 @@ public:
      * @return void
      */
     void endGame();
+
+    /**
+     * Returns the human
+     *
+     * @author Terence Stenvold
+     */
+    Player* getHuman(){
+        return human_;
+    }
 
     /**
      * Gets a pointer to the main window where all graphics are drawn.

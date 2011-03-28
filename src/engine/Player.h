@@ -90,7 +90,7 @@ public:
 
 public slots:
     /**
-     * Sets the nickname associated with this player.
+     * Add effect to the effect list.
      *
      * @author Pan K.
      * @param type Type of effect.
@@ -105,6 +105,18 @@ public slots:
      */
     void deleteEffect(Effect* effect);
 
+    /**
+     * Sets the boolean that determines whether or not the player's nickname
+     * should be displayed.
+     *
+     * @author Dean Morin
+     * @param keyHeld True if the alt key is being held down.
+     */
+    void showName(bool keyHeld) {
+        ((PlayerGraphicsComponent*) graphics_)->setShowName(keyHeld);
+        setDirty(1);
+    }
+
 private:
     QList<Effect*> effects_;
 
@@ -112,6 +124,16 @@ private:
      * A nickname associated with this player used for display purposes and chat.
      */
     QString nickname_;
+
+signals:
+    /**
+     * Signals that the effect list is empty (necessary so we don't spam SFX).
+     *
+     * Connected to okayToPlayCollisionSfx() in PlayerPhysicsComponent.
+     *
+     * @author Dean Morin
+     */
+    void signalEmptyEffectList();
 };
 
 }
