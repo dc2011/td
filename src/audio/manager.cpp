@@ -78,6 +78,7 @@ void AudioManager::playSfx(QString filename, SoundType type)
     }
     
     filename = SFXPATH + filename + SFXFILEEXTENSION;
+    QThreadPool::globalInstance()->releaseThread();
     QFuture<void> future =
         QtConcurrent::run(this, &AudioManager::streamFile,
                           filename, gainScale[gain]);
@@ -151,6 +152,7 @@ QQueue<QString> AudioManager::musicDir(QString dir)
 
 void AudioManager::playMusic(QQueue<QString> filenameQueue)
 {
+    QThreadPool::globalInstance()->releaseThread();
     QFuture<void> future =
         QtConcurrent::run(this, &AudioManager::playMusicQueue, filenameQueue);
     return;
@@ -197,6 +199,8 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
 
         errno = 0;
     }
+
+    QThreadPool::globalInstance()->reserveThread();
 }
 
 
