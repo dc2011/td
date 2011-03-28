@@ -19,6 +19,9 @@ private:
 
     /** Text to display the current label_ for this item **/
     QGraphicsTextItem * label_;
+
+    /** Nickname to be displayed for the player. */
+    QString nickname_;
     
     /** True if alt held down and the players name should be shown. */
     bool showName_;
@@ -28,7 +31,7 @@ public:
      * Instantiates a PlayerGraphicsComponent component
      * @author Warren Voelkl
      */
-    PlayerGraphicsComponent();
+    PlayerGraphicsComponent(QString nickname);
     virtual ~PlayerGraphicsComponent() { }
 
     /**

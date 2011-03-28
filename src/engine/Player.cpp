@@ -31,7 +31,7 @@ void Player::networkWrite(Stream* s) {
 void Player::initComponents() {
 #ifndef SERVER
     /* Client-side has a Graphics Component */
-    graphics_ = new PlayerGraphicsComponent();
+    graphics_ = new PlayerGraphicsComponent(nickname_);
     graphics_->update(this);
 #endif
 }

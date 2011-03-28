@@ -6,8 +6,8 @@ namespace td {
 
 QPixmap * PlayerGraphicsComponent::pixmapImgs_ = 0;
 
-PlayerGraphicsComponent::PlayerGraphicsComponent()
-        : GraphicsComponent()
+PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
+        : GraphicsComponent(), nickname_(nickname)
 {
     animateMod_ = 4;
     animateCount_ = 0;
@@ -70,7 +70,7 @@ void PlayerGraphicsComponent::animate() {
 }
 
 void PlayerGraphicsComponent::initPixmaps() {
-    label_ = new QGraphicsTextItem(QString("Bone Ron"));
+    label_ = new QGraphicsTextItem(nickname_);
 
     label_->setDefaultTextColor (QColor(0,255,0));
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
