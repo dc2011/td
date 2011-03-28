@@ -1,4 +1,5 @@
 #include "Projectile.h"
+#include "NPC.h"
 #ifndef SERVER
 #include "CDriver.h"
 #endif
@@ -57,6 +58,63 @@ void Projectile::update() {
     input_->update();
     physics_->update(this);
     graphics_->update(this);
+}
+
+void Projectile::checkNPCCollision(QSet<Unit*> npcs){
+    QSet<Unit*>::iterator it;
+    QPolygonF projBounds;
+    QPolygonF npcBounds;
+
+//Note: for arrow/flak/other autohit projectiles
+// Just need to add effect to this->getEnemy()
+
+    for (it = npcs.begin(); it != npcs.end(); ++it) {
+        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()){
+            projBounds = this->getBounds();
+            npcBounds = (*it)->getBounds();
+            if(this->getBounds().intersected((*it)->getBounds()).count() != 0){
+                //create projectile effect
+                //add effect to npc
+                //qDebug("Enemy hit");
+                break;
+            }else{
+                //qDebug("No hit");
+            }
+
+        }
+    }
+
+}
+
+void Projectile::createBounds(){
+    QVector<QPointF> points = QVector<QPointF>();
+    QPointF *newPos = this->getEndPoint();
+    QPointF point;
+    QMatrix matrix = QMatrix();
+    matrix.rotate(-this->getOrientation());
+
+    point = QPointF(-((this->getWidth()/2) * this->getScale() ),
+                        -((this->getHeight( )/2) * this->getScale())) * matrix;
+    point += *newPos;
+    points.append(point);
+    point = QPointF((this->getWidth()/2) * this->getScale(),
+                        -((this->getHeight()/2) * this->getScale())) * matrix;
+    point += *newPos;
+    points.append(point);
+    point = QPointF((this->getWidth()/2) * this->getScale(),
+                        (this->getHeight()/2) * this->getScale()) * matrix;
+    point += *newPos;
+    points.append(point);
+    point = QPointF(-((this->getWidth()/2) * this->getScale()),
+                        (this->getHeight()/2) * this->getScale()) * matrix;
+    point += *newPos;
+    points.append(point);
+    point = QPointF(-((this->getWidth()/2) * this->getScale() ),
+                        -((this->getHeight( )/2) * this->getScale())) * matrix;
+    point += *newPos;
+    points.append(point);
+
+    this->setBounds(QPolygonF(points));
 }
 
 } /* end namespace td */

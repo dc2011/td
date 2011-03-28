@@ -2,6 +2,7 @@
 #include "../engine/Projectile.h"
 #include "../physics/ProjectilePhysicsComponent.h"
 #include "../engine/CDriver.h"
+#include "../engine/Map.h"
 #define PI 3.141592653589793238
 #include <math.h>
 
@@ -26,12 +27,19 @@ void ProjectileInputComponent::setParent(Unit *parent) {
 
 void ProjectileInputComponent::makeForce() {
     QVector2D force;
+    Map* map = td::CDriver::instance()->getGameMap();
+    QSet<Unit*> npcs;
     QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
                parent_->getPath().p1().x(), parent_->getPath().p1().y());
     if (distance.length() <= parent_->getVelocity().length()) {
         disconnect(CDriver::getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
-        
+        QPointF *end = parent_->getEndPoint();
+        npcs = map->getUnits(end->x(), end->y(), 1);
+        if(!npcs.empty()){
+            parent_->createBounds();
+            parent_->checkNPCCollision(npcs);
+        }
         //check for collisions here
         emit deleteProjectileLater(parent_->getID());
     } else {
@@ -105,5 +113,6 @@ void ProjectileInputComponent::applyDirection() {
     }
     parent_->setOrientation(degree);
 }
+
 
 } /* end namespace td */

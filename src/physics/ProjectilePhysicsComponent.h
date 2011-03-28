@@ -54,7 +54,6 @@ public:
      */
     virtual void update(GameObject* projectile);
 
-    void checkNPCCollision(QSet<Unit*> npcs, Unit* projectile);
 
 private:
     /** Velocity of the projectile. */

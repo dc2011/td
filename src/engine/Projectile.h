@@ -142,6 +142,21 @@ public:
     void setEnemy(Unit* enemy){
         enemy_ = enemy;
     }
+    /**
+     * Checks for collision between projectile and npcs
+     * and applies effects to hit npcs.
+     *
+     * @author Daniel Wright
+     * @param npcs, set of npcs to check collision with
+     */
+    void checkNPCCollision(QSet<Unit*> npcs);
+
+    /**
+    * Creates a bounding polygon based on the projectiles end point.
+    *
+    * @author Daniel Wright
+    */
+    void createBounds();
 
     int getWidth(){
         return width_;
