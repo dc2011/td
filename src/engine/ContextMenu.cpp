@@ -2,6 +2,9 @@
 #include "../audio/SfxManager.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"
 #include "../util/defines.h"
+#include "../engine/Tile.h"
+#include "../engine/CDriver.h"
+#include "../engine/Map.h"
 
 namespace td {
 
@@ -41,7 +44,11 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     emit signalPlayerMovement(false);
     ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
     ((ContextMenuGraphicsComponent*)
-            graphics_)->showSelectMenu(keyPressed, player_->getPos());
+     graphics_)->showSelectMenu(keyPressed, player_->getPos());
+    
+    Map *gameMap_ = CDriver::instance()->getGameMap();
+    Tile *cTile = gameMap_->getTile(CDriver::instance()->getHuman()->getPos());
+    cTile->setActionType(TILE_BUILT);
     
     switch (keyPressed) {
         

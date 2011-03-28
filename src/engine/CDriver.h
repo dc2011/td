@@ -157,6 +157,14 @@ public:
      */
     static QTimer* getTimer();
 
+    /**
+     * Returns the human
+     *
+     * @author Terence Stenvold
+     */
+    Player* getHuman(){
+	return human_;
+    }
 
     /**
     * Getter for gameMap_

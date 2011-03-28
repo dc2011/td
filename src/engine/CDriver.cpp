@@ -289,11 +289,9 @@ void CDriver::handleSpacebarPress() {
 
         case TILE_BUILDABLE:
             contextMenu_->toggleMenu();
-            currentTile->setActionType(TILE_BUILT); 
             break;
 
         case TILE_BUILT:
-	        contextMenu_->toggleMenu();
         case TILE_BASE:
             break;
 
