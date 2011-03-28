@@ -163,7 +163,7 @@ public:
      * @author Terence Stenvold
      */
     Player* getHuman(){
-	return human_;
+        return human_;
     }
 
     /**
