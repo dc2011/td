@@ -135,6 +135,14 @@ public:
        path_ = path;
     }
 
+    Unit* getEnemy(){
+        return enemy_;
+    }
+
+    void setEnemy(Unit* enemy){
+        enemy_ = enemy;
+    }
+
     int getWidth(){
         return width_;
     }
@@ -167,6 +175,8 @@ private:
      * or the current projectile position. First position should be set to end.
      */
     QLineF path_;
+
+    Unit* enemy_;
     int height_;
     int width_;
 };

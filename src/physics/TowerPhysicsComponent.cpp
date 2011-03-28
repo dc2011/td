@@ -66,7 +66,7 @@ void TowerPhysicsComponent::fire() {
     }
     // TODO: move to projectilePC, once the different types have been created
     PLAY_SFX(SfxManager::projectileFireArrow);
-    emit fireProjectile(tower_->getPos(), target_->getPos());
+    emit fireProjectile(tower_->getPos(), target_->getPos(), target_);
     fireCountdown_ = fireInterval_;
 }
 
