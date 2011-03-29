@@ -1,6 +1,7 @@
 #include "Console.h"
 #include "../engine/CDriver.h"
 #include <QDebug>
+#include <QGraphicsRectItem>
 
 namespace td {
 
@@ -13,11 +14,20 @@ Console::Console() {
 
     display_ = new QVector<QString>();
     label_ = new QGraphicsTextItem();
+    QGraphicsRectItem *rect_ = new QGraphicsRectItem();
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
-  
-    label_->setDefaultTextColor (QColor(0,0,0));
+    CDriver::instance()->getMainWindow()->getScene()->addItem(rect_);
+
+    rect_->setRect(5,5,200,80);
+    rect_->setBrush(QBrush(QColor(200,200,200)));
+    rect_->setPen(QPen(QColor(200,200,200)));
+    rect_->setZValue(98);
+    rect_->setOpacity(0.35);
+    
+
+    label_->setDefaultTextColor(QColor(50,50,50));
     label_->setPos(15,15);
-    label_->setVisible(false);
+    label_->setZValue(99);
     label_->update();
 }
 
@@ -26,7 +36,7 @@ Console::~Console() {}
 void Console::addText(QString text) {
     
     QString tmp;
-
+    
     mutex_.lock();
     if(display_->size() > 2) {
 	display_->pop_back();
@@ -38,7 +48,6 @@ void Console::addText(QString text) {
 	tmp.append("\n");
     }
     
-    qDebug() << tmp;
     label_->setPlainText(tmp);
     label_->update();
     
