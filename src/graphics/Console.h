@@ -17,8 +17,11 @@ class Console : public QObject {
 
 private:
     
+    /** The singleton instance */
     static Console* instance_;
+    /** the text to be displayed */
     static QVector<QString> *display_;
+    /** the label to display text */
     static QGraphicsTextItem *label_;
 
     explicit Console();
@@ -26,6 +29,12 @@ private:
 
 public:
 
+    /**
+     * Creates the instance of the Console
+     * shamelessly stolen from dpogue
+     *
+     * @author Terence Stenvold
+     */
     static Console* instance() {
         mutex_.lock();
         if (instance_ == NULL) {
@@ -35,6 +44,13 @@ public:
         return instance_;
     }
     
+    /**
+     * Adds strings of a proper length
+     * to the output console
+     *
+     * @author Terence Stenvold
+     * @param text to add to the console
+     */
     void addText(QString text);
 
 };
