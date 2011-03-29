@@ -7,7 +7,7 @@ ArrowTowerPhysicsComponent::ArrowTowerPhysicsComponent(Tower* tower)
 }
 
 CannonTowerPhysicsComponent::CannonTowerPhysicsComponent(Tower* tower)
-        : TowerPhysicsComponent(tower, FIRE_INTERVAL_CANNON, RADIUS_ARROW) { 
+        : TowerPhysicsComponent(tower, FIRE_INTERVAL_CANNON, RADIUS_CANNON) { 
 }
 
 FlameTowerPhysicsComponent::FlameTowerPhysicsComponent(Tower* tower)

@@ -68,6 +68,16 @@ public:
         height_ = height;
     }
 
+    /**
+     * Sets the NPC type (Normal, Slow, Fast, Flying, or Boss).
+     *
+     * @author Marcel Vangrootheest.
+     * @param type NPC type
+     */
+    void setType(int type) {
+        type_ = type;
+    }
+
 signals:
     /**
      * signal emitted when an NPC needs to be destroyed.
@@ -83,6 +93,7 @@ private:
     QList<Effect*> effects_;
     int height_;
     int width_;
+    int type_;
 
 signals:
     /**

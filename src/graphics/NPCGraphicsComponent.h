@@ -23,7 +23,7 @@ public:
      */
     NPCGraphicsComponent();
     
-    NPCGraphicsComponent(int npcType);
+    //NPCGraphicsComponent(int npcType);
 
     virtual ~NPCGraphicsComponent();
 
@@ -53,7 +53,7 @@ public:
      *
      * @author Warren Voelkl, Mohamed Sheriffdeen
      */
-    virtual void initPixmaps();
+    virtual void initPixmaps() = 0;
 
     virtual void animate();
 
@@ -61,32 +61,40 @@ private:
     /** The current set of images to use for this object */
     int npcType_;
 
-    int arrayIndexMin_;
-    int arrayIndexMax_;
-
     /** Container for all pixmaps which pertain to the current object. */
     static QPixmap * pixmapImgs_;
 
-    /** True if the health of the NPC should be displayed. */
-    static bool showHealth_;
-    
+
     /** The NPC's healthbar. Drawn relative to the NPC's location and it's pixmap. */
     QGraphicsRectItem* healthbarItem_;
     
     /** Percentage of health in decimal form (0 to 1).  */
     double npcHealth;
 
+
+    /** True if the health of the NPC should be displayed. */
+    static bool showHealth_;
+
     /**
      * @returns the pixmap array from the current graphics object
      * @author Warren Voelkl
      */
-    virtual QPixmap * getPixmapArray();
+    virtual QPixmap * getPixmapArray() = 0;
 
     /**
      * a switch statement wich will set the animation mod and the min
      * and max values for wich to index into the NPC pixmap array
      */
-    void setNonStaticValues();
+    virtual void setNonStaticValues() = 0;
+    
+    virtual void setLayer(DrawParams* dp) = 0;
+
+protected:
+
+    int arrayIndexMin_;
+    int arrayIndexMax_;
+    
+    void initHealthbar();
 
 public slots:
     /**

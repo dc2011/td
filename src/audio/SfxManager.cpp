@@ -1,4 +1,5 @@
 #include "SfxManager.h"
+#include "../engine/GameObject.h"
 
 namespace td {
 
@@ -67,6 +68,30 @@ QStringList SfxManager::lobbyMulti
         = QStringList() << "multi";
 QStringList SfxManager::lobbyConnect
         = QStringList() << "connecting";
+
+void SfxManager::makeSfxNetworkMsg(GameObject* gameObject, QStringList sfxList,  
+        int type) {
+    int rdNum;
+
+    // TODO: remove next 2 lines once audio network messages are working
+    AudioManager::instance()->playSfx(sfxList);
+    return;
+
+    if(sfxList.size() < 1) {
+	    qCritical("SfxManager::makeSfxNetworkMsg(): Empty List");
+	    return;
+    }
+    
+    rdNum = rand() % sfxList.size();
+    QString filename = sfxList[rdNum];
+    
+    Stream s;
+    s.writeInt(type);
+    s.writeInt(filename.size());
+    s.write(filename.toAscii());
+    // TODO: uncomment once Darryls massive branch has been merged
+    //gameObject->getDriver()->getNet()->send(network::kPlaySfx, s.data());
+}
 
 } // end namespace td
 
