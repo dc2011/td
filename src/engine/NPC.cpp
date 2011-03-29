@@ -62,21 +62,6 @@ void NPC::networkWrite(Stream* s) {
 }
 
 void NPC::initComponents() {
-    /*
-    static int flipFloper = 0;
-    ++flipFloper = flipFloper % 2;
-    PhysicsComponent* physics = new NPCPhysicsComponent(0.2, 0.25, 2);
-    GraphicsComponent* graphics = new NPCGraphicsComponent(flipFloper + 1);
-    this->setGraphicsComponent(graphics);
-
-    PhysicsComponent* physics = new NPCPhysicsComponent();
-    NPCInputComponent* input = new NPCInputComponent();
-
-    input->setParent(this);
-    this->setInputComponent(input);
-    this->setPhysicsComponent(physics);
-    this->setGraphicsComponent(graphics);
-    */
     NPCInputComponent* input;
 
     switch(type_) {
@@ -138,6 +123,24 @@ void NPC::isDead() {
         emit dead(this->getID());
     }
 }
+
+void NPC::createEffect(Effect* effect){
+    QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
+            this, SLOT(deleteEffect(Effect*)));
+    connect(getDriver()->getTimer(), SIGNAL(timeout()),
+            effect, SLOT(update()));
+
+    effects_.push_back(effect);
+}
+
+void NPC::deleteEffect(Effect* effect){
+    effects_.removeOne(effect);
+    if (effects_.empty()) {
+        //emit signalEmptyEffectList();
+    }
+    delete effect;
+}
+
 void NPC::update() {
     if (input_ != NULL) {
         input_->update();

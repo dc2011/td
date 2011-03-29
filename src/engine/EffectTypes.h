@@ -16,6 +16,16 @@ public:
     void apply();
 };
 
+class ArrowEffect : public Effect {
+    Q_OBJECT
+
+public:
+    ArrowEffect(Unit* unit);
+    virtual ~ArrowEffect() {}
+
+    void apply();
+};
+
 } /* end namespace td */
 
 #endif

@@ -114,6 +114,23 @@ signals:
      */
     void dead(int id);
 
+public slots:
+    /**
+     * Add effect to the effect list.
+     *
+     * @author Pan K.
+     * @param type Type of effect.
+     */
+    void createEffect(Effect* effect);
+
+    /**
+     * Remove effect from the effect list.
+     *
+     * @author Pan K.
+     * @param effect Effect to delete.
+     */
+    void deleteEffect(Effect* effect);
+
 private:
     size_t health_;
     size_t damage_;

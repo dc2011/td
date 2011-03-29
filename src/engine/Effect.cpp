@@ -12,26 +12,7 @@ void Effect::update(){
     this->apply();
     countdown();
 }
-/*
-void Effect::apply(){
-    switch (type_){
-    case healthChange:
-        qDebug("Before health: ");
-        unit_->setHealth(unit_->getHealth() + healthChangeValue_);
-        break;
-    case damageChange:
-        break;
-    case speedChange:
-        break;
-    case velocityChange:
-        break;
-    case stunned:
-        unit_->setVelocity(velocityChangeValue_);
-        break;
-    default:
-        return;
-    }
-    */
+
 void Effect::countdown() {
     duration_--;
     if(duration_ <= 0){
