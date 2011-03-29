@@ -72,7 +72,8 @@ void CDriver::readObject(Stream* s) {
     unsigned int id = s->readInt();
 
     if (id == playerID_) {
-        s->read(s->size() - s->position());
+        Player p;
+        p.networkRead(s);
         return;
     }
 
@@ -288,6 +289,13 @@ void CDriver::UDPReceived(Stream* s) {
                 }
             }
             break;
+        }
+        case network::kServerUpdate:
+        {
+            int count = s->readShort();
+            for (int i = 0; i < count; i++) {
+                readObject(s);
+            }
         }
         case network::kDestroyObject:
         {  

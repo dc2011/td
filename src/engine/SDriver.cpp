@@ -99,7 +99,7 @@ void SDriver::onTimerTick() {
     }
 
     Stream s;
-    s.writeInt(updates_.size());
+    s.writeShort(updates_.size());
 
     foreach (GameObject* go, updates_) {
         go->networkWrite(&s);

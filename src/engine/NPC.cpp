@@ -150,7 +150,10 @@ void NPC::update() {
         getDriver()->updateRT(this);
     }
 
-    graphics_->update(this);
+    if (graphics_ != NULL) {
+        graphics_->update(this);
+    }
+
     this->isDead();
 }
 
