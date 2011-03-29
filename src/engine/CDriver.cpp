@@ -212,7 +212,7 @@ void CDriver::startGame(bool singlePlayer) {
 
     setSinglePlayer(singlePlayer);
 
-    td::Console::instance()->addText("HI HI HI");
+    td::Console::instance();
     musicList = td::AudioManager::instance()->musicDir("./sound/music/");
     td::AudioManager::instance()->playMusic(musicList);
 
