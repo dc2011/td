@@ -123,6 +123,7 @@ void SDriver::spawnWave() {
 	    Stream* out = new Stream();
 	    NPC* n;
 	    n = (NPC*)mgr_->createObject(NPC::clsIdx());
+        n->setType(NPC_NORM);
 	    n->networkWrite(out);
 	    net_->send(network::kServerCreateObj, out->data());
 	    delete out;
