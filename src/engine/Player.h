@@ -95,7 +95,7 @@ public slots:
      * @author Pan K.
      * @param type Type of effect.
      */
-    void createEffect(Effect::EffectType type);
+    void createEffect(Effect* effect);
 
     /**
      * Remove effect from the effect list.

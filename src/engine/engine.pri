@@ -4,6 +4,7 @@ LIBS += ../lib/libtiled.a -lz
 
 ENGINE_HDRS +=  ./engine/Driver.h \
                 ./engine/Effect.h \
+                ./engine/EffectTypes.h \
                 ./engine/GameObject.h \
                 ./engine/Map.h \
                 ./engine/NPC.h \
@@ -19,6 +20,7 @@ ENGINE_HDRS +=  ./engine/Driver.h \
 
 ENGINE_SRCS +=  ./engine/Driver.cpp \
                 ./engine/Effect.cpp \
+                ./engine/EffectTypes.cpp \
                 ./engine/GameObject.cpp \
                 ./engine/Map.cpp \
                 ./engine/NPC.cpp \

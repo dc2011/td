@@ -74,6 +74,9 @@
 #define NPC_FLY_MAX_V   2  
 #define NPC_BOSS_MAX_V  1  
 
+//Effect durations for each type
+#define NPC_PLAYER_TIME 20
+
 //NPC path key for waypoints
 //TODO: either take out or change to something generic
 #define WP_TRICERATOPS  0

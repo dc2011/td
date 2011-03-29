@@ -3,15 +3,16 @@
 
 namespace td {
 
-Effect::Effect(Unit* unit, EffectType type):
-        GameObject(NULL), unit_(unit), type_(type), duration_(20), healthChangeValue_(-1), velocityChangeValue_(0,0){}
+Effect::Effect(Unit* unit, int duration):
+        GameObject(NULL), unit_(unit), duration_(duration) {}
 
 Effect::~Effect(){}
 
 void Effect::update(){
     this->apply();
+    countdown();
 }
-
+/*
 void Effect::apply(){
     switch (type_){
     case healthChange:
@@ -30,9 +31,10 @@ void Effect::apply(){
     default:
         return;
     }
-
+    */
+void Effect::countdown() {
     duration_--;
-    if(duration_ == 0){
+    if(duration_ <= 0){
         disconnect(unit_->getDriver()->getTimer(), SIGNAL(timeout()),
                     this, SLOT(update()));
         emit effectFinished(this);
