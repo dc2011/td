@@ -87,6 +87,10 @@
 #define WP_MAMMOTH      9
 #define WP_PTERO        10
 
+// health bar size, in pixels
+#define HEALTHBAR_HEIGHT    4
+#define HEALTHBAR_WIDTH     50
+
 // Temp defines pending a map object
 #define MAP_ROWS 99
 #define MAP_COLS 99
