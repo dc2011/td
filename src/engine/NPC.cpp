@@ -18,6 +18,9 @@ NPC::NPC(QObject* parent) : Unit(parent) {
 }
 
 NPC::~NPC() {
+    while (!effects_.isEmpty()) {
+        delete effects_.takeFirst();
+    }
     emit signalNPCDied();
 }
 
