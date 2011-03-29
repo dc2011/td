@@ -18,7 +18,7 @@ Console::Console() {
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
     CDriver::instance()->getMainWindow()->getScene()->addItem(rect_);
 
-    rect_->setRect(5,5,200,80);
+    rect_->setRect(5,5,250,80);
     rect_->setBrush(QBrush(QColor(200,200,200)));
     rect_->setPen(QPen(QColor(200,200,200)));
     rect_->setZValue(98);
@@ -26,7 +26,7 @@ Console::Console() {
     
     label_->setDefaultTextColor(QColor(50,50,50));
     label_->setPos(15,15);
-    label_->setTextWidth(190);
+    label_->setTextWidth(240);
     label_->setZValue(99);
     label_->update();
 }
@@ -36,6 +36,10 @@ Console::~Console() {}
 void Console::addText(QString text) {
     
     QString tmp;
+    
+    if(text.length() > 25) {
+	return;
+    }
     
     mutex_.lock();
     if(display_->size() > 2) {
