@@ -208,7 +208,7 @@ private slots:
      * @param source The starting point of the projectile.
      * @param target The destination point of the projectile.
      */
-    void createProjectile(QPointF source, QPointF target);
+    void createProjectile(QPointF source, QPointF target, Unit* enemy);
 
     /**
      * Temp testing method.

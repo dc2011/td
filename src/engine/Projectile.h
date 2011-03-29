@@ -135,6 +135,44 @@ public:
        path_ = path;
     }
 
+    Unit* getEnemy(){
+        return enemy_;
+    }
+
+    void setEnemy(Unit* enemy){
+        enemy_ = enemy;
+    }
+    /**
+     * Checks for collision between projectile and npcs
+     * and applies effects to hit npcs.
+     *
+     * @author Daniel Wright
+     * @param npcs, set of npcs to check collision with
+     */
+    void checkNPCCollision(QSet<Unit*> npcs);
+
+    /**
+    * Creates a bounding polygon based on the projectiles end point.
+    *
+    * @author Daniel Wright
+    */
+    void createBounds();
+
+    int getWidth(){
+        return width_;
+    }
+
+    void setWidth(int width){
+        width_ = width;
+    }
+
+    int getHeight(){
+        return height_;
+    }
+
+    void setHeight(int height){
+        height_ = height;
+    }
 private:
     size_t damage_;
     /**
@@ -152,6 +190,10 @@ private:
      * or the current projectile position. First position should be set to end.
      */
     QLineF path_;
+
+    Unit* enemy_;
+    int height_;
+    int width_;
 };
 
 } /* end namespace td */

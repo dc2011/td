@@ -29,9 +29,10 @@ public:
 
     /**
      * Loads a structure from the item and game component class then sends
-     * the structure to the generic draw slot in GraphicsComponent.
+     * the structure to the draw function. Also sets the NPC's health
+     * before calling the draw function.
      *
-     * @author Warren Voelkl
+     * @author Warren Voelkl, Mohamed Sheriffdeen
      */
     virtual void update(GameObject* obj);
 
@@ -39,7 +40,7 @@ public:
      * Resets the matrix then builds the transformation matrix from the
      * structure values.
      *
-     * @author Warren Voelkl, Terence Stenvold
+     * @author Warren Voelkl, Terence Stenvold, Mohamed Sheriffdeen
      * @param dp Pointer to the drawstruct that contains all the values on how
      * to render an image.
      * @param layer is what layer to draw image defaults to 0
@@ -48,8 +49,9 @@ public:
 
     /**
      * Gets a pixmap for the object based on its current animation state.
+     * Initializes a QGraphicsRectItem to represent the NPC's health as a bar.
      *
-     * @author Warren Voelkl
+     * @author Warren Voelkl, Mohamed Sheriffdeen
      */
     virtual void initPixmaps() = 0;
 
@@ -62,7 +64,8 @@ private:
     /** Container for all pixmaps which pertain to the current object. */
     static QPixmap * pixmapImgs_;
 
-    /**  */
+
+    /** The NPC's healthbar. Drawn relative to the NPC's location and it's pixmap. */
     QGraphicsRectItem* healthbarItem_;
     
     /** Percentage of health in decimal form (0 to 1).  */
@@ -97,7 +100,7 @@ public slots:
     /**
      * Sets the flag specifying whether or not to show an NPC's health bar.
      * 
-     * @author Dean Morin
+     * @author Dean Morin, Mohamed Sheriffdeen
      * @param keyHeld True if the alt key is currently held down.
      */
     void showHealth(bool keyHeld);

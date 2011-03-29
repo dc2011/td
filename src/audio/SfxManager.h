@@ -81,7 +81,10 @@ public:
 
     // NPC death 
     static QStringList npcPterodactylDies;
-    
+
+    //Game winning
+    static QStringList winTheGame;
+
     // resource picked up
     static QStringList resourceLumber;
 
@@ -91,6 +94,12 @@ public:
     static QStringList playerLevelsUp;
     static QStringList playerHitsNpc;
     
+    //lobby SFX
+    static QStringList lobbyStart;
+    static QStringList lobbySingle;
+    static QStringList lobbyMulti;
+    static QStringList lobbyConnect;
+
     /**
      * Randomly selects a filename from sfxList, and writes a network message
      * that will tell the clients to play that SFX.

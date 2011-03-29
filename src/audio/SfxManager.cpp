@@ -59,6 +59,15 @@ QStringList SfxManager::playerLevelsUp
 QStringList SfxManager::playerHitsNpc
         = QStringList() << "peffect-1" << "peffect-2";
 
+//lobby SFX
+QStringList SfxManager::lobbyStart 
+        = QStringList() << "start";
+QStringList SfxManager::lobbySingle
+        = QStringList() << "single";
+QStringList SfxManager::lobbyMulti
+        = QStringList() << "multi";
+QStringList SfxManager::lobbyConnect
+        = QStringList() << "connecting";
 
 void SfxManager::makeSfxNetworkMsg(GameObject* gameObject, QStringList sfxList,  
         int type) {
@@ -83,7 +92,6 @@ void SfxManager::makeSfxNetworkMsg(GameObject* gameObject, QStringList sfxList,
     // TODO: uncomment once Darryls massive branch has been merged
     //gameObject->getDriver()->getNet()->send(network::kPlaySfx, s.data());
 }
-
 
 } // end namespace td
 
