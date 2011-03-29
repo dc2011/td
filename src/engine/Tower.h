@@ -62,6 +62,7 @@ public:
      */
     void setType(int type) {
         type_ = type;
+        setDirty(kType);
     }
 
 private:
