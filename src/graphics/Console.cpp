@@ -24,9 +24,9 @@ Console::Console() {
     rect_->setZValue(98);
     rect_->setOpacity(0.35);
     
-
     label_->setDefaultTextColor(QColor(50,50,50));
     label_->setPos(15,15);
+    label_->setTextWidth(190);
     label_->setZValue(99);
     label_->update();
 }
