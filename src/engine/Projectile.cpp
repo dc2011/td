@@ -3,6 +3,8 @@
 #ifndef SERVER
 #include "CDriver.h"
 #endif
+#include "EffectTypes.h"
+
 namespace td {
 
 Projectile::Projectile(QObject* parent) : Unit(parent) {
@@ -73,6 +75,7 @@ void Projectile::checkNPCCollision(QSet<Unit*> npcs){
                 //create projectile effect
                 //add effect to npc
                 //qDebug("Enemy hit");
+                ((NPC*)(*it))->createEffect(new ArrowEffect(*it));
                 break;
             }else{
                 //qDebug("No hit");

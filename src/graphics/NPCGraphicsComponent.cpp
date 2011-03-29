@@ -28,8 +28,8 @@ void NPCGraphicsComponent::update(GameObject* obj) {
     dp->pos     = npc->getPos();
     dp->moving  = 1;
     dp->degrees = npc->getOrientation();
-    //npcHealth   = (npc->getHealth()/npc->getMaxHealth()); This is the real thing. Commented until damage works.
-    npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
+    npcHealth   = (npc->getHealth() / (double)npc->getMaxHealth());
+    //npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
     if(npcHealth < 0) {
         npcHealth = 0;
     }

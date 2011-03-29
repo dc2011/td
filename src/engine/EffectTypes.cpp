@@ -1,5 +1,6 @@
 #include "EffectTypes.h"
 #include "../util/defines.h"
+#include "NPC.h"
 
 namespace td {
 
@@ -20,7 +21,7 @@ ArrowEffect::ArrowEffect(Unit* unit)
 
 void ArrowEffect::apply() {
     unit_->setVelocity(velocityChangeValue_);
-    unit_->setHealth(unit_->getHealth() + healthChangeValue_);
+    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
 } /* end namespace td */
