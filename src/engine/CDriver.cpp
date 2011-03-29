@@ -72,7 +72,7 @@ void CDriver::readObject(Stream* s) {
     unsigned int id = s->readInt();
 
     if (id == playerID_) {
-        Player p;
+        Player p(this);
         p.networkRead(s);
         return;
     }
@@ -296,6 +296,7 @@ void CDriver::UDPReceived(Stream* s) {
             for (int i = 0; i < count; i++) {
                 readObject(s);
             }
+            break;
         }
         case network::kDestroyObject:
         {  
