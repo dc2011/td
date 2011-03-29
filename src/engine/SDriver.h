@@ -131,7 +131,14 @@ private:
      */
     Tower* createTower(int type);
 
-    //NPC* createNPC(int type);
+    /**
+     * Creates a new NPC of the given type.
+     *
+     * @author Darryl Pogue
+     * @param type The type of NPC to create.
+     * @return A pointer to the new NPC.
+     */
+    NPC* createNPC(int type);
 
     //Resource* createResource(int type);
 

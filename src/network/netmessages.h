@@ -48,9 +48,16 @@ namespace network {
 
         /**
          * Indicates a deletion of a game object, sent from the server to clients.
-         * See Also @ref destroyobject
+         * See Also: @ref destroyobject
          */
         kDestroyObject  =   0x06,
+
+        /**
+         * Indicates a request to build a tower. This includes the player
+         * ID of the player that built the tower.
+         * See Also: @ref buildtower
+         */
+        kBuildTower     =   0x07,
 
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
@@ -61,12 +68,6 @@ namespace network {
         /** Indicates a position update for a player */
         kPlayerPosition =   0x80,
         
-        /** tower requests an ID from server **/
-        kRequestTowerID = 0x81,
-
-        /** Server Assigns ID to an Tower **/
-        kAssignTowerID = 0x82,
-	
 	    /** Server has created an object, sending object state to player **/
 	    kServerCreateObj = 0x85,
         
@@ -179,6 +180,22 @@ namespace network {
  *  byte msgType = td::network::kDestroyObject
  *    // The ID of the object to be destroyed
  *  int objID
+ * @endcode
+ *
+ * @section buildtower Build Tower Message
+ * This message is sent from a client to the server to request that a
+ * tower be built.
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kBuildTower
+ *    // The ID of the player building the tower
+ *  int playerID
+ *    // The type of tower being build
+ *  int towerType
+ *    // The X position of the tower
+ *  float posX
+ *    // The Y position of the tower
+ *  float posY
  * @endcode
  *
  * @section playsfx Play SFX Message

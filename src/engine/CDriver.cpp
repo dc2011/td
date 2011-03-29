@@ -155,9 +155,6 @@ NPC* CDriver::createNPC(int npcType) {
 }
 
 void CDriver::createProjectile(QPointF source, QPointF target, Unit* enemy) {
-    if (!tower_) {
-        return;
-    }
     PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
     GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
     ProjectileInputComponent* input = new ProjectileInputComponent();
@@ -176,30 +173,31 @@ void CDriver::createProjectile(QPointF source, QPointF target, Unit* enemy) {
     connect(gameTimer_,  SIGNAL(timeout()), projectile_, SLOT(update()));
 }
 
-void CDriver::createTower(int towerType, QPointF pos) {
+void CDriver::createTower(int towerType, QPointF pos)
+{
+    if (isSinglePlayer()) {
+        Tower* tower = (Tower*)mgr_->createObject(Tower::clsIdx());
+        Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
+        tower->setType(towerType);
+        tower->initComponents();
+        tower->setPos(currentTile->getPos());
+        currentTile->setExtension(tower);
 
-    Stream* request = new Stream();
-    tower_ = new Tower(this);
-    tower_->setType(towerType);
-    Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
+        connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
+        connect(tower->getPhysicsComponent(),
+                SIGNAL(fireProjectile(QPointF, QPointF, Unit*)),
+                this, SLOT(createProjectile(QPointF, QPointF, Unit*)));
 
-    tower_->initComponents();
-    tower_->setPos(currentTile->getPos());
-    tower_->setID(0xFFFFFFFF);
-    currentTile->setExtension(tower_);
-
-    connect(gameTimer_, SIGNAL(timeout()), tower_, SLOT(update()));
-    connect(tower_->getPhysicsComponent(), 
-            SIGNAL(fireProjectile(QPointF, QPointF, Unit*)),
-            this, SLOT(createProjectile(QPointF, QPointF, Unit*)));
-    if(isSinglePlayer() == true) {
-        mgr_->createObject(Tower::clsIdx());
-    } else {
-        request->writeByte(Tower::clsIdx());
-        NetworkClient::instance()->send(network::kRequestTowerID, 
-                                        request->data());
+        return;
     }
-    delete request;
+
+    Stream* s = new Stream();
+    s->writeInt(human_->getID());
+    s->writeInt(towerType);
+    s->writeFloat(pos.x());
+    s->writeFloat(pos.y());
+    NetworkClient::instance()->send(network::kBuildTower, s->data());
+    delete s;
 }
 
 void CDriver::startGame(bool singlePlayer) {
@@ -271,11 +269,6 @@ void CDriver::UDPReceived(Stream* s) {
     int message = s->readByte(); /* Message Type */
 
     switch(message) {
-        case network::kRequestTowerID:
-	        tower_->setID(Tower::clsIdx());
-	        tower_->initComponents();
-            mgr_->addExistingObject(tower_);
-            break;
         case network::kAssignPlayerID:
             playerID_ = s->readInt();
             qDebug("My player ID is %08X", playerID_);
@@ -296,13 +289,6 @@ void CDriver::UDPReceived(Stream* s) {
             }
             break;
         }
-        case network::kAssignTowerID:
-            if(tower_->getID() == 0xFFFFFFFF) {
-                tower_->setID(s->readInt());
-	            tower_->initComponents();
-                mgr_->addExistingObject(tower_);
-            }
-            break;
         case network::kDestroyObject:
         {  
 	        int id = s->readInt();

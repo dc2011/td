@@ -105,14 +105,23 @@ Tower* SDriver::createTower(int type) {
     Tower* tower = (Tower*)mgr_->createObject(Tower::clsIdx());
 
     tower->setType(type);
-
     tower->initComponents();
+
+    connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
 
     return tower;
 }
 
-/*NPC* SDriver::createNPC(int type) {
-}*/
+NPC* SDriver::createNPC(int type) {
+    NPC* npc = (NPC*)mgr_->createObject(NPC::clsIdx());
+
+    npc->setType(type);
+    npc->initComponents();
+
+    connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
+
+    return npc;
+}
 
 /*Resource* SDriver::createResource(int type) {
 }*/
@@ -142,12 +151,28 @@ void SDriver::onMsgReceive(Stream* s) {
     Stream* out = new Stream();
 
     switch(message) {
-        case network::kRequestTowerID:
+        case network::kBuildTower:
         {
-            unsigned char type = s->readByte();
-            go = mgr_->createObject(type);
-            out->writeInt(go->getID());
-            net_->send(network::kAssignTowerID, out->data());
+            int playerID = s->readInt();
+            int towertype = s->readInt();
+            float x = s->readFloat();
+            float y = s->readFloat();
+
+            Player* player = (Player*)mgr_->findObject(playerID);
+            if (player->getPos().x() != x || player->getPos().y() != y) {
+                break;
+            }
+
+            Tile* currentTile = gameMap_->getTile(x, y);
+            if (currentTile->getActionType() != TILE_BUILDABLE) {
+                break;
+            }
+
+            Tower* t = createTower(towertype);
+            t->setPos(currentTile->getPos());
+            currentTile->setExtension(t);
+
+            updates_.insert(t);
             break;
         }
         default:
