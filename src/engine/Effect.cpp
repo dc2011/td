@@ -4,7 +4,7 @@
 namespace td {
 
 Effect::Effect(Unit* unit, EffectType type):
-        unit_(unit), type_(type), duration_(40){}
+        unit_(unit), type_(type), duration_(20){}
 
 Effect::~Effect(){}
 

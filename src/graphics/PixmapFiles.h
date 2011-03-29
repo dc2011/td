@@ -49,7 +49,7 @@
 #define PIX_NPC_PTERO_2         QString("./img/ptero-3.png")
 #define PIX_NPC_PTERO_3         QString("./img/ptero-4.png")
 #define PIX_NPC_PTERO_MAX       4
-#define PIX_NPC_PLEA_START      PIX_NPC_PTERO_MAX + PIX_NPC_PTERO_START
+#define PIX_NPC_PLEA_START      0
 #define PIX_NPC_PLEA_0          QString("./img/plea-1.png")
 #define PIX_NPC_PLEA_1          QString("./img/plea-2.png")
 #define PIX_NPC_PLEA_MAX        2

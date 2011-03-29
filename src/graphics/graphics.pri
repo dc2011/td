@@ -6,7 +6,8 @@ GRAPHICS_SRCS +=    ./graphics/MapDisplayer.cpp \
                     ./graphics/TowerGraphicsComponent.cpp \
                     ./graphics/TowerGraphicsComponentTypes.cpp \
                     ./graphics/ResourceGraphicsComponent.cpp \
-                    ./graphics/NPCGraphicsComponent.cpp
+                    ./graphics/NPCGraphicsComponent.cpp \
+                    ./graphics/NPCGraphicsComponentTypes.cpp
 
 
 GRAPHICS_HDRS +=    ./graphics/MapDisplayer.h \
@@ -19,5 +20,6 @@ GRAPHICS_HDRS +=    ./graphics/MapDisplayer.h \
                     ./graphics/TowerGraphicsComponent.h \
                     ./graphics/TowerGraphicsComponentTypes.h \
                     ./graphics/ResourceGraphicsComponent.h \
-                    ./graphics/NPCGraphicsComponent.h
+                    ./graphics/NPCGraphicsComponent.h \
+                    ./graphics/NPCGraphicsComponentTypes.h
 

@@ -1,9 +1,10 @@
 AUDIO_HDRS +=   ./audio/manager.h \
-                ./audio/openal_helper.h
+                ./audio/openal_helper.h \
+                ./audio/SfxManager.h
 
 AUDIO_SRCS +=   ./audio/manager.cpp \
-                ./audio/openal_helper.cpp
-
+                ./audio/openal_helper.cpp \
+                ./audio/SfxManager.cpp
 
 macx {
     LIBS += -framework OpenAL

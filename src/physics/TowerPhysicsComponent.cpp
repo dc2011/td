@@ -1,4 +1,5 @@
-#include "../physics/TowerPhysicsComponent.h"
+#include "TowerPhysicsComponent.h"
+#include "../audio/SfxManager.h"
 #include "../engine/Tower.h"
 #include "../engine/Player.h"
 #include <typeinfo>
@@ -9,12 +10,9 @@ namespace td {
 
 TowerPhysicsComponent::TowerPhysicsComponent(Tower* tower, size_t fireInterval, 
                                              int radius)
-        : PhysicsComponent(), tower_(tower), 
-          fireInterval_(fireInterval), radius_(radius) {
-    fireCountdown_ = 0;
-    target_ = NULL;
-    enemies_ = QSet<Unit*>();
-    projectilePath_.setP1(tower->getPos());
+        : PhysicsComponent(), tower_(tower), enemies_(QSet<Unit*>()),
+          target_(NULL), fireInterval_(fireInterval), radius_(radius), 
+          fireCountdown_(0) {
 }
 
 TowerPhysicsComponent::~TowerPhysicsComponent() {}
@@ -23,21 +21,26 @@ void TowerPhysicsComponent::update(GameObject *tower) {
     this->applyDirection((Tower*)tower);
     this->fire();
 }
+
 void TowerPhysicsComponent::findTarget() {
     
     // check if there's an npc currently being tracked
     if (target_ != NULL) {
         projectilePath_.setP2(target_->getPos());
         // return if the npc is still within range
+
         if (projectilePath_.length() < radius_) {
             return;
         }
         disconnect(target_, SIGNAL(signalNPCDied()), this, SLOT(targetDied()));
         target_ = NULL;
     }
+    projectilePath_.setP1(tower_->getPos());
     
     // get all npcs within range 
-    setNPCs(tower_, radius_);
+    Map* map = CDriver::instance()->getGameMap();
+    enemies_ = map->getUnits(tower_->getPos().x(), tower_->getPos().y(), 
+                             ceil((double) radius_ / TILE_SIZE)); 
  
     if (enemies_.isEmpty()) {
         return;
@@ -46,10 +49,19 @@ void TowerPhysicsComponent::findTarget() {
     QSet<Unit*>::iterator iter;
 
     for (iter = enemies_.begin(); iter != enemies_.end(); ++iter) {
-
+        
+        // this would be the place to add a priority algorithm if we need one
+        // make sure that the unit is not a player
         if((((*iter)->getID()&0xFF000000)>>24) == NPC::clsIdx()) {
-            target_ = *iter;
-            connect(target_, SIGNAL(signalNPCDied()), this, SLOT(targetDied()));
+            projectilePath_.setP2((*iter)->getPos());
+
+            // check that they're actually in range
+            if (projectilePath_.length() < radius_) {
+                target_ = *iter;
+                connect(target_, SIGNAL(signalNPCDied()), 
+                        this, SLOT(targetDied()));
+                return;
+            }
         }
     }
 }
@@ -62,6 +74,8 @@ void TowerPhysicsComponent::fire() {
     if (target_ == NULL) {
         return;
     }
+    // TODO: move to projectilePC, once the different types have been created
+    PLAY_SFX(tower_, SfxManager::projectileFireArrow);
     emit fireProjectile(tower_->getPos(), target_->getPos());
     fireCountdown_ = fireInterval_;
 }
