@@ -30,7 +30,6 @@ CDriver::CDriver(MainWindow* mainWindow)
 {
     mgr_ = new ResManager(this);
     npcCounter_ = 0;
-    tower_ = NULL;
 }
 
 CDriver::~CDriver() {

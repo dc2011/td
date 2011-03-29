@@ -15,6 +15,7 @@ SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
     gameMap_ = new Map(QString("./maps/netbookmap2.tmx"));
     net_ = new NetworkServer();
+    npcCounter_ = 0;
 
     connect(net_, SIGNAL(msgReceived(Stream*)), 
             this, SLOT(onMsgReceive(Stream*)));
