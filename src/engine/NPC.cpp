@@ -45,6 +45,22 @@ void NPC::setMaxHealth(size_t maxHealth) {
     maxHealth_ = maxHealth;
 }
 
+void NPC::networkRead(Stream* s) {
+    Unit::networkRead(s);
+
+    if (dirty_ & kType) {
+        type_ = s->readInt();
+    }
+}
+
+void NPC::networkWrite(Stream* s) {
+    Unit::networkWrite(s);
+
+    if (dirty_ & kType) {
+        s->writeInt(type_);
+    }
+}
+
 void NPC::initComponents() {
     /*
     static int flipFloper = 0;
@@ -123,8 +139,12 @@ void NPC::isDead() {
     }
 }
 void NPC::update() {
-    input_->update();
-    physics_->update(this);
+    if (input_ != NULL) {
+        input_->update();
+    }
+    if (physics_ != NULL) {
+        physics_->update(this);
+    }
 
     if (isDirty()) {
         getDriver()->updateRT(this);

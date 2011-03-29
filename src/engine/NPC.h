@@ -27,6 +27,14 @@ public:
         return td::clsidx::kNPC;
     }
 
+private:
+    enum {
+        kPosition       = (1 << 0),
+        kOrientation    = (1 << 1),
+        kScale          = (1 << 2),
+        kType           = (1 << 3)
+    };
+
 public:
     NPC(QObject* parent = 0);
     virtual ~NPC();
@@ -45,6 +53,25 @@ public:
      * @author Duncan Donaldson
      */
     void isDead();
+
+    /**
+     * Reads the object state from a network stream.
+     * You should assign to variables directly inside this function, rather
+     * than using mutator methods to change the values.
+     *
+     * @author Darryl Pogue
+     * @param s The network stream.
+     */
+    virtual void networkRead(td::Stream* s);
+
+    /**
+     * Writes the object state to a network stream.
+     *
+     * @author Darryl Pogue
+     * @param s The network stream.
+     */
+    virtual void networkWrite(td::Stream* s);
+
     /**
      * initializes the NPCs components.
      *
@@ -76,6 +103,7 @@ public:
      */
     void setType(int type) {
         type_ = type;
+        setDirty(kType);
     }
 
 signals:
