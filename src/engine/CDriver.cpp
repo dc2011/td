@@ -187,7 +187,7 @@ NPC* CDriver::createNPC(int npcType) {
     // connect(input, SIGNAL(deleteUnitLater(Unit*)),
     //this, SLOT(NPCDeleter(Unit*)), Qt::QueuedConnection);
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            npc->getGraphicsComponent(), SLOT(showHealth(bool)));
+            npc, SLOT(showHealth(bool)));
     connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
     return npc;
 }

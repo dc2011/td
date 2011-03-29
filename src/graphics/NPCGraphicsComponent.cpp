@@ -71,10 +71,6 @@ void NPCGraphicsComponent::initHealthbar() {
     CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
 }
 
-void NPCGraphicsComponent::showHealth(bool keyHeld) {
-    showHealth_ = keyHeld;
-}
-
 QPixmap * NPCGraphicsComponent::getPixmapArray() {
     return pixmapImgs_;
 }
