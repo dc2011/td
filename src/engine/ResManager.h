@@ -8,8 +8,10 @@
 
 namespace td {
 
+class Driver;
+
 /**
- * Resource Manager class for GameObjects.
+ * Manager class for GameObjects.
  *
  * @author Darryl Pogue
  */
@@ -22,13 +24,19 @@ private:
      */
     QVector<QList<GameObject*> > objects_;
 
+    /**
+     * The current game driver, which is used as a parent for all game objects.
+     */
+    Driver* driver_;
+
 public:
     /**
      * Constructor for the Resource Manager.
      *
      * @author Darryl Pogue
+     * @param driver The current game driver.
      */
-    ResManager();
+    ResManager(Driver* driver);
 
     /**
      * Destructor for the Resource Manager.
@@ -105,7 +113,13 @@ public:
      * @return The number of objects of the given type.
      */
     unsigned int countObjectsByType(unsigned char type) const {
-        return objects_[type].size();
+        unsigned int ret = 0;
+        for (int i = 0; i < objects_[type].size(); i++) {
+            if (objects_[type][i] != NULL) {
+                ret++;
+            }
+        }
+        return ret;
     }
 
 protected:

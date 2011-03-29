@@ -1,39 +1,53 @@
 #ifndef SDRIVER_H
 #define SDRIVER_H
 
-#include <QTimer>
-#include <QApplication>
-#include <QObject>
-#include <QVector>
-#include <QMap>
-#include <QHostAddress>
-#include "ResManager.h"
-#include "Player.h"
+#include <QSet>
+#include <QList>
+#include "Driver.h"
 #include "../network/netserver.h"
-#include "../network/stream.h"
+#include "../util/mutex_magic.h"
 
 namespace td {
 
-class SDriver : public QObject {
+class Player;
+class Tower;
+class NPC;
+class Resource;
+
+class SDriver : public Driver {
     Q_OBJECT 
+    THREAD_SAFE_CLASS
 
 private:
-    QTimer* waveTimer_;
-    ResManager* mgr_;
+    NetworkServer* net_;
+    QList<Player*> players_;
+    QSet<GameObject*> updates_;
 
 public:
     // ctors and dtors
     SDriver();
     virtual ~SDriver();
+    /**
+     * Initialize the networking components and make everything run in the right
+     * threads.
+     * This is basically an elaborate hack to avoid QObject::moveToThread issues.
+     *
+     * @author Darryl Pogue
+     */
+    void initNetworking() {
+        net_->start();
+    }
 
     /**
-     * Starts game timer, initializes network server instance,
-     * also connects the onUDPReceived signal to UDPReceived slot.
-     * 
-     * 
-     * @author Duncan Donaldson
+     * Adds the socket to the game session and creates a new player with the
+     * given nickname.
+     *
+     * @author Darryl Pogue
+     * @param sock The socket of the user.
+     * @param nickname The player nickname.
+     * @return The ID of the newly created Player.
      */
-    void startGame();
+    unsigned int addPlayer(QTcpSocket* sock, QString nickname);
 
     /**
      * Stop game timer, and shuts down the network server.
@@ -51,16 +65,85 @@ public:
      * been updated or created
      */
     GameObject* updateObject(Stream* s);
+
     /**
-     * Destroys a server-side object, and tells all clients
-     * to update their local copies of said object.
-     * 
+     * Notifies the driver of an update to an object.
+     * On the server, this is used to build a network message to synchronize
+     * the object state across clients.
+     *
+     * @author Darryl Pogue
      * @author Duncan Donaldson
-     * @param id The id of the object to be destroyed.
+     * @param obj The GameObject that has been updated.
      */
-    void destroyServerObj(int id);
+    virtual void update(GameObject* obj);
+
+    /**
+     * Notifies the driver of a real-time update to an object.
+     * This is used to build a network message sent streaming to other
+     * clients to synchronize the object state.
+     *
+     * @author Darryl Pogue
+     * @author Duncan Donaldson
+     * @param obj The GameObject that has been updated.
+     */
+    virtual void updateRT(GameObject* obj);
 
 public slots:
+    /**
+     * Destroys a GameObject and removes it from the ResManager.
+     *
+     * @author Darryl Pogue
+     * @author Duncan Donaldson
+     * @author Dean Morin
+     * @author Marcel van Grootheest
+     * @param obj The GameObject to be destroyed.
+     */
+    virtual void destroyObject(GameObject* obj);
+
+    /**
+     * Destroys a GameObject by id  and removes it from the ResManager.
+     *
+     * @author Darryl Pogue
+     * @author Duncan Donaldson
+     * @author Dean Morin
+     * @author Marcel van Grootheest
+     * @param id The id of the GameObject to be destroyed.
+     */
+    virtual void destroyObject(int id);
+
+    /**
+     * Gets the NetworkServer object used by this SDriver.
+     *
+     * @author Dean Morin
+     * @return The NetworkServer object used by this SDriver.
+     */
+    NetworkServer* getNet() {
+        return net_;
+    }
+
+private:
+    /**
+     * Creates a new tower of the given type.
+     *
+     * @author Darryl Pogue
+     * @param type The type of tower to create.
+     * @return A pointer to the new tower.
+     */
+    Tower* createTower(int type);
+
+    //NPC* createNPC(int type);
+
+    //Resource* createResource(int type);
+
+public slots:
+    /**
+     * Starts game timer, makes signal/slot connects, and sends the initial game
+     * state to all clients.
+     * 
+     * @author Duncan Donaldson
+     */
+    void startGame();
+
     /**
      * Spawns a server-side wave and updates all clients.
      * ****WARNING****
@@ -71,12 +154,19 @@ public slots:
      */
     void spawnWave();
     /**
+     * Handles a packet received by updating a currently existing player
+     * slot that is called to destroy an NPC when its health reaches 0.
+     *
+     * @author Duncan Donaldson
+     */
+    void deadNPC(int id);
+    /**
      * Handles a UDP packet receive by updating a currently existing player
      * or adding the player to the players list if the player does not exist.
      * 
      * @author Duncan Donaldson
      */
-    void onUDPReceive(Stream* s);
+    void onMsgReceive(Stream* s);
 };
 
 } /* end namespace td */

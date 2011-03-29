@@ -1,23 +1,25 @@
-/** Movement Physics for basic Tower */
 #ifndef TOWERPHYSICSCOMPONENT_H
 #define TOWERPHYSICSCOMPONENT_H
 
 #include "PhysicsComponent.h"
 #include "../engine/NPC.h"
 #include "../engine/Map.h"
-#include "../engine/CDriver.h"
+#include "../engine/Driver.h"
+#include <QLineF>
 #include <QPointF>
 #include <QSet>
+#include <QtDebug>
 
 namespace td {
 
 class Tower;
 
+/** Movement Physics for basic Tower */
 class TowerPhysicsComponent: public PhysicsComponent {
     Q_OBJECT
 
 public:
-    TowerPhysicsComponent(Tower* tower, size_t fireInterval);
+    TowerPhysicsComponent(Tower* tower, size_t fireInterval, int radius);
     virtual ~TowerPhysicsComponent();
 
     /**
@@ -35,24 +37,13 @@ public:
     virtual void update(GameObject* tower);
 
     /**
-     * Gathers Targets.
+     * Finds the next target. Once a target is aquired, it remains the target
+     * until it gets out of range. At that point, the new target will be the 
+     * first in the enemies_ set.
      *
-     * @author Joel Stewart
-     * @param Tower, pointer to the Tower object
+     * @author Joel Stewart, Dean Morin
      */
-    void findTargets(GameObject* tower, int radius);
-
-    /**
-     * Sets NPCs from the towers coords.
-     *
-     * @author Joel Stewart
-     * @param Tower, pointer to the Tower object
-     * @param Radius, size of radius around tower
-     */
-    void setNPCs(GameObject* tower, int radius) {
-        Map* map = CDriver::instance()->getGameMap();
-        enemies_ = map->getUnits(tower->getPos().x() ,tower->getPos().y() , radius);
-    }
+    void findTarget();
 
     /**
      * Checks to see if the tower can fire, and creates a projectile if it can.
@@ -61,22 +52,51 @@ public:
      */
     void fire();
 
-    QSet<Unit*> getNPCs() {
+    /**
+     * returns current enemies in sight.
+     *
+     * @author Joel Stewart
+     */
+    QSet<Unit*> getEnemies() {
         return enemies_;
     }
 
-    void setTarget(Unit* enemy) {
-        enemy_ = enemy;
+    /**
+     * Set current Target
+     *
+     * @author Joel Stewart
+     * @param Unit, pointer to target your setting
+     */
+    void setTarget(Unit* target) {
+        target_ = target;
     }
 
-    Unit* getEnemy() {
-        return enemy_;
+    /**
+     * gets current target.
+     *
+     * @author Joel Stewart
+     * @return current target
+     */
+    Unit* getTarget() {
+        return target_;
     }
 
+    /**
+     * Sets radius value of tower.
+     *
+     * @author Joel Stewart
+     * @param radius sets radius_
+     */
     void setRadius(int radius) {
         radius_ = radius;
     }
 
+    /**
+     * returns radius value of the tower
+     *
+     * @author Joel Stewart
+     * @return radius value
+     */
     int getRadius() {
         return radius_;
     }
@@ -84,14 +104,23 @@ public:
 private:
     /** The tower that this component defines. */
     Tower* tower_;
-    int radius_;
+
+    /** All enemies that are potentially in range of the tower. */
     QSet<Unit*> enemies_;
-    Unit* enemy_;
+
+    /** The enemy that's currently being tracked by the tower. */
+    Unit* target_;
+
+    /** The line between the tower and its current target. */
+    QLineF projectilePath_;
     
 protected:
     /** The number of ticks beween each shot. */
     size_t fireInterval_;
 
+    /** The range of the tower. */
+    int radius_;
+    
     /** Number of game timer ticks before this tower can fire a projectile. */
     size_t fireCountdown_;
 
@@ -104,7 +133,17 @@ signals:
      * @param target The current position of the enemy that the tower has 
      * tageted.
      */
-    void fireProjectile(QPointF source, QPointF target);
+    void fireProjectile(QPointF source, QPointF target, Unit* enemy);
+
+public slots:
+    /**
+     * Sets the target_ member to null if the NPC dies.
+     *
+     * Connected to signalNPCDied() in the NPC class.
+     *
+     * @author Dean Morin
+     */
+    void targetDied();
 };
 
 } /* end namespace td */

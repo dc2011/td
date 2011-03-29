@@ -4,7 +4,7 @@
 namespace td {
 
 Effect::Effect(Unit* unit, EffectType type):
-        unit_(unit), type_(type), duration_(40), healthChangeValue_(-1), velocityChangeValue_(0,0){}
+        GameObject(NULL), unit_(unit), type_(type), duration_(20), healthChangeValue_(-1), velocityChangeValue_(0,0){}
 
 Effect::~Effect(){}
 
@@ -33,8 +33,8 @@ void Effect::apply(){
 
     duration_--;
     if(duration_ == 0){
-        QObject::disconnect(CDriver::getTimer(), SIGNAL(timeout()),
-                this, SLOT(update()));
+        disconnect(unit_->getDriver()->getTimer(), SIGNAL(timeout()),
+                    this, SLOT(update()));
         emit effectFinished(this);
     }
 }

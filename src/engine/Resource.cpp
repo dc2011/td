@@ -7,9 +7,12 @@
 namespace td {
 
 void Resource::update() {
+    if (isDirty()) {
+        //getDriver()->update(this);
+    }
+
     graphics_->update(this);
     //physics_->update(this);
-    CDriver::updateServer(this);
 }
 
 void Resource::initComponents() {
@@ -17,8 +20,10 @@ void Resource::initComponents() {
 }
 
 void Resource::initComponents(int resourceType) {
+#ifndef SERVER
     GraphicsComponent* graphics = new ResourceGraphicsComponent(resourceType);
     this->setGraphicsComponent(graphics);
+#endif
 }
 
 } // end of namespace td

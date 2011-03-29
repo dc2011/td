@@ -31,7 +31,7 @@ private:
     };
 
 public:
-    Unit();
+    Unit(QObject* parent = 0);
     virtual ~Unit();
 
 

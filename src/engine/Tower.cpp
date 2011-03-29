@@ -3,56 +3,77 @@
 #include "CDriver.h"
 #endif
 #include "Effect.h"
-#include "../graphics/TowerGraphicsComponent.h"
+#include "../graphics/TowerGraphicsComponentTypes.h"
 #include "../physics/TowerPhysicsComponentTypes.h"
 #include "../util/defines.h"
 
 namespace td {
 
+Tower::Tower(QObject* parent) : TileExtension(parent) { }
+
 void Tower::update() {
+    if (physics_ != NULL) {
+        physics_->update(this);
+    }
 
-    physics_->update(this);
-    graphics_->update(this);
+    if (isDirty()) {
+        getDriver()->update(this);
+    }
 
-#ifndef SERVER
-    CDriver::updateServer(this);
-#endif
+    if (graphics_ != NULL) {
+        graphics_->update(this);
+    }
+}
+
+void Tower::networkRead(Stream* s) {
+    TileExtension::networkRead(s);
+    
+    if (dirty_ & kType) {
+        type_ = s->readInt();
+    }
+}
+
+void Tower::networkWrite(Stream* s) {
+    TileExtension::networkWrite(s);
+
+    if (dirty_ & kType) {
+        s->writeInt(type_);
+    }
 }
 
 void Tower::initComponents() {
-
-    componentsInitialized_ = false;
-}
-
-void Tower::initComponents(int towerType) {
-
-    switch (towerType) {
-
+    switch (type_) {
         case TOWER_ARROW:
             setPhysicsComponent(new ArrowTowerPhysicsComponent(this));
-            //setGraphicsComponent(new ArrowTowerGraphicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new ArrowTowerGraphicsComponent());
+#endif
             break;
         case TOWER_CANNON:
             setPhysicsComponent(new CannonTowerPhysicsComponent(this));
-            //setGraphicsComponent(new CannonTowerGraphicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new CannonTowerGraphicsComponent());
+#endif
             break;
         case TOWER_FLAME:
             setPhysicsComponent(new FlameTowerPhysicsComponent(this));
-            //setGraphicsComponent(new FlameTowerGraphicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new FlameTowerGraphicsComponent());
+#endif
             break;
         case TOWER_TAR:
             setPhysicsComponent(new TarTowerPhysicsComponent(this));
-            //setGraphicsComponent(new TarTowerGraphicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new TarTowerGraphicsComponent());
+#endif
             break;
         case TOWER_FLAK:
             setPhysicsComponent(new FlakTowerPhysicsComponent(this));
-            //setGraphicsComponent(new FlakTowerGraphicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new FlakTowerGraphicsComponent());
+#endif
             break;
     }
-    /* TODO: remove next 2 lines and uncomment the lines in the switch statement
-     * after TowerGraphicsComponentsTypes.h has been added to this branch */
-    GraphicsComponent* graphics = new TowerGraphicsComponent(towerType);
-    this->setGraphicsComponent(graphics);
 }
 
 } // end of namespace td

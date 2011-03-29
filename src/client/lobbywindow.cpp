@@ -1,7 +1,9 @@
 #include "lobbywindow.h"
 #include "../../uic/ui_lobbywindow.h"
 #include "../network/netclient.h"
+#include "../engine/CDriver.h"
 #include <QMessageBox>
+#include "../audio/SfxManager.h"
 
 namespace td {
 
@@ -20,7 +22,6 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
             ui->btnConnect, SLOT(setDisabled(bool)));
     connect(ui->chkSingleplayer, SIGNAL(clicked(bool)),
             ui->btnStart, SLOT(setEnabled(bool)));
-
     connect(this, SIGNAL(startGame(bool)),
             this, SLOT(close()));
 }
@@ -49,12 +50,15 @@ void LobbyWindow::connectLobby()
     s->writeByte(ui->txtUsername->text().length());
     s->write(ui->txtUsername->text().toAscii());
 
+    PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
     delete s;
 }
 
 void LobbyWindow::tmp_startGame()
 {
+    PLAY_LOCAL_SFX(SfxManager::lobbyStart);
+    alSleep(2); //needs fixing
     if (ui->chkSingleplayer->isChecked()) {
         emit startGame(true);
         return;
@@ -81,6 +85,12 @@ void LobbyWindow::onTCPReceived(Stream* s)
         }
         case network::kLobbyStartGame:
         {
+            connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
+                    CDriver::instance(), SLOT(UDPReceived(Stream*)));
+            connect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
+                    CDriver::instance(), SLOT(UDPReceived(Stream*)));
+            disconnect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
+                    this, SLOT(onTCPReceived(Stream*)));
             emit startGame(false);
             break;
         }

@@ -6,10 +6,10 @@
 
 namespace td {
 
-//QMutex GraphicsComponent::mutex_;
-    
-GraphicsComponent::GraphicsComponent() : pixmapIndex_(0) {
+GraphicsComponent::GraphicsComponent() 
+        : pixmapIndex_(0), isMoving_(false), animate_(true) {
 
+#ifndef SERVER    
     MainWindow* mainWindow = CDriver::instance()->getMainWindow();
 
     connect(this, SIGNAL(created(GraphicsComponent*)), 
@@ -18,9 +18,7 @@ GraphicsComponent::GraphicsComponent() : pixmapIndex_(0) {
             mainWindow, SLOT(drawItem(DrawParams*, GraphicsComponent*, int)));
     connect(this, SIGNAL(removeGraphicsItem(GraphicsComponent*)),
             mainWindow, SLOT(removeGraphicRepr(GraphicsComponent*)));
-
-    isMoving_ = 0;
-    animate_ = true;
+#endif
 }
 
 GraphicsComponent::~GraphicsComponent() {
@@ -54,23 +52,19 @@ void GraphicsComponent::draw(DrawParams* dp, int layer) {
 
 QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
     
-    //mutex_.lock();
     pixmapItem_ = new QGraphicsPixmapItem();
     initPixmaps();
     
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
     pixmapItem_->setPos(OFFSCREEN,OFFSCREEN);
 
-    //mutex_.unlock();
     return pixmapItem_;
 }
 
 void GraphicsComponent::setImgIndex(int index) {
     
-    //mutex_.lock();
     pixmapIndex_ = index;
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
-    //mutex_.unlock();
 }
 
 } /* end namespace td */

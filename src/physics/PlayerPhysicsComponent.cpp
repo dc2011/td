@@ -3,17 +3,16 @@
 #define PI 3.141592653589793238
 #include <math.h>
 #include <typeinfo>
+#include "../audio/SfxManager.h"
 #include "../engine/Map.h"
 #include "../engine/Tile.h"
-#include "../engine/CDriver.h"
+#include "../engine/Driver.h"
 #include "../engine/NPC.h"
 
 namespace td {
 
-PlayerPhysicsComponent::PlayerPhysicsComponent() {
-    accel_ = 0.3;
-    decel_ = 0.6;
-    maxVelocity_ = 5;
+PlayerPhysicsComponent::PlayerPhysicsComponent() 
+        : accel_(0.3), decel_(0.6), maxVelocity_(5), playCollisionSfx_(true) {
 }
 
 void PlayerPhysicsComponent::update(GameObject* player)
@@ -31,14 +30,17 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
 
     QPointF newPos = player->getPos() + player->getVelocity().toPointF();
 
-    Map* gameMap = td::CDriver::instance()->getGameMap();
+    if (player->getPos() == newPos) {
+        return;
+    }
+
+    Map* gameMap = player->getDriver()->getGameMap();
     QSet<Tile*> targetTiles = gameMap->getTiles(newPos, 2);
 
     QPointF upperRight;
     QPointF upperLeft;
     QPointF lowerRight;
     QPointF lowerLeft;
-    Map* map = td::CDriver::instance()->getGameMap();
     QSet<Unit*> npcs;
     double angle = player->getOrientation();
     QMatrix matrix = QMatrix();
@@ -76,7 +78,7 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
         player->changeTile(newPos);
         player->setPos(newPos);
         player->setBounds(polygon);
-        npcs = map->getUnits(newPos.x(), newPos.y(), 3);
+        npcs = gameMap->getUnits(newPos.x(), newPos.y(), 3);
         if (npcs.size() != 1) {
             checkNPCCollision(npcs, player);
         }
@@ -199,8 +201,10 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
         }
     }
 
-    player->setOrientation(degree);
-    //qDebug("Orientation: %d", degree);
+    if (player->getOrientation() != degree) {
+        player->setOrientation(degree);
+        //qDebug("Orientation: %d", degree);
+    }
 }
 
 bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
@@ -272,6 +276,12 @@ void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
             playerBounds = player->getBounds();
             npcBounds = (*it)->getBounds();
             if (player->getBounds().intersected((*it)->getBounds()).count() != 0) {
+
+                if (playCollisionSfx_) {
+                    PLAY_SFX(player, SfxManager::playerHitsNpc);
+                    playCollisionSfx_ = false;
+                }
+
                 Effect::EffectType effectType = Effect::stunned;
                 emit NPCPlayerCollided(effectType);
                 break;

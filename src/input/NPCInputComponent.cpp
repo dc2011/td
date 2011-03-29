@@ -1,22 +1,14 @@
 #include "NPCInputComponent.h"
 #include "../engine/NPC.h"
 #include "../physics/NPCPhysicsComponent.h"
-#include "../engine/CDriver.h"
 #include "../engine/Map.h"
+#include "../engine/Driver.h"
 #include <QTime>
 
 namespace td {
 
 NPCInputComponent::NPCInputComponent() {
-    nextDest_ = 0;
     forceCounter_ = 0;
-
-    waypoints_ = CDriver::instance()->getGameMap()->getWaypoints(WP_PTERO);
-    segment_ =  QLineF(waypoints_.at(nextDest_).x(),
-                       waypoints_.at(nextDest_).y(),
-                       waypoints_.at(nextDest_ + 1).x(),
-                       waypoints_.at(nextDest_ + 1).y());
-    nextDest_++;
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
 }
@@ -31,6 +23,19 @@ void NPCInputComponent::update() {
 void NPCInputComponent::setParent(Unit *parent) {
     // Casting Unit* to NPC*.
     parent_ = (NPC*) parent;
+    nextDest_ = 0;
+
+    connect(this, SIGNAL(deleteUnitLater(int)),
+            parent_->getDriver(), SLOT(destroyObject(int)),
+            Qt::QueuedConnection);
+
+    waypoints_ = parent->getDriver()->getGameMap() ->getWaypoints(WP_PTERO);
+    segment_ =  QLineF(waypoints_.at(nextDest_).x(),
+                       waypoints_.at(nextDest_).y(),
+                       waypoints_.at(nextDest_ + 1).x(),
+                       waypoints_.at(nextDest_ + 1).y());
+    nextDest_++;
+
     parent_->setPos(segment_.p1().x(), segment_.p1().y());
 }
 
@@ -54,9 +59,10 @@ void NPCInputComponent::nextDestination() {
         segment_.setP2(waypoints_.at(nextDest_++));
     } else if (segment_.length() < maxValue * 5
             && nextDest_ >= waypoints_.length()) {
-        disconnect(CDriver::getTimer(), SIGNAL(timeout()),
+        disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
-        emit deleteUnitLater(parent_);  
+        // TODO: damage players' base
+        emit deleteUnitLater(parent_->getID());  
     }
 }
 

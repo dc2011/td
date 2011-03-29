@@ -13,9 +13,12 @@
 #include <errno.h>
 #include <sys/types.h>
 #include "../util/mutex_magic.h"
+#include "openal_helper.h"
 
 #define QUEUESIZE 8
 #define BUFFERSIZE (1024*32)
+#define SFXPATH "./sound/sfx/"
+#define SFXFILEEXTENSION ".ogg"
 
 enum SoundType {
      sfx,
@@ -99,6 +102,16 @@ private:
      * The number of audio tracks playing
      */
     int playing_;
+
+    /**
+     * Pauses the capturing from micx
+     */
+    static bool capturePause_;
+
+    /**
+     * stops the capture thread
+     */
+    static bool captureStop_;
  
     /**
      * Whether the AudioManager has been initialized.
@@ -113,6 +126,14 @@ private:
     explicit AudioManager();
     ~AudioManager();
     
+    /**
+     * Captures audio from the microphone
+     * eventually transfer across the network
+     *
+     * @author Terence Stenvold
+     */
+    void captureMic();
+
     /**
      * Does a check for openal errors and destroys the openal 
      * context if any are found
@@ -131,7 +152,7 @@ private:
      * @param filename the path to file.
      * @param gain is a float with a default param of 1.0
      */
-    void streamOgg(QString filename, float gain = 1);
+    void streamFile(QString filename, float gain = 1);
 
     /**
      * Goes through all the filenames in the queue
@@ -141,6 +162,39 @@ private:
      * @param filenameQueue queue<QString> of filenames of ogg files.     *
      */
     void playMusicQueue(QQueue<QString> filenameQueue);
+
+    /**
+     * cleans up the buffers and source 
+     *
+     * @author Terence Stenvold
+     * @param source is the openal playable source
+     * @param buffer is the array of buffers
+     */
+    void cleanUp(ALuint *source, ALuint *buffer);
+
+    /**
+     * Clears buffers that have been played already
+     *
+     * @author Terence Stenvold
+     * @param source is the openal playable source
+     * @param buffersAvailable reference to the number of buffers to fill
+     * @param playing boolean whether the track in playing
+     * @param play boolean to set if it needs to be played or not
+     */
+    void clearProcessedBuffers
+	(ALuint *source, int &buffersAvailable, ALint *playing, ALint* play);
+
+    /**
+     * Opens an ogg file and sets the format
+     *
+     * @author Terence Stenvold
+     * @param file is the file pointer
+     * @param oggFile is the ogg vorbis file descriptor
+     * @param format is the openal output format
+     * @param freq is the frequency to play at
+     */
+    void openOgg(FILE *, OggVorbis_File *, ALenum *, ALsizei *);
+
 
 public:
 
@@ -164,6 +218,30 @@ public:
     }
 
     /**
+     * Toggles pausing of the capture
+     * thread
+     * 
+     * @author Terence Stenvold
+     */
+    static void toggleCapturePause() {
+	mutex_.lock();
+	capturePause_ = !capturePause_;
+	mutex_.unlock();
+    }
+
+    /**
+     * toggles the stopping of the capture
+     * thread
+     * 
+     * @author Terence Stenvold
+     */
+    static void toggleCaptureStop() {
+	mutex_.lock();
+	captureStop_ = !captureStop_;
+	mutex_.unlock();
+    }
+
+    /**
      * Destroy the OpenAL context and try to clean up any resources.
      * This must be called manually when the main application exits to ensure
      * that OpenAL is properly deinitialized and that all open sound files
@@ -183,6 +261,14 @@ public:
     void startup();
     
     /**
+     * Starts the thread for captureing
+     * the mic
+     *
+     * @author Terence Stenvold
+     */
+    void startCapture();
+
+    /**
      * Plays an Ogg Vorbis sound file.
      *
      * @author Terence Stenvold
@@ -196,10 +282,10 @@ public:
      * Plays an Ogg Vorbis sound file.
      *
      * @author Terence Stenvold
-     * @param files the vector of filesname paths to the .ogg files.
+     * @param files the list of filesname paths to the .ogg files.
      * @param type is a Enum either ntf for notifcation or sfx. defaults sfx. 
      */
-    void playSfx(QVector<QString> files, SoundType type=sfx);
+    void playSfx(QStringList files, SoundType type=sfx);
 
     /**
      * Play an Ogg Vorbis sound file, looping when it reaches the end.

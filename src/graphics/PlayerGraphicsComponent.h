@@ -19,16 +19,22 @@ private:
 
     /** Text to display the current label_ for this item **/
     QGraphicsTextItem * label_;
+
+    /** Nickname to be displayed for the player. */
+    QString nickname_;
     
-    /** True if alt held down and the players name should be shown. */
+    /** True if alt held down and the player's name should be shown. */
     bool showName_;
+
+    /** True if the player's name is currently being shown. */
+    bool nameShowing_;
 
 public:
     /**
      * Instantiates a PlayerGraphicsComponent component
      * @author Warren Voelkl
      */
-    PlayerGraphicsComponent();
+    PlayerGraphicsComponent(QString nickname);
     virtual ~PlayerGraphicsComponent() { }
 
     /**
@@ -64,6 +70,16 @@ public:
      * @author Warren Voelkl
      */
     virtual void initPixmaps();
+
+    /**
+     * Sets whether or not the player's name should be displayed.
+     *
+     * @author Dean Morin
+     * @param showName True if the player's name should be displayed.
+     */
+    void setShowName(bool showName) {
+        showName_ = showName;
+    }
     
 private:
     /**
@@ -72,18 +88,6 @@ private:
      */
     virtual QPixmap * getPixmapArray() {
         return pixmapImgs_;
-    }
-
-public slots:
-    /**
-     * Sets the boolean that determines whether or not the player's nickname
-     * should be displayed.
-     *
-     * @author Dean Morin
-     * @param keyHeld True if the alt key is being held down.
-     */
-    void showName(bool keyHeld) {
-        showName_ = keyHeld;
     }
 };
 

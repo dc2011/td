@@ -1,13 +1,16 @@
-/** Movement Physics for basic Projectile */
 #ifndef PROJECTILEPHYSICSCOMPONENT_H
 #define PROJECTILEPHYSICSCOMPONENT_H
 
 #include "PhysicsComponent.h"
+#include <QSet>
+#include "../engine/Effect.h"
+#include "../engine/Unit.h"
 
 namespace td {
 
 class Projectile;
 
+/** Movement Physics for basic Projectile */
 class ProjectilePhysicsComponent : public PhysicsComponent {
 public:
     ProjectilePhysicsComponent();
@@ -50,6 +53,7 @@ public:
      * @param projectile, pointer to the projectile object
      */
     virtual void update(GameObject* projectile);
+
 
 private:
     /** Velocity of the projectile. */

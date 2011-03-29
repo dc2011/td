@@ -2,8 +2,9 @@
 
 namespace td {
 
-GameObject::GameObject() : dirty_(0), iD_(0), pos_(QPointF(0, 0)),
-        orientation_(0), scale_(1), graphics_(NULL), physics_(NULL) { 
+GameObject::GameObject(QObject* parent) : QObject(parent), dirty_(0), iD_(0),
+        pos_(QPointF(0, 0)), orientation_(0), scale_(1),
+        graphics_(NULL), physics_(NULL) { 
 }
 
 GameObject::~GameObject() {

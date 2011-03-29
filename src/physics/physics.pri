@@ -1,4 +1,5 @@
 PHYSICS_HDRS +=     ./physics/NPCPhysicsComponent.h \
+                    ./physics/NPCPhysicsComponentTypes.h \
                     ./physics/PhysicsComponent.h \
                     ./physics/PlayerPhysicsComponent.h \
                     ./physics/TowerPhysicsComponent.h \
@@ -6,6 +7,7 @@ PHYSICS_HDRS +=     ./physics/NPCPhysicsComponent.h \
                     ./physics/ProjectilePhysicsComponent.h
 
 PHYSICS_SRCS +=     ./physics/NPCPhysicsComponent.cpp \
+                    ./physics/NPCPhysicsComponentTypes.cpp \
                     ./physics/PlayerPhysicsComponent.cpp \
                     ./physics/TowerPhysicsComponent.cpp \
                     ./physics/TowerPhysicsComponentTypes.cpp \

@@ -1,10 +1,9 @@
 #include "Player.h"
-#ifndef SERVER
-#include "CDriver.h"
-#endif
+#include "Driver.h"
+
 namespace td {
 
-Player::Player() : Unit(), nickname_("") {
+Player::Player(QObject* parent) : Unit(parent), nickname_("") {
     QVector2D force(0, 0);
     this->setForce(force);
 
@@ -29,33 +28,43 @@ void Player::networkWrite(Stream* s) {
     }
 }
 
-void Player::update() {
+void Player::initComponents() {
 #ifndef SERVER
-    if(this->isDirty()) {
-	CDriver::updateServer(this);
-    }
+    /* Client-side has a Graphics Component */
+    graphics_ = new PlayerGraphicsComponent(nickname_);
+    graphics_->update(this);
 #endif
+}
+
+void Player::update() {
     if (physics_ != NULL) {
         physics_->update(this);
     }
 
-    graphics_->update(this);
+    if (isDirty()) {
+        getDriver()->updateRT(this);
+    }
+
+    if (graphics_ != NULL) {
+        graphics_->update(this);
+    }
 }
 
 void Player::createEffect(Effect::EffectType type){
     Effect* effect = new Effect(this, type);
     QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
             this, SLOT(deleteEffect(Effect*)));
-#ifndef SERVER
-    QObject::connect(CDriver::getTimer(), SIGNAL(timeout()),
+    connect(getDriver()->getTimer(), SIGNAL(timeout()),
             effect, SLOT(update()));
-#endif
 
     effects_.push_back(effect);
 }
 
 void Player::deleteEffect(Effect* effect){
     effects_.removeOne(effect);
+    if (effects_.empty()) {
+        emit signalEmptyEffectList();
+    }
     delete effect;
 }
 

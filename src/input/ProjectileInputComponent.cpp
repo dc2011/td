@@ -1,13 +1,14 @@
 #include "ProjectileInputComponent.h"
 #include "../engine/Projectile.h"
 #include "../physics/ProjectilePhysicsComponent.h"
-#include "../engine/CDriver.h"
+#include "../engine/Driver.h"
+#include "../engine/Map.h"
 #define PI 3.141592653589793238
 #include <math.h>
 
 namespace td {
 
-ProjectileInputComponent::ProjectileInputComponent() {}
+ProjectileInputComponent::ProjectileInputComponent() { }
 
 ProjectileInputComponent::~ProjectileInputComponent() { }
 
@@ -17,16 +18,29 @@ void ProjectileInputComponent::update() {
 
 void ProjectileInputComponent::setParent(Unit *parent) {
     parent_ = (Projectile*) parent;
+
+    connect(this, SIGNAL(deleteProjectileLater(int)),
+            parent_->getDriver(), SLOT(destroyObject(int)), 
+            Qt::QueuedConnection);
 }
 
 void ProjectileInputComponent::makeForce() {
     QVector2D force;
+    Map* map = parent_->getDriver()->getGameMap();
+    QSet<Unit*> npcs;
     QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
                parent_->getPath().p1().x(), parent_->getPath().p1().y());
     if (distance.length() <= parent_->getVelocity().length()) {
-        disconnect(CDriver::getTimer(), SIGNAL(timeout()),
+        disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
-        //delete and start check for collisions here
+        QPointF *end = parent_->getEndPoint();
+        npcs = map->getUnits(end->x(), end->y(), 1);
+        if(!npcs.empty()){
+            parent_->createBounds();
+            parent_->checkNPCCollision(npcs);
+        }
+        //check for collisions here
+        emit deleteProjectileLater(parent_->getID());
     } else {
         force = QVector2D(parent_->getPath().unitVector().dx() * -1,
                       parent_->getPath().unitVector().dy() * -1);
@@ -98,5 +112,6 @@ void ProjectileInputComponent::applyDirection() {
     }
     parent_->setOrientation(degree);
 }
+
 
 } /* end namespace td */

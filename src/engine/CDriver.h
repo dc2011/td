@@ -1,9 +1,9 @@
 #ifndef CDRIVER_H
 #define CDRIVER_H
 
-#include <QTimer>
 #include <QPointF>
 #include <QSet>
+#include "Driver.h"
 
 namespace td {
 
@@ -19,35 +19,31 @@ class MainWindow;
 class Stream;
 class Unit;
 
-class CDriver : public QObject {
+class CDriver : public Driver {
     Q_OBJECT
   
 private:
-     /** The game object resource manager. */
-    ResManager* mgr_;
-     /** The central game timer that initiates all object updates. */
-    static QTimer* gameTimer_;
+    /** The ID of the player object. */
+    unsigned int playerID_;
+
      /** The player on this client. */
     Player* human_;
      /** The main game window, where all graphics will be drawn. */
     MainWindow* mainWindow_;
-     /** The game map containing all tiles, waypoints, and access methods. */
-    Map* gameMap_;
      /** A context menu that appears around the player. */
     ContextMenu* contextMenu_;
-     /** An set of enemy units. */
-    QSet<NPC*> npc_;
+
      /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
      /** A projectile fired from a tower. */
     Projectile* projectile_;
      /** A tower built by the players. */
     Tower* tower_;
-    /** An set of towers. */
+     /** An set of towers. */
     QSet<Tower*> towers_;
      /** The single instance of this class that can be created. */
     static CDriver* instance_;
-    /** Tells objects whether or not the game is being played single player **/
+     /** Tells objects whether or not the game is being played single player **/
     bool singlePlayer_;
     
     CDriver(MainWindow* parent = 0);
@@ -101,54 +97,50 @@ public:
     void disconnectFromServer();
 
     /**
-     * Sends client updates to the server, static method, this
-     * call this method from the update() function of the GameObject
-     * whose state you want to send to the server.
-     * 
-     * @author Duncan Donaldson
-     * @param obj The GameObject to transmit.
-     */
-    static void updateServer(GameObject* obj);
-
-    /**
      * reads in an object, if it exists, updates it,
      * if it doesn't exist creates it.
      * @author Duncan Donaldson
      */
     void readObject(Stream* s);
+
     /**
-     * 
-     * Destroys an object on the client, and notifies the server
-     * that the object has been destroyed.
+     * Notifies the driver of an update to an object. Does nothing.
      *
-     * @author Duncan Donaldson
+     * @author Darryl Pogue
+     * @param obj The GameObject that has been updated.
      */
-    void destroyObjSync(int id);
+    virtual void update(GameObject* obj) { }
+
     /**
-     * 
-     * Destroys an object on the client without notifying
-     * the server of the object destruction.
+     * Notifies the driver of a real-time update to an object.
+     * This is used to build a network message sent streaming to other
+     * clients to synchronize the object state.
      *
+     * @author Darryl Pogue
      * @author Duncan Donaldson
+     * @param obj The GameObject that has been updated.
      */
-    void destroyObjLocal(int id);
+    virtual void updateRT(GameObject* obj);
+
+public:
     /**
-     * Creates a human player object.
+     * Sets a player as the local human player object.
      * Sets event filter for key presses to be passed to PlayerInputComponent.
      * 
      * @author Tom Nightingale
      * @author Duncan Donaldson
      * @author Darryl Pogue
-     * @return pointer to new player instance.
+     * @param player The player object to make the local player.
      */
-    void createHumanPlayer(MainWindow *);
+    void makeLocalPlayer(Player* player);
 
     /**
      * creates npc object
      * @author Marcel Vangrootheest
+     * @param npcType NPC type (norm, slow, fast, fly, boss)
      * @returns the reference to an NPC
      */
-    NPC* createNPC();
+    NPC* createNPC(int npcType);
 
     /**
      * Stop game timer.
@@ -159,21 +151,12 @@ public:
     void endGame();
 
     /**
-     * Returns the game timer
+     * Returns the human
      *
      * @author Terence Stenvold
-     * @return the game timer
      */
-    static QTimer* getTimer();
-
-
-    /**
-    * Getter for gameMap_
-    *
-    * @author Ian Lee
-    */
-    Map* getGameMap(){
-        return gameMap_;
+    Player* getHuman(){
+        return human_;
     }
 
     /**
@@ -225,7 +208,7 @@ private slots:
      * @param source The starting point of the projectile.
      * @param target The destination point of the projectile.
      */
-    void createProjectile(QPointF source, QPointF target);
+    void createProjectile(QPointF source, QPointF target, Unit* enemy);
 
     /**
      * Temp testing method.
@@ -247,13 +230,6 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCCreator();
-    /**
-     * Deletes NPC later
-     *
-     * @author Marcel Vangrootheest
-     */
-    void NPCDeleter(Unit*);
-
 };
 
 } /* end namespace td */

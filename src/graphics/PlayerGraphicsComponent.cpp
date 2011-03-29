@@ -6,19 +6,19 @@ namespace td {
 
 QPixmap * PlayerGraphicsComponent::pixmapImgs_ = 0;
 
-PlayerGraphicsComponent::PlayerGraphicsComponent()
-        : GraphicsComponent()
+PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
+        : GraphicsComponent(), nickname_(nickname),
+          showName_(false), nameShowing_(false)
 {
     animateMod_ = 4;
-    animateCount_ = 0;
-    animate_ = true;
-    showName_ = false;
+    animateCount_ = 0; 
     emit created(this);
 }
 
 void PlayerGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
-    if (!player->isDirty()) {//checks if object is dirty.
+    if (!player->isDirty() && pixmapIndex_ == 0) {
+        //checks if object is dirty or in mid-animation
         return;
     }
     player->resetDirty();
@@ -32,15 +32,20 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
 }
 
 void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
-
+    
     if (showName_) {
-    label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
-                   dp->pos.y() - getPixmapItem()->boundingRect().height());
-    label_->setZValue(layer);
-    label_->update();
-    } else {
-        label_->setPos(OFFSCREEN, OFFSCREEN);
+        label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
+                       dp->pos.y() - getPixmapItem()->boundingRect().height());
+        label_->setZValue(layer);
+        label_->setVisible(true);
         label_->update();
+        nameShowing_ = true;
+    } else {
+        if (nameShowing_) {
+            label_->setVisible(false);
+            label_->update();
+            nameShowing_ = false;
+        }
     }
 
     GraphicsComponent::draw(dp, layer);
@@ -67,10 +72,11 @@ void PlayerGraphicsComponent::animate() {
 }
 
 void PlayerGraphicsComponent::initPixmaps() {
-    label_ = new QGraphicsTextItem(QString("Warren Master Of The Universe"));
+    label_ = new QGraphicsTextItem(nickname_);
 
     label_->setDefaultTextColor (QColor(0,255,0));
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
+    label_->setVisible(false);
 
     if (pixmapImgs_) {
         return;
