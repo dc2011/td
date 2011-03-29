@@ -59,7 +59,8 @@ void SDriver::startGame() {
 
     gameMap_->initMap();
 
-    this->gameTimer_->start(15000);
+    this->gameTimer_->start(30);
+    connect(gameTimer_, SIGNAL(timeout()), this, SLOT(onTimerTick()));
     connect(gameTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 }
 
@@ -84,8 +85,35 @@ GameObject* SDriver::updateObject(Stream* s) {
     return go;
 }
 
+void SDriver::onTimerTick() {
+    static unsigned int modcount = 0;
+    if (modcount++ < 10) {
+        return;
+    }
+
+    /* Reset the counter */
+    modcount = 0;
+
+    if (updates_.size() == 0) {
+        return;
+    }
+
+    Stream s;
+    s.writeInt(updates_.size());
+
+    foreach (GameObject* go, updates_) {
+        go->networkWrite(&s);
+    }
+
+    updates_.clear();
+
+    net_->send(network::kServerUpdate, s.data());
+}
+
 void SDriver::destroyObject(GameObject* obj) {
     int id = obj->getID();
+    updates_.remove(obj);
+
     Driver::destroyObject(obj);
 
     Stream s;
@@ -95,6 +123,9 @@ void SDriver::destroyObject(GameObject* obj) {
 }
 
 void SDriver::destroyObject(int id) {
+    GameObject* go = mgr_->findObject(id);
+    updates_.remove(go);
+
     Driver::destroyObject(id);
 
     Stream s;
@@ -129,7 +160,14 @@ NPC* SDriver::createNPC(int type) {
 }*/
 
 void SDriver::spawnWave() {
-    qDebug("spawned wave");
+    if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
+        createNPC(NPC_NORM);
+    }
+    if (npcCounter_ % 40 == 0 && (npcCounter_ % 1400) > 1000) {
+        createNPC(NPC_SLOW);
+    }
+
+    /*qDebug("spawned wave");
     for(int i=0; i < 20; ++i) {
 	    Stream* out = new Stream();
 	    NPC* n;
@@ -138,7 +176,7 @@ void SDriver::spawnWave() {
 	    n->networkWrite(out);
 	    net_->send(network::kServerCreateObj, out->data());
 	    delete out;
-    }
+    }*/
 }
 
 void SDriver::deadNPC(int id) {

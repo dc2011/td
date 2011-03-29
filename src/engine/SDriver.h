@@ -23,6 +23,9 @@ private:
     QList<Player*> players_;
     QSet<GameObject*> updates_;
 
+    /** Keeps track of how many NPCs there currently are. */
+    size_t npcCounter_;
+
 public:
     // ctors and dtors
     SDriver();
@@ -88,6 +91,9 @@ public:
      */
     virtual void updateRT(GameObject* obj);
 
+protected slots:
+    virtual void onTimerTick();
+
 public slots:
     /**
      * Destroys a GameObject and removes it from the ResManager.
@@ -135,6 +141,7 @@ private:
      * Creates a new NPC of the given type.
      *
      * @author Darryl Pogue
+     * @author Marcel Vangrootheest
      * @param type The type of NPC to create.
      * @return A pointer to the new NPC.
      */
