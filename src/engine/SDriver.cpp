@@ -57,6 +57,8 @@ void SDriver::startGame() {
 
     net_->send(network::kServerPlayers, s.data());
 
+    gameMap_->initMap();
+
     this->gameTimer_->start(15000);
     connect(gameTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 }
