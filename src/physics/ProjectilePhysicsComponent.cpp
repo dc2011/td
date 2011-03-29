@@ -1,5 +1,9 @@
 #include "ProjectilePhysicsComponent.h"
 #include "../engine/Projectile.h"
+#include "../engine/Map.h"
+#include "../engine/Tile.h"
+#include "../engine/CDriver.h"
+#include "../engine/NPC.h"
 
 namespace td {
 
@@ -32,7 +36,9 @@ void ProjectilePhysicsComponent::applyVelocity(Projectile* projectile)
 {
     QPointF newPos = projectile->getPos()
                      + projectile->getVelocity().toPointF();
+
     projectile->setPos(newPos);
+
 }
 
 void ProjectilePhysicsComponent::applyForce(Projectile* projectile)
@@ -97,5 +103,7 @@ void ProjectilePhysicsComponent::applyForce(Projectile* projectile)
         }
     }
 }
+
+
 
 } /* end namespace td */
