@@ -15,6 +15,7 @@
 #include "../client/MainWindow.h"
 #include "../graphics/MapDisplayer.h"
 #include "../graphics/PixmapFiles.h"
+#include "../graphics/Console.h"
 #include "../network/netclient.h"
 #include "../network/stream.h"
 #include "../util/defines.h"
@@ -210,6 +211,7 @@ void CDriver::startGame(bool singlePlayer) {
 
     setSinglePlayer(singlePlayer);
 
+    td::Console::instance();
     musicList = td::AudioManager::instance()->musicDir("./sound/music/");
     td::AudioManager::instance()->playMusic(musicList);
 
