@@ -5,6 +5,7 @@
 #if QT_VERSION < 0x040800
 #  ifdef Q_WS_WIN
 #    include <winsock2.h>
+#    include <WS2tcpip.h>
 #  else
 #    include <sys/types.h>
 #    include <sys/socket.h>
@@ -35,7 +36,7 @@ NetworkClient::NetworkClient(QHostAddress servAddr)
 
     mreq.imr_multiaddr.s_addr = htonl(TD_GROUP.toIPv4Address());
     mreq.imr_interface.s_addr = htonl(INADDR_ANY);
-    if (setsockopt(fd, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq))
+    if (setsockopt(fd, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char*)&mreq, sizeof(mreq))
             < 0) {
         perror("setsockopt");
     }
@@ -57,7 +58,7 @@ NetworkClient::~NetworkClient()
 
     mreq.imr_multiaddr.s_addr = htonl(TD_GROUP.toIPv4Address());
     mreq.imr_interface.s_addr = htonl(INADDR_ANY);
-    if (setsockopt(fd, IPPROTO_IP, IP_DROP_MEMBERSHIP, &mreq, sizeof(mreq))
+    if (setsockopt(fd, IPPROTO_IP, IP_DROP_MEMBERSHIP, (char*)&mreq, sizeof(mreq))
             < 0) {
         perror("setsockopt");
     }

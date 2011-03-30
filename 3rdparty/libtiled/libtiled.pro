@@ -3,12 +3,12 @@ isEmpty(PREFIX):PREFIX = /usr/local
 isEmpty(LIBDIR):LIBDIR = $${PREFIX}/lib
 
 TEMPLATE = lib
-CONFIG = qt debug
-!win32:CONFIG += staticlib
+!win32:CONFIG = staticlib
 TARGET = tiled
 target.path = $${LIBDIR}
 INSTALLS += target
 DESTDIR = ../../lib
+win32:DESTDIR = ../../bin
 DLLDESTDIR = ../..
 
 win32:INCLUDEPATH += $$(QTDIR)/src/3rdparty/zlib
