@@ -2,6 +2,10 @@
 #include "Driver.h"
 #include <QObject>
 
+#ifndef SERVER
+#    include "CDriver.h"
+#endif
+
 namespace td {
 
 NPC::NPC(QObject* parent) : Unit(parent) {
@@ -130,8 +134,14 @@ void NPC::initComponents() {
 #endif
             setInputComponent(input);
             break;
-
     }
+
+#ifndef SERVER
+    if (((CDriver*)getDriver())->isSinglePlayer()) {
+        setInputComponent(NULL);
+        setPhysicsComponent(NULL);
+    }
+#endif
 }
 void NPC::isDead() {
     if(health_ == 0) {
