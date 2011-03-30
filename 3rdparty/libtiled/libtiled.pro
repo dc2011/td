@@ -3,7 +3,8 @@ isEmpty(PREFIX):PREFIX = /usr/local
 isEmpty(LIBDIR):LIBDIR = $${PREFIX}/lib
 
 TEMPLATE = lib
-!win32:CONFIG = staticlib
+CONFIG = qt
+!win32:CONFIG += staticlib debug
 TARGET = tiled
 target.path = $${LIBDIR}
 INSTALLS += target
