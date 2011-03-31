@@ -12,16 +12,9 @@ Then run qmake and make to build the tower defense game.
 
 On Windows, with Visual Studio 2010:
 ------------------------------------
-From the command-line (a bash shell is preferable):
-    cd ./3rdParty/libtiled
-    qmake -spec win32-msvc2008 -tp vc
-    cd ../../src
-    qmake -spec win32-msvc2008 -tp vc server.pro
-    qmake -spec win32-msvc2008 -tp vc client.pro
-    cd ..
-    qmake -spec win32-msvc2008 -tp vc
+From the command-line:
+    qmake -spec win32-msvc2010 -tp vc -r td.pro
 
-Open the resulting td.sln file in Visual Studio (going
-through the conversion wizard).
+Open td.sln in Visual Studio 2010.
 Fiddle with all of the VS project settings to make it find the
 libraries.
