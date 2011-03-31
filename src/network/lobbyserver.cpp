@@ -2,7 +2,6 @@
 #include "stream.h"
 #include "netmessages.h"
 #include "../engine/SDriver.h"
-#include <unistd.h>
 #include <QCoreApplication>
 
 namespace td {
