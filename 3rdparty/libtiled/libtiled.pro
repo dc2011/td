@@ -1,18 +1,12 @@
-# See the README file for instructions about setting the install prefix.
-isEmpty(PREFIX):PREFIX = /usr/local
-isEmpty(LIBDIR):LIBDIR = $${PREFIX}/lib
-
 TEMPLATE = lib
 CONFIG += qt
 !win32:CONFIG += staticlib debug
 TARGET = tiled
-target.path = $${LIBDIR}
-INSTALLS += target
 DESTDIR = ../../lib
-win32:DESTDIR = ../../bin
-DLLDESTDIR = ../..
+DLLDESTDIR = ../../bin
 
-!win32:LIBS += -lz
+win32:LIBS += zlib1.lib
+else:LIBS += -lz
 
 DEFINES += QT_NO_CAST_FROM_ASCII \
     QT_NO_CAST_TO_ASCII

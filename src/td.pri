@@ -1,6 +1,6 @@
 include(../3rdparty/libtiled/libtiled.pri)
 
-win32:LIBS += tiled.lib ws2_32.lib zlib1.lib
+win32:LIBS += tiled.lib ws2_32.lib
 else:LIBS += ../lib/libtiled.a -lz
 
 TEMPLATE = app
