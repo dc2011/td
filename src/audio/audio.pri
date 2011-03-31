@@ -6,6 +6,9 @@ AUDIO_SRCS +=   ./audio/manager.cpp \
                 ./audio/openal_helper.cpp \
                 ./audio/SfxManager.cpp
 
+win32 {
+    LIBS += OpenAL32.lib libogg.lib libvorbisfile.lib libvorbis.lib
+}
 macx {
     LIBS += -framework OpenAL
     CONFIG += link_pkgconfig

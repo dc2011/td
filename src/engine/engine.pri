@@ -1,7 +1,3 @@
-include(../3rdparty/libtiled/libtiled.pri)
-
-LIBS += ../lib/libtiled.a -lz
-
 ENGINE_HDRS +=  ./engine/Driver.h \
                 ./engine/Effect.h \
                 ./engine/GameObject.h \

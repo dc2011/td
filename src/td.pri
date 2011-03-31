@@ -1,8 +1,12 @@
+include(../3rdparty/libtiled/libtiled.pri)
+
+win32:LIBS += tiled.lib ws2_32.lib zlib1.lib
+else:LIBS += ../lib/libtiled.a -lz
+
 TEMPLATE = app
 CONFIG += qt debug
 DESTDIR = ../bin
 QT += network
-win32:QMAKE_LIBS += ws2_32.lib
 OBJECTS_DIR = ../obj
 MOC_DIR = ../moc
 UI_DIR = ../uic
