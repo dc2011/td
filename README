@@ -16,5 +16,17 @@ From the command-line:
     qmake -spec win32-msvc2010 -tp vc -r td.pro
 
 Open td.sln in Visual Studio 2010.
-Fiddle with all of the VS project settings to make it find the
-libraries.
+Set paths in each project for the following libraries:
+    tiled:
+        zlib
+    client:
+        OpenAL
+        libvorbis
+        libvorbisfile
+        libogg
+    server:
+        OpenAL
+        libvorbis
+        libvorbisfile
+        libogg
+Build.

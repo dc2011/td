@@ -30,6 +30,7 @@ core
 *.sdf
 *.ncb
 *.pch
+*.pdb
 [Bb]uild[Ll]og.*
 [Tt]est[Rr]esult*
 [Tt]humbs.db
