@@ -3,7 +3,7 @@ isEmpty(PREFIX):PREFIX = /usr/local
 isEmpty(LIBDIR):LIBDIR = $${PREFIX}/lib
 
 TEMPLATE = lib
-CONFIG = qt
+CONFIG += qt
 !win32:CONFIG += staticlib debug
 TARGET = tiled
 target.path = $${LIBDIR}
@@ -12,8 +12,7 @@ DESTDIR = ../../lib
 win32:DESTDIR = ../../bin
 DLLDESTDIR = ../..
 
-win32:INCLUDEPATH += $$(QTDIR)/src/3rdparty/zlib
-else:LIBS += -lz
+!win32:LIBS += -lz
 
 DEFINES += QT_NO_CAST_FROM_ASCII \
     QT_NO_CAST_TO_ASCII
