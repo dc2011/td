@@ -3,6 +3,7 @@ ENGINE_HDRS +=  ./engine/Driver.h \
                 ./engine/GameObject.h \
                 ./engine/Map.h \
                 ./engine/NPC.h \
+                ./engine/NPCWave.h \
                 ./engine/Player.h \
                 ./engine/Projectile.h \
                 ./engine/ResManager.h \
@@ -18,6 +19,7 @@ ENGINE_SRCS +=  ./engine/Driver.cpp \
                 ./engine/GameObject.cpp \
                 ./engine/Map.cpp \
                 ./engine/NPC.cpp \
+                ./engine/NPCWave.cpp \
                 ./engine/Player.cpp \
                 ./engine/Projectile.cpp \
                 ./engine/ResManager.cpp \
