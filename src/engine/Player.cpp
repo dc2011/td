@@ -50,8 +50,7 @@ void Player::update() {
     }
 }
 
-void Player::createEffect(Effect::EffectType type){
-    Effect* effect = new Effect(this, type);
+void Player::createEffect(Effect* effect){
     QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
             this, SLOT(deleteEffect(Effect*)));
     connect(getDriver()->getTimer(), SIGNAL(timeout()),
