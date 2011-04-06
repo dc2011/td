@@ -57,6 +57,16 @@ public:
 
     virtual void animate();
 
+    /**
+     * Sets whether or not the NPC's health should be displayed.
+     *
+     * @author Dean Morin
+     * @param showName True if the NPC's health should be displayed.
+     */
+    void setShowHealth(bool showHealth) {
+        showHealth_ = showHealth;
+    }
+
 private:
     /** The current set of images to use for this object */
     int npcType_;
@@ -95,15 +105,6 @@ protected:
     int arrayIndexMax_;
     
     void initHealthbar();
-
-public slots:
-    /**
-     * Sets the flag specifying whether or not to show an NPC's health bar.
-     * 
-     * @author Dean Morin, Mohamed Sheriffdeen
-     * @param keyHeld True if the alt key is currently held down.
-     */
-    void showHealth(bool keyHeld);
 };
 
 } /* end namespace td */
