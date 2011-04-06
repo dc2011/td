@@ -39,11 +39,12 @@
 #define TILE_RESOURCE   4
 
 // resources that can be picked up by the player
-#define RESOURCE_WOOD   0
-#define RESOURCE_STONE  1
-#define RESOURCE_BONE   2
-#define RESOURCE_OIL    3
-#define RESOURCE_NONE   4
+#define RESOURCE_LUMBER  0
+#define RESOURCE_CRYSTAL 5
+#define RESOURCE_OIL     3
+#define RESOURCE_TAR     4
+#define RESOURCE_STONE   2
+#define RESOURCE_IRON    1
 
 // NPC types
 #define NPC_NORM    0
@@ -90,10 +91,6 @@
 #define WP_SOG_RAPTOR   8
 #define WP_MAMMOTH      9
 #define WP_PTERO        10
-
-// health bar size, in pixels
-#define HEALTHBAR_HEIGHT    4
-#define HEALTHBAR_WIDTH     50
 
 // Temp defines pending a map object
 #define MAP_ROWS 99

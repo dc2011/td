@@ -149,7 +149,7 @@ NPC* CDriver::createNPC(int npcType) {
     // connect(input, SIGNAL(deleteUnitLater(Unit*)),
     //this, SLOT(NPCDeleter(Unit*)), Qt::QueuedConnection);
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            npc, SLOT(showHealth(bool)));
+            npc->getGraphicsComponent(), SLOT(showHealth(bool)));
     connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
     return npc;
 }
@@ -262,11 +262,7 @@ void CDriver::handleSpacebarPress() {
         case TILE_RESOURCE:
             // TODO: remove SFX and do it properly
             PLAY_LOCAL_SFX(SfxManager::resourceLumber);
-//            emit signalHarvestResource(currentTile->getTiledTile()->id());
-            break;
-        
-        default:
-            // drop resource / check for dropped resource
+            qDebug("Harvesting resource: %d", currentTile->getTiledTile()->id());
             break;
     }
 }

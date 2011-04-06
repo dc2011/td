@@ -149,19 +149,6 @@ signals:
      * @author Dean Morin
      */
     void signalNPCDied();
-    
-public slots:
-    /**
-     * Sets the boolean that determines whether or not the NPC's health bar
-     * should be displayed.
-     *
-     * @author Dean Morin
-     * @param keyHeld True if the alt key is being held down.
-     */
-    void showHealth(bool keyHeld) {
-        ((NPCGraphicsComponent*) graphics_)->setShowHealth(keyHeld);
-        update();
-    }
 };
 
 } /* end namespace td */

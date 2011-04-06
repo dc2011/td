@@ -114,18 +114,16 @@ public slots:
      */
     void showName(bool keyHeld) {
         ((PlayerGraphicsComponent*) graphics_)->setShowName(keyHeld);
-        update();
+        setDirty(1);
     }
 
 private:
     QList<Effect*> effects_;
 
-    /** A nickname associated with this player used for display purposes and 
-     *  chat. */
+    /**
+     * A nickname associated with this player used for display purposes and chat.
+     */
     QString nickname_;
-
-    /** The resource that this player is currently holding, if any. */
-    int resource_;
 
 signals:
     /**

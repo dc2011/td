@@ -38,19 +38,23 @@ void ResourceGraphicsComponent::initPixmaps() {
     }
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_WOOD;
-    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_STONE;
-    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_BONE;
+    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_LUMBER;
+    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_CRYSTAL;
     pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_OIL;
+    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_TAR;
+    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_STONE;
+    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_IRON;
     setIndexValue();
 }
 
 void ResourceGraphicsComponent::setIndexValue() {
     switch (resourceType_) {
-        case RESOURCE_WOOD:   pixmapIndex_ = 0;   break;
-        case RESOURCE_STONE:  pixmapIndex_ = 1;   break;
-        case RESOURCE_BONE:   pixmapIndex_ = 2;   break;
-        case RESOURCE_OIL:    pixmapIndex_ = 3;   break;
+        case RESOURCE_LUMBER:   pixmapIndex_ = 0;   break;
+        case RESOURCE_CRYSTAL:  pixmapIndex_ = 1;   break;
+        case RESOURCE_OIL:      pixmapIndex_ = 2;   break;
+        case RESOURCE_TAR:      pixmapIndex_ = 3;   break;
+        case RESOURCE_STONE:    pixmapIndex_ = 4;   break;
+        case RESOURCE_IRON:     pixmapIndex_ = 5;   break;
     }
 }
 
