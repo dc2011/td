@@ -156,9 +156,9 @@ void NPC::update() {
         physics_->update(this);
     }
 
-    if (isDirty()) {
+    /*if (isDirty()) {
         getDriver()->updateRT(this);
-    }
+    }*/
 
     if (graphics_ != NULL) {
         graphics_->update(this);

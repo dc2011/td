@@ -33,8 +33,6 @@ public:
 
     void createWave();
 
-    void update();
-
     /**
      * Returns whether this wave has had all of its children killed.
      *
@@ -44,6 +42,9 @@ public:
     bool isDead() const {
         return children_.size() == 0;
     }
+
+public slots:
+    void update();
 };
 
 }

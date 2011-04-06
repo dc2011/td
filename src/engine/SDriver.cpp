@@ -6,8 +6,7 @@
 #include "SDriver.h"
 #include "Player.h"
 #include "Tower.h"
-#include "NPC.h"
-#include "Resource.h"
+#include "NPCWave.h"
 
 namespace td {
 
@@ -45,6 +44,10 @@ void SDriver::updateRT(GameObject* obj) {
     obj->networkWrite(&s);
 
     net_->send(network::kPlayerPosition, s.data());
+}
+
+void SDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
+    net_->send(msgType, msg);
 }
 
 void SDriver::startGame() {
@@ -135,38 +138,19 @@ void SDriver::destroyObject(int id) {
     net_->send(network::kDestroyObject, s.data());
 }
 
-Tower* SDriver::createTower(int type) {
-    Tower* tower = (Tower*)mgr_->createObject(Tower::clsIdx());
-
-    tower->setType(type);
-    tower->initComponents();
-
-    connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
-
-    return tower;
-}
-
-NPC* SDriver::createNPC(int type) {
-    NPC* npc = (NPC*)mgr_->createObject(NPC::clsIdx());
-
-    npc->setType(type);
-    npc->initComponents();
-
-    connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
-
-    return npc;
-}
-
-/*Resource* SDriver::createResource(int type) {
-}*/
-
 void SDriver::spawnWave() {
     if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
-        createNPC(NPC_NORM);
+        NPCWave* wave = new NPCWave(this);
+
+        wave->createWave();
+    }
+
+    /*if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
+        Driver::createNPC(NPC_NORM);
     }
     if (npcCounter_ % 40 == 0 && (npcCounter_ % 1400) > 1000) {
-        createNPC(NPC_SLOW);
-    }
+        Driver::createNPC(NPC_SLOW);
+    }*/
 
     /*qDebug("spawned wave");
     for(int i=0; i < 20; ++i) {
@@ -209,7 +193,7 @@ void SDriver::onMsgReceive(Stream* s) {
                 break;
             }
 
-            Tower* t = createTower(towertype);
+            Tower* t = Driver::createTower(towertype);
             t->setPos(currentTile->getPos());
             currentTile->setExtension(t);
 

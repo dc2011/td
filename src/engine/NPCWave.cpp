@@ -1,8 +1,6 @@
 #include "NPCWave.h"
 #include "Driver.h"
-#ifdef SERVER
-#    include "SDriver.h"
-#endif
+#include "../network/netmessages.h"
 
 namespace td {
 
@@ -20,15 +18,19 @@ NPCWave::~NPCWave() { }
 void NPCWave::createWave() {
     created_ = 1;
 
-    /*NPC* npc = getDriver()->createNPC(type_);
-    children_.insert(npc);*/
+    NPC* npc = getDriver()->createNPC(type_);
+    children_.insert(npc);
+
+    connect(getDriver()->getTimer(), SIGNAL(timeout()),
+            this, SLOT(update()));
 }
 
 void NPCWave::update() {
     static unsigned int tickmod = 0;
-    if (created_ < count_ && (++tickmod % 30) == 0) {
+    if (created_ < count_ && (++tickmod % 3000) > 300) {
         created_++;
-        // create an NPC
+        NPC* npc = getDriver()->createNPC(type_);
+        children_.insert(npc);
     }
 
     Stream s;
@@ -37,6 +39,8 @@ void NPCWave::update() {
         npc->update();
         npc->networkWrite(&s);
     }
+
+    getDriver()->sendNetMessage(network::kNPCWave, s.data());
 }
 
 }
