@@ -54,7 +54,7 @@ void TowerPhysicsComponent::findTarget() {
         // make sure that the unit is not a player
         if((((*iter)->getID()&0xFF000000)>>24) == NPC::clsIdx()) {
             //check if valid npc target.
-            if(!isValidTarget(*iter)) {
+            if(!this->isValidTarget(*iter)) {
                 continue;
             }
             projectilePath_.setP2((*iter)->getPos());

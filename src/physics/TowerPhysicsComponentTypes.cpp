@@ -5,14 +5,14 @@ namespace td {
 ArrowTowerPhysicsComponent::ArrowTowerPhysicsComponent(Tower* tower)
         : TowerPhysicsComponent(tower, FIRE_INTERVAL_ARROW, RADIUS_ARROW) {
 }
-ArrowTowerPhysicsComponent::isValidTarget(Unit * target) {
+bool ArrowTowerPhysicsComponent::isValidTarget(Unit * target) {
     return true;
 }
 
 CannonTowerPhysicsComponent::CannonTowerPhysicsComponent(Tower* tower)
         : TowerPhysicsComponent(tower, FIRE_INTERVAL_CANNON, RADIUS_CANNON) { 
 }
-CannonTowerPhysicsComponent::isValidTarget(Unit *) {
+bool CannonTowerPhysicsComponent::isValidTarget(Unit * target) {
     if(((NPC*)target)->getType() == NPC_FLY) {
         return false;
     }
@@ -22,7 +22,7 @@ CannonTowerPhysicsComponent::isValidTarget(Unit *) {
 FlameTowerPhysicsComponent::FlameTowerPhysicsComponent(Tower* tower)
         : TowerPhysicsComponent(tower, FIRE_INTERVAL_FLAME, RADIUS_FLAME) { 
 }
-FlameTowerPhysicsComponent::isValidTarget(Unit *) {
+bool FlameTowerPhysicsComponent::isValidTarget(Unit * target) {
     if(((NPC*)target)->getType() == NPC_FLY) {
         return false;
     }
@@ -32,7 +32,7 @@ FlameTowerPhysicsComponent::isValidTarget(Unit *) {
 TarTowerPhysicsComponent::TarTowerPhysicsComponent(Tower* tower)
         : TowerPhysicsComponent(tower, FIRE_INTERVAL_TAR, RADIUS_TAR) { 
 }
-TarTowerPhysicsComponent::isValidTarget(Unit *) {
+bool TarTowerPhysicsComponent::isValidTarget(Unit * target) {
     if(((NPC*)target)->getType() == NPC_FLY) {
         return false;
     }
@@ -42,7 +42,7 @@ TarTowerPhysicsComponent::isValidTarget(Unit *) {
 FlakTowerPhysicsComponent::FlakTowerPhysicsComponent(Tower* tower)
         : TowerPhysicsComponent(tower, FIRE_INTERVAL_FLAK, RADIUS_FLAK) { 
 }
-FlakTowerPhysicsComponent::isValidTarget(Unit *) {
+bool FlakTowerPhysicsComponent::isValidTarget(Unit * target) {
     if(((NPC*)target)->getType() == NPC_FLY) {
         return true;
     }
