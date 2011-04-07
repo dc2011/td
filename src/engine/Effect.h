@@ -26,7 +26,7 @@ public:
     };
     */
 
-    Effect(Unit* unit, int duration);
+	Effect(Unit* unit, int duration, bool timerEnabled = true);
     ~Effect();
 
     /**
@@ -69,6 +69,7 @@ signals:
 
 protected:
     Unit* unit_;
+    bool timerEnabled_;
     //EffectType type_;
     size_t duration_;
     int healthChangeValue_;
