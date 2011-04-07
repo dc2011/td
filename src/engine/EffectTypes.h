@@ -25,7 +25,13 @@ public:
 
     void apply();
 };
-
+/**
+* an effect that modifies a player's movement speed
+* if they are on a bad type of terrain.
+*
+* @author Duncan Donaldson
+* @author Luke Queenan
+*/
 class PlayerTerrainEffect : public Effect {
     Q_OBJECT
 
@@ -35,7 +41,12 @@ public:
 
     void apply();
 };
-
+/**
+* an effect that does initial damage to an NPC
+* then slows the NPC for a period of time
+*
+* @author Duncan Donaldson
+*/
 class NPCTarEffect : public Effect {
     Q_OBJECT
 
