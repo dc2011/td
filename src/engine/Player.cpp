@@ -1,11 +1,12 @@
 #include "Player.h"
 #include "Driver.h"
+#include "../audio/SfxManager.h"
 
 namespace td {
 
 Player::Player(QObject* parent) 
         : Unit(parent), nickname_(""), harvesting_(RESOURCE_NONE), 
-          harvestCountdown_(HARVEST_COUNTDOWN) {
+          harvestCountdown_(HARVEST_COUNTDOWN), resource_(RESOURCE_NONE) {
     QVector2D force(0, 0);
     this->setForce(force);
 
@@ -73,8 +74,26 @@ void Player::deleteEffect(Effect* effect){
 }
 
 void Player::startHarvesting(int type) {
+    if (resource_ != RESOURCE_NONE) {
+        return;
+    }
     harvesting_ = type;
     // TODO: show harvesting progress bar
+
+    switch (type) {
+        case RESOURCE_WOOD:
+            PLAY_LOCAL_SFX(SfxManager::resourceWood);
+            break;
+        case RESOURCE_STONE:
+            PLAY_LOCAL_SFX(SfxManager::resourceStone);
+            break;
+        case RESOURCE_BONE:
+            PLAY_LOCAL_SFX(SfxManager::resourceBone);
+            break;
+        case RESOURCE_TAR:
+            PLAY_LOCAL_SFX(SfxManager::resourceTar);
+            break;
+    }
 }
 
 void Player::stopHarvesting() {
@@ -87,6 +106,7 @@ void Player::stopHarvesting() {
     
 void Player::harvestResource() {
     if (--harvestCountdown_ <= 0) {
+        resource_ = harvesting_;
         harvestCountdown_ = HARVEST_COUNTDOWN;
         qDebug("Harvested a resource: %d", harvesting_);
         // TODO: hide harvesting progress bar

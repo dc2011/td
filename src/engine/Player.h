@@ -153,6 +153,9 @@ private:
     /** How many game ticks remaining before a resource is harvested. */ 
     int harvestCountdown_;
 
+    /** The resource (if any) that the player is currently carrying. */
+    int resource_;
+
 signals:
     /**
      * Signals that the effect list is empty (necessary so we don't spam SFX).

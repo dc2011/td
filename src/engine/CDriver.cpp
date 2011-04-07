@@ -265,8 +265,6 @@ void CDriver::handleSpacebarPress() {
             break;
 
         case TILE_RESOURCE:
-            // TODO: remove SFX and do it properly
-            PLAY_LOCAL_SFX(SfxManager::resourceLumber);
             emit signalHarvesting(currentTile->getTiledTile()->id());
             break;
     }
