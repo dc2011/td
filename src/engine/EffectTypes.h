@@ -26,12 +26,12 @@ public:
     void apply();
 };
 
-class PlayerTerrain : public Effect {
+class PlayerTerrainEffect : public Effect {
     Q_OBJECT
 
 public:
-    explicit PlayerTerrain(Unit* unit);
-    virtual ~PlayerTerrain() {}
+    explicit PlayerTerrainEffect(Unit* unit);
+    virtual ~PlayerTerrainEffect() {}
 
     void apply();
 };
