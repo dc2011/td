@@ -27,7 +27,7 @@ public:
 };
 /**
 * an effect that modifies a player's movement speed
-* if they are on a bad type of terrain.
+* if they are on a bad type of terrain..
 *
 * @author Duncan Donaldson
 * @author Luke Queenan
@@ -38,7 +38,12 @@ class PlayerTerrainEffect : public Effect {
 public:
     explicit PlayerTerrainEffect(Unit* unit);
     virtual ~PlayerTerrainEffect() {}
-
+    /**
+     * applies the player slowdown effect.
+     *
+     * @author Duncan Donaldson
+     * @author Luke Queenan
+     */
     void apply();
 };
 /**
@@ -52,8 +57,13 @@ class NPCTarEffect : public Effect {
 
 public:
     explicit NPCTarEffect(Unit* unit);
-    virtual ~NPCTarEffect(){}
 
+    virtual ~NPCTarEffect(){}
+    /**
+     * applies the tar slowdown effect.
+     *
+     * @author Duncan Donaldson
+     */
     void apply();
 };
 /**
@@ -67,7 +77,11 @@ class NPCBurnEffect : public Effect {
 public:
     explicit NPCBurnEffect(Unit* unit);
     virtual ~NPCBurnEffect(){}
-
+    /**
+     * applies the burn effect.
+     *
+     * @author Duncan Donaldson
+     */
     void apply();
 };
 
