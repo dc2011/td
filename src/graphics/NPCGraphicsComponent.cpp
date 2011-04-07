@@ -9,7 +9,7 @@ bool NPCGraphicsComponent::showHealth_    = 0;
 
 NPCGraphicsComponent::NPCGraphicsComponent()
         : GraphicsComponent() {
-    emit created(this);
+    //emit created(this);
 }
 
 NPCGraphicsComponent::~NPCGraphicsComponent() {

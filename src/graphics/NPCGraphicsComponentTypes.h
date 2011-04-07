@@ -14,7 +14,9 @@ private:
     static QPixmap* pixmapImgs_;
 
 public:
-    NormNPCGraphicsComponent() : NPCGraphicsComponent() { }
+    NormNPCGraphicsComponent() : NPCGraphicsComponent() {
+        emit created(this);
+    }
     virtual ~NormNPCGraphicsComponent() { }
 
     /**
@@ -48,7 +50,9 @@ private:
     static QPixmap* pixmapImgs_;
 
 public:
-    SlowNPCGraphicsComponent() : NPCGraphicsComponent() { }
+    SlowNPCGraphicsComponent() : NPCGraphicsComponent() {
+        emit created(this);
+    }
     virtual ~SlowNPCGraphicsComponent() { }
 
     /**
@@ -82,7 +86,9 @@ private:
     static QPixmap* pixmapImgs_;
 
 public:
-    FastNPCGraphicsComponent() : NPCGraphicsComponent() { }
+    FastNPCGraphicsComponent() : NPCGraphicsComponent() {
+        emit created(this);
+    }
     virtual ~FastNPCGraphicsComponent() { }
 
     /**
@@ -116,7 +122,9 @@ private:
     static QPixmap* pixmapImgs_;
 
 public:
-    FlyNPCGraphicsComponent() : NPCGraphicsComponent() { }
+    FlyNPCGraphicsComponent() : NPCGraphicsComponent() {
+        emit created(this);
+    }
     virtual ~FlyNPCGraphicsComponent() { }
 
     /**
@@ -150,7 +158,9 @@ private:
     static QPixmap* pixmapImgs_;
 
 public:
-    BossNPCGraphicsComponent() : NPCGraphicsComponent() { }
+    BossNPCGraphicsComponent() : NPCGraphicsComponent() {
+        emit created(this);
+    }
     virtual ~BossNPCGraphicsComponent() { }
 
     /**
