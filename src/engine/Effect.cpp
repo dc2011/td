@@ -10,17 +10,17 @@ Effect::~Effect(){}
 
 void Effect::update(){
     this->apply();
-    countdown();
+    if(timerEnabled_ == true) {
+	countdown();
+    }
 }
 
 void Effect::countdown() {
-    if(timerEnabled_ == true) {
-	duration_--;
-	if(duration_ <= 0){
-	    disconnect(unit_->getDriver()->getTimer(), SIGNAL(timeout()),
-		       this, SLOT(update()));
-	    emit effectFinished(this);
-	}
+    duration_--;
+    if(duration_ <= 0){
+	disconnect(unit_->getDriver()->getTimer(), SIGNAL(timeout()),
+		   this, SLOT(update()));
+	emit effectFinished(this);
     }
 }
 
