@@ -36,6 +36,16 @@ public:
     void apply();
 };
 
+class NPCTarEffect : public Effect {
+    Q_OBJECT
+
+public:
+    explicit NPCTarEffect(Unit* unit);
+    virtual ~NPCTarEffect(){}
+
+    void apply();
+};
+
 } /* end namespace td */
 
 #endif

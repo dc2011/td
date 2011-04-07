@@ -31,5 +31,16 @@ PlayerTerrainEffect::PlayerTerrainEffect(Unit* unit):Effect(unit, NO_TIME) {
 void PlayerTerrainEffect::apply() {
     unit_->setVelocity(velocityChangeValue_);
 }
+
+NPCTarEffect::NPCTarEffect(Unit* unit):Effect(unit, TAR_TIME) {
+    velocityChangeValue_ = QVector2D(0,0);
+    healthChangeValue_ = -25;
+    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
+}
+
+void NPCTarEffect::apply() {
+    velocityChangeValue_ = QVector2D(0,0);
+}
+
 } /* end namespace td */
 
