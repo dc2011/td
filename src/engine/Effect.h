@@ -26,7 +26,7 @@ public:
     };
     */
 
-	Effect(Unit* unit, int duration, bool timerEnabled = true);
+    Effect(Unit* unit, int duration, bool timerEnabled = true);
     ~Effect();
 
     /**
