@@ -1,9 +1,12 @@
 #include "Player.h"
 #include "Driver.h"
+#include "../audio/SfxManager.h"
 
 namespace td {
 
-Player::Player(QObject* parent) : Unit(parent), nickname_("") {
+Player::Player(QObject* parent) 
+        : Unit(parent), nickname_(""), harvesting_(RESOURCE_NONE), 
+          harvestCountdown_(HARVEST_COUNTDOWN), resource_(RESOURCE_NONE) {
     QVector2D force(0, 0);
     this->setForce(force);
 
@@ -48,6 +51,9 @@ void Player::update() {
     if (graphics_ != NULL) {
         graphics_->update(this);
     }
+    if (harvesting_ != RESOURCE_NONE) {
+        harvestResource();
+    }
 }
 
 void Player::createEffect(Effect* effect){
@@ -65,6 +71,61 @@ void Player::deleteEffect(Effect* effect){
         emit signalEmptyEffectList();
     }
     delete effect;
+}
+
+void Player::startHarvesting(int type) {
+    if (resource_ != RESOURCE_NONE) {
+        qDebug("Player::startHarvesting(); already carrying a resource");
+        return;
+    }
+    harvesting_ = type;
+    qDebug("Player::startHarvesting(); resource %d", harvesting_);
+    // TODO: show harvesting progress bar
+
+    switch (type) {
+        case RESOURCE_WOOD:
+            PLAY_LOCAL_SFX(SfxManager::resourceWood);
+            break;
+        case RESOURCE_STONE:
+            PLAY_LOCAL_SFX(SfxManager::resourceStone);
+            break;
+        case RESOURCE_BONE:
+            PLAY_LOCAL_SFX(SfxManager::resourceBone);
+            break;
+        case RESOURCE_TAR:
+            PLAY_LOCAL_SFX(SfxManager::resourceTar);
+            break;
+    }
+}
+
+void Player::stopHarvesting() {
+    if (harvesting_ == RESOURCE_NONE) {
+        return;
+    }
+    harvesting_ = RESOURCE_NONE;
+    harvestCountdown_ = HARVEST_COUNTDOWN;
+}
+
+void Player::dropResource() {
+    if (resource_ == RESOURCE_NONE) {
+        return;
+    }
+    // TODO: create resource object on current tile
+    qDebug("Player::dropResource(); dropped resource");
+    resource_ = RESOURCE_NONE;
+    // TODO: hide resource carrying indicator
+}
+    
+void Player::harvestResource() {
+    if (--harvestCountdown_ <= 0) {
+        resource_ = harvesting_;
+        harvestCountdown_ = HARVEST_COUNTDOWN;
+        qDebug("Player::harvestResource(); resource: %d", harvesting_);
+        // TODO: hide harvesting progress bar
+        // TODO: add resource carrying indicator
+        return;
+    }
+    // TODO: update harvesting progress bar
 }
 
 } /* end namespace td */

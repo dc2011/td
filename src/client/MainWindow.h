@@ -150,6 +150,15 @@ signals:
      * @param keyHeld True if the alt key is currently being held down.
      */
     void signalAltHeld(bool keyHeld);
+
+    /**
+     * Signals that the spacebar has been released.
+     *
+     * Connected to stopHarvesting() in Player.cpp
+     *
+     * @author Dean Morin
+     */
+    void signalSpacebarReleased();
 };
 
 } /* end namespace td */
