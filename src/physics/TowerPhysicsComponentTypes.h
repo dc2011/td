@@ -11,6 +11,7 @@ class ArrowTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     ArrowTowerPhysicsComponent(Tower* tower);
     virtual ~ArrowTowerPhysicsComponent() { }
+    bool isValidTarget(Unit *);
 };
 
 class CannonTowerPhysicsComponent : public TowerPhysicsComponent {
@@ -19,6 +20,7 @@ class CannonTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     CannonTowerPhysicsComponent(Tower* tower);
     virtual ~CannonTowerPhysicsComponent() { }
+    bool isValidTarget(Unit *);
 };
 
 class FlameTowerPhysicsComponent : public TowerPhysicsComponent {
@@ -27,6 +29,7 @@ class FlameTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     FlameTowerPhysicsComponent(Tower* tower);
     virtual ~FlameTowerPhysicsComponent() { }
+    bool isValidTarget(Unit *);
 };
 
 class TarTowerPhysicsComponent : public TowerPhysicsComponent {
@@ -35,6 +38,7 @@ class TarTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     TarTowerPhysicsComponent(Tower* tower);
     virtual ~TarTowerPhysicsComponent() { }
+    bool isValidTarget(Unit *);
 };
 
 class FlakTowerPhysicsComponent : public TowerPhysicsComponent {
@@ -43,6 +47,7 @@ class FlakTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     FlakTowerPhysicsComponent(Tower* tower);
     virtual ~FlakTowerPhysicsComponent() { }
+    bool isValidTarget(Unit *);
 };
 
 } /* end namespace td */
