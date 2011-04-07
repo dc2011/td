@@ -86,7 +86,10 @@ public:
     static QStringList winTheGame;
 
     // resource picked up
-    static QStringList resourceLumber;
+    static QStringList resourceWood;
+    static QStringList resourceStone;
+    static QStringList resourceBone;
+    static QStringList resourceTar;
 
     // player SFX
     static QStringList playerOpensMenu;
