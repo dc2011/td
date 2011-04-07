@@ -39,12 +39,14 @@
 #define TILE_RESOURCE   4
 
 // resources that can be picked up by the player
-#define RESOURCE_LUMBER  0
-#define RESOURCE_CRYSTAL 5
-#define RESOURCE_OIL     3
-#define RESOURCE_TAR     4
-#define RESOURCE_STONE   2
-#define RESOURCE_IRON    1
+#define RESOURCE_NONE   0
+#define RESOURCE_WOOD   1
+#define RESOURCE_STONE  2
+#define RESOURCE_BONE   3
+#define RESOURCE_TAR    4
+
+// time to harvest a resource (in game ticks)
+#define HARVEST_COUNTDOWN   120
 
 // NPC types
 #define NPC_NORM    0

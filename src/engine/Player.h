@@ -88,6 +88,14 @@ public:
         setDirty(kNickname);
     }
 
+private: 
+    /**
+     * Checks to see if the resource being harvested is ready to be picked up.
+     *
+     * @author Dean Morin
+     */
+    void harvestResource();
+
 public slots:
     /**
      * Add effect to the effect list.
@@ -117,13 +125,33 @@ public slots:
         setDirty(1);
     }
 
+    /**
+     * Starts harvesting a resource. This will cause update() to call
+     * harvestResource().
+     *
+     * @author Dean Morin
+     * @param type The type of resource being harvested.
+     */
+    void startHarvesting(int type);
+
+    /**
+     * Stops a harvesting attempt partway through, if one is being attempted.
+     *
+     * @author Dean Morin
+     */
+    void stopHarvesting();
+
 private:
     QList<Effect*> effects_;
 
-    /**
-     * A nickname associated with this player used for display purposes and chat.
-     */
+    /** Nickname associated with this player for display purposes and chat. */
     QString nickname_;
+
+    /** The resource (if any) that the player is currently harvesting. */
+    int harvesting_;
+
+    /** How many game ticks remaining before a resource is harvested. */ 
+    int harvestCountdown_;
 
 signals:
     /**

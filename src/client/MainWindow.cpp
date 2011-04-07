@@ -161,7 +161,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
         case Qt::Key_R:
             emit signalAltHeld(false);
             break;
-
+        case Qt::Key_Space:
+            emit signalSpacebarReleased();
+    
         default:
             QMainWindow::keyPressEvent(event);
             break;

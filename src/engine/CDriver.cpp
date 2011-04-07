@@ -114,7 +114,6 @@ void CDriver::makeLocalPlayer(Player* player) {
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             player, SLOT(showName(bool)));
 
-
     /* Set up the build context menu */
     contextMenu_ = new ContextMenu(human_);
 
@@ -131,6 +130,12 @@ void CDriver::makeLocalPlayer(Player* player) {
             this,         SLOT(createTower(int, QPointF)));
     connect(human_, SIGNAL(signalEmptyEffectList()),
             physics, SLOT(okayToPlayCollisionSfx()));
+    
+    // resource harvesting
+    connect(this, SIGNAL(signalHarvesting(int)),
+            player, SLOT(startHarvesting(int)));
+    connect(mainWindow_, SIGNAL(signalSpacebarReleased()),
+            player, SLOT(stopHarvesting()));
 }
 
 void CDriver::NPCCreator() {
@@ -262,7 +267,7 @@ void CDriver::handleSpacebarPress() {
         case TILE_RESOURCE:
             // TODO: remove SFX and do it properly
             PLAY_LOCAL_SFX(SfxManager::resourceLumber);
-            qDebug("Harvesting resource: %d", currentTile->getTiledTile()->id());
+            emit signalHarvesting(currentTile->getTiledTile()->id());
             break;
     }
 }
