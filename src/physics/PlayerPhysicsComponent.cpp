@@ -8,6 +8,7 @@
 #include "../engine/Tile.h"
 #include "../engine/Driver.h"
 #include "../engine/NPC.h"
+#include "../engine/EffectTypes.h"
 
 namespace td {
 
@@ -282,8 +283,8 @@ void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
                     playCollisionSfx_ = false;
                 }
 
-                Effect::EffectType effectType = Effect::stunned;
-                emit NPCPlayerCollided(effectType);
+                //Effect::EffectType effectType = Effect::stunned;
+                emit NPCPlayerCollided(new NPCPlayerEffect(player));
                 break;
             } else {
                 //qDebug("PlayerPhysicsComponenet, line 279, No Collision");
