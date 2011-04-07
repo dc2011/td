@@ -168,7 +168,6 @@ public slots:
      */
     void spawnWave();
     /**
-     * Handles a packet received by updating a currently existing player
      * slot that is called to destroy an NPC when its health reaches 0.
      *
      * @author Duncan Donaldson
