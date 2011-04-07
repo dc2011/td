@@ -2,7 +2,6 @@
 #include <map.h>
 #include <tile.h>
 #include "ContextMenu.h"
-#include "GameInfo.h"
 #include "GameObject.h"
 #include "Map.h"
 #include "NPC.h"
