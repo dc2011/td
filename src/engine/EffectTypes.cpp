@@ -24,7 +24,7 @@ void ArrowEffect::apply() {
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
-    PlayerTerrainEffect::PlayerTerrainEffect(Unit* unit):Effect(unit, NO_TIME) {
+PlayerTerrainEffect::PlayerTerrainEffect(Unit* unit):Effect(unit, NO_TIME) {
     velocityChangeValue_ = QVector2D(0,0);
 }
 
