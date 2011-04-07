@@ -10,7 +10,7 @@ class NPCPlayerEffect : public Effect {
     Q_OBJECT
 
 public:
-    NPCPlayerEffect(Unit* unit);
+    explicit NPCPlayerEffect(Unit* unit);
     virtual ~NPCPlayerEffect() {}
 
     void apply();
@@ -20,8 +20,18 @@ class ArrowEffect : public Effect {
     Q_OBJECT
 
 public:
-    ArrowEffect(Unit* unit);
+    explicit ArrowEffect(Unit* unit);
     virtual ~ArrowEffect() {}
+
+    void apply();
+};
+
+class PlayerTerrain : public Effect {
+    Q_OBJECT
+
+public:
+    explicit PlayerTerrain(Unit* unit);
+    virtual ~PlayerTerrain() {}
 
     void apply();
 };
