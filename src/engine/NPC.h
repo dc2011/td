@@ -105,6 +105,9 @@ public:
         type_ = type;
         setDirty(kType);
     }
+    int getType() {
+        return type_;
+    }
 
 signals:
     /**

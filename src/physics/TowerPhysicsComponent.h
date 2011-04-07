@@ -100,6 +100,7 @@ public:
     int getRadius() {
         return radius_;
     }
+    virtual bool isValidTarget(Unit*);
 
 private:
     /** The tower that this component defines. */
