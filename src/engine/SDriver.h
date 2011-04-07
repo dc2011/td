@@ -4,6 +4,7 @@
 #include <QSet>
 #include <QList>
 #include "Driver.h"
+#include "NPCWave.h"
 #include "../network/netserver.h"
 #include "../util/mutex_magic.h"
 
@@ -22,6 +23,7 @@ private:
     NetworkServer* net_;
     QList<Player*> players_;
     QSet<GameObject*> updates_;
+    QList<NPCWave*> waves_;
 
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;

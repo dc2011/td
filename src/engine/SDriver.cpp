@@ -13,6 +13,7 @@ namespace td {
 SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
     gameMap_ = new Map(QString("./maps/netbookmap2.tmx"));
+    waves_ = new QList<NPCWave*>();
     net_ = new NetworkServer();
     npcCounter_ = 0;
 
@@ -143,6 +144,7 @@ void SDriver::spawnWave() {
         NPCWave* wave = new NPCWave(this);
 
         wave->createWave();
+        waves_->append(wave);
     }
 
     /*if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
