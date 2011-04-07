@@ -56,6 +56,20 @@ public:
 
     void apply();
 };
+/**
+* an effect that deals damage over time to an NPC.
+*
+* @author Duncan Donaldson
+*/
+class NPCBurnEffect : public Effect {
+    Q_OBJECT
+
+public:
+    explicit NPCBurnEffect(Unit* unit);
+    virtual ~NPCBurnEffect(){}
+
+    void apply();
+};
 
 } /* end namespace td */
 

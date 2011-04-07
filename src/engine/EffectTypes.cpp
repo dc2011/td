@@ -42,5 +42,13 @@ void NPCTarEffect::apply() {
     velocityChangeValue_ = QVector2D(0,0);
 }
 
+NPCBurnEffect::NPCBurnEffect(Unit* unit):Effect(unit, BURN_TIME) {
+    healthChangeValue_ = -5;
+}
+
+void NPCBurnEffect::apply() {
+    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
+}
+
 } /* end namespace td */
 
