@@ -3,7 +3,7 @@
 
 namespace td {
 
-    Effect::Effect(Unit* unit, int duration, bool timerEnabled):
+Effect::Effect(Unit* unit, int duration, bool timerEnabled):
     GameObject(NULL), unit_(unit), duration_(duration), timerEnabled_(timerEnabled) {}
 
 Effect::~Effect(){}
@@ -11,16 +11,16 @@ Effect::~Effect(){}
 void Effect::update(){
     this->apply();
     if(timerEnabled_ == true) {
-    countdown();
+	countdown();
     }
 }
 
 void Effect::countdown() {
     duration_--;
     if(duration_ <= 0){
-    disconnect(unit_->getDriver()->getTimer(), SIGNAL(timeout()),
-              this, SLOT(update()));
-    emit effectFinished(this);
+	disconnect(unit_->getDriver()->getTimer(), SIGNAL(timeout()),
+		   this, SLOT(update()));
+	emit effectFinished(this);
     }
 }
 
