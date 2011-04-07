@@ -194,6 +194,15 @@ signals:
      * @param type The resource type that the player is standing on.
      */
     void signalHarvesting(int type);
+
+    /**
+     * Emmited when the spacebar is pressed on an empty tile.
+     *
+     * Connected to dropResource() in Player.cpp.
+     *
+     * @author Dean Morin
+     */
+    void signalEmptyTile();
     
 public slots:
     /**

@@ -141,6 +141,13 @@ public slots:
      */
     void stopHarvesting();
 
+    /**
+     * Drops whatever resource that the player is carrying.
+     *
+     * @author Dean Morin
+     */
+    void dropResource();
+
 private:
     QList<Effect*> effects_;
 

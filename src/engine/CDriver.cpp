@@ -136,6 +136,8 @@ void CDriver::makeLocalPlayer(Player* player) {
             player, SLOT(startHarvesting(int)));
     connect(mainWindow_, SIGNAL(signalSpacebarReleased()),
             player, SLOT(stopHarvesting()));
+    connect(this, SIGNAL(signalEmptyTile()),
+            player, SLOT(dropResource()));
 }
 
 void CDriver::NPCCreator() {
@@ -267,6 +269,9 @@ void CDriver::handleSpacebarPress() {
         case TILE_RESOURCE:
             emit signalHarvesting(currentTile->getTiledTile()->id());
             break;
+
+        default:
+            emit signalEmptyTile();
     }
 }
 

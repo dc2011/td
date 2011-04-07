@@ -75,9 +75,11 @@ void Player::deleteEffect(Effect* effect){
 
 void Player::startHarvesting(int type) {
     if (resource_ != RESOURCE_NONE) {
+        qDebug("Player::startHarvesting(); already carrying a resource");
         return;
     }
     harvesting_ = type;
+    qDebug("Player::startHarvesting(); resource %d", harvesting_);
     // TODO: show harvesting progress bar
 
     switch (type) {
@@ -103,13 +105,24 @@ void Player::stopHarvesting() {
     harvesting_ = RESOURCE_NONE;
     harvestCountdown_ = HARVEST_COUNTDOWN;
 }
+
+void Player::dropResource() {
+    if (resource_ == RESOURCE_NONE) {
+        return;
+    }
+    // TODO: create resource object on current tile
+    qDebug("Player::dropResource(); dropped resource");
+    resource_ = RESOURCE_NONE;
+    // TODO: hide resource carrying indicator
+}
     
 void Player::harvestResource() {
     if (--harvestCountdown_ <= 0) {
         resource_ = harvesting_;
         harvestCountdown_ = HARVEST_COUNTDOWN;
-        qDebug("Harvested a resource: %d", harvesting_);
+        qDebug("Player::harvestResource(); resource: %d", harvesting_);
         // TODO: hide harvesting progress bar
+        // TODO: add resource carrying indicator
         return;
     }
     // TODO: update harvesting progress bar
