@@ -54,6 +54,10 @@ void Player::update() {
     if (harvesting_ != RESOURCE_NONE) {
         harvestResource();
     }
+    //this will apply tile effects to players, waiting on some code
+    //if(getDriver()->getMap()->getTile(getPos())->getEffect()){
+    //    createEffect(new PlayerTerrainEffect(this));
+    //}
 }
 
 void Player::createEffect(Effect* effect){
