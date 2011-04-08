@@ -6,6 +6,7 @@
 #include "EffectTypes.h"
 #include "../util/defines.h"
 #include "../input/ProjectileInputComponent.h"
+#include "../input/ProjectileInputComponentTypes.h"
 #include "../physics/ProjectilePhysicsComponent.h"
 #include "../graphics/ProjectileGraphicsComponent.h"
 
@@ -24,23 +25,31 @@ Projectile::Projectile(QObject* parent) : Unit(parent) {
 void Projectile::initComponents() {
     switch(type_) {
         case PROJ_ARROW:
+            setInputComponent(new ArrowProjectileInputComponent());
+            break;
 
         case PROJ_CANNON:
+            setInputComponent(new CannonProjectileInputComponent());
+            break;
 
         case PROJ_FIRE:
+            setInputComponent(new FireProjectileInputComponent());
+            break;
 
         case PROJ_TAR:
+            setInputComponent(new TarProjectileInputComponent());
+            break;
 
         case PROJ_FLAK:
-
-            setPhysicsComponent(new ProjectilePhysicsComponent());
-#ifndef SERVER
-            setGraphicsComponent(new ProjectileGraphicsComponent());
-#endif
-            setInputComponent(new ProjectileInputComponent());
-            getInputComponent()->setParent(this);
+            setInputComponent(new FlakProjectileInputComponent());
             break;
     }
+
+    setPhysicsComponent(new ProjectilePhysicsComponent());
+#ifndef SERVER
+    setGraphicsComponent(new ProjectileGraphicsComponent());
+#endif
+    getInputComponent()->setParent(this);
 }
 
 void Projectile::setPath(QPointF source, QPointF target, Unit* enemy) {
