@@ -70,6 +70,10 @@ void SDriver::startGame() {
         user->resetDirty();
     }
 
+    /* Not "proper" but it saves space and the client can deal with it anyways */
+    s.writeByte(network::kMulticastIP);
+    s.writeByte(net_->getMulticastAddr());
+
     net_->send(network::kServerPlayers, s.data());
 
     gameMap_->initMap();

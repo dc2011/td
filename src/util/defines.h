@@ -8,7 +8,7 @@
 
 // Network information
 #define TD_PORT 26631
-#define TD_GROUP QHostAddress("232.22.42.1")
+#define TD_GROUP(x) QHostAddress(QString("232.22.42.") + QString::number(x))
 
 // based on the number keys used to select the tower
 #define TOWER_ARROW     49

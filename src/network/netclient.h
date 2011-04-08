@@ -94,6 +94,11 @@ private:
      */
     QUdpSocket* udpSocket_;
 
+    /**
+     * The last digit of the multicast address.
+     */
+    unsigned char multicastAddr_;
+
 
 private:
     /**
@@ -121,6 +126,13 @@ signals:
     void msgQueued();
 
     /**
+     * Signal emitted to join a multicast group.
+     *
+     * @param octet The last octet of the multicast address.
+     */
+    void joinMulticast(unsigned char octet);
+
+    /**
      * Signal emitted when a message is received over UDP.
      *
      * @param s The stream for the network message.
@@ -143,6 +155,14 @@ private slots:
      * @author Terence Stenvold
      */
     void onMsgQueued();
+
+    /**
+     * Called when a multicast group is joined.
+     *
+     * @author Darryl Pogue
+     * @param digit The last digit of the multicast address.
+     */
+    void onMulticastJoin(unsigned char digit);
 
     /**
      * Called when data is received by the TCP socket, parses the data and
@@ -209,6 +229,10 @@ public:
         SAFE_OPERATION(msgQueue_.enqueue(msg.prepend(msgType)))
 
         emit msgQueued();
+    }
+
+    void setMulticastAddress(unsigned char digit) {
+        emit joinMulticast(digit);
     }
 };
 

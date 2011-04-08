@@ -279,9 +279,17 @@ void CDriver::UDPReceived(Stream* s) {
 
     switch(message) {
         case network::kAssignPlayerID:
+        {
             playerID_ = s->readInt();
             qDebug("My player ID is %08X", playerID_);
             break;
+        }
+        case network::kMulticastIP:
+        {
+            unsigned char mcast = s->readByte();
+            NetworkClient::instance()->setMulticastAddress(mcast);
+            break;
+        }
         case network::kServerPlayers:
         {
             int count = s->readByte();
