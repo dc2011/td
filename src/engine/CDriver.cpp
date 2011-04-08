@@ -26,7 +26,7 @@ CDriver* CDriver::instance_ = NULL;
 
 CDriver::CDriver(MainWindow* mainWindow)
         : Driver(), playerID_(0xFFFFFFFF), human_(NULL),
-        mainWindow_(mainWindow), contextMenu_(NULL), projectile_(NULL)
+        mainWindow_(mainWindow), contextMenu_(NULL)
 {
     mgr_ = new ResManager(this);
     npcCounter_ = 0;
@@ -163,20 +163,28 @@ NPC* CDriver::createNPC(int npcType) {
 }
 
 void CDriver::createProjectile(QPointF source, QPointF target, Unit* enemy) {
+    Projectile* projectile_ = (Projectile*)mgr_->createObject(
+            Projectile::clsIdx());
+
+    /*
     PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
     GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
     ProjectileInputComponent* input = new ProjectileInputComponent();
-    projectile_ = (Projectile*)mgr_->createObject(Projectile::clsIdx());
-
     input->setParent(projectile_);
     projectile_->setPhysicsComponent(projectilePhysics);
     projectile_->setGraphicsComponent(projectileGraphics);
+    projectile_->setInputComponent(input);
+    */
+    projectile_->initComponents();
+    projectile_->setPath(source, target, enemy);
 
+    /*
     QPointF* start = new QPointF(source);
     QPointF* end = new QPointF(target);
-    input->setPath(start, end);
-    projectile_->setInputComponent(input);
+    ((ProjectileInputComponent*)projectile_->getInputComponent())
+        ->setPath(start, end);
     projectile_->setEnemy(enemy);
+    */
 
     connect(gameTimer_,  SIGNAL(timeout()), projectile_, SLOT(update()));
 }

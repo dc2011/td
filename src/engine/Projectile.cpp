@@ -4,6 +4,10 @@
 #include "CDriver.h"
 #endif
 #include "EffectTypes.h"
+#include "../util/defines.h"
+#include "../input/ProjectileInputComponent.h"
+#include "../physics/ProjectilePhysicsComponent.h"
+#include "../graphics/ProjectileGraphicsComponent.h"
 
 namespace td {
 
@@ -15,6 +19,37 @@ Projectile::Projectile(QObject* parent) : Unit(parent) {
     this->pos_ = QPointF(0,0);
     this->setHeight(10);
     this->setWidth(48);
+}
+
+void Projectile::initComponents() {
+    switch(type_) {
+        case PROJ_ARROW:
+
+        case PROJ_CANNON:
+
+        case PROJ_FIRE:
+
+        case PROJ_TAR:
+
+        case PROJ_FLAK:
+
+            setPhysicsComponent(new ProjectilePhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new ProjectileGraphicsComponent());
+#endif
+            setInputComponent(new ProjectileInputComponent());
+            getInputComponent()->setParent(this);
+            break;
+    }
+}
+
+void Projectile::setPath(QPointF source, QPointF target, Unit* enemy) {
+    QPointF* start = new QPointF(source);
+    QPointF* end = new QPointF(target);
+    ProjectileInputComponent* input = (ProjectileInputComponent*) 
+        getInputComponent();
+    input->setPath(start, end);
+    setEnemy(enemy);
 }
 
 void Projectile::networkRead(td::Stream* s) {

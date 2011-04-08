@@ -94,6 +94,13 @@
 #define WP_MAMMOTH      9
 #define WP_PTERO        10
 
+//Projectile types
+#define PROJ_ARROW  0
+#define PROJ_CANNON 1
+#define PROJ_FIRE   2
+#define PROJ_TAR    3
+#define PROJ_FLAK   4
+
 // healthbar size, in pixels
 #define HEALTHBAR_WIDTH     50
 #define HEALTHBAR_HEIGHT    4

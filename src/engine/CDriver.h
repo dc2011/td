@@ -38,9 +38,6 @@ private:
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
     
-    /** A projectile fired from a tower. */
-    Projectile* projectile_;
-    
     /** The single instance of this class that can be created. */
     static CDriver* instance_;
     
