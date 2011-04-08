@@ -8,7 +8,7 @@
 #include "../input/ProjectileInputComponent.h"
 #include "../input/ProjectileInputComponentTypes.h"
 #include "../physics/ProjectilePhysicsComponentTypes.h"
-#include "../graphics/ProjectileGraphicsComponent.h"
+#include "../graphics/ProjectileGraphicsComponentTypes.h"
 
 namespace td {
 
@@ -27,32 +27,44 @@ void Projectile::initComponents() {
         case PROJ_ARROW:
             setInputComponent(new ArrowProjectileInputComponent());
             setPhysicsComponent(new ArrowProjectilePhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new ArrowProjectileGraphicsComponent());
+#endif
             break;
 
         case PROJ_CANNON:
             setInputComponent(new CannonProjectileInputComponent());
             setPhysicsComponent(new CannonProjectilePhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new CannonProjectileGraphicsComponent());
+#endif
             break;
 
         case PROJ_FIRE:
             setInputComponent(new FireProjectileInputComponent());
             setPhysicsComponent(new FireProjectilePhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new FireProjectileGraphicsComponent());
+#endif
             break;
 
         case PROJ_TAR:
             setInputComponent(new TarProjectileInputComponent());
             setPhysicsComponent(new TarProjectilePhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new TarProjectileGraphicsComponent());
+#endif
             break;
 
         case PROJ_FLAK:
             setInputComponent(new FlakProjectileInputComponent());
             setPhysicsComponent(new FlakProjectilePhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new FlakProjectileGraphicsComponent());
+#endif
             break;
     }
 
-#ifndef SERVER
-    setGraphicsComponent(new ProjectileGraphicsComponent());
-#endif
     getInputComponent()->setParent(this);
 }
 
