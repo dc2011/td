@@ -50,7 +50,7 @@ public:
      *
      * @author Dean Morin
      */
-    void fire();
+    virtual void fire() = 0;
 
     /**
      * returns current enemies in sight.
@@ -102,19 +102,19 @@ public:
     }
 
 private:
-    /** The tower that this component defines. */
-    Tower* tower_;
-
     /** All enemies that are potentially in range of the tower. */
     QSet<Unit*> enemies_;
-
-    /** The enemy that's currently being tracked by the tower. */
-    Unit* target_;
 
     /** The line between the tower and its current target. */
     QLineF projectilePath_;
     
 protected:
+    /** The tower that this component defines. */
+    Tower* tower_;
+
+    /** The enemy that's currently being tracked by the tower. */
+    Unit* target_;
+
     /** The number of ticks beween each shot. */
     size_t fireInterval_;
 
@@ -133,7 +133,8 @@ signals:
      * @param target The current position of the enemy that the tower has 
      * tageted.
      */
-    void fireProjectile(QPointF source, QPointF target, Unit* enemy);
+    void fireProjectile(int projType, QPointF source, QPointF target,
+            Unit* enemy);
 
 public slots:
     /**

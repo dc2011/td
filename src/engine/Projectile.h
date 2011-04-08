@@ -6,9 +6,6 @@
 
 #include "Unit.h"
 #include "Effect.h"
-#include "../input/ProjectileInputComponent.h"
-#include "../physics/ProjectilePhysicsComponent.h"
-#include "../graphics/ProjectileGraphicsComponent.h"
 
 namespace td {
 
@@ -36,13 +33,21 @@ private:
         /* Projectile properties */
         kDamage         = (1 << 3),
         kStartPos       = (1 << 4),
-        kEndPos         = (1 << 5)
+        kEndPos         = (1 << 5),
+        kType           = (1 << 6)
     };
-
-    QList<Effect*> effects_;
 
 public:
     Projectile(QObject* parent = 0);
+
+    /**
+     * Initializes the Projectile components based on type
+     *
+     * @author Marcel Vangrootheest
+     */
+    virtual void initComponents();
+
+    void setPath(QPointF source, QPointF target, Unit* enemy);
 
     /**
      * Reads the object state from a network stream.
@@ -61,6 +66,17 @@ public:
      * @param s The network stream.
      */
     virtual void networkWrite(td::Stream* s);
+
+    /**
+     * Sets the Projectile type (Arrow, Cannon, Fire, Tar, or Flak).
+     *
+     * @author Marcel Vangrootheest.
+     * @param type Projectile type
+     */
+    void setType(int type) {
+        type_ = type;
+        setDirty(kType);
+    }
 
     virtual void update();
 
@@ -201,9 +217,12 @@ private:
      */
     QLineF path_;
 
+    QList<Effect*> effects_;
+
     Unit* enemy_;
     int height_;
     int width_;
+    int type_;
 };
 
 } /* end namespace td */

@@ -38,9 +38,6 @@ private:
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
     
-    /** A projectile fired from a tower. */
-    Projectile* projectile_;
-    
     /** The single instance of this class that can be created. */
     static CDriver* instance_;
     
@@ -226,10 +223,12 @@ private slots:
      * Creates a projectile object.
      *
      * @author Pan Khantidhara, Marcel Vangrootheest, Dean Morin
+     * @param projType The type of the projectile (Arrow, Cannon, etc).
      * @param source The starting point of the projectile.
      * @param target The destination point of the projectile.
      */
-    void createProjectile(QPointF source, QPointF target, Unit* enemy);
+    void createProjectile(int projType, QPointF source, QPointF target,
+            Unit* enemy);
 
     /**
      * Temp testing method.
