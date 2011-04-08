@@ -98,6 +98,10 @@
 #define HEALTHBAR_WIDTH     50
 #define HEALTHBAR_HEIGHT    4
 
+// resource collection bar size, in pixels
+#define RESBAR_WIDTH    30
+#define RESBAR_HEIGHT   6
+
 // Temp defines pending a map object
 #define MAP_ROWS 99
 #define MAP_COLS 99

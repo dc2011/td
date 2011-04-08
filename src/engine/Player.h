@@ -89,6 +89,16 @@ public:
         setDirty(kNickname);
     }
 
+    /**
+      * Gets the player's harvest coutndown.
+      *
+      * @author Nick Huber
+      * @return The player's remaining countdown for harvesting.
+      */
+    int getHarvestCountdown() {
+        return harvestCountdown_;
+    }
+
 private: 
     /**
      * Checks to see if the resource being harvested is ready to be picked up.

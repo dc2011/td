@@ -12,15 +12,32 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
 {
     animateMod_ = 4;
     animateCount_ = 0; 
+    resourceProgressBar_ = new QGraphicsRectItem(QRectF(OFFSCREEN,OFFSCREEN,
+                                                    RESBAR_WIDTH, RESBAR_HEIGHT));
+    resourceProgressBar_->setBrush(QBrush(Qt::blue));
+    CDriver::instance()->getMainWindow()->getScene()->addItem(resourceProgressBar_);
     emit created(this);
 }
 
 void PlayerGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
-    if (!player->isDirty() && pixmapIndex_ == 0) {
-        //checks if object is dirty or in mid-animation
+
+    if (player->getHarvestCountdown() != HARVEST_COUNTDOWN) {
+        resourceProgressShowing_ = true;
+        resourceProgress_ = (double) player->getHarvestCountdown()
+                            / HARVEST_COUNTDOWN;
+    }
+
+    if (!player->isDirty() && pixmapIndex_ == 0 && !resourceProgressShowing_) {
+        //checks if object is dirty or in mid-animation, or if the resource progress
+        //bar is being updated
         return;
     }
+
+    if (player->getHarvestCountdown() == HARVEST_COUNTDOWN) {
+        resourceProgressShowing_ = false;
+    }
+
     player->resetDirty();
 
     DrawParams* dp = new DrawParams();
@@ -33,6 +50,20 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
 
 void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
     
+    if (resourceProgressShowing_) {
+        resourceProgressBar_->setVisible(true);
+        resourceProgressBar_->setRect(0, 0,
+                                  RESBAR_WIDTH * resourceProgress_, RESBAR_HEIGHT);
+        resourceProgressBar_->setPos((dp->pos.x()
+                    - resourceProgressBar_->boundingRect().center().x()),
+                    (dp->pos.y()
+                    - (getPixmapItem()->boundingRect().height())/2));
+        resourceProgressBar_->setZValue(layer);
+        resourceProgressBar_->update();
+    } else {
+        resourceProgressBar_->setVisible(false);
+    }
+
     if (showName_) {
         label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
                        dp->pos.y() - getPixmapItem()->boundingRect().height());
