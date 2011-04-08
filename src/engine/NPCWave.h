@@ -19,7 +19,7 @@ private:
     /** The starting time of this wave (relative to start of game). */
     unsigned int start_;
 
-    /** The number of NPCs in this wave at the time of creation. */
+    /** The number of NPCs to be created in this wave. */
     unsigned int count_;
 
     /** The type of NPCs to create for this wave. */
@@ -59,6 +59,15 @@ private:
 
 public slots:
     void update();
+
+private slots:
+    /**
+     * Removes a child from the set when it has been killed or destroyed.
+     *
+     * @author Darryl Pogue
+     * @param id The id of the child that has been destroyed.
+     */
+    void childKilled(int);
 };
 
 }
