@@ -3,11 +3,6 @@
 
 namespace td {
 
-ProjectileGraphicsComponent::ProjectileGraphicsComponent()
-        : GraphicsComponent() {
-    emit created(this);
-}
-
 ProjectileGraphicsComponent::~ProjectileGraphicsComponent() {}
 
 void ProjectileGraphicsComponent::update(GameObject* obj) {
