@@ -50,7 +50,7 @@ void SDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
     QString debug = "";
 
     for (int i = 0; i < msg.size(); i++) {
-        QString tmp = QString().sprintf("%02X", msg.at(i));
+        QString tmp = QString().sprintf("%02X ", (unsigned char)msg.at(i));
         debug += tmp;
     }
     qDebug("%s", debug.toAscii().data());
@@ -152,6 +152,8 @@ void SDriver::spawnWave() {
 
         wave->createWave();
         waves_.append(wave);
+
+        disconnect(gameTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
     }
 
     /*if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {

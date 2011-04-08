@@ -34,7 +34,7 @@ void NPCWave::update() {
     }
 
     Stream s;
-    s.writeInt(children_.size());
+    s.writeShort(children_.size());
     foreach (NPC* npc, children_) {
         npc->update();
         npc->networkWrite(&s);
