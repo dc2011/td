@@ -7,7 +7,7 @@
 #include "../util/defines.h"
 #include "../input/ProjectileInputComponent.h"
 #include "../input/ProjectileInputComponentTypes.h"
-#include "../physics/ProjectilePhysicsComponent.h"
+#include "../physics/ProjectilePhysicsComponentTypes.h"
 #include "../graphics/ProjectileGraphicsComponent.h"
 
 namespace td {
@@ -26,26 +26,30 @@ void Projectile::initComponents() {
     switch(type_) {
         case PROJ_ARROW:
             setInputComponent(new ArrowProjectileInputComponent());
+            setPhysicsComponent(new ArrowProjectilePhysicsComponent());
             break;
 
         case PROJ_CANNON:
             setInputComponent(new CannonProjectileInputComponent());
+            setPhysicsComponent(new CannonProjectilePhysicsComponent());
             break;
 
         case PROJ_FIRE:
             setInputComponent(new FireProjectileInputComponent());
+            setPhysicsComponent(new FireProjectilePhysicsComponent());
             break;
 
         case PROJ_TAR:
             setInputComponent(new TarProjectileInputComponent());
+            setPhysicsComponent(new TarProjectilePhysicsComponent());
             break;
 
         case PROJ_FLAK:
             setInputComponent(new FlakProjectileInputComponent());
+            setPhysicsComponent(new FlakProjectilePhysicsComponent());
             break;
     }
 
-    setPhysicsComponent(new ProjectilePhysicsComponent());
 #ifndef SERVER
     setGraphicsComponent(new ProjectileGraphicsComponent());
 #endif

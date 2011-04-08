@@ -101,6 +101,13 @@
 #define PROJ_TAR    3
 #define PROJ_FLAK   4
 
+//Projectile Velocity
+#define ARROW_VELOCITY  15
+#define CANNON_VELOCITY 10
+#define FIRE_VELOCITY   10
+#define TAR_VELOCITY    10
+#define FLAK_VELOCITY   15
+
 // healthbar size, in pixels
 #define HEALTHBAR_WIDTH     50
 #define HEALTHBAR_HEIGHT    4
