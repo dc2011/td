@@ -1,5 +1,4 @@
 #include "TowerPhysicsComponent.h"
-#include "../audio/SfxManager.h"
 #include "../engine/Tower.h"
 #include "../engine/Player.h"
 #include <typeinfo>
@@ -64,21 +63,6 @@ void TowerPhysicsComponent::findTarget() {
             }
         }
     }
-}
-
-void TowerPhysicsComponent::fire() {
-    if (fireCountdown_ != 0) {
-        fireCountdown_--;
-        return;
-    }
-    if (target_ == NULL) {
-        return;
-    }
-    // TODO: move to projectilePC, once the different types have been created
-    PLAY_SFX(tower_, SfxManager::projectileFireArrow);
-    emit fireProjectile(PROJ_ARROW, tower_->getPos(), target_->getPos(),
-            target_);
-    fireCountdown_ = fireInterval_;
 }
 
 void TowerPhysicsComponent::applyDirection(GameObject* tower) {
