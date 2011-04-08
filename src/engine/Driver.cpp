@@ -50,7 +50,16 @@ NPC* Driver::createNPC(int type) {
     return npc;
 }
 
-/*Resource* Driver::createResource(int type) {
-}*/
+Resource* Driver::createResource(int type) {
+    Resource* resource = (Resource*)mgr_->createObject(Resource::clsIdx());
+
+    resource->setType(type);
+    resource->initComponents();
+
+    // probably won't need regular updates for resources
+    //connect(gameTimer_, SIGNAL(timeout()), resource, SLOT(update()));
+
+    return resource;
+}
 
 } /* end namespace td */

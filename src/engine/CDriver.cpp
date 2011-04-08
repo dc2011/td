@@ -202,7 +202,7 @@ void CDriver::createTower(int towerType, QPointF pos)
 
 void CDriver::startGame(bool singlePlayer) {
     // Create hard coded map
-    gameMap_ = new Map(mainWindow_->getMD()->map());
+    gameMap_ = new Map(mainWindow_->getMD()->map(), this);
     gameTimer_ = new QTimer(this);
     gameMap_->initMap();
     QQueue<QString> musicList;

@@ -104,7 +104,14 @@ public:
      */
     NPC* createNPC(int type);
 
-    //Resource* createResource(int type);
+    /**
+     * Creates a resource "mine" of the given type.
+     *
+     * @author Dean Morin
+     * @author Darryl Pogue
+     * @return A pointer to the new resource.
+     */
+    Resource* createResource(int type);
 
 public slots:
     /**
