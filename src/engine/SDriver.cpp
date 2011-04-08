@@ -13,7 +13,6 @@ namespace td {
 SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
     gameMap_ = new Map(QString("./maps/netbookmap2.tmx"));
-    waves_ = new QList<NPCWave*>();
     net_ = new NetworkServer();
     npcCounter_ = 0;
 
@@ -48,6 +47,14 @@ void SDriver::updateRT(GameObject* obj) {
 }
 
 void SDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
+    QString debug = "";
+
+    for (int i = 0; i < msg.size(); i++) {
+        QString tmp = QString().sprintf("%02X", msg.at(i));
+        debug += tmp;
+    }
+    qDebug("%s", debug.toAscii().data());
+
     net_->send(msgType, msg);
 }
 
@@ -144,7 +151,7 @@ void SDriver::spawnWave() {
         NPCWave* wave = new NPCWave(this);
 
         wave->createWave();
-        waves_->append(wave);
+        waves_.append(wave);
     }
 
     /*if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {

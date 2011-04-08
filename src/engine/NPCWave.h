@@ -1,11 +1,14 @@
 #ifndef NPCWAVE_H
 #define NPCWAVE_H
 
+#include <QObject>
 #include "NPC.h"
 
 namespace td {
 
-class NPCWave : public GameObject
+class Driver;
+
+class NPCWave : public QObject
 {
     Q_OBJECT
 
@@ -41,6 +44,17 @@ public:
      */
     bool isDead() const {
         return children_.size() == 0;
+    }
+
+private:
+    /**
+     * Returns the game driver to which this game object belongs.
+     *
+     * @author Darryl Pogue
+     * @return The game driver.
+     */
+    Driver* getDriver() const {
+        return (Driver*)this->parent();
     }
 
 public slots:
