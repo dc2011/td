@@ -170,25 +170,8 @@ void CDriver::createProjectile(int projType, QPointF source,
             Projectile::clsIdx());
     projectile->setType(projType);
 
-    /*
-    PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
-    GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
-    ProjectileInputComponent* input = new ProjectileInputComponent();
-    input->setParent(projectile_);
-    projectile_->setPhysicsComponent(projectilePhysics);
-    projectile_->setGraphicsComponent(projectileGraphics);
-    projectile_->setInputComponent(input);
-    */
     projectile->initComponents();
     projectile->setPath(source, target, enemy);
-
-    /*
-    QPointF* start = new QPointF(source);
-    QPointF* end = new QPointF(target);
-    ((ProjectileInputComponent*)projectile_->getInputComponent())
-        ->setPath(start, end);
-    projectile_->setEnemy(enemy);
-    */
 
     connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
 }

@@ -47,6 +47,15 @@ public:
      */
     virtual void initComponents();
 
+    /**
+     * Sets path of the projectile for input
+     *
+     * @param source The source point of the path.
+     * @param target The target point of the path.
+     * @param enemy  The enemy unit firing at.
+     *
+     * @author Marcel Vangrootheest
+     */
     void setPath(QPointF source, QPointF target, Unit* enemy);
 
     /**
