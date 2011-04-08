@@ -3,7 +3,7 @@
 
 namespace td {
 
-    QPixmap * ProjectileGraphicsComponent::pixmapImgs_ = 0;
+QPixmap * ProjectileGraphicsComponent::pixmapImgs_ = 0;
 
 ProjectileGraphicsComponent::ProjectileGraphicsComponent()
         : GraphicsComponent() {
@@ -33,15 +33,12 @@ void ProjectileGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_PROJECTILE_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PROJ_ARROW_MAX];
     }
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_2;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJECTILE_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_ARROW;
     pixmapIndex_ = 0;
 }
 
