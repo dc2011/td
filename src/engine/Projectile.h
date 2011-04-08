@@ -199,6 +199,16 @@ public:
         height_ = height;
     }
 
+public slots:
+    /**
+     * Sets the enemy_ member to null if the NPC dies.
+     *
+     * Connected to signalNPCDied() in the NPC class.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void enemyDied();
+
 signals:
     /**
      * Signal to notify NPC of projectile collision.

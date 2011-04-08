@@ -173,6 +173,7 @@ void CDriver::createProjectile(int projType, QPointF source,
     projectile->initComponents();
     projectile->setPath(source, target, enemy);
 
+    connect(enemy, SIGNAL(signalNPCDied()), projectile, SLOT(enemyDied()));
     connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
 }
 
