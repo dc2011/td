@@ -133,7 +133,8 @@ signals:
      * @param target The current position of the enemy that the tower has 
      * tageted.
      */
-    void fireProjectile(QPointF source, QPointF target, Unit* enemy);
+    void fireProjectile(int projType, QPointF source, QPointF target,
+            Unit* enemy);
 
 public slots:
     /**

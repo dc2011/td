@@ -162,9 +162,11 @@ NPC* CDriver::createNPC(int npcType) {
     return npc;
 }
 
-void CDriver::createProjectile(QPointF source, QPointF target, Unit* enemy) {
-    Projectile* projectile_ = (Projectile*)mgr_->createObject(
+void CDriver::createProjectile(int projType, QPointF source,
+        QPointF target, Unit* enemy) {
+    Projectile* projectile = (Projectile*)mgr_->createObject(
             Projectile::clsIdx());
+    projectile->setType(projType);
 
     /*
     PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
@@ -175,8 +177,8 @@ void CDriver::createProjectile(QPointF source, QPointF target, Unit* enemy) {
     projectile_->setGraphicsComponent(projectileGraphics);
     projectile_->setInputComponent(input);
     */
-    projectile_->initComponents();
-    projectile_->setPath(source, target, enemy);
+    projectile->initComponents();
+    projectile->setPath(source, target, enemy);
 
     /*
     QPointF* start = new QPointF(source);
@@ -186,7 +188,7 @@ void CDriver::createProjectile(QPointF source, QPointF target, Unit* enemy) {
     projectile_->setEnemy(enemy);
     */
 
-    connect(gameTimer_,  SIGNAL(timeout()), projectile_, SLOT(update()));
+    connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
 }
 
 void CDriver::createTower(int towerType, QPointF pos)
@@ -201,8 +203,8 @@ void CDriver::createTower(int towerType, QPointF pos)
 
         connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
         connect(tower->getPhysicsComponent(),
-                SIGNAL(fireProjectile(QPointF, QPointF, Unit*)),
-                this, SLOT(createProjectile(QPointF, QPointF, Unit*)));
+                SIGNAL(fireProjectile(int, QPointF, QPointF, Unit*)),
+                this, SLOT(createProjectile(int, QPointF, QPointF, Unit*)));
 
         return;
     }
