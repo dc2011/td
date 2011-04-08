@@ -69,7 +69,7 @@ void PlayerInputComponent::playerMovement(bool move) {
     parent_->setVelocity(velo);
     parent_->setForce(force);
     
-    menuIsOpen_ = move;
+    menuIsOpen_ = !move;
 }
 
 } /* end namespace td */

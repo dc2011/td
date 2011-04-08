@@ -138,6 +138,8 @@ void CDriver::makeLocalPlayer(Player* player) {
             player, SLOT(stopHarvesting()));
     connect(this, SIGNAL(signalEmptyTile()),
             player, SLOT(dropResource()));
+    connect(player, SIGNAL(signalPlayerMovement(bool)),
+	        input, SLOT(playerMovement(bool)));
 }
 
 void CDriver::NPCCreator() {

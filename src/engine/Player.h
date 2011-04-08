@@ -32,7 +32,8 @@ private:
         kPosition       = (1 << 0),
         kOrientation    = (1 << 1),
         kScale          = (1 << 2),
-        kNickname       = (1 << 3)
+        kNickname       = (1 << 3),
+        kResource       = (1 << 4)
     };
 
 public:
@@ -172,6 +173,16 @@ signals:
      * @author Dean Morin
      */
     void signalEmptyEffectList();
+    
+    /**
+     * Emitted when the player starts or stops harvesting a resource.
+     *
+     * Connected to playerMovement() in PlayerInputComponent.cpp. 
+     *
+     * @author Dean Morin
+     * @param move False if the player should stop moving.
+     */
+    void signalPlayerMovement(bool move);
 };
 
 }

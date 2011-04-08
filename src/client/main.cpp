@@ -21,6 +21,9 @@ int main(int argc, char **argv) {
 #endif
     QDir::setCurrent(bin.absolutePath());
 
+    /* Set the ThreadPool count to allow for lots of audio */
+    QThreadPool::globalInstance()->setMaxThreadCount(64);
+
     td::LobbyWindow* lobby = new td::LobbyWindow();
     td::MainWindow* qmw = new td::MainWindow();
     td::CDriver* clientDriver = td::CDriver::init(qmw);
@@ -38,6 +41,7 @@ int main(int argc, char **argv) {
     
     int exitCode = a.exec();
 
+    
     td::AudioManager::instance()->shutdown();
     td::CDriver::shutdown();
     td::NetworkClient::instance()->shutdown();
