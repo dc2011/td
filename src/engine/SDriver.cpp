@@ -47,6 +47,8 @@ void SDriver::updateRT(GameObject* obj) {
 }
 
 void SDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
+    /* Enable if you need hex output for messages
+
     QString debug = "";
 
     for (int i = 0; i < msg.size(); i++) {
@@ -54,6 +56,7 @@ void SDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
         debug += tmp;
     }
     qDebug("%s", debug.toAscii().data());
+    */
 
     net_->send(msgType, msg);
 }

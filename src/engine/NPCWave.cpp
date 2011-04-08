@@ -27,7 +27,7 @@ void NPCWave::createWave() {
 
 void NPCWave::update() {
     static unsigned int tickmod = 0;
-    if (created_ < count_ && (++tickmod % 3000) > 300) {
+    if (created_ < count_ && (++tickmod % 400) > 300) {
         created_++;
         NPC* npc = getDriver()->createNPC(type_);
         children_.insert(npc);
