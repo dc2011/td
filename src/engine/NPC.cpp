@@ -28,27 +28,27 @@ NPC::~NPC() {
     emit signalNPCDied();
 }
 
-size_t NPC::getHealth() {
+int NPC::getHealth() {
     return health_;
 }
 
-void NPC::setHealth(size_t health){
+void NPC::setHealth(int health){
     health_ = health;
 }
 
-size_t NPC::getDamage() {
+int NPC::getDamage() {
     return damage_;
 }
 
-void NPC::setDamage(size_t damage) {
+void NPC::setDamage(int damage) {
     damage_ = damage;
 }
 
-size_t NPC::getMaxHealth() {
+int NPC::getMaxHealth() {
     return maxHealth_;
 }
 
-void NPC::setMaxHealth(size_t maxHealth) {
+void NPC::setMaxHealth(int maxHealth) {
     maxHealth_ = maxHealth;
 }
 
@@ -132,7 +132,7 @@ void NPC::initComponents() {
 #endif
 }
 void NPC::isDead() {
-    if(health_ == 0) {
+    if(health_ <= 0) {
         emit dead(this->getID());
     }
 }
