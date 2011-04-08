@@ -28,8 +28,8 @@ void NPCGraphicsComponent::update(GameObject* obj) {
     dp->pos     = npc->getPos();
     dp->moving  = 1;
     dp->degrees = npc->getOrientation();
-    //npcHealth   = (npc->getHealth()/npc->getMaxHealth()); This is the real thing. Commented until damage works.
-    npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
+    npcHealth   = (npc->getHealth() / (double)npc->getMaxHealth());
+    //npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
     if(npcHealth < 0) {
         npcHealth = 0;
     }
@@ -41,7 +41,8 @@ void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {
 
     if (showHealth_) {
         healthbarItem_->setVisible(true);
-        healthbarItem_->setRect(QRectF(0, 0, (96*npcHealth), 7));
+        healthbarItem_->setRect(QRectF(0, 0, HEALTHBAR_WIDTH * npcHealth, 
+                                       HEALTHBAR_HEIGHT));
         if(npcHealth > 0.25 && npcHealth < 0.51) {
             healthbarItem_->setBrush(QBrush(Qt::yellow));
         } else if (npcHealth <= 0.25) {
@@ -64,7 +65,8 @@ void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {
 }
 
 void NPCGraphicsComponent::initHealthbar() {
-    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN, 96, 7));
+    healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN,
+                                           HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT));
     npcHealth = 1;
     CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
 }

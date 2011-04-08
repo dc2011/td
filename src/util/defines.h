@@ -39,12 +39,14 @@
 #define TILE_RESOURCE   4
 
 // resources that can be picked up by the player
-#define RESOURCE_LUMBER  0
-#define RESOURCE_CRYSTAL 5
-#define RESOURCE_OIL     3
-#define RESOURCE_TAR     4
-#define RESOURCE_STONE   2
-#define RESOURCE_IRON    1
+#define RESOURCE_NONE   0
+#define RESOURCE_WOOD   1
+#define RESOURCE_STONE  2
+#define RESOURCE_BONE   3
+#define RESOURCE_TAR    4
+
+// time to harvest a resource (in game ticks)
+#define HARVEST_COUNTDOWN   120
 
 // NPC types
 #define NPC_NORM    0
@@ -74,6 +76,10 @@
 #define NPC_FLY_MAX_V   2  
 #define NPC_BOSS_MAX_V  1  
 
+//Effect durations for each type
+#define NPC_PLAYER_TIME 20
+#define ARROW_TIME      1
+
 //NPC path key for waypoints
 //TODO: either take out or change to something generic
 #define WP_TRICERATOPS  0
@@ -87,6 +93,10 @@
 #define WP_SOG_RAPTOR   8
 #define WP_MAMMOTH      9
 #define WP_PTERO        10
+
+// healthbar size, in pixels
+#define HEALTHBAR_WIDTH     50
+#define HEALTHBAR_HEIGHT    4
 
 // Temp defines pending a map object
 #define MAP_ROWS 99

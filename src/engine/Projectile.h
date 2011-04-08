@@ -173,6 +173,16 @@ public:
     void setHeight(int height){
         height_ = height;
     }
+
+signals:
+    /**
+     * Signal to notify NPC of projectile collision.
+     * For applying the effect specified to the NPC.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void ProjectileCollision(Effect* effect);
+
 private:
     size_t damage_;
     /**
