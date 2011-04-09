@@ -155,7 +155,7 @@ void CDriver::NPCCreator() {
     NPC* npc = NULL;
 
     if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
-        npc = Driver::createNPC(NPC_NORM);
+        npc = Driver::createNPC(NPC_FLY);
     }
     if (npcCounter_ % 40 == 0 && (npcCounter_ % 1400) > 1000) {
         npc = Driver::createNPC(NPC_SLOW);
