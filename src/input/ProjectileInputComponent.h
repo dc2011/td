@@ -21,7 +21,7 @@ public:
      *
      * @author Marcel Vangrootheest
      */
-    void update();
+    virtual void update();
     /**
      * This is needed to apply the input component to the unit defined.
      *
@@ -63,7 +63,7 @@ signals:
      */
     void deleteProjectileLater(int id);
 
-private:
+protected:
     /** The projectile this component applies to. */
     Projectile* parent_;
 };

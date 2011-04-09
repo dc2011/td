@@ -1,4 +1,7 @@
 #include "Driver.h"
+#include "Tower.h"
+#include "NPC.h"
+#include "Resource.h"
 
 namespace td {
 
@@ -24,5 +27,30 @@ void Driver::destroyObject(int id) {
         mgr_->deleteObject(go);
     }
 }
+
+Tower* Driver::createTower(int type) {
+    Tower* tower = (Tower*)mgr_->createObject(Tower::clsIdx());
+
+    tower->setType(type);
+    tower->initComponents();
+
+    connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
+
+    return tower;
+}
+
+NPC* Driver::createNPC(int type) {
+    NPC* npc = (NPC*)mgr_->createObject(NPC::clsIdx());
+
+    npc->setType(type);
+    npc->initComponents();
+
+    //connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
+
+    return npc;
+}
+
+/*Resource* Driver::createResource(int type) {
+}*/
 
 } /* end namespace td */

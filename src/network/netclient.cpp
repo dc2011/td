@@ -21,48 +21,39 @@ QMutex NetworkClient::mutex_;
 QThread* NetworkClient::netthread_ = NULL;
 
 NetworkClient::NetworkClient(QHostAddress servAddr)
-    : serverAddr_(servAddr)
+    : serverAddr_(servAddr), multicastAddr_(0)
 {
     tcpSocket_ = new QTcpSocket();
     tcpSocket_->connectToHost(servAddr, TD_PORT);
 
     udpSocket_ = new QUdpSocket();
     udpSocket_->bind(TD_PORT, QUdpSocket::ShareAddress);
-#if QT_VERSION >= 0x040800
-    udpSocket_->joinMulticastGroup(TD_GROUP);
-#else
-    int fd = udpSocket_->socketDescriptor();
-    ip_mreq mreq;
-
-    mreq.imr_multiaddr.s_addr = htonl(TD_GROUP.toIPv4Address());
-    mreq.imr_interface.s_addr = htonl(INADDR_ANY);
-    if (setsockopt(fd, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char*)&mreq, sizeof(mreq))
-            < 0) {
-        perror("setsockopt");
-    }
-#endif
 
     connect(this, SIGNAL(msgQueued()), this, SLOT(onMsgQueued()),
             Qt::QueuedConnection);
+    connect(this, SIGNAL(joinMulticast(unsigned char)),
+            this, SLOT(onMulticastJoin(unsigned char)), Qt::QueuedConnection);
     connect(tcpSocket_, SIGNAL(readyRead()), this, SLOT(onTCPReceive()));
     connect(udpSocket_, SIGNAL(readyRead()), this, SLOT(onUDPReceive()));
 }
 
 NetworkClient::~NetworkClient()
 {
+    if (multicastAddr_) {
 #if QT_VERSION >= 0x040800
-    udpSocket_->leaveMulticastGroup(TD_GROUP);
+        udpSocket_->leaveMulticastGroup(TD_GROUP(multicastAddr_));
 #else
-    int fd = udpSocket_->socketDescriptor();
-    ip_mreq mreq;
+        int fd = udpSocket_->socketDescriptor();
+        ip_mreq mreq;
 
-    mreq.imr_multiaddr.s_addr = htonl(TD_GROUP.toIPv4Address());
-    mreq.imr_interface.s_addr = htonl(INADDR_ANY);
-    if (setsockopt(fd, IPPROTO_IP, IP_DROP_MEMBERSHIP, (char*)&mreq, sizeof(mreq))
-            < 0) {
-        perror("setsockopt");
-    }
+        mreq.imr_multiaddr.s_addr = htonl(TD_GROUP(multicastAddr_).toIPv4Address());
+        mreq.imr_interface.s_addr = htonl(INADDR_ANY);
+        if (setsockopt(fd, IPPROTO_IP, IP_DROP_MEMBERSHIP, (char*)&mreq, sizeof(mreq))
+                < 0) {
+            perror("setsockopt");
+        }
 #endif
+    }
     delete udpSocket_;
 
     if (tcpSocket_->isOpen()) {
@@ -114,6 +105,24 @@ void NetworkClient::onMsgQueued()
     } else {
         tcpSocket_->write(tmp);
     }
+}
+
+void NetworkClient::onMulticastJoin(unsigned char digit) {
+    multicastAddr_ = digit;
+
+#if QT_VERSION >= 0x040800
+    udpSocket_->joinMulticastGroup(TD_GROUP(multicastAddr_));
+#else
+    int fd = udpSocket_->socketDescriptor();
+    ip_mreq mreq;
+
+    mreq.imr_multiaddr.s_addr = htonl(TD_GROUP(multicastAddr_).toIPv4Address());
+    mreq.imr_interface.s_addr = htonl(INADDR_ANY);
+    if (setsockopt(fd, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char*)&mreq, sizeof(mreq))
+            < 0) {
+        perror("setsockopt");
+    }
+#endif
 }
 
 void NetworkClient::onUDPReceive()

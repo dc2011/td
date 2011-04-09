@@ -59,6 +59,12 @@ namespace network {
          */
         kBuildTower     =   0x07,
 
+        /**
+         * Indicates the last digit of the multicast IP address.
+         * See Also: @ref multicastip
+         */
+        kMulticastIP    =   0x08,
+
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
@@ -67,6 +73,9 @@ namespace network {
 
         /** Indicates a position update for a player */
         kPlayerPosition =   0x80,
+
+        /** Indicates a position update for an NPC wave */
+        kNPCWave        =   0x81,
         
 	    /** Server has created an object, sending object state to player **/
 	    kServerCreateObj = 0x85,
@@ -196,6 +205,15 @@ namespace network {
  *  float posX
  *    // The Y position of the tower
  *  float posY
+ * @endcode
+ *
+ * @section multicastip Multicast IP Message
+ * This message informs clients of the multicast address for a game session.
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kMulticastIP
+ *    // The final octet of the multicast address
+ *  byte finalOctet
  * @endcode
  *
  * @section playsfx Play SFX Message

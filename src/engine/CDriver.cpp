@@ -68,6 +68,10 @@ void CDriver::updateRT(GameObject* obj) {
     NetworkClient::instance()->send(network::kPlayerPosition, s.data());
 }
 
+void CDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
+    NetworkClient::instance()->send(msgType, msg);
+}
+
 void CDriver::readObject(Stream* s) {
     unsigned int id = s->readInt();
 
@@ -82,6 +86,12 @@ void CDriver::readObject(Stream* s) {
         go = mgr_->createObjectWithID(id);
         go->networkRead(s);
         go->initComponents();
+
+        /* I was so looking forward to avoiding this stuff... *sigh* */
+        if (go->getClsIdx() == NPC::clsIdx()) {
+            connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+                    go->getGraphicsComponent(), SLOT(showHealth(bool)));
+        }
 
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
         return;
@@ -143,25 +153,20 @@ void CDriver::makeLocalPlayer(Player* player) {
 }
 
 void CDriver::NPCCreator() {
+    NPC* npc = NULL;
+
     if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
-        createNPC(NPC_FLY);
+        npc = Driver::createNPC(NPC_FLY);
     }
     if (npcCounter_ % 40 == 0 && (npcCounter_ % 1400) > 1000) {
-        createNPC(NPC_SLOW);
+        npc = Driver::createNPC(NPC_SLOW);
     }
-}
 
-NPC* CDriver::createNPC(int npcType) {
-    NPC* npc = (NPC*)mgr_->createObject(NPC::clsIdx());
-    npc->setType(npcType);
-
-    npc->initComponents();
-    // connect(input, SIGNAL(deleteUnitLater(Unit*)),
-    //this, SLOT(NPCDeleter(Unit*)), Qt::QueuedConnection);
-    connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            npc->getGraphicsComponent(), SLOT(showHealth(bool)));
-    connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
-    return npc;
+    if (npc) {
+        connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+                npc->getGraphicsComponent(), SLOT(showHealth(bool)));
+        connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
+    }
 }
 
 void CDriver::createProjectile(int projType, QPointF source,
@@ -173,6 +178,7 @@ void CDriver::createProjectile(int projType, QPointF source,
     projectile->initComponents();
     projectile->setPath(source, target, enemy);
 
+    connect(enemy, SIGNAL(signalNPCDied()), projectile, SLOT(enemyDied()));
     connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
 }
 
@@ -231,7 +237,7 @@ void CDriver::startGame(bool singlePlayer) {
     //connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             //npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
 
-    gameTimer_->start(30);
+    gameTimer_->start(GAME_TICK_INTERVAL);
 }
 
 void CDriver::endGame() {
@@ -275,9 +281,17 @@ void CDriver::UDPReceived(Stream* s) {
 
     switch(message) {
         case network::kAssignPlayerID:
+        {
             playerID_ = s->readInt();
             qDebug("My player ID is %08X", playerID_);
             break;
+        }
+        case network::kMulticastIP:
+        {
+            unsigned char mcast = s->readByte();
+            NetworkClient::instance()->setMulticastAddress(mcast);
+            break;
+        }
         case network::kServerPlayers:
         {
             int count = s->readByte();
@@ -295,6 +309,7 @@ void CDriver::UDPReceived(Stream* s) {
             break;
         }
         case network::kServerUpdate:
+        case network::kNPCWave:
         {
             int count = s->readShort();
             for (int i = 0; i < count; i++) {
