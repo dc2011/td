@@ -4,6 +4,7 @@
 #include "Resource.h"
 #include "Projectile.h"
 #include "Unit.h"
+#include "GameObject.h"
 #include <QPointF>
 
 namespace td {
@@ -31,6 +32,10 @@ void Driver::destroyObject(int id) {
     }
 }
 
+GameObject* Driver::findObject(unsigned int id) {
+    return mgr_->findObject(id);
+}
+
 Tower* Driver::createTower(int type) {
     Tower* tower = (Tower*)mgr_->createObject(Tower::clsIdx());
 
@@ -38,7 +43,11 @@ Tower* Driver::createTower(int type) {
     tower->initComponents();
 
     connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
-
+#ifdef SERVER
+    connect(tower->getPhysicsComponent(),
+            SIGNAL(fireProjectile(int, QPointF, QPointF, Unit*)),
+            this, SLOT(createProjectile(int, QPointF, QPointF, Unit*)));
+#endif
     return tower;
 }
 

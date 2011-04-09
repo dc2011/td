@@ -9,6 +9,7 @@
 #include "../input/ProjectileInputComponentTypes.h"
 #include "../physics/ProjectilePhysicsComponentTypes.h"
 #include "../graphics/ProjectileGraphicsComponentTypes.h"
+#include "Driver.h"
 
 namespace td {
 
@@ -102,6 +103,14 @@ void Projectile::networkRead(td::Stream* s) {
         end_->setX(s->readFloat());
         end_->setY(s->readFloat());
     }
+
+    if (dirty_ & kTargetType) {
+        enemy_ = (Unit*)getDriver()->findObject(s->readInt());
+    }
+
+    if (dirty_ & kType) {
+        type_ = s->readInt();
+    }
 }
 
 void Projectile::networkWrite(td::Stream* s) {
@@ -119,6 +128,14 @@ void Projectile::networkWrite(td::Stream* s) {
     if (dirty_ & kEndPos) {
         s->writeFloat(end_->x());
         s->writeFloat(end_->y());
+    }
+
+    if (dirty_ & kTargetType) {
+        s->writeInt(enemy_->getID());
+    }
+
+    if (dirty_ & kType) {
+        s->writeInt(type_);
     }
 }
 

@@ -106,6 +106,14 @@ public:
 
     //Resource* createResource(int type);
 
+    /**
+     * Need to find object with res manager. Did I do it right?
+     *
+     * @author Marcel Vangrootheest
+     * @param id The id to find the object with.
+     */
+    GameObject* findObject(unsigned int id);
+
 public slots:
     /**
      * Destroys a GameObject and removes it from the ResManager.

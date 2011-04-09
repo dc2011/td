@@ -2,6 +2,7 @@
 #include "../engine/Projectile.h"
 #include "../physics/ProjectilePhysicsComponent.h"
 #include "../engine/Driver.h"
+#include "../engine/CDriver.h"
 #include "../engine/Map.h"
 #define PI 3.141592653589793238
 #include <math.h>
@@ -37,6 +38,12 @@ void ProjectileInputComponent::makeForce() {
         }
         disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
+#ifndef SERVER
+        if (!((CDriver*)parent_->getDriver())->isSinglePlayer()) {
+            emit deleteProjectileLater(parent_->getID());
+            return;
+        }
+#endif
         QPointF *end = parent_->getEndPoint();
         npcs = map->getUnits(end->x(), end->y(), 1);
         if(!npcs.empty()){
