@@ -34,7 +34,8 @@ private:
         kPosition       = (1 << 0),
         kOrientation    = (1 << 1),
         kScale          = (1 << 2),
-        kType           = (1 << 3)
+        kType           = (1 << 3),
+        kHealth         = (1 << 4)
     };
 
 public:

@@ -38,6 +38,7 @@ int NPC::getHealth() {
 
 void NPC::setHealth(int health){
     health_ = health;
+    setDirty(kHealth);
 }
 
 int NPC::getDamage() {
@@ -62,6 +63,10 @@ void NPC::networkRead(Stream* s) {
     if (dirty_ & kType) {
         type_ = s->readInt();
     }
+
+    if (dirty_ & kHealth) {
+        health_ = s->readInt();
+    }
 }
 
 void NPC::networkWrite(Stream* s) {
@@ -69,6 +74,10 @@ void NPC::networkWrite(Stream* s) {
 
     if (dirty_ & kType) {
         s->writeInt(type_);
+    }
+
+    if (dirty_ & kHealth) {
+        s->writeInt(health_);
     }
 }
 
