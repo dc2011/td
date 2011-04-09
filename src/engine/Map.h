@@ -25,7 +25,6 @@ class Resource;
 
 class Map : public QObject {
     Q_OBJECT
-
 public:
     explicit Map(Tiled::Map * tMap);
     explicit Map(const QString& filename);
@@ -65,13 +64,6 @@ public:
      * @author Luke Queenan
      */
     void initMap();
-
-    /**
-     * basic map creator function.
-     *
-     * @author Ian Lee
-     */
-    void loadTestMap2();
 
     /**
      * gets the row and column from coords x,y.

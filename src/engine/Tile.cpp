@@ -13,7 +13,7 @@ namespace td {
   * @author Luke Queenan
   *
   */
-Tile::Tile(int row, int column, blockingType type)
+Tile::Tile(int row, int column, BlockingType type)
 {
     tileID_ = column * MAP_ROWS + row;
     type_ = type;
@@ -34,12 +34,11 @@ Tile::Tile(int row, int column, blockingType type)
   *
   * @author Luke Queenan
   */
-void Tile::setInitialBounds(int row, int column, blockingType type)
+void Tile::setInitialBounds(int row, int column, BlockingType type)
 {
     QPointF point = QPointF();
     QVector<QPointF> points = QVector<QPointF>();
-    switch (type)
-    {
+    switch (type) {
     case CLOSED:
         // Top left corner
         point.setX(column * TILE_WIDTH);
@@ -61,6 +60,7 @@ void Tile::setInitialBounds(int row, int column, blockingType type)
         // Create bounding box
         myBounds_ = QPolygonF(points);
         break;
+
     case NORTH_WEST:
         // Top right corner
         point.setX(column * TILE_WIDTH + TILE_WIDTH);
@@ -77,6 +77,7 @@ void Tile::setInitialBounds(int row, int column, blockingType type)
         // Create bounding box
         myBounds_ = QPolygonF(points);
         break;
+
     case NORTH_EAST:
         // Top left corner
         point.setX(column * TILE_WIDTH);
@@ -93,6 +94,7 @@ void Tile::setInitialBounds(int row, int column, blockingType type)
         // Create bounding box
         myBounds_ = QPolygonF(points);
         break;
+
     case SOUTH_WEST:
         // Top left corner
         point.setX(column * TILE_WIDTH);
@@ -109,6 +111,7 @@ void Tile::setInitialBounds(int row, int column, blockingType type)
         // Create bounding box
         myBounds_ = QPolygonF(points);
         break;
+
     case SOUTH_EAST:
         // Top left corner
         point.setX(column * TILE_WIDTH);
@@ -124,6 +127,9 @@ void Tile::setInitialBounds(int row, int column, blockingType type)
         points.append(point);
         // Create bounding box
         myBounds_ = QPolygonF(points);
+        break;
+
+    default:
         break;
     }
 }
@@ -160,7 +166,7 @@ void Tile::setInitialBounds(int row, int column, blockingType type)
   * @author Luke Queenan
   * @return The tile's blocking type
   */
-blockingType Tile::getType()
+Tile::BlockingType Tile::getType()
 {
     return type_;
 }
@@ -219,6 +225,19 @@ void Tile::setBlocked()
 QSet<Unit*> Tile::getUnits(){
     return currentUnits_;
 
+}
+
+Tile::TileAttributes Tile::getAttributes(int id) {
+    static const TileAttributes attributes[] = {
+        {OPEN, NONE},
+        {CLOSED, NONE},
+        {NORTH_WEST, NONE},
+        {NORTH_EAST, NONE},
+        {SOUTH_WEST, NONE},
+        {SOUTH_EAST, NONE},
+    };
+
+    return attributes[id];
 }
 
 } /* end namespace td */
