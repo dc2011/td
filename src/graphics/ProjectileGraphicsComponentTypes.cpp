@@ -9,6 +9,11 @@ QPixmap* TarProjectileGraphicsComponent::pixmapImgs_ = NULL;
 QPixmap* FireProjectileGraphicsComponent::pixmapImgs_ = NULL;
 QPixmap* FlakProjectileGraphicsComponent::pixmapImgs_ = NULL;
 
+ArrowProjectileGraphicsComponent::ArrowProjectileGraphicsComponent() 
+        : ProjectileGraphicsComponent() {
+    emit created(this);
+}
+
 void ArrowProjectileGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
@@ -20,6 +25,11 @@ void ArrowProjectileGraphicsComponent::initPixmaps() {
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_PROJ_ARROW;
     pixmapIndex_ = 0;
+}
+
+CannonProjectileGraphicsComponent::CannonProjectileGraphicsComponent()
+        : ProjectileGraphicsComponent() {
+    emit created(this);
 }
 
 void CannonProjectileGraphicsComponent::initPixmaps() {
@@ -35,6 +45,11 @@ void CannonProjectileGraphicsComponent::initPixmaps() {
     pixmapIndex_ = 0;
 }
 
+TarProjectileGraphicsComponent::TarProjectileGraphicsComponent()
+        : ProjectileGraphicsComponent() {
+    emit created(this);
+}
+
 void TarProjectileGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
@@ -48,6 +63,11 @@ void TarProjectileGraphicsComponent::initPixmaps() {
     pixmapIndex_ = 0;
 }
 
+FireProjectileGraphicsComponent::FireProjectileGraphicsComponent()
+        : ProjectileGraphicsComponent() {
+    emit created(this);
+}
+
 void FireProjectileGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
@@ -59,6 +79,11 @@ void FireProjectileGraphicsComponent::initPixmaps() {
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE;
     pixmapIndex_ = 0;
+}
+
+FlakProjectileGraphicsComponent::FlakProjectileGraphicsComponent()
+        : ProjectileGraphicsComponent() {
+    emit created(this);
 }
 
 void FlakProjectileGraphicsComponent::initPixmaps() {

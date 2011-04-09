@@ -17,7 +17,7 @@ public:
     /**
      * Constructor.
      */
-    ArrowProjectileGraphicsComponent() : ProjectileGraphicsComponent() { }
+    ArrowProjectileGraphicsComponent();
 
     /**
      * Destructor.
@@ -54,7 +54,7 @@ public:
     /**
      * Constructor.
      */
-    CannonProjectileGraphicsComponent() : ProjectileGraphicsComponent() { }
+    CannonProjectileGraphicsComponent();
 
     /**
      * Destructor.
@@ -91,7 +91,7 @@ public:
     /**
      * Constructor.
      */
-    TarProjectileGraphicsComponent() : ProjectileGraphicsComponent() { }
+    TarProjectileGraphicsComponent();
 
     /**
      * Destructor.
@@ -128,7 +128,7 @@ public:
     /**
      * Constructor.
      */
-    FireProjectileGraphicsComponent() : ProjectileGraphicsComponent() { }
+    FireProjectileGraphicsComponent();
 
     /**
      * Destructor.
@@ -165,7 +165,7 @@ public:
     /**
      * Constructor.
      */
-    FlakProjectileGraphicsComponent() : ProjectileGraphicsComponent() { }
+    FlakProjectileGraphicsComponent();
 
     /**
      * Destructor.

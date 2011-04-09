@@ -47,6 +47,15 @@ public:
      */
     virtual void initComponents();
 
+    /**
+     * Sets path of the projectile for input
+     *
+     * @param source The source point of the path.
+     * @param target The target point of the path.
+     * @param enemy  The enemy unit firing at.
+     *
+     * @author Marcel Vangrootheest
+     */
     void setPath(QPointF source, QPointF target, Unit* enemy);
 
     /**
@@ -189,6 +198,16 @@ public:
     void setHeight(int height){
         height_ = height;
     }
+
+public slots:
+    /**
+     * Sets the enemy_ member to null if the NPC dies.
+     *
+     * Connected to signalNPCDied() in the NPC class.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void enemyDied();
 
 signals:
     /**

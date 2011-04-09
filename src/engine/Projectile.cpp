@@ -66,6 +66,15 @@ void Projectile::initComponents() {
     }
 
     getInputComponent()->setParent(this);
+
+#ifndef SERVER
+    if (!((CDriver*)getDriver())->isSinglePlayer()) {
+        delete getInputComponent();
+        delete getPhysicsComponent();
+        setInputComponent(NULL);
+        setPhysicsComponent(NULL);
+    }
+#endif
 }
 
 void Projectile::setPath(QPointF source, QPointF target, Unit* enemy) {
@@ -175,6 +184,10 @@ void Projectile::createBounds(){
     points.append(point);
 
     this->setBounds(QPolygonF(points));
+}
+
+void Projectile::enemyDied() {
+    enemy_ = NULL;
 }
 
 } /* end namespace td */
