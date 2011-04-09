@@ -9,7 +9,7 @@ namespace td {
 
 TowerPhysicsComponent::TowerPhysicsComponent(Tower* tower, size_t fireInterval, 
                                              int radius)
-        : PhysicsComponent(), tower_(tower), enemies_(QSet<Unit*>()),
+        : PhysicsComponent(), enemies_(QSet<Unit*>()), tower_(tower), 
           target_(NULL), fireInterval_(fireInterval), radius_(radius), 
           fireCountdown_(0) {
 }
@@ -26,8 +26,8 @@ void TowerPhysicsComponent::findTarget() {
     // check if there's an npc currently being tracked
     if (target_ != NULL) {
         projectilePath_.setP2(target_->getPos());
-        // return if the npc is still within range
 
+        // return if the npc is still within range
         if (projectilePath_.length() < radius_) {
             return;
         }
