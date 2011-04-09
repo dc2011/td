@@ -39,6 +39,9 @@ int NPC::getHealth() {
 void NPC::setHealth(int health){
     health_ = health;
     setDirty(kHealth);
+#ifndef SERVER
+    ((NPCGraphicsComponent*) graphics_)->showDamage();
+#endif
 }
 
 int NPC::getDamage() {

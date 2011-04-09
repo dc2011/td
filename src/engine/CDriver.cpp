@@ -178,6 +178,7 @@ void CDriver::createProjectile(int projType, QPointF source,
     projectile->initComponents();
     projectile->setPath(source, target, enemy);
 
+    connect(enemy, SIGNAL(signalNPCDied()), projectile, SLOT(enemyDied()));
     connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
 }
 
@@ -236,7 +237,7 @@ void CDriver::startGame(bool singlePlayer) {
     //connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             //npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
 
-    gameTimer_->start(30);
+    gameTimer_->start(GAME_TICK_INTERVAL);
 }
 
 void CDriver::endGame() {
