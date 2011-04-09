@@ -213,11 +213,11 @@ bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
 
     emit requestTileType(newPos.x(), newPos.y(), &blockingType);
 
-    if (blockingType == OPEN) {
+    if (blockingType == Tile::OPEN) {
         return true;
     }
 
-    else if (blockingType == CLOSED) {
+    else if (blockingType == Tile::CLOSED) {
         return false;
     }
 
@@ -227,8 +227,8 @@ bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
         if (checkSemiBlocked(newPos, blockingType)) {
             return true;
         }
-        return false;
     }
+    return false;
 }
 
 bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
@@ -237,25 +237,25 @@ bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
     float posY = (int) pos.y() % TILE_HEIGHT;
 
     switch(type) {
-        case NORTH_WEST:
+        case Tile::NORTH_WEST:
             if (posY > (TILE_WIDTH - posX)) {
                 return false;
             }
             break;
 
-        case NORTH_EAST:
+        case Tile::NORTH_EAST:
             if ((posX < posY)) {
                 return false;
             }
             break;
 
-        case SOUTH_WEST:
+        case Tile::SOUTH_WEST:
             if ((posX > posY)) {
                 return false;
             }
             break;
 
-        case SOUTH_EAST:
+        case Tile::SOUTH_EAST:
             if (posY < (TILE_WIDTH - posX)) {
                 return false;
             }
