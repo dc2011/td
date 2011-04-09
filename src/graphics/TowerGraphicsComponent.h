@@ -19,7 +19,7 @@ public:
      * Instantiates a Tower graphics component
      * @author Warren Voelkl
      */
-    TowerGraphicsComponent();
+    TowerGraphicsComponent(): GraphicsComponent() {}
     virtual ~TowerGraphicsComponent();
 
     /**
@@ -43,13 +43,6 @@ private:
      * @author Warren Voelkl
      */
     virtual QPixmap * getPixmapArray() = 0;
-
-    /**
-     * Sets the appropriate index for the selected tower so the correct
-     * image is displayed from the pixmaparray
-     * @author Warren Voelkl
-     */
-    void setIndexValue();
 };
 
 } /* end namespace td */

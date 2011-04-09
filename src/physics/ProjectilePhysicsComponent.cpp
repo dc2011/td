@@ -7,8 +7,8 @@
 
 namespace td {
 
-ProjectilePhysicsComponent::ProjectilePhysicsComponent() {
-    maxVelocity_ = accel_ = decel_ = 10;
+ProjectilePhysicsComponent::ProjectilePhysicsComponent(double velocity) {
+    maxVelocity_ = accel_ = decel_ = velocity;
     duration_ = -1;
     increment_ = 0;
 }
@@ -18,18 +18,6 @@ void ProjectilePhysicsComponent::update(GameObject* projectile) {
     this->applyForce((Projectile*)projectile);
     this->applyVelocity((Projectile*)projectile);
     this->setScale((Projectile*)projectile);
-}
-
-void ProjectilePhysicsComponent::setScale(Projectile *projectile) {
-    if (duration_ < 0) {
-        duration_ = projectile->getPath().length() / maxVelocity_;
-        increment_ = 0;
-    }
-    if (increment_++ < (duration_ / 2)) {
-        projectile->setScale(projectile->getScale() + 0.05);
-    } else if (increment_ < duration_) {
-        projectile->setScale(projectile->getScale() - 0.05);
-    }
 }
 
 void ProjectilePhysicsComponent::applyVelocity(Projectile* projectile)

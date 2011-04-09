@@ -1,11 +1,11 @@
-#ifndef _TOWERGRAPHICSCOMPONENTTYPES_H
-#define _TOWERGRAPHICSCOMPONENTTYPES_H
+#ifndef TD_PROJECTILEGRAPHICSCOMPONENTTYPES_H
+#define TD_PROJECTILEGRAPHICSCOMPONENTTYPES_H
 
-#include "TowerGraphicsComponent.h"
+#include "ProjectileGraphicsComponent.h"
 
 namespace td {
 
-class ArrowTowerGraphicsComponent : public TowerGraphicsComponent
+class ArrowProjectileGraphicsComponent : public ProjectileGraphicsComponent
 {
     Q_OBJECT
 
@@ -17,12 +17,12 @@ public:
     /**
      * Constructor.
      */
-    ArrowTowerGraphicsComponent();
+    ArrowProjectileGraphicsComponent();
 
     /**
      * Destructor.
      */
-    virtual ~ArrowTowerGraphicsComponent() { }
+    virtual ~ArrowProjectileGraphicsComponent() { }
 
     /**
      * Initializes the static array of pixmaps.
@@ -42,7 +42,7 @@ public:
     }
 };
 
-class CannonTowerGraphicsComponent : public TowerGraphicsComponent
+class CannonProjectileGraphicsComponent : public ProjectileGraphicsComponent
 {
     Q_OBJECT
 
@@ -54,12 +54,12 @@ public:
     /**
      * Constructor.
      */
-    CannonTowerGraphicsComponent();
+    CannonProjectileGraphicsComponent();
 
     /**
      * Destructor.
      */
-    virtual ~CannonTowerGraphicsComponent() { }
+    virtual ~CannonProjectileGraphicsComponent() { }
 
     /**
      * Initializes the static array of pixmaps.
@@ -79,7 +79,7 @@ public:
     }
 };
 
-class TarTowerGraphicsComponent : public TowerGraphicsComponent
+class TarProjectileGraphicsComponent : public ProjectileGraphicsComponent
 {
     Q_OBJECT
 
@@ -91,12 +91,12 @@ public:
     /**
      * Constructor.
      */
-    TarTowerGraphicsComponent();
+    TarProjectileGraphicsComponent();
 
     /**
      * Destructor.
      */
-    virtual ~TarTowerGraphicsComponent() { }
+    virtual ~TarProjectileGraphicsComponent() { }
 
     /**
      * Initializes the static array of pixmaps.
@@ -116,7 +116,7 @@ public:
     }
 };
 
-class FlameTowerGraphicsComponent : public TowerGraphicsComponent
+class FireProjectileGraphicsComponent : public ProjectileGraphicsComponent
 {
     Q_OBJECT
 
@@ -128,12 +128,12 @@ public:
     /**
      * Constructor.
      */
-    FlameTowerGraphicsComponent();
+    FireProjectileGraphicsComponent();
 
     /**
      * Destructor.
      */
-    virtual ~FlameTowerGraphicsComponent() { }
+    virtual ~FireProjectileGraphicsComponent() { }
 
     /**
      * Initializes the static array of pixmaps.
@@ -153,7 +153,7 @@ public:
     }
 };
 
-class FlakTowerGraphicsComponent : public TowerGraphicsComponent
+class FlakProjectileGraphicsComponent : public ProjectileGraphicsComponent
 {
     Q_OBJECT
 
@@ -165,12 +165,12 @@ public:
     /**
      * Constructor.
      */
-    FlakTowerGraphicsComponent();
+    FlakProjectileGraphicsComponent();
 
     /**
      * Destructor.
      */
-    virtual ~FlakTowerGraphicsComponent() { }
+    virtual ~FlakProjectileGraphicsComponent() { }
 
     /**
      * Initializes the static array of pixmaps.
@@ -193,3 +193,4 @@ public:
 } /* end namespace td */
 
 #endif
+

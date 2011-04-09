@@ -11,7 +11,7 @@ QStringList SfxManager::projectileFireCannon
 QStringList SfxManager::projectileFireFlame  
         = QStringList() << "flame-1" << "flame-2";
 QStringList SfxManager::projectileFireTar    
-        = QStringList() << "tar-1";
+        = QStringList() << "tar-1" << "tar-2" << "tar-3";
 QStringList SfxManager::projectileFireFlak   
         = QStringList() << "";
 
@@ -29,13 +29,21 @@ QStringList SfxManager::projectileHitFlak
 
 // tower SFX
 QStringList SfxManager::towerBuildingStarted
-        = QStringList() << "";
+        = QStringList() << "wood";
 QStringList SfxManager::towerBuildingFinished
         = QStringList() << "";
 QStringList SfxManager::towerLevelUp
         = QStringList() << "";
 QStringList SfxManager::towerSold
         = QStringList() << "";
+
+// menu SFX
+QStringList SfxManager::contextMenuOpened
+        = QStringList() << "arrow-1";
+QStringList SfxManager::contextMenuClosed
+        = QStringList() << "arrow-2";
+QStringList SfxManager::contextMenuSelect
+        = QStringList() << "arrow-3";
 
 // NPC wave entrance
 QStringList SfxManager::npcPterodactylEnters
@@ -45,9 +53,15 @@ QStringList SfxManager::npcPterodactylEnters
 QStringList SfxManager::npcPterodactylDies
         = QStringList() << "";
 
-// resource picked up
-QStringList SfxManager::resourceLumber
+// resource harvesting
+QStringList SfxManager::resourceWood
         = QStringList() << "wood";
+QStringList SfxManager::resourceStone
+        = QStringList() << "shovel";
+QStringList SfxManager::resourceBone
+        = QStringList() << "wood";
+QStringList SfxManager::resourceTar
+        = QStringList() << "tar-1";
 
 // player SFX
 QStringList SfxManager::playerOpensMenu
