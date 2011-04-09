@@ -13,6 +13,8 @@
 
 namespace td {
 
+class NPCWave;
+
 class NPC : public Unit {
     Q_OBJECT
 
@@ -32,7 +34,8 @@ private:
         kPosition       = (1 << 0),
         kOrientation    = (1 << 1),
         kScale          = (1 << 2),
-        kType           = (1 << 3)
+        kType           = (1 << 3),
+        kHealth         = (1 << 4)
     };
 
 public:
@@ -105,6 +108,29 @@ public:
         type_ = type;
         setDirty(kType);
     }
+    int getType() {
+        return type_;
+    }
+
+    /**
+     * Returns the wave that owns the NPC.
+     *
+     * @author Darryl Pogue
+     * @return The NPCWave to which the NPC belongs.
+     */
+    NPCWave* getWave() const {
+        return wave_;
+    }
+
+    /**
+     * Sets the wave that owns the NPC.
+     *
+     * @author Darryl Pogue
+     * @param wave The NPCWave to which the NPC belongs.
+     */
+    void setWave(NPCWave* wave) {
+        wave_ = wave;
+    }
 
 signals:
     /**
@@ -139,6 +165,9 @@ private:
     int height_;
     int width_;
     int type_;
+
+    /** The wave to which this NPC belongs. */
+    NPCWave* wave_;
 
 signals:
     /**
