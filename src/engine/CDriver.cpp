@@ -135,7 +135,7 @@ void CDriver::makeLocalPlayer(Player* player) {
 
 void CDriver::NPCCreator() {
     if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
-        createNPC(NPC_NORM);
+        createNPC(NPC_FLY);
     }
     if (npcCounter_ % 40 == 0 && (npcCounter_ % 1400) > 1000) {
         createNPC(NPC_SLOW);
