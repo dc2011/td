@@ -76,6 +76,11 @@ public:
     static QStringList towerLevelUp;
     static QStringList towerSold;
 
+    // menu SFX
+    static QStringList contextMenuOpened;
+    static QStringList contextMenuClosed;
+    static QStringList contextMenuSelect;
+
     // NPC wave entrance
     static QStringList npcPterodactylEnters;
 
@@ -86,7 +91,10 @@ public:
     static QStringList winTheGame;
 
     // resource picked up
-    static QStringList resourceLumber;
+    static QStringList resourceWood;
+    static QStringList resourceStone;
+    static QStringList resourceBone;
+    static QStringList resourceTar;
 
     // player SFX
     static QStringList playerOpensMenu;

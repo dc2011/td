@@ -58,7 +58,7 @@ void LobbyWindow::connectLobby()
 void LobbyWindow::tmp_startGame()
 {
     PLAY_LOCAL_SFX(SfxManager::lobbyStart);
-    alSleep(2); //needs fixing
+//    alSleep(2); //needs fixing
     if (ui->chkSingleplayer->isChecked()) {
         emit startGame(true);
         return;

@@ -26,22 +26,24 @@ private:
     /** The ID of the player object. */
     unsigned int playerID_;
 
-     /** The player on this client. */
+    /** The player on this client. */
     Player* human_;
-     /** The main game window, where all graphics will be drawn. */
+
+    /** The main game window, where all graphics will be drawn. */
     MainWindow* mainWindow_;
-     /** A context menu that appears around the player. */
+    
+    /** A context menu that appears around the player. */
     ContextMenu* contextMenu_;
 
-     /** Keeps track of how many NPCs there currently are. */
+    /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
-     /** A projectile fired from a tower. */
-    Projectile* projectile_;
-     /** The single instance of this class that can be created. */
-    static CDriver* instance_;
-     /** Tells objects whether or not the game is being played single player **/
-    bool singlePlayer_;
     
+    /** The single instance of this class that can be created. */
+    static CDriver* instance_;
+    
+    /** Tells objects whether or not the game is being played single player **/
+    bool singlePlayer_;
+
     CDriver(MainWindow* parent = 0);
     ~CDriver();
 
@@ -178,6 +180,26 @@ public:
      * @param the value to set singlePlayer to.
      */
     void setSinglePlayer(bool singlePlayer);
+
+signals:
+    /**
+     * Emitted when the spacebar is pressed on a resource tile.
+     *
+     * Connected to startHarvesting() in Player.cpp.
+     *
+     * @author Dean Morin
+     * @param type The resource type that the player is standing on.
+     */
+    void signalHarvesting(int type);
+
+    /**
+     * Emmited when the spacebar is pressed on an empty tile.
+     *
+     * Connected to dropResource() in Player.cpp.
+     *
+     * @author Dean Morin
+     */
+    void signalEmptyTile();
     
 public slots:
     /**
@@ -201,10 +223,12 @@ private slots:
      * Creates a projectile object.
      *
      * @author Pan Khantidhara, Marcel Vangrootheest, Dean Morin
+     * @param projType The type of the projectile (Arrow, Cannon, etc).
      * @param source The starting point of the projectile.
      * @param target The destination point of the projectile.
      */
-    void createProjectile(QPointF source, QPointF target, Unit* enemy);
+    void createProjectile(int projType, QPointF source, QPointF target,
+            Unit* enemy);
 
     /**
      * Temp testing method.

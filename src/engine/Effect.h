@@ -26,7 +26,7 @@ public:
     };
     */
 
-    Effect(Unit* unit, int duration);
+    Effect(Unit* unit, int duration, bool timerEnabled = true);
     ~Effect();
 
     /**
@@ -73,6 +73,7 @@ protected:
     size_t duration_;
     int healthChangeValue_;
     QVector2D velocityChangeValue_;
+    bool timerEnabled_;
 };
 
 } /* end namespace td */

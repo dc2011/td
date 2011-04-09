@@ -32,7 +32,8 @@ private:
         kPosition       = (1 << 0),
         kOrientation    = (1 << 1),
         kScale          = (1 << 2),
-        kNickname       = (1 << 3)
+        kNickname       = (1 << 3),
+        kResource       = (1 << 4)
     };
 
 public:
@@ -88,6 +89,24 @@ public:
         setDirty(kNickname);
     }
 
+    /**
+      * Gets the player's harvest coutndown.
+      *
+      * @author Nick Huber
+      * @return The player's remaining countdown for harvesting.
+      */
+    int getHarvestCountdown() {
+        return harvestCountdown_;
+    }
+
+private: 
+    /**
+     * Checks to see if the resource being harvested is ready to be picked up.
+     *
+     * @author Dean Morin
+     */
+    void harvestResource();
+
 public slots:
     /**
      * Add effect to the effect list.
@@ -117,13 +136,43 @@ public slots:
         setDirty(1);
     }
 
+    /**
+     * Starts harvesting a resource. This will cause update() to call
+     * harvestResource().
+     *
+     * @author Dean Morin
+     * @param type The type of resource being harvested.
+     */
+    void startHarvesting(int type);
+
+    /**
+     * Stops a harvesting attempt partway through, if one is being attempted.
+     *
+     * @author Dean Morin
+     */
+    void stopHarvesting();
+
+    /**
+     * Drops whatever resource that the player is carrying.
+     *
+     * @author Dean Morin
+     */
+    void dropResource();
+
 private:
     QList<Effect*> effects_;
 
-    /**
-     * A nickname associated with this player used for display purposes and chat.
-     */
+    /** Nickname associated with this player for display purposes and chat. */
     QString nickname_;
+
+    /** The resource (if any) that the player is currently harvesting. */
+    int harvesting_;
+
+    /** How many game ticks remaining before a resource is harvested. */ 
+    int harvestCountdown_;
+
+    /** The resource (if any) that the player is currently carrying. */
+    int resource_;
 
 signals:
     /**
@@ -134,6 +183,16 @@ signals:
      * @author Dean Morin
      */
     void signalEmptyEffectList();
+    
+    /**
+     * Emitted when the player starts or stops harvesting a resource.
+     *
+     * Connected to playerMovement() in PlayerInputComponent.cpp. 
+     *
+     * @author Dean Morin
+     * @param move False if the player should stop moving.
+     */
+    void signalPlayerMovement(bool move);
 };
 
 }

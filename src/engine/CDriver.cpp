@@ -26,7 +26,7 @@ CDriver* CDriver::instance_ = NULL;
 
 CDriver::CDriver(MainWindow* mainWindow)
         : Driver(), playerID_(0xFFFFFFFF), human_(NULL),
-        mainWindow_(mainWindow), contextMenu_(NULL), projectile_(NULL)
+        mainWindow_(mainWindow), contextMenu_(NULL)
 {
     mgr_ = new ResManager(this);
     npcCounter_ = 0;
@@ -114,7 +114,6 @@ void CDriver::makeLocalPlayer(Player* player) {
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             player, SLOT(showName(bool)));
 
-
     /* Set up the build context menu */
     contextMenu_ = new ContextMenu(human_);
 
@@ -131,6 +130,16 @@ void CDriver::makeLocalPlayer(Player* player) {
             this,         SLOT(createTower(int, QPointF)));
     connect(human_, SIGNAL(signalEmptyEffectList()),
             physics, SLOT(okayToPlayCollisionSfx()));
+    
+    // resource harvesting
+    connect(this, SIGNAL(signalHarvesting(int)),
+            player, SLOT(startHarvesting(int)));
+    connect(mainWindow_, SIGNAL(signalSpacebarReleased()),
+            player, SLOT(stopHarvesting()));
+    connect(this, SIGNAL(signalEmptyTile()),
+            player, SLOT(dropResource()));
+    connect(player, SIGNAL(signalPlayerMovement(bool)),
+	        input, SLOT(playerMovement(bool)));
 }
 
 void CDriver::NPCCreator() {
@@ -155,23 +164,16 @@ NPC* CDriver::createNPC(int npcType) {
     return npc;
 }
 
-void CDriver::createProjectile(QPointF source, QPointF target, Unit* enemy) {
-    PhysicsComponent* projectilePhysics = new ProjectilePhysicsComponent();
-    GraphicsComponent* projectileGraphics = new ProjectileGraphicsComponent();
-    ProjectileInputComponent* input = new ProjectileInputComponent();
-    projectile_ = (Projectile*)mgr_->createObject(Projectile::clsIdx());
+void CDriver::createProjectile(int projType, QPointF source,
+        QPointF target, Unit* enemy) {
+    Projectile* projectile = (Projectile*)mgr_->createObject(
+            Projectile::clsIdx());
+    projectile->setType(projType);
 
-    input->setParent(projectile_);
-    projectile_->setPhysicsComponent(projectilePhysics);
-    projectile_->setGraphicsComponent(projectileGraphics);
+    projectile->initComponents();
+    projectile->setPath(source, target, enemy);
 
-    QPointF* start = new QPointF(source);
-    QPointF* end = new QPointF(target);
-    input->setPath(start, end);
-    projectile_->setInputComponent(input);
-    projectile_->setEnemy(enemy);
-
-    connect(gameTimer_,  SIGNAL(timeout()), projectile_, SLOT(update()));
+    connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
 }
 
 void CDriver::createTower(int towerType, QPointF pos)
@@ -186,8 +188,8 @@ void CDriver::createTower(int towerType, QPointF pos)
 
         connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
         connect(tower->getPhysicsComponent(),
-                SIGNAL(fireProjectile(QPointF, QPointF, Unit*)),
-                this, SLOT(createProjectile(QPointF, QPointF, Unit*)));
+                SIGNAL(fireProjectile(int, QPointF, QPointF, Unit*)),
+                this, SLOT(createProjectile(int, QPointF, QPointF, Unit*)));
 
         return;
     }
@@ -260,10 +262,11 @@ void CDriver::handleSpacebarPress() {
             break;
 
         case TILE_RESOURCE:
-            // TODO: remove SFX and do it properly
-            PLAY_LOCAL_SFX(SfxManager::resourceLumber);
-            qDebug("Harvesting resource: %d", currentTile->getTiledTile()->id());
+            emit signalHarvesting(currentTile->getTiledTile()->id());
             break;
+
+        default:
+            emit signalEmptyTile();
     }
 }
 
