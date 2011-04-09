@@ -67,15 +67,6 @@ void Projectile::initComponents() {
     }
 
     getInputComponent()->setParent(this);
-
-#ifndef SERVER
-    if (!((CDriver*)getDriver())->isSinglePlayer()) {
-        delete getInputComponent();
-        delete getPhysicsComponent();
-        setInputComponent(NULL);
-        setPhysicsComponent(NULL);
-    }
-#endif
 }
 
 void Projectile::setPath(QPointF source, QPointF target, Unit* enemy) {
