@@ -20,6 +20,9 @@ void Player::networkRead(Stream* s) {
         int len = s->readInt();
         nickname_ = QString(s->read(len));
     }
+    if (dirty_ & kResource) {
+        resource_ = s->readInt();
+    }
 }
 
 void Player::networkWrite(Stream* s) {
@@ -28,6 +31,9 @@ void Player::networkWrite(Stream* s) {
     if (dirty_ & kNickname) {
         s->writeInt(nickname_.length());
         s->write(nickname_.toAscii());
+    }
+    if (dirty_ & kResource) {
+        s->writeInt(resource_);
     }
 }
 
@@ -43,11 +49,9 @@ void Player::update() {
     if (physics_ != NULL) {
         physics_->update(this);
     }
-
     if (isDirty()) {
         getDriver()->updateRT(this);
     }
-
     if (graphics_ != NULL) {
         graphics_->update(this);
     }
@@ -83,6 +87,7 @@ void Player::startHarvesting(int type) {
         return;
     }
     harvesting_ = type;
+    emit signalPlayerMovement(false);
     qDebug("Player::startHarvesting(); resource %d", harvesting_);
     // TODO: show harvesting progress bar
 
@@ -108,6 +113,7 @@ void Player::stopHarvesting() {
     }
     harvesting_ = RESOURCE_NONE;
     harvestCountdown_ = HARVEST_COUNTDOWN;
+    emit signalPlayerMovement(true);
 }
 
 void Player::dropResource() {
@@ -127,6 +133,7 @@ void Player::harvestResource() {
         qDebug("Player::harvestResource(); resource: %d", harvesting_);
         // TODO: hide harvesting progress bar
         // TODO: add resource carrying indicator
+        stopHarvesting();
         return;
     }
     // TODO: update harvesting progress bar

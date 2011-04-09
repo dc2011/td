@@ -76,6 +76,11 @@ public:
     static QStringList towerLevelUp;
     static QStringList towerSold;
 
+    // menu SFX
+    static QStringList contextMenuOpened;
+    static QStringList contextMenuClosed;
+    static QStringList contextMenuSelect;
+
     // NPC wave entrance
     static QStringList npcPterodactylEnters;
 

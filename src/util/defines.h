@@ -97,9 +97,27 @@
 #define WP_MAMMOTH      9
 #define WP_PTERO        10
 
+//Projectile types
+#define PROJ_ARROW  0
+#define PROJ_CANNON 1
+#define PROJ_FIRE   2
+#define PROJ_TAR    3
+#define PROJ_FLAK   4
+
+//Projectile Velocity
+#define ARROW_VELOCITY  15
+#define CANNON_VELOCITY 10
+#define FIRE_VELOCITY   10
+#define TAR_VELOCITY    10
+#define FLAK_VELOCITY   15
+
 // healthbar size, in pixels
 #define HEALTHBAR_WIDTH     50
 #define HEALTHBAR_HEIGHT    4
+
+// resource collection bar size, in pixels
+#define RESBAR_WIDTH    30
+#define RESBAR_HEIGHT   6
 
 // Temp defines pending a map object
 #define MAP_ROWS 99
