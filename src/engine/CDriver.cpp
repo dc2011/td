@@ -248,7 +248,7 @@ void CDriver::startGame(bool singlePlayer) {
     //connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             //npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
 
-    gameTimer_->start(30);
+    gameTimer_->start(GAME_TICK_INTERVAL);
 }
 
 void CDriver::endGame() {

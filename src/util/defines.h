@@ -10,6 +10,9 @@
 #define TD_PORT 26631
 #define TD_GROUP QHostAddress("232.22.42.1")
 
+// milliseconds between game ticks
+#define GAME_TICK_INTERVAL  30
+
 // based on the number keys used to select the tower
 #define TOWER_ARROW     49
 #define TOWER_CANNON    50
