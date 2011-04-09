@@ -4,6 +4,11 @@
 #include "CDriver.h"
 #endif
 #include "EffectTypes.h"
+#include "../util/defines.h"
+#include "../input/ProjectileInputComponent.h"
+#include "../input/ProjectileInputComponentTypes.h"
+#include "../physics/ProjectilePhysicsComponentTypes.h"
+#include "../graphics/ProjectileGraphicsComponentTypes.h"
 
 namespace td {
 
@@ -15,6 +20,70 @@ Projectile::Projectile(QObject* parent) : Unit(parent) {
     this->pos_ = QPointF(0,0);
     this->setHeight(10);
     this->setWidth(48);
+}
+
+void Projectile::initComponents() {
+    switch(type_) {
+        case PROJ_ARROW:
+            setInputComponent(new ArrowProjectileInputComponent());
+            setPhysicsComponent(new ArrowProjectilePhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new ArrowProjectileGraphicsComponent());
+#endif
+            break;
+
+        case PROJ_CANNON:
+            setInputComponent(new CannonProjectileInputComponent());
+            setPhysicsComponent(new CannonProjectilePhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new CannonProjectileGraphicsComponent());
+#endif
+            break;
+
+        case PROJ_FIRE:
+            setInputComponent(new FireProjectileInputComponent());
+            setPhysicsComponent(new FireProjectilePhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new FireProjectileGraphicsComponent());
+#endif
+            break;
+
+        case PROJ_TAR:
+            setInputComponent(new TarProjectileInputComponent());
+            setPhysicsComponent(new TarProjectilePhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new TarProjectileGraphicsComponent());
+#endif
+            break;
+
+        case PROJ_FLAK:
+            setInputComponent(new FlakProjectileInputComponent());
+            setPhysicsComponent(new FlakProjectilePhysicsComponent());
+#ifndef SERVER
+            setGraphicsComponent(new FlakProjectileGraphicsComponent());
+#endif
+            break;
+    }
+
+    getInputComponent()->setParent(this);
+
+#ifndef SERVER
+    if (!((CDriver*)getDriver())->isSinglePlayer()) {
+        delete getInputComponent();
+        delete getPhysicsComponent();
+        setInputComponent(NULL);
+        setPhysicsComponent(NULL);
+    }
+#endif
+}
+
+void Projectile::setPath(QPointF source, QPointF target, Unit* enemy) {
+    QPointF* start = new QPointF(source);
+    QPointF* end = new QPointF(target);
+    ProjectileInputComponent* input = (ProjectileInputComponent*) 
+        getInputComponent();
+    input->setPath(start, end);
+    setEnemy(enemy);
 }
 
 void Projectile::networkRead(td::Stream* s) {

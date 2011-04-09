@@ -13,7 +13,7 @@ class Projectile;
 /** Movement Physics for basic Projectile */
 class ProjectilePhysicsComponent : public PhysicsComponent {
 public:
-    ProjectilePhysicsComponent();
+    ProjectilePhysicsComponent(double velocity);
     virtual ~ProjectilePhysicsComponent();
     /**
      * Applies a force to the velocity
@@ -43,7 +43,7 @@ public:
      * @author Marcel Vangrootheest
      * @param projectile, pointer to the projectile object
      */
-    void setScale(Projectile* projectile);
+    virtual void setScale(Projectile* projectile) = 0;
 
     /**
      * Updates the projectile's position, orientation and scale
@@ -54,18 +54,21 @@ public:
      */
     virtual void update(GameObject* projectile);
 
-
-private:
+protected:
     /** Velocity of the projectile. */
     float maxVelocity_;
-    /**  Time of life for the projectile. */
-    double duration_;
-    /** Amount to increment the scale by per tick. */
-    double increment_;
+
     /** Amount to increase velocity by when force applied. */
     double accel_;
+
     /** Amount to decrease velocity when force not applied. */
     double decel_;
+
+    /**  Time of life for the projectile. */
+    double duration_;
+
+    /** Amount to increment the scale by per tick. */
+    double increment_;
 };
 
 } /* end namespace td */
