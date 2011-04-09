@@ -111,9 +111,10 @@
 #define TAR_VELOCITY    10
 #define FLAK_VELOCITY   15
 
-// healthbar size, in pixels
+// healthbar info (sizes are in pixels)
 #define HEALTHBAR_WIDTH     50
 #define HEALTHBAR_HEIGHT    4
+#define DAMAGE_DISPLAY_TIME 50
 
 // resource collection bar size, in pixels
 #define RESBAR_WIDTH    30
