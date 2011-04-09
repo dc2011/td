@@ -1,4 +1,5 @@
 #include "NPC.h"
+#include "NPCWave.h"
 #include "Driver.h"
 #include <QObject>
 
@@ -8,7 +9,7 @@
 
 namespace td {
 
-NPC::NPC(QObject* parent) : Unit(parent) {
+NPC::NPC(QObject* parent) : Unit(parent), wave_(NULL) {
     QVector2D force(0, 0);
     this->setForce(force);
     this->setVelocity(force);
@@ -24,6 +25,9 @@ NPC::NPC(QObject* parent) : Unit(parent) {
 NPC::~NPC() {
     while (!effects_.isEmpty()) {
         delete effects_.takeFirst();
+    }
+    if (wave_ != NULL) {
+        wave_->killChild(this);
     }
     emit signalNPCDied();
 }

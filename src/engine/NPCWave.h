@@ -34,7 +34,21 @@ public:
             unsigned int type);
     virtual ~NPCWave();
 
+    /**
+     * Begins the creation of the wave. This creates the first NPC and
+     * connects to the game timer for updating.
+     *
+     * @author Darryl Pogue
+     */
     void createWave();
+
+    /**
+     * Removes a child from the set when it has been killed or destroyed.
+     *
+     * @author Darryl Pogue
+     * @param child The child to be removed.
+     */
+    void killChild(NPC* child);
 
     /**
      * Returns whether this wave has had all of its children killed.
@@ -58,16 +72,13 @@ private:
     }
 
 public slots:
-    void update();
-
-private slots:
     /**
-     * Removes a child from the set when it has been killed or destroyed.
+     * Updates the state of all NPCs in the wave, and sends that state
+     * across the network.
      *
      * @author Darryl Pogue
-     * @param id The id of the child that has been destroyed.
      */
-    void childKilled(int);
+    void update();
 };
 
 }

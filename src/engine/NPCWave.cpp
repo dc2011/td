@@ -19,20 +19,25 @@ void NPCWave::createWave() {
     created_ = 1;
 
     NPC* npc = getDriver()->createNPC(type_);
-    connect(npc, SIGNAL(dead(int)), this, SLOT(childKilled(int)));
+    npc->setWave(this);
     children_.insert(npc);
 
     connect(getDriver()->getTimer(), SIGNAL(timeout()),
             this, SLOT(update()));
 }
 
+void NPCWave::killChild(NPC* child) {
+    children_.remove(child);
+}
+
 void NPCWave::update() {
     static unsigned int tickmod = 0;
+    // TODO: Some actual logic here to fix this
     if (created_ < count_ && (++tickmod % 400) > 300) {
         created_++;
 
         NPC* npc = getDriver()->createNPC(type_);
-        connect(npc, SIGNAL(dead(int)), this, SLOT(childKilled(int)));
+        npc->setWave(this);
         children_.insert(npc);
     }
 
@@ -44,12 +49,6 @@ void NPCWave::update() {
     }
 
     getDriver()->sendNetMessage(network::kNPCWave, s.data());
-}
-
-void NPCWave::childKilled(int) {
-    NPC* obj = (NPC*)QObject::sender();
-
-    children_.remove(obj);
 }
 
 }
