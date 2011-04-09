@@ -323,6 +323,15 @@ void CDriver::UDPReceived(Stream* s) {
 	        destroyObject(id);
 	        break;
         }
+        case network::kPlaySfx:
+        {
+            int type = s->readInt();
+            int len = s->readInt();
+            QString fname = QString(s->read(len));
+
+            AudioManager::instance()->playSfx(fname, (SoundType)type);
+            break;
+        }
         default:
             this->readObject(s);
             break;
