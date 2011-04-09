@@ -62,8 +62,6 @@ void AudioManager::playSfx(QStringList files, SoundType type) {
 void AudioManager::playSfx(QString filename, SoundType type)
 {
     int gain;
-    int playing;
-    playing = playing_;
 
     if (type == sfx) {
         gain = sfxGain_ - (playing_ / 1);
@@ -178,8 +176,6 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
 {
     QString filename;
     int gain;
-    int playing;
-    playing = playing_;
     gain = musicGain_ - (playing_ / 8);
 
     if (gain < 0) {
@@ -200,7 +196,6 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
     }
 
 }
-
 
 
 void AudioManager::streamFile(QString filename, float gain)
@@ -226,6 +221,7 @@ void AudioManager::streamFile(QString filename, float gain)
     alGenSources(1, &source);
     /*set the Gain for Music or Sfx*/
     alSourcef(source, AL_GAIN, gain);
+    SAFE_OPERATION(playing_++);
 
     if ((file = fopen(filename.toAscii().constData(), "rb")) == NULL) {
         qCritical() << "AudioManager::streamFile(): Cannot open " 
@@ -283,6 +279,7 @@ void AudioManager::streamFile(QString filename, float gain)
     ov_clear(&oggFile);
     
     cleanUp(&source, buffer);
+    SAFE_OPERATION(playing_--);
 }
 
 void AudioManager::cleanUp(ALuint *source, ALuint *buffer)
