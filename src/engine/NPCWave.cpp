@@ -33,7 +33,7 @@ void NPCWave::killChild(NPC* child) {
 void NPCWave::update() {
     static unsigned int tickmod = 0;
     // TODO: Some actual logic here to fix this
-    if (created_ < count_ && (++tickmod % 400) > 300) {
+    if (created_ < count_ && ++tickmod % 15 == 0) {
         created_++;
 
         NPC* npc = getDriver()->createNPC(type_);

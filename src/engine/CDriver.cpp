@@ -87,6 +87,12 @@ void CDriver::readObject(Stream* s) {
         go->networkRead(s);
         go->initComponents();
 
+        /* I was so looking forward to avoiding this stuff... *sigh* */
+        if (go->getClsIdx() == NPC::clsIdx()) {
+            connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+                    go->getGraphicsComponent(), SLOT(showHealth(bool)));
+        }
+
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
         return;
     }
