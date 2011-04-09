@@ -42,21 +42,24 @@ void Resource::networkWrite(Stream* s) {
 
 void Resource::initComponents() {
 #ifndef SERVER
-    setGraphicsComponent(new ResourceGraphicsComponent());
-    //switch (type_) {
-        //case RESOURCE_WOOD:
+    switch (type_) {
+        case RESOURCE_WOOD:
+            setGraphicsComponent(new ResourceGraphicsComponent(RESOURCE_WOOD));
             //setGraphicsComponent(new WoodGraphicsComponent());
-            //break;
-        //case RESOURCE_STONE:
+            break;
+        case RESOURCE_STONE:
+            setGraphicsComponent(new ResourceGraphicsComponent(RESOURCE_STONE));
             //setGraphicsComponent(new StoneGraphicsComponent());
-            //break;
-        //case RESOURCE_BONE:
+            break;
+        case RESOURCE_BONE:
+            setGraphicsComponent(new ResourceGraphicsComponent(RESOURCE_BONE));
             //setGraphicsComponent(new BoneGraphicsComponent());
-            //break;
-        //case RESOURCE_TAR:
+            break;
+        case RESOURCE_TAR:
+            setGraphicsComponent(new ResourceGraphicsComponent(RESOURCE_TAR));
             //setGraphicsComponent(new TarGraphicsComponent());
-            //break;
-    //}
+            break;
+    }
 #endif
 }
 
