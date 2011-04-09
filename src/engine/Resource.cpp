@@ -45,19 +45,15 @@ void Resource::initComponents() {
     switch (type_) {
         case RESOURCE_WOOD:
             setGraphicsComponent(new ResourceGraphicsComponent(RESOURCE_WOOD));
-            //setGraphicsComponent(new WoodGraphicsComponent());
             break;
         case RESOURCE_STONE:
             setGraphicsComponent(new ResourceGraphicsComponent(RESOURCE_STONE));
-            //setGraphicsComponent(new StoneGraphicsComponent());
             break;
         case RESOURCE_BONE:
             setGraphicsComponent(new ResourceGraphicsComponent(RESOURCE_BONE));
-            //setGraphicsComponent(new BoneGraphicsComponent());
             break;
         case RESOURCE_TAR:
             setGraphicsComponent(new ResourceGraphicsComponent(RESOURCE_TAR));
-            //setGraphicsComponent(new TarGraphicsComponent());
             break;
     }
 #endif
