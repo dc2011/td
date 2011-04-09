@@ -138,11 +138,42 @@ public:
      * @return The tile extension.
      */
     TileExtension * getExtension() { return extension_; }
+
+    /**
+     * Set a tile extension on this tile.
+     *
+     * @param extension The extension to set on the tile.
+     * @author Tom Nightingale
+     */
     void setExtension(TileExtension * extension) { extension_ = extension; }
 
+    /**
+     * Get the Tiled tile.
+     * @return The Tiled tile.
+     *
+     * @author Tom Nightingale
+     */
     Tiled::Tile * getTiledTile() { return tTile_; }
+
+    /**
+     * Set the Tiled tile used to create this TD tile.
+     *
+     * @param tile a pointer to the Tiled tile.
+     * @author Tom Nightingale
+     */
     void setTiledTile(Tiled::Tile * tile) { tTile_ = tile; }
 
+    /**
+     * Get a tile's tile attributes from its Tiled ID. The attributes are
+     * stored in a static array within this method so that it is only loaded
+     * once at runtime. As new tiles are added to the sprite, their attributes
+     * will need to be added to this static array.
+     *
+     * @param id The id returned from the Tiled tile classes getId() method.
+     * @return The tile's attributes.
+     *
+     * @author Tom Nightingale
+     */
     static TileAttributes getAttributes(int id);
 
 private:
