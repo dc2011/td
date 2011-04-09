@@ -7,9 +7,9 @@ AudioManager* AudioManager::instance_ = NULL;
 QMutex AudioManager::mutex_;
 bool AudioManager::capturePause_ = true;
 bool AudioManager::captureStop_ = false;
+QMap<QString,QByteArray> AudioManager::sfxCache_;
 float AudioManager::gainScale[] = {0.1, 0.2, 0.3, 0.4, 0.5, 0.55, 0.6, 0.65,
-                                   0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0
-                                  };
+                                   0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
 
 AudioManager::AudioManager()
 {
@@ -76,11 +76,18 @@ void AudioManager::playSfx(QString filename, SoundType type)
     }
     
     filename = SFXPATH + filename + SFXFILEEXTENSION;
+    
+    if(sfxCache_.contains(filename)) {
+	//Call cache playing version here
+    } else {
+ 
+	QFuture<void> future =
+	    QtConcurrent::run(this, &AudioManager::streamFile,
+			      filename, gainScale[gain]);
+    }
 
-    QFuture<void> future =
-        QtConcurrent::run(this, &AudioManager::streamFile,
-                          filename, gainScale[gain]);
     return;
+
 }
 
 

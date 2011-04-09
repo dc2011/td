@@ -84,6 +84,11 @@ private:
     static float gainScale[];
 
     /**
+     * Map for the cached sound effects
+     */
+    static QMap<QString,QByteArray> sfxCache_;
+
+    /**
      * The volume/gain of the sound effects.
      */
     int sfxGain_;
