@@ -11,6 +11,8 @@ class ArrowProjectileInputComponent : public ProjectileInputComponent {
 public:
     ArrowProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~ArrowProjectileInputComponent() {}
+    
+    void update();
 };
 
 class CannonProjectileInputComponent : public ProjectileInputComponent {

@@ -71,9 +71,12 @@ private:
     /** Percentage of health in decimal form (0 to 1).  */
     double npcHealth;
 
+    /** How many ticks to continue displaying the health bar for, as a result of
+     *  the NPC taking damage. */
+    int damageDisplayTime_;
 
-    /** True if the health of the NPC should be displayed. */
-    static bool showHealth_;
+    /** True if the key to show all NPCs' health bars is being held. */
+    static bool keyHeld_;
 
     /**
      * @returns the pixmap array from the current graphics object
@@ -98,12 +101,21 @@ protected:
 
 public slots:
     /**
-     * Sets the flag specifying whether or not to show an NPC's health bar.
+     * Sets the flag specifying whether or not to show an NPC's health bar,
+     * based on the alt key being held down.
      * 
      * @author Dean Morin, Mohamed Sheriffdeen
      * @param keyHeld True if the alt key is currently held down.
      */
     void showHealth(bool keyHeld);
+
+    /**
+     * The NPC has just taken damage, and so their health bar must be displayed
+     * temporarily.
+     *
+     * @author Dean Morin
+     */
+    void showDamage();
 };
 
 } /* end namespace td */

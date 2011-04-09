@@ -107,7 +107,7 @@ public:
      * @author Darryl Pogue
      * @param obj The GameObject that has been updated.
      */
-    virtual void update(GameObject* obj) { }
+    virtual void update(GameObject*) { }
 
     /**
      * Notifies the driver of a real-time update to an object.
@@ -119,6 +119,16 @@ public:
      * @param obj The GameObject that has been updated.
      */
     virtual void updateRT(GameObject* obj);
+
+    /**
+     * Sends an arbitrary network message to all connected clients.
+     * If you are calling this function, you are probably doing it wrong.
+     *
+     * @author Darryl Pogue
+     * @param msgType The type of message to be sent. (See netmessages.h)
+     * @param msg The message data as a byte array.
+     */
+    virtual void sendNetMessage(unsigned char msgType, QByteArray msg);
 
 public:
     /**

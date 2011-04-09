@@ -1,4 +1,5 @@
 #include "NPC.h"
+#include "NPCWave.h"
 #include "Driver.h"
 #include <QObject>
 
@@ -8,7 +9,7 @@
 
 namespace td {
 
-NPC::NPC(QObject* parent) : Unit(parent) {
+NPC::NPC(QObject* parent) : Unit(parent), wave_(NULL) {
     QVector2D force(0, 0);
     this->setForce(force);
     this->setVelocity(force);
@@ -25,6 +26,9 @@ NPC::~NPC() {
     while (!effects_.isEmpty()) {
         delete effects_.takeFirst();
     }
+    if (wave_ != NULL) {
+        wave_->killChild(this);
+    }
     emit signalNPCDied();
 }
 
@@ -34,6 +38,10 @@ int NPC::getHealth() {
 
 void NPC::setHealth(int health){
     health_ = health;
+    setDirty(kHealth);
+#ifndef SERVER
+    ((NPCGraphicsComponent*) graphics_)->showDamage();
+#endif
 }
 
 int NPC::getDamage() {
@@ -58,6 +66,10 @@ void NPC::networkRead(Stream* s) {
     if (dirty_ & kType) {
         type_ = s->readInt();
     }
+
+    if (dirty_ & kHealth) {
+        health_ = s->readInt();
+    }
 }
 
 void NPC::networkWrite(Stream* s) {
@@ -65,6 +77,10 @@ void NPC::networkWrite(Stream* s) {
 
     if (dirty_ & kType) {
         s->writeInt(type_);
+    }
+
+    if (dirty_ & kHealth) {
+        s->writeInt(health_);
     }
 }
 
@@ -162,9 +178,9 @@ void NPC::update() {
         physics_->update(this);
     }
 
-    if (isDirty()) {
+    /*if (isDirty()) {
         getDriver()->updateRT(this);
-    }
+    }*/
 
     if (graphics_ != NULL) {
         graphics_->update(this);

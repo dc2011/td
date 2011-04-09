@@ -186,4 +186,8 @@ void Projectile::createBounds(){
     this->setBounds(QPolygonF(points));
 }
 
+void Projectile::enemyDied() {
+    enemy_ = NULL;
+}
+
 } /* end namespace td */
