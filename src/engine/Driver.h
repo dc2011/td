@@ -10,6 +10,7 @@ namespace td {
 
 class Tower;
 class NPC;
+class Projectile;
 class Resource;
 
 class Driver : public QObject {
@@ -104,6 +105,21 @@ public:
      */
     NPC* createNPC(int type);
 
+    /**
+     * Creates a projectile object.
+     * Connected to fire() in TowerPhysicsComponent
+     *
+     * @author Pan Khantidhara
+     * @author Marcel Vangrootheest
+     * @author Dean Morin
+     * @param projType The type of the projectile (Arrow, Cannon, etc).
+     * @param source The starting point of the projectile.
+     * @param target The destination point of the projectile.
+     * @return A pointer to the created projectile.
+     */
+    Projectile* createProjectile(int projType, QPointF source,
+            QPointF target, Unit* enemy);
+
     //Resource* createResource(int type);
 
     /**
@@ -138,17 +154,15 @@ public slots:
     virtual void destroyObject(int id);
 
     /**
-     * Creates a projectile object.
+     * Creates projectile on server and send message to client for creation.
      * Connected to fire() in TowerPhysicsComponent
      *
-     * @author Pan Khantidhara
      * @author Marcel Vangrootheest
-     * @author Dean Morin
      * @param projType The type of the projectile (Arrow, Cannon, etc).
      * @param source The starting point of the projectile.
      * @param target The destination point of the projectile.
      */
-    void createProjectile(int projType, QPointF source,
+    virtual void requestProjectile(int projType, QPointF source, 
             QPointF target, Unit* enemy);
 
 };

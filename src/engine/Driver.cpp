@@ -46,7 +46,7 @@ Tower* Driver::createTower(int type) {
 #ifdef SERVER
     connect(tower->getPhysicsComponent(),
             SIGNAL(fireProjectile(int, QPointF, QPointF, Unit*)),
-            this, SLOT(createProjectile(int, QPointF, QPointF, Unit*)));
+            this, SLOT(requestProjectile(int, QPointF, QPointF, Unit*)));
 #endif
     return tower;
 }
@@ -62,7 +62,13 @@ NPC* Driver::createNPC(int type) {
     return npc;
 }
 
-void Driver::createProjectile(int projType, QPointF source,
+void Driver::requestProjectile(int projType, QPointF source,
+        QPointF target, Unit* enemy) {
+    Projectile* p = Driver::createProjectile(projType, source, target,     
+            enemy);
+}
+
+Projectile* Driver::createProjectile(int projType, QPointF source,
         QPointF target, Unit* enemy) {
     Projectile* projectile = (Projectile*)mgr_->createObject(
             Projectile::clsIdx());
@@ -73,6 +79,8 @@ void Driver::createProjectile(int projType, QPointF source,
 
     connect(enemy, SIGNAL(signalNPCDied()), projectile, SLOT(enemyDied()));
     connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
+
+    return projectile;
 }
 
 /*Resource* Driver::createResource(int type) {

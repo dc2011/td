@@ -182,7 +182,8 @@ void CDriver::createTower(int towerType, QPointF pos)
         connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
         connect(tower->getPhysicsComponent(),
                 SIGNAL(fireProjectile(int, QPointF, QPointF, Unit*)),
-                this, SLOT(createProjectile(int, QPointF, QPointF, Unit*)));
+                this,
+                SLOT(requestProjectile(int, QPointF, QPointF, Unit*)));
 
         return;
     }
