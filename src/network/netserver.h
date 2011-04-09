@@ -113,6 +113,13 @@ private slots:
      */
     void onUDPReceive();
 
+    /**
+     * Called when a connected client disconnects.
+     *
+     * @author Kelvin Lui
+     */
+    void onClientDisconnect();
+
 public:
     /**
      * Starts the network server listening for data transmission.
