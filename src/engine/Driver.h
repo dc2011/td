@@ -129,6 +129,20 @@ public slots:
      */
     virtual void destroyObject(int id);
 
+    /**
+     * Creates a projectile object.
+     * Connected to fire() in TowerPhysicsComponent
+     *
+     * @author Pan Khantidhara
+     * @author Marcel Vangrootheest
+     * @author Dean Morin
+     * @param projType The type of the projectile (Arrow, Cannon, etc).
+     * @param source The starting point of the projectile.
+     * @param target The destination point of the projectile.
+     */
+    void createProjectile(int projType, QPointF source,
+            QPointF target, Unit* enemy);
+
 };
 
 } /* end namespace td */
