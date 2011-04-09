@@ -29,13 +29,21 @@ QStringList SfxManager::projectileHitFlak
 
 // tower SFX
 QStringList SfxManager::towerBuildingStarted
-        = QStringList() << "";
+        = QStringList() << "wood";
 QStringList SfxManager::towerBuildingFinished
         = QStringList() << "";
 QStringList SfxManager::towerLevelUp
         = QStringList() << "";
 QStringList SfxManager::towerSold
         = QStringList() << "";
+
+// menu SFX
+QStringList SfxManager::contextMenuOpened
+        = QStringList() << "arrow-1";
+QStringList SfxManager::contextMenuClosed
+        = QStringList() << "arrow-2";
+QStringList SfxManager::contextMenuSelect
+        = QStringList() << "arrow-3";
 
 // NPC wave entrance
 QStringList SfxManager::npcPterodactylEnters
