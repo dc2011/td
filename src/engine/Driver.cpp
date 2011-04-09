@@ -45,7 +45,7 @@ NPC* Driver::createNPC(int type) {
     npc->setType(type);
     npc->initComponents();
 
-    connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
+    //connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
 
     return npc;
 }

@@ -8,7 +8,10 @@
 
 // Network information
 #define TD_PORT 26631
-#define TD_GROUP QHostAddress("232.22.42.1")
+#define TD_GROUP(x) QHostAddress(QString("232.22.42.") + QString::number(x))
+
+// milliseconds between game ticks
+#define GAME_TICK_INTERVAL  30
 
 // based on the number keys used to select the tower
 #define TOWER_ARROW     49
@@ -39,12 +42,14 @@
 #define TILE_RESOURCE   4
 
 // resources that can be picked up by the player
-#define RESOURCE_LUMBER  0
-#define RESOURCE_CRYSTAL 5
-#define RESOURCE_OIL     3
-#define RESOURCE_TAR     4
-#define RESOURCE_STONE   2
-#define RESOURCE_IRON    1
+#define RESOURCE_NONE   0
+#define RESOURCE_WOOD   1
+#define RESOURCE_STONE  2
+#define RESOURCE_BONE   3
+#define RESOURCE_TAR    4
+
+// time to harvest a resource (in game ticks)
+#define HARVEST_COUNTDOWN   120
 
 // NPC types
 #define NPC_NORM    0
@@ -74,6 +79,10 @@
 #define NPC_FLY_MAX_V   2  
 #define NPC_BOSS_MAX_V  1  
 
+//Effect durations for each type
+#define NPC_PLAYER_TIME 20
+#define ARROW_TIME      1
+
 //NPC path key for waypoints
 //TODO: either take out or change to something generic
 #define WP_TRICERATOPS  0
@@ -87,6 +96,29 @@
 #define WP_SOG_RAPTOR   8
 #define WP_MAMMOTH      9
 #define WP_PTERO        10
+
+//Projectile types
+#define PROJ_ARROW  0
+#define PROJ_CANNON 1
+#define PROJ_FIRE   2
+#define PROJ_TAR    3
+#define PROJ_FLAK   4
+
+//Projectile Velocity
+#define ARROW_VELOCITY  15
+#define CANNON_VELOCITY 10
+#define FIRE_VELOCITY   10
+#define TAR_VELOCITY    10
+#define FLAK_VELOCITY   15
+
+// healthbar info (sizes are in pixels)
+#define HEALTHBAR_WIDTH     50
+#define HEALTHBAR_HEIGHT    4
+#define DAMAGE_DISPLAY_TIME 50
+
+// resource collection bar size, in pixels
+#define RESBAR_WIDTH    30
+#define RESBAR_HEIGHT   6
 
 // Temp defines pending a map object
 #define MAP_ROWS 99

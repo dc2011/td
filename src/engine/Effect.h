@@ -15,16 +15,18 @@ class Effect : public GameObject {
     Q_OBJECT
 
 public:
+        
     /**
      * List of effect types.
      *
      * @author Pan K.
-     */
+     *
     enum EffectType{ // This might need some changes
         healthChange, damageChange, speedChange, velocityChange, stunned
     };
+    */
 
-    Effect(Unit* unit, EffectType type);
+    Effect(Unit* unit, int duration);
     ~Effect();
 
     /**
@@ -45,10 +47,19 @@ public:
      *
      * @author Pan K.
      */
-    void apply();
+    virtual void apply() = 0;
 
     void setDuration(size_t duration);
-    size_t getduration();
+    size_t getDuration();
+
+    void setVelocityChangeValue(QVector2D velocity);
+    QVector2D getVelocityChangeValue();
+
+    void setHealthChangeValue(int healthChange);
+    int getHealthChangeValue();
+
+private:
+    void countdown();
 
 public slots:
     void update();
@@ -56,10 +67,12 @@ public slots:
 signals:
     void effectFinished(Effect* effect);
 
-private:
+protected:
     Unit* unit_;
-    EffectType type_;
+    //EffectType type_;
     size_t duration_;
+    int healthChangeValue_;
+    QVector2D velocityChangeValue_;
 };
 
 } /* end namespace td */

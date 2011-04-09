@@ -31,6 +31,10 @@ void ProjectileInputComponent::makeForce() {
     QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
                parent_->getPath().p1().x(), parent_->getPath().p1().y());
     if (distance.length() <= parent_->getVelocity().length()) {
+        if (parent_->getEnemy() != NULL) {
+            disconnect(parent_->getEnemy(), SIGNAL(signalNPCDied()),
+                    parent_, SLOT(enemyDied())); 
+        }
         disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
         QPointF *end = parent_->getEndPoint();

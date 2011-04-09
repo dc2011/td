@@ -47,6 +47,17 @@ void SDriver::updateRT(GameObject* obj) {
 }
 
 void SDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
+    /* Enable if you need hex output for messages
+
+    QString debug = "";
+
+    for (int i = 0; i < msg.size(); i++) {
+        QString tmp = QString().sprintf("%02X ", (unsigned char)msg.at(i));
+        debug += tmp;
+    }
+    qDebug("%s", debug.toAscii().data());
+    */
+
     net_->send(msgType, msg);
 }
 
@@ -58,6 +69,10 @@ void SDriver::startGame() {
         user->networkWrite(&s);
         user->resetDirty();
     }
+
+    /* Not "proper" but it saves space and the client can deal with it anyways */
+    s.writeByte(network::kMulticastIP);
+    s.writeByte(net_->getMulticastAddr());
 
     net_->send(network::kServerPlayers, s.data());
 
@@ -143,6 +158,9 @@ void SDriver::spawnWave() {
         NPCWave* wave = new NPCWave(this);
 
         wave->createWave();
+        waves_.append(wave);
+
+        disconnect(gameTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
     }
 
     /*if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {

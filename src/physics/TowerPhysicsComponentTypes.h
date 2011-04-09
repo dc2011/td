@@ -11,6 +11,8 @@ class ArrowTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     ArrowTowerPhysicsComponent(Tower* tower);
     virtual ~ArrowTowerPhysicsComponent() { }
+
+    void fire();
 };
 
 class CannonTowerPhysicsComponent : public TowerPhysicsComponent {
@@ -19,6 +21,8 @@ class CannonTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     CannonTowerPhysicsComponent(Tower* tower);
     virtual ~CannonTowerPhysicsComponent() { }
+
+    void fire();
 };
 
 class FlameTowerPhysicsComponent : public TowerPhysicsComponent {
@@ -27,6 +31,8 @@ class FlameTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     FlameTowerPhysicsComponent(Tower* tower);
     virtual ~FlameTowerPhysicsComponent() { }
+
+    void fire();
 };
 
 class TarTowerPhysicsComponent : public TowerPhysicsComponent {
@@ -35,6 +41,8 @@ class TarTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     TarTowerPhysicsComponent(Tower* tower);
     virtual ~TarTowerPhysicsComponent() { }
+
+    void fire();
 };
 
 class FlakTowerPhysicsComponent : public TowerPhysicsComponent {
@@ -43,6 +51,8 @@ class FlakTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     FlakTowerPhysicsComponent(Tower* tower);
     virtual ~FlakTowerPhysicsComponent() { }
+
+    void fire();
 };
 
 } /* end namespace td */
