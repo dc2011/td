@@ -142,7 +142,9 @@ void Projectile::networkWrite(td::Stream* s) {
 void Projectile::update() {
     input_->update();
     physics_->update(this);
+#ifndef SERVER
     graphics_->update(this);
+#endif
 }
 
 void Projectile::checkNPCCollision(QSet<Unit*> npcs){
