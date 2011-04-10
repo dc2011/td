@@ -167,6 +167,7 @@ public:
 
     void setEnemy(Unit* enemy){
         enemy_ = enemy;
+        setDirty(kTargetType);
     }
     /**
      * Checks for collision between projectile and npcs
