@@ -12,7 +12,9 @@
 // effect types for operator==
 #define EFFECT_NONE         0
 #define EFFECT_NPCPLAYER    1
-#define EFFECT_ARROW        2
+#define EFFECT_TERRAIN      2
+#define EFFECT_ARROW        3
+#define EFFECT_TAR          4
 
 namespace td {
 
@@ -32,7 +34,7 @@ public:
     */
 
     Effect(const Effect& e);
-    Effect(Unit* unit, int duration, bool timerEnabled = true, uint type);
+    Effect(Unit* unit, int duration, uint type, bool timerEnabled = true);
     ~Effect();
 
     Effect& operator=(const Effect &rhs);

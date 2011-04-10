@@ -3,9 +3,9 @@
 
 namespace td {
 
-Effect::Effect(Unit* unit, int duration, bool timerEnabled, uint type):
+Effect::Effect(Unit* unit, int duration, uint type, bool timerEnabled):
         GameObject(NULL), unit_(unit), duration_(duration),
-        timerEnabled_(timerEnabled), type_(type) {}
+        type_(type), timerEnabled_(timerEnabled) {}
 
 Effect::Effect(const Effect& e) : GameObject() {
     type_ = e.type_;
@@ -13,6 +13,7 @@ Effect::Effect(const Effect& e) : GameObject() {
     duration_ = e.duration_;
     velocityChangeValue_ = e.velocityChangeValue_;
     healthChangeValue_ = e.healthChangeValue_;
+    timerEnabled_ = e.timerEnabled_;
 }
 
 Effect& Effect::operator=(const Effect &rhs) {
@@ -22,6 +23,7 @@ Effect& Effect::operator=(const Effect &rhs) {
         duration_ = rhs.duration_;
         velocityChangeValue_ = rhs.velocityChangeValue_;
         healthChangeValue_ = rhs.healthChangeValue_;
+        timerEnabled_ = rhs.timerEnabled_;
     }
 
     return *this;
@@ -40,7 +42,7 @@ Effect::~Effect(){}
 void Effect::update(){
     this->apply();
     if(timerEnabled_ == true) {
-    countdown();
+        countdown();
     }
 }
 
