@@ -301,6 +301,8 @@ void CDriver::UDPReceived(Stream* s) {
                 go->networkRead(s);
                 go->initComponents();
                 connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
+                connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+                        (Player*)go,  SLOT(showName(bool)));
 
                 if (id == playerID_) {
                     this->makeLocalPlayer((Player*)go);
