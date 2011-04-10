@@ -13,7 +13,9 @@ NPCWave::NPCWave(QObject* parent, unsigned int start, unsigned int count,
         count_(count), type_(type), created_(0) {
 }
 
-NPCWave::~NPCWave() { }
+NPCWave::~NPCWave() {
+    children_.clear();
+}
 
 void NPCWave::createWave() {
     created_ = 1;
