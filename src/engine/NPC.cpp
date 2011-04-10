@@ -70,7 +70,9 @@ void NPC::networkRead(Stream* s) {
     if (dirty_ & kHealth) {
         health_ = s->readInt();
 #ifndef SERVER
-        ((NPCGraphicsComponent*) graphics_)->showDamage();
+        if (graphics_ != NULL) {
+            ((NPCGraphicsComponent*) graphics_)->showDamage();
+        }
 #endif
     }
 }
