@@ -64,6 +64,14 @@ void SDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
     net_->send(msgType, msg);
 }
 
+void SDriver::setBaseHealth(int health) {
+    Driver::setBaseHealth(health);
+
+    Stream s;
+    s.writeInt(health);
+    net_->send(network::kBaseHealth, s.data());
+}
+
 void SDriver::startGame() {
     Stream s;
     s.writeByte(players_.size());

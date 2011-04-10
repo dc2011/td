@@ -61,7 +61,11 @@ void NPCInputComponent::nextDestination() {
             && nextDest_ >= waypoints_.length()) {
         disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
-        // TODO: damage players' base
+
+        int health = parent_->getDriver()->getBaseHealth();
+        health -= parent_->getDamage();
+        parent_->getDriver()->setBaseHealth(health);
+
         emit deleteUnitLater(parent_->getID());  
     }
 }

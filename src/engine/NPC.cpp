@@ -9,7 +9,7 @@
 
 namespace td {
 
-NPC::NPC(QObject* parent) : Unit(parent), wave_(NULL) {
+NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
     QVector2D force(0, 0);
     this->setForce(force);
     this->setVelocity(force);

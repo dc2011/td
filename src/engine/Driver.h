@@ -31,6 +31,11 @@ protected:
      */
     QTimer* gameTimer_;
 
+    /**
+     * The health of the player's base.
+     */
+    int baseHealth_;
+
 public:
     Driver();
     virtual ~Driver();
@@ -83,6 +88,26 @@ public:
      */
     QTimer* getTimer() const {
         return gameTimer_;
+    }
+
+    /**
+     * Returns the health of the player's base.
+     *
+     * @author Darryl Pogue
+     * @return The base health.
+     */
+    int getBaseHealth() const {
+        return baseHealth_;
+    }
+
+    /**
+     * Sets the health of the player's base.
+     *
+     * @author Darryl Pogue
+     * @param health The new base health.
+     */
+    virtual void setBaseHealth(int health) {
+        baseHealth_ = health;
     }
 
     /**

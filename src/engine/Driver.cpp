@@ -5,7 +5,7 @@
 
 namespace td {
 
-Driver::Driver() : QObject(), gameMap_(NULL), gameTimer_(NULL)
+Driver::Driver() : QObject(), gameMap_(NULL), gameTimer_(NULL), baseHealth_(100)
 {
     mgr_ = new ResManager(this);
 }

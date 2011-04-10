@@ -72,6 +72,13 @@ void CDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
     NetworkClient::instance()->send(msgType, msg);
 }
 
+void CDriver::setBaseHealth(int health) {
+    Driver::setBaseHealth(health);
+
+    /* Do something dramatic here */
+    Console::instance()->addText("Oh teh noes!");
+}
+
 void CDriver::readObject(Stream* s) {
     unsigned int id = s->readInt();
 
@@ -324,6 +331,13 @@ void CDriver::UDPReceived(Stream* s) {
 	        int id = s->readInt();
 	        destroyObject(id);
 	        break;
+        }
+        case network::kBaseHealth:
+        {
+            int health = s->readInt();
+
+            setBaseHealth(health);
+            break;
         }
         case network::kPlaySfx:
         {

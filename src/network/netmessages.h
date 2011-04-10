@@ -65,6 +65,8 @@ namespace network {
          */
         kMulticastIP    =   0x08,
 
+        kBaseHealth     =   0x0A,
+
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
