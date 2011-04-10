@@ -78,12 +78,13 @@ void AudioManager::playSfx(QString filename, SoundType type)
     filename = SFXPATH + filename + SFXFILEEXTENSION;
     
     if(sfxCache_.contains(filename)) {
-	//Call cache playing version here
+	//TODO make function to play cached buffers
+	qDebug("playing cached file");
     } else {
  
 	QFuture<void> future =
 	    QtConcurrent::run(this, &AudioManager::streamFile,
-			      filename, gainScale[gain]);
+			      filename, gainScale[gain], true);
     }
 
     return;
@@ -205,7 +206,7 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
 }
 
 
-void AudioManager::streamFile(QString filename, float gain)
+void AudioManager::streamFile(QString filename, float gain, bool cacheThis)
 {
     FILE* file;
     char array[BUFFERSIZE];
@@ -222,6 +223,7 @@ void AudioManager::streamFile(QString filename, float gain)
     ALenum format;
     ALsizei freq = 44100;
     OggVorbis_File oggFile;
+    char bitmask;
 
     /* Created the source and Buffers */
     alGenBuffers(QUEUESIZE, buffer);
@@ -261,6 +263,11 @@ void AudioManager::streamFile(QString filename, float gain)
                     break;
                 }
             }
+
+	    if(cacheThis) {
+		bitmask = getBitmask(format,freq);
+		cacheBuffer(filename,array,size,bitmask);
+	    }
 
             alBufferData(buffer[queue], format, array, size, freq);
             alSourceQueueBuffers(source, 1, &buffer[queue]);
@@ -357,6 +364,60 @@ void AudioManager::openOgg(FILE *file, OggVorbis_File *oggFile,
     }
 
     *freq = vorbisInfo->rate;
+}
+
+void AudioManager::getSpecs(char bitmask, ALenum *format, ALuint *freq) {
+
+    if(bitmask & 0x10) {
+	*freq = 22050;
+    } else if (bitmask & 0x20) {
+	*freq = 44100;
+    } else if (bitmask & 0x40) {
+	*freq = 48000;
+    }
+    
+    bitmask &= 0xF;
+
+    if (bitmask == 0x5) {
+	*format = AL_FORMAT_MONO8;
+    } else if (bitmask == 0x6) {
+	*format = AL_FORMAT_MONO16;
+    } else if (bitmask == 0x9) {
+	*format = AL_FORMAT_STEREO8;
+    } else if (bitmask == 0xA) {
+	*format = AL_FORMAT_STEREO16;
+    }
+
+}
+
+char AudioManager::getBitmask(ALenum format, ALuint freq) {
+    
+    char bitmask = 0;
+    
+    switch(freq)
+    {
+    case 22050:
+	bitmask |= 0x10;
+	break;
+    case 44100:
+	bitmask |= 0x20;
+	break;
+    case 48000:
+	bitmask |= 0x40;
+	break;
+    }
+
+    if(format == AL_FORMAT_MONO8) {
+	bitmask |= 0x5;
+    } else if(format == AL_FORMAT_MONO16) {
+	bitmask |= 0x6;
+    } else if(format == AL_FORMAT_STEREO8) {
+	bitmask |= 0x9;
+    } else if(format == AL_FORMAT_STEREO16) {
+	bitmask |= 0xA;
+    }
+
+    return bitmask;
 }
 
 } /* End namespace td */
