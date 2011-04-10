@@ -160,7 +160,7 @@ public slots:
     void dropResource();
 
 private:
-    QList<Effect*> effects_;
+    QList<Effect> effects_;
 
     /** Nickname associated with this player for display purposes and chat. */
     QString nickname_;

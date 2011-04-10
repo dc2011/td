@@ -5,7 +5,7 @@
 namespace td {
 
 NPCPlayerEffect::NPCPlayerEffect(Unit* unit)
-        : Effect(unit, NPC_PLAYER_TIME) {
+        : Effect(unit, NPC_PLAYER_TIME, EFFECT_NPCPLAYER) {
     velocityChangeValue_ = QVector2D(0,0);       
 }
 
@@ -14,7 +14,7 @@ void NPCPlayerEffect::apply() {
 }
 
 ArrowEffect::ArrowEffect(Unit* unit)
-        : Effect(unit, ARROW_TIME) {
+        : Effect(unit, ARROW_TIME, EFFECT_ARROW) {
     velocityChangeValue_ = QVector2D(0,0);       
     healthChangeValue_ = -25;
 }

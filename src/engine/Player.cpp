@@ -61,20 +61,23 @@ void Player::update() {
 }
 
 void Player::createEffect(Effect* effect){
-    QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
+    if (!effects_.contains(*effect)) {
+        QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
             this, SLOT(deleteEffect(Effect*)));
-    connect(getDriver()->getTimer(), SIGNAL(timeout()),
+        connect(getDriver()->getTimer(), SIGNAL(timeout()),
             effect, SLOT(update()));
-
-    effects_.push_back(effect);
+        
+        effects_.push_back(*effect);
+    } else {
+        delete effect;
+    }
 }
 
 void Player::deleteEffect(Effect* effect){
-    effects_.removeOne(effect);
+    effects_.removeOne(*effect);
     if (effects_.empty()) {
         emit signalEmptyEffectList();
     }
-    delete effect;
 }
 
 void Player::startHarvesting(int type) {
