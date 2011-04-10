@@ -3,8 +3,36 @@
 
 namespace td {
 
-Effect::Effect(Unit* unit, int duration):
-        GameObject(NULL), unit_(unit), duration_(duration) {}
+Effect::Effect(Unit* unit, int duration, uint type):
+        GameObject(NULL), unit_(unit), duration_(duration), type_(type) {}
+
+Effect::Effect(const Effect& e) : GameObject() {
+    type_ = e.type_;
+    unit_ = e.unit_;
+    duration_ = e.duration_;
+    velocityChangeValue_ = e.velocityChangeValue_;
+    healthChangeValue_ = e.healthChangeValue_;
+}
+
+Effect& Effect::operator=(const Effect &rhs) {
+    if (this != &rhs) {
+        type_ = rhs.type_;
+        unit_ = rhs.unit_;
+        duration_ = rhs.duration_;
+        velocityChangeValue_ = rhs.velocityChangeValue_;
+        healthChangeValue_ = rhs.healthChangeValue_;
+    }
+
+    return *this;
+}
+
+bool Effect::operator==(const Effect &e) const {
+    return (type_ == e.type_);
+}
+
+bool Effect::operator!=(const Effect &e) const {
+    return (type_ != e.type_);
+}
 
 Effect::~Effect(){}
 
@@ -12,6 +40,8 @@ void Effect::update(){
     this->apply();
     countdown();
 }
+
+void Effect::apply() {}
 
 void Effect::countdown() {
     duration_--;

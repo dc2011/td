@@ -158,7 +158,7 @@ private:
     int health_;
     int damage_;
     int maxHealth_;
-    QList<Effect*> effects_;
+    QList<Effect> effects_;
     int height_;
     int width_;
     int type_;

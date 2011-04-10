@@ -148,6 +148,8 @@ signals:
      * @param gc The graphics component to be deleted
      */
     void removeGraphicsItem(GraphicsComponent* gc);
+public:
+    virtual void setCurrentResource(int resourceType);
 };
 
 } /* end namespace td */

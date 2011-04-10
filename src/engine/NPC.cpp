@@ -23,9 +23,6 @@ NPC::NPC(QObject* parent) : Unit(parent), wave_(NULL) {
 }
 
 NPC::~NPC() {
-    while (!effects_.isEmpty()) {
-        delete effects_.takeFirst();
-    }
     if (wave_ != NULL) {
         wave_->killChild(this);
     }
@@ -159,20 +156,23 @@ void NPC::isDead() {
 }
 
 void NPC::createEffect(Effect* effect){
-    QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
+    if (!effects_.contains(*effect)) {
+        QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
             this, SLOT(deleteEffect(Effect*)));
-    connect(getDriver()->getTimer(), SIGNAL(timeout()),
+        connect(getDriver()->getTimer(), SIGNAL(timeout()),
             effect, SLOT(update()));
-
-    effects_.push_back(effect);
+        
+        effects_.push_back(*effect);
+    } else {
+        delete effect;
+    }
 }
 
 void NPC::deleteEffect(Effect* effect){
-    effects_.removeOne(effect);
+    effects_.removeOne(*effect);
     if (effects_.empty()) {
         //emit signalEmptyEffectList();
     }
-    delete effect;
 }
 
 void NPC::update() {
