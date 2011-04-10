@@ -50,7 +50,7 @@ public:
     //int getRow();
     void addUnit(Unit *unitToAdd);
     void removeUnit(Unit *unitToRemove);
-    QSet<Unit*> getUnits();
+    QList<Unit*> getUnits();
     blockingType getType();
 
     /**
@@ -130,7 +130,7 @@ public:
 private:
     int tileID_;
     blockingType type_;
-    QSet<Unit*> currentUnits_;
+    QList<Unit*> currentUnits_;
     QPolygonF myBounds_;
     int actionType_;
 

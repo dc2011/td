@@ -173,7 +173,9 @@ blockingType Tile::getType()
   */
 void Tile::addUnit(Unit *unitToAdd)
 {
-    currentUnits_.insert(unitToAdd);
+    if (!currentUnits_.contains(unitToAdd)) {
+        currentUnits_.append(unitToAdd);
+    }
 }
 
 /**
@@ -184,7 +186,7 @@ void Tile::addUnit(Unit *unitToAdd)
   */
 void Tile::removeUnit(Unit *unitToRemove)
 {
-    currentUnits_.remove(unitToRemove);
+    currentUnits_.removeAll(unitToRemove);
 }
 
 void Tile::setBlocked()
@@ -216,9 +218,8 @@ void Tile::setBlocked()
     */
 }
 
-QSet<Unit*> Tile::getUnits(){
+QList<Unit*> Tile::getUnits(){
     return currentUnits_;
-
 }
 
 } /* end namespace td */

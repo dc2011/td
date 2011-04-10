@@ -42,10 +42,10 @@ void Map::initMap() {
     widthInTiles_ = tileLayer->width();
 
     tiles_ = new Tile**[heightInTiles_];
-    for (size_t row = (unsigned) 0; row < heightInTiles_; row++) {
+    for (int row = 0; row < heightInTiles_; row++) {
         tiles_[row] = new Tile*[widthInTiles_];
 
-        for (size_t col = (unsigned) 0; col < widthInTiles_; col++) {
+        for (int col = 0; col < widthInTiles_; col++) {
             tile = tileLayer->tileAt(col, row);
             type = (blockingType) tile->id();
             //save into array
@@ -180,32 +180,33 @@ QSet<Unit*> Map::getUnits(double x, double y, double radius){
     int r,c;
     getTileCoords(x,y,&r,&c);
 
-    QSet<Unit*> units = QSet<Unit*>();
+    QList<Unit*> units = QList<Unit*>();
 
     for (i = 0; i< radius ; i++){
         for(j=0; j+i < radius ; j++){
             if( i + r < heightInTiles_){
 
                 if(j + c < widthInTiles_){
-                    units += tiles_[i+r][j+c]->getUnits();
+                    units.append(tiles_[i+r][j+c]->getUnits());
                 } 
                 if(c - j >= 0){
-                    units += tiles_[i+r][c-j]->getUnits();
+                    units.append(tiles_[i+r][c-j]->getUnits());
                 }
 
             }
             if( r - i >= 0){
 
                 if(j + c < widthInTiles_){
-                    units += tiles_[r-i][j+c]->getUnits();
+                    units.append(tiles_[r-i][j+c]->getUnits());
                 }
                 if(c - j >= 0){
-                    units += tiles_[r-i][c-j]->getUnits();
+                    units.append(tiles_[r-i][c-j]->getUnits());
                 }
             }
         }
     }
-    return units;
+
+    return units.toSet();
 }
 
 void Map::addUnit(double x, double y, Unit *unitToAdd)
