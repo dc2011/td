@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Driver.h"
+#include "../graphics/PlayerGraphicsComponent.h"
 #include "../audio/SfxManager.h"
 
 namespace td {
@@ -107,19 +108,24 @@ void Player::stopHarvesting() {
     if (harvesting_ == RESOURCE_NONE) {
         return;
     }
+
     harvesting_ = RESOURCE_NONE;
     harvestCountdown_ = HARVEST_COUNTDOWN;
     emit signalPlayerMovement(true);
 }
 
 void Player::dropResource() {
+
     if (resource_ == RESOURCE_NONE) {
         return;
     }
+    setDirty(kResource);
     // TODO: create resource object on current tile
     qDebug("Player::dropResource(); dropped resource");
     resource_ = RESOURCE_NONE;
-    // TODO: hide resource carrying indicator
+    if (getGraphicsComponent()) {
+        getGraphicsComponent()->setCurrentResource(0);
+    }
 }
     
 void Player::harvestResource() {
@@ -128,7 +134,12 @@ void Player::harvestResource() {
         harvestCountdown_ = HARVEST_COUNTDOWN;
         qDebug("Player::harvestResource(); resource: %d", harvesting_);
         // TODO: hide harvesting progress bar
-        // TODO: add resource carrying indicator
+        if (getGraphicsComponent()) {
+            getGraphicsComponent()->setCurrentResource(resource_);
+            getGraphicsComponent()->update(this);
+
+        }
+        setDirty(kResource);
         stopHarvesting();
         return;
     }
