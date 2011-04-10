@@ -73,7 +73,7 @@ void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
         resourcePixmapItem_->setVisible(true);
 
         resourcePixmapItem_->setZValue(layer);
-        resourcePixmapItem_->setScale(.2);
+        resourcePixmapItem_->setScale(.7);
         resourcePixmapItem_->setPos(dp->pos.x() + 8, dp->pos.y() + 17);
         resourcePixmapItem_->update();
     } else {
@@ -144,10 +144,10 @@ void PlayerGraphicsComponent::initPixmaps() {
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_4;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_5;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_6;
-    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_WOOD;
-    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_STONE;
-    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_BONE;
-    pixmapImgs_[pixmapIndex_++] = PIX_RESOURCE_TAR;
+    pixmapImgs_[pixmapIndex_++] = PIX_ICON_WOOD;
+    pixmapImgs_[pixmapIndex_++] = PIX_ICON_STONE;
+    pixmapImgs_[pixmapIndex_++] = PIX_ICON_BONE;
+    pixmapImgs_[pixmapIndex_++] = PIX_ICON_TAR;
     pixmapIndex_ = 0;
 }
 
