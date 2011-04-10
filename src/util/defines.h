@@ -81,7 +81,9 @@
 
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20
+#define TAR_TIME        10
 #define ARROW_TIME      1
+#define NO_TIME         0,false
 
 //NPC path key for waypoints
 //TODO: either take out or change to something generic

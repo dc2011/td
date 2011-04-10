@@ -108,6 +108,9 @@ public:
         type_ = type;
         setDirty(kType);
     }
+    int getType() {
+        return type_;
+    }
 
     /**
      * Returns the wave that owns the NPC.
