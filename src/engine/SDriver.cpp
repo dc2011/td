@@ -18,6 +18,9 @@ SDriver::SDriver() : Driver() {
 
     connect(net_, SIGNAL(msgReceived(Stream*)), 
             this, SLOT(onMsgReceive(Stream*)));
+
+    connect(net_, SIGNAL(disconnected()),
+            this, SIGNAL(disconnecting()));
 }
 SDriver::~SDriver() {
     delete net_;

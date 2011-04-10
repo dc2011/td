@@ -85,6 +85,11 @@ signals:
      */
     void msgReceived(Stream* s);
 
+    /**
+     * Signal emitted when there are no more connections to the server.
+     */
+    void disconnected();
+
 private slots:
     /**
      * Called when a message is queued to be sent, sends the message using 

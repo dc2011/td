@@ -91,6 +91,7 @@ signals:
 private slots:
     void readSocket();
     void disconnected();
+    void gameEnd();
 };
 
 } /* end namespace td */
