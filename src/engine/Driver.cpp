@@ -64,7 +64,7 @@ NPC* Driver::createNPC(int type) {
 
 void Driver::requestProjectile(int projType, QPointF source,
         QPointF target, Unit* enemy) {
-    Projectile* p = Driver::createProjectile(projType, source, target,     
+    Driver::createProjectile(projType, source, target,     
             enemy);
 }
 
@@ -73,11 +73,10 @@ Projectile* Driver::createProjectile(int projType, QPointF source,
     Projectile* projectile = (Projectile*)mgr_->createObject(
             Projectile::clsIdx());
     projectile->setType(projType);
-
-    projectile->initComponents();
     projectile->setPath(source, target, enemy);
 
-    connect(enemy, SIGNAL(signalNPCDied()), projectile, SLOT(enemyDied()));
+    projectile->initComponents();
+
     connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
 
     return projectile;
