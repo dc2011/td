@@ -290,7 +290,7 @@ void CDriver::UDPReceived(Stream* s) {
         case network::kAssignPlayerID:
         {
             playerID_ = s->readInt();
-            qDebug("My player ID is %08X", playerID_);
+            //qDebug("My player ID is %08X", playerID_);
             break;
         }
         case network::kMulticastIP:
