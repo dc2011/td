@@ -1,5 +1,8 @@
 #include "TowerGraphicsComponent.h"
 #include "../engine/Tower.h"
+#include "../physics/TowerPhysicsComponent.h"
+#include <QPointF>
+#include <QPainter>
 
 namespace td {
 
@@ -21,4 +24,29 @@ void TowerGraphicsComponent::update(GameObject* obj) {
     emit signalDraw(dp, this, LAYER_TOWER);
 }
 
+
+void TowerGraphicsComponent::initRangeCircle(GameObject* obj) {
+    visibleRange_ = false;
+    Tower* tower = (Tower*)obj;
+    QPointF point = tower->getPos();
+
+
+    int radius = (TowerPhysicsComponent*)(tower->getPhysicsComponent())->getRadius();
+    rangeCircle_ = new QGraphicsEllipseItem(point.x()-radius, point.y()-radius,
+                                            radius * 2, radius * 2);
+    rangeCircle_->setBrush(QBrush(QT::white));
+    rangeCircle_->setOpacity(.5);
+    CDriver::instance()->getMainWindow()->getScene()->addItem(rangeCircle_);
+}
+void TowerGraphicsComponent::draw(DrawParams* dp, int layer) {
+    if (visibleRange_) {
+        rangeCircle_->setVisible(true);
+        rangeCircle_->update();
+    } else {
+        rangeCircle_->setVisible(false);
+        rangeCircle_->update();
+    }
+    GraphicsComponent::draw(dp, layer);
+
+}
 } /* end namespace td */

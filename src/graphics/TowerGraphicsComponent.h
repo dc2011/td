@@ -6,6 +6,7 @@
 #include <QPointF>
 #include "GraphicsComponent.h"
 #include "./util/defines.h"
+#include <QGraphicsEllipseItem>
 
 namespace td {
 
@@ -37,13 +38,24 @@ public:
      */
     virtual void initPixmaps() = 0;
 
+    void initRangeCircle(GameObject* obj);
+
+    virtual void draw(DrawParams* dp, int layer=0);
+
 private:
     /**
      * @returns the pixmap array from the current graphics object
      * @author Warren Voelkl
      */
     virtual QPixmap * getPixmapArray() = 0;
+
+    QGraphicsEllipseItem * rangeCircle_;
+    bool visibleRange_;
+
+public slots:
+    void setVisibleRange(bool newValue) {visibleRange_ = newValue;}
 };
+
 
 } /* end namespace td */
 
