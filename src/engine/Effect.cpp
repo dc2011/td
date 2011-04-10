@@ -3,8 +3,9 @@
 
 namespace td {
 
-Effect::Effect(Unit* unit, int duration, uint type):
-        GameObject(NULL), unit_(unit), duration_(duration), type_(type) {}
+Effect::Effect(Unit* unit, int duration, bool timerEnabled, uint type):
+        GameObject(NULL), unit_(unit), duration_(duration),
+        timerEnabled_(timerEnabled), type_(type) {}
 
 Effect::Effect(const Effect& e) : GameObject() {
     type_ = e.type_;
@@ -38,7 +39,9 @@ Effect::~Effect(){}
 
 void Effect::update(){
     this->apply();
+    if(timerEnabled_ == true) {
     countdown();
+    }
 }
 
 void Effect::apply() {}
@@ -47,7 +50,7 @@ void Effect::countdown() {
     duration_--;
     if(duration_ <= 0){
         disconnect(unit_->getDriver()->getTimer(), SIGNAL(timeout()),
-                    this, SLOT(update()));
+              this, SLOT(update()));
         emit effectFinished(this);
     }
 }

@@ -31,8 +31,8 @@ public:
     };
     */
 
-    Effect(Unit* unit, int duration, uint type);
     Effect(const Effect& e);
+    Effect(Unit* unit, int duration, bool timerEnabled = true, uint type);
     ~Effect();
 
     Effect& operator=(const Effect &rhs);
@@ -84,6 +84,7 @@ protected:
     int healthChangeValue_;
     QVector2D velocityChangeValue_;
     uint type_;
+    bool timerEnabled_;
 };
 
 } /* end namespace td */

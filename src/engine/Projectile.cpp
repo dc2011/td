@@ -146,7 +146,19 @@ void Projectile::checkNPCCollision(QSet<Unit*> npcs){
 // Just need to add effect to this->getEnemy()
 
     for (it = npcs.begin(); it != npcs.end(); ++it) {
-        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()){
+        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
+            // Check to see if this projectile can damage this unit
+            if ((this->type_ == PROJ_FLAK) && (((NPC*)*it)->getType() != NPC_FLY))
+            {
+                continue;
+            }
+            if ((((NPC*)*it)->getType() == NPC_FLY)
+                && ((this->type_ == PROJ_CANNON) || (this->type_ == PROJ_FIRE)
+                    || (this->type_ == PROJ_TAR)))
+            {
+                continue;
+            }
+
             projBounds = this->getBounds();
             npcBounds = (*it)->getBounds();
             if(this->getBounds().intersected((*it)->getBounds()).count() != 0){
