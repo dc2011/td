@@ -201,6 +201,15 @@ private:
      */
     void openOgg(FILE *, OggVorbis_File *, ALenum *, ALsizei *);
 
+    /**
+     * Plays the cached buffers back
+     *
+     * @author Terence Stenvold
+     * @param filename is the filename 
+     * @param gain is the volume for playback
+     */
+    void playCached(QString filename, float gain);
+
 
 public:
 

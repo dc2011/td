@@ -79,7 +79,9 @@ void AudioManager::playSfx(QString filename, SoundType type)
     
     if(sfxCache_.contains(filename)) {
 	//TODO make function to play cached buffers
-	qDebug("playing cached file");
+	QFuture<void> future =
+	    QtConcurrent::run(this, &AudioManager::playCached,
+			      filename, gainScale[gain]);
     } else {
  
 	QFuture<void> future =
@@ -205,6 +207,39 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
 
 }
 
+void AudioManager::playCached(QString filename, float gain)
+{
+    
+    ALuint buffer;
+    ALuint source;
+    ALenum format;
+    ALuint freq;
+    QByteArray tmp;
+    ALint playing;
+
+    alGenBuffers(1,&buffer);
+    alGenSources(1,&source);
+    alSourcef(source, AL_GAIN, gain);
+    
+    mutex_.lock();
+    tmp = sfxCache_[filename];
+    mutex_.unlock();
+    
+    getSpecs(tmp.at(0),&format,&freq);
+    alBufferData(buffer, format, tmp.mid(1).constData(), tmp.size()-1, freq);
+    alSourceQueueBuffers(source, 1, &buffer);
+
+    alSourcePlay(source);
+
+    do {
+	alGetSourcei(source, AL_SOURCE_STATE, &playing);
+	alSleep(0.1f);
+    } while(playing != AL_STOPPED && !checkError());
+
+    
+    alDeleteSources(1, &source);
+    alDeleteBuffers(1, &buffer);
+}
 
 void AudioManager::streamFile(QString filename, float gain, bool cacheThis)
 {
@@ -269,7 +304,7 @@ void AudioManager::streamFile(QString filename, float gain, bool cacheThis)
 		cacheBuffer(filename,array,size,bitmask);
 	    }
 
-            alBufferData(buffer[queue], format, array, size, freq);
+	    alBufferData(buffer[queue], format, array, size, freq);
             alSourceQueueBuffers(source, 1, &buffer[queue]);
             queue = (++queue == QUEUESIZE ? 0 : queue);
             buffersAvailable--;
