@@ -7,13 +7,14 @@
 #    include "manager.h"
 #    define PLAY_LOCAL_SFX(x)       AudioManager::instance()->playSfx(x)
 #    define PLAY_LOCAL_NOTIFY(x)    AudioManager::instance()->playSfx(x, ntf)
+#    define PLAY_SFX(x, y)          AudioManager::instance()->playSfx(y)
+#define PLAY_NOTIFY(x, y)           AudioManager::instance()->playSfx(y, ntf)
 #else
 #    define PLAY_LOCAL_SFX(x)
 #    define PLAY_LOCAL_NOTIFY(x)
+#    define PLAY_SFX(x, y)          SfxManager::makeSfxNetworkMsg(x, y)
+#    define PLAY_NOTIFY(x, y)       SfxManager::makeSfxNetworkMsg(x, y, ntf)
 #endif
-
-#define PLAY_SFX(x, y)              SfxManager::makeSfxNetworkMsg(x, y)
-#define PLAY_NOTIFY(x, y)           SfxManager::makeSfxNetworkMsg(x, y, ntf)
 
 namespace td {
 
