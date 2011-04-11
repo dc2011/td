@@ -57,9 +57,9 @@ void Map::initMap() {
                     && towerLayer->tileAt(col, row) != NULL) {
                 tiles_[row][col]->setActionType(TILE_BUILDABLE);
             }
-            
+
             // Create resources.
-            if (resLayer->contains(col, row) 
+            if (resLayer->contains(col, row)
                     && resLayer->tileAt(col, row) != NULL) {
                 // Grabbing the tile from the resource layer.
                 tile = resLayer->tileAt(col, row);

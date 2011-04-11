@@ -226,17 +226,16 @@ void Tile::setBlocked()
 
 QSet<Unit*> Tile::getUnits(){
     return currentUnits_;
-
 }
 
 Tile::TileAttributes Tile::getAttributes(int id) {
     static const TileAttributes attributes[] = {
         {OPEN, NONE},
         {CLOSED, NONE},
-        {NORTH_WEST, NONE},
-        {NORTH_EAST, NONE},
-        {SOUTH_WEST, NONE},
-        {SOUTH_EAST, NONE},
+        {NORTH_WEST, SLOW},
+        {NORTH_EAST, SLOW},
+        {SOUTH_WEST, SLOW},
+        {SOUTH_EAST, SLOW},
     };
 
     return attributes[id];
