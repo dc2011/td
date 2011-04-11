@@ -4,7 +4,7 @@
 // TD Version
 // Update this whenever an incompatible change is made, to ensure that features
 // are matched between clients and the server
-#define TD_VERSION      0x0001
+#define TD_VERSION      0x0002
 
 // Network information
 #define TD_PORT 26631
