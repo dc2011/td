@@ -109,12 +109,11 @@ private:
     QLineF projectilePath_;
     
 protected:
-    /** The tower that this component defines. */
-    Tower* tower_;
-
-
     /** All enemies that are potentially in range of the tower. */
     QSet<Unit*> enemies_;
+
+    /** The tower that this component defines. */
+    Tower* tower_;
 
     /** The enemy that's currently being tracked by the tower. */
     Unit* target_;
