@@ -268,6 +268,7 @@ void CDriver::addToTower(BuildingTower* tower) {
     human_->dropResource();
     if (tower->isDone()) {
         createTower(tower->getType(), tower->getPos());
+        mgr_->deleteObject(tower);
     }
 }
 
