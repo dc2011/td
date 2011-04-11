@@ -100,7 +100,7 @@ public:
     int getRadius() {
         return radius_;
     }
-    virtual bool isValidTarget(Unit*){}
+    virtual bool isValidTarget(Unit*){ return false; }
 
 private:
     /** All enemies that are potentially in range of the tower. */
