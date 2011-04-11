@@ -37,9 +37,16 @@ public:
      * @author Warren Voelkl
      */
     virtual void initPixmaps() = 0;
-
+    /**
+     * Sets up the rangeCircle associated with this tower.
+     * @param color the color of the range circle for this tower.
+     * @author Ian Lee
+     */
     void initRangeCircle(QColor color);
-
+    /**
+     *
+     * @author Ian Lee
+     */
     virtual void draw(DrawParams* dp, int layer=0);
 
 private:
@@ -49,11 +56,19 @@ private:
      */
     virtual QPixmap * getPixmapArray() = 0;
 
+    /**
+     * range circle object.
+     */
     QGraphicsEllipseItem * rangeCircle_;
-    bool visibleRange_;
 
+    bool visibleRange_;
     int radius_;
 public slots:
+    /**
+     * Slot for alt key pressed to show ranges.
+     * @param newValue whether or not key is pressed.
+     * @author Ian Lee
+     */
     void setVisibleRange(bool newValue) {visibleRange_ = newValue;}
 };
 

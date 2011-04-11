@@ -39,10 +39,7 @@ void TowerGraphicsComponent::draw(DrawParams* dp, int layer) {
     if (visibleRange_) {
 
         QPointF point = dp->pos;
-        // int radius = ((TowerPhysicsComponent*)(tower->getPhysicsComponent()))->getRadius();
-
         rangeCircle_->setRect(point.x()-radius_, point.y()-radius_, radius_ * 2, radius_ * 2);
-
         rangeCircle_->setOpacity(.1);
 
         rangeCircle_->setVisible(true);
