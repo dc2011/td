@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Tower.h"
 #include "NPCWave.h"
+#include "Projectile.h"
 
 namespace td {
 
@@ -189,6 +190,15 @@ void SDriver::deadNPC(int id) {
     destroyObject(id);
 }
 
+void SDriver::requestProjectile(int projType, QPointF source,
+        QPointF target, Unit* enemy) {
+    Projectile* p = Driver::createProjectile(projType, source, target,     
+            enemy);
+
+    Stream s;
+    p->networkWrite(&s);
+    net_->send(network::kProjectile, s.data());
+}
 
 void SDriver::onMsgReceive(Stream* s) {
 

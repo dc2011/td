@@ -115,7 +115,7 @@ signals:
      *
      * @author Pan K.
      */
-    void NPCPlayerCollided(Effect* effect);
+    void NPCPlayerCollided(Effect *effect);
 
 public slots:
     /**

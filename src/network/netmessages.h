@@ -65,6 +65,8 @@ namespace network {
          */
         kMulticastIP    =   0x08,
 
+        /** Indicates creation of a projectile. */
+        kProjectile     =   0x09,
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 

@@ -1,6 +1,7 @@
 #include "ContextMenuGraphicsComponent.h"
 #include "../engine/ContextMenu.h"
 #include "../engine/Player.h"
+#include "../engine/CDriver.h"
 
 #define ARROW_TOWER_SELECTED    49
 #define CANNON_TOWER_SELECTED   50
@@ -96,8 +97,8 @@ void ContextMenuGraphicsComponent::showSelectMenu(int type, QPointF playerPos) {
 void ContextMenuGraphicsComponent::hideMenu() {
     menuPos_.setX(OFFSCREEN);
     menuPos_.setY(OFFSCREEN);
-
     update(NULL);
+    CDriver::instance()->getMainWindow()->getScene()->update();
 }
 
 void ContextMenuGraphicsComponent::animate() {
