@@ -64,7 +64,7 @@ void AudioManager::playSfx(QString filename, SoundType type)
     int gain;
 
     if (type == sfx) {
-        gain = sfxGain_ - (playing_ / 1);
+        gain = sfxGain_ - (playing_ / 2);
 
         if (gain < 0) {
             gain = 0;
@@ -220,7 +220,7 @@ void AudioManager::playCached(QString filename, float gain)
     alGenBuffers(1,&buffer);
     alGenSources(1,&source);
     alSourcef(source, AL_GAIN, gain);
-    
+    SAFE_OPERATION(playing_++);
     mutex_.lock();
     tmp = sfxCache_[filename];
     mutex_.unlock();
@@ -239,6 +239,7 @@ void AudioManager::playCached(QString filename, float gain)
     
     alDeleteSources(1, &source);
     alDeleteBuffers(1, &buffer);
+    SAFE_OPERATION(playing_--);
 }
 
 void AudioManager::streamFile(QString filename, float gain, bool cacheThis)
