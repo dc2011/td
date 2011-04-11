@@ -38,7 +38,7 @@ public:
      */
     virtual void initPixmaps() = 0;
 
-    void initRangeCircle();
+    void initRangeCircle(QColor color);
 
     virtual void draw(DrawParams* dp, int layer=0);
 

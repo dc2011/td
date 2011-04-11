@@ -27,12 +27,12 @@ void TowerGraphicsComponent::update(GameObject* obj) {
 }
 
 
-void TowerGraphicsComponent::initRangeCircle() {
+void TowerGraphicsComponent::initRangeCircle(QColor color) {
     visibleRange_ = false;
 
     rangeCircle_ = new QGraphicsEllipseItem(OFFSCREEN, OFFSCREEN, 1,1);
 
-
+    rangeCircle_->setBrush(QBrush(color));
     CDriver::instance()->getMainWindow()->getScene()->addItem(rangeCircle_);
 }
 void TowerGraphicsComponent::draw(DrawParams* dp, int layer) {
@@ -42,7 +42,7 @@ void TowerGraphicsComponent::draw(DrawParams* dp, int layer) {
         // int radius = ((TowerPhysicsComponent*)(tower->getPhysicsComponent()))->getRadius();
 
         rangeCircle_->setRect(point.x()-radius_, point.y()-radius_, radius_ * 2, radius_ * 2);
-        rangeCircle_->setBrush(QBrush(QColor(255,160,122)));//Qt::white));
+
         rangeCircle_->setOpacity(.1);
 
         rangeCircle_->setVisible(true);
