@@ -39,11 +39,11 @@
 #define TILE_RESOURCE   4
 
 // resources that can be picked up by the player
-#define RESOURCE_NONE   0
-#define RESOURCE_WOOD   1
-#define RESOURCE_STONE  2
-#define RESOURCE_BONE   3
-#define RESOURCE_TAR    4
+#define RESOURCE_NONE   -1
+#define RESOURCE_WOOD   0
+#define RESOURCE_STONE  1
+#define RESOURCE_BONE   2
+#define RESOURCE_TAR    3
 
 // time to harvest a resource (in game ticks)
 #define HARVEST_COUNTDOWN   120
