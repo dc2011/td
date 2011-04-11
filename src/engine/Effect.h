@@ -52,8 +52,8 @@ public:
     void setDuration(size_t duration);
     size_t getDuration();
 
-    void setVelocityChangeValue(QVector2D velocity);
-    QVector2D getVelocityChangeValue();
+    void setVelocityChangeValue(float velocity);
+    float getVelocityChangeValue();
 
     void setHealthChangeValue(int healthChange);
     int getHealthChangeValue();
@@ -72,7 +72,7 @@ protected:
     //EffectType type_;
     size_t duration_;
     int healthChangeValue_;
-    QVector2D velocityChangeValue_;
+    float velocityChangeValue_;
     bool timerEnabled_;
 };
 

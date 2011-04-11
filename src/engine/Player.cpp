@@ -60,11 +60,11 @@ void Player::update() {
     }
 
     // Updating effects for player position
-    Effect *tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
-    if (tileEffect != NULL)
-    {
-        createEffect(tileEffect);
-    }
+    //Effect *tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
+    //if (tileEffect != NULL)
+    //{
+       //createEffect(tileEffect);
+    //}
 }
 
 void Player::createEffect(Effect* effect){

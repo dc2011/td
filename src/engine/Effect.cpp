@@ -32,11 +32,11 @@ size_t Effect::getDuration() {
     return duration_;
 }
 
-void Effect::setVelocityChangeValue(QVector2D velocity) {
+void Effect::setVelocityChangeValue(float velocity) {
     velocityChangeValue_ = velocity;
 }
 
-QVector2D Effect::getVelocityChangeValue() {
+float Effect::getVelocityChangeValue() {
     return velocityChangeValue_;
 }
 
