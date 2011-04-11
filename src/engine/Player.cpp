@@ -63,6 +63,7 @@ void Player::update() {
 
 void Player::createEffect(Effect* effect){
     if (!effects_.contains(*effect)) {
+        emit signalEmptyEffectList();
         QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
             this, SLOT(deleteEffect(Effect*)));
         connect(getDriver()->getTimer(), SIGNAL(timeout()),
@@ -76,9 +77,6 @@ void Player::createEffect(Effect* effect){
 
 void Player::deleteEffect(Effect* effect){
     effects_.removeOne(*effect);
-    if (effects_.empty()) {
-        emit signalEmptyEffectList();
-    }
 }
 
 void Player::startHarvesting(int type) {

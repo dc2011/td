@@ -5,7 +5,7 @@ namespace td {
 
 Effect::Effect(Unit* unit, int duration, uint type, bool timerEnabled):
         GameObject(NULL), unit_(unit), duration_(duration),
-        type_(type), timerEnabled_(timerEnabled) {}
+        type_(type), timerEnabled_(timerEnabled), applyEnabled_(true) {}
 
 Effect::Effect(const Effect& e) : GameObject() {
     type_ = e.type_;
@@ -40,9 +40,17 @@ bool Effect::operator!=(const Effect &e) const {
 Effect::~Effect(){}
 
 void Effect::update(){
-    this->apply();
+    if (applyEnabled_) {
+        this->apply();
+    }
     if(timerEnabled_ == true) {
         countdown();
+    }
+}
+
+void Effect::effectStop(uint type) {
+    if (type_ == type) {
+        applyEnabled_ = false; 
     }
 }
 
