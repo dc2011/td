@@ -210,6 +210,10 @@ void CDriver::createBuildingTower(int towerType, QPointF pos) {
 
         //TODO connect signal/slots
         connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
+#ifndef SERVER
+        connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+                tower->getGraphicsComponent(), SLOT(showIcons(bool)));
+#endif
         return;
     }
 

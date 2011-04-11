@@ -86,13 +86,10 @@ public:
     /**
      * Sets the resource wood amount.
      *
-     * @author Marcel Vangrootheest
+     * @author Marcel Vangrootheest, Warren Voelkl
      * @param wood The amount of wood resource needed.
      */
-    void setWood(int wood) {
-        wood_ = wood;
-        setDirty(kWood);
-    }
+    void setWood(int wood);
 
     /**
      * Gets the amount of wood resources needed.
@@ -104,16 +101,14 @@ public:
         return wood_;
     }
 
+
     /**
      * Sets the resource stone amount.
      *
-     * @author Marcel Vangrootheest
+     * @author Marcel Vangrootheest, Warren Voelkl
      * @param wood The amount of stone resource needed.
      */
-    void setStone(int stone) {
-        stone_ = stone;
-        setDirty(kStone);
-    }
+    void setStone(int stone);
 
     /**
      * Gets the amount of stone resources needed.
@@ -128,13 +123,10 @@ public:
     /**
      * Sets the resource bone amount.
      *
-     * @author Marcel Vangrootheest
+     * @author Marcel Vangrootheest, Warren Voelkl
      * @param wood The amount of bone resource needed.
      */
-    void setBone(int bone) {
-        bone_ = bone;
-        setDirty(kBone);
-    }
+    void setBone(int bone);
 
     /**
      * Gets the amount of wood resources needed.
@@ -149,13 +141,10 @@ public:
     /**
      * Sets the resource oil amount.
      *
-     * @author Marcel Vangrootheest
+     * @author Marcel Vangrootheest, Warren Voelkl
      * @param oil The amount of oil resource needed.
      */
-    void setOil(int oil) {
-        oil_ = oil;
-        setDirty(kOil);
-    }
+    void setOil(int oil);
 
     /**
      * Gets the amount of oil resources needed.

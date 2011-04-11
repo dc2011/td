@@ -35,7 +35,11 @@
 #define PIX_PROJ_FIRE_MAX       1
 #define PIX_PROJ_FLAK           QString("./img/flakProjectile.png")
 #define PIX_PROJ_FLAK_MAX       1
-#define PIX_BUILDING_TOWER      QString("./img/buildingTower.png")
+//placehoders for more tower compleation graphics
+#define PIX_BUILDING_TOWER_25   QString("./img/buildingTower.png")
+#define PIX_BUILDING_TOWER_50   QString("./img/buildingTower.png")
+#define PIX_BUILDING_TOWER_75   QString("./img/buildingTower.png")
+#define PIX_BUILDING_TOWER_MAX  3
 #define PIX_TOWER_ARROW         QString("./img/towerArrow.png")
 #define PIX_TOWER_CANNON        QString("./img/towerCannon.png")
 #define PIX_TOWER_TAR           QString("./img/towerTar.png")
