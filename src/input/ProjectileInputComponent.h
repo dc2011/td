@@ -21,7 +21,7 @@ public:
      *
      * @author Marcel Vangrootheest
      */
-    void update();
+    virtual void update();
     /**
      * This is needed to apply the input component to the unit defined.
      *
@@ -52,6 +52,14 @@ public:
      * @author Joel Stewart , Marcel Vangrootheest
      */
     void applyDirection();
+    /**
+     * Checks for collision between projectile and npcs
+     * and applies effects to hit npcs.
+     *
+     * @author Daniel Wright
+     * @param npcs, set of npcs to check collision with
+     */
+    virtual void checkNPCCollision(QSet<Unit*> npcs){}
 
 signals:
     /**
@@ -63,7 +71,7 @@ signals:
      */
     void deleteProjectileLater(int id);
 
-private:
+protected:
     /** The projectile this component applies to. */
     Projectile* parent_;
 };

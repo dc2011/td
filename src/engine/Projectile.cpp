@@ -25,6 +25,8 @@ Projectile::Projectile(QObject* parent) : Unit(parent) {
 void Projectile::initComponents() {
     switch(type_) {
         case PROJ_ARROW:
+            this->setHeight(10);
+            this->setWidth(48);
             setInputComponent(new ArrowProjectileInputComponent());
             setPhysicsComponent(new ArrowProjectilePhysicsComponent());
 #ifndef SERVER
@@ -33,6 +35,8 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_CANNON:
+            this->setHeight(100);
+            this->setWidth(100);
             setInputComponent(new CannonProjectileInputComponent());
             setPhysicsComponent(new CannonProjectilePhysicsComponent());
 #ifndef SERVER
@@ -41,6 +45,7 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_FIRE:
+
             setInputComponent(new FireProjectileInputComponent());
             setPhysicsComponent(new FireProjectilePhysicsComponent());
 #ifndef SERVER
@@ -49,6 +54,8 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_TAR:
+            this->setHeight(35);
+            this->setWidth(35);
             setInputComponent(new TarProjectileInputComponent());
             setPhysicsComponent(new TarProjectilePhysicsComponent());
 #ifndef SERVER
@@ -57,6 +64,8 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_FLAK:
+            this->setHeight(36);
+            this->setWidth(15);
             setInputComponent(new FlakProjectileInputComponent());
             setPhysicsComponent(new FlakProjectilePhysicsComponent());
 #ifndef SERVER
@@ -128,33 +137,6 @@ void Projectile::update() {
     graphics_->update(this);
 }
 
-void Projectile::checkNPCCollision(QSet<Unit*> npcs){
-    QSet<Unit*>::iterator it;
-    QPolygonF projBounds;
-    QPolygonF npcBounds;
-
-//Note: for arrow/flak/other autohit projectiles
-// Just need to add effect to this->getEnemy()
-
-    for (it = npcs.begin(); it != npcs.end(); ++it) {
-        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()){
-            projBounds = this->getBounds();
-            npcBounds = (*it)->getBounds();
-            if(this->getBounds().intersected((*it)->getBounds()).count() != 0){
-                //create projectile effect
-                //add effect to npc
-                //qDebug("Enemy hit");
-                ((NPC*)(*it))->createEffect(new ArrowEffect(*it));
-                break;
-            }else{
-                //qDebug("No hit");
-            }
-
-        }
-    }
-
-}
-
 void Projectile::createBounds(){
     QVector<QPointF> points = QVector<QPointF>();
     QPointF *newPos = this->getEndPoint();
@@ -184,6 +166,10 @@ void Projectile::createBounds(){
     points.append(point);
 
     this->setBounds(QPolygonF(points));
+}
+
+void Projectile::enemyDied() {
+    enemy_ = NULL;
 }
 
 } /* end namespace td */

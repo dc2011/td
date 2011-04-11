@@ -3,10 +3,13 @@
 
 namespace td {
 
+unsigned char NetworkServer::nextMulticast = 1;
+
 NetworkServer::NetworkServer()
 {
     netthread_ = new Thread();
     udpSocket_ = new QUdpSocket();
+    multicastAddr_ = nextMulticast++;
 
     connect(this, SIGNAL(msgQueued()), this, SLOT(onMsgQueued()),
             Qt::QueuedConnection);
@@ -27,6 +30,7 @@ void NetworkServer::start()
 
     foreach (QTcpSocket* sock, tcpSockets_) {
         sock->moveToThread(netthread_);
+        connect(sock, SIGNAL(disconnected()), this, SLOT(onClientDisconnect()));
     }
 
     this->moveToThread(netthread_);
@@ -45,7 +49,7 @@ void NetworkServer::onMsgQueued()
     bool isUDP = ((unsigned char)tmp.at(0) >= td::network::kBLOCK_UDP);
 
     if (isUDP) {
-        udpSocket_->writeDatagram(tmp, TD_GROUP, TD_PORT);
+        udpSocket_->writeDatagram(tmp, TD_GROUP(multicastAddr_), TD_PORT);
     } else {
         foreach (QTcpSocket* sock, tcpSockets_) {
             sock->write(tmp);
@@ -71,6 +75,17 @@ void NetworkServer::onUDPReceive()
     Stream* s = new Stream(datagram);
 
     emit msgReceived(s);
+}
+void NetworkServer::onClientDisconnect() {
+    QTcpSocket* sock = (QTcpSocket*)QObject::sender();
+    mutex_.lock();
+    tcpSockets_.removeOne(sock);
+    int count = tcpSockets_.size();
+    mutex_.unlock();
+
+    if (count == 0) {
+        emit disconnected();
+    }
 }
 
 } /* end namespace td */

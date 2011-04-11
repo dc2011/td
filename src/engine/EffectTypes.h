@@ -26,6 +26,26 @@ public:
     void apply();
 };
 
+class CannonEffect : public Effect {
+    Q_OBJECT
+
+public:
+    explicit CannonEffect(Unit* unit);
+    virtual ~CannonEffect() {}
+
+    void apply();
+};
+
+class FlakEffect : public Effect {
+    Q_OBJECT
+
+public:
+    explicit FlakEffect(Unit* unit);
+    virtual ~FlakEffect() {}
+
+    void apply();
+};
+
 class PlayerTerrainEffect : public Effect {
     Q_OBJECT
 

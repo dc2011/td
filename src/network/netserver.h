@@ -26,6 +26,11 @@ class NetworkServer : public QObject {
 
 private:
     /**
+     * The last digit of the next multicast address.
+     */
+    static unsigned char nextMulticast;
+
+    /**
      * The thread which owns the NetworkServer and its sockets.
      */
     QThread* netthread_;
@@ -44,6 +49,11 @@ private:
      * The udpSocket listening on the server.
      */
     QUdpSocket* udpSocket_;
+
+    /**
+     * The last digit of the multicast address for the server.
+     */
+    unsigned char multicastAddr_;
 
 public:
     /**
@@ -75,6 +85,11 @@ signals:
      */
     void msgReceived(Stream* s);
 
+    /**
+     * Signal emitted when there are no more connections to the server.
+     */
+    void disconnected();
+
 private slots:
     /**
      * Called when a message is queued to be sent, sends the message using 
@@ -102,6 +117,13 @@ private slots:
      * @author Darryl Pogue
      */
     void onUDPReceive();
+
+    /**
+     * Called when a connected client disconnects.
+     *
+     * @author Kelvin Lui
+     */
+    void onClientDisconnect();
 
 public:
     /**
@@ -145,6 +167,16 @@ public:
         connect(conn, SIGNAL(readyRead()), this, SLOT(onTCPReceive()));
 
         SAFE_OPERATION(tcpSockets_.append(conn))
+    }
+
+    /**
+     * Returns the last digit of the server's multicast address.
+     *
+     * @author Darryl Pogue
+     * @return The final multicast address octet.
+     */
+    unsigned char getMulticastAddr() const {
+        return multicastAddr_;
     }
 };
 

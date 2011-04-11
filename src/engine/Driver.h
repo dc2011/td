@@ -8,6 +8,10 @@
 
 namespace td {
 
+class Tower;
+class NPC;
+class Resource;
+
 class Driver : public QObject {
     Q_OBJECT
   
@@ -52,6 +56,16 @@ public:
     virtual void updateRT(GameObject* obj) = 0;
 
     /**
+     * Sends an arbitrary network message.
+     * If you are calling this function, you are probably doing it wrong.
+     *
+     * @author Darryl Pogue
+     * @param msgType The type of message to be sent. (See netmessages.h)
+     * @param msg The message data as a byte array.
+     */
+    virtual void sendNetMessage(unsigned char msgType, QByteArray msg) = 0;
+
+    /**
      * Gets the game map.
      *
      * @author Ian Lee
@@ -70,6 +84,34 @@ public:
     QTimer* getTimer() const {
         return gameTimer_;
     }
+
+    /**
+     * Creates a new tower of the given type.
+     *
+     * @author Darryl Pogue
+     * @param type The type of tower to create.
+     * @return A pointer to the new tower.
+     */
+    Tower* createTower(int type);
+
+    /**
+     * Creates a new NPC of the given type.
+     *
+     * @author Darryl Pogue
+     * @author Marcel Vangrootheest
+     * @param type The type of NPC to create.
+     * @return A pointer to the new NPC.
+     */
+    NPC* createNPC(int type);
+
+    /**
+     * Creates a resource "mine" of the given type.
+     *
+     * @author Dean Morin
+     * @author Darryl Pogue
+     * @return A pointer to the new resource.
+     */
+    Resource* createResource(int type);
 
 public slots:
     /**

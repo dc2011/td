@@ -87,6 +87,10 @@ public:
         setDirty(kType);
     }
 
+    int getType(){
+        return type_;
+    }
+
     virtual void update();
 
     size_t getDamage(){
@@ -167,14 +171,6 @@ public:
     void setEnemy(Unit* enemy){
         enemy_ = enemy;
     }
-    /**
-     * Checks for collision between projectile and npcs
-     * and applies effects to hit npcs.
-     *
-     * @author Daniel Wright
-     * @param npcs, set of npcs to check collision with
-     */
-    void checkNPCCollision(QSet<Unit*> npcs);
 
     /**
     * Creates a bounding polygon based on the projectiles end point.
@@ -198,6 +194,16 @@ public:
     void setHeight(int height){
         height_ = height;
     }
+
+public slots:
+    /**
+     * Sets the enemy_ member to null if the NPC dies.
+     *
+     * Connected to signalNPCDied() in the NPC class.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void enemyDied();
 
 signals:
     /**
