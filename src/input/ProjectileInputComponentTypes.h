@@ -55,6 +55,7 @@ public:
     FlakProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~FlakProjectileInputComponent() {}
 
+    void update();
     void checkNPCCollision(QSet<Unit *> npcs);
 };
 
