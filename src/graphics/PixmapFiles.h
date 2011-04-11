@@ -41,10 +41,10 @@
 #define PIX_TOWER_FLAME         QString("./img/towerFlame.png")
 #define PIX_TOWER_FLAK          QString("./img/towerFlak.png")
 #define PIX_TOWER_MAX           5
-#define PIX_RESOURCE_WOOD       QString("./img/wood.png")
-#define PIX_RESOURCE_STONE      QString("./img/Stone.png")
-#define PIX_RESOURCE_BONE       QString("./img/Rock.png")
-#define PIX_RESOURCE_TAR        QString("./img/Tar.png")
+#define PIX_RESOURCE_WOOD       QString("./img/woodTile.png")
+#define PIX_RESOURCE_STONE      QString("./img/stoneTile.png")
+#define PIX_RESOURCE_BONE       QString("./img/boneTile.png")
+#define PIX_RESOURCE_TAR        QString("./img/oilTile.png")
 #define PIX_RESOURCE_MAX        4
 #define PIX_NPC_PTERO_START     0
 #define PIX_NPC_PTERO_0         QString("./img/ptero-1.png")
