@@ -29,16 +29,16 @@ void ArrowEffect::apply() {
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
-PlayerTerrainEffect::PlayerTerrainEffect(Unit* unit)
+PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
     : Effect(unit, EFFECT_TERRAIN, NO_TIME) {
     velocityChangeValue_ = 2;
 }
 
-PlayerTerrainEffect::~PlayerTerrainEffect() {
+PlayerTerrainSlowEffect::~PlayerTerrainSlowEffect() {
     ((PlayerPhysicsComponent*)(getUnit()->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
 }
 
-void PlayerTerrainEffect::apply() {
+void PlayerTerrainSlowEffect::apply() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
 }
 

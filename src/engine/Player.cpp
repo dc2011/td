@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "Driver.h"
+#include "tile.h"
+#include "EffectTypes.h"
 #include "../graphics/PlayerGraphicsComponent.h"
 #include "../audio/SfxManager.h"
 
@@ -61,11 +63,18 @@ void Player::update() {
     }
 
     // Updating effects for player position
-    //Effect *tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
-    //if (tileEffect != NULL)
-    //{
-       //createEffect(tileEffect);
-    //}
+    int tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
+    switch(tileEffect) {
+        case Tile::NONE:
+            break;
+        case Tile::SLOW:
+            createEffect(new PlayerTerrainSlowEffect(this));
+            break;
+        case Tile::FAST:
+            break;
+        default:
+            break;
+    }
 }
 
 void Player::createEffect(Effect* effect){

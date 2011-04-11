@@ -12,7 +12,6 @@ class NPCPlayerEffect : public Effect {
 public:
     explicit NPCPlayerEffect(Unit* unit);
     virtual ~NPCPlayerEffect();
-    void countdown();
     void apply();
 };
 
@@ -22,7 +21,6 @@ class ArrowEffect : public Effect {
 public:
     explicit ArrowEffect(Unit* unit);
     virtual ~ArrowEffect() {}
-    void countdown();
     void apply();
 };
 /**
@@ -32,13 +30,12 @@ public:
 * @author Duncan Donaldson
 * @author Luke Queenan
 */
-class PlayerTerrainEffect : public Effect {
+class PlayerTerrainSlowEffect : public Effect {
     Q_OBJECT
 
 public:
-    explicit PlayerTerrainEffect(Unit* unit);
-    virtual ~PlayerTerrainEffect();
-    void countdown();
+    explicit PlayerTerrainSlowEffect(Unit* unit);
+    virtual ~PlayerTerrainSlowEffect();
     /**
      * applies the player slowdown effect.
      *
@@ -59,7 +56,6 @@ class NPCTarEffect : public Effect {
 public:
     explicit NPCTarEffect(Unit* unit);
     virtual ~NPCTarEffect();
-    void countdown();
     /**
      * applies the tar slowdown effect.
      *
@@ -78,7 +74,6 @@ class NPCBurnEffect : public Effect {
 public:
     explicit NPCBurnEffect(Unit* unit);
     virtual ~NPCBurnEffect(){}
-    void countdown();
     /**
      * applies the burn effect.
      *
