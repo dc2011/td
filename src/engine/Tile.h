@@ -3,7 +3,6 @@
 
 // System includes
 #include <QObject>
-#include <set>
 #include <QSet>
 #include <QPointF>
 #include <QPolygon>
@@ -20,6 +19,7 @@ namespace td {
 
 class TileExtension;
 class Unit;
+class Effect;
 
 class Tile : public QObject {
     Q_OBJECT
@@ -52,7 +52,6 @@ public:
      */
     static unsigned char clsIdx() { return clsidx::kTile; }
 
-public:
     Tile();
     Tile(int row, int column, BlockingType type);
     virtual ~Tile() { }
@@ -67,6 +66,17 @@ public:
     void removeUnit(Unit *unitToRemove);
     QSet<Unit*> getUnits();
     BlockingType getType();
+
+    /**
+     * Returns the effect associated with this tile, or NULL if there is no
+     * effect.
+     *
+     * @author Luke Queenan
+     */
+    Effect* getTileEffect()
+    {
+        return tileEffect_;
+    }
 
     /**
      * Specifies whether a tile is one of the following:
@@ -182,7 +192,7 @@ private:
     QSet<Unit*> currentUnits_;
     QPolygonF myBounds_;
     int actionType_;
-
+    Effect *tileEffect_;
     Tiled::Tile * tTile_;
 
     /** 

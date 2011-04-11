@@ -1,5 +1,6 @@
 #include "Tile.h"
 #include "Unit.h"
+#include "Effect.h"
 
 namespace td {
 
