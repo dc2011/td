@@ -75,6 +75,8 @@ void CannonProjectileInputComponent::makeForce(){
         disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                    parent_, SLOT(update()));
 #ifndef SERVER
+        // TODO: start ending animation
+
         if (!((CDriver*)parent_->getDriver())->isSinglePlayer()) {
             emit deleteProjectileLater(parent_->getID());
             return;

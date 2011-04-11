@@ -10,6 +10,7 @@
 #include "PixmapFiles.h"
 #include "../client/MainWindow.h"
 #include "../util/mutex_magic.h"
+#include "../engine/GameObject.h"
 #include <QGraphicsTextItem>
 
 
@@ -23,7 +24,7 @@
 
 namespace td {
 
-class GameObject;
+
 
 class GraphicsComponent : public QObject {
     Q_OBJECT
