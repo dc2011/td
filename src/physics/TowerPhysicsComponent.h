@@ -100,7 +100,7 @@ public:
     int getRadius() {
         return radius_;
     }
-    virtual bool isValidTarget(Unit*){}
+    virtual bool isValidTarget(Unit*) = 0;
 
 
 private:
