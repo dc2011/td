@@ -1,11 +1,11 @@
 #include "Collectable.h"
-
-#include "../graphics/ArrowTowerGraphicsComponent"
+#include "../engine/CDriver.h"
+#include "../physics/CollectablePhysicsComponent.h"
 
 namespace td {
 
 Collectable::Collectable(QObject* parent) 
-        : Collectable(parent) 
+        : Unit(parent) {
     start_ = new QPointF(0,0);
     end_ = new QPointF(0,0);
     scale_ = 0.25;
@@ -21,7 +21,7 @@ Collectable::~Collectable() {
 }
 
 void Collectable::networkRead(Stream* s) {
-    GameUnit::networkRead(s);
+    Unit::networkRead(s);
 
     if (dirty_ & kType) {
         type_ = s->readInt();
@@ -37,7 +37,7 @@ void Collectable::networkRead(Stream* s) {
 }
 
 void Collectable::networkWrite(Stream* s) {
-    GameUnit::networkWrite(s);
+    Unit::networkWrite(s);
 
     if (dirty_ & kType) {
         s->writeInt(type_);
@@ -53,19 +53,19 @@ void Collectable::networkWrite(Stream* s) {
 }
 
 void Collectable::initComponents() {
-    ResourceItemInputComponent* input;
+   // ResourceItemInputComponent* input;
 
     switch (type_) {
-        case (COLLECTABLE_RESOURCE):
-            input = new ResourceItemPhysicsComponent();
-            input->setParent(this);
-            setPhysicsComponent(new ResourceItemPhysicsComponent());
+        case COLLECT_RESOURCE:
+            //input = new ResourceItemPhysicsComponent();
+            //input->setParent(this);
+            setPhysicsComponent(new CollectablePhysicsComponent(70));
 #ifndef SERVER
-            setGraphicsComponent(new ResourceItemGraphicsComponent());
+            //setGraphicsComponent(new ResourceItemGraphicsComponent());
 #endif
             break;
-
-        case (COLLECTABLE_GEM);
+/*
+        case COLLECT_GEM;
             input = new GemPhysicsComponent();
             input->setParent(this);
             setPhysicsComponent(new GemPhysicsComponent());
@@ -73,6 +73,8 @@ void Collectable::initComponents() {
             setGraphicsComponent(new GemGraphicsComponent());
 #endif
             break;
+            */
+    }
 
 #ifndef SERVER
     if (!((CDriver*) getDriver())->isSinglePlayer()) {

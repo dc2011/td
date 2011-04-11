@@ -51,6 +51,10 @@
 // time to harvest a resource (in game ticks)
 #define HARVEST_COUNTDOWN   120
 
+// collectable types
+#define COLLECT_RESOURCE    0
+#define COLLECT_GEM         1
+
 // NPC types
 #define NPC_NORM    0
 #define NPC_SLOW    1

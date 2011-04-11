@@ -1,11 +1,11 @@
 #ifndef TD_COLLECTABLE_H
 #define TD_COLLECTABLE_H
 
-#include "GameObject.h"
+#include "Unit.h"
 
 namespace td {
 
-class Collectable : public GameObject {
+class Collectable : public Unit {
     Q_OBJECT
 
 public:
@@ -58,6 +58,8 @@ public:
      * @author Duncan Donaldson
      */
     virtual void initComponents();
+    
+    virtual void update();
 
     /**
      * Sets path of the projectile for input

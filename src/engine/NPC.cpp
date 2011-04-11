@@ -145,7 +145,7 @@ void NPC::initComponents() {
 #ifndef SERVER
     if (!((CDriver*)getDriver())->isSinglePlayer()) {
         delete getInputComponent();
-        delete setPhysicsComponent();
+        delete getPhysicsComponent();
         setInputComponent(NULL);
         setPhysicsComponent(NULL);
     }
