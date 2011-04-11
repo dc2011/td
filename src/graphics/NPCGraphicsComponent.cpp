@@ -5,11 +5,11 @@
 namespace td {
 
 QPixmap * NPCGraphicsComponent::pixmapImgs_ = 0;
-bool NPCGraphicsComponent::showHealth_    = 0;
+bool NPCGraphicsComponent::keyHeld_ = false;
 
 NPCGraphicsComponent::NPCGraphicsComponent()
-        : GraphicsComponent() {
-    emit created(this);
+        : GraphicsComponent(), damageDisplayTime_(0) {
+    //emit created(this);
 }
 
 NPCGraphicsComponent::~NPCGraphicsComponent() {
@@ -39,7 +39,7 @@ void NPCGraphicsComponent::update(GameObject* obj) {
 
 void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {
 
-    if (showHealth_) {
+    if (--damageDisplayTime_ > 0 || keyHeld_) {
         healthbarItem_->setVisible(true);
         healthbarItem_->setRect(QRectF(0, 0, HEALTHBAR_WIDTH * npcHealth, 
                                        HEALTHBAR_HEIGHT));
@@ -72,7 +72,11 @@ void NPCGraphicsComponent::initHealthbar() {
 }
 
 void NPCGraphicsComponent::showHealth(bool keyHeld) {
-    showHealth_ = keyHeld;
+    keyHeld_ = keyHeld;
+}
+
+void NPCGraphicsComponent::showDamage() {
+    damageDisplayTime_ = DAMAGE_DISPLAY_TIME;
 }
 
 QPixmap * NPCGraphicsComponent::getPixmapArray() {

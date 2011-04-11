@@ -1,6 +1,7 @@
 #include "PlayerGraphicsComponent.h"
 #include "../engine/Player.h"
 #include "../engine/CDriver.h"
+#include <QDebug>
 
 namespace td {
 
@@ -12,15 +13,35 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
 {
     animateMod_ = 4;
     animateCount_ = 0; 
+    resourceProgressBar_ = new QGraphicsRectItem(QRectF(OFFSCREEN,OFFSCREEN,
+                                                    RESBAR_WIDTH, RESBAR_HEIGHT));
+    resourceProgressBar_->setBrush(QBrush(Qt::blue));
+    resourcePixmapItem_ = 0;
+    resourceType_ = 0;
+
+    CDriver::instance()->getMainWindow()->getScene()->addItem(resourceProgressBar_);
     emit created(this);
 }
 
 void PlayerGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
-    if (!player->isDirty() && pixmapIndex_ == 0) {
-        //checks if object is dirty or in mid-animation
+
+    if (player->getHarvestCountdown() != HARVEST_COUNTDOWN) {
+        resourceProgressShowing_ = true;
+        resourceProgress_ = (double) player->getHarvestCountdown()
+                            / HARVEST_COUNTDOWN;
+    }
+
+    if (!player->isDirty() && pixmapIndex_ == 0 && !resourceProgressShowing_) {
+        //checks if object is dirty or in mid-animation, or if the resource progress
+        //bar is being updated
         return;
     }
+
+    if (player->getHarvestCountdown() == HARVEST_COUNTDOWN) {
+        resourceProgressShowing_ = false;
+    }
+
     player->resetDirty();
 
     DrawParams* dp = new DrawParams();
@@ -33,6 +54,32 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
 
 void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
     
+    if (resourceProgressShowing_) {
+        resourceProgressBar_->setVisible(true);
+        resourceProgressBar_->setRect(0, 0,
+                                  RESBAR_WIDTH * resourceProgress_, RESBAR_HEIGHT);
+        resourceProgressBar_->setPos((dp->pos.x()
+                    - resourceProgressBar_->boundingRect().center().x()),
+                    (dp->pos.y()
+                    - (getPixmapItem()->boundingRect().height())/2));
+        resourceProgressBar_->setZValue(layer);
+        resourceProgressBar_->update();
+    } else {
+        resourceProgressBar_->setVisible(false);
+    }
+    if (resourceType_) {
+        //the value from the resourceType does not seem to line up with the images i don't know how to fix that
+        resourcePixmapItem_->setPixmap(pixmapImgs_[PIX_PLAYER_MAX + resourceType_ - 1]);
+        resourcePixmapItem_->setVisible(true);
+
+        resourcePixmapItem_->setZValue(layer);
+        resourcePixmapItem_->setScale(.7);
+        resourcePixmapItem_->setPos(dp->pos.x() + 8, dp->pos.y() + 17);
+        resourcePixmapItem_->update();
+    } else {
+        resourcePixmapItem_->setVisible(false);
+    }
+
     if (showName_) {
         label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
                        dp->pos.y() - getPixmapItem()->boundingRect().height());
@@ -73,6 +120,10 @@ void PlayerGraphicsComponent::animate() {
 
 void PlayerGraphicsComponent::initPixmaps() {
     label_ = new QGraphicsTextItem(nickname_);
+    resourcePixmapItem_ = new QGraphicsPixmapItem();
+    resourcePixmapItem_->setVisible(false);
+    CDriver::instance()->getMainWindow()->getScene()->addItem(resourcePixmapItem_);
+
 
     label_->setDefaultTextColor (QColor(0,255,0));
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
@@ -81,7 +132,7 @@ void PlayerGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_PLAYER_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PLAYER_MAX + PIX_RESOURCE_MAX];
     }
     //TODO: add animation logic here?
 
@@ -93,7 +144,15 @@ void PlayerGraphicsComponent::initPixmaps() {
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_4;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_5;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_6;
+    pixmapImgs_[pixmapIndex_++] = PIX_ICON_WOOD;
+    pixmapImgs_[pixmapIndex_++] = PIX_ICON_STONE;
+    pixmapImgs_[pixmapIndex_++] = PIX_ICON_BONE;
+    pixmapImgs_[pixmapIndex_++] = PIX_ICON_TAR;
     pixmapIndex_ = 0;
+}
+
+void PlayerGraphicsComponent::setCurrentResource(int resourceType) {
+    resourceType_ = resourceType;
 }
 
 } /* end namespace td */

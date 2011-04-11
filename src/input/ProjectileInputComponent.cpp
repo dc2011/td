@@ -2,6 +2,7 @@
 #include "../engine/Projectile.h"
 #include "../physics/ProjectilePhysicsComponent.h"
 #include "../engine/Driver.h"
+#include "../engine/CDriver.h"
 #include "../engine/Map.h"
 #define PI 3.141592653589793238
 #include <math.h>
@@ -31,8 +32,18 @@ void ProjectileInputComponent::makeForce() {
     QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
                parent_->getPath().p1().x(), parent_->getPath().p1().y());
     if (distance.length() <= parent_->getVelocity().length()) {
+        if (parent_->getEnemy() != NULL) {
+            disconnect(parent_->getEnemy(), SIGNAL(signalNPCDied()),
+                    parent_, SLOT(enemyDied())); 
+        }
         disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
+#ifndef SERVER
+        if (!((CDriver*)parent_->getDriver())->isSinglePlayer()) {
+            emit deleteProjectileLater(parent_->getID());
+            return;
+        }
+#endif
         QPointF *end = parent_->getEndPoint();
         npcs = map->getUnits(end->x(), end->y(), 1);
         if(!npcs.empty()){

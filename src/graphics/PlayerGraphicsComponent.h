@@ -29,6 +29,19 @@ private:
     /** True if the player's name is currently being shown. */
     bool nameShowing_;
 
+    /** True if the resource progress bar is being shown. */
+    bool resourceProgressShowing_;
+
+    /** % amount of resource progress, from 0 to 1. */
+    double resourceProgress_;
+
+    /** Graphical progress bar for a resource's progress. */
+    QGraphicsRectItem* resourceProgressBar_;
+
+    /** The current resource this object is carrying */
+    int resourceType_;
+    QGraphicsPixmapItem* resourcePixmapItem_;
+
 public:
     /**
      * Instantiates a PlayerGraphicsComponent component
@@ -80,6 +93,12 @@ public:
     void setShowName(bool showName) {
         showName_ = showName;
     }
+    /**
+     * Instantiates a PlayerGraphicsComponent component
+     * @param resourceType the resource that player is holding or 0 for dropping
+     * @author Warren Voelkl
+     */
+    virtual void setCurrentResource(int resourceType);
     
 private:
     /**

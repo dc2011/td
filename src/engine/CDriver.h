@@ -38,9 +38,6 @@ private:
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
     
-    /** A projectile fired from a tower. */
-    Projectile* projectile_;
-    
     /** The single instance of this class that can be created. */
     static CDriver* instance_;
     
@@ -110,7 +107,7 @@ public:
      * @author Darryl Pogue
      * @param obj The GameObject that has been updated.
      */
-    virtual void update(GameObject* obj) { }
+    virtual void update(GameObject*) { }
 
     /**
      * Notifies the driver of a real-time update to an object.
@@ -122,6 +119,16 @@ public:
      * @param obj The GameObject that has been updated.
      */
     virtual void updateRT(GameObject* obj);
+
+    /**
+     * Sends an arbitrary network message to all connected clients.
+     * If you are calling this function, you are probably doing it wrong.
+     *
+     * @author Darryl Pogue
+     * @param msgType The type of message to be sent. (See netmessages.h)
+     * @param msg The message data as a byte array.
+     */
+    virtual void sendNetMessage(unsigned char msgType, QByteArray msg);
 
 public:
     /**
@@ -226,10 +233,12 @@ private slots:
      * Creates a projectile object.
      *
      * @author Pan Khantidhara, Marcel Vangrootheest, Dean Morin
+     * @param projType The type of the projectile (Arrow, Cannon, etc).
      * @param source The starting point of the projectile.
      * @param target The destination point of the projectile.
      */
-    void createProjectile(QPointF source, QPointF target, Unit* enemy);
+    //void createProjectile(int projType, QPointF source, QPointF target,
+    //        Unit* enemy);
 
     /**
      * Temp testing method.

@@ -89,6 +89,16 @@ public:
         setDirty(kNickname);
     }
 
+    /**
+      * Gets the player's harvest coutndown.
+      *
+      * @author Nick Huber
+      * @return The player's remaining countdown for harvesting.
+      */
+    int getHarvestCountdown() {
+        return harvestCountdown_;
+    }
+
 private: 
     /**
      * Checks to see if the resource being harvested is ready to be picked up.
@@ -100,8 +110,10 @@ private:
 public slots:
     /**
      * Add effect to the effect list.
+     * Replaces effect if type already exists in list.
      *
      * @author Pan K.
+     * @author Marcel Vangrootheest
      * @param type Type of effect.
      */
     void createEffect(Effect* effect);
@@ -110,6 +122,7 @@ public slots:
      * Remove effect from the effect list.
      *
      * @author Pan K.
+     * @author Marcel Vangrootheest
      * @param effect Effect to delete.
      */
     void deleteEffect(Effect* effect);
@@ -150,7 +163,7 @@ public slots:
     void dropResource();
 
 private:
-    QList<Effect*> effects_;
+    QList<Effect> effects_;
 
     /** Nickname associated with this player for display purposes and chat. */
     QString nickname_;

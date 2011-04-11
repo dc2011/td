@@ -78,7 +78,7 @@ void AudioManager::playSfx(QString filename, SoundType type)
     }
     
     filename = SFXPATH + filename + SFXFILEEXTENSION;
-    QThreadPool::globalInstance()->releaseThread();
+
     QFuture<void> future =
         QtConcurrent::run(this, &AudioManager::streamFile,
                           filename, gainScale[gain]);
@@ -152,7 +152,6 @@ QQueue<QString> AudioManager::musicDir(QString dir)
 
 void AudioManager::playMusic(QQueue<QString> filenameQueue)
 {
-    QThreadPool::globalInstance()->releaseThread();
     QFuture<void> future =
         QtConcurrent::run(this, &AudioManager::playMusicQueue, filenameQueue);
     return;
@@ -200,7 +199,6 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
         errno = 0;
     }
 
-    QThreadPool::globalInstance()->reserveThread();
 }
 
 
@@ -285,7 +283,6 @@ void AudioManager::streamFile(QString filename, float gain)
     ov_clear(&oggFile);
     
     cleanUp(&source, buffer);
-
 }
 
 void AudioManager::cleanUp(ALuint *source, ALuint *buffer)
