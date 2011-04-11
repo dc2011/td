@@ -31,7 +31,7 @@ void ArrowEffect::apply() {
 
 PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
     : Effect(unit, EFFECT_TERRAIN, NO_TIME) {
-    velocityChangeValue_ = 2;
+    velocityChangeValue_ = 0.5;
 }
 
 PlayerTerrainSlowEffect::~PlayerTerrainSlowEffect() {

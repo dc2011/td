@@ -71,6 +71,7 @@ void Player::update() {
             createEffect(new PlayerTerrainSlowEffect(this));
             break;
         case Tile::FAST:
+            createEffect(new PlayerTerrainSlowEffect(this));
             break;
         default:
             break;
