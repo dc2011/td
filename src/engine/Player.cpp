@@ -60,10 +60,11 @@ void Player::update() {
     }
 
     // Updating effects for player position
-    //if (getDriver()->getGameMap()->getTile(getPos())->getAttributes())
-//    if(getDriver()->getMap()->getTile(getPos())->getEffect()) {
-//        createEffect(new PlayerTerrainEffect(this));
-//    }
+    Effect *tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
+    if (tileEffect != NULL)
+    {
+        createEffect(tileEffect);
+    }
 }
 
 void Player::createEffect(Effect* effect){
