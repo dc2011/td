@@ -28,6 +28,9 @@ public:
 
     /**
       Read and construct the next wave from the file.
+
+      @return pointer to the next wave object, or NULL if the file is empty.
+      @author Nick Huber
       */
     NPCWave* readWave();
 

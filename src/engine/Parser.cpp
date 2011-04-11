@@ -35,7 +35,8 @@ NPCWave* Parser::readWave() {
     QStringList waveInfo = waveLine.split(',');
 
     NPCWave* wave = new NPCWave(0, waveInfo.at(3).toUInt(), waveInfo.at(2).toUInt(),
-                                waveInfo.at(1).toUInt());
+                                waveInfo.at(1).toUInt(),waveInfo.at(0).toUInt(),
+                                waveInfo.at(5).toUInt());
     return wave;
 }
 
