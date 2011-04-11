@@ -92,6 +92,7 @@
 #define TAR_TIME        10
 #define BURN_TIME       5
 #define ARROW_TIME      1
+//DONT USE THIS MACRO UNLESS YOUR NAME IS DTRAIN
 #define NO_TIME         0,false
 
 //NPC path key for waypoints

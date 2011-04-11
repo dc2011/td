@@ -6,20 +6,15 @@
 namespace td {
 
 NPCPlayerEffect::NPCPlayerEffect(Unit* unit): Effect(unit, EFFECT_NPCPLAYER, NPC_PLAYER_TIME) {
-
-    setOldVelocity(((PlayerPhysicsComponent*)(getUnit()->getPhysicsComponent()))->getMaxVelocity());
-    velocityChangeValue_ = 0;       
+    oldVelocity_ = (((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->getMaxVelocity());
+    velocityChangeValue_ = 0.5;
 }
 
+NPCPlayerEffect::~NPCPlayerEffect() {
+    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
+}
 void NPCPlayerEffect::apply() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
-}
-
-void NPCPlayerEffect::countdown() {
-    Effect::countdown();
-    if(getDuration() <= 0) {
-        ((PlayerPhysicsComponent*)(getUnit()->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
-    }
 }
 
 ArrowEffect::ArrowEffect(Unit* unit)
@@ -36,20 +31,16 @@ void ArrowEffect::apply() {
 
 PlayerTerrainEffect::PlayerTerrainEffect(Unit* unit)
     : Effect(unit, EFFECT_TERRAIN, NO_TIME) {
-    velocityChangeValue_ = 0;
+    velocityChangeValue_ = 2;
+}
 
+PlayerTerrainEffect::~PlayerTerrainEffect() {
+    ((PlayerPhysicsComponent*)(getUnit()->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
 }
 
 void PlayerTerrainEffect::apply() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
 }
-void PlayerTerrainEffect::countdown() {
-    Effect::countdown();
-    if(getDuration() <= 0) {
-        ((PlayerPhysicsComponent*)(getUnit()->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
-    }
-}
-
 
 NPCTarEffect::NPCTarEffect(Unit* unit)
     : Effect(unit, EFFECT_TAR, TAR_TIME) {
@@ -59,14 +50,12 @@ NPCTarEffect::NPCTarEffect(Unit* unit)
                                 + healthChangeValue_);
 }
 
+NPCTarEffect::~NPCTarEffect() {
+    ((NPCPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
+}
+
 void NPCTarEffect::apply() {
     velocityChangeValue_ = 0;
-}
-void NPCTarEffect::countdown() {
-    Effect::countdown();
-    if(getDuration() <= 0) {
-        ((NPCPhysicsComponent*)(getUnit()->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
-    }
 }
 
 NPCBurnEffect::NPCBurnEffect(Unit* unit):Effect(unit, EFFECT_BURN, BURN_TIME) {

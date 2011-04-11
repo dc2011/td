@@ -11,7 +11,7 @@ class NPCPlayerEffect : public Effect {
 
 public:
     explicit NPCPlayerEffect(Unit* unit);
-    virtual ~NPCPlayerEffect() {}
+    virtual ~NPCPlayerEffect();
     void countdown();
     void apply();
 };
@@ -37,7 +37,7 @@ class PlayerTerrainEffect : public Effect {
 
 public:
     explicit PlayerTerrainEffect(Unit* unit);
-    virtual ~PlayerTerrainEffect() {}
+    virtual ~PlayerTerrainEffect();
     void countdown();
     /**
      * applies the player slowdown effect.
@@ -58,7 +58,7 @@ class NPCTarEffect : public Effect {
 
 public:
     explicit NPCTarEffect(Unit* unit);
-    virtual ~NPCTarEffect(){}
+    virtual ~NPCTarEffect();
     void countdown();
     /**
      * applies the tar slowdown effect.
