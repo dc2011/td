@@ -23,7 +23,8 @@ public:
     CannonProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~CannonProjectileInputComponent() {}
 
-    virtual void checkNPCCollision(QSet<Unit *> npcs);
+    void update();
+    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 class FireProjectileInputComponent : public ProjectileInputComponent {
@@ -33,7 +34,7 @@ public:
     FireProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~FireProjectileInputComponent() {}
 
-    virtual void checkNPCCollision(QSet<Unit *> npcs);
+    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 class TarProjectileInputComponent : public ProjectileInputComponent {
@@ -54,7 +55,7 @@ public:
     FlakProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~FlakProjectileInputComponent() {}
 
-    virtual void checkNPCCollision(QSet<Unit *> npcs);
+    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 } /* end namespace td */

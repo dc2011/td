@@ -39,7 +39,7 @@ void ProjectileInputComponent::makeForce() {
         disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
         QPointF *end = parent_->getEndPoint();
-        npcs = map->getUnits(end->x(), end->y(), 1);
+        npcs = map->getUnits(end->x(), end->y(), 3);
         if(!npcs.empty()){
             parent_->createBounds();
             this->checkNPCCollision(npcs);
@@ -116,45 +116,6 @@ void ProjectileInputComponent::applyDirection() {
         }
     }
     parent_->setOrientation(degree);
-}
-
-void ProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
-    /*QSet<Unit*>::iterator it;
-    QPolygonF projBounds;
-    QPolygonF npcBounds;
-
-//Note: for arrow/flak/other autohit projectiles
-// Just need to add effect to this->getEnemy()
-
-    for (it = npcs.begin(); it != npcs.end(); ++it) {
-        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
-            // Check to see if this projectile can damage this unit
-            if ((parent_->getType() == PROJ_FLAK) && (((NPC*)*it)->getType() != NPC_FLY))
-            {
-                continue;
-            }
-            if ((((NPC*)*it)->getType() == NPC_FLY)
-                && ((parent_->getType() == PROJ_CANNON) || (parent_->getType() == PROJ_FIRE)
-                    || (parent_->getType() == PROJ_TAR)))
-            {
-                continue;
-            }
-
-            projBounds = parent_->getBounds();
-            npcBounds = (*it)->getBounds();
-            if(parent_->getBounds().intersected((*it)->getBounds()).count() != 0){
-                //create projectile effect
-                //add effect to npc
-                //qDebug("Enemy hit");
-                ((NPC*)(*it))->createEffect(new ArrowEffect(*it));
-                break;
-            }else{
-                //qDebug("No hit");
-            }
-
-        }
-    }
-*/
 }
 
 } /* end namespace td */

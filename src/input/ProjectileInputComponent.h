@@ -59,7 +59,7 @@ public:
      * @author Daniel Wright
      * @param npcs, set of npcs to check collision with
      */
-    virtual void checkNPCCollision(QSet<Unit*> npcs);
+    virtual void checkNPCCollision(QSet<Unit*> npcs){}
 
 signals:
     /**
