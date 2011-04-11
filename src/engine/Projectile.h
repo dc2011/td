@@ -34,7 +34,8 @@ private:
         kDamage         = (1 << 3),
         kStartPos       = (1 << 4),
         kEndPos         = (1 << 5),
-        kType           = (1 << 6)
+        kTargetType     = (1 << 6),
+        kType           = (1 << 7)
     };
 
 public:
@@ -85,10 +86,6 @@ public:
     void setType(int type) {
         type_ = type;
         setDirty(kType);
-    }
-
-    int getType(){
-        return type_;
     }
 
     virtual void update();
@@ -170,7 +167,16 @@ public:
 
     void setEnemy(Unit* enemy){
         enemy_ = enemy;
+        setDirty(kTargetType);
     }
+    /**
+     * Checks for collision between projectile and npcs
+     * and applies effects to hit npcs.
+     *
+     * @author Daniel Wright
+     * @param npcs, set of npcs to check collision with
+     */
+    void checkNPCCollision(QSet<Unit*> npcs);
 
     /**
     * Creates a bounding polygon based on the projectiles end point.

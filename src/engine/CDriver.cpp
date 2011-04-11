@@ -169,19 +169,6 @@ void CDriver::NPCCreator() {
     }
 }
 
-void CDriver::createProjectile(int projType, QPointF source,
-        QPointF target, Unit* enemy) {
-    Projectile* projectile = (Projectile*)mgr_->createObject(
-            Projectile::clsIdx());
-    projectile->setType(projType);
-
-    projectile->initComponents();
-    projectile->setPath(source, target, enemy);
-
-    connect(enemy, SIGNAL(signalNPCDied()), projectile, SLOT(enemyDied()));
-    connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
-}
-
 void CDriver::createTower(int towerType, QPointF pos)
 {
     if (isSinglePlayer()) {
@@ -192,10 +179,12 @@ void CDriver::createTower(int towerType, QPointF pos)
         tower->setPos(currentTile->getPos());
         currentTile->setExtension(tower);
 
+        connect(mainWindow_, SIGNAL(signalAltHeld(bool)),tower->getGraphicsComponent(),SLOT(setVisibleRange(bool)));
         connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
         connect(tower->getPhysicsComponent(),
                 SIGNAL(fireProjectile(int, QPointF, QPointF, Unit*)),
-                this, SLOT(createProjectile(int, QPointF, QPointF, Unit*)));
+                this,
+                SLOT(requestProjectile(int, QPointF, QPointF, Unit*)));
 
         return;
     }

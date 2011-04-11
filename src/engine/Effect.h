@@ -9,6 +9,13 @@
 #include "Unit.h"
 #include "../physics/PhysicsComponent.h"
 
+// effect types for operator==
+#define EFFECT_NONE         0
+#define EFFECT_NPCPLAYER    1
+#define EFFECT_TERRAIN      2
+#define EFFECT_ARROW        3
+#define EFFECT_TAR          4
+
 namespace td {
 
 class Effect : public GameObject {
@@ -26,8 +33,13 @@ public:
     };
     */
 
-    Effect(Unit* unit, int duration, bool timerEnabled = true);
+    Effect(const Effect& e);
+    Effect(Unit* unit, int duration, uint type, bool timerEnabled = true);
     ~Effect();
+
+    Effect& operator=(const Effect &rhs);
+    bool operator==(const Effect &e) const;
+    bool operator!=(const Effect &e) const;
 
     /**
      * Gets the unique class index for this object type.
@@ -47,7 +59,7 @@ public:
      *
      * @author Pan K.
      */
-    virtual void apply() = 0;
+    virtual void apply();
 
     void setDuration(size_t duration);
     size_t getDuration();
@@ -58,11 +70,30 @@ public:
     void setHealthChangeValue(int healthChange);
     int getHealthChangeValue();
 
+    /**
+     * Returns the type of Effect.
+     *
+     * @author Marcel Vangrootheest
+     * @return The type of Effect
+     */
+    uint getType() {
+        return type_;
+    }
+
 private:
     void countdown();
 
 public slots:
     void update();
+
+    /**
+     * Stops applying the effect if the correct type.
+     * Connected to stopEffect(uint) in Unit.
+     *
+     * @author Marcel Vangrootheest
+     * @param type The type of Effect.
+     */
+    void effectStop(uint type);
 
 signals:
     void effectFinished(Effect* effect);
@@ -73,7 +104,10 @@ protected:
     size_t duration_;
     int healthChangeValue_;
     QVector2D velocityChangeValue_;
+    uint type_;
     bool timerEnabled_;
+    bool applyEnabled_;
+    QTimer* timer_;
 };
 
 } /* end namespace td */

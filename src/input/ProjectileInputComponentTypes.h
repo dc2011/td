@@ -9,11 +9,16 @@ class ArrowProjectileInputComponent : public ProjectileInputComponent {
     Q_OBJECT
 
 public:
-    ArrowProjectileInputComponent() : ProjectileInputComponent(){}
+    ArrowProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~ArrowProjectileInputComponent() {}
     
-    void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
+    virtual void update();
+    /**
+     * Makes a force that will follow the path.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void makeForce();
 };
 
 class CannonProjectileInputComponent : public ProjectileInputComponent {
@@ -23,18 +28,42 @@ public:
     CannonProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~CannonProjectileInputComponent() {}
 
-    void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
+    /**
+     * Updates the force for the projectile.
+     *
+     * @author Marcel Vangrootheest
+     */
+    virtual void update();
+    /**
+     * Makes a force that will follow the path.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void makeForce();
 };
 
 class FireProjectileInputComponent : public ProjectileInputComponent {
     Q_OBJECT
 
 public:
-    FireProjectileInputComponent() : ProjectileInputComponent() {}
+    FireProjectileInputComponent();
     virtual ~FireProjectileInputComponent() {}
 
-    void checkNPCCollision(QSet<Unit *> npcs);
+    /**
+     * Updates the force for the projectile.
+     *
+     * @author Marcel Vangrootheest
+     */
+    virtual void update();
+    /**
+     * Makes a force that will follow the path.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void makeForce();
+private:
+    int duration_;
+    int increment_;
 };
 
 class TarProjectileInputComponent : public ProjectileInputComponent {
@@ -44,8 +73,18 @@ public:
     TarProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~TarProjectileInputComponent() {}
 
-    void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
+    /**
+     * Updates the force for the projectile.
+     *
+     * @author Marcel Vangrootheest
+     */
+    virtual void update();
+    /**
+     * Makes a force that will follow the path.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void makeForce();
 };
 
 class FlakProjectileInputComponent : public ProjectileInputComponent {
@@ -55,8 +94,18 @@ public:
     FlakProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~FlakProjectileInputComponent() {}
 
-    void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
+    /**
+     * Updates the force for the projectile.
+     *
+     * @author Marcel Vangrootheest
+     */
+    virtual void update();
+    /**
+     * Makes a force that will follow the path.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void makeForce();
 };
 
 } /* end namespace td */

@@ -9,6 +9,7 @@
 #include "../input/ProjectileInputComponentTypes.h"
 #include "../physics/ProjectilePhysicsComponentTypes.h"
 #include "../graphics/ProjectileGraphicsComponentTypes.h"
+#include "Driver.h"
 
 namespace td {
 
@@ -25,8 +26,6 @@ Projectile::Projectile(QObject* parent) : Unit(parent) {
 void Projectile::initComponents() {
     switch(type_) {
         case PROJ_ARROW:
-            this->setHeight(10);
-            this->setWidth(48);
             setInputComponent(new ArrowProjectileInputComponent());
             setPhysicsComponent(new ArrowProjectilePhysicsComponent());
 #ifndef SERVER
@@ -35,8 +34,6 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_CANNON:
-            this->setHeight(100);
-            this->setWidth(100);
             setInputComponent(new CannonProjectileInputComponent());
             setPhysicsComponent(new CannonProjectilePhysicsComponent());
 #ifndef SERVER
@@ -45,7 +42,6 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_FIRE:
-
             setInputComponent(new FireProjectileInputComponent());
             setPhysicsComponent(new FireProjectilePhysicsComponent());
 #ifndef SERVER
@@ -54,8 +50,6 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_TAR:
-            this->setHeight(35);
-            this->setWidth(35);
             setInputComponent(new TarProjectileInputComponent());
             setPhysicsComponent(new TarProjectilePhysicsComponent());
 #ifndef SERVER
@@ -64,8 +58,6 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_FLAK:
-            this->setHeight(36);
-            this->setWidth(15);
             setInputComponent(new FlakProjectileInputComponent());
             setPhysicsComponent(new FlakProjectilePhysicsComponent());
 #ifndef SERVER
@@ -75,23 +67,13 @@ void Projectile::initComponents() {
     }
 
     getInputComponent()->setParent(this);
-
-#ifndef SERVER
-    if (!((CDriver*)getDriver())->isSinglePlayer()) {
-        delete getInputComponent();
-        delete getPhysicsComponent();
-        setInputComponent(NULL);
-        setPhysicsComponent(NULL);
-    }
-#endif
+    ((ProjectileInputComponent*)getInputComponent())->setPath(start_, end_);
+    connect(enemy_, SIGNAL(signalNPCDied()), this, SLOT(enemyDied()));
 }
 
 void Projectile::setPath(QPointF source, QPointF target, Unit* enemy) {
-    QPointF* start = new QPointF(source);
-    QPointF* end = new QPointF(target);
-    ProjectileInputComponent* input = (ProjectileInputComponent*) 
-        getInputComponent();
-    input->setPath(start, end);
+    start_ = new QPointF(source);
+    end_ = new QPointF(target);
     setEnemy(enemy);
 }
 
@@ -111,6 +93,14 @@ void Projectile::networkRead(td::Stream* s) {
         end_->setX(s->readFloat());
         end_->setY(s->readFloat());
     }
+
+    if (dirty_ & kTargetType) {
+        enemy_ = (Unit*)getDriver()->findObject(s->readInt());
+    }
+
+    if (dirty_ & kType) {
+        type_ = s->readInt();
+    }
 }
 
 void Projectile::networkWrite(td::Stream* s) {
@@ -129,12 +119,62 @@ void Projectile::networkWrite(td::Stream* s) {
         s->writeFloat(end_->x());
         s->writeFloat(end_->y());
     }
+
+    if (dirty_ & kTargetType) {
+        s->writeInt(enemy_->getID());
+    }
+
+    if (dirty_ & kType) {
+        s->writeInt(type_);
+    }
 }
 
 void Projectile::update() {
     input_->update();
     physics_->update(this);
+#ifndef SERVER
     graphics_->update(this);
+#endif
+}
+
+void Projectile::checkNPCCollision(QSet<Unit*> npcs){
+    QSet<Unit*>::iterator it;
+    QPolygonF projBounds;
+    QPolygonF npcBounds;
+
+//Note: for arrow/flak/other autohit projectiles
+// Just need to add effect to this->getEnemy()
+
+    for (it = npcs.begin(); it != npcs.end(); ++it) {
+        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
+            // Check to see if this projectile can damage this unit
+            if ((this->type_ == PROJ_FLAK) && (((NPC*)*it)->getType() != NPC_FLY))
+            {
+                continue;
+            }
+            if ((((NPC*)*it)->getType() == NPC_FLY)
+                && ((this->type_ == PROJ_CANNON) || (this->type_ == PROJ_FIRE)
+                    || (this->type_ == PROJ_TAR)))
+            {
+                continue;
+            }
+
+            projBounds = this->getBounds();
+            npcBounds = (*it)->getBounds();
+            if(this->getBounds().intersected((*it)->getBounds()).count() != 0){
+                //create projectile effect
+                //TODO: Add sfx logic here (same as Player collisions)
+                //add effect to npc
+                //qDebug("Enemy hit");
+                ((NPC*)(*it))->createEffect(new ArrowEffect(*it));
+                break;
+            }else{
+                //qDebug("No hit");
+            }
+
+        }
+    }
+
 }
 
 void Projectile::createBounds(){

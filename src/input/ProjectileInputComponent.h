@@ -17,24 +17,12 @@ public:
     virtual ~ProjectileInputComponent();
 
     /**
-     * Updates the force for the projectile.
-     *
-     * @author Marcel Vangrootheest
-     */
-    virtual void update();
-    /**
      * This is needed to apply the input component to the unit defined.
      *
      * @author Marcel Vangrootheest
      * @param parent, the projectile input is applied to
      */
     void setParent(Unit* parent);
-    /**
-     * Makes a force that will follow the path.
-     *
-     * @author Marcel Vangrootheest
-     */
-    void makeForce();
 
     /**
      * Sets the path to points defined. Start will be set to p2, End set to p1.
@@ -52,14 +40,6 @@ public:
      * @author Joel Stewart , Marcel Vangrootheest
      */
     void applyDirection();
-    /**
-     * Checks for collision between projectile and npcs
-     * and applies effects to hit npcs.
-     *
-     * @author Daniel Wright
-     * @param npcs, set of npcs to check collision with
-     */
-    virtual void checkNPCCollision(QSet<Unit*> npcs){}
 
 signals:
     /**
