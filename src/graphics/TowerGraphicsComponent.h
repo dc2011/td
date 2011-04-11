@@ -38,7 +38,7 @@ public:
      */
     virtual void initPixmaps() = 0;
 
-    void initRangeCircle(GameObject* obj);
+    void initRangeCircle();
 
     virtual void draw(DrawParams* dp, int layer=0);
 
@@ -52,6 +52,7 @@ private:
     QGraphicsEllipseItem * rangeCircle_;
     bool visibleRange_;
 
+    int radius_;
 public slots:
     void setVisibleRange(bool newValue) {visibleRange_ = newValue;}
 };

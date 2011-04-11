@@ -3,6 +3,7 @@
 #include "../physics/TowerPhysicsComponent.h"
 #include <QPointF>
 #include <QPainter>
+#include "../engine/CDriver.h"
 
 namespace td {
 
@@ -14,6 +15,7 @@ void TowerGraphicsComponent::update(GameObject* obj) {
     //    return;
     //}
     tower->resetDirty();
+    radius_ = ((TowerPhysicsComponent*)(tower->getPhysicsComponent()))->getRadius();
 
     DrawParams* dp = new DrawParams();
     dp->pos     = tower->getPos();
@@ -25,21 +27,24 @@ void TowerGraphicsComponent::update(GameObject* obj) {
 }
 
 
-void TowerGraphicsComponent::initRangeCircle(GameObject* obj) {
+void TowerGraphicsComponent::initRangeCircle() {
     visibleRange_ = false;
-    Tower* tower = (Tower*)obj;
-    QPointF point = tower->getPos();
+
+    rangeCircle_ = new QGraphicsEllipseItem(OFFSCREEN, OFFSCREEN, 1,1);
 
 
-    int radius = (TowerPhysicsComponent*)(tower->getPhysicsComponent())->getRadius();
-    rangeCircle_ = new QGraphicsEllipseItem(point.x()-radius, point.y()-radius,
-                                            radius * 2, radius * 2);
-    rangeCircle_->setBrush(QBrush(QT::white));
-    rangeCircle_->setOpacity(.5);
     CDriver::instance()->getMainWindow()->getScene()->addItem(rangeCircle_);
 }
 void TowerGraphicsComponent::draw(DrawParams* dp, int layer) {
     if (visibleRange_) {
+
+        QPointF point = dp->pos;
+        // int radius = ((TowerPhysicsComponent*)(tower->getPhysicsComponent()))->getRadius();
+
+        rangeCircle_->setRect(point.x()-radius_, point.y()-radius_, radius_ * 2, radius_ * 2);
+        rangeCircle_->setBrush(QBrush(QColor(255,160,122)));//Qt::white));
+        rangeCircle_->setOpacity(.1);
+
         rangeCircle_->setVisible(true);
         rangeCircle_->update();
     } else {
