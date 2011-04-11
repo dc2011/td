@@ -41,16 +41,6 @@ public:
      */
     void applyDirection();
 
-signals:
-    /**
-     * Deletes the collectable.
-     *
-     * Connected to deleteObjLocal() in CDriver.
-     *
-     * @author Dean Morin
-     */
-    void deleteCollectableLater(int id);
-
 protected:
     /** The collectable this component applies to. */
     Collectable* parent_;

@@ -1,5 +1,6 @@
 #include "Collectable.h"
 #include "../engine/CDriver.h"
+#include "../input/CollectableInputComponentTypes.h"
 #include "../physics/CollectablePhysicsComponent.h"
 #include "../graphics/CollectableGraphicsComponentTypes.h" 
 namespace td {
@@ -53,39 +54,36 @@ void Collectable::networkWrite(Stream* s) {
 }
 
 void Collectable::initComponents() {
-   // ResourceItemInputComponent* input;
 
     switch (type_) {
         case COLLECT_RESOURCE:
-            //input = new ResourceItemPhysicsComponent();
-            //input->setParent(this);
+            setInputComponent(new ResourceCollectableInputComponent());
             setPhysicsComponent(new CollectablePhysicsComponent(70));
 #ifndef SERVER
             setGraphicsComponent(new ResourceCollectableGraphicsComponent());
 #endif
             break;
-/*
-        case COLLECT_GEM;
-            input = new GemPhysicsComponent();
-            input->setParent(this);
-            setPhysicsComponent(new GemPhysicsComponent());
+
+        case COLLECT_GEM:
+            setInputComponent(new ResourceCollectableInputComponent());
+            setPhysicsComponent(new CollectablePhysicsComponent(70));
 #ifndef SERVER
-            setGraphicsComponent(new GemGraphicsComponent());
+            setGraphicsComponent(new ResourceCollectableGraphicsComponent());
 #endif
             break;
-            */
+            
     }
+    getInputComponent()->setParent(this);
+    ((CollectableInputComponent*) getInputComponent())->setPath(start_, end_);
 
-    //getInputComponent()->setParent(this);
-    //((ProjectileInputComponent*)getInputComponent())->setPath(start_, end_);
-#ifndef SERVER
+//#ifndef SERVER
     //if (!((CDriver*) getDriver())->isSinglePlayer()) {
         //delete getInputComponent();
         //delete getPhysicsComponent();
-        ////setInputCopmonent(NULL);
-        ////setPhysicsCoponent(NULL);
+        //setInputComponent(NULL);
+        //setPhysicsComponent(NULL);
     //}
-#endif
+//#endif
 }
 
 void Collectable::setPath(QPointF source, QPointF target) {

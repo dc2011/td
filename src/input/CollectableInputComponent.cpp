@@ -15,10 +15,6 @@ CollectableInputComponent::~CollectableInputComponent() { }
 
 void CollectableInputComponent::setParent(Unit *parent) {
     parent_ = (Collectable*) parent;
-
-    connect(this, SIGNAL(deleteCollectableLater(int)),
-            parent_->getDriver(), SLOT(destroyObject(int)), 
-            Qt::QueuedConnection);
 }
 
 void CollectableInputComponent::setPath(QPointF* start, QPointF* end) {

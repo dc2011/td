@@ -37,7 +37,7 @@ void ResourceCollectableInputComponent::makeForce() {
             //parent_->createBounds();
             //parent_->checkNPCCollision(npcs);
         }
-        emit deleteCollectableLater(parent_->getID());
+        //emit deleteCollectableLater(parent_->getID());
         qDebug("deleteLater");
     } else {
         force = QVector2D(parent_->getPath().unitVector().dx() * -1,
@@ -72,7 +72,7 @@ void GemCollectableInputComponent::makeForce() {
             //parent_->createBounds();
             //parent_->checkNPCCollision(npcs);
         }
-        emit deleteCollectableLater(parent_->getID());
+        //emit deleteCollectableLater(parent_->getID());
     } else {
         force = QVector2D(parent_->getPath().unitVector().dx() * -1,
                           parent_->getPath().unitVector().dy() * -1);
