@@ -19,7 +19,6 @@ namespace td {
 
 class TileExtension;
 class Unit;
-class Effect;
 
 class Tile : public QObject {
     Q_OBJECT

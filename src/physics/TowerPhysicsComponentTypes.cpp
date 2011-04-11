@@ -8,10 +8,10 @@ namespace td {
 ArrowTowerPhysicsComponent::ArrowTowerPhysicsComponent(Tower* tower)
         : TowerPhysicsComponent(tower, FIRE_INTERVAL_ARROW, RADIUS_ARROW) {
 }
-bool ArrowTowerPhysicsComponent::isValidTarget(Unit * target) {
+
+bool ArrowTowerPhysicsComponent::isValidTarget(Unit *) {
     return true;
 }
-
 
 void ArrowTowerPhysicsComponent::update(GameObject *tower){
     this->applyDirection((Tower*)tower);
@@ -216,7 +216,7 @@ bool TarTowerPhysicsComponent::isValidTarget(Unit * target) {
 }
 
 
-void TarTowerPhysicsComponent::update(GameObject *tower){
+void TarTowerPhysicsComponent::update(GameObject*){
     this->findTarget();
     this->fire();
 }
