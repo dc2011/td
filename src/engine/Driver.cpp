@@ -1,5 +1,6 @@
 #include "Driver.h"
 #include "Tower.h"
+#include "BuildingTower.h"
 #include "NPC.h"
 #include "Resource.h"
 #include "Projectile.h"
@@ -48,6 +49,17 @@ Tower* Driver::createTower(int type) {
             SIGNAL(fireProjectile(int, QPointF, QPointF, Unit*)),
             this, SLOT(requestProjectile(int, QPointF, QPointF, Unit*)));
 #endif
+    return tower;
+}
+
+BuildingTower* Driver::createBuildingTower(int type) {
+    BuildingTower* tower = (BuildingTower*)mgr_->createObject(
+            BuildingTower::clsIdx());
+
+    tower->setType(type);
+    tower->initComponents();
+    //TODO connect signals
+
     return tower;
 }
 

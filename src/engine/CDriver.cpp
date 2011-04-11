@@ -10,6 +10,7 @@
 #include "Projectile.h"
 #include "ResManager.h"
 #include "Tower.h"
+#include "BuildingTower.h"
 #include "Unit.h"
 #include "../audio/SfxManager.h"
 #include "../client/MainWindow.h"
@@ -137,7 +138,7 @@ void CDriver::makeLocalPlayer(Player* player) {
             contextMenu_, SLOT(viewResources(bool)));
     /* TODO: alter temp solution */
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
-            this,         SLOT(createTower(int, QPointF)));
+            this,         SLOT(createBuildingTower(int, QPointF)));
     connect(human_, SIGNAL(signalEmptyEffectList()),
             physics, SLOT(okayToPlayCollisionSfx()));
     
@@ -197,6 +198,33 @@ void CDriver::createTower(int towerType, QPointF pos)
     delete s;
 }
 
+void CDriver::createBuildingTower(int towerType, QPointF pos) {
+    if (isSinglePlayer()) {
+        BuildingTower* tower = (BuildingTower*)mgr_->createObject(
+                BuildingTower::clsIdx());
+        Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
+        tower->setType(towerType);
+        tower->initComponents();
+        tower->setPos(currentTile->getPos());
+        currentTile->setExtension(tower);
+
+        //TODO connect signal/slots
+        connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
+        return;
+    }
+
+    //TODO update to right message
+    /*
+    Stream* s = new Stream();
+    s->writeInt(human_->getID());
+    s->writeInt(towerType);
+    s->writeFloat(pos.x());
+    s->writeFloat(pos.y());
+    NetworkClient::instance()->send(network::kBuildTower, s->data());
+    delete s;
+    */
+}
+
 void CDriver::startGame(bool singlePlayer) {
     // Create hard coded map
     gameMap_ = new Map(mainWindow_->getMD()->map());
@@ -251,6 +279,7 @@ void CDriver::handleSpacebarPress() {
             contextMenu_->toggleMenu();
             break;
 
+        case TILE_BUILDING:
         case TILE_BUILT:
         case TILE_BASE:
             break;

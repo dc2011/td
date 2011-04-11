@@ -246,6 +246,7 @@ private slots:
      * @author Dean Morin
      */
     void createTower(int towerType, QPointF pos);
+    void createBuildingTower(int towerType, QPointF pos);
 
     /**
      * handles a received UDP message.

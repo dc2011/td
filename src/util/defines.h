@@ -37,9 +37,10 @@
 //Tile action types specifying action for spacebar
 #define TILE_REGULAR    0
 #define TILE_BUILDABLE  1
-#define TILE_BUILT      2
-#define TILE_BASE       3
-#define TILE_RESOURCE   4
+#define TILE_BUILDING   2
+#define TILE_BUILT      3
+#define TILE_BASE       4
+#define TILE_RESOURCE   5
 
 // resources that can be picked up by the player
 #define RESOURCE_NONE   0

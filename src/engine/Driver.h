@@ -12,6 +12,7 @@ class Tower;
 class NPC;
 class Projectile;
 class Resource;
+class BuildingTower;
 
 class Driver : public QObject {
     Q_OBJECT
@@ -94,6 +95,15 @@ public:
      * @return A pointer to the new tower.
      */
     Tower* createTower(int type);
+
+    /**
+     * Creates a new building stage tower of the given type.
+     *
+     * @author Darryl Pogue
+     * @param type The type of tower to create.
+     * @return A pointer to the new building tower.
+     */
+    BuildingTower* createBuildingTower(int type);
 
     /**
      * Creates a new NPC of the given type.
