@@ -40,13 +40,11 @@ PlayerTerrainSlowEffect::~PlayerTerrainSlowEffect() {
 
 void PlayerTerrainSlowEffect::apply() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
-    disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
-    emit effectFinished(this); 
 }
 
 NPCTarEffect::NPCTarEffect(Unit* unit)
     : Effect(unit, EFFECT_TAR, TAR_TIME) {
-    velocityChangeValue_ = 0;
+    velocityChangeValue_ = 0.5;
     healthChangeValue_ = -25;
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth()
                                 + healthChangeValue_);
