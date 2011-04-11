@@ -26,8 +26,13 @@ public:
     };
     */
 
-    Effect(Unit* unit, int duration, bool timerEnabled = true);
+    Effect(const Effect& e);
+    Effect(Unit* unit, uint type, int duration, bool timerEnabled = true);
     ~Effect();
+
+    Effect& operator=(const Effect &rhs);
+    bool operator==(const Effect &e) const;
+    bool operator!=(const Effect &e) const;
 
     /**
      * Gets the unique class index for this object type.
@@ -47,7 +52,7 @@ public:
      *
      * @author Pan K.
      */
-    virtual void apply() = 0;
+    virtual void apply();
 
     void setDuration(size_t duration);
     size_t getDuration();
@@ -66,10 +71,29 @@ public:
     void setOldVelocity(float oldVelocity) {
         oldVelocity_ = oldVelocity;
     }
+    /**
+     * Returns the type of Effect.
+     *
+     * @author Marcel Vangrootheest
+     * @return The type of Effect
+     */
+    uint getType() {
+        return type_;
+    }
+
     void countdown();
 
 public slots:
     void update();
+
+    /**
+     * Stops applying the effect if the correct type.
+     * Connected to stopEffect(uint) in Unit.
+     *
+     * @author Marcel Vangrootheest
+     * @param type The type of Effect.
+     */
+    void effectStop(uint type);
 
 signals:
     void effectFinished(Effect* effect);
@@ -81,7 +105,10 @@ protected:
     int healthChangeValue_;
     float velocityChangeValue_;
     float oldVelocity_;
+    uint type_;
     bool timerEnabled_;
+    bool applyEnabled_;
+    QTimer* timer_;
 };
 
 } /* end namespace td */

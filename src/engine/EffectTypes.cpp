@@ -5,8 +5,8 @@
 
 namespace td {
 
-NPCPlayerEffect::NPCPlayerEffect(Unit* unit)
-        : Effect(unit, NPC_PLAYER_TIME) {
+NPCPlayerEffect::NPCPlayerEffect(Unit* unit): Effect(unit, EFFECT_NPCPLAYER, NPC_PLAYER_TIME) {
+
     setOldVelocity(((PlayerPhysicsComponent*)(getUnit()->getPhysicsComponent()))->getMaxVelocity());
     velocityChangeValue_ = 0;       
 }
@@ -14,6 +14,7 @@ NPCPlayerEffect::NPCPlayerEffect(Unit* unit)
 void NPCPlayerEffect::apply() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
 }
+
 void NPCPlayerEffect::countdown() {
     Effect::countdown();
     if(getDuration() <= 0) {
@@ -22,16 +23,21 @@ void NPCPlayerEffect::countdown() {
 }
 
 ArrowEffect::ArrowEffect(Unit* unit)
-        : Effect(unit, ARROW_TIME) {    
+        : Effect(unit, EFFECT_ARROW, ARROW_TIME) {    
+
     healthChangeValue_ = -25;
+    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth()
+        + healthChangeValue_);
 }
 
 void ArrowEffect::apply() {
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
-PlayerTerrainEffect::PlayerTerrainEffect(Unit* unit):Effect(unit, NO_TIME) {
+PlayerTerrainEffect::PlayerTerrainEffect(Unit* unit)
+    : Effect(unit, EFFECT_TERRAIN, NO_TIME) {
     velocityChangeValue_ = 0;
+
 }
 
 void PlayerTerrainEffect::apply() {
@@ -44,10 +50,13 @@ void PlayerTerrainEffect::countdown() {
     }
 }
 
-NPCTarEffect::NPCTarEffect(Unit* unit):Effect(unit, TAR_TIME) {
+
+NPCTarEffect::NPCTarEffect(Unit* unit)
+    : Effect(unit, EFFECT_TAR, TAR_TIME) {
     velocityChangeValue_ = 0;
     healthChangeValue_ = -25;
-    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
+    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth()
+                                + healthChangeValue_);
 }
 
 void NPCTarEffect::apply() {
@@ -60,7 +69,7 @@ void NPCTarEffect::countdown() {
     }
 }
 
-NPCBurnEffect::NPCBurnEffect(Unit* unit):Effect(unit, BURN_TIME) {
+NPCBurnEffect::NPCBurnEffect(Unit* unit):Effect(unit, EFFECT_BURN, BURN_TIME) {
     healthChangeValue_ = -5;
 }
 

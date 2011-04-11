@@ -23,7 +23,7 @@
 // how often the tower type can fire (in game ticks)
 #define FIRE_INTERVAL_ARROW     45
 #define FIRE_INTERVAL_CANNON    120
-#define FIRE_INTERVAL_FLAME     300
+#define FIRE_INTERVAL_FLAME     70
 #define FIRE_INTERVAL_TAR       90
 #define FIRE_INTERVAL_FLAK      15
 
@@ -79,6 +79,14 @@
 #define NPC_FLY_MAX_V   2  
 #define NPC_BOSS_MAX_V  1  
 
+//effect types for operator==
+#define EFFECT_NONE         0
+#define EFFECT_NPCPLAYER    1
+#define EFFECT_TERRAIN      2
+#define EFFECT_ARROW        3
+#define EFFECT_TAR          4
+#define EFFECT_BURN         5
+
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20
 #define TAR_TIME        10
@@ -110,7 +118,7 @@
 //Projectile Velocity
 #define ARROW_VELOCITY  15
 #define CANNON_VELOCITY 10
-#define FIRE_VELOCITY   10
+#define FIRE_VELOCITY   6
 #define TAR_VELOCITY    10
 #define FLAK_VELOCITY   15
 

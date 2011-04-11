@@ -11,6 +11,7 @@ class ArrowTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     ArrowTowerPhysicsComponent(Tower* tower);
     virtual ~ArrowTowerPhysicsComponent() { }
+    virtual void update(GameObject *tower);
     bool isValidTarget(Unit *);
     void fire();
 };
@@ -21,6 +22,7 @@ class CannonTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     CannonTowerPhysicsComponent(Tower* tower);
     virtual ~CannonTowerPhysicsComponent() { }
+    virtual void update(GameObject *tower);
     bool isValidTarget(Unit *);
     void fire();
 };
@@ -31,8 +33,21 @@ class FlameTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     FlameTowerPhysicsComponent(Tower* tower);
     virtual ~FlameTowerPhysicsComponent() { }
+    virtual void update(GameObject *tower);
+    void findDirectionToShoot();
+    void useDirection(Tower* tower);
+    void applyDuration();
     bool isValidTarget(Unit *);
     void fire();
+private:
+    int duration_;
+    /** The line between the tower and its current target. */
+    QLineF flamePath_;
+    /** The enemy that's currently being tracked by the tower. */
+    Unit* endPoint_;
+    bool foundTarget_;
+    bool ready_;
+
 };
 
 class TarTowerPhysicsComponent : public TowerPhysicsComponent {
@@ -41,6 +56,7 @@ class TarTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     TarTowerPhysicsComponent(Tower* tower);
     virtual ~TarTowerPhysicsComponent() { }
+    virtual void update(GameObject *tower);
     bool isValidTarget(Unit *);
     void fire();
 };
@@ -51,6 +67,7 @@ class FlakTowerPhysicsComponent : public TowerPhysicsComponent {
 public:
     FlakTowerPhysicsComponent(Tower* tower);
     virtual ~FlakTowerPhysicsComponent() { }
+    virtual void update(GameObject *tower);
     bool isValidTarget(Unit *);
     void fire();
 };
