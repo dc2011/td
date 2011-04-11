@@ -106,6 +106,8 @@ GameObject* SDriver::updateObject(Stream* s) {
     GameObject* go = mgr_->findObject(id);
     if (go == NULL) {
         go = mgr_->createObjectWithID(id);
+    } else if (go == (GameObject*)-1) {
+        go = NULL;
     }
 
     if (go != NULL) {
@@ -142,6 +144,10 @@ void SDriver::onTimerTick() {
 }
 
 void SDriver::destroyObject(GameObject* obj) {
+    if (obj == (GameObject*)-1 || obj == NULL) {
+        return;
+    }
+
     int id = obj->getID();
     updates_.remove(obj);
 
@@ -155,6 +161,10 @@ void SDriver::destroyObject(GameObject* obj) {
 
 void SDriver::destroyObject(int id) {
     GameObject* go = mgr_->findObject(id);
+    if (go == (GameObject*)-1 || go == NULL) {
+        return;
+    }
+
     updates_.remove(go);
 
     Driver::destroyObject(id);

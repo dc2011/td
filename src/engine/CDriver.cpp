@@ -102,6 +102,11 @@ void CDriver::readObject(Stream* s) {
 
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
         return;
+    } else if (go == (GameObject*)-1) {
+        go = mgr_->createTempObject((id & 0xFF000000) >> 24);
+        go->networkRead(s);
+        delete go;
+        return;
     }
     
     go->networkRead(s);

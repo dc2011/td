@@ -64,6 +64,16 @@ public:
     GameObject* createObjectWithID(unsigned int id);
 
     /**
+     * Creates a temporary GameObject of the given type, without adding it to the
+     * manager.
+     *
+     * @author Darryl Pogue
+     * @param type The class index of the type to be created.
+     * @return A new GameObject of the given type, or NULL.
+     */
+    GameObject* createTempObject(unsigned char type);
+
+    /**
      * Adds an existing game object to the resource manager.
      *
      * @author Duncan Donaldson
