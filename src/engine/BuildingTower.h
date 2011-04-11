@@ -66,6 +66,24 @@ public:
     }
 
     /**
+     * Gets the tower type
+     *
+     * @author Marcel Vangrootheest
+     * @return The type of tower.
+     */
+    int getType() {
+        return type_;
+    }
+
+    /**
+     * Checks if all the resources are there.
+     *
+     * @author Marcel Vangrootheest
+     * @return True if all resources are at 0.
+     */
+    bool isDone();
+
+    /**
      * Sets the resource wood amount.
      *
      * @author Marcel Vangrootheest

@@ -225,6 +225,52 @@ void CDriver::createBuildingTower(int towerType, QPointF pos) {
     */
 }
 
+void CDriver::addToTower(BuildingTower* tower) {
+    int numResource = 0;
+
+    switch (human_->getResource()) {
+    case RESOURCE_NONE:
+        return;
+    case RESOURCE_WOOD:
+        numResource = tower->getWood(); 
+        if (numResource > 0) {
+            tower->setWood(numResource - 1);
+        } else {
+            return;
+        }
+        break;
+    case RESOURCE_STONE:
+        qDebug("add stone");
+        numResource = tower->getStone(); 
+        if (numResource > 0) {
+            tower->setStone(numResource - 1);
+        } else {
+            return;
+        }
+        break;
+    case RESOURCE_BONE:
+        numResource = tower->getBone(); 
+        if (numResource > 0) {
+            tower->setBone(numResource - 1);
+        } else {
+            return;
+        }
+        break;
+    case RESOURCE_TAR:
+        numResource = tower->getOil(); 
+        if (numResource > 0) {
+            tower->setOil(numResource - 1);
+        } else {
+            return;
+        }
+        break;
+    }
+    human_->dropResource();
+    if (tower->isDone()) {
+        createTower(tower->getType(), tower->getPos());
+    }
+}
+
 void CDriver::startGame(bool singlePlayer) {
     // Create hard coded map
     gameMap_ = new Map(mainWindow_->getMD()->map());
@@ -280,6 +326,8 @@ void CDriver::handleSpacebarPress() {
             break;
 
         case TILE_BUILDING:
+            addToTower((BuildingTower*)currentTile->getExtension());
+            break;
         case TILE_BUILT:
         case TILE_BASE:
             break;

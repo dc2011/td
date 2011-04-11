@@ -99,6 +99,16 @@ public:
         return harvestCountdown_;
     }
 
+    /**
+     * Gets the player's resource it is carrying.
+     *
+     * @author Marcel Vangrootheest
+     * @return The player's current resource.
+     */
+    int getResource() {
+        return resource_;
+    }
+
 private: 
     /**
      * Checks to see if the resource being harvested is ready to be picked up.

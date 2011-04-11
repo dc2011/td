@@ -70,6 +70,10 @@ void BuildingTower::networkWrite(Stream* s) {
     }
 }
 
+bool BuildingTower::isDone() {
+    return (!wood_ && !stone_ && !bone_ && !oil_);
+}
+
 void BuildingTower::initComponents() {
     switch (type_) {
         case TOWER_ARROW:
