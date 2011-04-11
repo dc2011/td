@@ -62,7 +62,7 @@ void Player::update() {
         harvestResource();
     }
 
-    // Updating effects for player position
+    tileThatPlayerIsOn_ = getDriver()->getGameMap()->getTile(getPos());
     int tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
     switch(tileEffect) {
         case Tile::NONE:
@@ -79,13 +79,12 @@ void Player::update() {
 }
 
 void Player::createEffect(Effect* effect){
-    if (!effects_.contains(*effect)) {
+    if (effects_.empty()) {
         emit signalEmptyEffectList();
         QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
             this, SLOT(deleteEffect(Effect*)));
         connect(getDriver()->getTimer(), SIGNAL(timeout()),
             effect, SLOT(update()));
-        
         effects_.push_back(*effect);
     } else {
         delete effect;
@@ -146,7 +145,7 @@ void Player::dropResource() {
         getGraphicsComponent()->setCurrentResource(0);
     }
 }
-    
+
 void Player::harvestResource() {
     if (--harvestCountdown_ <= 0) {
         resource_ = harvesting_;

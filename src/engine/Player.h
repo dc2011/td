@@ -8,6 +8,7 @@
 #include "../input/PlayerInputComponent.h"
 #include "CollisionComponent.h"
 #include "Effect.h"
+#include "Tile.h"
 #include "../graphics/PlayerGraphicsComponent.h"
 #include "../physics/PlayerPhysicsComponent.h"
 
@@ -17,6 +18,7 @@ class Player : public Unit {
     Q_OBJECT
 
 public:
+    Tile* tileThatPlayerIsOn_;
     /**
      * Gets the unique class index for this object type.
      *

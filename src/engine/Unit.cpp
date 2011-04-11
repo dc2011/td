@@ -42,7 +42,7 @@ void Unit::changeTile(QPointF newPos){
         map->removeUnit(getPos().x(), getPos().y(), this);
         //add to new tile
         map->addUnit(newPos.x(), newPos.y(), this);
-        //qDebug("moving to tile: %d, %d",(int) getPos().x() / TILE_WIDTH, (int) getPos().y() / TILE_HEIGHT);
+        
     }
 }
 

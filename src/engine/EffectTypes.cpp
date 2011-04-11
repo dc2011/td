@@ -2,6 +2,7 @@
 #include "../util/defines.h"
 #include "NPC.h"
 #include "Player.h"
+#include "Tile.h"
 
 namespace td {
 
@@ -35,11 +36,15 @@ PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
 }
 
 PlayerTerrainSlowEffect::~PlayerTerrainSlowEffect() {
-    ((PlayerPhysicsComponent*)(getUnit()->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
+    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
 }
 
 void PlayerTerrainSlowEffect::apply() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
+    if((((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::NONE) {
+        disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
+        emit effectFinished(this);
+    }
 }
 
 NPCTarEffect::NPCTarEffect(Unit* unit)
@@ -55,7 +60,7 @@ NPCTarEffect::~NPCTarEffect() {
 }
 
 void NPCTarEffect::apply() {
-    velocityChangeValue_ = 0;
+    ((NPCPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
 }
 
 NPCBurnEffect::NPCBurnEffect(Unit* unit):Effect(unit, EFFECT_BURN, BURN_TIME) {
