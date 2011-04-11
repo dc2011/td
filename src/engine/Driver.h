@@ -120,6 +120,7 @@ public:
     Projectile* createProjectile(int projType, QPointF source,
             QPointF target, Unit* enemy);
 
+    /**
      * Creates a resource "mine" of the given type.
      *
      * @author Dean Morin
