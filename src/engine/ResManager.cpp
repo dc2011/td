@@ -3,6 +3,7 @@
 #include "Projectile.h"
 #include "NPC.h"
 #include "Tower.h"
+#include "BuildingTower.h"
 
 namespace td {
 
@@ -37,6 +38,11 @@ GameObject* ResManager::internalCreateObject(unsigned char type) {
         case clsidx::kTower:
             ret = new Tower((QObject*)driver_);
             id = (Tower::clsIdx() <<24) | objects_[type].size();
+            ret->setID(id);
+            break;
+        case clsidx::kBuildingTower:
+            ret = new BuildingTower((QObject*)driver_);
+            id = (BuildingTower::clsIdx() <<24) | objects_[type].size();
             ret->setID(id);
             break;
         case clsidx::kGameObject:

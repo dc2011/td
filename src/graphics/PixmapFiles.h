@@ -35,6 +35,7 @@
 #define PIX_PROJ_FIRE_MAX       1
 #define PIX_PROJ_FLAK           QString("./img/flakProjectile.png")
 #define PIX_PROJ_FLAK_MAX       1
+#define PIX_BUILDING_TOWER      QString("./img/buildingTower.png")
 #define PIX_TOWER_ARROW         QString("./img/towerArrow.png")
 #define PIX_TOWER_CANNON        QString("./img/towerCannon.png")
 #define PIX_TOWER_TAR           QString("./img/towerTar.png")
@@ -61,7 +62,5 @@
 #define PIX_NPC_PLEA_0          QString("./img/plea-1.png")
 #define PIX_NPC_PLEA_1          QString("./img/plea-2.png")
 #define PIX_NPC_PLEA_MAX        2
-//this final value will be total of all NPC pix maps
-#define PIX_NPC_TOTAL           PIX_NPC_PTERO_MAX + PIX_NPC_PLEA_MAX
 #endif
 

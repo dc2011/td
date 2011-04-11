@@ -11,6 +11,7 @@ ENGINE_HDRS +=  ./engine/Driver.h \
                 ./engine/Tile.h \
                 ./engine/TileExtension.h \
                 ./engine/Tower.h \
+                ./engine/BuildingTower.h \
                 ./engine/Resource.h \
                 ./engine/Unit.h
 
@@ -28,6 +29,7 @@ ENGINE_SRCS +=  ./engine/Driver.cpp \
                 ./engine/Tile.cpp \
                 ./engine/TileExtension.cpp \
                 ./engine/Tower.cpp \
+                ./engine/BuildingTower.cpp \
                 ./engine/Resource.cpp \
                 ./engine/Unit.cpp
 

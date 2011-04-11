@@ -12,6 +12,7 @@ enum {
     kNPC,
     kProjectile,
     kContextMenu,
+    kBuildingTower,
     kTower,
     kArrowTower,
     kResource,

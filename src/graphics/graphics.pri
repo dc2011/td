@@ -13,6 +13,7 @@ GRAPHICS_HDRS +=    $$BASE_GRAPHICS_HDRS \
                     ./graphics/ProjectileGraphicsComponentTypes.h \
                     ./graphics/TowerGraphicsComponent.h \
                     ./graphics/TowerGraphicsComponentTypes.h \
+                    ./graphics/BuildingTowerGraphicsComponent.h \
                     ./graphics/ResourceGraphicsComponent.h \
                     ./graphics/NPCGraphicsComponent.h \
                     ./graphics/NPCGraphicsComponentTypes.h \
@@ -26,6 +27,7 @@ GRAPHICS_SRCS +=    $$BASE_GRAPHICS_SRCS \
                     ./graphics/ProjectileGraphicsComponentTypes.cpp \
                     ./graphics/TowerGraphicsComponent.cpp \
                     ./graphics/TowerGraphicsComponentTypes.cpp \
+                    ./graphics/BuildingTowerGraphicsComponent.cpp \
                     ./graphics/ResourceGraphicsComponent.cpp \
                     ./graphics/NPCGraphicsComponent.cpp \
                     ./graphics/NPCGraphicsComponentTypes.cpp \
