@@ -12,7 +12,8 @@ ENGINE_HDRS +=  ./engine/Driver.h \
                 ./engine/TileExtension.h \
                 ./engine/Tower.h \
                 ./engine/Resource.h \
-                ./engine/Unit.h
+                ./engine/Unit.h \
+                ./engine/Parser.h
 
 
 ENGINE_SRCS +=  ./engine/Driver.cpp \
@@ -29,7 +30,8 @@ ENGINE_SRCS +=  ./engine/Driver.cpp \
                 ./engine/TileExtension.cpp \
                 ./engine/Tower.cpp \
                 ./engine/Resource.cpp \
-                ./engine/Unit.cpp
+                ./engine/Unit.cpp \
+                ./engine/Parser.cpp
 
 # Client-side engine headers and sources
 ENGINE_HDRS_C +=    $$ENGINE_HDRS \
