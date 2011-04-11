@@ -70,7 +70,7 @@ public:
      *
      * @author Marcel Vangrootheest
      */
-    void setPath(QPointF source, QPointF target, Unit* enemy);
+    void setPath(QPointF source, QPointF target);
 
     /**
      * Sets the collectable type (resource, gem).

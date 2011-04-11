@@ -68,6 +68,9 @@ namespace network {
         /** Indicates creation of a projectile. */
         kProjectile     =   0x09,
 
+        /** Indicates creation of a collectable. */
+        kCollectable    =   0x10,
+
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
         /** Used as a separator to indicate UDP messages. */

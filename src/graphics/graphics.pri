@@ -4,6 +4,8 @@ BASE_GRAPHICS_SRCS += ./graphics/GraphicsComponent.cpp
 
 
 GRAPHICS_HDRS +=    $$BASE_GRAPHICS_HDRS \
+                    ./graphics/CollectableGraphicsComponent.h \
+                    ./graphics/CollectableGraphicsComponentTypes.h \
                     ./graphics/MapDisplayer.h \
                     ./graphics/ContextMenuGraphicsComponent.h \
                     ./graphics/PlayerGraphicsComponent.h \
@@ -19,6 +21,8 @@ GRAPHICS_HDRS +=    $$BASE_GRAPHICS_HDRS \
 		            ./graphics/Console.h
 
 GRAPHICS_SRCS +=    $$BASE_GRAPHICS_SRCS \
+                    ./graphics/CollectableGraphicsComponent.cpp \
+                    ./graphics/CollectableGraphicsComponentTypes.cpp \
                     ./graphics/MapDisplayer.cpp \
                     ./graphics/ContextMenuGraphicsComponent.cpp \
                     ./graphics/PlayerGraphicsComponent.cpp \

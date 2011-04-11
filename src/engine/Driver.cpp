@@ -1,4 +1,5 @@
 #include "Driver.h"
+#include "Collectable.h"
 #include "Tower.h"
 #include "NPC.h"
 #include "Resource.h"
@@ -80,6 +81,20 @@ Projectile* Driver::createProjectile(int projType, QPointF source,
     connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
 
     return projectile;
+}
+
+Collectable* Driver::createCollectable(int collType, QPointF source, 
+        QPointF target) {
+    Collectable* collectable = (Collectable*)mgr_->createObject(
+            Collectable::clsIdx());
+    collectable->setType(collType);
+    collectable->setPath(source, target);
+
+    collectable->initComponents();
+
+    connect(gameTimer_,  SIGNAL(timeout()), collectable, SLOT(update()));
+
+    return collectable;
 }
 
 /*Resource* Driver::createResource(int type) {

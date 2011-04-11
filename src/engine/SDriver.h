@@ -10,6 +10,7 @@
 
 namespace td {
 
+class Collectable;
 class Player;
 class Tower;
 class NPC;
@@ -183,6 +184,16 @@ public slots:
      */
     void requestProjectile(int projType, QPointF source,
             QPointF target, Unit* enemy);
+
+    /**
+     * Creates collectable on server and send message to client for creation.
+     *
+     * @author Dean Morin
+     * @param projType The type of the collectable (resource or gem).
+     * @param source The origin of the collectable.
+     * @param target Where the collectable will land.
+     */
+    void requestCollectable(int collType, QPointF source, QPointF target);
 };
 
 } /* end namespace td */

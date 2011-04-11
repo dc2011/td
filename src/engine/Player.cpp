@@ -88,7 +88,6 @@ void Player::startHarvesting(int type) {
     harvesting_ = type;
     emit signalPlayerMovement(false);
     qDebug("Player::startHarvesting(); resource %d", harvesting_);
-    // TODO: show harvesting progress bar
 
     switch (type) {
         case RESOURCE_WOOD:
@@ -122,7 +121,12 @@ void Player::dropResource() {
         return;
     }
     setDirty(kResource);
-    // TODO: create resource object on current tile
+
+    collectable_ = new Collectable();
+    collectable_->setType(COLLECT_RESOURCE);
+    collectable_->initComponents();
+    collectable_->update();
+
     qDebug("Player::dropResource(); dropped resource");
     resource_ = RESOURCE_NONE;
     if (getGraphicsComponent()) {
@@ -134,8 +138,8 @@ void Player::harvestResource() {
     if (--harvestCountdown_ <= 0) {
         resource_ = harvesting_;
         harvestCountdown_ = HARVEST_COUNTDOWN;
+
         qDebug("Player::harvestResource(); resource: %d", harvesting_);
-        // TODO: hide harvesting progress bar
         if (getGraphicsComponent()) {
             getGraphicsComponent()->setCurrentResource(resource_);
             getGraphicsComponent()->update(this);
@@ -145,7 +149,6 @@ void Player::harvestResource() {
         stopHarvesting();
         return;
     }
-    // TODO: update harvesting progress bar
 }
 
 } /* end namespace td */

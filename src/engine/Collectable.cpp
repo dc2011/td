@@ -1,7 +1,7 @@
 #include "Collectable.h"
 #include "../engine/CDriver.h"
 #include "../physics/CollectablePhysicsComponent.h"
-
+#include "../graphics/CollectableGraphicsComponentTypes.h" 
 namespace td {
 
 Collectable::Collectable(QObject* parent) 
@@ -61,7 +61,7 @@ void Collectable::initComponents() {
             //input->setParent(this);
             setPhysicsComponent(new CollectablePhysicsComponent(70));
 #ifndef SERVER
-            //setGraphicsComponent(new ResourceItemGraphicsComponent());
+            setGraphicsComponent(new ResourceCollectableGraphicsComponent());
 #endif
             break;
 /*
@@ -76,17 +76,25 @@ void Collectable::initComponents() {
             */
     }
 
+    //getInputComponent()->setParent(this);
+    //((ProjectileInputComponent*)getInputComponent())->setPath(start_, end_);
 #ifndef SERVER
-    if (!((CDriver*) getDriver())->isSinglePlayer()) {
-        delete getInputComponent();
-        delete getPhysicsComponent();
-        setInputCopmonent(NULL);
-        setPhysicsCoponent(NULL);
-    }
+    //if (!((CDriver*) getDriver())->isSinglePlayer()) {
+        //delete getInputComponent();
+        //delete getPhysicsComponent();
+        ////setInputCopmonent(NULL);
+        ////setPhysicsCoponent(NULL);
+    //}
 #endif
 }
 
+void Collectable::setPath(QPointF source, QPointF target) {
+    start_ = new QPointF(source);
+    end_ = new QPointF(target);
+}
+
 void Collectable::update() {
+    input_ = NULL; //TEMP
     if (input_ != NULL) {
         input_->update();
     }

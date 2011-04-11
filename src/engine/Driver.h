@@ -8,6 +8,7 @@
 
 namespace td {
 
+class Collectable;
 class Tower;
 class NPC;
 class Projectile;
@@ -107,7 +108,6 @@ public:
 
     /**
      * Creates a projectile object.
-     * Connected to fire() in TowerPhysicsComponent
      *
      * @author Pan Khantidhara
      * @author Marcel Vangrootheest
@@ -119,6 +119,18 @@ public:
      */
     Projectile* createProjectile(int projType, QPointF source,
             QPointF target, Unit* enemy);
+
+    /**
+     * Creates a collectable object.
+     *
+     * @author Dean Morin
+     * @param projType The type of the collectable (resource or gem).
+     * @param source The origin of the collectable.
+     * @param target Where the collectable will land.
+     * @return A pointer to the created collectable.
+     */
+    Collectable* createCollectable(int collType, QPointF source, 
+            QPointF target);
 
     //Resource* createResource(int type);
 

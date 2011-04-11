@@ -51,6 +51,10 @@
 #define PIX_RESOURCE_BONE       QString("./img/Rock.png")
 #define PIX_RESOURCE_TAR        QString("./img/Tar.png")
 #define PIX_RESOURCE_MAX        6
+#define PIX_COLL_RESOURCE       QString("./img/woodIcon.png") // placeholder
+#define PIX_COLL_RESOURCE_MAX   1
+#define PIX_COLL_GEM            QString("./img/oilIcon.png") // placeholder
+#define PIX_COLL_GEM_MAX        1
 #define PIX_NPC_PTERO_START     0
 #define PIX_NPC_PTERO_0         QString("./img/ptero-1.png")
 #define PIX_NPC_PTERO_1         QString("./img/ptero-2.png")

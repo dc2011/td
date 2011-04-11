@@ -11,6 +11,8 @@
 #include "../graphics/PlayerGraphicsComponent.h"
 #include "../physics/PlayerPhysicsComponent.h"
 
+//TEMP
+#include "../engine/Collectable.h"
 namespace td {
 
 class Player : public Unit {
@@ -39,7 +41,8 @@ private:
 public:
     Player(QObject* parent = 0);
     virtual ~Player() {}
-
+//TEMP
+Collectable* collectable_;
     /**
      * Reads the object state from a network stream.
      * You should assign to variables directly inside this function, rather
