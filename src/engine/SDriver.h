@@ -103,6 +103,12 @@ public:
      */
     virtual void sendNetMessage(unsigned char msgType, QByteArray msg);
 
+signals:
+    /**
+     * Signal emitted when there are no more players in this game session.
+     */
+    void disconnecting();
+
 protected slots:
     virtual void onTimerTick();
 

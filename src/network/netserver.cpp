@@ -30,6 +30,7 @@ void NetworkServer::start()
 
     foreach (QTcpSocket* sock, tcpSockets_) {
         sock->moveToThread(netthread_);
+        connect(sock, SIGNAL(disconnected()), this, SLOT(onClientDisconnect()));
     }
 
     this->moveToThread(netthread_);
@@ -74,6 +75,17 @@ void NetworkServer::onUDPReceive()
     Stream* s = new Stream(datagram);
 
     emit msgReceived(s);
+}
+void NetworkServer::onClientDisconnect() {
+    QTcpSocket* sock = (QTcpSocket*)QObject::sender();
+    mutex_.lock();
+    tcpSockets_.removeOne(sock);
+    int count = tcpSockets_.size();
+    mutex_.unlock();
+
+    if (count == 0) {
+        emit disconnected();
+    }
 }
 
 } /* end namespace td */

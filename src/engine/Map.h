@@ -19,6 +19,7 @@ class MapReader;
 
 namespace td {
 
+class Driver;
 class Unit;
 class Tile;
 class Resource;
@@ -27,11 +28,14 @@ class Map : public QObject {
     Q_OBJECT
 
 public:
-    explicit Map(Tiled::Map * tMap);
-    explicit Map(const QString& filename);
+    explicit Map(Tiled::Map * tMap, Driver* driver);
+    explicit Map(const QString& filename, Driver* driver);
     virtual ~Map() { }
 
 private:
+    /** The driver for this map. */
+    Driver* driver_;
+
     /**  */
     QMap<int,QList<QPointF> > waypoints;
 

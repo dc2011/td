@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Projectile.h"
 #include "NPC.h"
+#include "Resource.h"
 #include "Tower.h"
 
 namespace td {
@@ -37,6 +38,11 @@ GameObject* ResManager::internalCreateObject(unsigned char type) {
         case clsidx::kTower:
             ret = new Tower((QObject*)driver_);
             id = (Tower::clsIdx() <<24) | objects_[type].size();
+            ret->setID(id);
+            break;
+        case clsidx::kResource:
+            ret = new Resource((QObject*)driver_);
+            id = (Resource::clsIdx() << 24) | objects_[type].size();
             ret->setID(id);
             break;
         case clsidx::kGameObject:
