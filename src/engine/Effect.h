@@ -107,6 +107,7 @@ protected:
     uint type_;
     bool timerEnabled_;
     bool applyEnabled_;
+    QTimer* timer_;
 };
 
 } /* end namespace td */

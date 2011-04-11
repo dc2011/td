@@ -171,6 +171,7 @@ void NPC::createEffect(Effect* effect){
 
 void NPC::deleteEffect(Effect* effect){
     effects_.removeOne(*effect);
+    delete effect;
     if (effects_.empty()) {
         // TODO: connect to a slot in projectile collisions for sfx
         //emit signalEmptyEffectList();
