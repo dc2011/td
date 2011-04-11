@@ -28,9 +28,14 @@ Parser::~Parser() {
 }
 
 NPCWave* Parser::readWave() {
-    NPCWave* wave = new NPCWave();
+    if (file_.atEnd()) {
+        return NULL;
+    }
     QString waveLine = file_.readLine();
     QStringList waveInfo = waveLine.split(',');
+
+    NPCWave* wave = new NPCWave(0, waveInfo.at(3).toUInt(), waveInfo.at(2).toUInt(),
+                                waveInfo.at(1).toUInt());
     return wave;
 }
 
