@@ -24,26 +24,6 @@ void ArrowEffect::apply() {
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
-CannonEffect::CannonEffect(Unit* unit) : Effect(unit, CANNON_TIME){
-    velocityChangeValue_ = QVector2D(0, 0);
-    healthChangeValue_ = -75;
-}
-
-void CannonEffect::apply() {
-    unit_->setVelocity(velocityChangeValue_);
-    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
-}
-
-FlakEffect::FlakEffect(Unit* unit) : Effect(unit, FLAK_TIME){
-    velocityChangeValue_ = QVector2D(0, 0);
-    healthChangeValue_ = -15;
-}
-
-void FlakEffect::apply(){
-    unit_->setVelocity(velocityChangeValue_);
-    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
-}
-
 PlayerTerrainEffect::PlayerTerrainEffect(Unit* unit):Effect(unit, NO_TIME) {
     velocityChangeValue_ = QVector2D(0,0);
 }

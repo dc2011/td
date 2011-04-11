@@ -52,14 +52,6 @@ public:
      * @author Joel Stewart , Marcel Vangrootheest
      */
     void applyDirection();
-    /**
-     * Checks for collision between projectile and npcs
-     * and applies effects to hit npcs.
-     *
-     * @author Daniel Wright
-     * @param npcs, set of npcs to check collision with
-     */
-    virtual void checkNPCCollision(QSet<Unit*> npcs){}
 
 signals:
     /**

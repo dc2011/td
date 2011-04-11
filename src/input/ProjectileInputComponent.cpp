@@ -3,7 +3,6 @@
 #include "../physics/ProjectilePhysicsComponent.h"
 #include "../engine/Driver.h"
 #include "../engine/Map.h"
-#include "../engine/EffectTypes.h"
 #define PI 3.141592653589793238
 #include <math.h>
 
@@ -39,10 +38,10 @@ void ProjectileInputComponent::makeForce() {
         disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
         QPointF *end = parent_->getEndPoint();
-        npcs = map->getUnits(end->x(), end->y(), 3);
+        npcs = map->getUnits(end->x(), end->y(), 1);
         if(!npcs.empty()){
             parent_->createBounds();
-            this->checkNPCCollision(npcs);
+            parent_->checkNPCCollision(npcs);
         }
         //check for collisions here
         emit deleteProjectileLater(parent_->getID());
@@ -117,5 +116,6 @@ void ProjectileInputComponent::applyDirection() {
     }
     parent_->setOrientation(degree);
 }
+
 
 } /* end namespace td */
