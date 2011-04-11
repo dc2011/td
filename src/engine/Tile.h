@@ -71,11 +71,23 @@ public:
      * Returns the effect associated with this tile, or NULL if there is no
      * effect.
      *
+     * @return the effect associated with this tile.
      * @author Luke Queenan
      */
     TileEffect getTileEffect()
     {
         return tileEffect_;
+    }
+
+    /**
+     * setter for tile effect.
+     *
+     * @param tileEffect, the effect to set to the tile.
+     * @author DTRAIN
+     */
+    void getTileEffect(TileEffect tileEffect)
+    {
+        tileEffect_ = tileEffect;
     }
 
     /**

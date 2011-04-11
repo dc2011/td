@@ -31,7 +31,7 @@ void ArrowEffect::apply() {
 
 PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
     : Effect(unit, EFFECT_TERRAIN, NO_TIME) {
-    velocityChangeValue_ = 2;
+    velocityChangeValue_ = 0.5;
 }
 
 PlayerTerrainSlowEffect::~PlayerTerrainSlowEffect() {
@@ -40,6 +40,8 @@ PlayerTerrainSlowEffect::~PlayerTerrainSlowEffect() {
 
 void PlayerTerrainSlowEffect::apply() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
+    disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
+    emit effectFinished(this); 
 }
 
 NPCTarEffect::NPCTarEffect(Unit* unit)
