@@ -117,14 +117,18 @@ void Player::stopHarvesting() {
     emit signalPlayerMovement(true);
 }
 
-void Player::dropResource() {
+void Player::dropResource(bool addToTower) {
 
     if (resource_ == RESOURCE_NONE) {
         return;
     }
     setDirty(kResource);
+    if (addToTower) {
+    qDebug("Player::dropResource(); added resource to BuildingTower");
+    } else {
     // TODO: create resource object on current tile
     qDebug("Player::dropResource(); dropped resource");
+    }
     resource_ = RESOURCE_NONE;
     if (getGraphicsComponent()) {
         getGraphicsComponent()->setCurrentResource(0);

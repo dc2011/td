@@ -52,15 +52,71 @@ Tower* Driver::createTower(int type) {
     return tower;
 }
 
-BuildingTower* Driver::createBuildingTower(int type) {
+void Driver::createBuildingTower(int type, QPointF pos) {
     BuildingTower* tower = (BuildingTower*)mgr_->createObject(
             BuildingTower::clsIdx());
 
     tower->setType(type);
     tower->initComponents();
-    //TODO connect signals
 
+    Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
+    tower->setPos(currentTile->getPos());
+    currentTile->setExtension(tower);
+
+#ifndef SERVER
+    connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
+#endif
     return tower;
+}
+
+void Driver::addToTower(BuildingTower* tower, Player* player) {
+    int numResource = 0;
+
+    switch (player->getResource()) {
+    case RESOURCE_NONE:
+        return;
+    case RESOURCE_WOOD:
+        numResource = tower->getWood(); 
+        if (numResource > 0) {
+            tower->setWood(numResource - 1);
+        } else {
+            return;
+        }
+        break;
+    case RESOURCE_STONE:
+        numResource = tower->getStone(); 
+        if (numResource > 0) {
+            tower->setStone(numResource - 1);
+        } else {
+            return;
+        }
+        break;
+    case RESOURCE_BONE:
+        numResource = tower->getBone(); 
+        if (numResource > 0) {
+            tower->setBone(numResource - 1);
+        } else {
+            return;
+        }
+        break;
+    case RESOURCE_TAR:
+        numResource = tower->getOil(); 
+        if (numResource > 0) {
+            tower->setOil(numResource - 1);
+        } else {
+            return;
+        }
+        break;
+    }
+#ifndef SERVER
+    player->dropResource();
+#else
+    // send drop message
+#endif
+    if (tower->isDone()) {
+        createTower(tower->getType(), tower->getPos());
+        destroyObject(tower);
+    }
 }
 
 NPC* Driver::createNPC(int type) {

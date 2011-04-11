@@ -99,11 +99,12 @@ public:
     /**
      * Creates a new building stage tower of the given type.
      *
-     * @author Darryl Pogue
+     * @author Marcel Vangrootheest
      * @param type The type of tower to create.
+     * @param pos The position to build it at.
      * @return A pointer to the new building tower.
      */
-    BuildingTower* createBuildingTower(int type);
+    BuildingTower* createBuildingTower(int type, QPointF pos);
 
     /**
      * Creates a new NPC of the given type.
@@ -129,6 +130,17 @@ public:
      */
     Projectile* createProjectile(int projType, QPointF source,
             QPointF target, Unit* enemy);
+    
+    /**
+     * Adds a resource to a tower if possible.
+     * This decrements the resource counter in BuildingTower.
+     * If the resource is not required, the resource will be dropped.
+     *
+     * @author Marcel Vangrootheest
+     * @param tower The BuildingTower to add resources to.
+     * @param player The player adding a resource to the BuildingTower.
+     */
+    void addToTower(BuildingTower* tower, Player* player);
 
     //Resource* createResource(int type);
 

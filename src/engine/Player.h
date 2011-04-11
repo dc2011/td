@@ -167,7 +167,7 @@ public slots:
      *
      * @author Dean Morin
      */
-    void dropResource();
+    void dropResource(bool addToTower);
 
 private:
     QList<Effect> effects_;

@@ -22,11 +22,13 @@ public:
 private:
     enum {
         kPosition       = (1 << 0),
-        kType           = (1 << 1),
-        kWood           = (1 << 2),
-        kStone          = (1 << 3),
-        kBone           = (1 << 4),
-        kOil            = (1 << 5)
+        kOrientation    = (1 << 1),
+        kScale          = (1 << 2),
+        kType           = (1 << 3),
+        kWood           = (1 << 4),
+        kStone          = (1 << 5),
+        kBone           = (1 << 6),
+        kOil            = (1 << 7)
     };
 
 public:

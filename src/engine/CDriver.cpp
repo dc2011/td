@@ -94,6 +94,10 @@ void CDriver::readObject(Stream* s) {
                     go->getGraphicsComponent(), SLOT(showHealth(bool)));
         }
 
+        if (go->getClsIdx() == BuildingTower::clsIdx()) {
+            gameMap_->getTile(go->getPos())->setExtension(go);
+        }
+
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
         return;
     }
@@ -198,80 +202,6 @@ void CDriver::createTower(int towerType, QPointF pos)
     delete s;
 }
 
-void CDriver::createBuildingTower(int towerType, QPointF pos) {
-    if (isSinglePlayer()) {
-        BuildingTower* tower = (BuildingTower*)mgr_->createObject(
-                BuildingTower::clsIdx());
-        Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
-        tower->setType(towerType);
-        tower->initComponents();
-        tower->setPos(currentTile->getPos());
-        currentTile->setExtension(tower);
-
-        //TODO connect signal/slots
-        connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
-        return;
-    }
-
-    //TODO update to right message
-    /*
-    Stream* s = new Stream();
-    s->writeInt(human_->getID());
-    s->writeInt(towerType);
-    s->writeFloat(pos.x());
-    s->writeFloat(pos.y());
-    NetworkClient::instance()->send(network::kBuildTower, s->data());
-    delete s;
-    */
-}
-
-void CDriver::addToTower(BuildingTower* tower) {
-    int numResource = 0;
-
-    switch (human_->getResource()) {
-    case RESOURCE_NONE:
-        return;
-    case RESOURCE_WOOD:
-        numResource = tower->getWood(); 
-        if (numResource > 0) {
-            tower->setWood(numResource - 1);
-        } else {
-            return;
-        }
-        break;
-    case RESOURCE_STONE:
-        qDebug("add stone");
-        numResource = tower->getStone(); 
-        if (numResource > 0) {
-            tower->setStone(numResource - 1);
-        } else {
-            return;
-        }
-        break;
-    case RESOURCE_BONE:
-        numResource = tower->getBone(); 
-        if (numResource > 0) {
-            tower->setBone(numResource - 1);
-        } else {
-            return;
-        }
-        break;
-    case RESOURCE_TAR:
-        numResource = tower->getOil(); 
-        if (numResource > 0) {
-            tower->setOil(numResource - 1);
-        } else {
-            return;
-        }
-        break;
-    }
-    human_->dropResource();
-    if (tower->isDone()) {
-        createTower(tower->getType(), tower->getPos());
-        mgr_->deleteObject(tower);
-    }
-}
-
 void CDriver::startGame(bool singlePlayer) {
     // Create hard coded map
     gameMap_ = new Map(mainWindow_->getMD()->map());
@@ -327,7 +257,7 @@ void CDriver::handleSpacebarPress() {
             break;
 
         case TILE_BUILDING:
-            addToTower((BuildingTower*)currentTile->getExtension());
+            addToTower((BuildingTower*)currentTile->getExtension(), human_);
             break;
         case TILE_BUILT:
         case TILE_BASE:
@@ -380,6 +310,16 @@ void CDriver::UDPReceived(Stream* s) {
             int count = s->readShort();
             for (int i = 0; i < count; i++) {
                 readObject(s);
+            }
+            break;
+        }
+        case network::kDropResource:
+        {
+            int id = s->readInt();
+            bool addToTower = s->readInt();
+            
+            if (human_->getID() == id) {
+                human_->dropResource(addToTower);
             }
             break;
         }

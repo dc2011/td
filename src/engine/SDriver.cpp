@@ -204,7 +204,7 @@ void SDriver::onMsgReceive(Stream* s) {
     Stream* out = new Stream();
 
     switch(message) {
-        case network::kBuildTower:
+        case network::kTowerChoice:
         {
             int playerID = s->readInt();
             int towertype = s->readInt();
@@ -221,11 +221,35 @@ void SDriver::onMsgReceive(Stream* s) {
                 break;
             }
 
-            Tower* t = Driver::createTower(towertype);
+            BuildingTower* t = Driver::createBuildingTower(towertype);
             t->setPos(currentTile->getPos());
             currentTile->setExtension(t);
 
             updates_.insert(t);
+            break;
+        }
+        case network::kDropResource:
+        {
+            int playerID = s->readInt();
+            int towertype = s->readInt();
+            float x = s->readFloat();
+            float y = s->readFloat();
+
+            Player* player = (Player*)mgr_->findObject(playerID);
+            if (player->getPos().x() != x || player->getPos().y() != y) {
+                break;
+            }
+
+            Tile* currentTile = gameMap_->getTile(x, y);
+            if (currentTile->getActionType() != TILE_BUILDING) {
+                // send drop message
+                break;
+            }
+            
+            BuildingTower* t = (BuildingTower*)currentTile->getExtension();
+            
+            addToTower(t, player);
+
             break;
         }
         default:
