@@ -40,6 +40,7 @@ private:
 
 public:
     Projectile(QObject* parent = 0);
+    ~Projectile();
 
     /**
      * Initializes the Projectile components based on type
