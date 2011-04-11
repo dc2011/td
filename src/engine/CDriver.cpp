@@ -179,6 +179,7 @@ void CDriver::createTower(int towerType, QPointF pos)
         tower->setPos(currentTile->getPos());
         currentTile->setExtension(tower);
 
+        connect(mainWindow_, SIGNAL(signalAltHeld(bool)),tower->getGraphicsComponent(),SLOT(setVisibleRange(bool)));
         connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
         connect(tower->getPhysicsComponent(),
                 SIGNAL(fireProjectile(int, QPointF, QPointF, Unit*)),
