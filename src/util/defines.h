@@ -52,8 +52,11 @@
 #define HARVEST_COUNTDOWN   120
 
 // collectable types
-#define COLLECT_RESOURCE    0
-#define COLLECT_GEM         1
+#define COLLECT_WOOD    0
+#define COLLECT_STONE   1
+#define COLLECT_BONE    2
+#define COLLECT_TAR     3
+#define COLLECT_GEM     4
 
 // NPC types
 #define NPC_NORM    0

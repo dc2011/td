@@ -123,7 +123,7 @@ void Player::dropResource() {
     setDirty(kResource);
 
     collectable_ = new Collectable();
-    collectable_->setType(COLLECT_RESOURCE);
+    collectable_->setType(COLLECT_TAR);
     collectable_->initComponents();
     collectable_->update();
 
