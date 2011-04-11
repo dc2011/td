@@ -185,6 +185,18 @@ public slots:
      * @author Duncan Donaldson
      */
     void onMsgReceive(Stream* s);
+
+    /**
+     * Creates projectile on server and send message to client for creation.
+     * Connected to fire() in TowerPhysicsComponent
+     *
+     * @author Marcel Vangrootheest
+     * @param projType The type of the projectile (Arrow, Cannon, etc).
+     * @param source The starting point of the projectile.
+     * @param target The destination point of the projectile.
+     */
+    void requestProjectile(int projType, QPointF source,
+            QPointF target, Unit* enemy);
 };
 
 } /* end namespace td */

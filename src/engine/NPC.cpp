@@ -23,9 +23,6 @@ NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
 }
 
 NPC::~NPC() {
-    while (!effects_.isEmpty()) {
-        delete effects_.takeFirst();
-    }
     if (wave_ != NULL) {
         wave_->killChild(this);
     }
@@ -69,6 +66,11 @@ void NPC::networkRead(Stream* s) {
 
     if (dirty_ & kHealth) {
         health_ = s->readInt();
+#ifndef SERVER
+        if (graphics_ != NULL) {
+            ((NPCGraphicsComponent*) graphics_)->showDamage();
+        }
+#endif
     }
 }
 
@@ -147,27 +149,37 @@ void NPC::initComponents() {
     }
 #endif
 }
+
+void NPC::createEffect(Effect* effect){
+    if (!effects_.contains(*effect)) {
+        //might want to put the emit empty effects list here
+    } else {
+        emit stopEffect(effect->getType());
+        effects_.removeOne(*effect);
+    }
+    QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
+        this, SLOT(deleteEffect(Effect*)));
+    connect(this, SIGNAL(stopEffect(uint)),
+        effect, SLOT(effectStop(uint)));
+    connect(getDriver()->getTimer(), SIGNAL(timeout()),
+        effect, SLOT(update()));
+        
+    effects_.push_back(*effect);
+}
+
+void NPC::deleteEffect(Effect* effect){
+    effects_.removeOne(*effect);
+    delete effect;
+    if (effects_.empty()) {
+        // TODO: connect to a slot in projectile collisions for sfx
+        //emit signalEmptyEffectList();
+    }
+}
+
 void NPC::isDead() {
     if(health_ <= 0) {
         emit dead(this->getID());
     }
-}
-
-void NPC::createEffect(Effect* effect){
-    QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
-            this, SLOT(deleteEffect(Effect*)));
-    connect(getDriver()->getTimer(), SIGNAL(timeout()),
-            effect, SLOT(update()));
-
-    effects_.push_back(effect);
-}
-
-void NPC::deleteEffect(Effect* effect){
-    effects_.removeOne(effect);
-    if (effects_.empty()) {
-        //emit signalEmptyEffectList();
-    }
-    delete effect;
 }
 
 void NPC::update() {

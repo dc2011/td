@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="22" height="12" tilewidth="48" tileheight="48">
+ <tileset firstgid="1" name="map-tiles3" tilewidth="48" tileheight="48">
+  <image source="../img/map-tiles3.png" trans="ffffff" width="672" height="192"/>
+ </tileset>
+ <tileset firstgid="57" name="towerlayer2" tilewidth="48" tileheight="48">
+  <image source="../img/towerlayer2.png" trans="ffffff" width="96" height="48"/>
+ </tileset>
+ <tileset firstgid="59" name="resourcetiles" tilewidth="48" tileheight="48">
+  <image source="../img/resourcetiles.png" width="192" height="48"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="22" height="12">
+  <data encoding="base64" compression="zlib">
+   eJy1kbsOgCAMRRF1cfE5GCNqXNXo/3+dlwQSYsor6nAWKIf2ljPG+E8UYAcXSF6SG95doe/KQMdmOTe9tl5r0ET2rL0uZwU6j2cGC+G11begB4f6m8pH/j2AKcJ7EBmljzdynjHSezoyMmeS/a4Or4jcj29vX7gE4c0+cpv5U2QBNT5uwcMF5w==
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="22" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh4YDkI7aO3mygBVkSqGwx+wueGgXbfQNuPDwyU2wBMaAID
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="22" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh6wHqgHUAEsCNBrS3NXDEKBjuwGWgHEAAAPz4A8w==
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1" width="22" height="12" visible="0">
+  <object x="310" y="552" width="16" height="16"/>
+  <object x="318" y="488" width="20" height="18"/>
+  <object x="414" y="482" width="18" height="18"/>
+  <object x="576" y="456" width="20" height="18"/>
+  <object x="720" y="396" width="20" height="22"/>
+  <object x="894" y="390" width="26" height="22"/>
+  <object x="948" y="288" width="18" height="16"/>
+  <object x="930" y="146" width="20" height="22"/>
+  <object x="754" y="112" width="26" height="20"/>
+  <object x="554" y="162" width="26" height="24"/>
+  <object x="376" y="104" width="28" height="22"/>
+  <object x="190" y="238" width="18" height="16"/>
+ </objectgroup>
+ <objectgroup name="Object Layer 2" width="22" height="12" visible="0">
+  <object x="308" y="560" width="14" height="16"/>
+  <object x="318" y="494" width="20" height="18"/>
+  <object x="432" y="450" width="22" height="20"/>
+  <object x="580" y="394" width="22" height="18"/>
+  <object x="742" y="362" width="26" height="26"/>
+  <object x="770" y="254" width="18" height="20"/>
+  <object x="710" y="168" width="24" height="20"/>
+  <object x="548" y="128" width="34" height="24"/>
+  <object x="438" y="202" width="24" height="22"/>
+  <object x="320" y="278" width="22" height="26"/>
+  <object x="188" y="242" width="22" height="14"/>
+ </objectgroup>
+ <objectgroup name="Object Layer 3" width="22" height="12" visible="0">
+  <object x="310" y="554" width="16" height="18"/>
+  <object x="274" y="494" width="20" height="18"/>
+  <object x="196" y="440" width="24" height="22"/>
+  <object x="284" y="360" width="20" height="18"/>
+  <object x="420" y="404" width="22" height="26"/>
+  <object x="508" y="304" width="20" height="22"/>
+  <object x="550" y="176" width="26" height="22"/>
+  <object x="438" y="116" width="20" height="18"/>
+  <object x="222" y="126" width="24" height="20"/>
+  <object x="194" y="240" width="16" height="20"/>
+  <object x="84" y="442"/>
+ </objectgroup>
+ <objectgroup name="Object Layer 4" width="22" height="12">
+  <object x="306" y="544" width="18" height="20"/>
+  <object x="364" y="464" width="20" height="22"/>
+  <object x="578" y="436" width="18" height="20"/>
+  <object x="732" y="358" width="22" height="20"/>
+  <object x="756" y="194" width="24" height="26"/>
+  <object x="870" y="120" width="20" height="18"/>
+  <object x="960" y="254" width="20" height="16"/>
+  <object x="874" y="386" width="22" height="18"/>
+  <object x="564" y="386" width="24" height="22"/>
+  <object x="332" y="360" width="20" height="20"/>
+  <object x="192" y="242" width="20" height="18"/>
+ </objectgroup>
+</map>

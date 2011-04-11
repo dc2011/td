@@ -10,6 +10,7 @@ namespace td {
 
 class Tower;
 class NPC;
+class Projectile;
 class Resource;
 
 class Driver : public QObject {
@@ -130,6 +131,21 @@ public:
     NPC* createNPC(int type);
 
     /**
+     * Creates a projectile object.
+     * Connected to fire() in TowerPhysicsComponent
+     *
+     * @author Pan Khantidhara
+     * @author Marcel Vangrootheest
+     * @author Dean Morin
+     * @param projType The type of the projectile (Arrow, Cannon, etc).
+     * @param source The starting point of the projectile.
+     * @param target The destination point of the projectile.
+     * @return A pointer to the created projectile.
+     */
+    Projectile* createProjectile(int projType, QPointF source,
+            QPointF target, Unit* enemy);
+
+    /**
      * Creates a resource "mine" of the given type.
      *
      * @author Dean Morin
@@ -137,6 +153,14 @@ public:
      * @return A pointer to the new resource.
      */
     Resource* createResource(int type);
+
+    /**
+     * Need to find object with res manager. Did I do it right?
+     *
+     * @author Marcel Vangrootheest
+     * @param id The id to find the object with.
+     */
+    GameObject* findObject(unsigned int id);
 
 public slots:
     /**
@@ -160,6 +184,18 @@ public slots:
      * @param id The id of the GameObject to be destroyed.
      */
     virtual void destroyObject(int id);
+
+    /**
+     * Creates projectile on server and send message to client for creation.
+     * Connected to fire() in TowerPhysicsComponent
+     *
+     * @author Marcel Vangrootheest
+     * @param projType The type of the projectile (Arrow, Cannon, etc).
+     * @param source The starting point of the projectile.
+     * @param target The destination point of the projectile.
+     */
+    virtual void requestProjectile(int projType, QPointF source, 
+            QPointF target, Unit* enemy);
 
 };
 
