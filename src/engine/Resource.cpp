@@ -6,23 +6,56 @@
 
 namespace td {
 
+Resource::Resource(QObject* parent) : TileExtension(parent) { }
+
 void Resource::update() {
     if (isDirty()) {
-        //getDriver()->update(this);
+        getDriver()->update(this);
     }
 
-    graphics_->update(this);
-    //physics_->update(this);
+    if (graphics_ != NULL) {
+        graphics_->update(this);
+    }
+}
+
+void Resource::networkRead(Stream* s) {
+    TileExtension::networkRead(s);
+    
+    if (dirty_ & kType) {
+        type_ = s->readInt();
+    }
+    if (dirty_ & kRemaining) {
+        remaining_ = s->readInt();
+    }
+}
+
+void Resource::networkWrite(Stream* s) {
+    TileExtension::networkWrite(s);
+
+    if (dirty_ & kType) {
+        s->writeInt(type_);
+    }
+    if (dirty_ & kRemaining) {
+        s->writeInt(remaining_);
+    }
 }
 
 void Resource::initComponents() {
-    componentsInitialized_ = false;
-}
-
-void Resource::initComponents(int resourceType) {
 #ifndef SERVER
-    GraphicsComponent* graphics = new ResourceGraphicsComponent(resourceType);
-    this->setGraphicsComponent(graphics);
+    switch (type_) {
+        case RESOURCE_WOOD:
+            setGraphicsComponent(new ResourceGraphicsComponent(RESOURCE_WOOD));
+            break;
+        case RESOURCE_STONE:
+            setGraphicsComponent(new ResourceGraphicsComponent(RESOURCE_STONE));
+            break;
+        case RESOURCE_BONE:
+            setGraphicsComponent(new ResourceGraphicsComponent(RESOURCE_BONE));
+            break;
+        case RESOURCE_TAR:
+            setGraphicsComponent(new ResourceGraphicsComponent(RESOURCE_TAR));
+            break;
+    }
 #endif
 }
 

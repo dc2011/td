@@ -62,6 +62,8 @@ void LobbyServer::startGame() {
     Thread* gamethread = new Thread();
     SDriver* sd = new SDriver();
     connect(this, SIGNAL(startingGame()), sd, SLOT(startGame()));
+    connect(sd, SIGNAL(disconnecting()), gamethread, SLOT(quit()));
+    connect(sd, SIGNAL(disconnecting()), this, SLOT(gameEnd()));
 
     mutex_.lock();
     foreach (QTcpSocket* conn, clients_.keys()) {
@@ -186,6 +188,13 @@ void LobbyServer::disconnected()
 
     notifyClients(network::kLobbyWelcome);
     qDebug() << "Number of clients connected = " << connCount_;
+}
+
+void LobbyServer::gameEnd() {
+    SDriver* sd = (SDriver*)QObject::sender();
+
+    qDebug("Game Server shutting down");
+    delete sd;
 }
 
 } /* end namespace td */

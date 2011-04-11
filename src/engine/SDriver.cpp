@@ -13,12 +13,15 @@ namespace td {
 
 SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
-    gameMap_ = new Map(QString("./maps/netbookmap2.tmx"));
+    gameMap_ = new Map(QString("./maps/netbookmap2.tmx"), this);
     net_ = new NetworkServer();
     npcCounter_ = 0;
 
     connect(net_, SIGNAL(msgReceived(Stream*)), 
             this, SLOT(onMsgReceive(Stream*)));
+
+    connect(net_, SIGNAL(disconnected()),
+            this, SIGNAL(disconnecting()));
 }
 SDriver::~SDriver() {
     delete net_;

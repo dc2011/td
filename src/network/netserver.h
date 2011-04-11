@@ -85,6 +85,11 @@ signals:
      */
     void msgReceived(Stream* s);
 
+    /**
+     * Signal emitted when there are no more connections to the server.
+     */
+    void disconnected();
+
 private slots:
     /**
      * Called when a message is queued to be sent, sends the message using 
@@ -112,6 +117,13 @@ private slots:
      * @author Darryl Pogue
      */
     void onUDPReceive();
+
+    /**
+     * Called when a connected client disconnects.
+     *
+     * @author Kelvin Lui
+     */
+    void onClientDisconnect();
 
 public:
     /**

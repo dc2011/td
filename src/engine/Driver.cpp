@@ -82,7 +82,16 @@ Projectile* Driver::createProjectile(int projType, QPointF source,
     return projectile;
 }
 
-/*Resource* Driver::createResource(int type) {
-}*/
+Resource* Driver::createResource(int type) {
+    Resource* resource = (Resource*)mgr_->createObject(Resource::clsIdx());
+
+    resource->setType(type);
+    resource->initComponents();
+
+    // probably won't need regular updates for resources
+    //connect(gameTimer_, SIGNAL(timeout()), resource, SLOT(update()));
+
+    return resource;
+}
 
 } /* end namespace td */

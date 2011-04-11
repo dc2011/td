@@ -120,7 +120,13 @@ public:
     Projectile* createProjectile(int projType, QPointF source,
             QPointF target, Unit* enemy);
 
-    //Resource* createResource(int type);
+     * Creates a resource "mine" of the given type.
+     *
+     * @author Dean Morin
+     * @author Darryl Pogue
+     * @return A pointer to the new resource.
+     */
+    Resource* createResource(int type);
 
     /**
      * Need to find object with res manager. Did I do it right?
