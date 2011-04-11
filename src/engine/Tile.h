@@ -53,7 +53,7 @@ public:
     static unsigned char clsIdx() { return clsidx::kTile; }
 
     Tile();
-    Tile(int row, int column, BlockingType type);
+    Tile(int row, int column, BlockingType type, TileEffect tileEffect);
     virtual ~Tile() { }
 
     // The following two methods are going to be problematic in their current
@@ -73,7 +73,7 @@ public:
      *
      * @author Luke Queenan
      */
-    Effect* getTileEffect()
+    TileEffect getTileEffect()
     {
         return tileEffect_;
     }
@@ -192,7 +192,7 @@ private:
     QSet<Unit*> currentUnits_;
     QPolygonF myBounds_;
     int actionType_;
-    Effect *tileEffect_;
+    TileEffect tileEffect_;
     Tiled::Tile * tTile_;
 
     /** 

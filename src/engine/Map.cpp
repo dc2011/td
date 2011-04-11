@@ -50,7 +50,7 @@ void Map::initMap() {
             Tile::TileAttributes attrs = Tile::getAttributes(tile->id());
 
             //save into array
-            tiles_[row][col] = new Tile(row, col, attrs.type);
+            tiles_[row][col] = new Tile(row, col, attrs.type, attrs.effect);
 
             // Check for buildable tiles.
             if (towerLayer->contains(col, row)
