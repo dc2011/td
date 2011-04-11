@@ -95,9 +95,6 @@ void TarProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
 
 void FlakProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
 
-    if(((NPC*)parent_->getEnemy())->getType() == NULL){
-        return;
-    }
     if(((NPC*)parent_->getEnemy())->getType() == NPC_FLY){
         ((NPC*)parent_->getEnemy())->createEffect(new ArrowEffect(parent_->getEnemy()));
     }
