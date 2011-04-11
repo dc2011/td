@@ -58,7 +58,14 @@ public:
     void setHealthChangeValue(int healthChange);
     int getHealthChangeValue();
 
-private:
+    /*inline getter*/
+    Unit* getUnit() {
+        return unit_;
+    }
+    /*inline setter*/
+    void setOldVelocity(float oldVelocity) {
+        oldVelocity_ = oldVelocity;
+    }
     void countdown();
 
 public slots:
@@ -73,6 +80,7 @@ protected:
     size_t duration_;
     int healthChangeValue_;
     float velocityChangeValue_;
+    float oldVelocity_;
     bool timerEnabled_;
 };
 

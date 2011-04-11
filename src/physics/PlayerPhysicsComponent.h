@@ -96,6 +96,9 @@ public:
     virtual void setMaxVelocity(float maxVelocity) {
         maxVelocity_ = maxVelocity;
     }
+    virtual float getMaxVelocity() {
+        return maxVelocity_;
+    }
     
 signals:
     
