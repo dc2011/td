@@ -25,6 +25,8 @@ Projectile::Projectile(QObject* parent) : Unit(parent) {
 void Projectile::initComponents() {
     switch(type_) {
         case PROJ_ARROW:
+            this->setHeight(10);
+            this->setWidth(48);
             setInputComponent(new ArrowProjectileInputComponent());
             setPhysicsComponent(new ArrowProjectilePhysicsComponent());
 #ifndef SERVER
@@ -33,6 +35,8 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_CANNON:
+            this->setHeight(100);
+            this->setWidth(100);
             setInputComponent(new CannonProjectileInputComponent());
             setPhysicsComponent(new CannonProjectilePhysicsComponent());
 #ifndef SERVER
@@ -41,6 +45,7 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_FIRE:
+
             setInputComponent(new FireProjectileInputComponent());
             setPhysicsComponent(new FireProjectilePhysicsComponent());
 #ifndef SERVER
@@ -49,6 +54,8 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_TAR:
+            this->setHeight(35);
+            this->setWidth(35);
             setInputComponent(new TarProjectileInputComponent());
             setPhysicsComponent(new TarProjectilePhysicsComponent());
 #ifndef SERVER
@@ -57,6 +64,8 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_FLAK:
+            this->setHeight(36);
+            this->setWidth(15);
             setInputComponent(new FlakProjectileInputComponent());
             setPhysicsComponent(new FlakProjectilePhysicsComponent());
 #ifndef SERVER
@@ -126,45 +135,6 @@ void Projectile::update() {
     input_->update();
     physics_->update(this);
     graphics_->update(this);
-}
-
-void Projectile::checkNPCCollision(QSet<Unit*> npcs){
-    QSet<Unit*>::iterator it;
-    QPolygonF projBounds;
-    QPolygonF npcBounds;
-
-//Note: for arrow/flak/other autohit projectiles
-// Just need to add effect to this->getEnemy()
-
-    for (it = npcs.begin(); it != npcs.end(); ++it) {
-        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
-            // Check to see if this projectile can damage this unit
-            if ((this->type_ == PROJ_FLAK) && (((NPC*)*it)->getType() != NPC_FLY))
-            {
-                continue;
-            }
-            if ((((NPC*)*it)->getType() == NPC_FLY)
-                && ((this->type_ == PROJ_CANNON) || (this->type_ == PROJ_FIRE)
-                    || (this->type_ == PROJ_TAR)))
-            {
-                continue;
-            }
-
-            projBounds = this->getBounds();
-            npcBounds = (*it)->getBounds();
-            if(this->getBounds().intersected((*it)->getBounds()).count() != 0){
-                //create projectile effect
-                //add effect to npc
-                //qDebug("Enemy hit");
-                ((NPC*)(*it))->createEffect(new ArrowEffect(*it));
-                break;
-            }else{
-                //qDebug("No hit");
-            }
-
-        }
-    }
-
 }
 
 void Projectile::createBounds(){
