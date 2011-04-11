@@ -28,9 +28,9 @@ void CannonProjectilePhysicsComponent::setScale(Projectile *projectile) {
         increment_ = 0;
     }
     if (increment_++ < (duration_ / 2)) {
-        projectile->setScale(projectile->getScale() + 0.025);
+        projectile->setScale(projectile->getScale() + 0.075);
     } else if (increment_ < duration_) {
-        projectile->setScale(projectile->getScale() - 0.025);
+        projectile->setScale(projectile->getScale() - 0.075);
     }
 }
 

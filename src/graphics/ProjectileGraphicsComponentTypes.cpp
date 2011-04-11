@@ -42,6 +42,9 @@ void CannonProjectileGraphicsComponent::initPixmaps() {
 
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_PROJ_CANNON;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_CANNON_EXP_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_CANNON_EXP_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_CANNON_EXP_2;
     pixmapIndex_ = 0;
 }
 
@@ -60,6 +63,8 @@ void TarProjectileGraphicsComponent::initPixmaps() {
 
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_PROJ_TAR;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_TAR_SPLAT_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_TAR_SPLAT_1;
     pixmapIndex_ = 0;
 }
 
@@ -77,7 +82,10 @@ void FireProjectileGraphicsComponent::initPixmaps() {
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_3;
     pixmapIndex_ = 0;
 }
 
