@@ -9,7 +9,7 @@ NetworkServer::NetworkServer()
 {
     netthread_ = new Thread();
     udpSocket_ = new QUdpSocket();
-    multicastAddr_ = nextMulticast++;
+    multicastAddr_ = 0;
 
     connect(this, SIGNAL(msgQueued()), this, SLOT(onMsgQueued()),
             Qt::QueuedConnection);
@@ -48,8 +48,12 @@ void NetworkServer::onMsgQueued()
 
     bool isUDP = ((unsigned char)tmp.at(0) >= td::network::kBLOCK_UDP);
 
-    if (isUDP) {
+    if (isUDP && multicastAddr_) {
         udpSocket_->writeDatagram(tmp, TD_GROUP(multicastAddr_), TD_PORT);
+    } else if (isUDP) {
+        foreach (QTcpSocket* sock, tcpSockets_) {
+            udpSocket_->writeDatagram(tmp, sock->peerAddress(), TD_PORT);
+        }
     } else {
         foreach (QTcpSocket* sock, tcpSockets_) {
             sock->write(tmp);
