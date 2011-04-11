@@ -328,9 +328,10 @@ void CDriver::UDPReceived(Stream* s) {
         }
         case network::kDestroyObject:
         {  
-	        int id = s->readInt();
-	        destroyObject(id);
-	        break;
+            int id = s->readInt();
+            qDebug("Destroying object with id %08X", id);
+            destroyObject(id);
+            break;
         }
         case network::kBaseHealth:
         {
