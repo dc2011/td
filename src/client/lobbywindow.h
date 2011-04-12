@@ -20,6 +20,8 @@ public:
     explicit LobbyWindow(QWidget *parent = 0);
     ~LobbyWindow();
 
+    void applyStyleSheet(QString path);
+
 signals:
     void startGame(bool singlePlayer);
 
