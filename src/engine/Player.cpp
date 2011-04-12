@@ -2,6 +2,7 @@
 #include "Driver.h"
 #include "../graphics/PlayerGraphicsComponent.h"
 #include "../audio/SfxManager.h"
+#include "../graphics/Console.h"
 
 namespace td {
 
@@ -63,6 +64,7 @@ void Player::update() {
 
 void Player::createEffect(Effect* effect){
     if (!effects_.contains(*effect)) {
+        emit signalEmptyEffectList();
         QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
             this, SLOT(deleteEffect(Effect*)));
         connect(getDriver()->getTimer(), SIGNAL(timeout()),
@@ -76,9 +78,7 @@ void Player::createEffect(Effect* effect){
 
 void Player::deleteEffect(Effect* effect){
     effects_.removeOne(*effect);
-    if (effects_.empty()) {
-        emit signalEmptyEffectList();
-    }
+    delete effect;
 }
 
 void Player::startHarvesting(int type) {
@@ -117,14 +117,24 @@ void Player::stopHarvesting() {
     emit signalPlayerMovement(true);
 }
 
-void Player::dropResource() {
+void Player::dropResource(bool addToTower) {
 
     if (resource_ == RESOURCE_NONE) {
         return;
     }
     setDirty(kResource);
+    if (addToTower) {
+        qDebug("Player::dropResource(); added resource to BuildingTower");
+#ifndef SERVER
+	    Console::instance()->addText("Added Resource");
+#endif
+    } else {
     // TODO: create resource object on current tile
-    qDebug("Player::dropResource(); dropped resource");
+        qDebug("Player::dropResource(); dropped resource");
+#ifndef SERVER
+	    Console::instance()->addText("Dropped Resource");
+#endif
+    }
     resource_ = RESOURCE_NONE;
     if (getGraphicsComponent()) {
         getGraphicsComponent()->setCurrentResource(0);
@@ -144,7 +154,12 @@ void Player::harvestResource() {
         }
         setDirty(kResource);
         stopHarvesting();
-        return;
+
+#ifndef SERVER
+	Console::instance()->addText("Picked up a Resource");
+#endif
+
+	return;
     }
     // TODO: update harvesting progress bar
 }

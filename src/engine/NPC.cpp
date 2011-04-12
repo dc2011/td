@@ -9,7 +9,7 @@
 
 namespace td {
 
-NPC::NPC(QObject* parent) : Unit(parent), wave_(NULL) {
+NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
     QVector2D force(0, 0);
     this->setForce(force);
     this->setVelocity(force);
@@ -149,29 +149,36 @@ void NPC::initComponents() {
     }
 #endif
 }
-void NPC::isDead() {
-    if(health_ <= 0) {
-        emit dead(this->getID());
-    }
-}
 
 void NPC::createEffect(Effect* effect){
     if (!effects_.contains(*effect)) {
-        QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
-            this, SLOT(deleteEffect(Effect*)));
-        connect(getDriver()->getTimer(), SIGNAL(timeout()),
-            effect, SLOT(update()));
-        
-        effects_.push_back(*effect);
+        //might want to put the emit empty effects list here
     } else {
-        delete effect;
+        emit stopEffect(effect->getType());
+        effects_.removeOne(*effect);
     }
+    QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
+        this, SLOT(deleteEffect(Effect*)));
+    connect(this, SIGNAL(stopEffect(uint)),
+        effect, SLOT(effectStop(uint)));
+    connect(getDriver()->getTimer(), SIGNAL(timeout()),
+        effect, SLOT(update()));
+        
+    effects_.push_back(*effect);
 }
 
 void NPC::deleteEffect(Effect* effect){
     effects_.removeOne(*effect);
+    delete effect;
     if (effects_.empty()) {
+        // TODO: connect to a slot in projectile collisions for sfx
         //emit signalEmptyEffectList();
+    }
+}
+
+void NPC::isDead() {
+    if(health_ <= 0) {
+        emit dead(this->getID());
     }
 }
 

@@ -130,6 +130,14 @@ public:
      */
     virtual void sendNetMessage(unsigned char msgType, QByteArray msg);
 
+    /**
+     * Sets the health of the player's base.
+     *
+     * @author Darryl Pogue
+     * @param health The new base health.
+     */
+    virtual void setBaseHealth(int health);
+
 public:
     /**
      * Sets a player as the local human player object.
@@ -209,7 +217,7 @@ signals:
      *
      * @author Dean Morin
      */
-    void signalEmptyTile();
+    void signalEmptyTile(bool);
     
 public slots:
     /**
@@ -228,6 +236,16 @@ public slots:
      */
     void handleSpacebarPress();
 
+    /**
+     * Requests or creates a Building Tower
+     * of specified type at specified position.
+     * Connected to TowerSelected in ContextMenu.
+     *
+     * @param type  The Tower type to be built.
+     * @param pos   The position of the tower placement.
+     */
+    void requestBuildingTower(int type, QPointF pos);
+
 private slots:
     /**
      * Creates a projectile object.
@@ -239,15 +257,6 @@ private slots:
      */
     //void createProjectile(int projType, QPointF source, QPointF target,
     //        Unit* enemy);
-
-    /**
-     * Temp testing method.
-     *
-     * @author Dean Morin
-     */
-    void createTower(int towerType, QPointF pos);
-    void createBuildingTower(int towerType, QPointF pos);
-    void addToTower(BuildingTower* tower);
 
     /**
      * handles a received UDP message.

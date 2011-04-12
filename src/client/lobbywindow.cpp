@@ -1,9 +1,11 @@
 #include "lobbywindow.h"
-#include "../../uic/ui_lobbywindow.h"
-#include "../network/netclient.h"
-#include "../engine/CDriver.h"
+#include <QDateTime>
 #include <QMessageBox>
+#include <QSettings>
 #include "../audio/SfxManager.h"
+#include "../engine/CDriver.h"
+#include "../network/netclient.h"
+#include "../../uic/ui_lobbywindow.h"
 
 namespace td {
 
@@ -24,6 +26,16 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
             ui->btnStart, SLOT(setEnabled(bool)));
     connect(this, SIGNAL(startGame(bool)),
             this, SLOT(close()));
+
+    // so I don't have to enter the ip address, like, every freaking time
+    connect(ui->txtAddress, SIGNAL(editingFinished()),
+            this, SLOT(writeSettings()));
+    connect(ui->txtUsername, SIGNAL(editingFinished()),
+            this, SLOT(writeSettings()));
+
+    QCoreApplication::setOrganizationName("dc2011");
+    QCoreApplication::setApplicationName("td");
+    readSettings();
 }
 
 LobbyWindow::~LobbyWindow()
@@ -47,6 +59,10 @@ void LobbyWindow::connectLobby()
 
     Stream* s = new Stream();
     s->writeShort(TD_VERSION);
+    
+    if (ui->txtUsername->text() == "username") {
+        assignName();
+    }
     s->writeByte(ui->txtUsername->text().length());
     s->write(ui->txtUsername->text().toAscii());
 
@@ -101,6 +117,29 @@ void LobbyWindow::onTCPReceived(Stream* s)
             break;
         }
     }
+}
+
+void LobbyWindow::writeSettings() {
+    QSettings settings;
+
+    settings.setValue("address", ui->txtAddress->text());
+    settings.setValue("username", ui->txtUsername->text());
+}
+
+void LobbyWindow::readSettings() {
+    QSettings settings;
+
+    ui->txtAddress->setText(settings.value("address", "127.0.0.1").toString());
+    ui->txtUsername->setText(settings.value("username", "username").toString());
+}
+
+void LobbyWindow::assignName() {
+    QString names[] = { "Dorthy", "Rose", "Blanche", "Sophia" };
+    uint seed = QDateTime::currentDateTime().toTime_t();
+    qsrand(seed);
+    int rand = qrand() % 4;
+
+    ui->txtUsername->setText(names[rand]);
 }
 
 } /* end namespace td */

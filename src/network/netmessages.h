@@ -68,6 +68,20 @@ namespace network {
         /** Indicates creation of a projectile. */
         kProjectile     =   0x09,
 
+        /**
+         * Makes a tower choice to start a building stage.
+         *
+         */
+        kTowerChoice    =   0x0A,
+
+        /**
+         * Drops a resource from player. Used to check if adding to a Tower.
+         *
+         */
+        kDropResource   =   0x0B,
+
+        kBaseHealth     =   0x0C,
+
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
         /** Used as a separator to indicate UDP messages. */

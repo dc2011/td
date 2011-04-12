@@ -28,7 +28,29 @@ public slots:
     void tmp_startGame();
     void onTCPReceived(Stream* s);
 
+private slots:
+    /**
+     * Records the last used settings in a persistent file.
+     *
+     * @author Dean Morin
+     */
+    void writeSettings();
+
 private:
+    /**
+     * Reads the last used settings from a persistent file.
+     *
+     * @author Dean Morin
+     */
+    void readSettings();
+
+    /**
+     * Assigns a username if the default is not changed.
+     *
+     * @author Dean Morin
+     */
+    void assignName();
+
     Ui::LobbyWindow *ui;
 };
 

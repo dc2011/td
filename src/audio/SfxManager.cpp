@@ -1,5 +1,7 @@
 #include "SfxManager.h"
 #include "../engine/GameObject.h"
+#include "../engine/Driver.h"
+#include "../network/netmessages.h"
 
 namespace td {
 
@@ -71,7 +73,12 @@ QStringList SfxManager::playerSelectsMenuItem
 QStringList SfxManager::playerLevelsUp
         = QStringList() << "";
 QStringList SfxManager::playerHitsNpc
-        = QStringList() << "peffect-1" << "peffect-2";
+        = QStringList() << "peffect-1" << "peffect-2" << "peffect-3"
+        << "peffect-4" << "peffect-5" << "peffect-6";
+
+//Game Sfx
+QStringList SfxManager::npcInBase
+        = QStringList() << "base-1" << "base-2";
 
 //lobby SFX
 QStringList SfxManager::lobbyStart 
@@ -84,12 +91,9 @@ QStringList SfxManager::lobbyConnect
         = QStringList() << "connecting";
 
 void SfxManager::makeSfxNetworkMsg(GameObject* gameObject, QStringList sfxList,  
-        int type) {
+        int type)
+{
     int rdNum;
-
-    // TODO: remove next 2 lines once audio network messages are working
-    AudioManager::instance()->playSfx(sfxList);
-    return;
 
     if(sfxList.size() < 1) {
 	    qCritical("SfxManager::makeSfxNetworkMsg(): Empty List");
@@ -103,8 +107,7 @@ void SfxManager::makeSfxNetworkMsg(GameObject* gameObject, QStringList sfxList,
     s.writeInt(type);
     s.writeInt(filename.size());
     s.write(filename.toAscii());
-    // TODO: uncomment once Darryls massive branch has been merged
-    //gameObject->getDriver()->getNet()->send(network::kPlaySfx, s.data());
+    gameObject->getDriver()->sendNetMessage(network::kPlaySfx, s.data());
 }
 
 } // end namespace td

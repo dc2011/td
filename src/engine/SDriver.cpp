@@ -8,17 +8,21 @@
 #include "Tower.h"
 #include "NPCWave.h"
 #include "Projectile.h"
+#include "BuildingTower.h"
 
 namespace td {
 
 SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
-    gameMap_ = new Map(QString("./maps/netbookmap2.tmx"));
+    gameMap_ = new Map(QString("./maps/netbookmap2.tmx"), this);
     net_ = new NetworkServer();
     npcCounter_ = 0;
 
     connect(net_, SIGNAL(msgReceived(Stream*)), 
             this, SLOT(onMsgReceive(Stream*)));
+
+    connect(net_, SIGNAL(disconnected()),
+            this, SIGNAL(disconnecting()));
 }
 SDriver::~SDriver() {
     delete net_;
@@ -62,6 +66,14 @@ void SDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
     net_->send(msgType, msg);
 }
 
+void SDriver::setBaseHealth(int health) {
+    Driver::setBaseHealth(health);
+
+    Stream s;
+    s.writeInt(health);
+    net_->send(network::kBaseHealth, s.data());
+}
+
 void SDriver::startGame() {
     Stream s;
     s.writeByte(players_.size());
@@ -95,6 +107,8 @@ GameObject* SDriver::updateObject(Stream* s) {
     GameObject* go = mgr_->findObject(id);
     if (go == NULL) {
         go = mgr_->createObjectWithID(id);
+    } else if (go == (GameObject*)-1) {
+        go = NULL;
     }
 
     if (go != NULL) {
@@ -131,6 +145,10 @@ void SDriver::onTimerTick() {
 }
 
 void SDriver::destroyObject(GameObject* obj) {
+    if (obj == (GameObject*)-1 || obj == NULL) {
+        return;
+    }
+
     int id = obj->getID();
     updates_.remove(obj);
 
@@ -144,6 +162,10 @@ void SDriver::destroyObject(GameObject* obj) {
 
 void SDriver::destroyObject(int id) {
     GameObject* go = mgr_->findObject(id);
+    if (go == (GameObject*)-1 || go == NULL) {
+        return;
+    }
+
     updates_.remove(go);
 
     Driver::destroyObject(id);
@@ -204,28 +226,56 @@ void SDriver::onMsgReceive(Stream* s) {
     Stream* out = new Stream();
 
     switch(message) {
-        case network::kBuildTower:
+        case network::kTowerChoice:
         {
-            int playerID = s->readInt();
             int towertype = s->readInt();
             float x = s->readFloat();
             float y = s->readFloat();
-
-            Player* player = (Player*)mgr_->findObject(playerID);
-            if (player->getPos().x() != x || player->getPos().y() != y) {
-                break;
-            }
 
             Tile* currentTile = gameMap_->getTile(x, y);
             if (currentTile->getActionType() != TILE_BUILDABLE) {
                 break;
             }
 
-            Tower* t = Driver::createTower(towertype);
-            t->setPos(currentTile->getPos());
-            currentTile->setExtension(t);
+            BuildingTower* t = Driver::createBuildingTower(towertype,
+                    QPointF(x,y));
 
             updates_.insert(t);
+            break;
+        }
+        case network::kDropResource:
+        {
+            int playerID = s->readInt();
+            float x = s->readFloat();
+            float y = s->readFloat();
+
+            Player* player = (Player*)mgr_->findObject(playerID);
+
+            Tile* currentTile = gameMap_->getTile(x, y);
+            if (currentTile->getActionType() != TILE_BUILDING) {
+                out->writeInt(player->getID());
+                out->writeInt(false);
+	            net_->send(network::kDropResource, out->data());
+                break;
+            }
+            
+            BuildingTower* t = (BuildingTower*)currentTile->getExtension();
+            
+            if (addToTower(t, player)) {
+                if (t->isDone()) {
+                    Tower* tower = Driver::createTower(t->getType(),
+                            t->getPos());
+                    updates_.insert(tower);
+                    destroyObject(t);
+                }
+                out->writeInt(player->getID());
+                out->writeInt(true);
+            } else {
+                out->writeInt(player->getID());
+                out->writeInt(false);
+            }
+            net_->send(network::kDropResource, out->data());
+
             break;
         }
         default:

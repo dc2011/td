@@ -27,12 +27,20 @@
 #define PIX_PLAYER_MAX          7
 #define PIX_PROJ_ARROW          QString("./img/arrowProjectile.png")
 #define PIX_PROJ_ARROW_MAX      1
-#define PIX_PROJ_TAR            QString("./img/tarCannonProjectile.png")
-#define PIX_PROJ_TAR_MAX        1
-#define PIX_PROJ_CANNON         QString("./img/tarCannonProjectile.png")
-#define PIX_PROJ_CANNON_MAX     1
-#define PIX_PROJ_FIRE           QString("./img/flameProjectile.png")
-#define PIX_PROJ_FIRE_MAX       1
+#define PIX_PROJ_TAR            QString("./img/tarProjectile.png")
+#define PIX_PROJ_TAR_SPLAT_0    QString("./img/tarSplatter.png")
+#define PIX_PROJ_TAR_SPLAT_1    QString("./img/tarSplatter2.png")
+#define PIX_PROJ_TAR_MAX        4
+#define PIX_PROJ_CANNON         QString("./img/cannonProjectile.png")
+#define PIX_PROJ_CANNON_EXP_0   QString("./img/finalExp.png")
+#define PIX_PROJ_CANNON_EXP_1   QString("./img/medExp.png")
+#define PIX_PROJ_CANNON_EXP_2   QString("./img/smallExp.png")
+#define PIX_PROJ_CANNON_MAX     4
+#define PIX_PROJ_FIRE_0         QString("./img/flameProjectile1.png")
+#define PIX_PROJ_FIRE_1         QString("./img/flameProjectile2.png")
+#define PIX_PROJ_FIRE_2         QString("./img/medFlame.png")
+#define PIX_PROJ_FIRE_3         QString("./img/smallFlame.png")
+#define PIX_PROJ_FIRE_MAX       4
 #define PIX_PROJ_FLAK           QString("./img/flakProjectile.png")
 #define PIX_PROJ_FLAK_MAX       1
 //placehoders for more tower compleation graphics
@@ -46,6 +54,7 @@
 #define PIX_TOWER_FLAME         QString("./img/towerFlame.png")
 #define PIX_TOWER_FLAK          QString("./img/towerFlak.png")
 #define PIX_TOWER_MAX           5
+
 #define PIX_ICON_WOOD           QString("./img/woodIcon.png")
 #define PIX_ICON_STONE          QString("./img/stoneIcon.png")
 #define PIX_ICON_BONE           QString("./img/boneIcon.png") //no file as of yet
@@ -55,7 +64,8 @@
 #define PIX_RESOURCE_STONE      QString("./img/Stone.png")
 #define PIX_RESOURCE_BONE       QString("./img/Rock.png")
 #define PIX_RESOURCE_TAR        QString("./img/Tar.png")
-#define PIX_RESOURCE_MAX        6
+
+#define PIX_RESOURCE_MAX        4
 #define PIX_NPC_PTERO_START     0
 #define PIX_NPC_PTERO_0         QString("./img/ptero-1.png")
 #define PIX_NPC_PTERO_1         QString("./img/ptero-2.png")
@@ -66,5 +76,9 @@
 #define PIX_NPC_PLEA_0          QString("./img/plea-1.png")
 #define PIX_NPC_PLEA_1          QString("./img/plea-2.png")
 #define PIX_NPC_PLEA_MAX        2
+#define PIX_NPC_MAMMOTH_START   0
+#define PIX_NPC_MAMMOTH_0       QString("./img/mammoth1.png");
+#define PIX_NPC_MAMMOTH_1       QString("./img/mammoth2.png");
+#define PIX_NPC_MAMMOTH_MAX     2
 #endif
 

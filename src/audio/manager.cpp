@@ -7,9 +7,9 @@ AudioManager* AudioManager::instance_ = NULL;
 QMutex AudioManager::mutex_;
 bool AudioManager::capturePause_ = true;
 bool AudioManager::captureStop_ = false;
+QMap<QString,QByteArray> AudioManager::sfxCache_;
 float AudioManager::gainScale[] = {0.1, 0.2, 0.3, 0.4, 0.5, 0.55, 0.6, 0.65,
-                                   0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0
-                                  };
+                                   0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
 
 AudioManager::AudioManager()
 {
@@ -62,11 +62,9 @@ void AudioManager::playSfx(QStringList files, SoundType type) {
 void AudioManager::playSfx(QString filename, SoundType type)
 {
     int gain;
-    int playing;
-    playing = playing_;
 
     if (type == sfx) {
-        gain = sfxGain_ - (playing_ / 1);
+        gain = sfxGain_ - (playing_ / 2);
 
         if (gain < 0) {
             gain = 0;
@@ -78,11 +76,21 @@ void AudioManager::playSfx(QString filename, SoundType type)
     }
     
     filename = SFXPATH + filename + SFXFILEEXTENSION;
+    
+    if(sfxCache_.contains(filename)) {
+	//TODO make function to play cached buffers
+	QFuture<void> future =
+	    QtConcurrent::run(this, &AudioManager::playCached,
+			      filename, gainScale[gain]);
+    } else {
+ 
+	QFuture<void> future =
+	    QtConcurrent::run(this, &AudioManager::streamFile,
+			      filename, gainScale[gain], true);
+    }
 
-    QFuture<void> future =
-        QtConcurrent::run(this, &AudioManager::streamFile,
-                          filename, gainScale[gain]);
     return;
+
 }
 
 
@@ -178,8 +186,6 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
 {
     QString filename;
     int gain;
-    int playing;
-    playing = playing_;
     gain = musicGain_ - (playing_ / 8);
 
     if (gain < 0) {
@@ -201,9 +207,42 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
 
 }
 
+void AudioManager::playCached(QString filename, float gain)
+{
+    
+    ALuint buffer;
+    ALuint source;
+    ALenum format;
+    ALuint freq;
+    QByteArray tmp;
+    ALint playing;
 
+    alGenBuffers(1,&buffer);
+    alGenSources(1,&source);
+    alSourcef(source, AL_GAIN, gain);
+    SAFE_OPERATION(playing_++);
+    mutex_.lock();
+    tmp = sfxCache_[filename];
+    mutex_.unlock();
+    
+    getSpecs(tmp.at(0),&format,&freq);
+    alBufferData(buffer, format, tmp.mid(1).constData(), tmp.size()-1, freq);
+    alSourceQueueBuffers(source, 1, &buffer);
 
-void AudioManager::streamFile(QString filename, float gain)
+    alSourcePlay(source);
+
+    do {
+	alGetSourcei(source, AL_SOURCE_STATE, &playing);
+	alSleep(0.1f);
+    } while(playing != AL_STOPPED && !checkError());
+
+    
+    alDeleteSources(1, &source);
+    alDeleteBuffers(1, &buffer);
+    SAFE_OPERATION(playing_--);
+}
+
+void AudioManager::streamFile(QString filename, float gain, bool cacheThis)
 {
     FILE* file;
     char array[BUFFERSIZE];
@@ -220,12 +259,14 @@ void AudioManager::streamFile(QString filename, float gain)
     ALenum format;
     ALsizei freq = 44100;
     OggVorbis_File oggFile;
+    char bitmask;
 
     /* Created the source and Buffers */
     alGenBuffers(QUEUESIZE, buffer);
     alGenSources(1, &source);
     /*set the Gain for Music or Sfx*/
     alSourcef(source, AL_GAIN, gain);
+    SAFE_OPERATION(playing_++);
 
     if ((file = fopen(filename.toAscii().constData(), "rb")) == NULL) {
         qCritical() << "AudioManager::streamFile(): Cannot open " 
@@ -259,7 +300,12 @@ void AudioManager::streamFile(QString filename, float gain)
                 }
             }
 
-            alBufferData(buffer[queue], format, array, size, freq);
+	    if(cacheThis) {
+		bitmask = getBitmask(format,freq);
+		cacheBuffer(filename,array,size,bitmask);
+	    }
+
+	    alBufferData(buffer[queue], format, array, size, freq);
             alSourceQueueBuffers(source, 1, &buffer[queue]);
             queue = (++queue == QUEUESIZE ? 0 : queue);
             buffersAvailable--;
@@ -283,6 +329,7 @@ void AudioManager::streamFile(QString filename, float gain)
     ov_clear(&oggFile);
     
     cleanUp(&source, buffer);
+    SAFE_OPERATION(playing_--);
 }
 
 void AudioManager::cleanUp(ALuint *source, ALuint *buffer)
@@ -353,6 +400,60 @@ void AudioManager::openOgg(FILE *file, OggVorbis_File *oggFile,
     }
 
     *freq = vorbisInfo->rate;
+}
+
+void AudioManager::getSpecs(char bitmask, ALenum *format, ALuint *freq) {
+
+    if(bitmask & 0x10) {
+	*freq = 22050;
+    } else if (bitmask & 0x20) {
+	*freq = 44100;
+    } else if (bitmask & 0x40) {
+	*freq = 48000;
+    }
+    
+    bitmask &= 0xF;
+
+    if (bitmask == 0x5) {
+	*format = AL_FORMAT_MONO8;
+    } else if (bitmask == 0x6) {
+	*format = AL_FORMAT_MONO16;
+    } else if (bitmask == 0x9) {
+	*format = AL_FORMAT_STEREO8;
+    } else if (bitmask == 0xA) {
+	*format = AL_FORMAT_STEREO16;
+    }
+
+}
+
+char AudioManager::getBitmask(ALenum format, ALuint freq) {
+    
+    char bitmask = 0;
+    
+    switch(freq)
+    {
+    case 22050:
+	bitmask |= 0x10;
+	break;
+    case 44100:
+	bitmask |= 0x20;
+	break;
+    case 48000:
+	bitmask |= 0x40;
+	break;
+    }
+
+    if(format == AL_FORMAT_MONO8) {
+	bitmask |= 0x5;
+    } else if(format == AL_FORMAT_MONO16) {
+	bitmask |= 0x6;
+    } else if(format == AL_FORMAT_STEREO8) {
+	bitmask |= 0x9;
+    } else if(format == AL_FORMAT_STEREO16) {
+	bitmask |= 0xA;
+    }
+
+    return bitmask;
 }
 
 } /* End namespace td */

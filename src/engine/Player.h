@@ -120,8 +120,10 @@ private:
 public slots:
     /**
      * Add effect to the effect list.
+     * Replaces effect if type already exists in list.
      *
      * @author Pan K.
+     * @author Marcel Vangrootheest
      * @param type Type of effect.
      */
     void createEffect(Effect* effect);
@@ -130,6 +132,7 @@ public slots:
      * Remove effect from the effect list.
      *
      * @author Pan K.
+     * @author Marcel Vangrootheest
      * @param effect Effect to delete.
      */
     void deleteEffect(Effect* effect);
@@ -167,7 +170,7 @@ public slots:
      *
      * @author Dean Morin
      */
-    void dropResource();
+    void dropResource(bool addToTower);
 
 private:
     QList<Effect> effects_;

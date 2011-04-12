@@ -5,15 +5,18 @@
 namespace td {
 
 NPCWave::NPCWave(QObject* parent) : QObject(parent), start_(10),
-        count_(5), type_(NPC_NORM), created_(0) {
+        count_(5), type_(NPC_NORM), created_(0), pathNum_(0), gemCount_(0) {
 }
 
 NPCWave::NPCWave(QObject* parent, unsigned int start, unsigned int count,
-        unsigned int type) : QObject(parent), start_(start), 
-        count_(count), type_(type), created_(0) {
+        unsigned int type, unsigned int path, unsigned int gems) : QObject(parent),
+    start_(start), count_(count), type_(type), created_(0), pathNum_(path),
+    gemCount_(gems) {
 }
 
-NPCWave::~NPCWave() { }
+NPCWave::~NPCWave() {
+    children_.clear();
+}
 
 void NPCWave::createWave() {
     created_ = 1;

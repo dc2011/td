@@ -70,11 +70,30 @@ public:
     void setHealthChangeValue(int healthChange);
     int getHealthChangeValue();
 
+    /**
+     * Returns the type of Effect.
+     *
+     * @author Marcel Vangrootheest
+     * @return The type of Effect
+     */
+    uint getType() {
+        return type_;
+    }
+
 private:
     void countdown();
 
 public slots:
     void update();
+
+    /**
+     * Stops applying the effect if the correct type.
+     * Connected to stopEffect(uint) in Unit.
+     *
+     * @author Marcel Vangrootheest
+     * @param type The type of Effect.
+     */
+    void effectStop(uint type);
 
 signals:
     void effectFinished(Effect* effect);
@@ -87,6 +106,8 @@ protected:
     QVector2D velocityChangeValue_;
     uint type_;
     bool timerEnabled_;
+    bool applyEnabled_;
+    QTimer* timer_;
 };
 
 } /* end namespace td */
