@@ -2,6 +2,7 @@
 #include "Driver.h"
 #include "../graphics/BuildingTowerGraphicsComponent.h"
 #include "../util/defines.h"
+#include <QDebug>
 
 namespace td {
 
@@ -78,6 +79,7 @@ void BuildingTower::initComponents() {
     switch (type_) {
         case TOWER_ARROW:
             wood_   = 1;
+            bone_   = 1;
             break;
         case TOWER_CANNON:
             stone_  = 1;
@@ -93,10 +95,77 @@ void BuildingTower::initComponents() {
             bone_   = 1;
             break;
     }
+    totalResources_ = wood_ + bone_ + oil_ + stone_;
 #ifndef SERVER
     setGraphicsComponent(new BuildingTowerGraphicsComponent());
+    getGraphicsComponent()->setBuildingResources(RESOURCE_WOOD, wood_);
+    getGraphicsComponent()->setBuildingResources(RESOURCE_TAR, oil_);
+    getGraphicsComponent()->setBuildingResources(RESOURCE_BONE, bone_);
+    getGraphicsComponent()->setBuildingResources(RESOURCE_STONE, stone_);
 #endif
 }
+
+void BuildingTower::setWood(int wood) {
+    wood_ = wood;
+    setDirty(kWood);
+    if (getGraphicsComponent()) {
+        getGraphicsComponent()->setBuildingResources(RESOURCE_WOOD, wood);
+        getGraphicsComponent()->update(this);
+        evaluateBuildingStage();
+    }
+}
+
+void BuildingTower::setStone(int stone) {
+    stone_ = stone;
+    setDirty(kStone);
+    if (getGraphicsComponent()) {
+        getGraphicsComponent()->setBuildingResources(RESOURCE_STONE, stone);
+        getGraphicsComponent()->update(this);
+        evaluateBuildingStage();
+    }
+}
+
+void BuildingTower::setOil(int oil) {
+    oil_ = oil;
+    setDirty(kOil);
+    if (getGraphicsComponent()) {
+        getGraphicsComponent()->setBuildingResources(RESOURCE_TAR, oil);
+        getGraphicsComponent()->update(this);
+        evaluateBuildingStage();
+    }
+}
+
+void BuildingTower::setBone(int bone) {
+    bone_ = bone;
+    setDirty(kBone);
+    if (getGraphicsComponent()) {
+        getGraphicsComponent()->setBuildingResources(RESOURCE_BONE, bone);
+        getGraphicsComponent()->update(this);
+        evaluateBuildingStage();
+    }
+}
+
+void BuildingTower::evaluateBuildingStage() {
+    double resourcesNeeded = totalResources_ - (wood_ + oil_ + stone_ + bone_);
+    if (totalResources_ == 0) {
+        return;
+    }
+    double percentCompleted = (resourcesNeeded / totalResources_) * 100;
+    qDebug() << "current tower build progress" << percentCompleted;
+    if (percentCompleted < 33) {
+         getGraphicsComponent()->setBuildingStage(TOWER_COMPLETE_25);
+         return;
+    }
+    if (percentCompleted < 66) {
+        getGraphicsComponent()->setBuildingStage(TOWER_COMPLETE_50);
+        return;
+    }
+    if (percentCompleted < 100) {
+        getGraphicsComponent()->setBuildingStage(TOWER_COMPLETE_75);
+        return;
+    }
+}
+
 
 } // end of namespace td
 

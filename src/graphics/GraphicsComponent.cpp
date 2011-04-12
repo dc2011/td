@@ -68,8 +68,21 @@ void GraphicsComponent::setImgIndex(int index) {
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
 }
 
+//gotta be a better way to do these two functions but this is quicker than thinking
 void GraphicsComponent::setCurrentResource(int resourceType) {
+    resourceType++;
     qDebug() << "if you reach this you are doing something stupid";
+}
+
+void GraphicsComponent::setBuildingResources(int resourceType, int num) {
+    resourceType++;
+    num++;
+    qDebug() << "if you reach this you are doing something stupid";
+}
+
+void GraphicsComponent::setBuildingStage(int i) {
+    i++;
+    qDebug() << "I really need to cleanup these hacks";
 }
 
 } /* end namespace td */

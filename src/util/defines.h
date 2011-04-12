@@ -43,12 +43,18 @@
 #define TILE_RESOURCE   5
 
 // resources that can be picked up by the player
-#define RESOURCE_NONE   0
-#define RESOURCE_WOOD   1
-#define RESOURCE_STONE  2
-#define RESOURCE_BONE   3
-#define RESOURCE_TAR    4
-#define RESOURCE_GEM    99
+#define RESOURCE_NONE       0
+#define RESOURCE_WOOD       1
+#define RESOURCE_STONE      2
+#define RESOURCE_BONE       3
+#define RESOURCE_TAR        4
+#define RESOURCE_TYPE_MAX   4
+#define RESOURCE_GEM        99
+
+//state of tower completion
+#define TOWER_COMPLETE_25   0
+#define TOWER_COMPLETE_50   1
+#define TOWER_COMPLETE_75   2
 
 // time to harvest a resource (in game ticks)
 #define HARVEST_COUNTDOWN   120

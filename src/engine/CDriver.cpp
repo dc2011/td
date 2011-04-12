@@ -105,6 +105,8 @@ void CDriver::readObject(Stream* s) {
             Tile* tile = gameMap_->getTile(((TileExtension*)go)->getPos());
             tile->setActionType(TILE_BUILDING);
             tile->setExtension((BuildingTower*)go);
+            connect(mainWindow_, SIGNAL(signalAltHeld(bool)),
+                go->getGraphicsComponent(), SLOT(showIcons(bool)));
         }
 
         if (go->getClsIdx() == Tower::clsIdx()) {

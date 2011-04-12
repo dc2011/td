@@ -10,6 +10,7 @@
 #include "Unit.h"
 #include "GameObject.h"
 #include <QPointF>
+#include "CDriver.h"
 
 namespace td {
 
@@ -79,6 +80,8 @@ BuildingTower* Driver::createBuildingTower(int type, QPointF pos) {
 
 #ifndef SERVER
     connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
+    connect(CDriver::instance()->getMainWindow(), SIGNAL(signalAltHeld(bool)),
+            tower->getGraphicsComponent(), SLOT(showIcons(bool)));
 #endif
 
     return tower;
