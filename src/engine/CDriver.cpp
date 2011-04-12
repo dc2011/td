@@ -270,7 +270,6 @@ void CDriver::handleSpacebarPress() {
             if (isSinglePlayer()) {
                 if (addToTower(t, human_)) {
                     if (t->isDone()) {
-                        qDebug("create Tower");
                         createTower(t->getType(), t->getPos());
                         destroyObject(t);
                     }
@@ -307,7 +306,6 @@ void CDriver::UDPReceived(Stream* s) {
         case network::kAssignPlayerID:
         {
             playerID_ = s->readInt();
-            //qDebug("My player ID is %08X", playerID_);
             break;
         }
         case network::kMulticastIP:
