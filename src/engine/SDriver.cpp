@@ -263,7 +263,8 @@ void SDriver::onMsgReceive(Stream* s) {
             
             if (addToTower(t, player)) {
                 if (t->isDone()) {
-                    Tower* tower = createTower(t->getType(), t->getPos());
+                    Tower* tower = Driver::createTower(t->getType(),
+                            t->getPos());
                     updates_.insert(tower);
                     destroyObject(t);
                 }
@@ -271,7 +272,7 @@ void SDriver::onMsgReceive(Stream* s) {
                 out->writeInt(true);
             } else {
                 out->writeInt(player->getID());
-                out->writeInt(true);
+                out->writeInt(false);
             }
             net_->send(network::kDropResource, out->data());
 
