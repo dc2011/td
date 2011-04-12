@@ -47,7 +47,7 @@ void AudioManager::startup()
 }
 
 void AudioManager::initSpeex() {
-    speex_.sampleRate = 22050; 
+    speex_.sampleRate = 8000; 
     speex_.quality = 9;
 
     speex_bits_init(&speex_.bits);
@@ -124,7 +124,7 @@ void AudioManager::captureMic()
     ALint format, frequency;
 
     format = AL_FORMAT_MONO16;
-    frequency = 22050;
+    frequency = 8000;
 
     ALCsizei buffersize = frequency * 2 * 4; /* 2 for 16-bit, 4 for time */
     captureDevice = alcCaptureOpenDevice(NULL, frequency, format, buffersize);
@@ -136,7 +136,8 @@ void AudioManager::captureMic()
             alcGetIntegerv(captureDevice, ALC_CAPTURE_SAMPLES,
                     1, &samplesAvailable);
 
-            while(capturePause_ == true && captureStop_ == false) {
+            while(capturePause_ == true && captureStop_ == false 
+		  && !checkError()) {
                 alSleep(0.1f);
             }
 
@@ -255,7 +256,7 @@ void AudioManager::streamVoice()
     ALint play = AL_TRUE;
     ALint playing = AL_TRUE;
     ALenum format = AL_FORMAT_MONO16;
-    ALuint freq = 22050;
+    ALuint freq = 8000;
 
     /* Created the source and Buffers */
     alGenBuffers(QUEUESIZE, buffer);
@@ -282,9 +283,7 @@ void AudioManager::streamVoice()
 	    buffersize = frames*speex_.frameSize;
 	    buf = new short[buffersize];
 	    decode(temp, frames, buf); 
-	    qDebug("decoded a stream");
 	    result = buffersize*sizeof(short);
-	    qDebug("result %d", result);
 
 	    if (result == 0) {
 		break;
