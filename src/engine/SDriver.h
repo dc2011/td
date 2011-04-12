@@ -159,8 +159,9 @@ public slots:
      * state to all clients.
      * 
      * @author Duncan Donaldson
+     * @param multicast Whether this server sends multicast messages.
      */
-    void startGame();
+    void startGame(bool multicast);
 
     /**
      * Spawns a server-side wave and updates all clients.

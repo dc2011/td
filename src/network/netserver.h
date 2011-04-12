@@ -175,7 +175,10 @@ public:
      * @author Darryl Pogue
      * @return The final multicast address octet.
      */
-    unsigned char getMulticastAddr() const {
+    unsigned char getMulticastAddr() {
+        if (multicastAddr_ == 0) {
+            multicastAddr_ = nextMulticast++;
+        }
         return multicastAddr_;
     }
 };
