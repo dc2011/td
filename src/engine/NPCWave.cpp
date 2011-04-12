@@ -1,5 +1,6 @@
 #include "NPCWave.h"
 #include "Driver.h"
+#include "./audio/SfxManager.h"
 #include "../network/netmessages.h"
 
 namespace td {
@@ -19,11 +20,8 @@ NPCWave::~NPCWave() {
 }
 
 void NPCWave::createWave() {
-    created_ = 1;
 
-    NPC* npc = getDriver()->createNPC(type_);
-    npc->setWave(this);
-    children_.insert(npc);
+    PLAY_SFX(this, SfxManager::npcPterodactylEnters);
 
     connect(getDriver()->getTimer(), SIGNAL(timeout()),
             this, SLOT(update()));
@@ -35,6 +33,11 @@ void NPCWave::killChild(NPC* child) {
 
 void NPCWave::update() {
     static unsigned int tickmod = 0;
+    static unsigned int sfxdelay = 0;
+    if (++sfxdelay < 130) {
+        return;
+    }
+
     // TODO: Some actual logic here to fix this
     if (created_ < count_ && ++tickmod % 15 == 0) {
         created_++;

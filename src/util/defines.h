@@ -4,7 +4,7 @@
 // TD Version
 // Update this whenever an incompatible change is made, to ensure that features
 // are matched between clients and the server
-#define TD_VERSION      0x0001
+#define TD_VERSION      0x0002
 
 // Network information
 #define TD_PORT 26631
@@ -42,11 +42,11 @@
 #define TILE_RESOURCE   4
 
 // resources that can be picked up by the player
-#define RESOURCE_NONE   0
-#define RESOURCE_WOOD   1
-#define RESOURCE_STONE  2
-#define RESOURCE_BONE   3
-#define RESOURCE_TAR    4
+#define RESOURCE_NONE   -1
+#define RESOURCE_WOOD   0
+#define RESOURCE_STONE  1
+#define RESOURCE_BONE   2
+#define RESOURCE_TAR    3
 
 // time to harvest a resource (in game ticks)
 #define HARVEST_COUNTDOWN   120
