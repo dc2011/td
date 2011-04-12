@@ -94,8 +94,9 @@ public:
     // NPC death 
     static QStringList npcPterodactylDies;
 
-    //Game winning
+    //Game sounds
     static QStringList winTheGame;
+    static QStringList npcInBase;
 
     // resource picked up
     static QStringList resourceWood;

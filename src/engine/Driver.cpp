@@ -9,7 +9,7 @@
 
 namespace td {
 
-Driver::Driver() : QObject(), gameMap_(NULL), gameTimer_(NULL)
+Driver::Driver() : QObject(), gameMap_(NULL), gameTimer_(NULL), baseHealth_(100)
 {
     mgr_ = new ResManager(this);
 }
@@ -27,13 +27,19 @@ void Driver::destroyObject(GameObject* obj) {
 
 void Driver::destroyObject(int id) {
     GameObject* go = mgr_->findObject(id);
-    if (go != NULL) {
+    if (go != NULL && go != (GameObject*)-1) {
         mgr_->deleteObject(go);
     }
 }
 
 GameObject* Driver::findObject(unsigned int id) {
-    return mgr_->findObject(id);
+    GameObject* obj =  mgr_->findObject(id);
+
+    if (obj == (GameObject*)-1) {
+        return NULL;
+    }
+
+    return obj;
 }
 
 Tower* Driver::createTower(int type) {

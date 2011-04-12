@@ -27,12 +27,20 @@
 #define PIX_PLAYER_MAX          7
 #define PIX_PROJ_ARROW          QString("./img/arrowProjectile.png")
 #define PIX_PROJ_ARROW_MAX      1
-#define PIX_PROJ_TAR            QString("./img/tarCannonProjectile.png")
-#define PIX_PROJ_TAR_MAX        1
-#define PIX_PROJ_CANNON         QString("./img/tarCannonProjectile.png")
-#define PIX_PROJ_CANNON_MAX     1
-#define PIX_PROJ_FIRE           QString("./img/flameProjectile.png")
-#define PIX_PROJ_FIRE_MAX       1
+#define PIX_PROJ_TAR            QString("./img/tarProjectile.png")
+#define PIX_PROJ_TAR_SPLAT_0    QString("./img/tarSplatter.png")
+#define PIX_PROJ_TAR_SPLAT_1    QString("./img/tarSplatter2.png")
+#define PIX_PROJ_TAR_MAX        4
+#define PIX_PROJ_CANNON         QString("./img/cannonProjectile.png")
+#define PIX_PROJ_CANNON_EXP_0   QString("./img/finalExp.png")
+#define PIX_PROJ_CANNON_EXP_1   QString("./img/medExp.png")
+#define PIX_PROJ_CANNON_EXP_2   QString("./img/smallExp.png")
+#define PIX_PROJ_CANNON_MAX     4
+#define PIX_PROJ_FIRE_0         QString("./img/flameProjectile1.png")
+#define PIX_PROJ_FIRE_1         QString("./img/flameProjectile2.png")
+#define PIX_PROJ_FIRE_2         QString("./img/medFlame.png")
+#define PIX_PROJ_FIRE_3         QString("./img/smallFlame.png")
+#define PIX_PROJ_FIRE_MAX       4
 #define PIX_PROJ_FLAK           QString("./img/flakProjectile.png")
 #define PIX_PROJ_FLAK_MAX       1
 #define PIX_TOWER_ARROW         QString("./img/towerArrow.png")
@@ -50,6 +58,10 @@
 #define PIX_ICON_BONE           QString("./img/boneIcon.png") //no file as of yet
 #define PIX_ICON_TAR            QString("./img/oilIcon.png")
 #define PIX_ICON_MAX            4
+#define PIX_RESOURCE_WOOD       QString("./img/wood.png")
+#define PIX_RESOURCE_STONE      QString("./img/Stone.png")
+#define PIX_RESOURCE_BONE       QString("./img/Rock.png")
+#define PIX_RESOURCE_TAR        QString("./img/Tar.png")
 #define PIX_RESOURCE_MAX        4
 #define PIX_NPC_PTERO_START     0
 #define PIX_NPC_PTERO_0         QString("./img/ptero-1.png")
@@ -61,7 +73,11 @@
 #define PIX_NPC_PLEA_0          QString("./img/plea-1.png")
 #define PIX_NPC_PLEA_1          QString("./img/plea-2.png")
 #define PIX_NPC_PLEA_MAX        2
+#define PIX_NPC_MAMMOTH_START   0
+#define PIX_NPC_MAMMOTH_0       QString("./img/mammoth1.png");
+#define PIX_NPC_MAMMOTH_1       QString("./img/mammoth2.png");
+#define PIX_NPC_MAMMOTH_MAX     2
 //this final value will be total of all NPC pix maps
-#define PIX_NPC_TOTAL           PIX_NPC_PTERO_MAX + PIX_NPC_PLEA_MAX
+#define PIX_NPC_TOTAL           PIX_NPC_PTERO_MAX + PIX_NPC_PLEA_MAX + PIX_NPC_MAMMOTH_MAX
 #endif
 
