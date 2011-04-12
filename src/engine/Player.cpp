@@ -90,7 +90,7 @@ void Player::createEffect(int effectType)
         switch (effectType)
         {
         case EFFECT_FAST:
-            //effect = new PlayerTerrainFastEffect(this);
+            effect = new PlayerTerrainFastEffect(this);
             break;
         case EFFECT_SLOW:
             effect = new PlayerTerrainSlowEffect(this);
