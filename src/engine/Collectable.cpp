@@ -101,7 +101,7 @@ void Collectable::initComponents() {
     ((CollectableInputComponent*) getInputComponent())->setPath(start_, end_);
 }
 
-void Collectable::setPath(QPointF source, QVector2D velocity) {
+void Collectable::setPath(QPointF source, QVector2D) {
     start_ = new QPointF(source);
     end_ = new QPointF(source);
 }

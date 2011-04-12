@@ -153,9 +153,7 @@ void NPC::initComponents() {
 }
 
 void NPC::createEffect(Effect* effect){
-    if (!effects_.contains(*effect)) {
-        //might want to put the emit empty effects list here
-    } else {
+    if (effects_.contains(*effect)) {
         emit stopEffect(effect->getType());
         effects_.removeOne(*effect);
     }

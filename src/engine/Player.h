@@ -8,6 +8,7 @@
 #include "../input/PlayerInputComponent.h"
 #include "CollisionComponent.h"
 #include "Effect.h"
+#include "Tile.h"
 #include "../graphics/PlayerGraphicsComponent.h"
 #include "../physics/PlayerPhysicsComponent.h"
 
@@ -19,6 +20,7 @@ class Player : public Unit {
     Q_OBJECT
 
 public:
+    Tile* tileThatPlayerIsOn_;
     /**
      * Gets the unique class index for this object type.
      *
@@ -127,18 +129,20 @@ public slots:
      *
      * @author Pan K.
      * @author Marcel Vangrootheest
+     * @author Luke Queenan
      * @param type Type of effect.
      */
-    void createEffect(Effect* effect);
+    void createEffect(int effectType);
 
     /**
      * Remove effect from the effect list.
      *
      * @author Pan K.
      * @author Marcel Vangrootheest
+     * @author Luke Queenan
      * @param effect Effect to delete.
      */
-    void deleteEffect(Effect* effect);
+    void deleteEffect(Effect*);
 
     /**
      * Sets the boolean that determines whether or not the player's nickname
@@ -176,7 +180,7 @@ public slots:
     void dropResource(bool addToTower);
 
 private:
-    QList<Effect> effects_;
+    QMap<int, Effect*> effects_;
 
     /** Nickname associated with this player for display purposes and chat. */
     QString nickname_;
