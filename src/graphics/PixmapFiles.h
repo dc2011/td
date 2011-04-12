@@ -77,5 +77,12 @@
 #define PIX_NPC_MAMMOTH_MAX     2
 //this final value will be total of all NPC pix maps
 #define PIX_NPC_TOTAL           PIX_NPC_PTERO_MAX + PIX_NPC_PLEA_MAX + PIX_NPC_MAMMOTH_MAX
+
+//ending animations for projectiles
+#define PIX_END_CANNON_START    0
+#define PIX_END_CANNON_0        QString("./img/smallExp.png");
+#define PIX_END_CANNON_1        QString("./img/medExp.png");
+#define PIX_END_CANNON_2        QString("./img/finalExp.png");
+#define PIX_END_CANNON_MAX      3
 #endif
 

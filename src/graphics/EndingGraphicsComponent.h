@@ -9,9 +9,13 @@ class EndingGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
 public:
-    EndingGraphicsComponent();
+    EndingGraphicsComponent() : GraphicsComponent() {
 
-    virtual ~EndingGraphicsComponent();
+    }
+
+    virtual ~EndingGraphicsComponent() {
+        disconnect(this);
+    }
 
     virtual void update(GameObject* obj);
 
@@ -20,15 +24,38 @@ public:
     virtual void initPixmaps() = 0;
 
     virtual void animate();
+
+protected:
+    int arrayIndexMin_;
+    int arrayIndexMax_;
+
+private:
+    virtual void setNonStaticValues() = 0;
+
+    virtual void setLayer(DrawParams* dp) = 0;
+
+private:
+    static QPixmap* pixmapImgs_;
 };
 
+
+// cannon
 class CannonEndingGraphicsComponent : public EndingGraphicsComponent {
     Q_OBJECT
 
 public:
-    CannonEndingGraphicsComponent();
+    CannonEndingGraphicsComponent() : EndingGraphicsComponent() {
+        emit created(this);
+    }
 
-    virtual ~CannonEndingGraphicsComponent();
+    virtual ~CannonEndingGraphicsComponent() { }
+
+    virtual void initPixmaps();
+
+private:
+    virtual void setLayer(DrawParams *dp);
+
+    virtual void setNonStaticValues();
 
 private:
     static QPixmap* pixmapImgs_;
