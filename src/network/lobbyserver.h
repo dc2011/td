@@ -83,7 +83,7 @@ protected:
      */
     void notifyClients(unsigned char msgType);
 
-    void startGame();
+    void startGame(int);
 
     /**
      * Reimplement and override the default QTcpServer connection behaviour.

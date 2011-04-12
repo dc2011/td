@@ -86,7 +86,7 @@ void LobbyServer::notifyClients(unsigned char msgType)
     }
 }
 
-void LobbyServer::startGame() {
+void LobbyServer::startGame(int game) {
     notifyClients(network::kLobbyStartGame);
 
     Thread* gamethread = new Thread();
@@ -96,7 +96,7 @@ void LobbyServer::startGame() {
     connect(sd, SIGNAL(disconnecting()), this, SLOT(gameEnd()));
 
     mutex_.lock();
-    foreach (QTcpSocket* conn, clients_.keys()) {
+    foreach (QTcpSocket* conn, games_.values(game)) {
         disconnect(conn, SIGNAL(readyRead()),
                     this, SLOT(readSocket()));
         disconnect(conn, SIGNAL(disconnected()),
@@ -110,9 +110,10 @@ void LobbyServer::startGame() {
         s.writeInt(id);
 
         conn->write(s.data());
+        clients_.remove(conn);
     }
-    clients_.clear();
-    connCount_ = 0;
+
+    games_.remove(game);
     mutex_.unlock();
 
     sd->initNetworking();
@@ -181,7 +182,8 @@ void LobbyServer::readSocket()
         }
         case network::kLobbyStartGame:
         {
-            startGame();
+            int game = s.readInt();
+            startGame(game);
             /*foreach (QTcpSocket* sock, clients_) {
                 disconnect(sock, SIGNAL(readyRead()),
                         this, SLOT(readSocket()));
