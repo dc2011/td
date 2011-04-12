@@ -36,25 +36,31 @@ public:
      * @author Warren Voelkl
      */
     void initPixmaps();
+
     /**
      * @param resourceType the definded value of the current resource being set
      * @param num the new value for the resources required
      * @author Warren Voelkl
      */
     void setBuildingResources(int resourceType, int num);
+
     /**
-     * sets the current compleation stage of towers in construction
-     * @param stage the current rate of completiong
-     * #define TOWER_COMPLETE_25
-     * #define TOWER_COMPLETE_50
-     * #define TOWER_COMPLETE_75
+     * Sets the currently dispalyed graphics item for the current stage
+     * @param i the current building stage
      * @author Warren Voelkl
      */
-    void setCompleationStage(int stage);
-    
+    void setBuildingStage(int i);
+    /**
+     * Draw functions that displays icons on top of tower when r is pressed
+     * @author Warren Voelkl
+     */
     virtual void draw(DrawParams* dp, int layer=0);
 
 public slots:
+    /**
+     * Slot connected to the k keypress used to display the icons required
+     * to finish construction of tower
+     */
     void showIcons(bool);
 
 private:
@@ -73,6 +79,9 @@ private:
     int tarReq_;
     /** True if the key to show all NPCs' health bars is being held. */
     static bool keyHeld_;
+    /** The current building stage of the graphics component */
+    int buildingStage_;
+
 
 
     /**
@@ -99,9 +108,24 @@ private:
      */
     void setIconVisibility(QGraphicsPixmapItem *iconGraphic, int index,
             int resourceReq);
-    
+    /**
+     * Sets the position and scale for each icon
+     * @param icon the current icon being set
+     * @param x the x position of parent
+     * @param y the y position of parent
+     * @param layer draw icons above tower
+     * @param i used to determine y offset of each icon
+     * @author Warren Voelkl
+     */
     void iconDrawingHelper(QGraphicsPixmapItem *icon, int x, int y,
-            int layer, int i, int resourceReq);
+            int layer, int i);
+    /**
+     * Updates the current graphic to represent the current building stage
+     * @param gpi the graphics pixmap item for wich the image is being set
+     * @author Warren Voelkl
+     */
+    void setBuildingGraphic(QGraphicsPixmapItem * gpi);
+
 
 };
 

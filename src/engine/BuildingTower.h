@@ -31,6 +31,7 @@ private:
         kOil            = (1 << 7)
     };
 
+
 public:
     BuildingTower(QObject* parent = 0);
     virtual ~BuildingTower() {}
@@ -173,6 +174,10 @@ private:
 
     /** The number of oil resources required. */
     int oil_;
+    /** the total amount of resources required to build structure */
+    double totalResources_;
+
+    void evaluateBuildingStage();
 };
 
 } // end of namespace td

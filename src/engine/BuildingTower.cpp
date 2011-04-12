@@ -2,6 +2,7 @@
 #include "Driver.h"
 #include "../graphics/BuildingTowerGraphicsComponent.h"
 #include "../util/defines.h"
+#include <QDebug>
 
 namespace td {
 
@@ -99,6 +100,7 @@ void BuildingTower::initComponents() {
             bone_   = 3;
             break;
     }
+    totalResources_ = wood_ + bone_ + oil_ + stone_;
 #ifndef SERVER
     setGraphicsComponent(new BuildingTowerGraphicsComponent());
     getGraphicsComponent()->setBuildingResources(RESOURCE_WOOD, wood_);
@@ -114,7 +116,7 @@ void BuildingTower::setWood(int wood) {
     if (getGraphicsComponent()) {
         getGraphicsComponent()->setBuildingResources(RESOURCE_WOOD, wood);
         getGraphicsComponent()->update(this);
-
+        evaluateBuildingStage();
     }
 }
 
@@ -124,7 +126,7 @@ void BuildingTower::setStone(int stone) {
     if (getGraphicsComponent()) {
         getGraphicsComponent()->setBuildingResources(RESOURCE_STONE, stone);
         getGraphicsComponent()->update(this);
-
+        evaluateBuildingStage();
     }
 }
 
@@ -134,7 +136,7 @@ void BuildingTower::setOil(int oil) {
     if (getGraphicsComponent()) {
         getGraphicsComponent()->setBuildingResources(RESOURCE_TAR, oil);
         getGraphicsComponent()->update(this);
-
+        evaluateBuildingStage();
     }
 }
 
@@ -144,7 +146,28 @@ void BuildingTower::setBone(int bone) {
     if (getGraphicsComponent()) {
         getGraphicsComponent()->setBuildingResources(RESOURCE_BONE, bone);
         getGraphicsComponent()->update(this);
+        evaluateBuildingStage();
+    }
+}
 
+void BuildingTower::evaluateBuildingStage() {
+    double resourcesNeeded = totalResources_ - (wood_ + oil_ + stone_ + bone_);
+    if (totalResources_ == 0) {
+        return;
+    }
+    double percentCompleted = (resourcesNeeded / totalResources_) * 100;
+    qDebug() << "current tower build progress" << percentCompleted;
+    if (percentCompleted < 33) {
+         getGraphicsComponent()->setBuildingStage(TOWER_COMPLETE_25);
+         return;
+    }
+    if (percentCompleted < 66) {
+        getGraphicsComponent()->setBuildingStage(TOWER_COMPLETE_50);
+        return;
+    }
+    if (percentCompleted < 100) {
+        getGraphicsComponent()->setBuildingStage(TOWER_COMPLETE_75);
+        return;
     }
 }
 

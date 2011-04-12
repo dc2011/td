@@ -12,13 +12,18 @@ QPixmap* BuildingTowerGraphicsComponent::pixmapImgs_ = NULL;
 BuildingTowerGraphicsComponent::BuildingTowerGraphicsComponent()
         : GraphicsComponent() {
     animate_ = 0;
+    buildingStage_ = 0;
     emit created(this);
 }
 
 BuildingTowerGraphicsComponent::~BuildingTowerGraphicsComponent() {
-    int i;
+    int i, j;
+    this->disconnect();
     for (i = 0; i != RESOURCE_TYPE_MAX; i++) {
-        delete[] resourcePixmapItemArray_[i];
+        for (j = 0; j != ICON_MAX; j++) {
+            CDriver::instance()->getMainWindow()->getScene()->removeItem(resourcePixmapItemArray_[i][j]);
+            delete resourcePixmapItemArray_[i][j];
+        }
     }
 }
 
@@ -34,37 +39,36 @@ void BuildingTowerGraphicsComponent::draw(DrawParams* dp, int layer)  {
 
     for (i = 0; i != ICON_MAX; i++) {
         iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_WOOD-1][i],
-                dp->pos.x(), dp->pos.y(),layer,i,woodReq_);
+                dp->pos.x(), dp->pos.y(),layer,i);
         resourcePixmapItemArray_[RESOURCE_WOOD-1][i]
             ->setPixmap(pixmapImgs_[PIX_BUILDING_TOWER_MAX]);
 
         iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_STONE-1][i],
-                dp->pos.x() + quarter, dp->pos.y(),layer,i,stoneReq_);
+                dp->pos.x() + quarter, dp->pos.y(),layer,i);
         resourcePixmapItemArray_[RESOURCE_STONE-1][i]
             ->setPixmap(pixmapImgs_[PIX_BUILDING_TOWER_MAX + 1]);
 
         iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_BONE-1][i],
-                dp->pos.x() + half, dp->pos.y(),layer,i,boneReq_);
+                dp->pos.x() + half, dp->pos.y(),layer,i);
         resourcePixmapItemArray_[RESOURCE_BONE-1][i]
             ->setPixmap(pixmapImgs_[PIX_BUILDING_TOWER_MAX + 2]);
 
         iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_TAR-1][i],
-                dp->pos.x() + threequarters, dp->pos.y(),layer,i,tarReq_);
+                dp->pos.x() + threequarters, dp->pos.y(),layer,i);
         resourcePixmapItemArray_[RESOURCE_TAR-1][i]
             ->setPixmap(pixmapImgs_[PIX_BUILDING_TOWER_MAX + 3]);
     }
+    setBuildingGraphic(this->getPixmapItem());
     GraphicsComponent::draw(dp, layer - 1);
 }
 
 void BuildingTowerGraphicsComponent::iconDrawingHelper(
-        QGraphicsPixmapItem *icon, int x, int y, int layer, int i,
-        int resourceReq) {
+        QGraphicsPixmapItem *icon, int x, int y, int layer, int i) {
     int yoffset = getPixmapItem()->boundingRect().width() / 5;
     int center = getPixmapItem()->boundingRect().center().x();
     icon->setPos(x - center, y + i * yoffset - center);
     icon->setZValue(layer);
     icon->setScale(.5);
-    //setIconVisibility(icon, i, resourceReq);
 }
 
 void BuildingTowerGraphicsComponent::initPixmaps() {
@@ -89,8 +93,6 @@ void BuildingTowerGraphicsComponent::initPixmaps() {
 void BuildingTowerGraphicsComponent::update(GameObject* obj) {
     BuildingTower* tower = (BuildingTower*)obj;
     if (!tower->isDirty()) {
-        //checks if object is dirty or in mid-animation, or if the resource progress
-        //bar is being updated
         return;
     }
     tower->resetDirty();
@@ -157,7 +159,6 @@ void BuildingTowerGraphicsComponent::setIconVisibility(
 }
 
 void BuildingTowerGraphicsComponent::showIcons(bool keyHeld) {
-    static bool held = false;
     int i, j;
     if (keyHeld) {
         for (i = 0; i != ICON_MAX; i++) {
@@ -183,6 +184,13 @@ void BuildingTowerGraphicsComponent::showIcons(bool keyHeld) {
     }
 }
 
+void BuildingTowerGraphicsComponent::setBuildingGraphic(QGraphicsPixmapItem * gpi) {
+    gpi->setPixmap(pixmapImgs_[buildingStage_]);
+}
+
+void BuildingTowerGraphicsComponent::setBuildingStage(int i) {
+    buildingStage_ = i;
+}
 
 } /* end namespace td */
 

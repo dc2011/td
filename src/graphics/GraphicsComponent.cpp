@@ -80,6 +80,11 @@ void GraphicsComponent::setBuildingResources(int resourceType, int num) {
     qDebug() << "if you reach this you are doing something stupid";
 }
 
+void GraphicsComponent::setBuildingStage(int i) {
+    i++;
+    qDebug() << "I really need to cleanup these hacks";
+}
+
 } /* end namespace td */
 QPixmap * getPixmapArray() {
     return 0;

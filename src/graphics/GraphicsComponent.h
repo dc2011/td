@@ -152,6 +152,7 @@ signals:
 public:
     virtual void setCurrentResource(int resourceType); //empty fns
     virtual void setBuildingResources(int resourceType, int num);
+    virtual void setBuildingStage(int i);
 };
 
 } /* end namespace td */
