@@ -8,6 +8,7 @@
 #include "Tower.h"
 #include "NPCWave.h"
 #include "Projectile.h"
+#include "BuildingTower.h"
 
 namespace td {
 
@@ -221,9 +222,8 @@ void SDriver::onMsgReceive(Stream* s) {
                 break;
             }
 
-            BuildingTower* t = Driver::createBuildingTower(towertype);
-            t->setPos(currentTile->getPos());
-            currentTile->setExtension(t);
+            BuildingTower* t = Driver::createBuildingTower(towertype,
+                    QPointF(x,y));
 
             updates_.insert(t);
             break;
@@ -242,13 +242,28 @@ void SDriver::onMsgReceive(Stream* s) {
 
             Tile* currentTile = gameMap_->getTile(x, y);
             if (currentTile->getActionType() != TILE_BUILDING) {
-                // send drop message
+                out->writeInt(player->getID());
+                out->writeInt(false);
+	            net_->send(network::kDropResource, out->data());
+	            delete out;
                 break;
             }
             
             BuildingTower* t = (BuildingTower*)currentTile->getExtension();
             
-            addToTower(t, player);
+            if (addToTower(t, player)) {
+                if (t->isDone()) {
+                    Tower* tower = createTower(t->getType(), t->getPos());
+                    updates_.insert(tower);
+                    destroyObject(t);
+                }
+                out->writeInt(player->getID());
+                out->writeInt(true);
+            } else {
+                out->writeInt(player->getID());
+                out->writeInt(true);
+            }
+            net_->send(network::kDropResource, out->data());
 
             break;
         }

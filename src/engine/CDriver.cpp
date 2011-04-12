@@ -94,8 +94,10 @@ void CDriver::readObject(Stream* s) {
                     go->getGraphicsComponent(), SLOT(showHealth(bool)));
         }
 
-        if (go->getClsIdx() == BuildingTower::clsIdx()) {
-            gameMap_->getTile(go->getPos())->setExtension(go);
+        if (go->getClsIdx() == BuildingTower::clsIdx() ||
+                go->getClsIdx() == Tower::clsIdx()) {
+            gameMap_->getTile(((TileExtension*)go)->getPos())
+                ->setExtension((TileExtension*)go);
         }
 
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
@@ -142,7 +144,7 @@ void CDriver::makeLocalPlayer(Player* player) {
             contextMenu_, SLOT(viewResources(bool)));
     /* TODO: alter temp solution */
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
-            this,         SLOT(createBuildingTower(int, QPointF)));
+            this,         SLOT(requestBuildingTower(int, QPointF)));
     connect(human_, SIGNAL(signalEmptyEffectList()),
             physics, SLOT(okayToPlayCollisionSfx()));
     
@@ -152,9 +154,22 @@ void CDriver::makeLocalPlayer(Player* player) {
     connect(mainWindow_, SIGNAL(signalSpacebarReleased()),
             player, SLOT(stopHarvesting()));
     connect(this, SIGNAL(signalEmptyTile()),
-            player, SLOT(dropResource()));
+            player, SLOT(dropResource(false)));
     connect(player, SIGNAL(signalPlayerMovement(bool)),
 	        input, SLOT(playerMovement(bool)));
+}
+
+void CDriver::requestBuildingTower(int type, QPointF pos) {
+    if (isSinglePlayer()) {
+        Driver::createBuildingTower(type, pos);
+    } else {
+        Stream s;
+        s.writeInt(human_->getID());
+        s.writeInt(type);
+        s.writeFloat(pos.x());
+        s.writeFloat(pos.y());
+        NetworkClient::instance()->send(network::kTowerChoice, s.data());
+    }
 }
 
 void CDriver::NPCCreator() {
@@ -172,34 +187,6 @@ void CDriver::NPCCreator() {
                 npc->getGraphicsComponent(), SLOT(showHealth(bool)));
         connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
     }
-}
-
-void CDriver::createTower(int towerType, QPointF pos)
-{
-    if (isSinglePlayer()) {
-        Tower* tower = (Tower*)mgr_->createObject(Tower::clsIdx());
-        Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
-        tower->setType(towerType);
-        tower->initComponents();
-        tower->setPos(currentTile->getPos());
-        currentTile->setExtension(tower);
-
-        connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
-        connect(tower->getPhysicsComponent(),
-                SIGNAL(fireProjectile(int, QPointF, QPointF, Unit*)),
-                this,
-                SLOT(requestProjectile(int, QPointF, QPointF, Unit*)));
-
-        return;
-    }
-
-    Stream* s = new Stream();
-    s->writeInt(human_->getID());
-    s->writeInt(towerType);
-    s->writeFloat(pos.x());
-    s->writeFloat(pos.y());
-    NetworkClient::instance()->send(network::kBuildTower, s->data());
-    delete s;
 }
 
 void CDriver::startGame(bool singlePlayer) {
@@ -249,6 +236,7 @@ void CDriver::setSinglePlayer(bool singlePlayer) {
 
 void CDriver::handleSpacebarPress() {
     Tile* currentTile = gameMap_->getTile(human_->getPos());
+    BuildingTower* t = (BuildingTower*)currentTile->getExtension();
 
     switch (currentTile->getActionType()) {
 
@@ -257,7 +245,26 @@ void CDriver::handleSpacebarPress() {
             break;
 
         case TILE_BUILDING:
-            addToTower((BuildingTower*)currentTile->getExtension(), human_);
+            if (isSinglePlayer()) {
+                if (addToTower(t, human_)) {
+                    if (t->isDone()) {
+                        qDebug("create Tower");
+                        createTower(t->getType(), t->getPos());
+                        destroyObject(t);
+                    }
+                    human_->dropResource(true);
+                } else {
+                    human_->dropResource(false);
+                }
+            } else {
+                Stream s;
+                s.writeInt(human_->getID());
+                s.writeInt(t->getID());
+                s.writeFloat(t->getPos().x());
+                s.writeFloat(t->getPos().y());
+                NetworkClient::instance()->send(network::kDropResource,
+                        s.data());
+            }
             break;
         case TILE_BUILT:
         case TILE_BASE:

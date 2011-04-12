@@ -13,6 +13,7 @@ class NPC;
 class Projectile;
 class Resource;
 class BuildingTower;
+class Player;
 
 class Driver : public QObject {
     Q_OBJECT
@@ -91,10 +92,11 @@ public:
      * Creates a new tower of the given type.
      *
      * @author Darryl Pogue
+     * @author Marcel Vangrootheest
      * @param type The type of tower to create.
      * @return A pointer to the new tower.
      */
-    Tower* createTower(int type);
+    Tower* createTower(int type, QPointF pos);
 
     /**
      * Creates a new building stage tower of the given type.
@@ -139,8 +141,9 @@ public:
      * @author Marcel Vangrootheest
      * @param tower The BuildingTower to add resources to.
      * @param player The player adding a resource to the BuildingTower.
+     * @return True if the resource is to be added to the tower.
      */
-    void addToTower(BuildingTower* tower, Player* player);
+    bool addToTower(BuildingTower* tower, Player* player);
 
     //Resource* createResource(int type);
 
