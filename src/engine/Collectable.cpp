@@ -56,7 +56,7 @@ void Collectable::networkWrite(Stream* s) {
 void Collectable::initComponents() {
 
     switch (type_) {
-        case COLLECT_WOOD:
+        case RESOURCE_WOOD:
             setInputComponent(new ResourceCollectableInputComponent());
             setPhysicsComponent(new CollectablePhysicsComponent());
 #ifndef SERVER
@@ -64,7 +64,7 @@ void Collectable::initComponents() {
 #endif
             break;
 
-        case COLLECT_STONE:
+        case RESOURCE_STONE:
             setInputComponent(new ResourceCollectableInputComponent());
             setPhysicsComponent(new CollectablePhysicsComponent());
 #ifndef SERVER
@@ -72,7 +72,7 @@ void Collectable::initComponents() {
 #endif
             break;
 
-        case COLLECT_BONE:
+        case RESOURCE_BONE:
             setInputComponent(new ResourceCollectableInputComponent());
             setPhysicsComponent(new CollectablePhysicsComponent());
 #ifndef SERVER
@@ -80,7 +80,7 @@ void Collectable::initComponents() {
 #endif
             break;
 
-        case COLLECT_TAR:
+        case RESOURCE_TAR:
             setInputComponent(new ResourceCollectableInputComponent());
             setPhysicsComponent(new CollectablePhysicsComponent());
 #ifndef SERVER
@@ -88,7 +88,7 @@ void Collectable::initComponents() {
 #endif
             break;
 
-        case COLLECT_GEM:
+        case RESOURCE_GEM:
             setInputComponent(new ResourceCollectableInputComponent());
             setPhysicsComponent(new CollectablePhysicsComponent());
 #ifndef SERVER
