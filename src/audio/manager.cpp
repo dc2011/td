@@ -116,7 +116,6 @@ void AudioManager::playSfx(QString filename, SoundType type)
 
 }
 
-
 void AudioManager::captureMic()
 {
     ALCdevice* captureDevice;
@@ -143,7 +142,7 @@ void AudioManager::captureMic()
 
             if(captureStop_ == true) {
                 break;
-            } else if (samplesAvailable > (speex_.frameSize * 10)) {
+            } else if (samplesAvailable > (speex_.frameSize * 5)) {
                 int nframes = (int)(samplesAvailable / speex_.frameSize);
                 int total = nframes * speex_.frameSize;
 
@@ -154,7 +153,7 @@ void AudioManager::captureMic()
                 int numframes = total / speex_.frameSize;
 
                 encode(buf, numframes, &s);
-
+		
                 NetworkClient::instance()->send(
                         network::kVoiceMessage, s.data());
             }
@@ -602,7 +601,7 @@ void AudioManager::decode(Stream* data, int nframes, short* out) {
 
     float* speexout = new float[frameSize];
     short* pOut = out;
-
+    
     for (int i = 0; i < nframes; i++) {
         int flength = data->readInt();
         char* fdata = data->read(flength).data();

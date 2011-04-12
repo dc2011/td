@@ -221,8 +221,8 @@ void CDriver::startGame(bool singlePlayer) {
     setSinglePlayer(singlePlayer);
 
     td::Console::instance();
-    musicList = td::AudioManager::instance()->musicDir("./sound/music/");
-    td::AudioManager::instance()->playMusic(musicList);
+    //musicList = td::AudioManager::instance()->musicDir("./sound/music/");
+    //td::AudioManager::instance()->playMusic(musicList);
 
     if (singlePlayer) {
         Player* player = (Player*)mgr_->createObject(Player::clsIdx());
