@@ -73,7 +73,7 @@ void SDriver::setBaseHealth(int health) {
     net_->send(network::kBaseHealth, s.data());
 }
 
-void SDriver::startGame() {
+void SDriver::startGame(bool multicast) {
     Stream s;
     s.writeByte(players_.size());
 
@@ -82,9 +82,11 @@ void SDriver::startGame() {
         user->resetDirty();
     }
 
-    /* Not "proper" but it saves space and the client can deal with it anyways */
-    s.writeByte(network::kMulticastIP);
-    s.writeByte(net_->getMulticastAddr());
+    if (multicast) {
+        /* Not "proper" but it saves space and the client can deal with it anyways */
+        s.writeByte(network::kMulticastIP);
+        s.writeByte(net_->getMulticastAddr());
+    }
 
     net_->send(network::kServerPlayers, s.data());
 
