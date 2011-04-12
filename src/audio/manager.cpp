@@ -268,37 +268,34 @@ void AudioManager::streamVoice()
 
         if (buffersAvailable > 0) {
             size = 0;
-            /* Read file to we reached a BUFFERSIZE chunk */
-            while (size < BUFFERSIZE && !checkError()) {
-               
-		while(getQueueSize() < 1 && !checkError()) {
-		    alSleep(0.1f);
-		}
+                      
+	    while(getQueueSize() < 1 && !checkError()) {
+		alSleep(0.1f);
+	    }
 
-		if(checkError()) {
-		    break;
-		}
+	    if(checkError()) {
+		break;
+	    }
 
-		temp = getNextInQueue();
-		frames = temp->readInt();
-		buffersize = frames*speex_.frameSize;
-		buf = new short[buffersize];
-		decode(temp, frames, buf); 
-		qDebug("decoded a stream");
-		result = buffersize*sizeof(short);
-		qDebug("result %d", result);
+	    temp = getNextInQueue();
+	    frames = temp->readInt();
+	    buffersize = frames*speex_.frameSize;
+	    buf = new short[buffersize];
+	    decode(temp, frames, buf); 
+	    qDebug("decoded a stream");
+	    result = buffersize*sizeof(short);
+	    qDebug("result %d", result);
 
-                if (result == 0) {
-                    break;
-                }
+	    if (result == 0) {
+		break;
+	    }
 
-                size += result;
+	    size += result;
 
-                if (result < 0) {
-                    qCritical() << "AudioManager::streamFile(): Read Failed ";
-                    break;
-                }
-            }
+	    if (result < 0) {
+		qCritical() << "AudioManager::streamFile(): Read Failed ";
+		break;
+	    }
 
             alBufferData(buffer[queue], format, buf, size, freq);
             alSourceQueueBuffers(source, 1, &buffer[queue]);
