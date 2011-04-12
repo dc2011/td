@@ -9,7 +9,7 @@ ArrowTowerPhysicsComponent::ArrowTowerPhysicsComponent(Tower* tower)
         : TowerPhysicsComponent(tower, FIRE_INTERVAL_ARROW, RADIUS_ARROW) {
 }
 
-bool ArrowTowerPhysicsComponent::isValidTarget(Unit *) {
+bool ArrowTowerPhysicsComponent::isValidTarget(Unit*) {
     return true;
 }
 
