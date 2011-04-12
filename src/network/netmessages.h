@@ -82,6 +82,9 @@ namespace network {
 
         kBaseHealth     =   0x0C,
 
+        /** Indicates creation of a collectable. */
+        kCollectable    =   0x0D,
+
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
         /** Used as a separator to indicate UDP messages. */

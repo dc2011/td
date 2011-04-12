@@ -1,5 +1,6 @@
 #include "Driver.h"
 #include "Tile.h"
+#include "Collectable.h"
 #include "Tower.h"
 #include "BuildingTower.h"
 #include "NPC.h"
@@ -143,6 +144,11 @@ void Driver::requestProjectile(int projType, QPointF source,
             enemy);
 }
 
+void Driver::requestCollectable(int projType, QPointF source, 
+        QVector2D velocity) {
+    Driver::createCollectable(projType, source, velocity);
+}
+
 Projectile* Driver::createProjectile(int projType, QPointF source,
         QPointF target, Unit* enemy) {
     Projectile* projectile = (Projectile*)mgr_->createObject(
@@ -155,6 +161,21 @@ Projectile* Driver::createProjectile(int projType, QPointF source,
     connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
 
     return projectile;
+}
+
+Collectable* Driver::createCollectable(int collType, QPointF source, 
+        QVector2D velocity) {
+
+    Collectable* collectable = 
+            (Collectable*)mgr_->createObject(Collectable::clsIdx());
+    collectable->setType(collType);
+    collectable->setPath(source, velocity);
+
+    collectable->initComponents();
+
+    connect(gameTimer_,  SIGNAL(timeout()), collectable, SLOT(update()));
+
+    return collectable;
 }
 
 Resource* Driver::createResource(int type) {
@@ -170,3 +191,4 @@ Resource* Driver::createResource(int type) {
 }
 
 } /* end namespace td */
+

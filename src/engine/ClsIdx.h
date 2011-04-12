@@ -11,6 +11,7 @@ enum {
     kPlayer,
     kNPC,
     kProjectile,
+    kCollectable,
     kContextMenu,
     kBuildingTower,
     kTower,

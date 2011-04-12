@@ -166,7 +166,7 @@ void CDriver::makeLocalPlayer(Player* player) {
     connect(human_, SIGNAL(signalEmptyEffectList()),
             physics, SLOT(okayToPlayCollisionSfx()));
     
-    // resource harvesting
+    // resource harvesting and dropping
     connect(this, SIGNAL(signalHarvesting(int)),
             player, SLOT(startHarvesting(int)));
     connect(mainWindow_, SIGNAL(signalSpacebarReleased()),
@@ -175,6 +175,8 @@ void CDriver::makeLocalPlayer(Player* player) {
             player, SLOT(dropResource(bool)));
     connect(player, SIGNAL(signalPlayerMovement(bool)),
 	        input, SLOT(playerMovement(bool)));
+    connect(player, SIGNAL(signalDropResource(int, QPointF, QVector2D)),
+            this, SLOT(requestCollectable(int, QPointF, QVector2D)));
 }
 
 void CDriver::requestBuildingTower(int type, QPointF pos) {

@@ -4,6 +4,7 @@
 #include <QVector>
 #include <QWidget>
 #include "SDriver.h"
+#include "Collectable.h"
 #include "Player.h"
 #include "Tower.h"
 #include "NPCWave.h"
@@ -217,6 +218,14 @@ void SDriver::requestProjectile(int projType, QPointF source,
     Stream s;
     p->networkWrite(&s);
     net_->send(network::kProjectile, s.data());
+}
+
+void SDriver::requestCollectable(int collType, QPointF source, QVector2D vel) {
+    Collectable* c = Driver::createCollectable(collType, source, vel);
+
+    Stream s;
+    c->networkWrite(&s);
+    net_->send(network::kCollectable, s.data());
 }
 
 void SDriver::onMsgReceive(Stream* s) {

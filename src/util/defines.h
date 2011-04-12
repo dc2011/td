@@ -48,6 +48,7 @@
 #define RESOURCE_STONE  2
 #define RESOURCE_BONE   3
 #define RESOURCE_TAR    4
+#define RESOURCE_GEM    99
 
 // time to harvest a resource (in game ticks)
 #define HARVEST_COUNTDOWN   120
@@ -113,6 +114,9 @@
 #define FIRE_VELOCITY   6
 #define TAR_VELOCITY    10
 #define FLAK_VELOCITY   15
+
+// collectable velocity
+#define COLLECTABLE_VELOCITY    10
 
 // healthbar info (sizes are in pixels)
 #define HEALTHBAR_WIDTH     50
