@@ -17,7 +17,7 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
                                                     RESBAR_WIDTH, RESBAR_HEIGHT));
     resourceProgressBar_->setBrush(QBrush(Qt::blue));
     resourcePixmapItem_ = 0;
-    resourceType_ = 0;
+    resourceType_ = RESOURCE_NONE;
 
     CDriver::instance()->getMainWindow()->getScene()->addItem(resourceProgressBar_);
     emit created(this);
@@ -67,9 +67,8 @@ void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
     } else {
         resourceProgressBar_->setVisible(false);
     }
-    if (resourceType_) {
-        //the value from the resourceType does not seem to line up with the images i don't know how to fix that
-        resourcePixmapItem_->setPixmap(pixmapImgs_[PIX_PLAYER_MAX + resourceType_ - 1]);
+    if (resourceType_ >= 0) {
+        resourcePixmapItem_->setPixmap(pixmapImgs_[PIX_PLAYER_MAX + resourceType_]);
         resourcePixmapItem_->setVisible(true);
 
         resourcePixmapItem_->setZValue(layer);

@@ -32,7 +32,6 @@ Map::Map(const QString& filename, Driver* driver) : driver_(driver) {
 }
 
 void Map::initMap() {
-    blockingType type;
     Tiled::Tile * tile = NULL;
     Tiled::TileLayer * tileLayer = tMap_->layerAt(0)->asTileLayer();
     Tiled::TileLayer * towerLayer = tMap_->layerAt(1)->asTileLayer();
@@ -47,9 +46,11 @@ void Map::initMap() {
 
         for (size_t col = (unsigned) 0; col < widthInTiles_; col++) {
             tile = tileLayer->tileAt(col, row);
-            type = (blockingType) tile->id();
+            //type = (Tile::BlockingType) tile->id();
+            Tile::TileAttributes attrs = Tile::getAttributes(tile->id());
+
             //save into array
-            tiles_[row][col] = new Tile(row, col, type);
+            tiles_[row][col] = new Tile(row, col, attrs.type);
 
             // Check for buildable tiles.
             if (towerLayer->contains(col, row)
@@ -98,26 +99,6 @@ void Map::makeWaypoints(int key, Tiled::ObjectGroup* path) {
                     path->objects().at(i)->position().y() * 48));
     }
     addWaypoints(key, newPath);
-}
-
-void Map::loadTestMap2(){
-    blockingType type;
-    tiles_ = new Tile**[heightInTiles_];
-    for (int i = 0; i < heightInTiles_; i++)
-    {
-        tiles_[i] = new Tile*[widthInTiles_];
-        for (int j = 0; j < widthInTiles_; j++)
-        {
-            type = OPEN; //default type
-            // area to add logic for tile creation
-            if( i ==0 || j == 0 || i == heightInTiles_-1 || j == widthInTiles_ -1 ){
-                type = CLOSED; //border of map gets CLOSED status
-            }
-            // end for logic
-            //save into array
-            tiles_[i][j] = new Tile(i,j,type);
-        }
-    }
 }
 
 void Map::getTileType(double x, double y, int *blockingType)
