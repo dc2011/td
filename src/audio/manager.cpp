@@ -125,7 +125,7 @@ void AudioManager::captureMic()
     format = AL_FORMAT_MONO16;
     frequency = 8000;
 
-    ALCsizei buffersize = frequency; /* 2 for 16-bit, 4 for time */
+    ALCsizei buffersize = frequency * 2 * 4; /* 2 for 16-bit, 4 for time */
     captureDevice = alcCaptureOpenDevice(NULL, frequency, format, buffersize);
 
     if (captureDevice) {
@@ -142,7 +142,7 @@ void AudioManager::captureMic()
 
             if(captureStop_ == true) {
                 break;
-            } else if (samplesAvailable > buffersize) {
+            } else if (samplesAvailable > (speex_.frameSize * 4)) {
                 int nframes = (int)(samplesAvailable / speex_.frameSize);
                 int total = nframes * speex_.frameSize;
 
@@ -153,7 +153,7 @@ void AudioManager::captureMic()
                 int numframes = total / speex_.frameSize;
 
                 encode(buf, numframes, &s);
-
+		
                 NetworkClient::instance()->send(
                         network::kVoiceMessage, s.data());
             }
@@ -573,6 +573,7 @@ void AudioManager::encode(short* data, int nframes, Stream* out) {
     char* fdata = new char[frameSize];
     short* pData = data;
 
+    qDebug("encoding");
     out->writeInt(nframes);
 
     for (int i = 0; i < nframes; i++) {
@@ -601,7 +602,8 @@ void AudioManager::decode(Stream* data, int nframes, short* out) {
 
     float* speexout = new float[frameSize];
     short* pOut = out;
-
+    qDebug("Decoding");
+    
     for (int i = 0; i < nframes; i++) {
         int flength = data->readInt();
         char* fdata = data->read(flength).data();
