@@ -41,9 +41,9 @@ void AudioManager::startup()
     initSpeex();
     inited_ = true;
     playing_ = 0;
-    QFuture<void> future =
-        QtConcurrent::run(this, &AudioManager::streamVoice);
-
+    
+    QtConcurrent::run(this, &AudioManager::streamVoice);
+    QtConcurrent::run(this, &AudioManager::captureMic);
 }
 
 void AudioManager::initSpeex() {
