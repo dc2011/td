@@ -69,6 +69,12 @@ namespace network {
         kProjectile     =   0x09,
 
         kBaseHealth     =   0x0A,
+        
+        /** Indicates an update: connected user list needs to be sent */
+        kUpdateUserList =   0x0B,
+
+        /** Indicates an update: games available needs to be sent */
+        kUpdateListOfGames = 0x0C,
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
