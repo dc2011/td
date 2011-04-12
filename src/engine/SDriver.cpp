@@ -4,10 +4,12 @@
 #include <QVector>
 #include <QWidget>
 #include "SDriver.h"
+#include "Collectable.h"
 #include "Player.h"
 #include "Tower.h"
 #include "NPCWave.h"
 #include "Projectile.h"
+#include "BuildingTower.h"
 
 namespace td {
 
@@ -220,6 +222,14 @@ void SDriver::requestProjectile(int projType, QPointF source,
     net_->send(network::kProjectile, s.data());
 }
 
+void SDriver::requestCollectable(int collType, QPointF source, QVector2D vel) {
+    Collectable* c = Driver::createCollectable(collType, source, vel);
+
+    Stream s;
+    c->networkWrite(&s);
+    net_->send(network::kCollectable, s.data());
+}
+
 void SDriver::onMsgReceive(Stream* s) {
 
     int message = s->readByte(); /* Message Type */
@@ -227,28 +237,56 @@ void SDriver::onMsgReceive(Stream* s) {
     Stream* out = new Stream();
 
     switch(message) {
-        case network::kBuildTower:
+        case network::kTowerChoice:
         {
-            int playerID = s->readInt();
             int towertype = s->readInt();
             float x = s->readFloat();
             float y = s->readFloat();
-
-            Player* player = (Player*)mgr_->findObject(playerID);
-            if (player->getPos().x() != x || player->getPos().y() != y) {
-                break;
-            }
 
             Tile* currentTile = gameMap_->getTile(x, y);
             if (currentTile->getActionType() != TILE_BUILDABLE) {
                 break;
             }
 
-            Tower* t = Driver::createTower(towertype);
-            t->setPos(currentTile->getPos());
-            currentTile->setExtension(t);
+            BuildingTower* t = Driver::createBuildingTower(towertype,
+                    QPointF(x,y));
 
             updates_.insert(t);
+            break;
+        }
+        case network::kDropResource:
+        {
+            int playerID = s->readInt();
+            float x = s->readFloat();
+            float y = s->readFloat();
+
+            Player* player = (Player*)mgr_->findObject(playerID);
+
+            Tile* currentTile = gameMap_->getTile(x, y);
+            if (currentTile->getActionType() != TILE_BUILDING) {
+                out->writeInt(player->getID());
+                out->writeInt(false);
+	            net_->send(network::kDropResource, out->data());
+                break;
+            }
+            
+            BuildingTower* t = (BuildingTower*)currentTile->getExtension();
+            
+            if (addToTower(t, player)) {
+                if (t->isDone()) {
+                    Tower* tower = Driver::createTower(t->getType(),
+                            t->getPos());
+                    updates_.insert(tower);
+                    destroyObject(t);
+                }
+                out->writeInt(player->getID());
+                out->writeInt(true);
+            } else {
+                out->writeInt(player->getID());
+                out->writeInt(false);
+            }
+            net_->send(network::kDropResource, out->data());
+
             break;
         }
         default:

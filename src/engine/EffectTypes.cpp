@@ -38,6 +38,7 @@ PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
 
 PlayerTerrainSlowEffect::~PlayerTerrainSlowEffect() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
+    qDebug("slow effect getting destroyed");
 }
 
 void PlayerTerrainSlowEffect::apply() {

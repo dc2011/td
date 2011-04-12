@@ -3,7 +3,6 @@
 #include "../engine/Map.h"
 #include "../engine/Tile.h"
 #include "../engine/CDriver.h"
-#include "../engine/NPC.h"
 
 namespace td {
 

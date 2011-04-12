@@ -37,9 +37,15 @@
 //Tile action types specifying action for spacebar
 #define TILE_REGULAR    0
 #define TILE_BUILDABLE  1
-#define TILE_BUILT      2
-#define TILE_BASE       3
-#define TILE_RESOURCE   4
+#define TILE_BUILDING   2
+#define TILE_BUILT      3
+#define TILE_BASE       4
+#define TILE_RESOURCE   5
+
+//state of tower completion
+#define TOWER_COMPLETE_25   0
+#define TOWER_COMPLETE_50   1
+#define TOWER_COMPLETE_75   2
 
 // resources that can be picked up by the player
 #define RESOURCE_NONE   -1
@@ -47,6 +53,8 @@
 #define RESOURCE_STONE  1
 #define RESOURCE_BONE   2
 #define RESOURCE_TAR    3
+#define RESOURCE_TYPE_MAX   4
+#define RESOURCE_GEM        99
 
 // time to harvest a resource (in game ticks)
 #define HARVEST_COUNTDOWN   120
@@ -122,6 +130,9 @@
 #define FIRE_VELOCITY   6
 #define TAR_VELOCITY    10
 #define FLAK_VELOCITY   15
+
+// collectable velocity
+#define COLLECTABLE_VELOCITY    10
 
 // healthbar info (sizes are in pixels)
 #define HEALTHBAR_WIDTH     50
