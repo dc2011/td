@@ -8,6 +8,7 @@
 #include <QtDebug>
 #include <QtConcurrentRun>
 #include <QQueue>
+#include <QByteArray>
 #include <QDir>
 #include <vorbis/vorbisfile.h>
 #include <errno.h>
@@ -84,6 +85,11 @@ private:
     static float gainScale[];
 
     /**
+     * Map for the cached sound effects
+     */
+    static QMap<QString,QByteArray> sfxCache_;
+
+    /**
      * The volume/gain of the sound effects.
      */
     int sfxGain_;
@@ -152,7 +158,7 @@ private:
      * @param filename the path to file.
      * @param gain is a float with a default param of 1.0
      */
-    void streamFile(QString filename, float gain = 1);
+    void streamFile(QString filename, float gain = 1, bool cacheThis = false);
 
     /**
      * Goes through all the filenames in the queue
@@ -194,6 +200,15 @@ private:
      * @param freq is the frequency to play at
      */
     void openOgg(FILE *, OggVorbis_File *, ALenum *, ALsizei *);
+
+    /**
+     * Plays the cached buffers back
+     *
+     * @author Terence Stenvold
+     * @param filename is the filename 
+     * @param gain is the volume for playback
+     */
+    void playCached(QString filename, float gain);
 
 
 public:
@@ -240,6 +255,49 @@ public:
 	captureStop_ = !captureStop_;
 	mutex_.unlock();
     }
+
+    /**
+     * Adds the buffer into the cached map
+     *
+     * @author Terence Stenvold
+     * @param filename is the files name
+     * @param buf is the PCM data buffer
+     * @param size is the size of the data buffer
+     * @param bitmask contains the freq and format of the audio
+     */
+    static void cacheBuffer(QString filename, char *buf, 
+			    long size, char bitmask) {
+	
+	QByteArray tmp(buf,size);
+
+	mutex_.lock();
+	if(sfxCache_.contains(filename)) {
+	    sfxCache_[filename].append(tmp);
+	} else {
+	    tmp.prepend(bitmask);
+	    sfxCache_.insert(filename,tmp);
+	}
+	mutex_.unlock();
+    }
+
+    /**
+     * set the bitmask from the format and freq
+     *
+     * @author Terence Stenvold
+     * @param format is like stereo16 or mono8 etc
+     * @param freq is the frequency to play at
+     */
+    char getBitmask(ALenum format, ALuint freq);
+
+    /**
+     * get the bitmask for the format and freq
+     *
+     * @author Terence Stenvold
+     * @param bitmask is the bitmask of the format freq
+     * @param *format is like stereo16 or mono8 etc
+     * @param *freq is the frequency to play at
+     */
+    void getSpecs(char bitmask, ALenum *format, ALuint *freq);
 
     /**
      * Destroy the OpenAL context and try to clean up any resources.

@@ -130,6 +130,14 @@ public:
      */
     virtual void sendNetMessage(unsigned char msgType, QByteArray msg);
 
+    /**
+     * Sets the health of the player's base.
+     *
+     * @author Darryl Pogue
+     * @param health The new base health.
+     */
+    virtual void setBaseHealth(int health);
+
 public:
     /**
      * Sets a player as the local human player object.

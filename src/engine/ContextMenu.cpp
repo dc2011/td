@@ -20,11 +20,13 @@ ContextMenu::~ContextMenu() {
 void ContextMenu::toggleMenu() {
     if (!menuIsOpen_) {
         PLAY_LOCAL_SFX(SfxManager::contextMenuOpened);
+        //qDebug("opens a menu");
         menuIsOpen_ = true;	
         emit signalPlayerMovement(false);
         ((ContextMenuGraphicsComponent*)graphics_)->showMenu(player_->getPos());
     } else {
         PLAY_LOCAL_SFX(SfxManager::contextMenuClosed);
+        //qDebug("closes a menu");
         menuIsOpen_ = false;
         emit signalPlayerMovement(true);
         ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
@@ -37,6 +39,7 @@ void ContextMenu::selectMenuItem(int keyPressed) {
         return;
     }
     PLAY_LOCAL_SFX(SfxManager::contextMenuSelect);
+    //qDebug("selects a menu item");
     menuIsOpen_ = false;
     emit signalPlayerMovement(true);
     ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();

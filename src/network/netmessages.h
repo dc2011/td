@@ -80,6 +80,8 @@ namespace network {
          */
         kDropResource   =   0x0B,
 
+        kBaseHealth     =   0x0C,
+
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
         /** Used as a separator to indicate UDP messages. */

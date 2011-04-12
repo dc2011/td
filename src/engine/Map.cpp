@@ -4,6 +4,7 @@
 #include "../client/MainWindow.h"
 #include "Resource.h"
 #include "CDriver.h"
+#include "Driver.h"
 
 /* Tiled headers. */
 // TODO: I am pretty sure we only *actually* need to include map.h and tile.h
@@ -20,12 +21,12 @@
 
 namespace td{
 
-Map::Map(Tiled::Map * tMap) {
+Map::Map(Tiled::Map * tMap, Driver* driver) : driver_(driver) {
     tMap_ = tMap;
     waypoints = QMap<int,QList<QPointF> >();
 }
 
-Map::Map(const QString& filename) {
+Map::Map(const QString& filename, Driver* driver) : driver_(driver) {
     Tiled::MapReader reader;
     tMap_ = reader.readMap(filename);
 }
@@ -72,14 +73,12 @@ void Map::initMap() {
 }
 
 void Map::createResource(int type, Tile * tile) {
-    Resource * res = new Resource();
-    res->initComponents(type);
+    Resource * res = driver_->createResource(type);
     res->setPos(tile->getPos());
-    res->setID(0xFFFFFFFF); // TODO: Darryl informs me that this is a hack.
 
 #ifndef SERVER
     // Connect updates (primarily for graphics component).
-    connect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
+    connect(driver_->getTimer(), SIGNAL(timeout()), 
             res, SLOT(update()));
 #endif
 

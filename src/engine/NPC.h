@@ -140,11 +140,23 @@ signals:
      */
     void dead(int id);
 
+    /**
+     * Stops applying an effect.
+     * Used when replacing an effect in a list.
+     * Connected to effectStop() in Effect.
+     *
+     * @author Marcel Vangrootheest
+     * @param type The type of Effect.
+     */
+    void stopEffect(uint type);
+
 public slots:
     /**
      * Add effect to the effect list.
+     * Replaces effect if type already exists in list.
      *
      * @author Pan K.
+     * @author Marcel Vangrootheest
      * @param type Type of effect.
      */
     void createEffect(Effect* effect);
@@ -153,6 +165,7 @@ public slots:
      * Remove effect from the effect list.
      *
      * @author Pan K.
+     * @author Marcel Vangrootheest
      * @param effect Effect to delete.
      */
     void deleteEffect(Effect* effect);

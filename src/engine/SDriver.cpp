@@ -14,12 +14,15 @@ namespace td {
 
 SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
-    gameMap_ = new Map(QString("./maps/netbookmap2.tmx"));
+    gameMap_ = new Map(QString("./maps/netbookmap2.tmx"), this);
     net_ = new NetworkServer();
     npcCounter_ = 0;
 
     connect(net_, SIGNAL(msgReceived(Stream*)), 
             this, SLOT(onMsgReceive(Stream*)));
+
+    connect(net_, SIGNAL(disconnected()),
+            this, SIGNAL(disconnecting()));
 }
 SDriver::~SDriver() {
     delete net_;
@@ -63,6 +66,14 @@ void SDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
     net_->send(msgType, msg);
 }
 
+void SDriver::setBaseHealth(int health) {
+    Driver::setBaseHealth(health);
+
+    Stream s;
+    s.writeInt(health);
+    net_->send(network::kBaseHealth, s.data());
+}
+
 void SDriver::startGame() {
     Stream s;
     s.writeByte(players_.size());
@@ -96,6 +107,8 @@ GameObject* SDriver::updateObject(Stream* s) {
     GameObject* go = mgr_->findObject(id);
     if (go == NULL) {
         go = mgr_->createObjectWithID(id);
+    } else if (go == (GameObject*)-1) {
+        go = NULL;
     }
 
     if (go != NULL) {
@@ -132,6 +145,10 @@ void SDriver::onTimerTick() {
 }
 
 void SDriver::destroyObject(GameObject* obj) {
+    if (obj == (GameObject*)-1 || obj == NULL) {
+        return;
+    }
+
     int id = obj->getID();
     updates_.remove(obj);
 
@@ -145,6 +162,10 @@ void SDriver::destroyObject(GameObject* obj) {
 
 void SDriver::destroyObject(int id) {
     GameObject* go = mgr_->findObject(id);
+    if (go == (GameObject*)-1 || go == NULL) {
+        return;
+    }
+
     updates_.remove(go);
 
     Driver::destroyObject(id);

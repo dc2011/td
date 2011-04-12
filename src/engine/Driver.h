@@ -34,6 +34,11 @@ protected:
      */
     QTimer* gameTimer_;
 
+    /**
+     * The health of the player's base.
+     */
+    int baseHealth_;
+
 public:
     Driver();
     virtual ~Driver();
@@ -86,6 +91,26 @@ public:
      */
     QTimer* getTimer() const {
         return gameTimer_;
+    }
+
+    /**
+     * Returns the health of the player's base.
+     *
+     * @author Darryl Pogue
+     * @return The base health.
+     */
+    int getBaseHealth() const {
+        return baseHealth_;
+    }
+
+    /**
+     * Sets the health of the player's base.
+     *
+     * @author Darryl Pogue
+     * @param health The new base health.
+     */
+    virtual void setBaseHealth(int health) {
+        baseHealth_ = health;
     }
 
     /**
@@ -145,7 +170,14 @@ public:
      */
     bool addToTower(BuildingTower* tower, Player* player);
 
-    //Resource* createResource(int type);
+    /**
+     * Creates a resource "mine" of the given type.
+     *
+     * @author Dean Morin
+     * @author Darryl Pogue
+     * @return A pointer to the new resource.
+     */
+    Resource* createResource(int type);
 
     /**
      * Need to find object with res manager. Did I do it right?

@@ -73,6 +73,13 @@ void CDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
     NetworkClient::instance()->send(msgType, msg);
 }
 
+void CDriver::setBaseHealth(int health) {
+    Driver::setBaseHealth(health);
+
+    /* Do something dramatic here */
+    Console::instance()->addText("Oh teh noes!");
+}
+
 void CDriver::readObject(Stream* s) {
     unsigned int id = s->readInt();
 
@@ -101,6 +108,11 @@ void CDriver::readObject(Stream* s) {
         }
 
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
+        return;
+    } else if (go == (GameObject*)-1) {
+        go = mgr_->createTempObject((id & 0xFF000000) >> 24);
+        go->networkRead(s);
+        delete go;
         return;
     }
     
@@ -192,7 +204,7 @@ void CDriver::NPCCreator() {
 
 void CDriver::startGame(bool singlePlayer) {
     // Create hard coded map
-    gameMap_ = new Map(mainWindow_->getMD()->map());
+    gameMap_ = new Map(mainWindow_->getMD()->map(), this);
     gameTimer_ = new QTimer(this);
     gameMap_->initMap();
     QQueue<QString> musicList;
@@ -286,7 +298,7 @@ void CDriver::UDPReceived(Stream* s) {
         case network::kAssignPlayerID:
         {
             playerID_ = s->readInt();
-            qDebug("My player ID is %08X", playerID_);
+            //qDebug("My player ID is %08X", playerID_);
             break;
         }
         case network::kMulticastIP:
@@ -304,6 +316,8 @@ void CDriver::UDPReceived(Stream* s) {
                 go->networkRead(s);
                 go->initComponents();
                 connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
+                connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+                        (Player*)go,  SLOT(showName(bool)));
 
                 if (id == playerID_) {
                     this->makeLocalPlayer((Player*)go);
@@ -332,9 +346,25 @@ void CDriver::UDPReceived(Stream* s) {
         }
         case network::kDestroyObject:
         {  
-	        int id = s->readInt();
-	        destroyObject(id);
-	        break;
+            int id = s->readInt();
+            destroyObject(id);
+            break;
+        }
+        case network::kBaseHealth:
+        {
+            int health = s->readInt();
+
+            setBaseHealth(health);
+            break;
+        }
+        case network::kPlaySfx:
+        {
+            int type = s->readInt();
+            int len = s->readInt();
+            QString fname = QString(s->read(len));
+
+            AudioManager::instance()->playSfx(fname, (SoundType)type);
+            break;
         }
         default:
             this->readObject(s);
