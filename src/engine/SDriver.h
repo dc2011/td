@@ -191,9 +191,9 @@ public slots:
      * @author Dean Morin
      * @param projType The type of the collectable (resource or gem).
      * @param source The origin of the collectable.
-     * @param target Where the collectable will land.
+     * @param vel The velocity of the dropper.
      */
-    void requestCollectable(int collType, QPointF source, QPointF target);
+    void requestCollectable(int collType, QPointF source, QVector2D vel);
 };
 
 } /* end namespace td */

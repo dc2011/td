@@ -16,8 +16,6 @@ void CollectableGraphicsComponent::update(GameObject* obj) {
 
     DrawParams* dp = new DrawParams();
     dp->pos     = collectable->getPos();
-    qDebug("%d", collectable->getPos().x());
-    qDebug("%d", collectable->getPos().y());
     dp->moving  = true;
     dp->scale   = collectable->getScale();
     dp->degrees = collectable->getOrientation();

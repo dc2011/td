@@ -39,6 +39,11 @@ GameObject* ResManager::internalCreateObject(unsigned char type) {
             id = (Tower::clsIdx() <<24) | objects_[type].size();
             ret->setID(id);
             break;
+        case clsidx::kCollectable:
+            ret = new Collectable((QObject*)driver_);
+            id = (Tower::clsIdx() << 24) | objects_[type].size();
+            ret->setID(id);
+            break;
         case clsidx::kGameObject:
         case clsidx::kUnit:
         default:

@@ -120,6 +120,9 @@
 #define TAR_VELOCITY    10
 #define FLAK_VELOCITY   15
 
+// collectable velocity
+#define COLLECTABLE_VELOCITY    10
+
 // healthbar info (sizes are in pixels)
 #define HEALTHBAR_WIDTH     50
 #define HEALTHBAR_HEIGHT    4

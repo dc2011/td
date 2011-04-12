@@ -122,10 +122,12 @@ void Player::dropResource() {
     }
     setDirty(kResource);
 
-    collectable_ = new Collectable();
-    collectable_->setType(COLLECT_TAR);
-    collectable_->initComponents();
-    collectable_->update();
+    //collectable_ = new Collectable();
+    //collectable_->setType(COLLECT_TAR);
+    //collectable_->initComponents();
+    //collectable_->update();
+
+    emit signalDropResource(COLLECT_TAR, pos_, velocity_);
 
     qDebug("Player::dropResource(); dropped resource");
     resource_ = RESOURCE_NONE;

@@ -58,7 +58,7 @@ void Collectable::initComponents() {
     switch (type_) {
         case COLLECT_WOOD:
             setInputComponent(new ResourceCollectableInputComponent());
-            setPhysicsComponent(new CollectablePhysicsComponent(70));
+            setPhysicsComponent(new CollectablePhysicsComponent());
 #ifndef SERVER
             setGraphicsComponent(new WoodCollectableGraphicsComponent());
 #endif
@@ -66,7 +66,7 @@ void Collectable::initComponents() {
 
         case COLLECT_STONE:
             setInputComponent(new ResourceCollectableInputComponent());
-            setPhysicsComponent(new CollectablePhysicsComponent(70));
+            setPhysicsComponent(new CollectablePhysicsComponent());
 #ifndef SERVER
             setGraphicsComponent(new StoneCollectableGraphicsComponent());
 #endif
@@ -74,7 +74,7 @@ void Collectable::initComponents() {
 
         case COLLECT_BONE:
             setInputComponent(new ResourceCollectableInputComponent());
-            setPhysicsComponent(new CollectablePhysicsComponent(70));
+            setPhysicsComponent(new CollectablePhysicsComponent());
 #ifndef SERVER
             setGraphicsComponent(new BoneCollectableGraphicsComponent());
 #endif
@@ -82,7 +82,7 @@ void Collectable::initComponents() {
 
         case COLLECT_TAR:
             setInputComponent(new ResourceCollectableInputComponent());
-            setPhysicsComponent(new CollectablePhysicsComponent(70));
+            setPhysicsComponent(new CollectablePhysicsComponent());
 #ifndef SERVER
             setGraphicsComponent(new TarCollectableGraphicsComponent());
 #endif
@@ -90,7 +90,7 @@ void Collectable::initComponents() {
 
         case COLLECT_GEM:
             setInputComponent(new ResourceCollectableInputComponent());
-            setPhysicsComponent(new CollectablePhysicsComponent(70));
+            setPhysicsComponent(new CollectablePhysicsComponent());
 #ifndef SERVER
             setGraphicsComponent(new GemCollectableGraphicsComponent());
 #endif
@@ -99,26 +99,17 @@ void Collectable::initComponents() {
     }
     getInputComponent()->setParent(this);
     ((CollectableInputComponent*) getInputComponent())->setPath(start_, end_);
-
-//#ifndef SERVER
-    //if (!((CDriver*) getDriver())->isSinglePlayer()) {
-        //delete getInputComponent();
-        //delete getPhysicsComponent();
-        //setInputComponent(NULL);
-        //setPhysicsComponent(NULL);
-    //}
-//#endif
 }
 
-void Collectable::setPath(QPointF source, QPointF target) {
+void Collectable::setPath(QPointF source, QVector2D velocity) {
     start_ = new QPointF(source);
-    end_ = new QPointF(target);
+    end_ = new QPointF(source);
 }
 
 void Collectable::update() {
-    input_ = NULL; //TEMP
+
     if (input_ != NULL) {
-        input_->update();
+//        input_->update();
     }
     if (physics_ != NULL) {
         physics_->update(this);

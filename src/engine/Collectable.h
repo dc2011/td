@@ -16,7 +16,7 @@ public:
      * @return The class index.
      */
     static unsigned char clsIdx() {
-        return td::clsidx::kUnit;
+        return td::clsidx::kCollectable;
     }
 
 private:
@@ -62,15 +62,14 @@ public:
     virtual void update();
 
     /**
-     * Sets path of the projectile for input
+     * Sets path of the collectable for input.
      *
      * @param source The source point of the path.
-     * @param target The target point of the path.
-     * @param enemy  The enemy unit firing at.
+     * @param vel The velocity of the unit that dropped the collectable.
      *
-     * @author Marcel Vangrootheest
+     * @author Dean Morin
      */
-    void setPath(QPointF source, QPointF target);
+    void setPath(QPointF source, QVector2D vel);
 
     /**
      * Sets the collectable type (resource, gem).

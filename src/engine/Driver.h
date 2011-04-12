@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QVector2D>
 #include "ResManager.h"
 #include "Map.h"
 
@@ -126,11 +127,10 @@ public:
      * @author Dean Morin
      * @param projType The type of the collectable (resource or gem).
      * @param source The origin of the collectable.
-     * @param target Where the collectable will land.
+     * @param vel The velocity of the unit that dropped the collectable.
      * @return A pointer to the created collectable.
      */
-    Collectable* createCollectable(int collType, QPointF source, 
-            QPointF target);
+    Collectable* createCollectable(int collType, QPointF source, QVector2D vel);
 
     //Resource* createResource(int type);
 
@@ -177,6 +177,17 @@ public slots:
     virtual void requestProjectile(int projType, QPointF source, 
             QPointF target, Unit* enemy);
 
+    /**
+     * Creates projectile on server and send message to client for creation.
+     * Connected to signalDropResource in Player.
+     *
+     * @author Dean Morin
+     * @param projType The type of the resource.
+     * @param source The coords of the unit that dropped the collectable.
+     * @param velocity The velocity of the unit that dropped the collectable.
+     */
+    virtual void requestCollectable(int projType, QPointF source, 
+            QVector2D velocity);
 };
 
 } /* end namespace td */

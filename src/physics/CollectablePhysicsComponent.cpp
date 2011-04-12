@@ -6,8 +6,8 @@
 
 namespace td {
 
-CollectablePhysicsComponent::CollectablePhysicsComponent(double velocity) {
-    maxVelocity_ = accel_ = decel_ = velocity;
+CollectablePhysicsComponent::CollectablePhysicsComponent() {
+    maxVelocity_ = accel_ = decel_ = COLLECTABLE_VELOCITY;
     duration_ = -1;
     increment_ = 0;
 }
@@ -25,6 +25,18 @@ void CollectablePhysicsComponent::applyVelocity(Collectable* collectable) {
                      + collectable->getVelocity().toPointF();
 
     collectable->setPos(newPos);
+}
+
+void CollectablePhysicsComponent::setScale(Collectable *collectable) {
+    if (duration_ < 0) {
+        duration_ = collectable->getPath().length() / maxVelocity_;
+        increment_ = 0;
+    }
+    if (increment_++ < (duration_ / 2)) {
+        collectable->setScale(collectable->getScale() + 0.05);
+    } else if (increment_ < duration_) {
+        collectable->setScale(collectable->getScale() - 0.05);
+    }
 }
 
 void CollectablePhysicsComponent::applyForce(Collectable* collectable) {

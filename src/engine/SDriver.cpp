@@ -198,8 +198,8 @@ void SDriver::requestProjectile(int projType, QPointF source,
     net_->send(network::kProjectile, s.data());
 }
 
-void SDriver::requestCollectable(int collType, QPointF source, QPointF target) {
-    Collectable* c = Driver::createCollectable(collType, source, target);
+void SDriver::requestCollectable(int collType, QPointF source, QVector2D vel) {
+    Collectable* c = Driver::createCollectable(collType, source, vel);
 
     Stream s;
     c->networkWrite(&s);
