@@ -142,7 +142,7 @@ void AudioManager::captureMic()
 
             if(captureStop_ == true) {
                 break;
-            } else if (samplesAvailable > (speex_.frameSize * 4)) {
+            } else if (samplesAvailable > (speex_.frameSize * 5)) {
                 int nframes = (int)(samplesAvailable / speex_.frameSize);
                 int total = nframes * speex_.frameSize;
 
