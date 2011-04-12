@@ -91,8 +91,7 @@ namespace network {
         /** Indicates an update: games available needs to be sent */
         kUpdateListOfGames = 0x0F,
 
-        kBaseHealth     =   0x10,
-
+        
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
         /** Used as a separator to indicate UDP messages. */
