@@ -1,15 +1,11 @@
-#ifndef PROJECTILE_H
-#define PROJECTILE_H
-
-#include <QVector2D>
-#include <QPointF>
+#ifndef TD_COLLECTABLE_H
+#define TD_COLLECTABLE_H
 
 #include "Unit.h"
-#include "Effect.h"
 
 namespace td {
 
-class Projectile : public Unit {
+class Collectable : public Unit {
     Q_OBJECT
 
 public:
@@ -20,45 +16,22 @@ public:
      * @return The class index.
      */
     static unsigned char clsIdx() {
-        return td::clsidx::kProjectile;
+        return td::clsidx::kCollectable;
     }
 
 private:
     enum {
-        /* GameObject properties */
         kPosition       = (1 << 0),
         kOrientation    = (1 << 1),
         kScale          = (1 << 2),
-
-        /* Projectile properties */
-        kDamage         = (1 << 3),
+        kType           = (1 << 3),
         kStartPos       = (1 << 4),
-        kEndPos         = (1 << 5),
-        kTargetType     = (1 << 6),
-        kType           = (1 << 7)
+        kEndPos         = (1 << 5)
     };
 
 public:
-    Projectile(QObject* parent = 0);
-    ~Projectile();
-
-    /**
-     * Initializes the Projectile components based on type
-     *
-     * @author Marcel Vangrootheest
-     */
-    virtual void initComponents();
-
-    /**
-     * Sets path of the projectile for input
-     *
-     * @param source The source point of the path.
-     * @param target The target point of the path.
-     * @param enemy  The enemy unit firing at.
-     *
-     * @author Marcel Vangrootheest
-     */
-    void setPath(QPointF source, QPointF target, Unit* enemy);
+    Collectable(QObject* parent = 0);
+    virtual ~Collectable();
 
     /**
      * Reads the object state from a network stream.
@@ -79,25 +52,34 @@ public:
     virtual void networkWrite(td::Stream* s);
 
     /**
-     * Sets the Projectile type (Arrow, Cannon, Fire, Tar, or Flak).
+     * This function will do any component initialization whenever
+     * a gameobject is created.
      *
-     * @author Marcel Vangrootheest.
-     * @param type Projectile type
+     * @author Duncan Donaldson
+     */
+    virtual void initComponents();
+    
+    virtual void update();
+
+    /**
+     * Sets path of the collectable for input.
+     *
+     * @param source The source point of the path.
+     * @param vel The velocity of the unit that dropped the collectable.
+     *
+     * @author Dean Morin
+     */
+    void setPath(QPointF source, QVector2D vel);
+
+    /**
+     * Sets the collectable type (resource, gem).
+     *
+     * @author Dean Morin
+     * @param type Collectable type.
      */
     void setType(int type) {
         type_ = type;
         setDirty(kType);
-    }
-
-    virtual void update();
-
-    size_t getDamage(){
-        return damage_;
-    }
-
-    void setDamage(size_t damage){
-        damage_ = damage;
-        setDirty(kDamage);
     }
 
     /**
@@ -106,7 +88,7 @@ public:
      * @author Marcel Vangrootheest
      * @return the original starting position of the projectile
      */
-    QPointF* getStartPoint(){
+    QPointF* getStartPoint() {
         return start_;
     }
 
@@ -116,7 +98,7 @@ public:
      * @author Marcel Vangrootheest
      * @param point, the point to set the start location as
      */
-    void setStartPoint(QPointF* point){
+    void setStartPoint(QPointF* point) {
         start_ = point;
         setDirty(kStartPos);
     }
@@ -127,7 +109,7 @@ public:
      * @author Marcel Vangrootheest
      * @return the original ending position of the projectile
      */
-    QPointF* getEndPoint(){
+    QPointF* getEndPoint() {
         return end_;
     }
 
@@ -137,7 +119,7 @@ public:
      * @author Marcel Vangrootheest
      * @param point, the ending point set the end location as
      */
-    void setEndPoint(QPointF* point){
+    void setEndPoint(QPointF* point) {
         end_ = point;
         setDirty(kEndPos);
     }
@@ -162,29 +144,15 @@ public:
        path_ = path;
     }
 
-    Unit* getEnemy(){
-        return enemy_;
-    }
-
-    void setEnemy(Unit* enemy){
-        enemy_ = enemy;
-        setDirty(kTargetType);
-    }
     /**
-     * Checks for collision between projectile and npcs
-     * and applies effects to hit npcs.
+     * Returns the type of collectable (resource, gem).
      *
-     * @author Daniel Wright
-     * @param npcs, set of npcs to check collision with
+     * @author Dean Morin
+     * @return The collectable type.
      */
-    void checkNPCCollision(QSet<Unit*> npcs);
-
-    /**
-    * Creates a bounding polygon based on the projectiles end point.
-    *
-    * @author Daniel Wright
-    */
-    void createBounds();
+    int getType() {
+        return type_;
+    }
 
     int getWidth(){
         return width_;
@@ -201,28 +169,16 @@ public:
     void setHeight(int height){
         height_ = height;
     }
-
-public slots:
-    /**
-     * Sets the enemy_ member to null if the NPC dies.
-     *
-     * Connected to signalNPCDied() in the NPC class.
-     *
-     * @author Marcel Vangrootheest
-     */
-    void enemyDied();
-
-signals:
-    /**
-     * Signal to notify NPC of projectile collision.
-     * For applying the effect specified to the NPC.
-     *
-     * @author Marcel Vangrootheest
-     */
-    void ProjectileCollision(Effect* effect);
+    
+protected:
+    /** Input handling logic for this Unit is contained in this component. */
+    InputComponent* input_;
 
 private:
-    size_t damage_;
+    /** The type of collectable (resource or gem). */
+    int type_;
+    int height_;
+    int width_;
     /**
      * Initial start position of the projectile.
      * This needs to be initialized before physics component is set.
@@ -238,15 +194,9 @@ private:
      * or the current projectile position. First position should be set to end.
      */
     QLineF path_;
-
-    QList<Effect*> effects_;
-
-    Unit* enemy_;
-    int height_;
-    int width_;
-    int type_;
 };
 
-} /* end namespace td */
+} // end namespace td
 
-#endif // PROJECTILE_H
+#endif
+
