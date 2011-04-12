@@ -77,6 +77,10 @@ private:
         return (Driver*)this->parent();
     }
 
+signals:
+    /** Emitted when all the NPCs in the wave have been killed. */
+    void waveDead();
+
 public slots:
     /**
      * Updates the state of all NPCs in the wave, and sends that state

@@ -25,6 +25,7 @@ private:
     QList<Player*> players_;
     QSet<GameObject*> updates_;
     QList<NPCWave*> waves_;
+    QTimer* waveTimer_;
 
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
