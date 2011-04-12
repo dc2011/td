@@ -68,7 +68,7 @@ void GraphicsComponent::setImgIndex(int index) {
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
 }
 
-void GraphicsComponent::setCurrentResource(int resourceType) {
+void GraphicsComponent::setCurrentResource(int) {
     qDebug() << "if you reach this you are doing something stupid";
 }
 

@@ -41,10 +41,10 @@ void Map::initMap() {
     widthInTiles_ = tileLayer->width();
 
     tiles_ = new Tile**[heightInTiles_];
-    for (size_t row = (unsigned) 0; row < heightInTiles_; row++) {
+    for (int row = 0; row < heightInTiles_; row++) {
         tiles_[row] = new Tile*[widthInTiles_];
 
-        for (size_t col = (unsigned) 0; col < widthInTiles_; col++) {
+        for (int col = 0; col < widthInTiles_; col++) {
             tile = tileLayer->tileAt(col, row);
             //type = (Tile::BlockingType) tile->id();
             Tile::TileAttributes attrs = Tile::getAttributes(tile->id());
