@@ -27,7 +27,6 @@ Effect& Effect::operator=(const Effect &rhs) {
         healthChangeValue_ = rhs.healthChangeValue_;
         timerEnabled_ = rhs.timerEnabled_;
     }
-
     return *this;
 }
 
