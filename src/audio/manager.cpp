@@ -241,7 +241,8 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
 
 void AudioManager::streamVoice()
 {
-    short array[BUFFERSIZE];
+    short *buf;
+    int buffersize=0;
     Stream *temp;
     int frames;
     int buffersAvailable = QUEUESIZE;
@@ -280,9 +281,11 @@ void AudioManager::streamVoice()
 
 		temp = getNextInQueue();
 		frames = temp->readInt();
-		decode(temp, frames, array); 
+		buffersize = frames*speex_.frameSize;
+		buf = new short[buffersize];
+		decode(temp, frames, buf); 
 		qDebug("decoded a stream");
-		result = sizeof(array);
+		result = sizeof(buf);
 		qDebug("result %d", result);
 
                 if (result == 0) {
@@ -297,7 +300,7 @@ void AudioManager::streamVoice()
                 }
             }
 
-            alBufferData(buffer[queue], format, array, size, freq);
+            alBufferData(buffer[queue], format, buf, size, freq);
             alSourceQueueBuffers(source, 1, &buffer[queue]);
             queue = (++queue == QUEUESIZE ? 0 : queue);
             buffersAvailable--;
