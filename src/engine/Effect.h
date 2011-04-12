@@ -9,17 +9,6 @@
 #include "Unit.h"
 #include "../physics/PhysicsComponent.h"
 
-// effect types for operator==
-#define EFFECT_NONE         0
-#define EFFECT_NPCPLAYER    1
-#define EFFECT_TERRAIN      2
-#define EFFECT_ARROW        3
-#define EFFECT_TAR          4
-#define EFFECT_FLAK         5
-#define EFFECT_CANNON       6
-#define EFFECT_FIRE         7
-#define EFFECT_BURNING      8
-
 namespace td {
 
 class Effect : public GameObject {
