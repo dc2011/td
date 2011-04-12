@@ -8,6 +8,7 @@ QMutex AudioManager::mutex_;
 bool AudioManager::capturePause_ = true;
 bool AudioManager::captureStop_ = false;
 QMap<QString,QByteArray> AudioManager::sfxCache_;
+QQueue<Stream> AudioManager::netQueue_;
 float AudioManager::gainScale[] = {0.1, 0.2, 0.3, 0.4, 0.5, 0.55, 0.6, 0.65,
                                    0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
 
@@ -18,6 +19,7 @@ AudioManager::AudioManager()
     sfxGain_ = 9;
     musicGain_ = 5;
     notiGain_ = 12;
+    voiceGain_ = 10;
 }
 
 AudioManager::~AudioManager()
@@ -39,6 +41,9 @@ void AudioManager::startup()
     initSpeex();
     inited_ = true;
     playing_ = 0;
+    QFuture<void> future =
+        QtConcurrent::run(this, &AudioManager::streamVoice);
+
 }
 
 void AudioManager::initSpeex() {
@@ -231,6 +236,90 @@ void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
 
         errno = 0;
     }
+}
+
+
+void AudioManager::streamVoice()
+{
+    short array[BUFFERSIZE];
+    Stream *temp;
+    int frames;
+    int buffersAvailable = QUEUESIZE;
+    long size = 0;
+    long result = 0;
+    ALuint buffer[QUEUESIZE];
+    ALuint source;
+    ALint queued = 0;
+    ALint queue = 0;
+    ALint play = AL_TRUE;
+    ALint playing = AL_TRUE;
+    ALenum format = AL_FORMAT_MONO16;
+    ALuint freq = 8000;
+
+    /* Created the source and Buffers */
+    alGenBuffers(QUEUESIZE, buffer);
+    alGenSources(1, &source);
+
+    do {
+
+	alSourcef(source, AL_GAIN, voiceGain_);
+	clearProcessedBuffers(&source, buffersAvailable, &playing, &play);
+
+        if (buffersAvailable > 0) {
+            size = 0;
+            /* Read file to we reached a BUFFERSIZE chunk */
+            while (size < BUFFERSIZE && !checkError()) {
+               
+		while(getQueueSize() < 1 && !checkError()) {
+		    alSleep(0.1f);
+		}
+
+		if(checkError()) {
+		    break;
+		}
+
+		temp = getNextInQueue();
+		frames = temp->readInt();
+		decode(temp, frames, array); 
+		result = sizeof(array);
+
+
+                if (result == 0) {
+                    break;
+                }
+
+                size += result;
+
+                if (result < 0) {
+                    qCritical() << "AudioManager::streamFile(): Read Failed ";
+                    break;
+                }
+            }
+
+            alBufferData(buffer[queue], format, array, size, freq);
+            alSourceQueueBuffers(source, 1, &buffer[queue]);
+            queue = (++queue == QUEUESIZE ? 0 : queue);
+            buffersAvailable--;
+
+            /**Check the amount of buffers queued to see if
+	     * we should be playing the track right now.
+	     * If play is false it means it's playing already
+	     */
+            alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
+
+            if (queued > 2 && play) {
+		alSourcePlay(source);
+                play = AL_FALSE;
+            }
+        } else {
+            alSleep(0.1f);
+        }
+
+/* result == 0 when file is completely read */
+    } while (result > 0 && !checkError());
+
+    cleanUp(&source, buffer);
+
 }
 
 void AudioManager::playCached(QString filename, float gain)

@@ -123,6 +123,11 @@ private:
     int musicGain_;
 
     /**
+     * The volume/gain of the voice chat.
+     */
+    int voiceGain_;
+
+    /**
      * The number of audio tracks playing
      */
     int playing_;
@@ -137,6 +142,11 @@ private:
      */
     static bool captureStop_;
  
+    /**
+     * The queue for network audio data
+     */ 
+    static QQueue<Stream> netQueue_; 
+   
     /**
      * Whether the AudioManager has been initialized.
      *
@@ -161,6 +171,13 @@ private:
      */
     void initSpeex();
     
+    /**
+     * Stream the voice data
+     *
+     * @author Terence Stenvold
+     */
+    void streamVoice();
+
     /**
      * Captures audio from the microphone
      * eventually transfer across the network
@@ -330,6 +347,45 @@ public:
 	}
 	mutex_.unlock();
     }
+
+    /**
+     * get the next buffer in the queue
+     *
+     * @author Terence Stenvold
+     * @return the next buffer
+     */
+    static Stream* getNextInQueue() {
+	Stream *temp = new Stream();
+	mutex_.lock();
+        if(netQueue_.count() > 0) {
+	    *temp = netQueue_.dequeue();
+	}
+	mutex_.unlock();
+	return temp;
+    }
+    
+    /**
+     * gets the size of the queue
+     *
+     * @author Terence Stenvold
+     * @return the size of the queue
+     */
+    static int getQueueSize() {
+	return netQueue_.count();
+    }
+
+    /**
+     * add a buffer to the queue
+     *
+     * @author Terence Stenvold
+     * @param buffer is the buffer
+     */
+    static void addToQueue(Stream *s) {
+	mutex_.lock();
+	netQueue_.enqueue(*s);
+	mutex_.unlock();
+    }
+
 
     /**
      * set the bitmask from the format and freq
