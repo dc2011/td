@@ -34,12 +34,20 @@ private:
      * The value is the nickname of the player.
      */
     QMap<QTcpSocket*, QString> clients_;
-
+     
     /**
+     * Map of all the games. The key will be a incrementing id. The value will be their sockets which can be used to map
+     * to their nickname
+     */
+    QMultiMap<int,QTcpSocket*> games_;
+    
+/**
      * Set of all currently used nicknames, to prevent multiple users with the
      * same nickname.
      */
     QSet<QString> usernames_;
+    /** Id to use for the game*/
+    int gameId;
 
 public:
     explicit LobbyServer(QObject* parent = 0);

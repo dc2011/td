@@ -9,7 +9,7 @@ namespace td {
 LobbyServer* LobbyServer::instance_ = NULL;
 QMutex LobbyServer::mutex_;
 
-LobbyServer::LobbyServer(QObject* parent) : QTcpServer(parent), connCount_(0)
+LobbyServer::LobbyServer(QObject* parent) : QTcpServer(parent), connCount_(0),gameId(1)
 {
     this->listen(QHostAddress::Any, TD_PORT);
     qDebug() << "Server is listening for connections";
@@ -58,7 +58,19 @@ void LobbyServer::notifyClients(unsigned char msgType)
 
         }
         case network::kUpdateListOfGames:
-            
+        {
+            Stream s;
+            QList<int> gameNames = games_.keys();
+            s.writeByte(msgType);
+            s.writeInt(games_.size());
+            foreach(int name, gameNames) {
+                s.writeInt(name);
+            }
+            foreach (QTcpSocket* sock, clients_.keys()) {
+                sock->write(s.data());
+                sock->flush();
+            }
+        }
         case network::kBadVersion:
         case network::kLobbyStartGame:
         {
@@ -147,11 +159,19 @@ void LobbyServer::readSocket()
 
             int len = s.readByte();
             QString nick = QString(s.read(len));
+            int game = s.readInt();
 
             mutex_.lock();
             connCount_++;
             usernames_.insert(nick);
             clients_.insert(conn, nick);
+            if(game == 0) {
+                games_.insert(gameId++,conn);
+                notifyClients(network::kUpdateListOfGames);
+            }
+            else {
+                games_.insert(game,conn);
+            }
             mutex_.unlock();
 
             notifyClients(network::kLobbyWelcome);
@@ -199,6 +219,9 @@ void LobbyServer::disconnected()
     mutex_.lock();
     QString nick = clients_[conn];
     if (!nick.isEmpty()) {
+
+        games_.remove(games_.key(conn),conn);
+
         clients_.remove(conn);
         connCount_ = (connCount_ > 0) ? connCount_ - 1 : 0;
         usernames_.remove(nick);
