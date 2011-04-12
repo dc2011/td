@@ -41,23 +41,6 @@ void LobbyServer::notifyClients(unsigned char msgType)
             }
             break;
         }
-        case network::kUpdateUserList:
-        {
-            Stream s;
-            s.writeByte(msgType);
-            foreach (QString name, usernames_) {
-                name.append(",");
-                s.writeByte(name.data()->toAscii());
-
-            }
-            foreach (QTcpSocket* sock, clients_.keys()) {
-                sock->write(s.data());
-                sock->flush();
-            }
-
-        }
-        case network::kUpdateListOfGames:
-            
         case network::kBadVersion:
         case network::kLobbyStartGame:
         {
@@ -154,7 +137,6 @@ void LobbyServer::readSocket()
             mutex_.unlock();
 
             notifyClients(network::kLobbyWelcome);
-            notifyClients(network::kUpdateUserList);
             qDebug() << "Number of clients connected = " << connCount_;
             break;
         }
@@ -205,7 +187,6 @@ void LobbyServer::disconnected()
     mutex_.unlock();
 
     notifyClients(network::kLobbyWelcome);
-    notifyClients(network::kUpdateUserList);
     qDebug() << "Number of clients connected = " << connCount_;
 }
 
