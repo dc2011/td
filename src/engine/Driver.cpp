@@ -2,10 +2,14 @@
 #include "Tower.h"
 #include "NPC.h"
 #include "Resource.h"
+#include "Projectile.h"
+#include "Unit.h"
+#include "GameObject.h"
+#include <QPointF>
 
 namespace td {
 
-Driver::Driver() : QObject(), gameMap_(NULL), gameTimer_(NULL)
+Driver::Driver() : QObject(), gameMap_(NULL), gameTimer_(NULL), baseHealth_(100)
 {
     mgr_ = new ResManager(this);
 }
@@ -23,9 +27,19 @@ void Driver::destroyObject(GameObject* obj) {
 
 void Driver::destroyObject(int id) {
     GameObject* go = mgr_->findObject(id);
-    if (go != NULL) {
+    if (go != NULL && go != (GameObject*)-1) {
         mgr_->deleteObject(go);
     }
+}
+
+GameObject* Driver::findObject(unsigned int id) {
+    GameObject* obj =  mgr_->findObject(id);
+
+    if (obj == (GameObject*)-1) {
+        return NULL;
+    }
+
+    return obj;
 }
 
 Tower* Driver::createTower(int type) {
@@ -35,7 +49,11 @@ Tower* Driver::createTower(int type) {
     tower->initComponents();
 
     connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
-
+#ifdef SERVER
+    connect(tower->getPhysicsComponent(),
+            SIGNAL(fireProjectile(int, QPointF, QPointF, Unit*)),
+            this, SLOT(requestProjectile(int, QPointF, QPointF, Unit*)));
+#endif
     return tower;
 }
 
@@ -48,6 +66,26 @@ NPC* Driver::createNPC(int type) {
     //connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
 
     return npc;
+}
+
+void Driver::requestProjectile(int projType, QPointF source,
+        QPointF target, Unit* enemy) {
+    Driver::createProjectile(projType, source, target,     
+            enemy);
+}
+
+Projectile* Driver::createProjectile(int projType, QPointF source,
+        QPointF target, Unit* enemy) {
+    Projectile* projectile = (Projectile*)mgr_->createObject(
+            Projectile::clsIdx());
+    projectile->setType(projType);
+    projectile->setPath(source, target, enemy);
+
+    projectile->initComponents();
+
+    connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
+
+    return projectile;
 }
 
 Resource* Driver::createResource(int type) {

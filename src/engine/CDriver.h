@@ -130,6 +130,14 @@ public:
      */
     virtual void sendNetMessage(unsigned char msgType, QByteArray msg);
 
+    /**
+     * Sets the health of the player's base.
+     *
+     * @author Darryl Pogue
+     * @param health The new base health.
+     */
+    virtual void setBaseHealth(int health);
+
 public:
     /**
      * Sets a player as the local human player object.
@@ -237,8 +245,8 @@ private slots:
      * @param source The starting point of the projectile.
      * @param target The destination point of the projectile.
      */
-    void createProjectile(int projType, QPointF source, QPointF target,
-            Unit* enemy);
+    //void createProjectile(int projType, QPointF source, QPointF target,
+    //        Unit* enemy);
 
     /**
      * Temp testing method.

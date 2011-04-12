@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "Driver.h"
+#include "../graphics/PlayerGraphicsComponent.h"
 #include "../audio/SfxManager.h"
+#include "../graphics/Console.h"
 
 namespace td {
 
@@ -61,19 +63,21 @@ void Player::update() {
 }
 
 void Player::createEffect(Effect* effect){
-    QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
+    if (!effects_.contains(*effect)) {
+        emit signalEmptyEffectList();
+        QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
             this, SLOT(deleteEffect(Effect*)));
-    connect(getDriver()->getTimer(), SIGNAL(timeout()),
+        connect(getDriver()->getTimer(), SIGNAL(timeout()),
             effect, SLOT(update()));
-
-    effects_.push_back(effect);
+        
+        effects_.push_back(*effect);
+    } else {
+        delete effect;
+    }
 }
 
 void Player::deleteEffect(Effect* effect){
-    effects_.removeOne(effect);
-    if (effects_.empty()) {
-        emit signalEmptyEffectList();
-    }
+    effects_.removeOne(*effect);
     delete effect;
 }
 
@@ -107,19 +111,28 @@ void Player::stopHarvesting() {
     if (harvesting_ == RESOURCE_NONE) {
         return;
     }
+
     harvesting_ = RESOURCE_NONE;
     harvestCountdown_ = HARVEST_COUNTDOWN;
     emit signalPlayerMovement(true);
 }
 
 void Player::dropResource() {
+
     if (resource_ == RESOURCE_NONE) {
         return;
     }
+    setDirty(kResource);
     // TODO: create resource object on current tile
     qDebug("Player::dropResource(); dropped resource");
+#ifndef SERVER
+	Console::instance()->addText("Dropped Resource");
+#endif
+
     resource_ = RESOURCE_NONE;
-    // TODO: hide resource carrying indicator
+    if (getGraphicsComponent()) {
+        getGraphicsComponent()->setCurrentResource(0);
+    }
 }
     
 void Player::harvestResource() {
@@ -128,9 +141,19 @@ void Player::harvestResource() {
         harvestCountdown_ = HARVEST_COUNTDOWN;
         qDebug("Player::harvestResource(); resource: %d", harvesting_);
         // TODO: hide harvesting progress bar
-        // TODO: add resource carrying indicator
+        if (getGraphicsComponent()) {
+            getGraphicsComponent()->setCurrentResource(resource_);
+            getGraphicsComponent()->update(this);
+
+        }
+        setDirty(kResource);
         stopHarvesting();
-        return;
+
+#ifndef SERVER
+	Console::instance()->addText("Picked up a Resource");
+#endif
+
+	return;
     }
     // TODO: update harvesting progress bar
 }

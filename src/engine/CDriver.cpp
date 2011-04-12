@@ -72,6 +72,13 @@ void CDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
     NetworkClient::instance()->send(msgType, msg);
 }
 
+void CDriver::setBaseHealth(int health) {
+    Driver::setBaseHealth(health);
+
+    /* Do something dramatic here */
+    Console::instance()->addText("Oh teh noes!");
+}
+
 void CDriver::readObject(Stream* s) {
     unsigned int id = s->readInt();
 
@@ -94,6 +101,11 @@ void CDriver::readObject(Stream* s) {
         }
 
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
+        return;
+    } else if (go == (GameObject*)-1) {
+        go = mgr_->createTempObject((id & 0xFF000000) >> 24);
+        go->networkRead(s);
+        delete go;
         return;
     }
     
@@ -157,9 +169,17 @@ void CDriver::NPCCreator() {
 
     if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
         npc = Driver::createNPC(NPC_FLY);
+        if(npc){
+            npc->setHeight(90);
+            npc->setWidth(30);
+        }
     }
     if (npcCounter_ % 40 == 0 && (npcCounter_ % 1400) > 1000) {
         npc = Driver::createNPC(NPC_SLOW);
+        if(npc){
+            npc->setHeight(30);
+            npc->setWidth(90);
+        }
     }
 
     if (npc) {
@@ -167,19 +187,6 @@ void CDriver::NPCCreator() {
                 npc->getGraphicsComponent(), SLOT(showHealth(bool)));
         connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
     }
-}
-
-void CDriver::createProjectile(int projType, QPointF source,
-        QPointF target, Unit* enemy) {
-    Projectile* projectile = (Projectile*)mgr_->createObject(
-            Projectile::clsIdx());
-    projectile->setType(projType);
-
-    projectile->initComponents();
-    projectile->setPath(source, target, enemy);
-
-    connect(enemy, SIGNAL(signalNPCDied()), projectile, SLOT(enemyDied()));
-    connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
 }
 
 void CDriver::createTower(int towerType, QPointF pos)
@@ -192,10 +199,12 @@ void CDriver::createTower(int towerType, QPointF pos)
         tower->setPos(currentTile->getPos());
         currentTile->setExtension(tower);
 
+        connect(mainWindow_, SIGNAL(signalAltHeld(bool)),tower->getGraphicsComponent(),SLOT(setVisibleRange(bool)));
         connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
         connect(tower->getPhysicsComponent(),
                 SIGNAL(fireProjectile(int, QPointF, QPointF, Unit*)),
-                this, SLOT(createProjectile(int, QPointF, QPointF, Unit*)));
+                this,
+                SLOT(requestProjectile(int, QPointF, QPointF, Unit*)));
 
         return;
     }
@@ -283,7 +292,7 @@ void CDriver::UDPReceived(Stream* s) {
         case network::kAssignPlayerID:
         {
             playerID_ = s->readInt();
-            qDebug("My player ID is %08X", playerID_);
+            //qDebug("My player ID is %08X", playerID_);
             break;
         }
         case network::kMulticastIP:
@@ -301,6 +310,8 @@ void CDriver::UDPReceived(Stream* s) {
                 go->networkRead(s);
                 go->initComponents();
                 connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
+                connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+                        (Player*)go,  SLOT(showName(bool)));
 
                 if (id == playerID_) {
                     this->makeLocalPlayer((Player*)go);
@@ -319,9 +330,16 @@ void CDriver::UDPReceived(Stream* s) {
         }
         case network::kDestroyObject:
         {  
-	        int id = s->readInt();
-	        destroyObject(id);
-	        break;
+            int id = s->readInt();
+            destroyObject(id);
+            break;
+        }
+        case network::kBaseHealth:
+        {
+            int health = s->readInt();
+
+            setBaseHealth(health);
+            break;
         }
         case network::kPlaySfx:
         {

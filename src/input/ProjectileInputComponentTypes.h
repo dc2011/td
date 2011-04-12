@@ -9,10 +9,10 @@ class ArrowProjectileInputComponent : public ProjectileInputComponent {
     Q_OBJECT
 
 public:
-    ArrowProjectileInputComponent() : ProjectileInputComponent(){}
+    ArrowProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~ArrowProjectileInputComponent() {}
     
-    void update();
+    virtual void update();
     void checkNPCCollision(QSet<Unit *> npcs);
 };
 
@@ -23,7 +23,12 @@ public:
     CannonProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~CannonProjectileInputComponent() {}
 
-    void update();
+    /**
+     * Updates the force for the projectile.
+     *
+     * @author Marcel Vangrootheest
+     */
+    virtual void update();
     void checkNPCCollision(QSet<Unit *> npcs);
 };
 
@@ -31,10 +36,25 @@ class FireProjectileInputComponent : public ProjectileInputComponent {
     Q_OBJECT
 
 public:
-    FireProjectileInputComponent() : ProjectileInputComponent() {}
+    FireProjectileInputComponent();
     virtual ~FireProjectileInputComponent() {}
 
+    /**
+     * Updates the force for the projectile.
+     *
+     * @author Marcel Vangrootheest
+     */
+    virtual void update();
+    /**
+     * Makes a force that will follow the path.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void makeForce();
     void checkNPCCollision(QSet<Unit *> npcs);
+private:
+    int duration_;
+    int increment_;
 };
 
 class TarProjectileInputComponent : public ProjectileInputComponent {
@@ -44,7 +64,12 @@ public:
     TarProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~TarProjectileInputComponent() {}
 
-    void update();
+    /**
+     * Updates the force for the projectile.
+     *
+     * @author Marcel Vangrootheest
+     */
+    virtual void update();
     void checkNPCCollision(QSet<Unit *> npcs);
 };
 
@@ -55,7 +80,12 @@ public:
     FlakProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~FlakProjectileInputComponent() {}
 
-    void update();
+    /**
+     * Updates the force for the projectile.
+     *
+     * @author Marcel Vangrootheest
+     */
+    virtual void update();
     void checkNPCCollision(QSet<Unit *> npcs);
 };
 

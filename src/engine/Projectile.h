@@ -34,7 +34,8 @@ private:
         kDamage         = (1 << 3),
         kStartPos       = (1 << 4),
         kEndPos         = (1 << 5),
-        kType           = (1 << 6)
+        kTargetType     = (1 << 6),
+        kType           = (1 << 7)
     };
 
 public:
@@ -88,7 +89,7 @@ public:
     }
 
     int getType(){
-        return type_;
+            return type_;
     }
 
     virtual void update();
@@ -170,6 +171,7 @@ public:
 
     void setEnemy(Unit* enemy){
         enemy_ = enemy;
+        setDirty(kTargetType);
     }
 
     /**

@@ -103,6 +103,14 @@ public:
      */
     virtual void sendNetMessage(unsigned char msgType, QByteArray msg);
 
+    /**
+     * Sets the health of the player's base.
+     *
+     * @author Darryl Pogue
+     * @param health The new base health.
+     */
+    virtual void setBaseHealth(int health);
+
 signals:
     /**
      * Signal emitted when there are no more players in this game session.
@@ -177,6 +185,18 @@ public slots:
      * @author Duncan Donaldson
      */
     void onMsgReceive(Stream* s);
+
+    /**
+     * Creates projectile on server and send message to client for creation.
+     * Connected to fire() in TowerPhysicsComponent
+     *
+     * @author Marcel Vangrootheest
+     * @param projType The type of the projectile (Arrow, Cannon, etc).
+     * @param source The starting point of the projectile.
+     * @param target The destination point of the projectile.
+     */
+    void requestProjectile(int projType, QPointF source,
+            QPointF target, Unit* enemy);
 };
 
 } /* end namespace td */

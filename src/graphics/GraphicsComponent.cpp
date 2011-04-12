@@ -3,6 +3,7 @@
 #include "../engine/GameObject.h"
 #include "../engine/CDriver.h"
 #include "../util/DelayedDelete.h"
+#include <QDebug>
 
 namespace td {
 
@@ -65,6 +66,10 @@ void GraphicsComponent::setImgIndex(int index) {
     
     pixmapIndex_ = index;
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
+}
+
+void GraphicsComponent::setCurrentResource(int resourceType) {
+    qDebug() << "if you reach this you are doing something stupid";
 }
 
 } /* end namespace td */

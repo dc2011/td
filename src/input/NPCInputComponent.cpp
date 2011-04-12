@@ -3,6 +3,7 @@
 #include "../physics/NPCPhysicsComponent.h"
 #include "../engine/Map.h"
 #include "../engine/Driver.h"
+#include "../audio/SfxManager.h"
 #include <QTime>
 
 namespace td {
@@ -61,7 +62,11 @@ void NPCInputComponent::nextDestination() {
             && nextDest_ >= waypoints_.length()) {
         disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
-        // TODO: damage players' base
+
+        int health = parent_->getDriver()->getBaseHealth();
+        health -= parent_->getDamage();
+        parent_->getDriver()->setBaseHealth(health);
+	PLAY_LOCAL_SFX(SfxManager::npcInBase);
         emit deleteUnitLater(parent_->getID());  
     }
 }
