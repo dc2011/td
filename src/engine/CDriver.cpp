@@ -101,10 +101,16 @@ void CDriver::readObject(Stream* s) {
                     go->getGraphicsComponent(), SLOT(showHealth(bool)));
         }
 
-        if (go->getClsIdx() == BuildingTower::clsIdx() ||
-                go->getClsIdx() == Tower::clsIdx()) {
-            gameMap_->getTile(((TileExtension*)go)->getPos())
-                ->setExtension((TileExtension*)go);
+        if (go->getClsIdx() == BuildingTower::clsIdx()) {
+            Tile* tile = gameMap_->getTile(((TileExtension*)go)->getPos());
+            tile->setActionType(TILE_BUILDING);
+            tile->setExtension((BuildingTower*)go);
+        }
+
+        if (go->getClsIdx() == Tower::clsIdx()) {
+            Tile* tile = gameMap_->getTile(((TileExtension*)go)->getPos());
+            tile->setActionType(TILE_BUILT);
+            tile->setExtension((Tower*)go);
         }
 
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));

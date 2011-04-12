@@ -125,7 +125,9 @@ void Player::dropResource(bool addToTower) {
     setDirty(kResource);
     if (addToTower) {
         qDebug("Player::dropResource(); added resource to BuildingTower");
+#ifndef SERVER
 	    Console::instance()->addText("Added Resource");
+#endif
     } else {
     // TODO: create resource object on current tile
         qDebug("Player::dropResource(); dropped resource");
