@@ -333,6 +333,11 @@ void CDriver::UDPReceived(Stream* s) {
             setBaseHealth(health);
             break;
         }
+        case network::kVoiceMessage:
+        {
+            AudioManager::instance()->addToQueue(s);
+            return;
+        }
         case network::kPlaySfx:
         {
             int type = s->readInt();
