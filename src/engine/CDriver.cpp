@@ -352,7 +352,7 @@ void CDriver::UDPReceived(Stream* s) {
         }
         case network::kDropResource:
         {
-            int id = s->readInt();
+            unsigned int id = s->readInt();
             bool addToTower = s->readInt();
             
             if (human_->getID() == id) {
