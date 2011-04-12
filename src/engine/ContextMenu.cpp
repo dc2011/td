@@ -20,13 +20,11 @@ ContextMenu::~ContextMenu() {
 void ContextMenu::toggleMenu() {
     if (!menuIsOpen_) {
         PLAY_LOCAL_SFX(SfxManager::contextMenuOpened);
-        qDebug("opens a menu");
         menuIsOpen_ = true;	
         emit signalPlayerMovement(false);
         ((ContextMenuGraphicsComponent*)graphics_)->showMenu(player_->getPos());
     } else {
         PLAY_LOCAL_SFX(SfxManager::contextMenuClosed);
-        qDebug("closes a menu");
         menuIsOpen_ = false;
         emit signalPlayerMovement(true);
         ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
@@ -39,31 +37,13 @@ void ContextMenu::selectMenuItem(int keyPressed) {
         return;
     }
     PLAY_LOCAL_SFX(SfxManager::contextMenuSelect);
-    qDebug("selects a menu item");
     menuIsOpen_ = false;
     emit signalPlayerMovement(true);
     ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
     ((ContextMenuGraphicsComponent*)
      graphics_)->showSelectMenu(keyPressed, player_->getPos());
     
-    switch (keyPressed) {
-        
-        case TOWER_ARROW:
-            emit signalTowerSelected(TOWER_ARROW, player_->getPos());
-            break;
-        case TOWER_CANNON:
-            emit signalTowerSelected(TOWER_CANNON, player_->getPos());
-            break;
-        case TOWER_TAR:
-            emit signalTowerSelected(TOWER_TAR, player_->getPos());
-            break;
-        case TOWER_FLAME:
-            emit signalTowerSelected(TOWER_FLAME, player_->getPos());
-            break;
-        case TOWER_FLAK:
-            emit signalTowerSelected(TOWER_FLAK,  player_->getPos());
-            break;
-    }
+    emit signalTowerSelected(keyPressed, player_->getPos());
 }
 
 void ContextMenu::viewResources(bool altHeld) {
