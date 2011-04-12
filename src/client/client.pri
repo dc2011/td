@@ -6,3 +6,6 @@ CLIENT_SRCS +=  ./client/main.cpp \
                 ./client/lobbywindow.cpp
 
 FORMS += ./client/lobbywindow.ui
+
+RESOURCES += \
+    client/client.qrc

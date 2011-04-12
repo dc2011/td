@@ -2,6 +2,7 @@
 #include <QDateTime>
 #include <QMessageBox>
 #include <QSettings>
+#include <QFile>
 #include "../audio/SfxManager.h"
 #include "../engine/CDriver.h"
 #include "../network/netclient.h"
@@ -13,8 +14,12 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LobbyWindow)
 {
+    this->applyStyleSheet(QString(":/file/client.qss"));
+
     ui->setupUi(this);
     ui->btnStart->setEnabled(false);
+
+    //background-image: url("../../img/lobbyBg.png");
 
     connect(ui->btnConnect, SIGNAL(clicked()),
             this, SLOT(connectLobby()));
@@ -140,6 +145,13 @@ void LobbyWindow::assignName() {
     int rand = qrand() % 4;
 
     ui->txtUsername->setText(names[rand]);
+}
+
+void LobbyWindow::applyStyleSheet(QString path) {
+    QFile f(path);
+    f.open(QIODevice::ReadOnly);
+    this->setStyleSheet(QString(f.readAll()));
+    f.close();
 }
 
 } /* end namespace td */
