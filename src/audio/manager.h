@@ -145,7 +145,7 @@ private:
     /**
      * The queue for network audio data
      */ 
-    static QQueue<Stream> netQueue_; 
+    static QQueue<Stream *> netQueue_; 
    
     /**
      * Whether the AudioManager has been initialized.
@@ -355,11 +355,12 @@ public:
      * @return the next buffer
      */
     static Stream* getNextInQueue() {
-	Stream *temp = new Stream();
+	Stream *temp;
 	mutex_.lock();
         if(netQueue_.count() > 0) {
-	    *temp = netQueue_.dequeue();
+	    temp = netQueue_.dequeue();
 	}
+	qDebug("get next in Queue");
 	mutex_.unlock();
 	return temp;
     }
@@ -382,7 +383,8 @@ public:
      */
     static void addToQueue(Stream *s) {
 	mutex_.lock();
-	netQueue_.enqueue(*s);
+	qDebug("Stream added to queue");
+	netQueue_.enqueue(s);
 	mutex_.unlock();
     }
 
