@@ -49,7 +49,7 @@ QStringList SfxManager::contextMenuSelect
 
 // NPC wave entrance
 QStringList SfxManager::npcPterodactylEnters
-        = QStringList() << "";
+        = QStringList() << "entrance-1";
 
 // NPC death 
 QStringList SfxManager::npcPterodactylDies
@@ -90,7 +90,7 @@ QStringList SfxManager::lobbyMulti
 QStringList SfxManager::lobbyConnect
         = QStringList() << "connecting";
 
-void SfxManager::makeSfxNetworkMsg(GameObject* gameObject, QStringList sfxList,  
+void SfxManager::makeSfxNetworkMsg(QObject* gameObject, QStringList sfxList,  
         int type)
 {
     int rdNum;
@@ -107,7 +107,7 @@ void SfxManager::makeSfxNetworkMsg(GameObject* gameObject, QStringList sfxList,
     s.writeInt(type);
     s.writeInt(filename.size());
     s.write(filename.toAscii());
-    gameObject->getDriver()->sendNetMessage(network::kPlaySfx, s.data());
+    ((Driver*)gameObject->parent())->sendNetMessage(network::kPlaySfx, s.data());
 }
 
 } // end namespace td
