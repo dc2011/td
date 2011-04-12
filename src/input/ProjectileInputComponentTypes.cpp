@@ -88,6 +88,8 @@ void FireProjectileInputComponent::makeForce(){
     QSet<Unit*> npcs;
     QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
                              parent_->getPath().p1().x(), parent_->getPath().p1().y());
+    QPointF *end = parent_->getEndPoint();
+    npcs = map->getUnits(end->x(), end->y(), 4);
     if (++increment_ == duration_) {
         if (parent_->getEnemy() != NULL) {
             disconnect(parent_->getEnemy(), SIGNAL(signalNPCDied()),
@@ -101,8 +103,6 @@ void FireProjectileInputComponent::makeForce(){
             return;
         }
 #endif
-        QPointF *end = parent_->getEndPoint();
-        npcs = map->getUnits(end->x(), end->y(), 1);
         if(!npcs.empty()){
             parent_->createBounds();
             this->checkNPCCollision(npcs);
@@ -113,6 +113,10 @@ void FireProjectileInputComponent::makeForce(){
         force = QVector2D(parent_->getPath().unitVector().dx() * -1,
                           parent_->getPath().unitVector().dy() * -1);
         parent_->setForce(force);
+        if(!npcs.empty()){
+            parent_->createBounds();
+            this->checkNPCCollision(npcs);
+        }
     }
 }
 
@@ -145,7 +149,6 @@ void FireProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
                 //add effect to npc
                 //qDebug("Enemy hit");
                 ((NPC*)(*it))->createEffect(new NPCTarEffect(*it));
-                break;
             }else{
                 //qDebug("No hit");
             }
