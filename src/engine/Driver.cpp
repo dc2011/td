@@ -48,6 +48,7 @@ Tower* Driver::createTower(int type, QPointF pos) {
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
     tower->setPos(currentTile->getPos());
     currentTile->setExtension(tower);
+    currentTile->setActionType(TILE_BUILT);
 
     connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
     connect(tower->getPhysicsComponent(),
@@ -67,6 +68,7 @@ BuildingTower* Driver::createBuildingTower(int type, QPointF pos) {
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
     tower->setPos(currentTile->getPos());
     currentTile->setExtension(tower);
+    currentTile->setActionType(TILE_BUILDING);
 
 #ifndef SERVER
     connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));

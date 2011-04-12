@@ -231,7 +231,6 @@ void SDriver::onMsgReceive(Stream* s) {
         case network::kDropResource:
         {
             int playerID = s->readInt();
-            int towertype = s->readInt();
             float x = s->readFloat();
             float y = s->readFloat();
 

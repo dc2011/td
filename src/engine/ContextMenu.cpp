@@ -46,11 +46,6 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     ((ContextMenuGraphicsComponent*)
      graphics_)->showSelectMenu(keyPressed, player_->getPos());
     
-    Map *gameMap_ = CDriver::instance()->getGameMap();
-    Tile *cTile = gameMap_->getTile(CDriver::instance()->getHuman()->getPos());
-    //cTile->setActionType(TILE_BUILT);
-    cTile->setActionType(TILE_BUILDING);
-    
     switch (keyPressed) {
         
         case TOWER_ARROW:

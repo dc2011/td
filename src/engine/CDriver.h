@@ -209,7 +209,7 @@ signals:
      *
      * @author Dean Morin
      */
-    void signalEmptyTile();
+    void signalEmptyTile(bool);
     
 public slots:
     /**

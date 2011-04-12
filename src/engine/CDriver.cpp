@@ -153,8 +153,8 @@ void CDriver::makeLocalPlayer(Player* player) {
             player, SLOT(startHarvesting(int)));
     connect(mainWindow_, SIGNAL(signalSpacebarReleased()),
             player, SLOT(stopHarvesting()));
-    connect(this, SIGNAL(signalEmptyTile()),
-            player, SLOT(dropResource(false)));
+    connect(this, SIGNAL(signalEmptyTile(bool)),
+            player, SLOT(dropResource(bool)));
     connect(player, SIGNAL(signalPlayerMovement(bool)),
 	        input, SLOT(playerMovement(bool)));
 }
@@ -259,7 +259,6 @@ void CDriver::handleSpacebarPress() {
             } else {
                 Stream s;
                 s.writeInt(human_->getID());
-                s.writeInt(t->getID());
                 s.writeFloat(t->getPos().x());
                 s.writeFloat(t->getPos().y());
                 NetworkClient::instance()->send(network::kDropResource,
@@ -275,7 +274,7 @@ void CDriver::handleSpacebarPress() {
             break;
 
         default:
-            emit signalEmptyTile();
+            emit signalEmptyTile(false);
     }
 }
 
