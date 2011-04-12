@@ -46,28 +46,7 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     ((ContextMenuGraphicsComponent*)
      graphics_)->showSelectMenu(keyPressed, player_->getPos());
     
-    Map *gameMap_ = CDriver::instance()->getGameMap();
-    Tile *cTile = gameMap_->getTile(CDriver::instance()->getHuman()->getPos());
-    cTile->setActionType(TILE_BUILT);
-    
-    switch (keyPressed) {
-        
-        case TOWER_ARROW:
-            emit signalTowerSelected(TOWER_ARROW, player_->getPos());
-            break;
-        case TOWER_CANNON:
-            emit signalTowerSelected(TOWER_CANNON, player_->getPos());
-            break;
-        case TOWER_TAR:
-            emit signalTowerSelected(TOWER_TAR, player_->getPos());
-            break;
-        case TOWER_FLAME:
-            emit signalTowerSelected(TOWER_FLAME, player_->getPos());
-            break;
-        case TOWER_FLAK:
-            emit signalTowerSelected(TOWER_FLAK,  player_->getPos());
-            break;
-    }
+    emit signalTowerSelected(keyPressed, player_->getPos());
 }
 
 void ContextMenu::viewResources(bool altHeld) {
