@@ -38,24 +38,24 @@ void BuildingTowerGraphicsComponent::draw(DrawParams* dp, int layer)  {
     threequarters = rect.width() * .75;
 
     for (i = 0; i != ICON_MAX; i++) {
-        iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_WOOD-1][i],
+        iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_WOOD][i],
                 dp->pos.x(), dp->pos.y(),layer,i);
-        resourcePixmapItemArray_[RESOURCE_WOOD-1][i]
+        resourcePixmapItemArray_[RESOURCE_WOOD][i]
             ->setPixmap(pixmapImgs_[PIX_BUILDING_TOWER_MAX]);
 
-        iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_STONE-1][i],
+        iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_STONE][i],
                 dp->pos.x() + quarter, dp->pos.y(),layer,i);
-        resourcePixmapItemArray_[RESOURCE_STONE-1][i]
+        resourcePixmapItemArray_[RESOURCE_STONE][i]
             ->setPixmap(pixmapImgs_[PIX_BUILDING_TOWER_MAX + 1]);
 
-        iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_BONE-1][i],
+        iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_BONE][i],
                 dp->pos.x() + half, dp->pos.y(),layer,i);
-        resourcePixmapItemArray_[RESOURCE_BONE-1][i]
+        resourcePixmapItemArray_[RESOURCE_BONE][i]
             ->setPixmap(pixmapImgs_[PIX_BUILDING_TOWER_MAX + 2]);
 
-        iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_TAR-1][i],
+        iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_TAR][i],
                 dp->pos.x() + threequarters, dp->pos.y(),layer,i);
-        resourcePixmapItemArray_[RESOURCE_TAR-1][i]
+        resourcePixmapItemArray_[RESOURCE_TAR][i]
             ->setPixmap(pixmapImgs_[PIX_BUILDING_TOWER_MAX + 3]);
     }
     setBuildingGraphic(this->getPixmapItem());
@@ -125,21 +125,21 @@ void BuildingTowerGraphicsComponent::setBuildingResources(int resourceType, int 
 void BuildingTowerGraphicsComponent::setIconImages() {
     int i, j;
     for (i = 0; i != ICON_MAX; i++) {
-        resourcePixmapItemArray_[RESOURCE_WOOD-1][i] = new
+        resourcePixmapItemArray_[RESOURCE_WOOD][i] = new
             QGraphicsPixmapItem(pixmapImgs_[PIX_BUILDING_TOWER_MAX]);
-        resourcePixmapItemArray_[RESOURCE_WOOD-1][i]->setVisible(false);
+        resourcePixmapItemArray_[RESOURCE_WOOD][i]->setVisible(false);
 
-        resourcePixmapItemArray_[RESOURCE_STONE-1][i] = new
+        resourcePixmapItemArray_[RESOURCE_STONE][i] = new
             QGraphicsPixmapItem(pixmapImgs_[PIX_BUILDING_TOWER_MAX + 1]);
-        resourcePixmapItemArray_[RESOURCE_STONE-1][i]->setVisible(false);
+        resourcePixmapItemArray_[RESOURCE_STONE][i]->setVisible(false);
         
-        resourcePixmapItemArray_[RESOURCE_BONE-1][i] = new
+        resourcePixmapItemArray_[RESOURCE_BONE][i] = new
             QGraphicsPixmapItem(pixmapImgs_[PIX_BUILDING_TOWER_MAX + 2]);
-        resourcePixmapItemArray_[RESOURCE_BONE-1][i]->setVisible(false);
+        resourcePixmapItemArray_[RESOURCE_BONE][i]->setVisible(false);
         
-        resourcePixmapItemArray_[RESOURCE_TAR-1][i] = new
+        resourcePixmapItemArray_[RESOURCE_TAR][i] = new
             QGraphicsPixmapItem(pixmapImgs_[PIX_BUILDING_TOWER_MAX + 3]);
-        resourcePixmapItemArray_[RESOURCE_TAR-1][i]->setVisible(false);
+        resourcePixmapItemArray_[RESOURCE_TAR][i]->setVisible(false);
     }
     for (i = 0; i != ICON_MAX; i++) {
         for (j = 0; j != RESOURCE_TYPE_MAX; j++) {
@@ -163,16 +163,16 @@ void BuildingTowerGraphicsComponent::showIcons(bool keyHeld) {
     if (keyHeld) {
         for (i = 0; i != ICON_MAX; i++) {
             setIconVisibility(
-                    resourcePixmapItemArray_[RESOURCE_WOOD-1][i],
+                    resourcePixmapItemArray_[RESOURCE_WOOD][i],
                     i, woodReq_);
             setIconVisibility(
-                    resourcePixmapItemArray_[RESOURCE_STONE-1][i],
+                    resourcePixmapItemArray_[RESOURCE_STONE][i],
                     i, stoneReq_);
             setIconVisibility(
-                    resourcePixmapItemArray_[RESOURCE_TAR-1][i],
+                    resourcePixmapItemArray_[RESOURCE_TAR][i],
                     i, tarReq_);
             setIconVisibility(
-                    resourcePixmapItemArray_[RESOURCE_BONE-1][i],
+                    resourcePixmapItemArray_[RESOURCE_BONE][i],
                     i, boneReq_);
         }
     } else {

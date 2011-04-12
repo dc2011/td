@@ -137,7 +137,7 @@ void Player::dropResource(bool addToTower) {
     }
     resource_ = RESOURCE_NONE;
     if (getGraphicsComponent()) {
-        getGraphicsComponent()->setCurrentResource(0);
+        getGraphicsComponent()->setCurrentResource(RESOURCE_NONE);
     }
 }
     
