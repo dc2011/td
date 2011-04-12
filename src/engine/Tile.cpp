@@ -229,12 +229,57 @@ QSet<Unit*> Tile::getUnits(){
 
 Tile::TileAttributes Tile::getAttributes(int id) {
     static const TileAttributes attributes[] = {
+        // Row 1
         {OPEN, NONE},
         {CLOSED, NONE},
+        {NORTH_WEST, NONE},
+        {NORTH_EAST, NONE},
+        {SOUTH_WEST, NONE},
+        {SOUTH_EAST, NONE},
         {NORTH_WEST, SLOW},
         {NORTH_EAST, SLOW},
         {SOUTH_WEST, SLOW},
         {SOUTH_EAST, SLOW},
+        {NORTH_WEST, FAST},
+        {NORTH_EAST, FAST},
+        {SOUTH_WEST, FAST},
+        {SOUTH_EAST, FAST},
+
+        // Row 2
+        {OPEN, NONE},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {SOUTH_EAST, FAST},
+        {SOUTH_WEST, FAST},
+        {NORTH_EAST, FAST},
+        {NORTH_WEST, FAST},
+
+        // Row 3
+        {OPEN, NONE},
+        {CLOSED, NONE},
+        {NORTH_WEST, NONE},
+        {NORTH_EAST, NONE},
+        {SOUTH_WEST, NONE},
+        {SOUTH_EAST, NONE},
+        {NORTH_WEST, SLOW},
+        {NORTH_EAST, SLOW},
+        {SOUTH_WEST, SLOW},
+        {SOUTH_EAST, SLOW},
+
+        // Row 4
+        {OPEN, NONE},
+        {OPEN, SLOW},
+        {OPEN, SLOW},
+        {OPEN, SLOW},
+        {OPEN, SLOW},
+        {OPEN, SLOW},
     };
 
     return attributes[id];
