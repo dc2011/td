@@ -11,10 +11,12 @@
 #include <QByteArray>
 #include <QDir>
 #include <vorbis/vorbisfile.h>
+#include <speex/speex.h>
 #include <errno.h>
 #include <sys/types.h>
 #include "../util/mutex_magic.h"
 #include "openal_helper.h"
+#include "../network/stream.h"
 
 #define QUEUESIZE 8
 #define BUFFERSIZE (1024*32)
@@ -64,11 +66,27 @@ namespace td
  * @author Darryl Pogue
  * @author Terence Stenvold
  */
-
 class AudioManager : public QObject {
     Q_OBJECT
 
     THREAD_SAFE_SINGLETON
+
+private:
+    /**
+     * A structure to contain values needed by Speex for encoding and decoding
+     * voice data.
+     *
+     * @author Darryl Pogue
+     */
+    struct SpeexState {
+        SpeexBits bits; /**< The Speex bits. */
+        void* encState; /**< The Speex encoder. */
+        void* decState; /**< The Speex decoder. */
+        int frameSize;  /**< The size of a frame. */
+        int quality;    /**< The quality of resulting data. */
+        int sampleRate; /**< The sampling rate for Speex. */
+
+    };
 
 private:
     /**
@@ -128,9 +146,20 @@ private:
      */
     bool inited_;
 
+    /** The Speex state for the audio manager. */
+    SpeexState speex_;
+
 private:
     explicit AudioManager();
     ~AudioManager();
+
+    /**
+     * Initializes the Speex encoder/decoder for voice data.
+     *
+     * @author Darryl Pogue
+     * @author Terence Stenvold
+     */
+    void initSpeex();
     
     /**
      * Captures audio from the microphone
@@ -209,6 +238,28 @@ private:
      * @param gain is the volume for playback
      */
     void playCached(QString filename, float gain);
+
+    /**
+     * Encode voice data using Speex.
+     *
+     * @author Darryl Pogue
+     * @author Terence Stenvold
+     * @param data The buffer of microphone data to be encoded.
+     * @param nframes The number of frames of microphone data.
+     * @param out The stream to which the compressed data is written.
+     */
+    void encode(short* data, int nframes, Stream* out);
+
+    /**
+     * Decode voice data using Speex.
+     *
+     * @author Darryl Pogue
+     * @author Terence Stenvold
+     * @param data The stream of compressed voice data.
+     * @param nframes The number of frames of voice data.
+     * @param out The buffer to which to write decompressed data.
+     */
+    void decode(Stream* data, int nframes, short* out);
 
 
 public:
