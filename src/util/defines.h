@@ -97,6 +97,7 @@
 #define EFFECT_BURN         6
 #define EFFECT_CANNON       7
 #define EFFECT_FIRE         8
+#define EFFECT_FLAK         9
 
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20
