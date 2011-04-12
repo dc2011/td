@@ -77,26 +77,20 @@ bool BuildingTower::isDone() {
 void BuildingTower::initComponents() {
     switch (type_) {
         case TOWER_ARROW:
-            wood_   = 4;
-            bone_   = 1;
+            wood_   = 1;
             break;
         case TOWER_CANNON:
-            stone_  = 3;
-            oil_    = 2;
-            wood_   = 1;
+            stone_  = 1;
             break;
         case TOWER_FLAME:
-            bone_   = 4;
-            oil_    = 3;
-            wood_   = 1;
+            bone_   = 2;
             break;
         case TOWER_TAR:
-            stone_  = 3;
-            oil_    = 3;
+            oil_  = 2;
             break;
         case TOWER_FLAK:
-            wood_   = 3;
-            bone_   = 3;
+            wood_   = 1;
+            bone_   = 1;
             break;
     }
 #ifndef SERVER
