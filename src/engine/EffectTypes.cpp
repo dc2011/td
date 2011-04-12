@@ -8,7 +8,7 @@ namespace td {
 
 NPCPlayerEffect::NPCPlayerEffect(Unit* unit): Effect(unit, EFFECT_NPCPLAYER, NPC_PLAYER_TIME) {
     oldVelocity_ = (((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->getMaxVelocity());
-    velocityChangeValue_ = 0.5;
+    velocityChangeValue_ = oldVelocity_ / 2;
 }
 
 NPCPlayerEffect::~NPCPlayerEffect() {
@@ -34,7 +34,7 @@ void ArrowEffect::apply() {
 PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
     : Effect(unit, EFFECT_TERRAIN, NO_TIME) {
     oldVelocity_ = (((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->getMaxVelocity());
-    velocityChangeValue_ = 0.5;
+    velocityChangeValue_ = oldVelocity_ / 2;
 }
 
 PlayerTerrainSlowEffect::~PlayerTerrainSlowEffect() {
@@ -58,7 +58,7 @@ PlayerTerrainFastEffect::PlayerTerrainFastEffect(Unit* unit)
 
 PlayerTerrainFastEffect::~PlayerTerrainFastEffect() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
-    qDebug("slow effect getting destroyed");
+    qDebug("fast effect getting destroyed");
 }
 
 void PlayerTerrainFastEffect::apply() {
