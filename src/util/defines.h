@@ -90,10 +90,11 @@
 //effect types for operator==
 #define EFFECT_NONE         0
 #define EFFECT_NPCPLAYER    1
-#define EFFECT_TERRAIN      2
-#define EFFECT_ARROW        3
-#define EFFECT_TAR          4
-#define EFFECT_BURN         5
+#define EFFECT_SLOW         2
+#define EFFECT_FAST         3
+#define EFFECT_ARROW        4
+#define EFFECT_TAR          5
+#define EFFECT_BURN         6
 
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20

@@ -66,6 +66,26 @@ public:
     void apply();
 };
 /**
+* an effect that modifies a player's movement speed
+* if they are on a good type of terrain..
+*
+* @author Duncan Donaldson
+*/
+class PlayerTerrainFastEffect : public Effect {
+    Q_OBJECT
+
+public:
+    explicit PlayerTerrainFastEffect(Unit* unit);
+    virtual ~PlayerTerrainFastEffect();
+    /**
+     * applies the player slowdown effect.
+     *
+     * @author Duncan Donaldson
+     * @author Luke Queenan
+     */
+    void apply();
+};
+/**
 * an effect that does initial damage to an NPC
 * then slows the NPC for a period of time
 *

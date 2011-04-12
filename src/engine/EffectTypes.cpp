@@ -53,6 +53,7 @@ void FlakEffect::apply(){
 
 PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
     : Effect(unit, EFFECT_TERRAIN, NO_TIME) {
+    oldVelocity_ = (((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->getMaxVelocity());
     velocityChangeValue_ = 0.5;
 }
 
@@ -62,6 +63,25 @@ PlayerTerrainSlowEffect::~PlayerTerrainSlowEffect() {
 }
 
 void PlayerTerrainSlowEffect::apply() {
+    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
+    if((((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::NONE) {
+        disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
+        emit effectFinished(this);
+    }
+}
+
+PlayerTerrainFastEffect::PlayerTerrainFastEffect(Unit* unit)
+    : Effect(unit, EFFECT_TERRAIN, NO_TIME) {
+    oldVelocity_ = (((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->getMaxVelocity());
+    velocityChangeValue_ = oldVelocity_*2;
+}
+
+PlayerTerrainFastEffect::~PlayerTerrainFastEffect() {
+    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
+    qDebug("slow effect getting destroyed");
+}
+
+void PlayerTerrainFastEffect::apply() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
     if((((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::NONE) {
         disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
