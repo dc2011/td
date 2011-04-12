@@ -145,8 +145,8 @@ void CDriver::makeLocalPlayer(Player* player) {
             gameMap_, SLOT(getTileType(double, double, int*)));
 
     // NPC -> Player effect
-    connect(physics, SIGNAL(NPCPlayerCollided(Effect*)), 
-            human_, SLOT(createEffect(Effect*)));
+    connect(physics, SIGNAL(NPCPlayerCollided(int)), 
+            human_, SLOT(createEffect(int)));
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             player, SLOT(showName(bool)));
 
