@@ -3,15 +3,19 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QVector2D>
 #include "ResManager.h"
 #include "Map.h"
 
 namespace td {
 
+class Collectable;
 class Tower;
 class NPC;
 class Projectile;
 class Resource;
+class BuildingTower;
+class Player;
 
 class Driver : public QObject {
     Q_OBJECT
@@ -115,10 +119,21 @@ public:
      * Creates a new tower of the given type.
      *
      * @author Darryl Pogue
+     * @author Marcel Vangrootheest
      * @param type The type of tower to create.
      * @return A pointer to the new tower.
      */
-    Tower* createTower(int type);
+    Tower* createTower(int type, QPointF pos);
+
+    /**
+     * Creates a new building stage tower of the given type.
+     *
+     * @author Marcel Vangrootheest
+     * @param type The type of tower to create.
+     * @param pos The position to build it at.
+     * @return A pointer to the new building tower.
+     */
+    BuildingTower* createBuildingTower(int type, QPointF pos);
 
     /**
      * Creates a new NPC of the given type.
@@ -132,7 +147,6 @@ public:
 
     /**
      * Creates a projectile object.
-     * Connected to fire() in TowerPhysicsComponent
      *
      * @author Pan Khantidhara
      * @author Marcel Vangrootheest
@@ -144,6 +158,29 @@ public:
      */
     Projectile* createProjectile(int projType, QPointF source,
             QPointF target, Unit* enemy);
+    
+    /**
+     * Adds a resource to a tower if possible.
+     * This decrements the resource counter in BuildingTower.
+     * If the resource is not required, the resource will be dropped.
+     *
+     * @author Marcel Vangrootheest
+     * @param tower The BuildingTower to add resources to.
+     * @param player The player adding a resource to the BuildingTower.
+     * @return True if the resource is to be added to the tower.
+     */
+    bool addToTower(BuildingTower* tower, Player* player);
+
+    /**
+     * Creates a collectable object.
+     *
+     * @author Dean Morin
+     * @param projType The type of the collectable (resource or gem).
+     * @param source The origin of the collectable.
+     * @param vel The velocity of the unit that dropped the collectable.
+     * @return A pointer to the created collectable.
+     */
+    Collectable* createCollectable(int collType, QPointF source, QVector2D vel);
 
     /**
      * Creates a resource "mine" of the given type.
@@ -197,6 +234,17 @@ public slots:
     virtual void requestProjectile(int projType, QPointF source, 
             QPointF target, Unit* enemy);
 
+    /**
+     * Creates projectile on server and send message to client for creation.
+     * Connected to signalDropResource in Player.
+     *
+     * @author Dean Morin
+     * @param projType The type of the resource.
+     * @param source The coords of the unit that dropped the collectable.
+     * @param velocity The velocity of the unit that dropped the collectable.
+     */
+    virtual void requestCollectable(int projType, QPointF source, 
+            QVector2D velocity);
 };
 
 } /* end namespace td */

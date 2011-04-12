@@ -199,7 +199,7 @@ void FlameTowerPhysicsComponent::fire() {
         return;
     }
     // TODO: move to projectilePC, once the different types have been created
-    //PLAY_SFX(tower_, SfxManager::projectileFireFlame);
+    PLAY_SFX(tower_, SfxManager::projectileFireFlame);
     emit fireProjectile(PROJ_FIRE, tower_->getPos(), flamePath_.p2(),
             endPoint_);
     fireCountdown_ = fireInterval_;
@@ -260,7 +260,7 @@ void FlakTowerPhysicsComponent::fire() {
         return;
     }
     // TODO: move to projectilePC, once the different types have been created
-    //PLAY_SFX(tower_, SfxManager::projectileFireFlak);
+    PLAY_SFX(tower_, SfxManager::projectileFireFlak);
     emit fireProjectile(PROJ_FLAK, tower_->getPos(), target_->getPos(),
             target_);
     fireCountdown_ = fireInterval_;

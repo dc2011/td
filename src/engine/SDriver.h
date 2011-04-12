@@ -10,6 +10,7 @@
 
 namespace td {
 
+class Collectable;
 class Player;
 class Tower;
 class NPC;
@@ -24,6 +25,7 @@ private:
     QList<Player*> players_;
     QSet<GameObject*> updates_;
     QList<NPCWave*> waves_;
+    QTimer* waveTimer_;
 
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
@@ -198,6 +200,16 @@ public slots:
      */
     void requestProjectile(int projType, QPointF source,
             QPointF target, Unit* enemy);
+
+    /**
+     * Creates collectable on server and send message to client for creation.
+     *
+     * @author Dean Morin
+     * @param projType The type of the collectable (resource or gem).
+     * @param source The origin of the collectable.
+     * @param vel The velocity of the dropper.
+     */
+    void requestCollectable(int collType, QPointF source, QVector2D vel);
 };
 
 } /* end namespace td */
