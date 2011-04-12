@@ -84,6 +84,14 @@ namespace network {
 
         /** Indicates creation of a collectable. */
         kCollectable    =   0x0D,
+        
+        /** Indicates an update: connected user list needs to be sent */
+        kUpdateUserList =   0x0E,
+
+        /** Indicates an update: games available needs to be sent */
+        kUpdateListOfGames = 0x0F,
+
+        kBaseHealth     =   0x10,
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
