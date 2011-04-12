@@ -12,13 +12,14 @@ Console* Console::instance_ = NULL;
 QMutex Console::mutex_;
 QVector<QString> *Console::display_;
 QGraphicsTextItem *Console::label_; 
+QGraphicsRectItem *Console::rect_;
 
 Console::Console() {
 
     display_ = new QVector<QString>();
     label_ = new QGraphicsTextItem();
     QFont font("Monospace");
-    QGraphicsRectItem *rect_ = new QGraphicsRectItem();
+    rect_ = new QGraphicsRectItem();
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
     CDriver::instance()->getMainWindow()->getScene()->addItem(rect_);
 
@@ -37,7 +38,6 @@ Console::Console() {
     label_->setZValue(99);
     label_->update();
     
-
 }
 
 Console::~Console() {}

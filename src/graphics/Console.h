@@ -23,6 +23,8 @@ private:
     static QVector<QString> *display_;
     /** the label to display text */
     static QGraphicsTextItem *label_;
+    /** the rect around the text */
+    static QGraphicsRectItem *rect_;
 
     explicit Console();
     ~Console();
@@ -52,6 +54,20 @@ public:
      * @param text to add to the console
      */
     void addText(QString text);
+
+    /**
+     * hides the console 
+     *
+     * @author Terence Stenvold
+     */
+    void hide();
+    
+    /**
+     * hides the console 
+     *
+     * @author Terence Stenvold
+     */    
+    void show();
 
 };
 
