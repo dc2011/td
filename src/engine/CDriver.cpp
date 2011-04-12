@@ -161,7 +161,8 @@ void CDriver::makeLocalPlayer(Player* player) {
 
 void CDriver::requestBuildingTower(int type, QPointF pos) {
     if (isSinglePlayer()) {
-        Driver::createBuildingTower(type, pos);
+        BuildingTower* t = Driver::createBuildingTower(type, pos);
+        human_->dropResource(Driver::addToTower(t, human_));
     } else {
         Stream s;
         s.writeInt(human_->getID());
