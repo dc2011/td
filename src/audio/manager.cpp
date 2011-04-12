@@ -116,7 +116,6 @@ void AudioManager::playSfx(QString filename, SoundType type)
 
 }
 
-
 void AudioManager::captureMic()
 {
     ALCdevice* captureDevice;
@@ -126,7 +125,7 @@ void AudioManager::captureMic()
     format = AL_FORMAT_MONO16;
     frequency = 8000;
 
-    ALCsizei buffersize = frequency * 2 * 4; /* 2 for 16-bit, 4 for time */
+    ALCsizei buffersize = frequency; /* 2 for 16-bit, 4 for time */
     captureDevice = alcCaptureOpenDevice(NULL, frequency, format, buffersize);
 
     if (captureDevice) {
@@ -143,7 +142,7 @@ void AudioManager::captureMic()
 
             if(captureStop_ == true) {
                 break;
-            } else if (samplesAvailable > (speex_.frameSize * 10)) {
+            } else if (samplesAvailable > buffersize) {
                 int nframes = (int)(samplesAvailable / speex_.frameSize);
                 int total = nframes * speex_.frameSize;
 
