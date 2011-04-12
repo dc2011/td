@@ -33,24 +33,22 @@ void ArrowEffect::apply() {
 
 CannonEffect::CannonEffect(Unit* unit)
         : Effect(unit, CANNON_TIME, EFFECT_CANNON, TRUE){
-    velocityChangeValue_ = QVector2D(0, 0);
     healthChangeValue_ = -75;
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
 void CannonEffect::apply() {
-    unit_->setVelocity(velocityChangeValue_);
+    //unit_->setVelocity(velocityChangeValue_);
 }
 
 FlakEffect::FlakEffect(Unit* unit)
         : Effect(unit, FLAK_TIME, EFFECT_FLAK, TRUE){
-    velocityChangeValue_ = QVector2D(0, 0);
     healthChangeValue_ = -10;
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
 void FlakEffect::apply(){
-    unit_->setVelocity(velocityChangeValue_);
+    //unit_->setVelocity(velocityChangeValue_);
 }
 
 PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
@@ -60,7 +58,7 @@ PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
 
 PlayerTerrainSlowEffect::~PlayerTerrainSlowEffect() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
-    qDebug("slow effect getting destroyed");
+    //qDebug("slow effect getting destroyed");
 }
 
 void PlayerTerrainSlowEffect::apply() {
@@ -89,7 +87,6 @@ void NPCTarEffect::apply() {
 
 FireEffect::FireEffect(Unit* unit)
         : Effect(unit, FIRE_TIME, EFFECT_FIRE, TRUE){
-    velocityChangeValue_ = QVector2D(0, 0);
     healthChangeValue_ = -10;
 }
 
