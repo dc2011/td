@@ -151,7 +151,7 @@ void NPC::initComponents() {
     }
 #endif
 }
-
+/*
 void NPC::createEffect(Effect* effect){
     if (effects_.contains(*effect)) {
         emit stopEffect(effect->getType());
@@ -166,6 +166,8 @@ void NPC::createEffect(Effect* effect){
         
     effects_.push_back(*effect);
 }
+*/
+
 
 void NPC::deleteEffect(Effect* effect){
     effects_.removeOne(*effect);

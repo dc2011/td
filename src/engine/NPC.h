@@ -157,9 +157,10 @@ public slots:
      *
      * @author Pan K.
      * @author Marcel Vangrootheest
+     * @author Luke Queennan
      * @param type Type of effect.
      */
-    void createEffect(Effect* effect);
+    void createEffect(int effectType);
 
     /**
      * Remove effect from the effect list.
