@@ -9,7 +9,11 @@
 #include "Tower.h"
 #include "NPCWave.h"
 #include "Projectile.h"
+<<<<<<< Updated upstream
 #include "BuildingTower.h"
+=======
+#include "Parser.h"
+>>>>>>> Stashed changes
 
 namespace td {
 
@@ -95,6 +99,11 @@ void SDriver::startGame(bool multicast) {
 
     gameMap_->initMap();
 
+    Parser* fileParser = new Parser("./maps/mapinfo.nfo");
+    NPCWave* tempWave;
+    while((tempWave = fileParser->readWave())!=NULL) {
+        waves_.append(tempWave);
+    }
     this->gameTimer_->start(30);
     this->waveTimer_->start(1000);
     connect(gameTimer_, SIGNAL(timeout()), this, SLOT(onTimerTick()));
@@ -182,10 +191,11 @@ void SDriver::destroyObject(int id) {
 }
 
 void SDriver::spawnWave() {
-    NPCWave* wave = new NPCWave(this);
 
-    wave->createWave();
-    waves_.append(wave);
+    //NPCWave* wave = new NPCWave(this);
+
+    waves_.first()->createWave();
+    //waves_.append(wave);
 
     disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 
@@ -210,6 +220,11 @@ void SDriver::spawnWave() {
 
 void SDriver::deadNPC(int id) {
     destroyObject(id);
+    NPCWave* currentWave = waves_.first();
+    if(currentWave->isDead()) {
+        waves_.removeFirst();
+        connect(gameTimer_, SIGNAL(timeout()),this, SLOT(spawnWave()));
+    }
 }
 
 void SDriver::requestProjectile(int projType, QPointF source,

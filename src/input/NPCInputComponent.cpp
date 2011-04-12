@@ -42,7 +42,7 @@ void NPCInputComponent::setParent(Unit *parent) {
 }
 void NPCInputComponent::initWaypoints(int path) {
     nextDest_ = 0;
-    waypoints_ = parent->getDriver()->getGameMap() ->getWaypoints(path);
+    waypoints_ = parent_->getDriver()->getGameMap()->getWaypoints(path);
     segment_ =  QLineF(waypoints_.at(nextDest_).x(),
                        waypoints_.at(nextDest_).y(),
                        waypoints_.at(nextDest_ + 1).x(),
