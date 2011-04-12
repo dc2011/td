@@ -15,14 +15,13 @@ void CollectableGraphicsComponent::update(GameObject* obj) {
     collectable->resetDirty();
 
     DrawParams* dp = new DrawParams();
-    //dp->pos     = collectable->getPos();
-    dp->pos.setX(200);
-    dp->pos.setY(200);
+    dp->pos     = collectable->getPos();
+    qDebug("%d", collectable->getPos().x());
+    qDebug("%d", collectable->getPos().y());
     dp->moving  = true;
-    dp->scale   = 1;//collectable->getScale();
+    dp->scale   = collectable->getScale();
     dp->degrees = collectable->getOrientation();
     emit signalDraw(dp, this, LAYER_DEFAULT);
-    qDebug("Collectable::draw");
 }
 
 } /* end namespace td */
