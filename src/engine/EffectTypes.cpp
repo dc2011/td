@@ -1,28 +1,34 @@
 #include "EffectTypes.h"
 #include "../util/defines.h"
 #include "NPC.h"
+#include "Player.h"
+#include "Tile.h"
 
 namespace td {
 
-NPCPlayerEffect::NPCPlayerEffect(Unit* unit)
-        : Effect(unit, NPC_PLAYER_TIME, EFFECT_NPCPLAYER, TRUE) {
-    velocityChangeValue_ = QVector2D(0,0);       
+NPCPlayerEffect::NPCPlayerEffect(Unit* unit): Effect(unit, EFFECT_NPCPLAYER, NPC_PLAYER_TIME) {
+    oldVelocity_ = (((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->getMaxVelocity());
+    velocityChangeValue_ = 0.5;
+}
+
+NPCPlayerEffect::~NPCPlayerEffect() {
+    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
 }
 
 void NPCPlayerEffect::apply() {
-    unit_->setVelocity(velocityChangeValue_);
+    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
 }
 
 ArrowEffect::ArrowEffect(Unit* unit)
-        : Effect(unit, ARROW_TIME, EFFECT_ARROW, TRUE) {
-    velocityChangeValue_ = QVector2D(0,0);       
+        : Effect(unit, EFFECT_ARROW, ARROW_TIME) {    
+
     healthChangeValue_ = -25;
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth()
         + healthChangeValue_);
 }
 
 void ArrowEffect::apply() {
-    unit_->setVelocity(velocityChangeValue_);
+    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
 CannonEffect::CannonEffect(Unit* unit)
@@ -47,25 +53,38 @@ void FlakEffect::apply(){
     unit_->setVelocity(velocityChangeValue_);
 }
 
-PlayerTerrainEffect::PlayerTerrainEffect(Unit* unit)
-    : Effect(unit, NO_TIME, EFFECT_TERRAIN, FALSE) {
-    velocityChangeValue_ = QVector2D(0,0);
+PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
+    : Effect(unit, EFFECT_TERRAIN, NO_TIME) {
+    velocityChangeValue_ = 0.5;
 }
 
-void PlayerTerrainEffect::apply() {
-    unit_->setVelocity(velocityChangeValue_);
+PlayerTerrainSlowEffect::~PlayerTerrainSlowEffect() {
+    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
+    qDebug("slow effect getting destroyed");
+}
+
+void PlayerTerrainSlowEffect::apply() {
+    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
+    if((((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::NONE) {
+        disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
+        emit effectFinished(this);
+    }
 }
 
 NPCTarEffect::NPCTarEffect(Unit* unit)
-    : Effect(unit, TAR_TIME, EFFECT_TAR, TRUE) {
-    velocityChangeValue_ = QVector2D(0,0);
+    : Effect(unit, EFFECT_TAR, TAR_TIME) {
+    velocityChangeValue_ = 0.5;
     healthChangeValue_ = -25;
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth()
                                 + healthChangeValue_);
 }
 
+NPCTarEffect::~NPCTarEffect() {
+    ((NPCPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
+}
+
 void NPCTarEffect::apply() {
-    unit_->setVelocity(velocityChangeValue_);
+    ((NPCPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
 }
 
 FireEffect::FireEffect(Unit* unit)
@@ -78,13 +97,11 @@ void FireEffect::apply(){
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
-BurningEffect::BurningEffect(Unit* unit)
-        : Effect(unit, BURNING_TIME, EFFECT_BURNING, TRUE){
-    velocityChangeValue_ = QVector2D(0, 0);
-    healthChangeValue_ = -10;
+NPCBurnEffect::NPCBurnEffect(Unit* unit):Effect(unit, EFFECT_BURN, BURN_TIME) {
+    healthChangeValue_ = -5;
 }
 
-void BurningEffect::apply(){
+void NPCBurnEffect::apply() {
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 

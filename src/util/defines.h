@@ -4,7 +4,7 @@
 // TD Version
 // Update this whenever an incompatible change is made, to ensure that features
 // are matched between clients and the server
-#define TD_VERSION      0x0001
+#define TD_VERSION      0x0002
 
 // Network information
 #define TD_PORT 26631
@@ -37,16 +37,24 @@
 //Tile action types specifying action for spacebar
 #define TILE_REGULAR    0
 #define TILE_BUILDABLE  1
-#define TILE_BUILT      2
-#define TILE_BASE       3
-#define TILE_RESOURCE   4
+#define TILE_BUILDING   2
+#define TILE_BUILT      3
+#define TILE_BASE       4
+#define TILE_RESOURCE   5
+
+//state of tower completion
+#define TOWER_COMPLETE_25   0
+#define TOWER_COMPLETE_50   1
+#define TOWER_COMPLETE_75   2
 
 // resources that can be picked up by the player
-#define RESOURCE_NONE   0
-#define RESOURCE_WOOD   1
-#define RESOURCE_STONE  2
-#define RESOURCE_BONE   3
-#define RESOURCE_TAR    4
+#define RESOURCE_NONE   -1
+#define RESOURCE_WOOD   0
+#define RESOURCE_STONE  1
+#define RESOURCE_BONE   2
+#define RESOURCE_TAR    3
+#define RESOURCE_TYPE_MAX   4
+#define RESOURCE_GEM        99
 
 // time to harvest a resource (in game ticks)
 #define HARVEST_COUNTDOWN   120
@@ -79,15 +87,24 @@
 #define NPC_FLY_MAX_V   2  
 #define NPC_BOSS_MAX_V  1  
 
+//effect types for operator==
+#define EFFECT_NONE         0
+#define EFFECT_NPCPLAYER    1
+#define EFFECT_TERRAIN      2
+#define EFFECT_ARROW        3
+#define EFFECT_TAR          4
+#define EFFECT_BURN         5
+
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20
-#define TAR_TIME        100
 #define ARROW_TIME      1
 #define FLAK_TIME       1
 #define CANNON_TIME     1
 #define FIRE_TIME       1
-#define BURNING_TIME    100
-#define NO_TIME         0
+#define TAR_TIME        10
+#define BURN_TIME       5
+//DONT USE THIS MACRO UNLESS YOUR NAME IS DTRAIN
+#define NO_TIME         0,false
 
 //NPC path key for waypoints
 //TODO: either take out or change to something generic
@@ -116,6 +133,9 @@
 #define FIRE_VELOCITY   6
 #define TAR_VELOCITY    10
 #define FLAK_VELOCITY   15
+
+// collectable velocity
+#define COLLECTABLE_VELOCITY    10
 
 // healthbar info (sizes are in pixels)
 #define HEALTHBAR_WIDTH     50

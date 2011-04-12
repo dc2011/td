@@ -1,8 +1,6 @@
 #include "ProjectileInputComponentTypes.h"
-#include "../engine/Projectile.h"
 #include <QPointF>
-#include "ProjectileInputComponent.h"
-#include "../physics/ProjectilePhysicsComponent.h"
+#include "../engine/Projectile.h"
 #include "../engine/Driver.h"
 #include "../engine/CDriver.h"
 #include "../engine/Map.h"
@@ -10,6 +8,7 @@
 #include "../engine/NPC.h"
 #define PI 3.141592653589793238
 #include <math.h>
+#include "../physics/ProjectilePhysicsComponent.h"
 
 namespace td {
 

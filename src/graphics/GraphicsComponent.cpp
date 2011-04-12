@@ -63,13 +63,21 @@ QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
 }
 
 void GraphicsComponent::setImgIndex(int index) {
-    
     pixmapIndex_ = index;
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
 }
 
-void GraphicsComponent::setCurrentResource(int resourceType) {
+//gotta be a better way to do these two functions but this is quicker than thinking
+void GraphicsComponent::setCurrentResource(int) {
     qDebug() << "if you reach this you are doing something stupid";
+}
+
+void GraphicsComponent::setBuildingResources(int, int) {
+    qDebug() << "if you reach this you are doing something stupid";
+}
+
+void GraphicsComponent::setBuildingStage(int) {
+    qDebug() << "I really need to cleanup these hacks";
 }
 
 } /* end namespace td */

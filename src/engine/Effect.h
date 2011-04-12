@@ -38,7 +38,7 @@ public:
     */
 
     Effect(const Effect& e);
-    Effect(Unit* unit, int duration, uint type, bool timerEnabled = true);
+    Effect(Unit* unit, uint type, int duration, bool timerEnabled = true);
     ~Effect();
 
     Effect& operator=(const Effect &rhs);
@@ -68,12 +68,20 @@ public:
     void setDuration(size_t duration);
     size_t getDuration();
 
-    void setVelocityChangeValue(QVector2D velocity);
-    QVector2D getVelocityChangeValue();
+    void setVelocityChangeValue(float velocity);
+    float getVelocityChangeValue();
 
     void setHealthChangeValue(int healthChange);
     int getHealthChangeValue();
 
+    /*inline getter*/
+    Unit* getUnit() {
+        return unit_;
+    }
+    /*inline setter*/
+    void setOldVelocity(float oldVelocity) {
+        oldVelocity_ = oldVelocity;
+    }
     /**
      * Returns the type of Effect.
      *
@@ -84,7 +92,6 @@ public:
         return type_;
     }
 
-private:
     void countdown();
 
 public slots:
@@ -107,7 +114,8 @@ protected:
     //EffectType type_;
     size_t duration_;
     int healthChangeValue_;
-    QVector2D velocityChangeValue_;
+    float velocityChangeValue_;
+    float oldVelocity_;
     uint type_;
     bool timerEnabled_;
     bool applyEnabled_;

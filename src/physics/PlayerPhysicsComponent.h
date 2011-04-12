@@ -87,6 +87,18 @@ public:
      * @param player, pointer to the Unit(player object)
      */
     virtual void update(GameObject* player);
+    /**
+     * setter for max velocity of player physics component
+     *
+     * @author DTRAIN
+     * @param maxVelocity, the new maxVelocity.
+     */
+    virtual void setMaxVelocity(float maxVelocity) {
+        maxVelocity_ = maxVelocity;
+    }
+    virtual float getMaxVelocity() {
+        return maxVelocity_;
+    }
     
 signals:
     

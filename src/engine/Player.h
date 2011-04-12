@@ -8,15 +8,19 @@
 #include "../input/PlayerInputComponent.h"
 #include "CollisionComponent.h"
 #include "Effect.h"
+#include "Tile.h"
 #include "../graphics/PlayerGraphicsComponent.h"
 #include "../physics/PlayerPhysicsComponent.h"
 
+//TEMP
+#include "../engine/Collectable.h"
 namespace td {
 
 class Player : public Unit {
     Q_OBJECT
 
 public:
+    Tile* tileThatPlayerIsOn_;
     /**
      * Gets the unique class index for this object type.
      *
@@ -39,7 +43,8 @@ private:
 public:
     Player(QObject* parent = 0);
     virtual ~Player() {}
-
+//TEMP
+Collectable* collectable_;
     /**
      * Reads the object state from a network stream.
      * You should assign to variables directly inside this function, rather
@@ -97,6 +102,16 @@ public:
       */
     int getHarvestCountdown() {
         return harvestCountdown_;
+    }
+
+    /**
+     * Gets the player's resource it is carrying.
+     *
+     * @author Marcel Vangrootheest
+     * @return The player's current resource.
+     */
+    int getResource() {
+        return resource_;
     }
 
 private: 
@@ -160,7 +175,7 @@ public slots:
      *
      * @author Dean Morin
      */
-    void dropResource();
+    void dropResource(bool addToTower);
 
 private:
     QList<Effect> effects_;
@@ -196,6 +211,18 @@ signals:
      * @param move False if the player should stop moving.
      */
     void signalPlayerMovement(bool move);
+
+    /**
+     * Emmitted when the player drops the resource that they are carrying.
+     *
+     * Connected to requestCollectable() in the driver.
+     *
+     * @author Dean Morin
+     * @param type The resource type.
+     * @param pos The player's coords when he drops the resource.
+     * @param velocity The player's velocity when he drops the resource.
+     */
+    void signalDropResource(int type, QPointF pos, QVector2D velocity);
 };
 
 }

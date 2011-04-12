@@ -10,6 +10,7 @@
 
 namespace td {
 
+class Collectable;
 class Player;
 class Tower;
 class NPC;
@@ -159,8 +160,9 @@ public slots:
      * state to all clients.
      * 
      * @author Duncan Donaldson
+     * @param multicast Whether this server sends multicast messages.
      */
-    void startGame();
+    void startGame(bool multicast);
 
     /**
      * Spawns a server-side wave and updates all clients.
@@ -172,7 +174,6 @@ public slots:
      */
     void spawnWave();
     /**
-     * Handles a packet received by updating a currently existing player
      * slot that is called to destroy an NPC when its health reaches 0.
      *
      * @author Duncan Donaldson
@@ -197,6 +198,16 @@ public slots:
      */
     void requestProjectile(int projType, QPointF source,
             QPointF target, Unit* enemy);
+
+    /**
+     * Creates collectable on server and send message to client for creation.
+     *
+     * @author Dean Morin
+     * @param projType The type of the collectable (resource or gem).
+     * @param source The origin of the collectable.
+     * @param vel The velocity of the dropper.
+     */
+    void requestCollectable(int collType, QPointF source, QVector2D vel);
 };
 
 } /* end namespace td */
