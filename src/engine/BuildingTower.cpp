@@ -151,7 +151,6 @@ void BuildingTower::evaluateBuildingStage() {
         return;
     }
     double percentCompleted = (resourcesNeeded / totalResources_) * 100;
-    qDebug() << "current tower build progress" << percentCompleted;
     if (percentCompleted < 33) {
          getGraphicsComponent()->setBuildingStage(TOWER_COMPLETE_25);
          return;

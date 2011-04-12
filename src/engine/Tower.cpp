@@ -74,6 +74,10 @@ void Tower::initComponents() {
 #endif
             break;
     }
+#ifndef SERVER
+    connect(CDriver::instance()->getMainWindow(), SIGNAL(signalAltHeld(bool)),
+                getGraphicsComponent(), SLOT(setVisibleRange(bool)));
+#endif
 }
 
 } // end of namespace td

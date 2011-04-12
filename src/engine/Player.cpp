@@ -83,13 +83,10 @@ void Player::deleteEffect(Effect* effect){
 
 void Player::startHarvesting(int type) {
     if (resource_ != RESOURCE_NONE) {
-        qDebug("Player::startHarvesting(); already carrying a resource");
         return;
     }
     harvesting_ = type;
     emit signalPlayerMovement(false);
-    qDebug("Player::startHarvesting(); resource %d", harvesting_);
-
     switch (type) {
         case RESOURCE_WOOD:
             PLAY_LOCAL_SFX(SfxManager::resourceWood);
@@ -123,13 +120,11 @@ void Player::dropResource(bool addToTower) {
     }
     setDirty(kResource);
     if (addToTower) {
-        qDebug("Player::dropResource(); added resource to BuildingTower");
 #ifndef SERVER
 	    Console::instance()->addText("Added Resource");
 #endif
     } else {
         emit signalDropResource(resource_, pos_, velocity_);
-        qDebug("Player::dropResource(); dropped resource");
 #ifndef SERVER
 	    Console::instance()->addText("Dropped Resource");
 #endif
@@ -144,8 +139,6 @@ void Player::harvestResource() {
     if (--harvestCountdown_ <= 0) {
         resource_ = harvesting_;
         harvestCountdown_ = HARVEST_COUNTDOWN;
-
-        qDebug("Player::harvestResource(); resource: %d", harvesting_);
         if (getGraphicsComponent()) {
             getGraphicsComponent()->setCurrentResource(resource_);
             getGraphicsComponent()->update(this);

@@ -176,7 +176,11 @@ private:
     int oil_;
     /** the total amount of resources required to build structure */
     double totalResources_;
-
+    /**
+     * Checks the current building state and informs the graphics component of
+     * the current image to display
+     * @author Warren Voelkl
+     */
     void evaluateBuildingStage();
 };
 
