@@ -17,6 +17,8 @@
 #define EFFECT_TAR          4
 #define EFFECT_FLAK         5
 #define EFFECT_CANNON       6
+#define EFFECT_FIRE         7
+#define EFFECT_BURNING      8
 
 namespace td {
 

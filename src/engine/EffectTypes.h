@@ -66,6 +66,26 @@ public:
     void apply();
 };
 
+class FireEffect : public Effect {
+    Q_OBJECT
+
+public:
+    explicit FireEffect(Unit* unit);
+    virtual ~FireEffect(){}
+
+    void apply();
+};
+
+class BurningEffect : public Effect {
+    Q_OBJECT
+
+public:
+    explicit BurningEffect(Unit* unit);
+    virtual ~BurningEffect(){}
+
+    void apply();
+};
+
 } /* end namespace td */
 
 #endif

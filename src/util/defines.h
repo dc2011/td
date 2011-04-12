@@ -81,10 +81,12 @@
 
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20
-#define TAR_TIME        10
+#define TAR_TIME        100
 #define ARROW_TIME      1
 #define FLAK_TIME       1
 #define CANNON_TIME     1
+#define FIRE_TIME       1
+#define BURNING_TIME    100
 #define NO_TIME         0
 
 //NPC path key for waypoints

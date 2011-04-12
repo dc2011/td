@@ -65,7 +65,27 @@ NPCTarEffect::NPCTarEffect(Unit* unit)
 }
 
 void NPCTarEffect::apply() {
-    velocityChangeValue_ = QVector2D(0,0);
+    unit_->setVelocity(velocityChangeValue_);
+}
+
+FireEffect::FireEffect(Unit* unit)
+        : Effect(unit, FIRE_TIME, EFFECT_FIRE, TRUE){
+    velocityChangeValue_ = QVector2D(0, 0);
+    healthChangeValue_ = -10;
+}
+
+void FireEffect::apply(){
+    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
+}
+
+BurningEffect::BurningEffect(Unit* unit)
+        : Effect(unit, BURNING_TIME, EFFECT_BURNING, TRUE){
+    velocityChangeValue_ = QVector2D(0, 0);
+    healthChangeValue_ = -10;
+}
+
+void BurningEffect::apply(){
+    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
 } /* end namespace td */
