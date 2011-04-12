@@ -2,6 +2,7 @@
 #include "Driver.h"
 #include "../graphics/PlayerGraphicsComponent.h"
 #include "../audio/SfxManager.h"
+#include "../graphics/Console.h"
 
 namespace td {
 
@@ -124,6 +125,10 @@ void Player::dropResource() {
     setDirty(kResource);
     // TODO: create resource object on current tile
     qDebug("Player::dropResource(); dropped resource");
+#ifndef SERVER
+	Console::instance()->addText("Dropped Resource");
+#endif
+
     resource_ = RESOURCE_NONE;
     if (getGraphicsComponent()) {
         getGraphicsComponent()->setCurrentResource(0);
@@ -143,7 +148,12 @@ void Player::harvestResource() {
         }
         setDirty(kResource);
         stopHarvesting();
-        return;
+
+#ifndef SERVER
+	Console::instance()->addText("Picked up a Resource");
+#endif
+
+	return;
     }
     // TODO: update harvesting progress bar
 }

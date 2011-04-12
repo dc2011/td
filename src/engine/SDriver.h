@@ -103,6 +103,14 @@ public:
      */
     virtual void sendNetMessage(unsigned char msgType, QByteArray msg);
 
+    /**
+     * Sets the health of the player's base.
+     *
+     * @author Darryl Pogue
+     * @param health The new base health.
+     */
+    virtual void setBaseHealth(int health);
+
 signals:
     /**
      * Signal emitted when there are no more players in this game session.

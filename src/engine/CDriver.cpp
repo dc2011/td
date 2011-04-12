@@ -72,6 +72,13 @@ void CDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
     NetworkClient::instance()->send(msgType, msg);
 }
 
+void CDriver::setBaseHealth(int health) {
+    Driver::setBaseHealth(health);
+
+    /* Do something dramatic here */
+    Console::instance()->addText("Oh teh noes!");
+}
+
 void CDriver::readObject(Stream* s) {
     unsigned int id = s->readInt();
 
@@ -94,6 +101,11 @@ void CDriver::readObject(Stream* s) {
         }
 
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
+        return;
+    } else if (go == (GameObject*)-1) {
+        go = mgr_->createTempObject((id & 0xFF000000) >> 24);
+        go->networkRead(s);
+        delete go;
         return;
     }
     
@@ -179,6 +191,7 @@ void CDriver::createTower(int towerType, QPointF pos)
         tower->setPos(currentTile->getPos());
         currentTile->setExtension(tower);
 
+        connect(mainWindow_, SIGNAL(signalAltHeld(bool)),tower->getGraphicsComponent(),SLOT(setVisibleRange(bool)));
         connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
         connect(tower->getPhysicsComponent(),
                 SIGNAL(fireProjectile(int, QPointF, QPointF, Unit*)),
@@ -271,7 +284,7 @@ void CDriver::UDPReceived(Stream* s) {
         case network::kAssignPlayerID:
         {
             playerID_ = s->readInt();
-            qDebug("My player ID is %08X", playerID_);
+            //qDebug("My player ID is %08X", playerID_);
             break;
         }
         case network::kMulticastIP:
@@ -289,6 +302,8 @@ void CDriver::UDPReceived(Stream* s) {
                 go->networkRead(s);
                 go->initComponents();
                 connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
+                connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
+                        (Player*)go,  SLOT(showName(bool)));
 
                 if (id == playerID_) {
                     this->makeLocalPlayer((Player*)go);
@@ -307,9 +322,16 @@ void CDriver::UDPReceived(Stream* s) {
         }
         case network::kDestroyObject:
         {  
-	        int id = s->readInt();
-	        destroyObject(id);
-	        break;
+            int id = s->readInt();
+            destroyObject(id);
+            break;
+        }
+        case network::kBaseHealth:
+        {
+            int health = s->readInt();
+
+            setBaseHealth(health);
+            break;
         }
         case network::kPlaySfx:
         {

@@ -68,6 +68,8 @@ namespace network {
         /** Indicates creation of a projectile. */
         kProjectile     =   0x09,
 
+        kBaseHealth     =   0x0A,
+
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
         /** Used as a separator to indicate UDP messages. */

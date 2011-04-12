@@ -73,7 +73,12 @@ QStringList SfxManager::playerSelectsMenuItem
 QStringList SfxManager::playerLevelsUp
         = QStringList() << "";
 QStringList SfxManager::playerHitsNpc
-        = QStringList() << "peffect-1" << "peffect-2";
+        = QStringList() << "peffect-1" << "peffect-2" << "peffect-3"
+        << "peffect-4" << "peffect-5" << "peffect-6";
+
+//Game Sfx
+QStringList SfxManager::npcInBase
+        = QStringList() << "base-1" << "base-2";
 
 //lobby SFX
 QStringList SfxManager::lobbyStart 
