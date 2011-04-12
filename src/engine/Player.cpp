@@ -80,7 +80,7 @@ void Player::update() {
 }
 
 void Player::createEffect(Effect* effect){
-    if (effects_.contains(*effect)) {
+    if (effects_.empty()) {
         emit signalEmptyEffectList();
         QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
             this, SLOT(deleteEffect(Effect*)));
