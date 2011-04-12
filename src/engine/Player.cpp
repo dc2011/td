@@ -94,6 +94,10 @@ void Player::createEffect(int effectType)
             break;
         case EFFECT_SLOW:
             effect = new PlayerTerrainSlowEffect(this);
+            break;
+        case EFFECT_NPCPLAYER:
+            effect = new NPCPlayerEffect(this);
+            break;
         default:
             return;
         }
