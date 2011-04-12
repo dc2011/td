@@ -51,7 +51,9 @@ public:
      * @author Warren Voelkl
      */
     void setCompleationStage(int stage);
+    
     virtual void draw(DrawParams* dp, int layer=0);
+
 public slots:
     void showIcons(bool);
 
@@ -59,7 +61,8 @@ private:
     /** container for all pixmaps which pertain to the current object */
     static QPixmap * pixmapImgs_;
     /** arragy of pix map items for the required resources **/
-    QGraphicsPixmapItem *resourcePixmapItemArray_[RESOURCE_TYPE_MAX][ICON_MAX];
+    QGraphicsPixmapItem *
+        resourcePixmapItemArray_[RESOURCE_TYPE_MAX][ICON_MAX];
     /** Number of wood icons to display on tile */
     int woodReq_;
     /** Number of bone icons to display on tile */
@@ -79,11 +82,13 @@ private:
     QPixmap * getPixmapArray() {
         return pixmapImgs_;
     }
+
     /**
      * Sets the default images and visibilities for all the tower icons.
      * @author Warren Voelkl
      */
     void setIconImages();
+
     /**
      * Sets or unsets visibility of icon.
      *
@@ -92,8 +97,11 @@ private:
      * @param current number of resources required for tower completing
      * @author Warren Voelkl
      */
-    void setIconVisibility(QGraphicsPixmapItem *iconGraphic, int index, int resourceReq);
-    void iconDrawingHelper(QGraphicsPixmapItem *icon, int x, int y, int layer, int i, int resourceReq);
+    void setIconVisibility(QGraphicsPixmapItem *iconGraphic, int index,
+            int resourceReq);
+    
+    void iconDrawingHelper(QGraphicsPixmapItem *icon, int x, int y,
+            int layer, int i, int resourceReq);
 
 };
 
