@@ -228,15 +228,9 @@ void SDriver::onMsgReceive(Stream* s) {
     switch(message) {
         case network::kTowerChoice:
         {
-            int playerID = s->readInt();
             int towertype = s->readInt();
             float x = s->readFloat();
             float y = s->readFloat();
-
-            Player* player = (Player*)mgr_->findObject(playerID);
-            if (player->getPos().x() != x || player->getPos().y() != y) {
-                break;
-            }
 
             Tile* currentTile = gameMap_->getTile(x, y);
             if (currentTile->getActionType() != TILE_BUILDABLE) {
@@ -256,16 +250,12 @@ void SDriver::onMsgReceive(Stream* s) {
             float y = s->readFloat();
 
             Player* player = (Player*)mgr_->findObject(playerID);
-            if (player->getPos().x() != x || player->getPos().y() != y) {
-                break;
-            }
 
             Tile* currentTile = gameMap_->getTile(x, y);
             if (currentTile->getActionType() != TILE_BUILDING) {
                 out->writeInt(player->getID());
                 out->writeInt(false);
 	            net_->send(network::kDropResource, out->data());
-	            delete out;
                 break;
             }
             

@@ -183,7 +183,6 @@ void CDriver::requestBuildingTower(int type, QPointF pos) {
         human_->dropResource(Driver::addToTower(t, human_));
     } else {
         Stream s;
-        s.writeInt(human_->getID());
         s.writeInt(type);
         s.writeFloat(pos.x());
         s.writeFloat(pos.y());
