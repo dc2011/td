@@ -43,6 +43,11 @@
 #define PIX_PROJ_FIRE_MAX       4
 #define PIX_PROJ_FLAK           QString("./img/flakProjectile.png")
 #define PIX_PROJ_FLAK_MAX       1
+//placehoders for more tower compleation graphics
+#define PIX_BUILDING_TOWER_25   QString("./img/build1.png")
+#define PIX_BUILDING_TOWER_50   QString("./img/build2.png")
+#define PIX_BUILDING_TOWER_75   QString("./img/build3.png")
+#define PIX_BUILDING_TOWER_MAX  3
 #define PIX_TOWER_ARROW         QString("./img/towerArrow.png")
 #define PIX_TOWER_CANNON        QString("./img/towerCannon.png")
 #define PIX_TOWER_TAR           QString("./img/towerTar.png")
@@ -59,6 +64,16 @@
 #define PIX_ICON_BONE           QString("./img/boneIcon.png") //no file as of yet
 #define PIX_ICON_TAR            QString("./img/oilIcon.png")
 #define PIX_ICON_MAX            4
+#define PIX_COLL_WOOD           QString("./img/woodIcon.png")
+#define PIX_COLL_WOOD_MAX       1
+#define PIX_COLL_STONE          QString("./img/stoneIcon.png")
+#define PIX_COLL_STONE_MAX      1
+#define PIX_COLL_BONE           QString("./img/boneIcon.png")
+#define PIX_COLL_BONE_MAX       1
+#define PIX_COLL_TAR            QString("./img/oilIcon.png")
+#define PIX_COLL_TAR_MAX        1
+#define PIX_COLL_GEM            QString("./img/oilIcon.png") // placeholder
+#define PIX_COLL_GEM_MAX        1
 #define PIX_NPC_PTERO_START     0
 #define PIX_NPC_PTERO_0         QString("./img/ptero-1.png")
 #define PIX_NPC_PTERO_1         QString("./img/ptero-2.png")
@@ -73,8 +88,6 @@
 #define PIX_NPC_MAMMOTH_0       QString("./img/mammoth1.png");
 #define PIX_NPC_MAMMOTH_1       QString("./img/mammoth2.png");
 #define PIX_NPC_MAMMOTH_MAX     2
-//this final value will be total of all NPC pix maps
-#define PIX_NPC_TOTAL           PIX_NPC_PTERO_MAX + PIX_NPC_PLEA_MAX + PIX_NPC_MAMMOTH_MAX
 
 //ending animations for projectiles
 #define PIX_END_CANNON_START    0

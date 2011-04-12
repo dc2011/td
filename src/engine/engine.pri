@@ -1,4 +1,5 @@
-ENGINE_HDRS +=  ./engine/Driver.h \
+ENGINE_HDRS +=  ./engine/Collectable.h \
+                ./engine/Driver.h \
                 ./engine/Effect.h \
                 ./engine/EffectTypes.h \
                 ./engine/GameObject.h \
@@ -11,13 +12,15 @@ ENGINE_HDRS +=  ./engine/Driver.h \
                 ./engine/Tile.h \
                 ./engine/TileExtension.h \
                 ./engine/Tower.h \
+                ./engine/BuildingTower.h \
                 ./engine/Resource.h \
                 ./engine/Unit.h \
                 ./engine/Parser.h \
                 ./engine/Ending.h
 
 
-ENGINE_SRCS +=  ./engine/Driver.cpp \
+ENGINE_SRCS +=  ./engine/Collectable.cpp \
+                ./engine/Driver.cpp \
                 ./engine/Effect.cpp \
                 ./engine/EffectTypes.cpp \
                 ./engine/GameObject.cpp \
@@ -30,6 +33,7 @@ ENGINE_SRCS +=  ./engine/Driver.cpp \
                 ./engine/Tile.cpp \
                 ./engine/TileExtension.cpp \
                 ./engine/Tower.cpp \
+                ./engine/BuildingTower.cpp \
                 ./engine/Resource.cpp \
                 ./engine/Unit.cpp \
                 ./engine/Parser.cpp \
