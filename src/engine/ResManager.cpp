@@ -4,6 +4,7 @@
 #include "NPC.h"
 #include "Resource.h"
 #include "Tower.h"
+#include "BuildingTower.h"
 
 namespace td {
 
@@ -40,9 +41,19 @@ GameObject* ResManager::internalCreateObject(unsigned char type) {
             id = (Tower::clsIdx() <<24) | objects_[type].size();
             ret->setID(id);
             break;
+        case clsidx::kBuildingTower:
+            ret = new BuildingTower((QObject*)driver_);
+            id = (BuildingTower::clsIdx() <<24) | objects_[type].size();
+            ret->setID(id);
+            break;
         case clsidx::kResource:
             ret = new Resource((QObject*)driver_);
             id = (Resource::clsIdx() << 24) | objects_[type].size();
+            ret->setID(id);
+            break;
+        case clsidx::kCollectable:
+            ret = new Collectable((QObject*)driver_);
+            id = (Tower::clsIdx() << 24) | objects_[type].size();
             ret->setID(id);
             break;
         case clsidx::kGameObject:

@@ -23,6 +23,11 @@ Projectile::Projectile(QObject* parent) : Unit(parent) {
     this->setWidth(48);
 }
 
+Projectile::~Projectile() {
+    delete start_;
+    delete end_;
+}
+
 void Projectile::initComponents() {
     switch(type_) {
         case PROJ_ARROW:
