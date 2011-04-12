@@ -573,7 +573,6 @@ void AudioManager::encode(short* data, int nframes, Stream* out) {
     char* fdata = new char[frameSize];
     short* pData = data;
 
-    qDebug("encoding");
     out->writeInt(nframes);
 
     for (int i = 0; i < nframes; i++) {
@@ -602,7 +601,6 @@ void AudioManager::decode(Stream* data, int nframes, short* out) {
 
     float* speexout = new float[frameSize];
     short* pOut = out;
-    qDebug("Decoding");
     
     for (int i = 0; i < nframes; i++) {
         int flength = data->readInt();

@@ -360,7 +360,6 @@ public:
         if(netQueue_.count() > 0) {
 	    temp = netQueue_.dequeue();
 	}
-	qDebug("get next in Queue");
 	mutex_.unlock();
 	return temp;
     }
@@ -383,7 +382,6 @@ public:
      */
     static void addToQueue(Stream *s) {
 	mutex_.lock();
-	qDebug("Stream added to queue");
 	netQueue_.enqueue(s);
 	mutex_.unlock();
     }
