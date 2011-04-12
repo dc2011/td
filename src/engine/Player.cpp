@@ -69,31 +69,52 @@ void Player::update() {
         case Tile::NONE:
             break;
         case Tile::SLOW:
-            createEffect(new PlayerTerrainSlowEffect(this));
+            createEffect(EFFECT_SLOW);
             break;
         case Tile::FAST:
-            createEffect(new PlayerTerrainSlowEffect(this));
+            createEffect(EFFECT_FAST);
             break;
         default:
             break;
     }
 }
 
-void Player::createEffect(Effect* effect){
-    if (effects_.empty()) {
+void Player::createEffect(int effectType)
+{
+    // Check to see if this effect is already applied
+    if (!effects_.contains(effectType))
+    {
+        Effect* effect;
+
+        // Create the effect
+        switch (effectType)
+        {
+        case EFFECT_FAST:
+            //effect = new PlayerTerrainFastEffect(this);
+            break;
+        case EFFECT_SLOW:
+            effect = new PlayerTerrainSlowEffect(this);
+        default:
+            return;
+        }
+
+        // Dean's sound signal thing
         emit signalEmptyEffectList();
+
+        // Connect signal rubbish
         QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
-            this, SLOT(deleteEffect(Effect*)));
-        connect(getDriver()->getTimer(), SIGNAL(timeout()),
-            effect, SLOT(update()));
-        effects_.push_back(*effect);
-    } else {
-        delete effect;
+                         this, SLOT(deleteEffect(Effect*)));
+        QObject::connect(getDriver()->getTimer(), SIGNAL(timeout()),
+                         effect, SLOT(update()));
+
+        // Insert the effect into the map
+        effects_.insert(effectType, effect);
     }
 }
 
-void Player::deleteEffect(Effect* effect){
-    effects_.removeOne(*effect);
+void Player::deleteEffect(Effect* effect)
+{
+    effects_.remove(effect->getType());
     delete effect;
 }
 
