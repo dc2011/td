@@ -285,7 +285,7 @@ void AudioManager::streamVoice()
 		buf = new short[buffersize];
 		decode(temp, frames, buf); 
 		qDebug("decoded a stream");
-		result = sizeof(buf);
+		result = buffersize*sizeof(short);
 		qDebug("result %d", result);
 
                 if (result == 0) {
