@@ -87,6 +87,9 @@
 #define NPC_FLY_MAX_V   2  
 #define NPC_BOSS_MAX_V  1  
 
+//Player velocity
+#define PLAYER_MAX_V 2000
+
 //effect types for operator==
 #define EFFECT_NONE         0
 #define EFFECT_NPCPLAYER    1

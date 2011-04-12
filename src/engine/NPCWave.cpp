@@ -29,6 +29,10 @@ void NPCWave::createWave() {
 
 void NPCWave::killChild(NPC* child) {
     children_.remove(child);
+
+    if (isDead()) {
+        emit waveDead();
+    }
 }
 
 void NPCWave::update() {
