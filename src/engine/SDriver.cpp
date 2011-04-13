@@ -99,10 +99,11 @@ void SDriver::startGame(bool multicast) {
 
     gameMap_->initMap();
 
-    Parser* fileParser = new Parser("./maps/mapinfo.nfo");
+    Parser* fileParser = new Parser(this, "./maps/mapinfo.nfo");
     NPCWave* tempWave;
     setBaseHealth(fileParser->baseHP);
     while((tempWave = fileParser->readWave())!=NULL) {
+        qDebug("wave read");
         waves_.append(tempWave);
     }
     this->gameTimer_->start(30);
@@ -194,12 +195,14 @@ void SDriver::destroyObject(int id) {
 void SDriver::spawnWave() {
 
     //NPCWave* wave = new NPCWave(this);
+    qDebug("wave spawning");
 
     waves_.first()->createWave();
     //waves_.append(wave);
 
     disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
     connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+    qDebug("wave spawned");
     /*if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
         Driver::createNPC(NPC_NORM);
     }
@@ -220,9 +223,11 @@ void SDriver::spawnWave() {
 }
 void SDriver::deadWave(){
     disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
-    delete waves_.takeFirst();
+    waves_.takeFirst();
 
-    connect(waveTimer_, SIGNAL(timeout()),this, SLOT(spawnWave()));
+    if(!waves_.empty()) {
+        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(spawnWave()));
+    }
 }
 
 void SDriver::deadNPC(int id) {
