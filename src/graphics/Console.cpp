@@ -34,6 +34,7 @@ Console::Console() {
     textLabel_ = new QGraphicsTextItem();
     rect_ = new QGraphicsRectItem();
     textRect_ = new QGraphicsRectItem();
+
     text_.append("Say: ");
     
     QFont font("Monospace");
@@ -43,6 +44,13 @@ Console::Console() {
     charFormat.setTextOutline(outlinePen);
     charFormat.setFont(font);
     charFormat.setFontPointSize(10);
+
+    QTextDocument *doc = new QTextDocument();
+    QTextCursor cursor = QTextCursor(doc);
+    cursor.insertText(text_, charFormat);
+    textLabel_->setDocument(doc);
+    textLabel_->update();
+    
     
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
     CDriver::instance()->getMainWindow()->getScene()->addItem(textLabel_);
@@ -137,6 +145,8 @@ void Console::scroll() {
     }
     label_->update();
     rect_->update();
+    textLabel_->update();
+    textRect_->update();
 }
 
 void Console::toggle() {

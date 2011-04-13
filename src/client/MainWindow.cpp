@@ -17,6 +17,9 @@ namespace td {
 MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
+    stats_ = new QGraphicsTextItem();
+    statsRect_ = new QGraphicsRectItem();
+    
     consoleOpen_ = false;
 
     scene_->setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -35,6 +38,21 @@ MainWindow::MainWindow() : QMainWindow() {
     Tiled::MapRenderer* mRenderer = mapDisplayer_->getMRenderer();
     QSize mapSize = mRenderer->mapSize();
 
+    //Status bar
+    statsRect_->setRect(500,0,500,30);
+    statsRect_->setBrush(QBrush(QColor(0,0,0)));
+    statsRect_->setPen(QPen(QColor(0,0,0)));
+    statsRect_->setZValue(98);
+    statsRect_->setOpacity(0.8);
+
+    stats_->setDefaultTextColor(QColor(200,200,0));
+    stats_->setPos(505,0);
+    stats_->setZValue(99);
+    stats_->setPlainText("|i|Base Health: 100% |i| Gems: 10 |i| NPC WAVE 0:10s");
+    stats_->update();
+
+    scene_->addItem(statsRect_);
+    scene_->addItem(stats_);
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
     scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());

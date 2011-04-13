@@ -35,6 +35,16 @@ private:
      * The view which displays the graphics scene.
      */
     QGraphicsView* view_;
+    
+    /**
+     * The stats menu bar
+     */
+    QGraphicsTextItem* stats_;
+
+    /**
+     * The view which displays the graphics scene.
+     */
+    QGraphicsRectItem* statsRect_;
 
     /**
      * The bitmask of keys held and not released
