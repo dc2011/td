@@ -13,6 +13,7 @@ QMutex Console::mutex_;
 QVector<QString> *Console::display_;
 QGraphicsTextItem *Console::label_; 
 QGraphicsRectItem *Console::rect_;
+int Console::y=-115;
 
 Console::Console() {
 
@@ -22,14 +23,14 @@ Console::Console() {
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
     CDriver::instance()->getMainWindow()->getScene()->addItem(rect_);
     
-    rect_->setRect(5,5,200,30);
+    rect_->setRect(5,y-10,200,30);
     rect_->setBrush(QBrush(QColor(200,200,200)));
     rect_->setPen(QPen(QColor(200,200,200)));
     rect_->setZValue(98);
     rect_->setOpacity(0.35);
     
     label_->setDefaultTextColor(QColor(0,0,0));
-    label_->setPos(15,15);
+    label_->setPos(15,y);
     label_->setTextWidth(240);
     label_->setZValue(99);
     label_->update();
@@ -77,11 +78,30 @@ void Console::addText(QString text) {
 void Console::hide() {
     label_->hide();
     rect_->hide();
+    label_->setPos(15,y);
+    rect_->setRect(label_->boundingRect().adjusted(0,y,0,y));
+    label_->update();
+    rect_->update();    
 }
 
 void Console::show() {
+    connect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
+	    this, SLOT(scroll()));
     label_->show();
     rect_->show();
+}
+
+void Console::scroll() {
+    label_->setPos(15,y);
+    rect_->setRect(label_->boundingRect().adjusted(0,y,0,y));
+    y+=10;
+    if(y>=15) {
+	y=-115;
+	disconnect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
+	    this, SLOT(scroll()));
+    }
+    label_->update();
+    rect_->update();
 }
 
 void Console::toggle() {
@@ -90,6 +110,6 @@ void Console::toggle() {
     } else {
 	show();
     }
-}
+};
 
 } //end of namespace
