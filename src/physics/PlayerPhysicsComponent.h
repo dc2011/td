@@ -59,6 +59,7 @@ public:
      * @author Daniel Wright, Pan K.(add a signal)
      */
     void checkUnitCollision(QSet<Unit*> npcs, Unit* player);
+
     /**
      * This updates the physics properties of Player.
      * Applies force to velocity, applies velocity to position.
@@ -100,11 +101,11 @@ signals:
      */
     void NPCPlayerCollided(int);
     /**
-     * Collectable to player collision.
+     * forces a collectable to be picked up
      *
      * @author DTRAIN
      */
-    void NPCCollectableCollided(double x, double y, Player* p, Collectable* c);
+    void pickupCollectable(double x, double y, Unit* u);
 
 public slots:
     /**

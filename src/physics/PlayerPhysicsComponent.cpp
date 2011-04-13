@@ -232,7 +232,7 @@ void PlayerPhysicsComponent::checkUnitCollision(QSet<Unit*> units, Unit* player)
             playerBounds = player->getBounds();
             npcBounds = (*it)->getBounds();
             if (player->getBounds().intersected((*it)->getBounds()).count() != 0) {
-                qDebug("PLAYER COLLIDED WITH A COLLECTABLE THAT WAS ON THE GROUND!!!");
+                emit pickupCollectable(player->getPos().x(), player->getPos().y(), *it);
                 break;
             }
         }
