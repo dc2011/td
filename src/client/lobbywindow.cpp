@@ -14,12 +14,10 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LobbyWindow)
 {
-    this->applyStyleSheet(QString(":/file/client.qss"));
-
     ui->setupUi(this);
     ui->btnStart->setEnabled(false);
 
-    //background-image: url("../../img/lobbyBg.png");
+    this->applyStyleSheet(QString(":/file/client.qss"));
 
     connect(ui->btnConnect, SIGNAL(clicked()),
             this, SLOT(connectLobby()));

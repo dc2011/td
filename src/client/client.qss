@@ -1,3 +1,13 @@
-QMainWindow, QWidget {
-    background-color: black;
+QMainWindow {
+    background-image: url("./img/lobbyBg.png");
+}
+
+QFrame#bgFrame {
+    background-image: url("./img/mapListsBg.png");
+    border: none;
+}
+
+QListWidget#mapsList {
+    background: transparent;
+    border: none;
 }

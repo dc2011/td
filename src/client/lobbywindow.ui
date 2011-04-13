@@ -20,9 +20,9 @@
    <widget class="QListWidget" name="mapsList">
     <property name="geometry">
      <rect>
-      <x>330</x>
+      <x>340</x>
       <y>50</y>
-      <width>331</width>
+      <width>321</width>
       <height>261</height>
      </rect>
     </property>
@@ -30,14 +30,14 @@
    <widget class="QPushButton" name="btnStart">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>220</y>
-      <width>281</width>
+      <x>170</x>
+      <y>180</y>
+      <width>131</width>
       <height>27</height>
      </rect>
     </property>
     <property name="text">
-     <string>Join Game</string>
+     <string>Start Game</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="easyBtn">
@@ -83,7 +83,7 @@
     <property name="geometry">
      <rect>
       <x>168</x>
-      <y>260</y>
+      <y>220</y>
       <width>16</width>
       <height>17</height>
      </rect>
@@ -96,7 +96,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>260</y>
+      <y>220</y>
       <width>132</width>
       <height>17</height>
      </rect>
@@ -123,7 +123,7 @@
      <rect>
       <x>30</x>
       <y>180</y>
-      <width>281</width>
+      <width>131</width>
       <height>27</height>
      </rect>
     </property>
@@ -181,6 +181,35 @@
     </property>
     <property name="text">
      <string>Hard</string>
+    </property>
+   </widget>
+   <widget class="QFrame" name="bgFrame">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>30</y>
+      <width>360</width>
+      <height>300</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>20</y>
+      <width>131</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>List of maps</string>
     </property>
    </widget>
   </widget>
