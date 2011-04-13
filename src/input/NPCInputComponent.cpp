@@ -38,6 +38,9 @@ void NPCInputComponent::setParent(Unit *parent) {
     nextDest_++;
 
     parent_->setPos(segment_.p1().x(), segment_.p1().y());
+    connect(this, SIGNAL(signalDropResource(int, QPointF, QVector2D)),
+            parent_->getDriver(),
+            SLOT(requestCollectable(int, QPointF, QVector2D)));
 }
 
 void NPCInputComponent::makeForce() {
@@ -62,6 +65,9 @@ void NPCInputComponent::nextDestination() {
             && nextDest_ >= waypoints_.length()) {
         disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));
+        
+        emit signalDropResource(RESOURCE_GEM, parent_->getPos(),
+                parent_->getRandomVector());
 
         int health = parent_->getDriver()->getBaseHealth();
         health -= parent_->getDamage();

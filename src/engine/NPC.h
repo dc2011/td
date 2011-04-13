@@ -132,6 +132,28 @@ public:
         wave_ = wave;
     }
 
+    /**
+     * Makes a random vector for the collectable drop.
+     *
+     * @author Marcel Vangrootheest
+     * @return A random vector
+     */
+    QVector2D getRandomVector();
+
+    /**
+     * Sets the gem holding amount. Should be 0 or 1.
+     *
+     * @author Marcel Vangrootheest
+     * @param gem The number of gems you want NPC to hold.
+     */
+    void setGem(int gem) {
+        gem_ = gem;
+    }
+
+    int getGem() {
+        return gem_;
+    }
+
 signals:
     /**
      * signal emitted when an NPC needs to be destroyed.
@@ -178,6 +200,7 @@ private:
     int height_;
     int width_;
     int type_;
+    int gem_;
 
     /** The wave to which this NPC belongs. */
     NPCWave* wave_;

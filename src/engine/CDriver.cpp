@@ -205,6 +205,11 @@ void CDriver::NPCCreator() {
     }
 
     if (npc) {
+        if ((npcCounter_ % 2) == 0) {
+            npc->setGem(1);
+        } else {
+            npc->setGem(0);
+        }
         connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
                 npc->getGraphicsComponent(), SLOT(showHealth(bool)));
         connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));

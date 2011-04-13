@@ -155,7 +155,7 @@ public:
      * @author Marcel Vangrootheest
      * @return A random vector
      */
-    QVector2D getRandomVector();
+    virtual QVector2D getRandomVector();
 
 protected:
     QVector2D velocity_;

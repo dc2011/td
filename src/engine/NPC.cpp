@@ -86,6 +86,19 @@ void NPC::networkWrite(Stream* s) {
     }
 }
 
+QVector2D NPC::getRandomVector() {
+    float d = ((qrand() % 1000) / 21.0) + 50;
+    float direction = (qrand() % 1000) - 500;
+    QLineF normalVector = QLineF(QPointF(0, 0), velocity_.toPointF());
+
+    normalVector = normalVector.normalVector();
+
+    QVector2D v = QVector2D(normalVector.p2()) * direction;
+    v.normalize();
+
+    return (v * d);
+}
+
 void NPC::initComponents() {
     NPCInputComponent* input;
 

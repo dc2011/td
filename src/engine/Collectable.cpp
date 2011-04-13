@@ -89,6 +89,7 @@ void Collectable::initComponents() {
             break;
 
         case RESOURCE_GEM:
+            setScale(0.4);
             input_ = new CollectableInputComponent();
             physics_ = new CollectablePhysicsComponent();
 #ifndef SERVER
