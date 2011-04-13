@@ -218,8 +218,8 @@ public:
      * @param oil The number of oil collectables to create.
      * @param gem The number of gem collectables to create.
      */
-    void Driver::dropCollectables(QPointF pos,
-        int wood, int stone, int bone, int oil, int gem) {
+    void dropCollectables(QPointF pos,
+        int wood, int stone, int bone, int oil, int gem);
 
     /**
      * Need to find object with res manager.

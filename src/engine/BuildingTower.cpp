@@ -94,16 +94,16 @@ void BuildingTower::initComponents() {
             oil_    = COST_CANNON_OIL;
             break;
         case TOWER_FLAME:
-            wood_   = COST_CANNON_WOOD;
-            bone_   = COST_CANNON_BONE;
-            stone_  = COST_CANNON_STONE;
-            oil_    = COST_CANNON_OIL;
-            break;
-        case TOWER_TAR:
             wood_   = COST_FLAME_WOOD;
             bone_   = COST_FLAME_BONE;
             stone_  = COST_FLAME_STONE;
             oil_    = COST_FLAME_OIL;
+            break;
+        case TOWER_TAR:
+            wood_   = COST_TAR_WOOD;
+            bone_   = COST_TAR_BONE;
+            stone_  = COST_TAR_STONE;
+            oil_    = COST_TAR_OIL;
             break;
         case TOWER_FLAK:
             wood_   = COST_FLAK_WOOD;

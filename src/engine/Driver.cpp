@@ -196,18 +196,27 @@ Resource* Driver::createResource(int type) {
 
 void Driver::sellTower(QPointF pos) {
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
-    uint i = 0;
 
-    switch(((Tower*)currentTile->getExtension()).getType()) {
+    switch(((Tower*)currentTile->getExtension())->getType()) {
     case TOWER_ARROW:
+        dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
+                COST_ARROW_BONE, COST_ARROW_OIL, 0);
         break;
     case TOWER_CANNON:
+        dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
+                COST_CANNON_BONE, COST_CANNON_OIL, 0);
         break;
     case TOWER_FLAME:
+        dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
+                COST_FLAME_BONE, COST_FLAME_OIL, 0);
         break;
     case TOWER_TAR:
+        dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
+                COST_TAR_BONE, COST_TAR_OIL, 0);
         break;
     case TOWER_FLAK:
+        dropCollectables(pos, COST_FLAK_WOOD, COST_FLAK_STONE,
+                COST_FLAK_BONE, COST_FLAK_OIL, 0);
         break;
     }
     destroyObject(currentTile->getExtension());
@@ -227,6 +236,8 @@ QVector2D Driver::getRandomVector() {
 
 void Driver::dropCollectables(QPointF pos,
         int wood, int stone, int bone, int oil, int gem) {
+    int i = 0;
+
     for (i = 0; i < wood; i++) {
         createCollectable(RESOURCE_WOOD, pos, getRandomVector());
     }
@@ -237,7 +248,7 @@ void Driver::dropCollectables(QPointF pos,
         createCollectable(RESOURCE_BONE, pos, getRandomVector());
     }
     for (i = 0; i < oil; i++) {
-        createCollectable(RESOURCE_OIL, pos, getRandomVector());
+        createCollectable(RESOURCE_TAR, pos, getRandomVector());
     }
     for (i = 0; i < gem; i++) {
         createCollectable(RESOURCE_GEM, pos, getRandomVector());

@@ -216,11 +216,13 @@ void CDriver::requestSellTower(QPointF pos) {
     if (isSinglePlayer()) {
         Driver::sellTower(pos);
     } else {
+        /*
         Stream s;
         s.writeInt(human_->getID());
         s.writeFloat(t->getPos().x());
         s.writeFloat(t->getPos().y());
         NetworkClient::instance()->send(network::kSellTower, s.data());
+        */
     }
 }
 void CDriver::NPCCreator() {
