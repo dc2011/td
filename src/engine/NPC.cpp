@@ -151,22 +151,7 @@ void NPC::initComponents() {
     }
 #endif
 }
-/*
-void NPC::createEffect(Effect* effect){
-    if (effects_.contains(*effect)) {
-        emit stopEffect(effect->getType());
-        effects_.removeOne(*effect);
-    }
-    QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
-        this, SLOT(deleteEffect(Effect*)));
-    connect(this, SIGNAL(stopEffect(uint)),
-        effect, SLOT(effectStop(uint)));
-    connect(getDriver()->getTimer(), SIGNAL(timeout()),
-        effect, SLOT(update()));
-        
-    effects_.push_back(*effect);
-}
-*/
+
 void NPC::createEffect(int effectType)
 {
     Effect* effect;
