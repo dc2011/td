@@ -24,7 +24,7 @@ void NPCInputComponent::update() {
 void NPCInputComponent::setParent(Unit *parent) {
     // Casting Unit* to NPC*.
     parent_ = (NPC*) parent;
-//    nextDest_ = 0;
+   // nextDest_ = 0;
 
     connect(this, SIGNAL(deleteUnitLater(int)),
             parent_->getDriver(), SLOT(destroyObject(int)),

@@ -20,21 +20,21 @@ NPCWave::~NPCWave() {
 }
 
 void NPCWave::createWave() {
-qDebug("create wave");
+
 
     PLAY_SFX(this, SfxManager::npcPterodactylEnters);
 
-//qDebug("wave spawning");
+
     connect(getDriver()->getTimer(), SIGNAL(timeout()),
             this, SLOT(update()));
-    qDebug("connected");
+
 }
 
 void NPCWave::killChild(NPC* child) {
     children_.remove(child);
-    qDebug("child dieing");
+
     if (isDead()) {
-        qDebug("wave dead");
+
         emit waveDead();
     }
 }
@@ -53,8 +53,11 @@ void NPCWave::update() {
 
         NPC* npc = getDriver()->createNPC(type_);
         npc->setWave(this);
+
         ((NPCInputComponent*)npc->getInputComponent())->initWaypoints(pathNum_);
+
         children_.insert(npc);
+
     }
 
     Stream s;
