@@ -119,7 +119,6 @@ public slots:
 signals:
     void signalKeyPressed(int);
     void signalKeyReleased(int);
-    
     /**
      * The number keys are used to select options from the context menu.
      * 

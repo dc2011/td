@@ -3,7 +3,6 @@
 
 // System includes
 #include <QObject>
-#include <set>
 #include <QSet>
 #include <QPointF>
 #include <QPolygon>
@@ -18,17 +17,32 @@ class Tile;
 
 namespace td {
 
-// May need a better place for this definition since it is needed in collision
-enum blockingType {OPEN = 0, CLOSED = 1, NORTH_WEST = 2, NORTH_EAST = 3,
-                   SOUTH_WEST = 4, SOUTH_EAST = 5};
-
 class TileExtension;
 class Unit;
 
 class Tile : public QObject {
     Q_OBJECT
-
 public:
+    enum BlockingType {
+        OPEN,
+        CLOSED,
+        NORTH_WEST,
+        NORTH_EAST,
+        SOUTH_WEST,
+        SOUTH_EAST,
+    };
+
+    enum TileEffect {
+        NONE,
+        SLOW,
+        FAST,
+    };
+
+    struct TileAttributes {
+        BlockingType type;
+        TileEffect effect;
+    };
+
     /**
      * Gets the unique class index for this object type.
      *
@@ -37,9 +51,8 @@ public:
      */
     static unsigned char clsIdx() { return clsidx::kTile; }
 
-public:
     Tile();
-    Tile(int row, int column, blockingType type);
+    Tile(int row, int column, BlockingType type, TileEffect tileEffect);
     virtual ~Tile() { }
 
     // The following two methods are going to be problematic in their current
@@ -51,7 +64,30 @@ public:
     void addUnit(Unit *unitToAdd);
     void removeUnit(Unit *unitToRemove);
     QList<Unit*> getUnits();
-    blockingType getType();
+    BlockingType getType();
+
+    /**
+     * Returns the effect associated with this tile, or NULL if there is no
+     * effect.
+     *
+     * @return the effect associated with this tile.
+     * @author Luke Queenan
+     */
+    TileEffect getTileEffect()
+    {
+        return tileEffect_;
+    }
+
+    /**
+     * setter for tile effect.
+     *
+     * @param tileEffect, the effect to set to the tile.
+     * @author DTRAIN
+     */
+    void getTileEffect(TileEffect tileEffect)
+    {
+        tileEffect_ = tileEffect;
+    }
 
     /**
      * Specifies whether a tile is one of the following:
@@ -115,6 +151,7 @@ public:
       * @return void
       */
     void setBlocked();
+
     /**
      * Gets this tile's extension object.
      *
@@ -122,22 +159,55 @@ public:
      * @return The tile extension.
      */
     TileExtension * getExtension() { return extension_; }
+
+    /**
+     * Set a tile extension on this tile.
+     *
+     * @param extension The extension to set on the tile.
+     * @author Tom Nightingale
+     */
     void setExtension(TileExtension * extension) { extension_ = extension; }
 
+    /**
+     * Get the Tiled tile.
+     * @return The Tiled tile.
+     *
+     * @author Tom Nightingale
+     */
     Tiled::Tile * getTiledTile() { return tTile_; }
+
+    /**
+     * Set the Tiled tile used to create this TD tile.
+     *
+     * @param tile a pointer to the Tiled tile.
+     * @author Tom Nightingale
+     */
     void setTiledTile(Tiled::Tile * tile) { tTile_ = tile; }
+
+    /**
+     * Get a tile's tile attributes from its Tiled ID. The attributes are
+     * stored in a static array within this method so that it is only loaded
+     * once at runtime. As new tiles are added to the sprite, their attributes
+     * will need to be added to this static array.
+     *
+     * @param id The id returned from the Tiled tile classes getId() method.
+     * @return The tile's attributes.
+     *
+     * @author Tom Nightingale
+     */
+    static TileAttributes getAttributes(int id);
 
 private:
     int tileID_;
-    blockingType type_;
+    BlockingType type_;
     QList<Unit*> currentUnits_;
     QPolygonF myBounds_;
     int actionType_;
-
+    TileEffect tileEffect_;
     Tiled::Tile * tTile_;
 
     /** 
-     * Tiles can have an extension attacted to them. Currently this is a tower 
+     * Tiles can have an extension attached to them. Currently this is a tower 
      * or a resource. 
      */
     TileExtension * extension_;
@@ -147,7 +217,7 @@ private:
      */
     QPointF pos_;
 
-    void setInitialBounds(int row, int column, blockingType type);
+    void setInitialBounds(int row, int column, BlockingType type);
 };
 
 } /* end namespace td */

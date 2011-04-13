@@ -28,10 +28,16 @@ private:
     /** The number of NPCs that have been created so far for this wave. */
     unsigned int created_;
 
+    /** The path that the wave will follow. */
+    unsigned int pathNum_;
+
+    /** The number of gems this wave will drop. */
+    unsigned int gemCount_;
+
 public:
     NPCWave(QObject* parent = 0);
     NPCWave(QObject* parent, unsigned int start, unsigned int count, 
-            unsigned int type);
+            unsigned int type, unsigned int path, unsigned int gems);
     virtual ~NPCWave();
 
     /**
@@ -70,6 +76,10 @@ private:
     Driver* getDriver() const {
         return (Driver*)this->parent();
     }
+
+signals:
+    /** Emitted when all the NPCs in the wave have been killed. */
+    void waveDead();
 
 public slots:
     /**

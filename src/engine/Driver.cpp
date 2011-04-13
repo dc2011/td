@@ -1,11 +1,20 @@
 #include "Driver.h"
+#include "Tile.h"
+#include "Collectable.h"
 #include "Tower.h"
+#include "BuildingTower.h"
 #include "NPC.h"
 #include "Resource.h"
+#include "Projectile.h"
+#include "Player.h"
+#include "Unit.h"
+#include "GameObject.h"
+#include <QPointF>
+#include "CDriver.h"
 
 namespace td {
 
-Driver::Driver() : QObject(), gameMap_(NULL), gameTimer_(NULL)
+Driver::Driver() : QObject(), gameMap_(NULL), gameTimer_(NULL), baseHealth_(100)
 {
     mgr_ = new ResManager(this);
 }
@@ -23,20 +32,102 @@ void Driver::destroyObject(GameObject* obj) {
 
 void Driver::destroyObject(int id) {
     GameObject* go = mgr_->findObject(id);
-    if (go != NULL) {
+    if (go != NULL && go != (GameObject*)-1) {
         mgr_->deleteObject(go);
     }
 }
 
-Tower* Driver::createTower(int type) {
+GameObject* Driver::findObject(unsigned int id) {
+    GameObject* obj =  mgr_->findObject(id);
+
+    if (obj == (GameObject*)-1) {
+        return NULL;
+    }
+
+    return obj;
+}
+
+Tower* Driver::createTower(int type, QPointF pos) {
     Tower* tower = (Tower*)mgr_->createObject(Tower::clsIdx());
 
     tower->setType(type);
     tower->initComponents();
 
+    Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
+    tower->setPos(currentTile->getPos());
+    currentTile->setExtension(tower);
+    currentTile->setActionType(TILE_BUILT);
+
     connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
+    connect(tower->getPhysicsComponent(),
+            SIGNAL(fireProjectile(int, QPointF, QPointF, Unit*)),
+            this, SLOT(requestProjectile(int, QPointF, QPointF, Unit*)));
 
     return tower;
+}
+
+BuildingTower* Driver::createBuildingTower(int type, QPointF pos) {
+    BuildingTower* tower = (BuildingTower*)mgr_->createObject(
+            BuildingTower::clsIdx());
+
+    tower->setType(type);
+    tower->initComponents();
+
+    Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
+    tower->setPos(currentTile->getPos());
+    currentTile->setExtension(tower);
+    currentTile->setActionType(TILE_BUILDING);
+
+#ifndef SERVER
+    connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
+    connect(CDriver::instance()->getMainWindow(), SIGNAL(signalAltHeld(bool)),
+            tower->getGraphicsComponent(), SLOT(showIcons(bool)));
+#endif
+
+    return tower;
+}
+
+bool Driver::addToTower(BuildingTower* tower, Player* player) {
+    int numResource = 0;
+
+    switch (player->getResource()) {
+    case RESOURCE_NONE:
+        return false;
+    case RESOURCE_WOOD:
+        numResource = tower->getWood(); 
+        if (numResource > 0) {
+            tower->setWood(numResource - 1);
+        } else {
+            return false;
+        }
+        break;
+    case RESOURCE_STONE:
+        numResource = tower->getStone(); 
+        if (numResource > 0) {
+            tower->setStone(numResource - 1);
+        } else {
+            return false;
+        }
+        break;
+    case RESOURCE_BONE:
+        numResource = tower->getBone(); 
+        if (numResource > 0) {
+            tower->setBone(numResource - 1);
+        } else {
+            return false;
+        }
+        break;
+    case RESOURCE_TAR:
+        numResource = tower->getOil(); 
+        if (numResource > 0) {
+            tower->setOil(numResource - 1);
+        } else {
+            return false;
+        }
+        break;
+    }
+
+    return true;
 }
 
 NPC* Driver::createNPC(int type) {
@@ -48,6 +139,46 @@ NPC* Driver::createNPC(int type) {
     //connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
 
     return npc;
+}
+
+void Driver::requestProjectile(int projType, QPointF source,
+        QPointF target, Unit* enemy) {
+    Driver::createProjectile(projType, source, target,     
+            enemy);
+}
+
+void Driver::requestCollectable(int projType, QPointF source, 
+        QVector2D velocity) {
+    Driver::createCollectable(projType, source, velocity);
+}
+
+Projectile* Driver::createProjectile(int projType, QPointF source,
+        QPointF target, Unit* enemy) {
+    Projectile* projectile = (Projectile*)mgr_->createObject(
+            Projectile::clsIdx());
+    projectile->setType(projType);
+    projectile->setPath(source, target, enemy);
+
+    projectile->initComponents();
+
+    connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
+
+    return projectile;
+}
+
+Collectable* Driver::createCollectable(int collType, QPointF source, 
+        QVector2D velocity) {
+
+    Collectable* collectable = 
+            (Collectable*)mgr_->createObject(Collectable::clsIdx());
+    collectable->setType(collType);
+    collectable->setPath(source, velocity);
+
+    collectable->initComponents();
+
+    connect(gameTimer_,  SIGNAL(timeout()), collectable, SLOT(update()));
+
+    return collectable;
 }
 
 Resource* Driver::createResource(int type) {
@@ -63,3 +194,4 @@ Resource* Driver::createResource(int type) {
 }
 
 } /* end namespace td */
+

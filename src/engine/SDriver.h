@@ -10,6 +10,7 @@
 
 namespace td {
 
+class Collectable;
 class Player;
 class Tower;
 class NPC;
@@ -24,6 +25,7 @@ private:
     QList<Player*> players_;
     QSet<GameObject*> updates_;
     QList<NPCWave*> waves_;
+    QTimer* waveTimer_;
 
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
@@ -103,6 +105,14 @@ public:
      */
     virtual void sendNetMessage(unsigned char msgType, QByteArray msg);
 
+    /**
+     * Sets the health of the player's base.
+     *
+     * @author Darryl Pogue
+     * @param health The new base health.
+     */
+    virtual void setBaseHealth(int health);
+
 signals:
     /**
      * Signal emitted when there are no more players in this game session.
@@ -151,8 +161,9 @@ public slots:
      * state to all clients.
      * 
      * @author Duncan Donaldson
+     * @param multicast Whether this server sends multicast messages.
      */
-    void startGame();
+    void startGame(bool multicast);
 
     /**
      * Spawns a server-side wave and updates all clients.
@@ -164,7 +175,6 @@ public slots:
      */
     void spawnWave();
     /**
-     * Handles a packet received by updating a currently existing player
      * slot that is called to destroy an NPC when its health reaches 0.
      *
      * @author Duncan Donaldson
@@ -177,6 +187,28 @@ public slots:
      * @author Duncan Donaldson
      */
     void onMsgReceive(Stream* s);
+
+    /**
+     * Creates projectile on server and send message to client for creation.
+     * Connected to fire() in TowerPhysicsComponent
+     *
+     * @author Marcel Vangrootheest
+     * @param projType The type of the projectile (Arrow, Cannon, etc).
+     * @param source The starting point of the projectile.
+     * @param target The destination point of the projectile.
+     */
+    void requestProjectile(int projType, QPointF source,
+            QPointF target, Unit* enemy);
+
+    /**
+     * Creates collectable on server and send message to client for creation.
+     *
+     * @author Dean Morin
+     * @param projType The type of the collectable (resource or gem).
+     * @param source The origin of the collectable.
+     * @param vel The velocity of the dropper.
+     */
+    void requestCollectable(int collType, QPointF source, QVector2D vel);
 };
 
 } /* end namespace td */

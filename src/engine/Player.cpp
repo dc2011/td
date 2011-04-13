@@ -1,5 +1,8 @@
 #include "Player.h"
 #include "Driver.h"
+#include "tile.h"
+#include "EffectTypes.h"
+#include "../graphics/PlayerGraphicsComponent.h"
 #include "../audio/SfxManager.h"
 #include "../graphics/Console.h"
 
@@ -59,22 +62,63 @@ void Player::update() {
     if (harvesting_ != RESOURCE_NONE) {
         harvestResource();
     }
-}
 
-void Player::createEffect(Effect* effect){
-    QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
-            this, SLOT(deleteEffect(Effect*)));
-    connect(getDriver()->getTimer(), SIGNAL(timeout()),
-            effect, SLOT(update()));
-
-    effects_.push_back(effect);
-}
-
-void Player::deleteEffect(Effect* effect){
-    effects_.removeOne(effect);
-    if (effects_.empty()) {
-        emit signalEmptyEffectList();
+    tileThatPlayerIsOn_ = getDriver()->getGameMap()->getTile(getPos());
+    int tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
+    switch(tileEffect) {
+        case Tile::NONE:
+            break;
+        case Tile::SLOW:
+            createEffect(EFFECT_SLOW);
+            break;
+        case Tile::FAST:
+            createEffect(EFFECT_FAST);
+            break;
+        default:
+            break;
     }
+}
+
+void Player::createEffect(int effectType)
+{
+    // Check to see if this effect is already applied
+    if (!effects_.contains(effectType))
+    {
+        Effect* effect;
+
+        // Create the effect
+        switch (effectType)
+        {
+        case EFFECT_FAST:
+            effect = new PlayerTerrainFastEffect(this);
+            break;
+        case EFFECT_SLOW:
+            effect = new PlayerTerrainSlowEffect(this);
+            break;
+        case EFFECT_NPCPLAYER:
+            effect = new NPCPlayerEffect(this);
+            break;
+        default:
+            return;
+        }
+
+        // Dean's sound signal thing
+        emit signalEmptyEffectList();
+
+        // Connect signal rubbish
+        QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
+                         this, SLOT(deleteEffect(Effect*)));
+        QObject::connect(getDriver()->getTimer(), SIGNAL(timeout()),
+                         effect, SLOT(update()));
+
+        // Insert the effect into the map
+        effects_.insert(effectType, effect);
+    }
+}
+
+void Player::deleteEffect(Effect* effect)
+{
+    effects_.remove(effect->getType());
     delete effect;
 }
 
@@ -86,7 +130,6 @@ void Player::startHarvesting(int type) {
     harvesting_ = type;
     emit signalPlayerMovement(false);
     qDebug("Player::startHarvesting(); resource %d", harvesting_);
-    // TODO: show harvesting progress bar
 
     switch (type) {
         case RESOURCE_WOOD:
@@ -108,32 +151,48 @@ void Player::stopHarvesting() {
     if (harvesting_ == RESOURCE_NONE) {
         return;
     }
+
     harvesting_ = RESOURCE_NONE;
     harvestCountdown_ = HARVEST_COUNTDOWN;
     emit signalPlayerMovement(true);
 }
 
-void Player::dropResource() {
+void Player::dropResource(bool addToTower) {
+
     if (resource_ == RESOURCE_NONE) {
         return;
     }
-    // TODO: create resource object on current tile
-    qDebug("Player::dropResource(); dropped resource");
+    setDirty(kResource);
+    if (addToTower) {
+        qDebug("Player::dropResource(); added resource to BuildingTower");
 #ifndef SERVER
-	Console::instance()->addText("Dropped Resource");
+	    Console::instance()->addText("Added Resource");
 #endif
-
+    } else {
+        emit signalDropResource(resource_, pos_, velocity_);
+        qDebug("Player::dropResource(); dropped resource");
+#ifndef SERVER
+	    Console::instance()->addText("Dropped Resource");
+#endif
+    }
     resource_ = RESOURCE_NONE;
-    // TODO: hide resource carrying indicator
+    if (getGraphicsComponent()) {
+        getGraphicsComponent()->setCurrentResource(RESOURCE_NONE);
+    }
 }
-    
+
 void Player::harvestResource() {
     if (--harvestCountdown_ <= 0) {
         resource_ = harvesting_;
         harvestCountdown_ = HARVEST_COUNTDOWN;
+
         qDebug("Player::harvestResource(); resource: %d", harvesting_);
-        // TODO: hide harvesting progress bar
-        // TODO: add resource carrying indicator
+        if (getGraphicsComponent()) {
+            getGraphicsComponent()->setCurrentResource(resource_);
+            getGraphicsComponent()->update(this);
+
+        }
+        setDirty(kResource);
         stopHarvesting();
 
 #ifndef SERVER
@@ -142,7 +201,6 @@ void Player::harvestResource() {
 
 	return;
     }
-    // TODO: update harvesting progress bar
 }
 
 } /* end namespace td */

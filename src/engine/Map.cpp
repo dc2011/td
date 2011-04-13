@@ -32,7 +32,6 @@ Map::Map(const QString& filename, Driver* driver) : driver_(driver) {
 }
 
 void Map::initMap() {
-    blockingType type;
     Tiled::Tile * tile = NULL;
     Tiled::TileLayer * tileLayer = tMap_->layerAt(0)->asTileLayer();
     Tiled::TileLayer * towerLayer = tMap_->layerAt(1)->asTileLayer();
@@ -47,21 +46,24 @@ void Map::initMap() {
 
         for (int col = 0; col < widthInTiles_; col++) {
             tile = tileLayer->tileAt(col, row);
-            type = (blockingType) tile->id();
+            Tile::TileAttributes attrs = Tile::getAttributes(tile->id());
+
             //save into array
-            tiles_[row][col] = new Tile(row, col, type);
+            tiles_[row][col] = new Tile(row, col, attrs.type, attrs.effect);
 
             // Check for buildable tiles.
             if (towerLayer->contains(col, row)
-                    && towerLayer->tileAt(col, row) != NULL) {
-                tiles_[row][col]->setActionType(TILE_BUILDABLE);
+                    && (tile = towerLayer->tileAt(col, row)) != NULL) {
+                // Ignore Home Base tile (id() == 1).
+                if (tile->id() == 0) {
+                    tiles_[row][col]->setActionType(TILE_BUILDABLE);
+                }
             }
-            
+
             // Create resources.
+            // And grabbing the tile from the resource layer.
             if (resLayer->contains(col, row) 
-                    && resLayer->tileAt(col, row) != NULL) {
-                // Grabbing the tile from the resource layer.
-                tile = resLayer->tileAt(col, row);
+                    && (tile = resLayer->tileAt(col, row)) != NULL) {
                 createResource(tile->id(), tiles_[row][col]);
                 // Setting the resource tile to the td::Tile.
                 tiles_[row][col]->setTiledTile(tile);
@@ -69,7 +71,6 @@ void Map::initMap() {
         }
     }
     makeWaypoints(WP_PTERO, path);
-
 }
 
 void Map::createResource(int type, Tile * tile) {
@@ -78,7 +79,7 @@ void Map::createResource(int type, Tile * tile) {
 
 #ifndef SERVER
     // Connect updates (primarily for graphics component).
-    connect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
+    connect(driver_->getTimer(), SIGNAL(timeout()), 
             res, SLOT(update()));
 #endif
 
@@ -98,26 +99,6 @@ void Map::makeWaypoints(int key, Tiled::ObjectGroup* path) {
                     path->objects().at(i)->position().y() * 48));
     }
     addWaypoints(key, newPath);
-}
-
-void Map::loadTestMap2(){
-    blockingType type;
-    tiles_ = new Tile**[heightInTiles_];
-    for (int i = 0; i < heightInTiles_; i++)
-    {
-        tiles_[i] = new Tile*[widthInTiles_];
-        for (int j = 0; j < widthInTiles_; j++)
-        {
-            type = OPEN; //default type
-            // area to add logic for tile creation
-            if( i ==0 || j == 0 || i == heightInTiles_-1 || j == widthInTiles_ -1 ){
-                type = CLOSED; //border of map gets CLOSED status
-            }
-            // end for logic
-            //save into array
-            tiles_[i][j] = new Tile(i,j,type);
-        }
-    }
 }
 
 void Map::getTileType(double x, double y, int *blockingType)

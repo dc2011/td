@@ -86,7 +86,7 @@ protected:
     virtual void incomingConnection(int socketDescriptor);
 
 signals:
-    void startingGame();
+    void startingGame(bool multicasting);
 
 private slots:
     void readSocket();

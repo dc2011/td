@@ -2,7 +2,6 @@
 #include <map.h>
 #include <tile.h>
 #include "ContextMenu.h"
-#include "GameInfo.h"
 #include "GameObject.h"
 #include "Map.h"
 #include "NPC.h"
@@ -10,6 +9,7 @@
 #include "Projectile.h"
 #include "ResManager.h"
 #include "Tower.h"
+#include "BuildingTower.h"
 #include "Unit.h"
 #include "../audio/SfxManager.h"
 #include "../client/MainWindow.h"
@@ -72,6 +72,13 @@ void CDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
     NetworkClient::instance()->send(msgType, msg);
 }
 
+void CDriver::setBaseHealth(int health) {
+    Driver::setBaseHealth(health);
+
+    /* Do something dramatic here */
+    Console::instance()->addText("Oh teh noes!");
+}
+
 void CDriver::readObject(Stream* s) {
     unsigned int id = s->readInt();
 
@@ -93,7 +100,26 @@ void CDriver::readObject(Stream* s) {
                     go->getGraphicsComponent(), SLOT(showHealth(bool)));
         }
 
+        if (go->getClsIdx() == BuildingTower::clsIdx()) {
+            Tile* tile = gameMap_->getTile(((TileExtension*)go)->getPos());
+            tile->setActionType(TILE_BUILDING);
+            tile->setExtension((BuildingTower*)go);
+            connect(mainWindow_, SIGNAL(signalAltHeld(bool)),
+                go->getGraphicsComponent(), SLOT(showIcons(bool)));
+        }
+
+        if (go->getClsIdx() == Tower::clsIdx()) {
+            Tile* tile = gameMap_->getTile(((TileExtension*)go)->getPos());
+            tile->setActionType(TILE_BUILT);
+            tile->setExtension((Tower*)go);
+        }
+
         connect(gameTimer_, SIGNAL(timeout()), go, SLOT(update()));
+        return;
+    } else if (go == (GameObject*)-1) {
+        go = mgr_->createTempObject((id & 0xFF000000) >> 24);
+        go->networkRead(s);
+        delete go;
         return;
     }
     
@@ -119,8 +145,8 @@ void CDriver::makeLocalPlayer(Player* player) {
             gameMap_, SLOT(getTileType(double, double, int*)));
 
     // NPC -> Player effect
-    connect(physics, SIGNAL(NPCPlayerCollided(Effect*)), 
-            human_, SLOT(createEffect(Effect*)));
+    connect(physics, SIGNAL(NPCPlayerCollided(int)), 
+            human_, SLOT(createEffect(int)));
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             player, SLOT(showName(bool)));
 
@@ -137,19 +163,34 @@ void CDriver::makeLocalPlayer(Player* player) {
             contextMenu_, SLOT(viewResources(bool)));
     /* TODO: alter temp solution */
     connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
-            this,         SLOT(createTower(int, QPointF)));
+            this,         SLOT(requestBuildingTower(int, QPointF)));
     connect(human_, SIGNAL(signalEmptyEffectList()),
             physics, SLOT(okayToPlayCollisionSfx()));
     
-    // resource harvesting
+    // resource harvesting and dropping
     connect(this, SIGNAL(signalHarvesting(int)),
             player, SLOT(startHarvesting(int)));
     connect(mainWindow_, SIGNAL(signalSpacebarReleased()),
             player, SLOT(stopHarvesting()));
-    connect(this, SIGNAL(signalEmptyTile()),
-            player, SLOT(dropResource()));
+    connect(this, SIGNAL(signalEmptyTile(bool)),
+            player, SLOT(dropResource(bool)));
     connect(player, SIGNAL(signalPlayerMovement(bool)),
 	        input, SLOT(playerMovement(bool)));
+    connect(player, SIGNAL(signalDropResource(int, QPointF, QVector2D)),
+            this, SLOT(requestCollectable(int, QPointF, QVector2D)));
+}
+
+void CDriver::requestBuildingTower(int type, QPointF pos) {
+    if (isSinglePlayer()) {
+        BuildingTower* t = Driver::createBuildingTower(type, pos);
+        human_->dropResource(Driver::addToTower(t, human_));
+    } else {
+        Stream s;
+        s.writeInt(type);
+        s.writeFloat(pos.x());
+        s.writeFloat(pos.y());
+        NetworkClient::instance()->send(network::kTowerChoice, s.data());
+    }
 }
 
 void CDriver::NPCCreator() {
@@ -167,46 +208,6 @@ void CDriver::NPCCreator() {
                 npc->getGraphicsComponent(), SLOT(showHealth(bool)));
         connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
     }
-}
-
-void CDriver::createProjectile(int projType, QPointF source,
-        QPointF target, Unit* enemy) {
-    Projectile* projectile = (Projectile*)mgr_->createObject(
-            Projectile::clsIdx());
-    projectile->setType(projType);
-
-    projectile->initComponents();
-    projectile->setPath(source, target, enemy);
-
-    connect(enemy, SIGNAL(signalNPCDied()), projectile, SLOT(enemyDied()));
-    connect(gameTimer_,  SIGNAL(timeout()), projectile, SLOT(update()));
-}
-
-void CDriver::createTower(int towerType, QPointF pos)
-{
-    if (isSinglePlayer()) {
-        Tower* tower = (Tower*)mgr_->createObject(Tower::clsIdx());
-        Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
-        tower->setType(towerType);
-        tower->initComponents();
-        tower->setPos(currentTile->getPos());
-        currentTile->setExtension(tower);
-
-        connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
-        connect(tower->getPhysicsComponent(),
-                SIGNAL(fireProjectile(int, QPointF, QPointF, Unit*)),
-                this, SLOT(createProjectile(int, QPointF, QPointF, Unit*)));
-
-        return;
-    }
-
-    Stream* s = new Stream();
-    s->writeInt(human_->getID());
-    s->writeInt(towerType);
-    s->writeFloat(pos.x());
-    s->writeFloat(pos.y());
-    NetworkClient::instance()->send(network::kBuildTower, s->data());
-    delete s;
 }
 
 void CDriver::startGame(bool singlePlayer) {
@@ -256,6 +257,7 @@ void CDriver::setSinglePlayer(bool singlePlayer) {
 
 void CDriver::handleSpacebarPress() {
     Tile* currentTile = gameMap_->getTile(human_->getPos());
+    BuildingTower* t = (BuildingTower*)currentTile->getExtension();
 
     switch (currentTile->getActionType()) {
 
@@ -263,6 +265,27 @@ void CDriver::handleSpacebarPress() {
             contextMenu_->toggleMenu();
             break;
 
+        case TILE_BUILDING:
+            if (isSinglePlayer()) {
+                if (addToTower(t, human_)) {
+                    if (t->isDone()) {
+                        qDebug("create Tower");
+                        createTower(t->getType(), t->getPos());
+                        destroyObject(t);
+                    }
+                    human_->dropResource(true);
+                } else {
+                    human_->dropResource(false);
+                }
+            } else {
+                Stream s;
+                s.writeInt(human_->getID());
+                s.writeFloat(t->getPos().x());
+                s.writeFloat(t->getPos().y());
+                NetworkClient::instance()->send(network::kDropResource,
+                        s.data());
+            }
+            break;
         case TILE_BUILT:
         case TILE_BASE:
             break;
@@ -272,7 +295,7 @@ void CDriver::handleSpacebarPress() {
             break;
 
         default:
-            emit signalEmptyTile();
+            emit signalEmptyTile(false);
     }
 }
 
@@ -283,7 +306,7 @@ void CDriver::UDPReceived(Stream* s) {
         case network::kAssignPlayerID:
         {
             playerID_ = s->readInt();
-            qDebug("My player ID is %08X", playerID_);
+            //qDebug("My player ID is %08X", playerID_);
             break;
         }
         case network::kMulticastIP:
@@ -319,11 +342,44 @@ void CDriver::UDPReceived(Stream* s) {
             }
             break;
         }
+        case network::kDropResource:
+        {
+            unsigned int id = s->readInt();
+            bool addToTower = s->readInt();
+            
+            if (human_->getID() == id) {
+                human_->dropResource(addToTower);
+            }
+            break;
+        }
         case network::kDestroyObject:
         {  
-	        int id = s->readInt();
-	        destroyObject(id);
-	        break;
+            int id = s->readInt();
+            destroyObject(id);
+            break;
+        }
+        case network::kBaseHealth:
+        {
+            int health = s->readInt();
+
+            setBaseHealth(health);
+            break;
+        }
+        case network::kGameOver:
+        {
+            bool successful = s->readByte();
+
+            if (successful) {
+                Console::instance()->addText("You won :D");
+            } else {
+                Console::instance()->addText("You lost :(");
+            }
+            break;
+        }
+        case network::kVoiceMessage:
+        {
+            AudioManager::instance()->addToQueue(s);
+            return;
         }
         case network::kPlaySfx:
         {

@@ -94,8 +94,9 @@ public:
     // NPC death 
     static QStringList npcPterodactylDies;
 
-    //Game winning
+    //Game sounds
     static QStringList winTheGame;
+    static QStringList npcInBase;
 
     // resource picked up
     static QStringList resourceWood;
@@ -124,7 +125,7 @@ public:
      * @param sfxList A list of SFX that can be used in this situation.
      * @param type The type of SFX (regular, or notification).
      */
-    static void makeSfxNetworkMsg(GameObject* gameObject, 
+    static void makeSfxNetworkMsg(QObject* gameObject, 
             QStringList sfxList, int type=0);
 };
 

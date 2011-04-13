@@ -9,6 +9,7 @@
 #include "../input/ProjectileInputComponentTypes.h"
 #include "../physics/ProjectilePhysicsComponentTypes.h"
 #include "../graphics/ProjectileGraphicsComponentTypes.h"
+#include "Driver.h"
 
 namespace td {
 
@@ -20,6 +21,11 @@ Projectile::Projectile(QObject* parent) : Unit(parent) {
     this->pos_ = QPointF(0,0);
     this->setHeight(10);
     this->setWidth(48);
+}
+
+Projectile::~Projectile() {
+    delete start_;
+    delete end_;
 }
 
 void Projectile::initComponents() {
@@ -66,23 +72,13 @@ void Projectile::initComponents() {
     }
 
     getInputComponent()->setParent(this);
-
-#ifndef SERVER
-    if (!((CDriver*)getDriver())->isSinglePlayer()) {
-        delete getInputComponent();
-        delete getPhysicsComponent();
-        setInputComponent(NULL);
-        setPhysicsComponent(NULL);
-    }
-#endif
+    ((ProjectileInputComponent*)getInputComponent())->setPath(start_, end_);
+    connect(enemy_, SIGNAL(signalNPCDied()), this, SLOT(enemyDied()));
 }
 
 void Projectile::setPath(QPointF source, QPointF target, Unit* enemy) {
-    QPointF* start = new QPointF(source);
-    QPointF* end = new QPointF(target);
-    ProjectileInputComponent* input = (ProjectileInputComponent*) 
-        getInputComponent();
-    input->setPath(start, end);
+    start_ = new QPointF(source);
+    end_ = new QPointF(target);
     setEnemy(enemy);
 }
 
@@ -102,6 +98,14 @@ void Projectile::networkRead(td::Stream* s) {
         end_->setX(s->readFloat());
         end_->setY(s->readFloat());
     }
+
+    if (dirty_ & kTargetType) {
+        enemy_ = (Unit*)getDriver()->findObject(s->readInt());
+    }
+
+    if (dirty_ & kType) {
+        type_ = s->readInt();
+    }
 }
 
 void Projectile::networkWrite(td::Stream* s) {
@@ -120,12 +124,22 @@ void Projectile::networkWrite(td::Stream* s) {
         s->writeFloat(end_->x());
         s->writeFloat(end_->y());
     }
+
+    if (dirty_ & kTargetType) {
+        s->writeInt(enemy_->getID());
+    }
+
+    if (dirty_ & kType) {
+        s->writeInt(type_);
+    }
 }
 
 void Projectile::update() {
     input_->update();
     physics_->update(this);
+#ifndef SERVER
     graphics_->update(this);
+#endif
 }
 
 void Projectile::checkNPCCollision(QSet<Unit*> npcs){
@@ -154,6 +168,7 @@ void Projectile::checkNPCCollision(QSet<Unit*> npcs){
             npcBounds = (*it)->getBounds();
             if(this->getBounds().intersected((*it)->getBounds()).count() != 0){
                 //create projectile effect
+                //TODO: Add sfx logic here (same as Player collisions)
                 //add effect to npc
                 //qDebug("Enemy hit");
                 ((NPC*)(*it))->createEffect(new ArrowEffect(*it));

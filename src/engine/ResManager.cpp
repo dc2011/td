@@ -4,6 +4,7 @@
 #include "NPC.h"
 #include "Resource.h"
 #include "Tower.h"
+#include "BuildingTower.h"
 
 namespace td {
 
@@ -40,9 +41,19 @@ GameObject* ResManager::internalCreateObject(unsigned char type) {
             id = (Tower::clsIdx() <<24) | objects_[type].size();
             ret->setID(id);
             break;
+        case clsidx::kBuildingTower:
+            ret = new BuildingTower((QObject*)driver_);
+            id = (BuildingTower::clsIdx() <<24) | objects_[type].size();
+            ret->setID(id);
+            break;
         case clsidx::kResource:
             ret = new Resource((QObject*)driver_);
             id = (Resource::clsIdx() << 24) | objects_[type].size();
+            ret->setID(id);
+            break;
+        case clsidx::kCollectable:
+            ret = new Collectable((QObject*)driver_);
+            id = (Tower::clsIdx() << 24) | objects_[type].size();
             ret->setID(id);
             break;
         case clsidx::kGameObject:
@@ -80,6 +91,10 @@ GameObject* ResManager::createObjectWithID(unsigned int id) {
     return ret;
 }
 
+GameObject* ResManager::createTempObject(unsigned char type) {
+    return internalCreateObject(type);
+}
+
 void ResManager::addExistingObject(GameObject* obj)
 {
     unsigned char type = (obj->getID() & 0xFF000000) >> 24;
@@ -112,16 +127,15 @@ void ResManager::deleteObject(unsigned int id) {
     GameObject* obj = findObject(id);
 
     if (obj != NULL) {
-        objects_[type][objid] = NULL;
+        objects_[type][objid] = (GameObject*)-1;
         delete obj;
-        obj = NULL;
     }
 }
 
 void ResManager::deleteObject(GameObject* obj) {
-    deleteObject(obj->getID());
-
-    obj = NULL;
+    if (obj != (GameObject*)-1) {
+        deleteObject(obj->getID());
+    }
 }
 
 unsigned int ResManager::countObjects() const {

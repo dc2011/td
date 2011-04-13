@@ -149,8 +149,6 @@ public:
         myBounds_ = bound;
     }
 
-
-
 protected:
     QVector2D velocity_;
     QVector2D force_;

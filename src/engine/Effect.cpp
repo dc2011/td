@@ -1,26 +1,67 @@
 #include "Effect.h"
-#include "CDriver.h"
+#include "Driver.h"
 
 namespace td {
 
-    Effect::Effect(Unit* unit, int duration, bool timerEnabled):
-    GameObject(NULL), unit_(unit), duration_(duration), timerEnabled_(timerEnabled) {}
+Effect::Effect(Unit* unit, uint type, int duration, bool timerEnabled):
+        GameObject(NULL), unit_(unit), duration_(duration),
+        type_(type), timerEnabled_(timerEnabled), applyEnabled_(true),
+        timer_(unit->getDriver()->getTimer()) {}
+
+Effect::Effect(const Effect& e) : GameObject() {
+    type_ = e.type_;
+    unit_ = e.unit_;
+    duration_ = e.duration_;
+    velocityChangeValue_ = e.velocityChangeValue_;
+    healthChangeValue_ = e.healthChangeValue_;
+    timerEnabled_ = e.timerEnabled_;
+    timer_ = e.timer_;
+}
+
+Effect& Effect::operator=(const Effect &rhs) {
+    if (this != &rhs) {
+        type_ = rhs.type_;
+        unit_ = rhs.unit_;
+        duration_ = rhs.duration_;
+        velocityChangeValue_ = rhs.velocityChangeValue_;
+        healthChangeValue_ = rhs.healthChangeValue_;
+        timerEnabled_ = rhs.timerEnabled_;
+    }
+    return *this;
+}
+
+bool Effect::operator==(const Effect &e) const {
+    return (type_ == e.type_);
+}
+
+bool Effect::operator!=(const Effect &e) const {
+    return (type_ != e.type_);
+}
 
 Effect::~Effect(){}
 
 void Effect::update(){
-    this->apply();
+    if (applyEnabled_) {
+        this->apply();
+    }
     if(timerEnabled_ == true) {
-    countdown();
+        countdown();
     }
 }
+
+void Effect::effectStop(uint type) {
+    if (type_ == type) {
+        applyEnabled_ = false; 
+    }
+}
+
+void Effect::apply() {}
 
 void Effect::countdown() {
     duration_--;
     if(duration_ <= 0){
-    disconnect(unit_->getDriver()->getTimer(), SIGNAL(timeout()),
-              this, SLOT(update()));
-    emit effectFinished(this);
+        disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
+        emit effectFinished(this);
     }
 }
 
@@ -32,11 +73,11 @@ size_t Effect::getDuration() {
     return duration_;
 }
 
-void Effect::setVelocityChangeValue(QVector2D velocity) {
+void Effect::setVelocityChangeValue(float velocity) {
     velocityChangeValue_ = velocity;
 }
 
-QVector2D Effect::getVelocityChangeValue() {
+float Effect::getVelocityChangeValue() {
     return velocityChangeValue_;
 }
 

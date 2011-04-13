@@ -34,7 +34,7 @@ public:
     /**
      * This updates the physics properties of Tower.
      */
-    virtual void update(GameObject* tower);
+    //virtual void update(GameObject* tower);
 
     /**
      * Finds the next target. Once a target is aquired, it remains the target
@@ -103,14 +103,16 @@ public:
 
     virtual bool isValidTarget(Unit*) = 0;
 
+
 private:
-    /** All enemies that are potentially in range of the tower. */
-    QSet<Unit*> enemies_;
 
     /** The line between the tower and its current target. */
     QLineF projectilePath_;
     
 protected:
+    /** All enemies that are potentially in range of the tower. */
+    QSet<Unit*> enemies_;
+
     /** The tower that this component defines. */
     Tower* tower_;
 

@@ -4,15 +4,19 @@
 #include <QVector>
 #include <QWidget>
 #include "SDriver.h"
+#include "Collectable.h"
 #include "Player.h"
 #include "Tower.h"
 #include "NPCWave.h"
+#include "Projectile.h"
+#include "BuildingTower.h"
 
 namespace td {
 
 SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
-    gameMap_ = new Map(QString("./maps/netbookmap2.tmx"), this);
+    waveTimer_ = new QTimer(this);
+    gameMap_ = new Map(QString("./maps/netbookmap3.tmx"), this);
     net_ = new NetworkServer();
     npcCounter_ = 0;
 
@@ -64,7 +68,22 @@ void SDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
     net_->send(msgType, msg);
 }
 
-void SDriver::startGame() {
+void SDriver::setBaseHealth(int health) {
+    Driver::setBaseHealth(health);
+
+    Stream s;
+    s.writeInt(health);
+    net_->send(network::kBaseHealth, s.data());
+
+    if (health <= 0) {
+        /* Base was slaughtered. You lose. */
+        Stream send;
+        send.writeByte(false);
+        net_->send(network::kGameOver, send.data());
+    }
+}
+
+void SDriver::startGame(bool multicast) {
     Stream s;
     s.writeByte(players_.size());
 
@@ -73,17 +92,20 @@ void SDriver::startGame() {
         user->resetDirty();
     }
 
-    /* Not "proper" but it saves space and the client can deal with it anyways */
-    s.writeByte(network::kMulticastIP);
-    s.writeByte(net_->getMulticastAddr());
+    if (multicast) {
+        /* Not "proper" but it saves space and the client can deal with it */
+        s.writeByte(network::kMulticastIP);
+        s.writeByte(net_->getMulticastAddr());
+    }
 
     net_->send(network::kServerPlayers, s.data());
 
     gameMap_->initMap();
 
     this->gameTimer_->start(30);
+    this->waveTimer_->start(1000);
     connect(gameTimer_, SIGNAL(timeout()), this, SLOT(onTimerTick()));
-    connect(gameTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
+    connect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 }
 
 void SDriver::endGame() {
@@ -97,6 +119,8 @@ GameObject* SDriver::updateObject(Stream* s) {
     GameObject* go = mgr_->findObject(id);
     if (go == NULL) {
         go = mgr_->createObjectWithID(id);
+    } else if (go == (GameObject*)-1) {
+        go = NULL;
     }
 
     if (go != NULL) {
@@ -133,6 +157,10 @@ void SDriver::onTimerTick() {
 }
 
 void SDriver::destroyObject(GameObject* obj) {
+    if (obj == (GameObject*)-1 || obj == NULL) {
+        return;
+    }
+
     int id = obj->getID();
     updates_.remove(obj);
 
@@ -146,6 +174,10 @@ void SDriver::destroyObject(GameObject* obj) {
 
 void SDriver::destroyObject(int id) {
     GameObject* go = mgr_->findObject(id);
+    if (go == (GameObject*)-1 || go == NULL) {
+        return;
+    }
+
     updates_.remove(go);
 
     Driver::destroyObject(id);
@@ -157,14 +189,12 @@ void SDriver::destroyObject(int id) {
 }
 
 void SDriver::spawnWave() {
-    if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
-        NPCWave* wave = new NPCWave(this);
+    NPCWave* wave = new NPCWave(this);
 
-        wave->createWave();
-        waves_.append(wave);
+    wave->createWave();
+    waves_.append(wave);
 
-        disconnect(gameTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
-    }
+    disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 
     /*if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
         Driver::createNPC(NPC_NORM);
@@ -189,6 +219,23 @@ void SDriver::deadNPC(int id) {
     destroyObject(id);
 }
 
+void SDriver::requestProjectile(int projType, QPointF source,
+        QPointF target, Unit* enemy) {
+    Projectile* p = Driver::createProjectile(projType, source, target,     
+            enemy);
+
+    Stream s;
+    p->networkWrite(&s);
+    net_->send(network::kProjectile, s.data());
+}
+
+void SDriver::requestCollectable(int collType, QPointF source, QVector2D vel) {
+    Collectable* c = Driver::createCollectable(collType, source, vel);
+
+    Stream s;
+    c->networkWrite(&s);
+    net_->send(network::kCollectable, s.data());
+}
 
 void SDriver::onMsgReceive(Stream* s) {
 
@@ -197,28 +244,62 @@ void SDriver::onMsgReceive(Stream* s) {
     Stream* out = new Stream();
 
     switch(message) {
-        case network::kBuildTower:
+        case network::kTowerChoice:
         {
-            int playerID = s->readInt();
             int towertype = s->readInt();
             float x = s->readFloat();
             float y = s->readFloat();
-
-            Player* player = (Player*)mgr_->findObject(playerID);
-            if (player->getPos().x() != x || player->getPos().y() != y) {
-                break;
-            }
 
             Tile* currentTile = gameMap_->getTile(x, y);
             if (currentTile->getActionType() != TILE_BUILDABLE) {
                 break;
             }
 
-            Tower* t = Driver::createTower(towertype);
-            t->setPos(currentTile->getPos());
-            currentTile->setExtension(t);
+            BuildingTower* t = Driver::createBuildingTower(towertype,
+                    QPointF(x,y));
 
             updates_.insert(t);
+            break;
+        }
+        case network::kDropResource:
+        {
+            int playerID = s->readInt();
+            float x = s->readFloat();
+            float y = s->readFloat();
+
+            Player* player = (Player*)mgr_->findObject(playerID);
+
+            Tile* currentTile = gameMap_->getTile(x, y);
+            if (currentTile->getActionType() != TILE_BUILDING) {
+                out->writeInt(player->getID());
+                out->writeInt(false);
+	            net_->send(network::kDropResource, out->data());
+                break;
+            }
+            
+            BuildingTower* t = (BuildingTower*)currentTile->getExtension();
+            
+            if (addToTower(t, player)) {
+                if (t->isDone()) {
+                    Tower* tower = Driver::createTower(t->getType(),
+                            t->getPos());
+                    updates_.insert(tower);
+                    destroyObject(t);
+                }
+                out->writeInt(player->getID());
+                out->writeInt(true);
+            } else {
+                out->writeInt(player->getID());
+                out->writeInt(false);
+            }
+            net_->send(network::kDropResource, out->data());
+
+            break;
+        }
+        case network::kVoiceMessage:
+        {
+            QByteArray vc = s->read(s->size() - 1);
+            net_->send(network::kVoiceMessage, vc);
             break;
         }
         default:

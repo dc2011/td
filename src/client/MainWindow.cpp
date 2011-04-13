@@ -8,6 +8,7 @@
 #include "../graphics/MapDisplayer.h"
 #include "../util/DelayedDelete.h"
 #include <QLabel>
+#include "../graphics/Console.h"
 
 namespace td {
 
@@ -27,7 +28,7 @@ MainWindow::MainWindow() : QMainWindow() {
 
     //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
-    mapDisplayer_->viewMap(QString("./maps/netbookmap2.tmx"));
+    mapDisplayer_->viewMap(QString("./maps/netbookmap3.tmx"));
     Tiled::MapRenderer* mRenderer = mapDisplayer_->getMRenderer();
     QSize mapSize = mRenderer->mapSize();
 
@@ -102,6 +103,12 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         case Qt::Key_R:
             emit signalAltHeld(true);
             break;
+        case Qt::Key_V:
+            //AudioManager::instance()->toggleCapturePause();
+            break;
+        case Qt::Key_QuoteLeft :
+            Console::instance()->toggle();
+            break;
         case Qt::Key_1:
         case Qt::Key_2:
         case Qt::Key_3:
@@ -161,9 +168,12 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
         case Qt::Key_R:
             emit signalAltHeld(false);
             break;
+        case Qt::Key_V:
+            //AudioManager::instance()->toggleCapturePause();
+            break;
         case Qt::Key_Space:
             emit signalSpacebarReleased();
-    
+	    break;
         default:
             QMainWindow::keyPressEvent(event);
             break;

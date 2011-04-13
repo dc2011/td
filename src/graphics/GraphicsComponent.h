@@ -135,6 +135,7 @@ public:
      * @returns the pixmap array from the subclasses
      */
     virtual QPixmap* getPixmapArray() = 0;
+
     
 signals:
     void created(GraphicsComponent* gc);
@@ -148,6 +149,10 @@ signals:
      * @param gc The graphics component to be deleted
      */
     void removeGraphicsItem(GraphicsComponent* gc);
+public:
+    virtual void setCurrentResource(int resourceType); //empty fns
+    virtual void setBuildingResources(int resourceType, int num);
+    virtual void setBuildingStage(int i);
 };
 
 } /* end namespace td */
