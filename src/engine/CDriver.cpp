@@ -192,6 +192,26 @@ void CDriver::requestBuildingTower(int type, QPointF pos) {
     }
 }
 
+void CDriver::requestResourceAddition(BuildingTower* t) {
+    if (isSinglePlayer()) {
+        if (addToTower(t, human_)) {
+            if (t->isDone()) {
+                createTower(t->getType(), t->getPos());
+                destroyObject(t);
+            }
+            human_->dropResource(true);
+        } else {
+            human_->dropResource(false);
+        }
+    } else {
+        Stream s;
+        s.writeInt(human_->getID());
+        s.writeFloat(t->getPos().x());
+        s.writeFloat(t->getPos().y());
+        NetworkClient::instance()->send(network::kDropResource, s.data());
+    }
+}
+
 void CDriver::NPCCreator() {
     NPC* npc = NULL;
 
@@ -270,27 +290,12 @@ void CDriver::handleSpacebarPress() {
             break;
 
         case TILE_BUILDING:
-            if (isSinglePlayer()) {
-                if (addToTower(t, human_)) {
-                    if (t->isDone()) {
-                        createTower(t->getType(), t->getPos());
-                        destroyObject(t);
-                    }
-                    human_->dropResource(true);
-                } else {
-                    human_->dropResource(false);
-                }
-            } else {
-                Stream s;
-                s.writeInt(human_->getID());
-                s.writeFloat(t->getPos().x());
-                s.writeFloat(t->getPos().y());
-                NetworkClient::instance()->send(network::kDropResource,
-                        s.data());
-            }
+            requestResourceAddition(t);
             break;
         case TILE_BUILT:
+            //TODO Tower upgrade/sell context menu toggle
         case TILE_BASE:
+            //TODO Player upgrade context menu toggle
             break;
 
         case TILE_RESOURCE:

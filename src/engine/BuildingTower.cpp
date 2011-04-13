@@ -154,7 +154,6 @@ void BuildingTower::evaluateBuildingStage() {
 }
 
 void BuildingTower::setGraphicsResources(int resType, int resNum) {
-    qDebug("Resource changed: %d %d", resType, resNum);
     if (getGraphicsComponent()) {
         getGraphicsComponent()->setBuildingResources(resType, resNum);
         getGraphicsComponent()->update(this);
