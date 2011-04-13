@@ -2,6 +2,7 @@
 #define KEYMAP_H
 
 #include <QDialog>
+#include <QKeySequence>
 
 namespace Ui {
     class Keymap;
@@ -17,8 +18,13 @@ public:
     explicit Keymap(QWidget *parent = 0);
     ~Keymap();
 
+private slots:
+    void closewindow();
+
 private:
     Ui::Keymap *ui;
+
+    QKeySequence menuKey;
 };
 
 } /* end namespace td */
