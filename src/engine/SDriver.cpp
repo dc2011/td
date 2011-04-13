@@ -273,6 +273,7 @@ void SDriver::onMsgReceive(Stream* s) {
             out->writeInt(TILE_BUILDABLE);
             out->writeFloat(x);
             out->writeFloat(y);
+            net_->send(network::kSellTower, out->data());
 
             break;
         }

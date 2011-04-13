@@ -239,19 +239,19 @@ void Driver::dropCollectables(QPointF pos,
     int i = 0;
 
     for (i = 0; i < wood; i++) {
-        createCollectable(RESOURCE_WOOD, pos, getRandomVector());
+        requestCollectable(RESOURCE_WOOD, pos, getRandomVector());
     }
     for (i = 0; i < stone; i++) {
-        createCollectable(RESOURCE_STONE, pos, getRandomVector());
+        requestCollectable(RESOURCE_STONE, pos, getRandomVector());
     }
     for (i = 0; i < bone; i++) {
-        createCollectable(RESOURCE_BONE, pos, getRandomVector());
+        requestCollectable(RESOURCE_BONE, pos, getRandomVector());
     }
     for (i = 0; i < oil; i++) {
-        createCollectable(RESOURCE_TAR, pos, getRandomVector());
+        requestCollectable(RESOURCE_TAR, pos, getRandomVector());
     }
     for (i = 0; i < gem; i++) {
-        createCollectable(RESOURCE_GEM, pos, getRandomVector());
+        requestCollectable(RESOURCE_GEM, pos, getRandomVector());
     }
 }
 
