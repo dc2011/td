@@ -63,19 +63,21 @@ void Player::update() {
         harvestResource();
     }
 
-    tileThatPlayerIsOn_ = getDriver()->getGameMap()->getTile(getPos());
-    int tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
-    switch(tileEffect) {
-        case Tile::NONE:
-            break;
-        case Tile::SLOW:
-            createEffect(EFFECT_SLOW);
-            break;
-        case Tile::FAST:
-            createEffect(EFFECT_FAST);
-            break;
-        default:
-            break;
+    if (physics_ != NULL) {
+        tileThatPlayerIsOn_ = getDriver()->getGameMap()->getTile(getPos());
+        int tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
+        switch(tileEffect) {
+            case Tile::NONE:
+                break;
+            case Tile::SLOW:
+                createEffect(EFFECT_SLOW);
+                break;
+            case Tile::FAST:
+                createEffect(EFFECT_FAST);
+                break;
+            default:
+                break;
+        }
     }
 }
 
