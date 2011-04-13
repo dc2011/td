@@ -111,10 +111,14 @@ void FireEffect::apply(){
 
 NPCBurnEffect::NPCBurnEffect(Unit* unit):Effect(unit, EFFECT_BURN, BURN_TIME) {
     healthChangeValue_ = -5;
+    count_ = 0;
 }
 
 void NPCBurnEffect::apply() {
-    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
+    if(count_ % 15 == 0){
+        ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
+    }
+    count_++;
 }
 
 } /* end namespace td */
