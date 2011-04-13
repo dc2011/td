@@ -273,9 +273,10 @@ void SDriver::onMsgReceive(Stream* s) {
             BuildingTower* t = Driver::createBuildingTower(towertype,
                     QPointF(x,y));
 
+            updates_.insert(t);
+
             towerDrop(out, t, player);
 
-            updates_.insert(t);
             break;
         }
         case network::kDropResource:
