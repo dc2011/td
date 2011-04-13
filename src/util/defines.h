@@ -139,8 +139,8 @@
 #define COLLECTABLE_VELOCITY    3
 #define GEM_SIZE                0.6
 #define RESOURCE_SIZE           0.8
-#define TIME_TO_DISAPPEAR       800
-#define FLICKER_RATE            12
+#define TIME_TO_DISAPPEAR       600
+#define FLICKER_RATE            9
 #define FLICKER_POINT           (int) (TIME_TO_DISAPPEAR * 0.25) \
                               - (int) (TIME_TO_DISAPPEAR * 0.25) % FLICKER_RATE
 
