@@ -86,8 +86,8 @@ void FireProjectileInputComponent::makeForce(){
     QVector2D force;
     Map* map = parent_->getDriver()->getGameMap();
     QSet<Unit*> npcs;
-    QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
-                             parent_->getPath().p1().x(), parent_->getPath().p1().y());
+    //QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
+    //                       parent_->getPath().p1().x(), parent_->getPath().p1().y());
     QPointF *end = parent_->getEndPoint();
     npcs = map->getUnits(end->x(), end->y(), 4);
     if (++increment_ == duration_) {
@@ -150,7 +150,7 @@ void FireProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
                 //create projectile effect
                 //add effect to npc
                 //qDebug("Enemy hit");
-                ((NPC*)(*it))->createEffect(EFFECT_BURN);
+                ((NPC*)(*it))->createEffect(EFFECT_FIRE);
             }else{
                 //qDebug("No hit");
             }
