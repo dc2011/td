@@ -188,9 +188,9 @@ public:
      * Gets the height of the Collectable's bounding box.
      *
      * @author Dean Morin
-     * @return Height The height of the bounding box.
+     * @return Height The width of the bounding box.
      */
-    int getHeight(){
+    int getHeight() {
         return height_;
     }
 
@@ -200,14 +200,30 @@ public:
      * @author Dean Morin
      * @param height The height of the bounding box.
      */
-    void setHeight(int height){
+    void setHeight(int height) {
         height_ = height;
     }
-    
-protected:
-    /** Input handling logic for this Unit is contained in this component. */
-    InputComponent* input_;
 
+    /**
+     * Returns the number of ticks left before the collectable disappears.
+     *
+     * @author Dean Morin
+     * @return The remaining count before it disappears.
+     */
+    int getDisappearCount() {
+        return disappearCount_;
+    }
+
+signals:
+    /**
+     * Deletes the collectable.
+     *
+     * Connected to deleteObjLocal() in CDriver.
+     *
+     * @author Dean Morin
+     */
+    void deleteCollectableLater(int id);
+    
 private:
     /** The type of collectable (resource or gem). */
     int type_;
@@ -229,6 +245,10 @@ private:
     /** Current path of the collectable. The first position is the end, and the
      *  second is the start of the path. */
     QLineF path_;
+
+    /** The number of game ticks before the collectable disappears, if not
+     *  picked up. */
+    int disappearCount_;
 };
 
 } // end namespace td
