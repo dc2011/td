@@ -74,6 +74,13 @@ void SDriver::setBaseHealth(int health) {
     Stream s;
     s.writeInt(health);
     net_->send(network::kBaseHealth, s.data());
+
+    if (health <= 0) {
+        /* Base was slaughtered. You lose. */
+        Stream send;
+        send.writeByte(false);
+        net_->send(network::kGameOver, send.data());
+    }
 }
 
 void SDriver::startGame(bool multicast) {
@@ -86,7 +93,7 @@ void SDriver::startGame(bool multicast) {
     }
 
     if (multicast) {
-        /* Not "proper" but it saves space and the client can deal with it anyways */
+        /* Not "proper" but it saves space and the client can deal with it */
         s.writeByte(network::kMulticastIP);
         s.writeByte(net_->getMulticastAddr());
     }
@@ -301,10 +308,11 @@ void SDriver::onMsgReceive(Stream* s) {
 
             break;
         }
+        case network::kConsoleChat:
         case network::kVoiceMessage:
         {
             QByteArray vc = s->read(s->size() - 1);
-            net_->send(network::kVoiceMessage, vc);
+            net_->send(message, vc);
             break;
         }
         default:
