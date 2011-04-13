@@ -49,26 +49,6 @@ public:
     void applyDirection(Player* player);
 
     /**
-     * Return true if moving to newPos is a valid move.
-     *
-     * @param newPos, Desired position to move to.
-     *
-     * @author Daniel Wright
-     */
-    bool validateMovement(const QPointF& newPos);
-
-    /**
-     * Return true if pos is in unblocked half of tile.
-     * Return false if pos is in blocked half of tile.
-     *
-     * @param pos, Position to be checked
-     * @param type, Blocking type of tile
-     *
-     * @author Daniel Wright
-     */
-    bool checkSemiBlocked(QPointF pos, int type);
-
-    /**
      * Checks set of enemies for collisions with player.
      * If a collision is detected, adds a stun effect to the player.
      *
