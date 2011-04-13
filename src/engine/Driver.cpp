@@ -80,8 +80,8 @@ BuildingTower* Driver::createBuildingTower(int type, QPointF pos) {
 
 #ifndef SERVER
     connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
-    connect(CDriver::instance()->getMainWindow(), SIGNAL(signalAltHeld(bool)),
-            tower->getGraphicsComponent(), SLOT(showIcons(bool)));
+    //connect(CDriver::instance()->getMainWindow(), SIGNAL(signalAltHeld(bool)),
+    //        tower->getGraphicsComponent(), SLOT(showIcons(bool)));
 #endif
 
     return tower;
@@ -89,7 +89,6 @@ BuildingTower* Driver::createBuildingTower(int type, QPointF pos) {
 
 bool Driver::addToTower(BuildingTower* tower, Player* player) {
     int numResource = 0;
-
     switch (player->getResource()) {
     case RESOURCE_NONE:
         return false;
@@ -137,6 +136,8 @@ NPC* Driver::createNPC(int type) {
     npc->initComponents();
 
     //connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
+    connect(npc, SIGNAL(signalDropResource(int, QPointF, QVector2D)),
+            this, SLOT(requestCollectable(int, QPointF, QVector2D)));
 
     return npc;
 }

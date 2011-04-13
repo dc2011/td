@@ -28,6 +28,17 @@ public:
     virtual void update(GameObject* obj);
 
     /**
+     * Resets the matrix then builds the transformation matrix from the
+     * structure values.
+     *
+     * @author Warren Voelkl, Terence Stenvold
+     * @param dp Pointer to the drawstruct that contains all the values on how
+     * to render an image.
+     * @param layer is what layer to draw image defaults to 0
+     */
+    virtual void draw(DrawParams* dp, int layer=0);
+
+    /**
      * Gets a pixmap for the object based on its current animation state.
      *
      * @author Warren Voelkl
@@ -106,6 +117,11 @@ private:
      * of time.
      */
     QTimer closeTimer_;
+
+    /**
+     * The next pixmap image that should be displayed by the graphics thread.
+     */
+    int nextImage_;
 
     /**
      * container for all pixmaps which pertain to the current object
