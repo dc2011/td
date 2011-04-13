@@ -136,7 +136,7 @@
 #define FLAK_VELOCITY   15
 
 // collectable misc
-#define COLLECTABLE_VELOCITY    10
+#define COLLECTABLE_VELOCITY    3
 #define GEM_SIZE                0.6
 #define RESOURCE_SIZE           0.8
 #define TIME_TO_DISAPPEAR       800

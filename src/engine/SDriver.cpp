@@ -278,6 +278,8 @@ void SDriver::onMsgReceive(Stream* s) {
                             t->getPos());
                     updates_.insert(tower);
                     destroyObject(t);
+                } else {
+                    updates_.insert(t);
                 }
                 out->writeInt(player->getID());
                 out->writeInt(true);
