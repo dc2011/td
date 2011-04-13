@@ -11,10 +11,12 @@
 #include <QByteArray>
 #include <QDir>
 #include <vorbis/vorbisfile.h>
+#include <speex/speex.h>
 #include <errno.h>
 #include <sys/types.h>
 #include "../util/mutex_magic.h"
 #include "openal_helper.h"
+#include "../network/stream.h"
 
 #define QUEUESIZE 8
 #define BUFFERSIZE (1024*32)
@@ -64,11 +66,27 @@ namespace td
  * @author Darryl Pogue
  * @author Terence Stenvold
  */
-
 class AudioManager : public QObject {
     Q_OBJECT
 
     THREAD_SAFE_SINGLETON
+
+private:
+    /**
+     * A structure to contain values needed by Speex for encoding and decoding
+     * voice data.
+     *
+     * @author Darryl Pogue
+     */
+    struct SpeexState {
+        SpeexBits bits; /**< The Speex bits. */
+        void* encState; /**< The Speex encoder. */
+        void* decState; /**< The Speex decoder. */
+        int frameSize;  /**< The size of a frame. */
+        int quality;    /**< The quality of resulting data. */
+        int sampleRate; /**< The sampling rate for Speex. */
+
+    };
 
 private:
     /**
@@ -105,6 +123,11 @@ private:
     int musicGain_;
 
     /**
+     * The volume/gain of the voice chat.
+     */
+    int voiceGain_;
+
+    /**
      * The number of audio tracks playing
      */
     int playing_;
@@ -120,6 +143,11 @@ private:
     static bool captureStop_;
  
     /**
+     * The queue for network audio data
+     */ 
+    static QQueue<Stream *> netQueue_; 
+   
+    /**
      * Whether the AudioManager has been initialized.
      *
      * In practice, this should only be used when checking whether OpenAL is
@@ -128,10 +156,28 @@ private:
      */
     bool inited_;
 
+    /** The Speex state for the audio manager. */
+    SpeexState speex_;
+
 private:
     explicit AudioManager();
     ~AudioManager();
+
+    /**
+     * Initializes the Speex encoder/decoder for voice data.
+     *
+     * @author Darryl Pogue
+     * @author Terence Stenvold
+     */
+    void initSpeex();
     
+    /**
+     * Stream the voice data
+     *
+     * @author Terence Stenvold
+     */
+    void streamVoice();
+
     /**
      * Captures audio from the microphone
      * eventually transfer across the network
@@ -210,6 +256,28 @@ private:
      */
     void playCached(QString filename, float gain);
 
+    /**
+     * Encode voice data using Speex.
+     *
+     * @author Darryl Pogue
+     * @author Terence Stenvold
+     * @param data The buffer of microphone data to be encoded.
+     * @param nframes The number of frames of microphone data.
+     * @param out The stream to which the compressed data is written.
+     */
+    void encode(short* data, int nframes, Stream* out);
+
+    /**
+     * Decode voice data using Speex.
+     *
+     * @author Darryl Pogue
+     * @author Terence Stenvold
+     * @param data The stream of compressed voice data.
+     * @param nframes The number of frames of voice data.
+     * @param out The buffer to which to write decompressed data.
+     */
+    void decode(Stream* data, int nframes, short* out);
+
 
 public:
 
@@ -255,6 +323,111 @@ public:
 	captureStop_ = !captureStop_;
 	mutex_.unlock();
     }
+    
+    /**
+     * Set the music volume
+     *
+     * @author Terence Stenvold
+     */
+    void setMusicVol(int vol) {
+	setVol(vol,&musicGain_);
+    }
+
+    /**
+     * Set the sfx volume
+     *
+     * @author Terence Stenvold
+     */
+    void setSfxVol(int vol) {
+	setVol(vol,&sfxGain_);
+	if(vol<80) {
+	    setVol(vol+20,&notiGain_);
+	} else {
+	    setVol(vol,&notiGain_);
+	}
+    }
+
+    /**
+     * Set the voice volume
+     *
+     * @author Terence Stenvold
+     */
+    void setVoiceVol(int vol) {
+	setVol(vol,&voiceGain_);
+    }
+
+    /**
+     * Set the generic volume
+     *
+     * @author Terence Stenvold
+     */
+    void setVol(int vol, int *gain) {
+
+	if(vol<=100 && vol>95) {
+	    *gain=14;
+	} else if(vol<=95 && vol>90) {
+	    *gain=13;
+	} else if(vol<=90 && vol>85) {
+	    *gain=12;
+	} else if(vol<=85 && vol>80) {
+	    *gain=11;
+	} else if(vol<=80 && vol>75) {
+	    *gain=10;
+	} else if(vol<=75 && vol>70) {
+	    *gain=9;
+	} else if(vol<=70 && vol>65) {
+	    *gain=8;
+	} else if(vol<=65 && vol>60) {
+	    *gain=7;
+	} else if(vol<=60 && vol>55) {
+	    *gain=6;
+	} else if(vol<=55 && vol>50) {
+	    *gain=5;
+	} else if(vol<=50 && vol>40) {
+	    *gain=4;
+	} else if(vol<=40 && vol>30) {
+	    *gain=3;
+	} else if(vol<=30 && vol>20) {
+	    *gain=2;
+	} else if(vol<=20 && vol>10) {
+	    *gain=1;
+	} else if(vol<=10 && vol>0) {
+	    *gain=0;
+	}
+    }
+
+
+
+    /**
+     * Set the music volume
+     *
+     * @author Terence Stenvold
+     * @return volume scale of music
+     */
+    int getMusicVol() {
+	return (int)gainScale[musicGain_] * 100;
+    }
+
+    /**
+     * Set the sfx volume
+     *
+     * @author Terence Stenvold
+     * @return volume scale of sfx
+     */
+    int getSfxVol() {
+	return (int)gainScale[sfxGain_] * 100;
+    }
+
+    /**
+     * get the voice volume
+     *
+     * @author Terence Stenvold
+     * @return volume scale of voice
+     */
+    int getVoiceVol() {
+	return (int)gainScale[voiceGain_] * 100;
+    }
+
 
     /**
      * Adds the buffer into the cached map
@@ -279,6 +452,45 @@ public:
 	}
 	mutex_.unlock();
     }
+
+    /**
+     * get the next buffer in the queue
+     *
+     * @author Terence Stenvold
+     * @return the next buffer
+     */
+    static Stream* getNextInQueue() {
+	Stream *temp;
+	mutex_.lock();
+        if(netQueue_.count() > 0) {
+	    temp = netQueue_.dequeue();
+	}
+	mutex_.unlock();
+	return temp;
+    }
+    
+    /**
+     * gets the size of the queue
+     *
+     * @author Terence Stenvold
+     * @return the size of the queue
+     */
+    static int getQueueSize() {
+	return netQueue_.count();
+    }
+
+    /**
+     * add a buffer to the queue
+     *
+     * @author Terence Stenvold
+     * @param buffer is the buffer
+     */
+    static void addToQueue(Stream *s) {
+	mutex_.lock();
+	netQueue_.enqueue(s);
+	mutex_.unlock();
+    }
+
 
     /**
      * set the bitmask from the format and freq
