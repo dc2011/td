@@ -13,7 +13,7 @@ namespace td {
   * @author Luke Queenan
   *
   */
-Tile::Tile(int row, int column, BlockingType type)
+Tile::Tile(int row, int column, BlockingType type, TileEffect tileEffect)
 {
     tileID_ = column * MAP_ROWS + row;
     type_ = type;
@@ -22,6 +22,7 @@ Tile::Tile(int row, int column, BlockingType type)
     int xPos = column * TILE_WIDTH + TILE_WIDTH / 2;
     int yPos = row * TILE_HEIGHT + TILE_HEIGHT / 2;
     pos_ = QPointF(xPos, yPos);
+    tileEffect_ = tileEffect;
 }
 
 /**
@@ -224,17 +225,61 @@ void Tile::setBlocked()
 
 QSet<Unit*> Tile::getUnits(){
     return currentUnits_;
-
 }
 
 Tile::TileAttributes Tile::getAttributes(int id) {
     static const TileAttributes attributes[] = {
+        // Row 1
         {OPEN, NONE},
         {CLOSED, NONE},
         {NORTH_WEST, NONE},
         {NORTH_EAST, NONE},
         {SOUTH_WEST, NONE},
         {SOUTH_EAST, NONE},
+        {NORTH_WEST, SLOW},
+        {NORTH_EAST, SLOW},
+        {SOUTH_WEST, SLOW},
+        {SOUTH_EAST, SLOW},
+        {NORTH_WEST, FAST},
+        {NORTH_EAST, FAST},
+        {SOUTH_WEST, FAST},
+        {SOUTH_EAST, FAST},
+
+        // Row 2
+        {OPEN, NONE},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {OPEN, FAST},
+        {SOUTH_EAST, FAST},
+        {SOUTH_WEST, FAST},
+        {NORTH_EAST, FAST},
+        {NORTH_WEST, FAST},
+
+        // Row 3
+        {OPEN, NONE},
+        {CLOSED, NONE},
+        {NORTH_WEST, NONE},
+        {NORTH_EAST, NONE},
+        {SOUTH_WEST, NONE},
+        {SOUTH_EAST, NONE},
+        {NORTH_WEST, SLOW},
+        {NORTH_EAST, SLOW},
+        {SOUTH_WEST, SLOW},
+        {SOUTH_EAST, SLOW},
+
+        // Row 4
+        {OPEN, NONE},
+        {OPEN, SLOW},
+        {OPEN, SLOW},
+        {OPEN, SLOW},
+        {OPEN, SLOW},
+        {OPEN, SLOW},
     };
 
     return attributes[id];

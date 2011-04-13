@@ -4,7 +4,7 @@
 // TD Version
 // Update this whenever an incompatible change is made, to ensure that features
 // are matched between clients and the server
-#define TD_VERSION      0x0001
+#define TD_VERSION      0x0002
 
 // Network information
 #define TD_PORT 26631
@@ -87,11 +87,25 @@
 #define NPC_FLY_MAX_V   2  
 #define NPC_BOSS_MAX_V  1  
 
+//Player velocity
+#define PLAYER_MAX_V 5
+
+//effect types for operator==
+#define EFFECT_NONE         0
+#define EFFECT_NPCPLAYER    1
+#define EFFECT_SLOW         2
+#define EFFECT_FAST         3
+#define EFFECT_ARROW        4
+#define EFFECT_TAR          5
+#define EFFECT_BURN         6
+
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20
 #define TAR_TIME        10
+#define BURN_TIME       5
 #define ARROW_TIME      1
-#define NO_TIME         0
+//DONT USE THIS MACRO UNLESS YOUR NAME IS DTRAIN
+#define NO_TIME         0,false
 
 //NPC path key for waypoints
 //TODO: either take out or change to something generic

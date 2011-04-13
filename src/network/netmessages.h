@@ -95,6 +95,9 @@ namespace network {
 
         /** Indicates a position update for an NPC wave */
         kNPCWave        =   0x81,
+
+        /** Indicates a message of voice data. */
+        kVoiceMessage   =   0x82,
         
 	    /** Server has created an object, sending object state to player **/
 	    kServerCreateObj = 0x85,

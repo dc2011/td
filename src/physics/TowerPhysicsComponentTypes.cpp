@@ -13,11 +13,11 @@ bool ArrowTowerPhysicsComponent::isValidTarget(Unit*) {
     return true;
 }
 
-
 void ArrowTowerPhysicsComponent::update(GameObject *tower){
     this->applyDirection((Tower*)tower);
     this->fire();
 }
+
 void ArrowTowerPhysicsComponent::fire() {
     if (fireCountdown_ != 0) {
         fireCountdown_--;
@@ -36,6 +36,7 @@ void ArrowTowerPhysicsComponent::fire() {
 CannonTowerPhysicsComponent::CannonTowerPhysicsComponent(Tower* tower)
         : TowerPhysicsComponent(tower, FIRE_INTERVAL_CANNON, RADIUS_CANNON) { 
 }
+
 bool CannonTowerPhysicsComponent::isValidTarget(Unit * target) {
     if(((NPC*)target)->getType() == NPC_FLY) {
         return false;
@@ -48,6 +49,7 @@ void CannonTowerPhysicsComponent::update(GameObject *tower){
     this->applyDirection((Tower*)tower);
     this->fire();
 }
+
 void CannonTowerPhysicsComponent::fire() {
     if (fireCountdown_ != 0) {
         fireCountdown_--;
@@ -181,6 +183,7 @@ void FlameTowerPhysicsComponent::useDirection(Tower *tower){
 void FlameTowerPhysicsComponent::applyDuration(){
 
 }
+
 bool FlameTowerPhysicsComponent::isValidTarget(Unit * target) {
     if(((NPC*)target)->getType() == NPC_FLY) {
         return false;
@@ -199,7 +202,7 @@ void FlameTowerPhysicsComponent::fire() {
         return;
     }
     // TODO: move to projectilePC, once the different types have been created
-    //PLAY_SFX(tower_, SfxManager::projectileFireFlame);
+    PLAY_SFX(tower_, SfxManager::projectileFireFlame);
     emit fireProjectile(PROJ_FIRE, tower_->getPos(), flamePath_.p2(),
             endPoint_);
     fireCountdown_ = fireInterval_;
@@ -209,6 +212,7 @@ void FlameTowerPhysicsComponent::fire() {
 TarTowerPhysicsComponent::TarTowerPhysicsComponent(Tower* tower)
         : TowerPhysicsComponent(tower, FIRE_INTERVAL_TAR, RADIUS_TAR) { 
 }
+
 bool TarTowerPhysicsComponent::isValidTarget(Unit * target) {
     if(((NPC*)target)->getType() == NPC_FLY) {
         return false;
@@ -216,11 +220,11 @@ bool TarTowerPhysicsComponent::isValidTarget(Unit * target) {
     return true;
 }
 
-
-void TarTowerPhysicsComponent::update(GameObject *tower){
+void TarTowerPhysicsComponent::update(GameObject*){
     this->findTarget();
     this->fire();
 }
+
 void TarTowerPhysicsComponent::fire() {
     if (fireCountdown_ != 0) {
         fireCountdown_--;
@@ -239,6 +243,7 @@ void TarTowerPhysicsComponent::fire() {
 FlakTowerPhysicsComponent::FlakTowerPhysicsComponent(Tower* tower)
         : TowerPhysicsComponent(tower, FIRE_INTERVAL_FLAK, RADIUS_FLAK) { 
 }
+
 bool FlakTowerPhysicsComponent::isValidTarget(Unit * target) {
     if(((NPC*)target)->getType() == NPC_FLY) {
         return true;
@@ -246,11 +251,11 @@ bool FlakTowerPhysicsComponent::isValidTarget(Unit * target) {
     return false;
 }
 
-
 void FlakTowerPhysicsComponent::update(GameObject *tower){
     this->applyDirection((Tower*)tower);
     this->fire();
 }
+
 void FlakTowerPhysicsComponent::fire() {
     if (fireCountdown_ != 0) {
         fireCountdown_--;
@@ -260,7 +265,7 @@ void FlakTowerPhysicsComponent::fire() {
         return;
     }
     // TODO: move to projectilePC, once the different types have been created
-    //PLAY_SFX(tower_, SfxManager::projectileFireFlak);
+    PLAY_SFX(tower_, SfxManager::projectileFireFlak);
     emit fireProjectile(PROJ_FLAK, tower_->getPos(), target_->getPos(),
             target_);
     fireCountdown_ = fireInterval_;

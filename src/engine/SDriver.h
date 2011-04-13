@@ -25,6 +25,7 @@ private:
     QList<Player*> players_;
     QSet<GameObject*> updates_;
     QList<NPCWave*> waves_;
+    QTimer* waveTimer_;
 
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
@@ -160,8 +161,9 @@ public slots:
      * state to all clients.
      * 
      * @author Duncan Donaldson
+     * @param multicast Whether this server sends multicast messages.
      */
-    void startGame();
+    void startGame(bool multicast);
 
     /**
      * Spawns a server-side wave and updates all clients.
@@ -173,7 +175,6 @@ public slots:
      */
     void spawnWave();
     /**
-     * Handles a packet received by updating a currently existing player
      * slot that is called to destroy an NPC when its health reaches 0.
      *
      * @author Duncan Donaldson
