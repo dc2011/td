@@ -82,10 +82,10 @@
 
 // Maximum Velocity of NPC types
 #define NPC_NORM_MAX_V  2  
-#define NPC_SLOW_MAX_V  1  
-#define NPC_FAST_MAX_V  4  
-#define NPC_FLY_MAX_V   2  
-#define NPC_BOSS_MAX_V  1  
+#define NPC_SLOW_MAX_V  1
+#define NPC_FAST_MAX_V  4
+#define NPC_FLY_MAX_V   2
+#define NPC_BOSS_MAX_V  1
 
 //Player velocity
 #define PLAYER_MAX_V 5
@@ -108,7 +108,7 @@
 #define FLAK_TIME       1
 #define CANNON_TIME     1
 #define FIRE_TIME       1
-#define TAR_TIME        10
+#define TAR_TIME        50
 #define BURN_TIME       5
 //DONT USE THIS MACRO UNLESS YOUR NAME IS DTRAIN
 #define NO_TIME         0,false

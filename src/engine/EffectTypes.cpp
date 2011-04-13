@@ -9,22 +9,19 @@ namespace td {
 NPCPlayerEffect::NPCPlayerEffect(Unit* unit): Effect(unit, EFFECT_NPCPLAYER, NPC_PLAYER_TIME) {
     oldVelocity_ = PLAYER_MAX_V;
     velocityChangeValue_ = oldVelocity_ / 5;
+    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
 }
 
 NPCPlayerEffect::~NPCPlayerEffect() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
 }
 
-void NPCPlayerEffect::apply() {
-    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
-}
+void NPCPlayerEffect::apply() {}
 
 ArrowEffect::ArrowEffect(Unit* unit)
         : Effect(unit, EFFECT_ARROW, ARROW_TIME) {    
 
     healthChangeValue_ = -25;
-    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth()
-        + healthChangeValue_);
 }
 
 void ArrowEffect::apply() {
@@ -89,19 +86,22 @@ void PlayerTerrainFastEffect::apply() {
 
 NPCTarEffect::NPCTarEffect(Unit* unit)
     : Effect(unit, EFFECT_TAR, TAR_TIME) {
-    velocityChangeValue_ = 0.5;
+    oldVelocity_ = ((NPCPhysicsComponent*)(unit_->getPhysicsComponent()))->getMaxVelocity();
+
+    velocityChangeValue_ = oldVelocity_/5;
     healthChangeValue_ = -25;
+
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth()
                                 + healthChangeValue_);
+    ((NPCPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
+
 }
 
 NPCTarEffect::~NPCTarEffect() {
     ((NPCPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
 }
 
-void NPCTarEffect::apply() {
-    ((NPCPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
-}
+void NPCTarEffect::apply() {}
 
 FireEffect::FireEffect(Unit* unit)
         : Effect(unit, FIRE_TIME, EFFECT_FIRE, TRUE){
