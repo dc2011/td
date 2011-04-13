@@ -21,25 +21,24 @@ MainWindow::MainWindow() : QMainWindow() {
     keysTimer_->start(50);
 
     view_->setFocusPolicy( Qt::NoFocus );
-    view_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //view_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
 
     //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
-    mapDisplayer_->viewMap(QString("./maps/netbookmap3.tmx"));
+    mapDisplayer_->viewMap(QString("./maps/bigmap.tmx"));
     Tiled::MapRenderer* mRenderer = mapDisplayer_->getMRenderer();
     QSize mapSize = mRenderer->mapSize();
 
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
     scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
-    view_->setFixedSize(mapSize.width(), mapSize.height());
-    //this->showFullScreen();
+    //view_->setFixedSize(mapSize.width(), mapSize.height());
+    this->showFullScreen();
     
     // This focus policy may be implied by default...
     this->setFocusPolicy(Qt::StrongFocus);
-    //this->grabKeyboard();
 
     connect(keysTimer_, SIGNAL(timeout()), this, SLOT(keyHeld()));
 }

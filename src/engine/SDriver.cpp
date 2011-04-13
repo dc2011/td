@@ -15,7 +15,7 @@ namespace td {
 
 SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
-    gameMap_ = new Map(QString("./maps/netbookmap3.tmx"), this);
+    gameMap_ = new Map(QString("./maps/bigmap.tmx"), this);
     net_ = new NetworkServer();
     npcCounter_ = 0;
 
