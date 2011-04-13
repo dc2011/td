@@ -106,10 +106,11 @@ void NPCTarEffect::apply() {}
 FireEffect::FireEffect(Unit* unit)
         : Effect(unit, FIRE_TIME, EFFECT_FIRE, TRUE){
     healthChangeValue_ = -10;
+    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
 void FireEffect::apply(){
-    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
+
 }
 
 NPCBurnEffect::NPCBurnEffect(Unit* unit):Effect(unit, EFFECT_BURN, BURN_TIME) {
