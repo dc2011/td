@@ -108,6 +108,9 @@ void FlameTowerPhysicsComponent::findDirectionToShoot(){
         // this would be the place to add a priority algorithm if we need one
         // make sure that the unit is not a player
         if((((*iter)->getID()&0xFF000000)>>24) == NPC::clsIdx()) {
+            if(!this->isValidTarget(*iter)) {
+                continue;
+            }
             flamePath_.setP2((*iter)->getPos());
             // check that they're actually in range
             if (flamePath_.length() < getRadius()) {
