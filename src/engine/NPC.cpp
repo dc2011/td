@@ -22,6 +22,17 @@ NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
 }
 
 NPC::~NPC() {
+    if (!effects_.empty())
+    {
+        if (effects_.contains(EFFECT_BURN))
+        {
+            deleteEffect(*effects_.find(EFFECT_BURN));
+        }
+        if (effects_.contains(EFFECT_TAR))
+        {
+            deleteEffect(*effects_.find(EFFECT_TAR));
+        }
+    }
     if (wave_ != NULL) {
         wave_->killChild(this);
     }

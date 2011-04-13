@@ -22,11 +22,10 @@ ArrowEffect::ArrowEffect(Unit* unit)
         : Effect(unit, EFFECT_ARROW, ARROW_TIME) {    
 
     healthChangeValue_ = -25;
-}
-
-void ArrowEffect::apply() {
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
+
+void ArrowEffect::apply() {}
 
 CannonEffect::CannonEffect(Unit* unit)
         : Effect(unit, CANNON_TIME, EFFECT_CANNON, TRUE){
