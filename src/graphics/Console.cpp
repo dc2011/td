@@ -68,7 +68,7 @@ void Console::addText(QString text) {
     cursor.insertText(tmp, charFormat);
 
     label_->setDocument(doc);
-    rect_->setRect(label_->boundingRect());
+    rect_->setRect(label_->boundingRect().adjusted(0,y,0,y));
     label_->update();
     rect_->update();
     
@@ -76,6 +76,7 @@ void Console::addText(QString text) {
 }
 
 void Console::hide() {
+    y=-115;
     label_->hide();
     rect_->hide();
     label_->setPos(15,y);
@@ -92,11 +93,11 @@ void Console::show() {
 }
 
 void Console::scroll() {
+    y+=10;
     label_->setPos(15,y);
     rect_->setRect(label_->boundingRect().adjusted(0,y,0,y));
-    y+=10;
     if(y>=15) {
-	y=-115;
+	y=15;
 	disconnect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
 	    this, SLOT(scroll()));
     }
