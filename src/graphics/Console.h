@@ -25,6 +25,8 @@ private:
     static QGraphicsTextItem *label_;
     /** the rect around the text */
     static QGraphicsRectItem *rect_;
+    /** the rect around the text */
+    static QGraphicsRectItem *textRect_;
     /** Y POS */
     static int y;
     /** Text chat */

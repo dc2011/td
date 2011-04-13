@@ -17,6 +17,7 @@ QVector<QString> *Console::display_;
 QGraphicsTextItem *Console::label_; 
 QGraphicsTextItem *Console::textLabel_; 
 QGraphicsRectItem *Console::rect_;
+QGraphicsRectItem *Console::textRect_;
 int Console::y=-150;
 QTextCharFormat charFormat;
 
@@ -32,12 +33,12 @@ Console::Console() {
     label_ = new QGraphicsTextItem();
     textLabel_ = new QGraphicsTextItem();
     rect_ = new QGraphicsRectItem();
+    textRect_ = new QGraphicsRectItem();
     text_.append("Say: ");
-
     
     QFont font("Monospace");
     font.setBold(true);
-    QPen outlinePen = QPen (QColor(25, 200, 25), 0.2f, Qt::SolidLine);
+    QPen outlinePen = QPen (QColor(25, 200, 25), 0.1f, Qt::SolidLine);
     
     charFormat.setTextOutline(outlinePen);
     charFormat.setFont(font);
@@ -46,12 +47,19 @@ Console::Console() {
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
     CDriver::instance()->getMainWindow()->getScene()->addItem(textLabel_);
     CDriver::instance()->getMainWindow()->getScene()->addItem(rect_);
+    CDriver::instance()->getMainWindow()->getScene()->addItem(textRect_);
     
-    rect_->setRect(5,y-10,200,30);
+    rect_->setRect(0,y-10,400,30);
     rect_->setBrush(QBrush(QColor(200,200,200)));
     rect_->setPen(QPen(QColor(200,200,200)));
     rect_->setZValue(98);
     rect_->setOpacity(0.35);
+    
+    textRect_->setRect(0,0,400,30);
+    textRect_->setBrush(QBrush(QColor(100,100,100)));
+    textRect_->setPen(QPen(QColor(100,100,100)));
+    textRect_->setZValue(98);
+    textRect_->setOpacity(0.7);
     
     label_->setDefaultTextColor(QColor(0,0,0));
     label_->setPos(15,y);
@@ -106,6 +114,7 @@ void Console::hide() {
     rect_->update();   
     text_ = "Say: ";
     textLabel_->hide();
+    textRect_->hide();
 }
 
 void Console::show() {
@@ -114,6 +123,7 @@ void Console::show() {
     label_->show();
     rect_->show();
     textLabel_->show();
+    textRect_->show();
 }
 
 void Console::scroll() {
