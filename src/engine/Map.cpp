@@ -41,15 +41,15 @@ void Map::initMap() {
     widthInTiles_ = tileLayer->width();
 
     tiles_ = new Tile**[heightInTiles_];
-    for (size_t row = (unsigned) 0; row < heightInTiles_; row++) {
+    for (int row = 0; row < heightInTiles_; row++) {
         tiles_[row] = new Tile*[widthInTiles_];
 
-        for (size_t col = (unsigned) 0; col < widthInTiles_; col++) {
+        for (int col = 0; col < widthInTiles_; col++) {
             tile = tileLayer->tileAt(col, row);
             Tile::TileAttributes attrs = Tile::getAttributes(tile->id());
 
             //save into array
-            tiles_[row][col] = new Tile(row, col, attrs.type);
+            tiles_[row][col] = new Tile(row, col, attrs.type, attrs.effect);
 
             // Check for buildable tiles.
             if (towerLayer->contains(col, row)
@@ -59,7 +59,7 @@ void Map::initMap() {
                     tiles_[row][col]->setActionType(TILE_BUILDABLE);
                 }
             }
-            
+
             // Create resources.
             // And grabbing the tile from the resource layer.
             if (resLayer->contains(col, row) 

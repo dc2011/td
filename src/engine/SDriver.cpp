@@ -314,6 +314,12 @@ void SDriver::onMsgReceive(Stream* s) {
 
             break;
         }
+        case network::kVoiceMessage:
+        {
+            QByteArray vc = s->read(s->size() - 1);
+            net_->send(network::kVoiceMessage, vc);
+            break;
+        }
         default:
         {
             go = this->updateObject(s);
