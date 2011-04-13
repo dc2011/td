@@ -1,10 +1,12 @@
 #include "Console.h"
-#include "../engine/CDriver.h"
 #include <QDebug>
 #include <QTextDocument>
 #include <QTextCharFormat>
 #include <QTextCursor>
 #include <QGraphicsRectItem>
+#include "../engine/CDriver.h"
+#include "../engine/Player.h"
+#include "../network/netclient.h"
 
 namespace td {
 
@@ -17,6 +19,11 @@ QGraphicsTextItem *Console::textLabel_;
 QGraphicsRectItem *Console::rect_;
 int Console::y=-150;
 
+//GLOBAL TODO HERE
+/**
+ * redraw whole area get rid of artifacting
+ * clean up the formatting
+ */
 
 Console::Console() {
 
@@ -161,6 +168,8 @@ void Console::removeChar() {
 void Console::addChar(QString c) {
     
     QString tmp;
+    Stream s;
+
     text_.append(c);
     QTextDocument *doc = new QTextDocument();
     QTextCharFormat charFormat;
@@ -177,8 +186,15 @@ void Console::addChar(QString c) {
     tmp.replace("\n","");
     
     if(c.compare("\n") == 0) {
-	//TODO send over network
-	addText(tmp.mid(5));
+
+	if(CDriver::instance()->isSinglePlayer() == false) {
+	    s.writeInt(CDriver::instance()->getHuman()->getID());
+	    s.writeInt(tmp.length()-5);
+	    s.write(tmp.mid(5).toAscii());
+	    
+	    NetworkClient::instance()->send(network::kConsoleChat, s.data());
+	    
+	}
 	text_.clear();
 	text_.append("Say: ");
 	cursor.insertText(text_, charFormat);
