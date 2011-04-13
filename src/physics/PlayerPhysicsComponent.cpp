@@ -82,7 +82,7 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
         player->setBounds(polygon);
         npcs = gameMap->getUnits(newPos.x(), newPos.y(), 3);
         if (npcs.size() != 1) {
-            checkNPCCollision(npcs, player);
+            checkUnitCollision(npcs, player);
         }
     }
 }
@@ -209,11 +209,11 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
     }
 }
 
-void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
+void PlayerPhysicsComponent::checkUnitCollision(QSet<Unit*> units, Unit* player){
     QSet<Unit*>::iterator it;
     QPolygonF playerBounds;
     QPolygonF npcBounds;
-    for (it = npcs.begin(); it != npcs.end(); ++it) {
+    for (it = units.begin(); it != units.end(); ++it) {
         if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
             playerBounds = player->getBounds();
             npcBounds = (*it)->getBounds();
@@ -227,8 +227,13 @@ void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
                 //Effect::EffectType effectType = Effect::stunned;
                 emit NPCPlayerCollided(EFFECT_NPCPLAYER);
                 break;
-            } else {
-                //qDebug("PlayerPhysicsComponenet, line 279, No Collision");
+            }
+        } else if ((((*it)->getID() & 0xFF000000)>>24) == Collectable::clsIdx()) {
+            playerBounds = player->getBounds();
+            npcBounds = (*it)->getBounds();
+            if (player->getBounds().intersected((*it)->getBounds()).count() != 0) {
+                qDebug("PLAYER COLLIDED WITH A COLLECTABLE THAT WAS ON THE GROUND!!!");
+                break;
             }
         }
     }

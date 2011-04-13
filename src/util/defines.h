@@ -183,7 +183,7 @@
 #define COST_CANNON_WOOD  0
 #define COST_CANNON_STONE 2
 #define COST_CANNON_BONE  0
-#define COST_CANNON_OIL   2
+#define COST_CANNON_OIL   1
 
 #define COST_TAR_WOOD     0
 #define COST_TAR_STONE    1
@@ -193,7 +193,7 @@
 #define COST_FLAME_WOOD    0
 #define COST_FLAME_STONE   1
 #define COST_FLAME_BONE    1
-#define COST_FLAME_OIL     2
+#define COST_FLAME_OIL     1
 
 #endif
 
