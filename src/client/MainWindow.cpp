@@ -117,24 +117,24 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
     }
     
     if(consoleOpen_ == true) {
-	if(event->key() == Qt::Key_Return) {
-	    Console::instance()->addChar("\n");
-	    
-	} else if (event->key() == Qt::Key_Backspace) {
-	    Console::instance()->removeChar();
-     	} else if (event->key() >= 32 && event->key() <= 126
-		   && event->key() != 96) {
-	    Console::instance()->addChar(event->text());
-	}
+        if(event->key() == Qt::Key_Return) {
+            Console::instance()->addChar("\n");
+            
+        } else if (event->key() == Qt::Key_Backspace) {
+            Console::instance()->removeChar();
+        } else if (event->key() >= 32 && event->key() <= 126
+                   && event->key() != 96) {
+            Console::instance()->addChar(event->text());
+        }
 
-	if (event->key() == 96 || event->key() == Qt::Key_Return) {
-	    Console::instance()->hide();
-	    consoleOpen_ = !consoleOpen_;
-	    tInput = (PlayerInputComponent *)CDriver::instance()->
-		getHuman()->getInputComponent();
-	    tInput->playerMovement(true);
-	}
-	return;
+        if (event->key() == 96 || event->key() == Qt::Key_Return) {
+            Console::instance()->hide();
+            consoleOpen_ = !consoleOpen_;
+            tInput = (PlayerInputComponent *)CDriver::instance()->
+                getHuman()->getInputComponent();
+            tInput->playerMovement(true);
+        }
+        return;
     }
     
     switch (event->key()) {
@@ -150,12 +150,12 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
             break;
         case Qt::Key_QuoteLeft :
             Console::instance()->show();
-	    consoleOpen_ = !consoleOpen_;
-	    tInput = (PlayerInputComponent *)CDriver::instance()->
-		getHuman()->getInputComponent();
-	    tInput->playerMovement(false); 
-	    keysHeld_ = 0;
-	    break;
+            consoleOpen_ = !consoleOpen_;
+            tInput = (PlayerInputComponent *)CDriver::instance()->
+                getHuman()->getInputComponent();
+            tInput->playerMovement(false); 
+            keysHeld_ = 0;
+            break;
         case Qt::Key_1:
         case Qt::Key_2:
         case Qt::Key_3:
@@ -220,7 +220,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
             break;
         case Qt::Key_Space:
             emit signalSpacebarReleased();
-	    break;
+            break;
         default:
             QMainWindow::keyPressEvent(event);
             break;
