@@ -370,6 +370,17 @@ void CDriver::UDPReceived(Stream* s) {
             }
             break;
         }
+        case network::kSellTower:
+        {
+            int actionType = s->readInt();
+            float x = s->readFloat();
+            float y = s->readFloat();
+
+            Tile* tile = gameMap_->getTile(QPointF(x, y));
+            tile->setActionType(actionType);
+
+            break;
+        }
         case network::kDestroyObject:
         {  
             int id = s->readInt();
