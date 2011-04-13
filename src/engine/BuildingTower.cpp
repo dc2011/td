@@ -32,18 +32,22 @@ void BuildingTower::networkRead(Stream* s) {
     
     if (dirty_ & kWood) {
         wood_ = s->readInt();
+        setGraphicsResources(RESOURCE_WOOD, wood_);
     }
     
     if (dirty_ & kStone) {
         stone_ = s->readInt();
+        setGraphicsResources(RESOURCE_STONE, stone_);
     }
     
     if (dirty_ & kBone) {
         bone_ = s->readInt();
+        setGraphicsResources(RESOURCE_BONE, bone_);
     }
     
     if (dirty_ & kOil) {
         oil_ = s->readInt();
+        setGraphicsResources(RESOURCE_TAR, oil_);
     }
 }
 
@@ -108,41 +112,25 @@ void BuildingTower::initComponents() {
 void BuildingTower::setWood(int wood) {
     wood_ = wood;
     setDirty(kWood);
-    if (getGraphicsComponent()) {
-        getGraphicsComponent()->setBuildingResources(RESOURCE_WOOD, wood);
-        getGraphicsComponent()->update(this);
-        evaluateBuildingStage();
-    }
+    setGraphicsResources(RESOURCE_WOOD, wood);
 }
 
 void BuildingTower::setStone(int stone) {
     stone_ = stone;
     setDirty(kStone);
-    if (getGraphicsComponent()) {
-        getGraphicsComponent()->setBuildingResources(RESOURCE_STONE, stone);
-        getGraphicsComponent()->update(this);
-        evaluateBuildingStage();
-    }
+    setGraphicsResources(RESOURCE_STONE, stone);
 }
 
 void BuildingTower::setOil(int oil) {
     oil_ = oil;
     setDirty(kOil);
-    if (getGraphicsComponent()) {
-        getGraphicsComponent()->setBuildingResources(RESOURCE_TAR, oil);
-        getGraphicsComponent()->update(this);
-        evaluateBuildingStage();
-    }
+    setGraphicsResources(RESOURCE_TAR, oil);
 }
 
 void BuildingTower::setBone(int bone) {
     bone_ = bone;
     setDirty(kBone);
-    if (getGraphicsComponent()) {
-        getGraphicsComponent()->setBuildingResources(RESOURCE_BONE, bone);
-        getGraphicsComponent()->update(this);
-        evaluateBuildingStage();
-    }
+    setGraphicsResources(RESOURCE_BONE, bone);
 }
 
 void BuildingTower::evaluateBuildingStage() {
@@ -165,6 +153,13 @@ void BuildingTower::evaluateBuildingStage() {
     }
 }
 
+void BuildingTower::setGraphicsResources(int resType, int resNum) {
+    if (getGraphicsComponent()) {
+        getGraphicsComponent()->setBuildingResources(resType, resNum);
+        //getGraphicsComponent()->update(this);
+        evaluateBuildingStage();
+    }
+}
 
 } // end of namespace td
 
