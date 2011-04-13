@@ -366,6 +366,17 @@ void CDriver::UDPReceived(Stream* s) {
             setBaseHealth(health);
             break;
         }
+        case network::kGameOver:
+        {
+            bool successful = s->readByte();
+
+            if (successful) {
+                Console::instance()->addText("You won :D");
+            } else {
+                Console::instance()->addText("You lost :(");
+            }
+            break;
+        }
         case network::kVoiceMessage:
         {
             AudioManager::instance()->addToQueue(s);
