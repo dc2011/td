@@ -5,26 +5,37 @@
 #include <QKeySequence>
 
 namespace Ui {
-    class Keymap;
+    class KeymapDialog;
 }
 
 namespace td {
 
-class Keymap : public QDialog
+struct Keymap {
+    QKeySequence menuKey;
+    QKeySequence extraInfoKey;
+    QKeySequence consoleKey;
+    QKeySequence voiceKey;
+
+    QKeySequence arrowUp;
+    QKeySequence arrowDown;
+    QKeySequence arrowLeft;
+    QKeySequence arrowRight;
+};
+
+class KeymapDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit Keymap(QWidget *parent = 0);
-    ~Keymap();
+    explicit KeymapDialog(QWidget *parent = 0);
+    ~KeymapDialog();
 
 private slots:
     void closewindow();
 
 private:
-    Ui::Keymap *ui;
-
-    QKeySequence menuKey;
+    Ui::KeymapDialog *ui;
+    Keymap keys;
 };
 
 } /* end namespace td */

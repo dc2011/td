@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Keymap</class>
- <widget class="QDialog" name="Keymap">
+ <class>KeymapDialog</class>
+ <widget class="QDialog" name="KeymapDialog">
   <property name="geometry">
    <rect>
     <x>0</x>

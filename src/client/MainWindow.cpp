@@ -59,6 +59,8 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setFixedSize(mapSize.width(), mapSize.height());
     //this->showFullScreen();
     
+    loadKeymap();
+    
     // This focus policy may be implied by default...
     this->setFocusPolicy(Qt::StrongFocus);
     //this->grabKeyboard();
@@ -81,6 +83,23 @@ void MainWindow::removeGraphicRepr(GraphicsComponent* gc) {
 
 void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc, int layer) {
     gc->draw(dp,layer);
+}
+
+void MainWindow::loadKeymap() {
+    QSettings settings;
+    settings.beginGroup("keymap");
+
+    keys_.menuKey = QKeySequence(settings.value("menu", "space").toString());
+    keys_.extraInfoKey = QKeySequence(settings.value("extrainfo", "r").toString());
+    keys_.consoleKey = QKeySequence(settings.value("console", "`").toString());
+    keys_.voiceKey = QKeySequence(settings.value("voice", "v").toString());
+
+    keys_.arrowUp = QKeySequence(settings.value("arrowup", "up").toString());
+    keys_.arrowDown = QKeySequence(settings.value("arrowdown", "down").toString());
+    keys_.arrowLeft = QKeySequence(settings.value("arrowleft", "left").toString());
+    keys_.arrowRight = QKeySequence(settings.value("arrowright", "right").toString());
+
+    settings.endGroup();
 }
 
 void MainWindow::keyHeld()
@@ -111,10 +130,13 @@ void MainWindow::keyHeld()
 }
 
 void MainWindow::keyPressEvent(QKeyEvent * event) {
-    PlayerInputComponent *tInput;
+    PlayerInputComponent *tInput = NULL;
     if(event->isAutoRepeat()) {
         return;
     }
+
+    QKeySequence key((int)event->modifiers() ? (int)event->modifiers() : event->key(),
+                        (int)event->modifiers() ? event->key() : 0);
     
     if(consoleOpen_ == true) {
         if(event->key() == Qt::Key_Return) {
@@ -127,7 +149,8 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
             Console::instance()->addChar(event->text());
         }
 
-        if (event->key() == 96 || event->key() == Qt::Key_Return) {
+        if ((keys_.consoleKey.matches(key) == QKeySequence::ExactMatch) ||
+                (event->key() == Qt::Key_Return)) {
             Console::instance()->hide();
             consoleOpen_ = !consoleOpen_;
             tInput = (PlayerInputComponent *)CDriver::instance()->
@@ -137,25 +160,48 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         return;
     }
     
-    switch (event->key()) {
+    if (keys_.menuKey.matches(key) == QKeySequence::ExactMatch) {
+        /* Menu key => Spacebar */
+        emit signalSpacebarPressed();
+    } else if (keys_.extraInfoKey.matches(key) == QKeySequence::ExactMatch) {
+        /* Extra info key => R */
+        emit signalAltHeld(true);
+    } else if (keys_.consoleKey.matches(key) == QKeySequence::ExactMatch) {
+        /* Console key => ~ (tilde) */
+        Console::instance()->show();
+        consoleOpen_ = !consoleOpen_;
+        tInput = (PlayerInputComponent *)CDriver::instance()->
+            getHuman()->getInputComponent();
+        tInput->playerMovement(false); 
+        keysHeld_ = 0;
+    } else if (keys_.voiceKey.matches(key) == QKeySequence::ExactMatch) {
+        /* Voice key => V */
+        // Temporarily disabled
+        //AudioManager::instance()->toggleCapturePause();
+    } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
+        /* Arrow Up key => UP */
+        keysHeld_ |= KEYUP;
+    } else if (keys_.arrowDown.matches(key) == QKeySequence::ExactMatch) {
+        /* Arrow Down key => DOWN */
+        keysHeld_ |= KEYDOWN;
+    } else if (keys_.arrowLeft.matches(key) == QKeySequence::ExactMatch) {
+        /* Arrow Left key => LEFT */
+        keysHeld_ |= KEYLEFT;
+    } else if (keys_.arrowRight.matches(key) == QKeySequence::ExactMatch) {
+        /* Arrow Right key => RIGHT */
+        keysHeld_ |= KEYRIGHT;
+    } else {
+        /* Any other key */
+        QMainWindow::keyPressEvent(event);
+    }
 
-        case Qt::Key_Space:
-            emit signalSpacebarPressed();
+    switch (event->key()) {
+        case Qt::Key_K:
+        {
+            KeymapDialog* km = new KeymapDialog();
+            km->show();
             break;
-        case Qt::Key_R:
-            emit signalAltHeld(true);
-            break;
-        case Qt::Key_V:
-            //AudioManager::instance()->toggleCapturePause();
-            break;
-        case Qt::Key_QuoteLeft :
-            Console::instance()->show();
-            consoleOpen_ = !consoleOpen_;
-            tInput = (PlayerInputComponent *)CDriver::instance()->
-                getHuman()->getInputComponent();
-            tInput->playerMovement(false); 
-            keysHeld_ = 0;
-            break;
+        }
         case Qt::Key_1:
         case Qt::Key_2:
         case Qt::Key_3:
@@ -167,23 +213,6 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         case Qt::Key_9:
         case Qt::Key_0:
             emit signalNumberPressed(event->key());
-            break;
-
-        case Qt::Key_Up:
-            keysHeld_ |= KEYUP;
-            break;
-        case Qt::Key_Down:
-            keysHeld_ |= KEYDOWN;
-            break;
-        case Qt::Key_Left:
-            keysHeld_ |= KEYLEFT;
-            break;
-        case Qt::Key_Right:
-            keysHeld_ |= KEYRIGHT;
-            break;
-
-        default:
-            QMainWindow::keyPressEvent(event);
             break;
     }
 }
