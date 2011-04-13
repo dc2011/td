@@ -55,6 +55,7 @@ void LobbyServer::notifyClients(unsigned char msgType)
                 sock->write(s.data());
                 sock->flush();
             }
+            break;
 
         }
         case network::kUpdateListOfGames:
@@ -65,11 +66,13 @@ void LobbyServer::notifyClients(unsigned char msgType)
             s.writeInt(games_.size());
             foreach(int name, gameNames) {
                 s.writeInt(name);
+                s.writeInt(games_.count(name));
             }
             foreach (QTcpSocket* sock, clients_.keys()) {
                 sock->write(s.data());
                 sock->flush();
             }
+            break;
         }
         case network::kBadVersion:
         case network::kLobbyStartGame:

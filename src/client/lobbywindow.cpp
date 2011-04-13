@@ -117,6 +117,17 @@ void LobbyWindow::onTCPReceived(Stream* s)
             updateListOfUserNames(names);
             break;
         }
+        case network::kUpdateListOfGames:
+        {
+            QMap<int,int> gameList;
+            int numOfGames = s->readInt();
+            for(int i = 0; i < numOfGames; i++) {
+                int gameName = s->readInt();
+                int numOfPlayers = s->readInt();
+                gameList[gameName] = numOfPlayers;      
+            }
+            updateListOfGames(gameList);
+        }
         case network::kLobbyStartGame:
         {
             connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
@@ -166,8 +177,15 @@ void LobbyWindow::applyStyleSheet(QString path) {
     this->setStyleSheet(QString(f.readAll()));
     f.close();
 }
-void LobbyWindow::updateListOfUserNames(QList<QString*>) {
+
+void LobbyWindow::updateListOfUserNames(QList<QString*>& userNames) {
     //update gui here
 }
 
-} /* end namespace td */
+void LobbyWindow::updateListOfGames(QMap<int,int>& gameList) {
+}
+    //update gui here
+} 
+
+
+/* end namespace td */
