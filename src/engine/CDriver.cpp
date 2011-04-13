@@ -219,10 +219,10 @@ void CDriver::NPCCreator() {
     disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
     //NPCWave* wave = new NPCWave(this);
 
-    qDebug("before createwave");
+
     waves_.first()->createWave();
     //waves_.append(wave);
-    qDebug("after createwave");
+
 
     connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
 
@@ -264,7 +264,7 @@ void CDriver::startGame(bool singlePlayer) {
     td::Console::instance();
     musicList = td::AudioManager::instance()->musicDir("./sound/music/");
     td::AudioManager::instance()->playMusic(musicList);
-qDebug("start game");
+
     if (singlePlayer) {
 
         Player* player = (Player*)mgr_->createObject(Player::clsIdx());
@@ -279,7 +279,7 @@ qDebug("start game");
         NPCWave* tempWave;
         setBaseHealth(fileParser->baseHP);
         while((tempWave = fileParser->readWave())!=NULL) {
-            qDebug("wave read");
+
             waves_.append(tempWave);
         }
 
@@ -326,6 +326,7 @@ void CDriver::handleSpacebarPress() {
         case TILE_BUILDING:
             requestResourceAddition(t);
             break;
+            
         case TILE_BUILT:
             //TODO Tower upgrade/sell context menu toggle
         case TILE_BASE:
