@@ -182,6 +182,17 @@ private:
      * @author Warren Voelkl
      */
     void evaluateBuildingStage();
+
+    /**
+     * Set Graphics Resources.
+     * Used for updating the graphics when the resources change.
+     *
+     * @author Marcel Vangrootheest
+     * @author Warren Voelkl
+     * @param resType The type of resource that was changed.
+     * @param resNum The amount of resource it was changed to.
+     */
+    void setGraphicsResources(int resType, int resNum);
 };
 
 } // end of namespace td
