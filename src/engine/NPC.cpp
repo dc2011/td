@@ -2,6 +2,7 @@
 #include "NPCWave.h"
 #include "Driver.h"
 #include <QObject>
+#include "../audio/SfxManager.h"
 
 #ifndef SERVER
 #    include "CDriver.h"
@@ -178,6 +179,21 @@ void NPC::createEffect(Effect* effect){
         effect, SLOT(update()));
         
     effects_.push_back(*effect);
+
+    switch (effect->getType()) {
+    case EFFECT_ARROW:
+	    PLAY_SFX(this, SfxManager::projectileHitArrow);
+        break;
+    case EFFECT_CANNON:
+	    PLAY_SFX(this, SfxManager::projectileHitCannon);
+        break;
+    case EFFECT_TAR:
+	    PLAY_SFX(this, SfxManager::projectileHitTar);
+        break;
+    case EFFECT_FLAK:
+	    PLAY_SFX(this, SfxManager::projectileHitFlak);
+        break;
+    }
 }
 
 void NPC::deleteEffect(Effect* effect){
@@ -191,6 +207,7 @@ void NPC::deleteEffect(Effect* effect){
 
 void NPC::isDead() {
     if(health_ <= 0) {
+        //TODO NPC death sound/animation
         emit signalDropResource(RESOURCE_GEM, pos_, getRandomVector());
         emit dead(this->getID());
     }

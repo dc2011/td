@@ -95,9 +95,12 @@
 #define EFFECT_NPCPLAYER    1
 #define EFFECT_SLOW         2
 #define EFFECT_FAST         3
+// These 5 need to stay in the same block
 #define EFFECT_ARROW        4
 #define EFFECT_TAR          5
 #define EFFECT_BURN         6
+#define EFFECT_CANNON       7
+#define EFFECT_FLAK         8
 
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20
