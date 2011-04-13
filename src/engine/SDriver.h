@@ -191,6 +191,7 @@ public slots:
      * @author Duncan Donaldson
      */
     void deadNPC(int id);
+    void deadWave();
     /**
      * Handles a UDP packet receive by updating a currently existing player
      * or adding the player to the players list if the player does not exist.
