@@ -211,8 +211,11 @@ void Player::harvestResource() {
 void Player::pickupCollectable(double x, double y, Unit* u) {
     Tile* t = getDriver()->getGameMap()->getTile(x, y);
     t->removeUnit(u);
-
-    dropResource(false);
+    if(((Collectable*)u)->getType() == RESOURCE_GEM) {
+        //increment global gem count here.
+        getDriver()->destroyObject(u);
+        return;
+    }
 
     resource_ = ((Collectable*)u)->getType();
     if (getGraphicsComponent()) {
@@ -222,6 +225,5 @@ void Player::pickupCollectable(double x, double y, Unit* u) {
     }
     setDirty(kResource);
     getDriver()->destroyObject(u);
-
 }
 } /* end namespace td */
