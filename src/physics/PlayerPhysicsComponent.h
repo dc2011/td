@@ -4,6 +4,7 @@
 #include "PhysicsComponent.h"
 #include "../engine/Effect.h"
 #include "../engine/Unit.h"
+#include "../engine/Collectable.h"
 #include <QSet>
 
 namespace td {
@@ -57,7 +58,7 @@ public:
      *
      * @author Daniel Wright, Pan K.(add a signal)
      */
-    void checkNPCCollision(QSet<Unit*> npcs, Unit* player);
+    void checkUnitCollision(QSet<Unit*> npcs, Unit* player);
 
     /**
      * This updates the physics properties of Player.
@@ -99,6 +100,12 @@ signals:
      * @author Pan K.
      */
     void NPCPlayerCollided(int);
+    /**
+     * forces a collectable to be picked up
+     *
+     * @author DTRAIN
+     */
+    void pickupCollectable(double x, double y, Unit* u);
 
 public slots:
     /**

@@ -7,6 +7,7 @@
 #include "../graphics/PlayerGraphicsComponent.h"
 #include "../audio/SfxManager.h"
 #include "../graphics/Console.h"
+#include "Resource.h"
 
 namespace td {
 
@@ -207,5 +208,22 @@ void Player::harvestResource() {
 	return;
     }
 }
+void Player::pickupCollectable(double x, double y, Unit* u) {
+    Tile* t = getDriver()->getGameMap()->getTile(x, y);
+    t->removeUnit(u);
+    if(((Collectable*)u)->getType() == RESOURCE_GEM) {
+        //increment global gem count here.
+        getDriver()->destroyObject(u);
+        return;
+    }
 
+    resource_ = ((Collectable*)u)->getType();
+    if (getGraphicsComponent()) {
+        getGraphicsComponent()->setCurrentResource(resource_);
+        getGraphicsComponent()->update(this);
+
+    }
+    setDirty(kResource);
+    getDriver()->destroyObject(u);
+}
 } /* end namespace td */

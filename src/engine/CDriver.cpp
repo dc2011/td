@@ -132,7 +132,7 @@ void CDriver::makeLocalPlayer(Player* player) {
     player->setPhysicsComponent(physics);
     player->setInputComponent(input);
     human_ = player;
-
+    connect(physics, SIGNAL(pickupCollectable(double, double, Unit*)), human_, SLOT(pickupCollectable(double,double,Unit*)));
     /* Connect to arrow key events */
     connect(mainWindow_, SIGNAL(signalKeyPressed(int)),
             input, SLOT(keyPressed(int)));
