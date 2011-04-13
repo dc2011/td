@@ -9,13 +9,13 @@ namespace td {
 QStringList SfxManager::projectileFireArrow  
         = QStringList() << "arrow-1" << "arrow-2" << "arrow-3";
 QStringList SfxManager::projectileFireCannon 
-        = QStringList() << "cannon-1";
+        = QStringList() << "cannon-1" << "cannon-2" << "cannon-3";
 QStringList SfxManager::projectileFireFlame  
-        = QStringList() << "flame-1" << "flame-2";
+        = QStringList() << "fire-1";
 QStringList SfxManager::projectileFireTar    
         = QStringList() << "tar-1" << "tar-2" << "tar-3";
 QStringList SfxManager::projectileFireFlak   
-        = QStringList() << "";
+        = QStringList() << "flak-1" << "flak-2";
 
 // projectile lands
 QStringList SfxManager::projectileHitArrow  
@@ -59,11 +59,11 @@ QStringList SfxManager::npcPterodactylDies
 QStringList SfxManager::resourceWood
         = QStringList() << "wood";
 QStringList SfxManager::resourceStone
-        = QStringList() << "shovel";
+        = QStringList() << "stone";
 QStringList SfxManager::resourceBone
-        = QStringList() << "wood";
+        = QStringList() << "bone";
 QStringList SfxManager::resourceTar
-        = QStringList() << "tar-1";
+        = QStringList() << "oil";
 
 // player SFX
 QStringList SfxManager::playerOpensMenu

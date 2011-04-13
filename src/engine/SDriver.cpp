@@ -15,6 +15,7 @@ namespace td {
 
 SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
+    waveTimer_ = new QTimer(this);
     gameMap_ = new Map(QString("./maps/bigmap.tmx"), this);
     net_ = new NetworkServer();
     npcCounter_ = 0;
@@ -95,8 +96,9 @@ void SDriver::startGame(bool multicast) {
     gameMap_->initMap();
 
     this->gameTimer_->start(30);
+    this->waveTimer_->start(1000);
     connect(gameTimer_, SIGNAL(timeout()), this, SLOT(onTimerTick()));
-    connect(gameTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
+    connect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 }
 
 void SDriver::endGame() {
@@ -180,14 +182,12 @@ void SDriver::destroyObject(int id) {
 }
 
 void SDriver::spawnWave() {
-    if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
-        NPCWave* wave = new NPCWave(this);
+    NPCWave* wave = new NPCWave(this);
 
-        wave->createWave();
-        waves_.append(wave);
+    wave->createWave();
+    waves_.append(wave);
 
-        disconnect(gameTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
-    }
+    disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 
     /*if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
         Driver::createNPC(NPC_NORM);
@@ -287,6 +287,12 @@ void SDriver::onMsgReceive(Stream* s) {
             }
             net_->send(network::kDropResource, out->data());
 
+            break;
+        }
+        case network::kVoiceMessage:
+        {
+            QByteArray vc = s->read(s->size() - 1);
+            net_->send(network::kVoiceMessage, vc);
             break;
         }
         default:

@@ -13,7 +13,7 @@ namespace td {
   * @author Luke Queenan
   *
   */
-Tile::Tile(int row, int column, BlockingType type)
+Tile::Tile(int row, int column, BlockingType type, TileEffect tileEffect)
 {
     tileID_ = column * MAP_ROWS + row;
     type_ = type;
@@ -22,6 +22,7 @@ Tile::Tile(int row, int column, BlockingType type)
     int xPos = column * TILE_WIDTH + TILE_WIDTH / 2;
     int yPos = row * TILE_HEIGHT + TILE_HEIGHT / 2;
     pos_ = QPointF(xPos, yPos);
+    tileEffect_ = tileEffect;
 }
 
 /**
@@ -224,7 +225,6 @@ void Tile::setBlocked()
 
 QSet<Unit*> Tile::getUnits(){
     return currentUnits_;
-
 }
 
 Tile::TileAttributes Tile::getAttributes(int id) {
@@ -280,7 +280,6 @@ Tile::TileAttributes Tile::getAttributes(int id) {
         {OPEN, SLOW},
         {OPEN, SLOW},
         {OPEN, SLOW},
-
     };
 
     return attributes[id];

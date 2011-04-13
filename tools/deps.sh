@@ -17,7 +17,7 @@ elif [ "$OS" == "darwin" ]; then
     echo "Now we will install the necessary development libraries"
     echo "Please enter your password at the prompt"
 
-    sudo $portsbin install libvorbis
+    sudo $portsbin install libvorbis speex speex-devel
 
     qmbin=$(which qmake)
     if [[ -z "$qmbin" ]]; then
@@ -34,18 +34,18 @@ elif [ "$OS" == "linux" ]; then
         # This is Ubuntu or Debian => apt-get
 
         sudo apt-get install g++ make libopenal-dev libvorbis-dev libogg-dev \
-            qt4-dev-tools qt4-qmake libqt4-network zlib1g-dev
+            qt4-dev-tools qt4-qmake libqt4-network zlib1g-dev libspeex-dev
 
     elif [ -f /etc/fedora-release ]; then
         # This is Fedora => yum
 
         sudo yum install gcc-c++ make openal-soft-devel libvorbis-devel \
-            libogg-devel qt-devel zlib-devel
+            libogg-devel qt-devel zlib-devel speex-devel
 
     elif [ -f /etc/arch-release ]; then
         # This is Arch => pacman
 
-        sudo pacman -S gcc make openal libvorbis libogg zlib
+        sudo pacman -S gcc make openal libvorbis libogg zlib speex
 
     else
         echo "OOPS! Packages could not be installed for your system!"
