@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="52" height="30" tilewidth="48" tileheight="48">
+ <tileset firstgid="1" name="map-tiles3" tilewidth="48" tileheight="48">
+  <image source="../../integration_TD/img/map-tiles3.png" width="672" height="192"/>
+ </tileset>
+ <tileset firstgid="57" name="towerlayer2" tilewidth="48" tileheight="48">
+  <image source="../img/towerlayer2.png" width="96" height="48"/>
+ </tileset>
+ <tileset firstgid="59" name="resourcetiles" tilewidth="48" tileheight="48">
+  <image source="../img/resourcetiles.png" width="192" height="48"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="52" height="30">
+  <data encoding="base64" compression="zlib">
+   eJy1mN1y0zAUhJUYOqU3DtCbFgo0FG6ckrz/0xHNaGe2O3v0Y8zFziS2LOnTnnMke59S2hftjGb5/57a1+T6cvp41aGh+9L2+1XfjLgtxr8ZmMOWPJ87WbKeO3mYZbrqnRn3adCjXp4Wk7Z1TF+ovfqC+TCTxhyYblLM59ZkDdcnaRPFHJh4/adUj7/cZqnw/YtHkPMoM+U8+xqwZD0IT4tFa8Rirm/hUS2XHmX+j8QBIS965zLJ/VZebcnD/rTyLcpr5fpg5rpU+tkih5RFPWEhF2o1C0yvV52ISVln08+aHFKmXhb4g5hp1eHbwnMyrNG+uyaHmGuEhf2p5QB0RzytuKtd6xXX5h4W9cfNgXnPxNPjkfYR3a9xuD2zxaNjsUcaL45H26onOe/+dDBFe+WIP7XzgIsV9ohjTvet1/SW/URMPfNfw8I8bp11rwErMzHLXJSf49oBXQY5lCWfTVvn156zchRL5+LRXbm+0Bpw7YDmQRbdN1t71CHoo3Vm5vpxLusOX1xtZ29GWNSbnr0q6gsxhNqQ15vj3+W15hO4LsW7tXF2kHE0D8B0H/R1lOe1TmOt2Sc9O7CwDiPecH1mb6bkY2YXjKEsynUJ7mmuMNdt8XOEx73TKIt7D9A+IhaOL3iBdV8MjztDjPI8kDc9LFnPFW/m4LfbUzQmNTaXFSzR+X/kW8eOxo/28BfD9BQwzfTcmjqN923UpVEWPcv1zOOF+JlJ98/fdO9XhzeuttU0pbffGzimRtfzBz3LexJi+mj8c0zubKPfRCKWfaV9NO9jir+DIfaibyaLMP3sYKntpa7uuTVYzJxdHdc2mleuLnBM8/NbsOyT91VzqCbMCbyuJlxKn1zndYzW+0yLw/GoTxozURypwIRzjl537w98ZsH/yJuIxfG4fKr5FX2L+x+qcUB/AVqJVb8=
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="52" height="30" opacity="0.87">
+  <data encoding="base64" compression="zlib">
+   eJztmEESgDAIA/lW/f/DevBUp60DLYQB9uiBkEStI9FIozmr61ag9Wdo7XQyF5mThbbH+8AazWe08o0LuluEPtrzDXYeIvjjIPX7MGf96WQ/69D+PWaD3gmtv8PzbpmR9CLtss7/+HzzrvxHLPPQ0Ko+13j9d4Yiq28O3IxQ74/q8sXye+n2DAQdV6UKeQ==
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="52" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt1osNACAIQ0H38rP/WK6gUVIa3g1g0ECxtRgj6FxHU10A8Ih59kLm4BS9UkdXFyCW5f7sU3Lnp6UuADJZMq2q2/ePyH72SZxq8+WyS/g/wKVXq9pqKwQ/
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1" width="52" height="30" visible="0">
+  <object x="376" y="14" width="26" height="24"/>
+  <object x="542" y="218" width="24" height="24"/>
+  <object x="648" y="220" width="20" height="24"/>
+  <object x="741" y="251" width="22" height="20"/>
+  <object x="827" y="320" width="19" height="21"/>
+  <object x="886" y="409" width="19" height="18"/>
+  <object x="1023" y="547" width="20" height="15"/>
+  <object x="1016" y="613" width="20" height="20"/>
+  <object x="948" y="700" width="16" height="13"/>
+  <object x="893" y="758" width="17" height="18"/>
+  <object x="866" y="840" width="13" height="15"/>
+  <object x="806" y="919" width="19" height="19"/>
+  <object x="831" y="1014" width="16" height="20"/>
+  <object x="895" y="1097" width="20" height="20"/>
+  <object x="980" y="1175" width="21" height="17"/>
+  <object x="1068" y="1225" width="21" height="12"/>
+  <object x="1196" y="1212" width="23" height="19"/>
+  <object x="1334" y="1234" width="17" height="20"/>
+  <object x="1424" y="1277" width="22" height="17"/>
+  <object x="1526" y="1317" width="25" height="19"/>
+  <object x="1683" y="1410" width="20" height="17"/>
+  <object x="1896" y="1412" width="28" height="15"/>
+  <object x="2077" y="1262" width="20" height="20"/>
+  <object x="2240" y="1126" width="19" height="18"/>
+  <object x="2381" y="968" width="18" height="16"/>
+  <object x="2338" y="787" width="18" height="15"/>
+  <object x="2420" y="644" width="18" height="20"/>
+  <object x="2415" y="494" width="21" height="18"/>
+ </objectgroup>
+ <objectgroup name="Object Layer 2" width="52" height="30" visible="0">
+  <object x="383" y="14" width="19" height="16"/>
+  <object x="220" y="55" width="15" height="17"/>
+  <object x="119" y="135" width="18" height="19"/>
+  <object x="56" y="235" width="13" height="20"/>
+  <object x="47" y="349" width="17" height="18"/>
+  <object x="88" y="518" width="19" height="18"/>
+  <object x="177" y="608" width="14" height="14"/>
+  <object x="259" y="645" width="16" height="13"/>
+  <object x="381" y="634" width="17" height="18"/>
+  <object x="445" y="639" width="15" height="14"/>
+  <object x="498" y="592" width="23" height="17"/>
+  <object x="544" y="635" width="16" height="17"/>
+  <object x="588" y="765" width="21" height="15"/>
+  <object x="727" y="818" width="16" height="15"/>
+  <object x="736" y="925" width="18" height="13"/>
+  <object x="835" y="985" width="17" height="19"/>
+  <object x="844" y="1037" width="16" height="17"/>
+  <object x="891" y="1078" width="15" height="19"/>
+  <object x="920" y="1133" width="20" height="19"/>
+  <object x="984" y="1175" width="18" height="15"/>
+  <object x="1034" y="1215" width="23" height="20"/>
+  <object x="1181" y="1212" width="17" height="21"/>
+  <object x="1291" y="1218" width="20" height="17"/>
+  <object x="1350" y="1256" width="16" height="17"/>
+  <object x="1464" y="1282" width="19" height="19"/>
+  <object x="1540" y="1325" width="21" height="18"/>
+  <object x="1662" y="1400" width="19" height="15"/>
+  <object x="1850" y="1411" width="22" height="16"/>
+  <object x="1949" y="1326" width="17" height="14"/>
+  <object x="2040" y="1176" width="17" height="15"/>
+  <object x="1929" y="1042" width="21" height="20"/>
+  <object x="2014" y="847" width="22" height="19"/>
+  <object x="2128" y="723" width="19" height="19"/>
+  <object x="2231" y="571" width="24" height="22"/>
+  <object x="2418" y="483" width="19" height="30"/>
+ </objectgroup>
+ <objectgroup name="Object Layer 3" width="52" height="30" visible="0">
+  <object x="1405" y="8" width="14" height="16"/>
+  <object x="1382" y="110" width="21" height="23"/>
+  <object x="1211" y="124" width="18" height="17"/>
+  <object x="1200" y="250" width="17" height="18"/>
+  <object x="1300" y="329" width="23" height="21"/>
+  <object x="1411" y="409" width="24" height="23"/>
+  <object x="1518" y="595" width="17" height="20"/>
+  <object x="1408" y="777" width="27" height="30"/>
+  <object x="1463" y="951" width="17" height="17"/>
+  <object x="1803" y="939" width="18" height="24"/>
+  <object x="2080" y="796" width="23" height="25"/>
+  <object x="2419" y="496" width="18" height="23"/>
+ </objectgroup>
+ <objectgroup name="Object Layer 4" width="52" height="30" visible="0">
+  <object x="7" y="1088" width="17" height="17"/>
+  <object x="190" y="1109" width="23" height="19"/>
+  <object x="392" y="1049" width="28" height="20"/>
+  <object x="578" y="981" width="19" height="19"/>
+  <object x="694" y="910" width="18" height="18"/>
+  <object x="804" y="930" width="21" height="33"/>
+  <object x="849" y="1045" width="20" height="15"/>
+  <object x="920" y="1128" width="25" height="22"/>
+  <object x="996" y="1181" width="19" height="21"/>
+  <object x="1076" y="1225" width="26" height="17"/>
+  <object x="1228" y="1225" width="24" height="13"/>
+  <object x="1347" y="1260" width="29" height="21"/>
+  <object x="1463" y="1302" width="27" height="20"/>
+  <object x="1617" y="1349" width="22" height="16"/>
+  <object x="2286" y="1127" width="24" height="25"/>
+  <object x="2415" y="902" width="27" height="21"/>
+  <object x="2413" y="493" width="23" height="18"/>
+ </objectgroup>
+</map>
