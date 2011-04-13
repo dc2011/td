@@ -25,7 +25,7 @@ Console::Console() {
 
     font.setPointSize(8);
     
-    rect_->setRect(5,5,250,80);
+    rect_->setRect(5,5,200,30);
     rect_->setBrush(QBrush(QColor(200,200,200)));
     rect_->setPen(QPen(QColor(200,200,200)));
     rect_->setZValue(98);
@@ -37,7 +37,7 @@ Console::Console() {
     label_->setTextWidth(240);
     label_->setZValue(99);
     label_->update();
-    
+    hide();
 }
 
 Console::~Console() {}
@@ -51,7 +51,7 @@ void Console::addText(QString text) {
     charFormat.setTextOutline(outlinePen);
 
     mutex_.lock();
-    if(display_->size() > 2) {
+    if(display_->size() > 4) {
 	display_->pop_back();
     }
     display_->push_front(text.leftJustified(50));
@@ -65,10 +65,29 @@ void Console::addText(QString text) {
     cursor.insertText(tmp, charFormat);
 
     label_->setDocument(doc);
+    rect_->setRect(label_->boundingRect());
     label_->update();
+    rect_->update();
     
     mutex_.unlock();
 }
 
+void Console::hide() {
+    label_->hide();
+    rect_->hide();
+}
+
+void Console::show() {
+    label_->show();
+    rect_->show();
+}
+
+void Console::toggle() {
+    if(label_->isVisible()) {
+	hide();
+    } else {
+	show();
+    }
+}
 
 } //end of namespace

@@ -69,6 +69,14 @@ public:
      */    
     void show();
 
+    /**
+     * toggles the console 
+     *
+     * @author Terence Stenvold
+     */    
+    void toggle();
+
+
 };
 
 }
