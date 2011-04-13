@@ -163,15 +163,17 @@ void NPC::createEffect(int effectType)
     case EFFECT_TAR:
         effect = new NPCTarEffect(this);
         break;
-    case EFFECT_BURN:
+    case EFFECT_FIRE:
         if (effects_.contains(EFFECT_TAR))
         {
+            deleteEffect(*effects_.find(EFFECT_TAR));
             effect = new NPCBurnEffect(this);
             break;
         }
-        // Fall through if there is no tar effect in place
-    case EFFECT_FIRE:
-        effect = new FireEffect(this);
+        else
+        {
+            effect = new FireEffect(this);
+        }
         break;
     case EFFECT_FLAK:
         effect = new FlakEffect(this);
