@@ -142,7 +142,7 @@
 #define TIME_TO_DISAPPEAR       800
 #define FLICKER_RATE            12
 #define FLICKER_POINT           (int) (TIME_TO_DISAPPEAR * 0.25) \
-    - (int) (TIME_TO_DISAPPEAR * 0.25) % FLICKER_RATE
+                              - (int) (TIME_TO_DISAPPEAR * 0.25) % FLICKER_RATE
 
 // healthbar info (sizes are in pixels)
 #define HEALTHBAR_WIDTH     50

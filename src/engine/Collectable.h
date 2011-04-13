@@ -213,6 +213,16 @@ public:
     int getDisappearCount() {
         return disappearCount_;
     }
+    
+    /**
+     * Sets whether or not the collectable has come to a rest.
+     *
+     * @author Dean Morin
+     * @param atEndOfPath True if the collectable has landed.
+     */
+    void setAtEndOfPath(bool atEndOfPath) {
+        atEndOfPath_ = atEndOfPath;
+    }
 
 signals:
     /**
@@ -249,6 +259,9 @@ private:
     /** The number of game ticks before the collectable disappears, if not
      *  picked up. */
     int disappearCount_;
+
+    /** True when the collectable stops moving. */
+    bool atEndOfPath_;
 };
 
 } // end namespace td
