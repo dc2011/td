@@ -104,11 +104,11 @@
 
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20
+#define TAR_TIME        100
 #define ARROW_TIME      1
 #define FLAK_TIME       1
 #define CANNON_TIME     1
 #define FIRE_TIME       1
-#define TAR_TIME        50
 #define BURN_TIME       5
 //DONT USE THIS MACRO UNLESS YOUR NAME IS DTRAIN
 #define NO_TIME         0,false

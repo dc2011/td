@@ -34,9 +34,7 @@ CannonEffect::CannonEffect(Unit* unit)
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
-void CannonEffect::apply() {
-    //unit_->setVelocity(velocityChangeValue_);
-}
+void CannonEffect::apply() {}
 
 FlakEffect::FlakEffect(Unit* unit)
         : Effect(unit, FLAK_TIME, EFFECT_FLAK, TRUE){
@@ -44,9 +42,7 @@ FlakEffect::FlakEffect(Unit* unit)
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
-void FlakEffect::apply(){
-    //unit_->setVelocity(velocityChangeValue_);
-}
+void FlakEffect::apply(){}
 
 PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
     : Effect(unit, EFFECT_SLOW, NO_TIME) {
@@ -88,7 +84,7 @@ NPCTarEffect::NPCTarEffect(Unit* unit)
     : Effect(unit, EFFECT_TAR, TAR_TIME) {
     oldVelocity_ = ((NPCPhysicsComponent*)(unit_->getPhysicsComponent()))->getMaxVelocity();
 
-    velocityChangeValue_ = oldVelocity_/5;
+    velocityChangeValue_ = oldVelocity_/3;
     healthChangeValue_ = -25;
 
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth()
@@ -106,10 +102,11 @@ void NPCTarEffect::apply() {}
 FireEffect::FireEffect(Unit* unit)
         : Effect(unit, FIRE_TIME, EFFECT_FIRE, TRUE){
     healthChangeValue_ = -10;
+    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
 void FireEffect::apply(){
-    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
+
 }
 
 NPCBurnEffect::NPCBurnEffect(Unit* unit):Effect(unit, EFFECT_BURN, BURN_TIME) {
