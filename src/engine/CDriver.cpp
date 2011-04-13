@@ -196,7 +196,7 @@ void CDriver::requestResourceAddition(BuildingTower* t) {
     if (isSinglePlayer()) {
         if (addToTower(t, human_)) {
             if (t->isDone()) {
-                createTower(t->getType(), t->getPos());
+                Driver::createTower(t->getType(), t->getPos());
                 destroyObject(t);
             }
             human_->dropResource(true);
