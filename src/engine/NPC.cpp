@@ -13,8 +13,6 @@ NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
     QVector2D force(0, 0);
     this->setForce(force);
     this->setVelocity(force);
-    this->setHeight(90);
-    this->setWidth(30);
     pos_.setX(50);
     pos_.setY(50);
 
@@ -172,6 +170,15 @@ void NPC::createEffect(int effectType)
             break;
         }
         // Fall through if there is no tar effect in place
+    case EFFECT_FIRE:
+        effect = new FireEffect(this);
+        break;
+    case EFFECT_FLAK:
+        effect = new FlakEffect(this);
+        break;
+    case EFFECT_CANNON:
+        effect = new CannonEffect(this);
+        break;
     default:
         return;
     }

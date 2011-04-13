@@ -103,7 +103,6 @@ public:
 
     virtual bool isValidTarget(Unit*) = 0;
 
-
 private:
 
     /** The line between the tower and its current target. */
