@@ -32,10 +32,11 @@ void CollectablePhysicsComponent::setScale(Collectable *collectable) {
         duration_ = collectable->getPath().length() / maxVelocity_;
         increment_ = 0;
     }
-    if (increment_++ < (duration_ / 2)) {
-        collectable->setScale(collectable->getScale() + 0.05);
+    if ((increment_++ < (duration_ / 3)) || (increment_ < (duration_ * 4 / 3)))
+    {
+        collectable->setScale(collectable->getScale() + 0.1);
     } else if (increment_ < duration_) {
-        collectable->setScale(collectable->getScale() - 0.05);
+        collectable->setScale(collectable->getScale() - 0.1);
     }
 }
 

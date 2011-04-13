@@ -34,12 +34,17 @@ public:
     void setPath(QPointF* start, QPointF* end);
 
     /**
-     * Applies a direction to the position.
-     * This function uses path to find angle
+     * Updates the force for the collectable.
      *
-     * @author Joel Stewart , Marcel Vangrootheest
+     * @author Marcel Vangrootheest
      */
-    void applyDirection();
+    virtual void update();
+    /**
+     * Makes a force that will follow the path set.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void makeForce();
 
 protected:
     /** The collectable this component applies to. */
