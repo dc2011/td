@@ -20,7 +20,6 @@ void EndingGraphicsComponent::animate() {
         ++pixmapIndex_ > arrayIndexMax_ ? pixmapIndex_ = arrayIndexMin_
             : pixmapIndex_;
         setImgIndex(pixmapIndex_);
-
     }
 }
 

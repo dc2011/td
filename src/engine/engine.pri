@@ -15,8 +15,7 @@ ENGINE_HDRS +=  ./engine/Collectable.h \
                 ./engine/BuildingTower.h \
                 ./engine/Resource.h \
                 ./engine/Unit.h \
-                ./engine/Parser.h \
-                ./engine/Ending.h
+                ./engine/Parser.h
 
 
 ENGINE_SRCS +=  ./engine/Collectable.cpp \
@@ -36,8 +35,7 @@ ENGINE_SRCS +=  ./engine/Collectable.cpp \
                 ./engine/BuildingTower.cpp \
                 ./engine/Resource.cpp \
                 ./engine/Unit.cpp \
-                ./engine/Parser.cpp \
-                ./engine/Ending.cpp
+                ./engine/Parser.cpp
 
 # Client-side engine headers and sources
 ENGINE_HDRS_C +=    $$ENGINE_HDRS \

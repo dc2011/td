@@ -2,6 +2,7 @@
 #define ENDINGGRAPHICSCOMPONENT_H
 
 #include "GraphicsComponent.h"
+#include <QDebug>
 
 namespace td {
 
@@ -9,7 +10,8 @@ class EndingGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
 public:
-    EndingGraphicsComponent() : GraphicsComponent() {
+    EndingGraphicsComponent(const QPointF& pos)
+        : GraphicsComponent(), pos_(pos), currentIndex_(0)  {
 
     }
 
@@ -23,11 +25,14 @@ public:
 
     virtual void initPixmaps() = 0;
 
-    virtual void animate();
+    virtual void animate();    
 
 protected:
     int arrayIndexMin_;
     int arrayIndexMax_;
+    int currentIndex_;
+    int timerID_;
+    QPointF pos_;
 
 private:
     virtual void setNonStaticValues() = 0;
@@ -44,13 +49,31 @@ class CannonEndingGraphicsComponent : public EndingGraphicsComponent {
     Q_OBJECT
 
 public:
-    CannonEndingGraphicsComponent() : EndingGraphicsComponent() {
+    CannonEndingGraphicsComponent(const QPointF& pos)
+        : EndingGraphicsComponent(pos) {
         emit created(this);
+        timerID_ = this->startTimer(35);
     }
 
     virtual ~CannonEndingGraphicsComponent() { }
 
     virtual void initPixmaps();
+
+    virtual QPixmap* getPixmapArray() {
+        return pixmapImgs_;
+    }
+
+protected:
+    void timerEvent(QTimerEvent*) {
+        if (currentIndex_++ > arrayIndexMax_ + 1) {
+            this->deleteComponent();
+            this->killTimer(timerID_);
+            return;
+        }
+        DrawParams* dp = new DrawParams();
+        dp->pos = this->pos_;
+        this->draw(dp, LAYER_FLYNPC);
+    }
 
 private:
     virtual void setLayer(DrawParams *dp);

@@ -78,21 +78,34 @@ bool BuildingTower::isDone() {
 void BuildingTower::initComponents() {
     switch (type_) {
         case TOWER_ARROW:
-            wood_   = 1;
-            bone_   = 1;
+            wood_   = COST_ARROW_WOOD;
+            bone_   = COST_ARROW_BONE;
+            stone_  = COST_ARROW_STONE;
+            oil_    = COST_ARROW_OIL;
             break;
         case TOWER_CANNON:
-            stone_  = 1;
+            wood_   = COST_CANNON_WOOD;
+            bone_   = COST_CANNON_BONE;
+            stone_  = COST_CANNON_STONE;
+            oil_    = COST_CANNON_OIL;
             break;
         case TOWER_FLAME:
-            bone_   = 2;
+            wood_   = COST_CANNON_WOOD;
+            bone_   = COST_CANNON_BONE;
+            stone_  = COST_CANNON_STONE;
+            oil_    = COST_CANNON_OIL;
             break;
         case TOWER_TAR:
-            oil_  = 2;
+            wood_   = COST_FLAME_WOOD;
+            bone_   = COST_FLAME_BONE;
+            stone_  = COST_FLAME_STONE;
+            oil_    = COST_FLAME_OIL;
             break;
         case TOWER_FLAK:
-            wood_   = 1;
-            bone_   = 1;
+            wood_   = COST_FLAK_WOOD;
+            bone_   = COST_FLAK_BONE;
+            stone_  = COST_FLAK_STONE;
+            oil_    = COST_FLAK_OIL;
             break;
     }
     totalResources_ = wood_ + bone_ + oil_ + stone_;
