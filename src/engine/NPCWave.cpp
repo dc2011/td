@@ -59,15 +59,19 @@ void NPCWave::update() {
         children_.insert(npc);
 
     }
-
+#ifdef SERVER
     Stream s;
     s.writeShort(children_.size());
+    #endif
     foreach (NPC* npc, children_) {
         npc->update();
+        #ifdef SERVER
         npc->networkWrite(&s);
+        #endif
     }
-
+#ifdef SERVER
     getDriver()->sendNetMessage(network::kNPCWave, s.data());
+#endif
 }
 
 }
