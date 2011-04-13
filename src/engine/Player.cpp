@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "Driver.h"
+#include "tile.h"
+#include "EffectTypes.h"
 #include "../graphics/PlayerGraphicsComponent.h"
 #include "../audio/SfxManager.h"
 #include "../graphics/Console.h"
@@ -60,24 +62,63 @@ void Player::update() {
     if (harvesting_ != RESOURCE_NONE) {
         harvestResource();
     }
-}
 
-void Player::createEffect(Effect* effect){
-    if (!effects_.contains(*effect)) {
-        emit signalEmptyEffectList();
-        QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
-            this, SLOT(deleteEffect(Effect*)));
-        connect(getDriver()->getTimer(), SIGNAL(timeout()),
-            effect, SLOT(update()));
-        
-        effects_.push_back(*effect);
-    } else {
-        delete effect;
+    tileThatPlayerIsOn_ = getDriver()->getGameMap()->getTile(getPos());
+    int tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
+    switch(tileEffect) {
+        case Tile::NONE:
+            break;
+        case Tile::SLOW:
+            createEffect(EFFECT_SLOW);
+            break;
+        case Tile::FAST:
+            createEffect(EFFECT_FAST);
+            break;
+        default:
+            break;
     }
 }
 
-void Player::deleteEffect(Effect* effect){
-    effects_.removeOne(*effect);
+void Player::createEffect(int effectType)
+{
+    // Check to see if this effect is already applied
+    if (!effects_.contains(effectType))
+    {
+        Effect* effect;
+
+        // Create the effect
+        switch (effectType)
+        {
+        case EFFECT_FAST:
+            effect = new PlayerTerrainFastEffect(this);
+            break;
+        case EFFECT_SLOW:
+            effect = new PlayerTerrainSlowEffect(this);
+            break;
+        case EFFECT_NPCPLAYER:
+            effect = new NPCPlayerEffect(this);
+            break;
+        default:
+            return;
+        }
+
+        // Dean's sound signal thing
+        emit signalEmptyEffectList();
+
+        // Connect signal rubbish
+        QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
+                         this, SLOT(deleteEffect(Effect*)));
+        QObject::connect(getDriver()->getTimer(), SIGNAL(timeout()),
+                         effect, SLOT(update()));
+
+        // Insert the effect into the map
+        effects_.insert(effectType, effect);
+    }
+}
+
+void Player::deleteEffect(Effect* effect)
+{
+    effects_.remove(effect->getType());
     delete effect;
 }
 
@@ -139,7 +180,7 @@ void Player::dropResource(bool addToTower) {
         getGraphicsComponent()->setCurrentResource(RESOURCE_NONE);
     }
 }
-    
+
 void Player::harvestResource() {
     if (--harvestCountdown_ <= 0) {
         resource_ = harvesting_;

@@ -9,13 +9,6 @@
 #include "Unit.h"
 #include "../physics/PhysicsComponent.h"
 
-// effect types for operator==
-#define EFFECT_NONE         0
-#define EFFECT_NPCPLAYER    1
-#define EFFECT_TERRAIN      2
-#define EFFECT_ARROW        3
-#define EFFECT_TAR          4
-
 namespace td {
 
 class Effect : public GameObject {
@@ -34,7 +27,7 @@ public:
     */
 
     Effect(const Effect& e);
-    Effect(Unit* unit, int duration, uint type, bool timerEnabled = true);
+    Effect(Unit* unit, uint type, int duration, bool timerEnabled = true);
     ~Effect();
 
     Effect& operator=(const Effect &rhs);
@@ -64,12 +57,20 @@ public:
     void setDuration(size_t duration);
     size_t getDuration();
 
-    void setVelocityChangeValue(QVector2D velocity);
-    QVector2D getVelocityChangeValue();
+    void setVelocityChangeValue(float velocity);
+    float getVelocityChangeValue();
 
     void setHealthChangeValue(int healthChange);
     int getHealthChangeValue();
 
+    /*inline getter*/
+    Unit* getUnit() {
+        return unit_;
+    }
+    /*inline setter*/
+    void setOldVelocity(float oldVelocity) {
+        oldVelocity_ = oldVelocity;
+    }
     /**
      * Returns the type of Effect.
      *
@@ -80,7 +81,6 @@ public:
         return type_;
     }
 
-private:
     void countdown();
 
 public slots:
@@ -103,7 +103,8 @@ protected:
     //EffectType type_;
     size_t duration_;
     int healthChangeValue_;
-    QVector2D velocityChangeValue_;
+    float velocityChangeValue_;
+    float oldVelocity_;
     uint type_;
     bool timerEnabled_;
     bool applyEnabled_;

@@ -2,7 +2,6 @@
 #include <map.h>
 #include <tile.h>
 #include "ContextMenu.h"
-#include "GameInfo.h"
 #include "GameObject.h"
 #include "Map.h"
 #include "NPC.h"
@@ -146,8 +145,8 @@ void CDriver::makeLocalPlayer(Player* player) {
             gameMap_, SLOT(getTileType(double, double, int*)));
 
     // NPC -> Player effect
-    connect(physics, SIGNAL(NPCPlayerCollided(Effect*)), 
-            human_, SLOT(createEffect(Effect*)));
+    connect(physics, SIGNAL(NPCPlayerCollided(int)), 
+            human_, SLOT(createEffect(int)));
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             player, SLOT(showName(bool)));
 
@@ -345,7 +344,7 @@ void CDriver::UDPReceived(Stream* s) {
         }
         case network::kDropResource:
         {
-            int id = s->readInt();
+            unsigned int id = s->readInt();
             bool addToTower = s->readInt();
             
             if (human_->getID() == id) {
@@ -364,6 +363,17 @@ void CDriver::UDPReceived(Stream* s) {
             int health = s->readInt();
 
             setBaseHealth(health);
+            break;
+        }
+        case network::kGameOver:
+        {
+            bool successful = s->readByte();
+
+            if (successful) {
+                Console::instance()->addText("You won :D");
+            } else {
+                Console::instance()->addText("You lost :(");
+            }
             break;
         }
         case network::kVoiceMessage:
