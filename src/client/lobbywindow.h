@@ -38,7 +38,9 @@ private slots:
      */
     void writeSettings();
 
+
 private:
+    void updateListOfUserNames(QList<QString*>);
     /**
      * Reads the last used settings from a persistent file.
      *

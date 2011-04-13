@@ -70,7 +70,8 @@ void LobbyWindow::connectLobby()
     }
     s->writeByte(ui->txtUsername->text().length());
     s->write(ui->txtUsername->text().toAscii());
-
+    //placeholder for game number
+    s->writeInt(1);
     PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
     delete s;
@@ -102,6 +103,18 @@ void LobbyWindow::onTCPReceived(Stream* s)
             if (players == 1) {
                 ui->btnStart->setEnabled(true);
             }
+            
+            break;
+        }
+        case network::kUpdateUserList:
+        {
+            QList<QString*> names;
+            int numOfNames = s->readInt();
+            for(int i = 0; i < numOfNames; i++) {
+                int len = s->readInt();
+                names.push_back(new QString(s->read(len)));
+            }
+            updateListOfUserNames(names);
             break;
         }
         case network::kLobbyStartGame:
@@ -152,6 +165,9 @@ void LobbyWindow::applyStyleSheet(QString path) {
     f.open(QIODevice::ReadOnly);
     this->setStyleSheet(QString(f.readAll()));
     f.close();
+}
+void LobbyWindow::updateListOfUserNames(QList<QString*>) {
+    //update gui here
 }
 
 } /* end namespace td */
