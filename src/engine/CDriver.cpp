@@ -212,6 +212,17 @@ void CDriver::requestResourceAddition(BuildingTower* t) {
     }
 }
 
+void CDriver::requestSellTower(QPointF pos) {
+    if (isSinglePlayer()) {
+        Driver::sellTower(pos);
+    } else {
+        Stream s;
+        s.writeInt(human_->getID());
+        s.writeFloat(t->getPos().x());
+        s.writeFloat(t->getPos().y());
+        NetworkClient::instance()->send(network::kSellTower, s.data());
+    }
+}
 void CDriver::NPCCreator() {
     NPC* npc = NULL;
 
@@ -294,6 +305,7 @@ void CDriver::handleSpacebarPress() {
             break;
         case TILE_BUILT:
             //TODO Tower upgrade/sell context menu toggle
+            requestSellTower(currentTile->getPos());
         case TILE_BASE:
             //TODO Player upgrade context menu toggle
             break;

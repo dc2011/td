@@ -192,7 +192,37 @@ public:
     Resource* createResource(int type);
 
     /**
-     * Need to find object with res manager. Did I do it right?
+     * Sells the tower at specified position.
+     * This will create collectables based on tower type.
+     *
+     * @author Marcel Vangrootheest
+     * @param pos The position of the tower to sell.
+     */
+    void sellTower(QPointF pos);
+
+    /**
+     * Makes a random vector for the collectable drop.
+     *
+     * @author Marcel Vangrootheest
+     * @return A random vector
+     */
+    virtual QVector2D getRandomVector();
+
+    /**
+     * Creates all the collectables associated with a tower type.
+     *
+     * @author Marcel Vangrootheest
+     * @param wood The number of wood collectables to create.
+     * @param stone The number of stone collectables to create.
+     * @param bone The number of bone collectables to create.
+     * @param oil The number of oil collectables to create.
+     * @param gem The number of gem collectables to create.
+     */
+    void Driver::dropCollectables(QPointF pos,
+        int wood, int stone, int bone, int oil, int gem) {
+
+    /**
+     * Need to find object with res manager.
      *
      * @author Marcel Vangrootheest
      * @param id The id to find the object with.
