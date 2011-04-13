@@ -13,6 +13,7 @@ Keymap::Keymap(QWidget *parent) :
     QSettings settings;
     settings.beginGroup("keymap");
     menuKey = QKeySequence(settings.value("menu", "Space").toString());
+    ui->btnMenu->setText(menuKey.toString());
     settings.endGroup();
 
     connect(this, SIGNAL(close()), this, SLOT(closewindow()));
