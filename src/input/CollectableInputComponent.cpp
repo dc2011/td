@@ -47,8 +47,7 @@ void CollectableInputComponent::makeForce(){
         } else {
             parent_->setScale(RESOURCE_SIZE);
         }
-        disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
-                   parent_, SLOT(update()));
+        parent_->setAtEndOfPath(true);
     } else {
         force = QVector2D(parent_->getPath().unitVector().dx() * -1,
                           parent_->getPath().unitVector().dy() * -1);

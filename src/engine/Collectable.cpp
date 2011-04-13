@@ -6,7 +6,8 @@
 namespace td {
 
 Collectable::Collectable(QObject* parent) 
-        : Unit(parent), disappearCount_(TIME_TO_DISAPPEAR) {
+        : Unit(parent), disappearCount_(TIME_TO_DISAPPEAR), 
+          atEndOfPath_(false) {
     start_ = new QPointF(0,0);
     end_ = new QPointF(0,0);
     scale_ = 1;
@@ -113,17 +114,18 @@ void Collectable::setPath(QPointF source, QVector2D velocity) {
 void Collectable::update() {
     if (--disappearCount_ <= 0) {
         emit deleteCollectableLater(getID());
-        disconnect(this, SIGNAL(deleteCollectableLater(int)),
-                   getDriver(), SLOT(destroyObject(int)));
         return;
     }
+    
+    if (!atEndOfPath_) {
+        if (input_ != NULL) {
+            input_->update();
+        }
+        if (physics_ != NULL) {
+            physics_->update(this);
+        }
+    }
 
-    if (input_ != NULL) {
-        input_->update();
-    }
-    if (physics_ != NULL) {
-        physics_->update(this);
-    }
     if (graphics_ != NULL) {
         graphics_->update(this);
     }

@@ -9,12 +9,13 @@ CollectableGraphicsComponent::~CollectableGraphicsComponent() {}
 void CollectableGraphicsComponent::update(GameObject* obj) {
     Collectable* collectable = (Collectable*)obj;
 
-    if (!collectable->isDirty()) {
+    int timeLeft = collectable->getDisappearCount();
+
+    if (timeLeft > FLICKER_POINT && !collectable->isDirty()) {
         return;
     }
     collectable->resetDirty();
 
-    int timeLeft = collectable->getDisappearCount();
 
     DrawParams* dp = new DrawParams();
 
