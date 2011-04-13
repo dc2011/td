@@ -10,6 +10,7 @@
 #include "../physics/ProjectilePhysicsComponentTypes.h"
 #include "../graphics/ProjectileGraphicsComponentTypes.h"
 #include "Driver.h"
+#include "../graphics/EndingGraphicsComponent.h"
 
 namespace td {
 
@@ -22,6 +23,21 @@ Projectile::Projectile(QObject* parent) : Unit(parent) {
 }
 
 Projectile::~Projectile() {
+#ifndef SERVER
+    switch (type_) {
+    case PROJ_ARROW:
+        break;
+    case PROJ_CANNON:
+        new CannonEndingGraphicsComponent(pos_);
+        break;
+    case PROJ_FIRE:
+        break;
+    case PROJ_FLAK:
+        break;
+    case PROJ_TAR:
+        break;
+    }
+#endif
     delete start_;
     delete end_;
 }

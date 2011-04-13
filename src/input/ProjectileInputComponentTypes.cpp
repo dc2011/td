@@ -67,7 +67,6 @@ void ArrowProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
                 ((NPC*)(*it))->createEffect(EFFECT_ARROW);
                 break;
             }
-
         }
     }
 }
