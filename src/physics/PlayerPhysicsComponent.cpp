@@ -209,66 +209,6 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
     }
 }
 
-bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
-    int blockingType = 0;
-
-    emit requestTileType(newPos.x(), newPos.y(), &blockingType);
-
-    if (blockingType == Tile::OPEN) {
-        return true;
-    }
-
-    else if (blockingType == Tile::CLOSED) {
-        return false;
-    }
-
-    else {
-        // TODO: This is where we will call a function to determine what areas
-        // are blocked due to other blocking types or other units
-        if (checkSemiBlocked(newPos, blockingType)) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
-
-    float posX = (int) pos.x() % TILE_WIDTH;
-    float posY = (int) pos.y() % TILE_HEIGHT;
-
-    switch(type) {
-        case Tile::NORTH_WEST:
-            if (posY > (TILE_WIDTH - posX)) {
-                return false;
-            }
-            break;
-
-        case Tile::NORTH_EAST:
-            if ((posX < posY)) {
-                return false;
-            }
-            break;
-
-        case Tile::SOUTH_WEST:
-            if ((posX > posY)) {
-                return false;
-            }
-            break;
-
-        case Tile::SOUTH_EAST:
-            if (posY < (TILE_WIDTH - posX)) {
-                return false;
-            }
-            break;
-
-        default:
-            break;
-    }
-
-    return true;
-}
-
 void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
     QSet<Unit*>::iterator it;
     QPolygonF playerBounds;

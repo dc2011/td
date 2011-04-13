@@ -55,6 +55,7 @@ public:
 private:
     int duration_;
     int increment_;
+    int counter_;
 };
 
 class TarProjectileInputComponent : public ProjectileInputComponent {
