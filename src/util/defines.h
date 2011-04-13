@@ -122,7 +122,7 @@
 #define FLAK_VELOCITY   15
 
 // collectable velocity
-#define COLLECTABLE_VELOCITY    10
+#define COLLECTABLE_VELOCITY    5
 
 // healthbar info (sizes are in pixels)
 #define HEALTHBAR_WIDTH     50

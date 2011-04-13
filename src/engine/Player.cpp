@@ -124,7 +124,7 @@ void Player::dropResource(bool addToTower) {
 	    Console::instance()->addText("Added Resource");
 #endif
     } else {
-        emit signalDropResource(resource_, pos_, QVector2D(75,0));
+        emit signalDropResource(resource_, pos_, getRandomVector());
 #ifndef SERVER
 	    Console::instance()->addText("Dropped Resource");
 #endif

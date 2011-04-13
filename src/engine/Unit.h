@@ -149,6 +149,14 @@ public:
         myBounds_ = bound;
     }
 
+    /**
+     * Makes a random vector for the collectable drop.
+     *
+     * @author Marcel Vangrootheest
+     * @return A random vector
+     */
+    QVector2D getRandomVector();
+
 protected:
     QVector2D velocity_;
     QVector2D force_;
