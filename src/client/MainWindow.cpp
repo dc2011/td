@@ -135,8 +135,8 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         return;
     }
 
-    QKeySequence key((int)event->modifiers() ? (int)event->modifiers() : event->key(),
-                        (int)event->modifiers() ? event->key() : 0);
+    int mods = event->modifiers();
+    QKeySequence key(mods ? mods : event->key(), mods ? event->key() : 0);
     
     if(consoleOpen_ == true) {
         if(event->key() == Qt::Key_Return) {
@@ -190,18 +190,18 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
     } else if (keys_.arrowRight.matches(key) == QKeySequence::ExactMatch) {
         /* Arrow Right key => RIGHT */
         keysHeld_ |= KEYRIGHT;
+    } else if (event->key() == Qt::Key_Escape) {
+        /* Open the keymap editor => ESC */
+        KeymapDialog* km = new KeymapDialog();
+        if (km->exec() == QDialog::Accepted) {
+            km->savemap();
+        }
     } else {
         /* Any other key */
         QMainWindow::keyPressEvent(event);
     }
 
     switch (event->key()) {
-        case Qt::Key_K:
-        {
-            KeymapDialog* km = new KeymapDialog();
-            km->show();
-            break;
-        }
         case Qt::Key_1:
         case Qt::Key_2:
         case Qt::Key_3:
@@ -222,37 +222,38 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
     if(event->isAutoRepeat() || consoleOpen_ == true) {
         return;
     }
-    
-    switch (event->key()) {
 
-        case Qt::Key_Up:
-            keysHeld_ ^= KEYUP;
-            emit signalKeyReleased(event->key());
-            break;
-        case Qt::Key_Down:
-            keysHeld_ ^= KEYDOWN;
-            emit signalKeyReleased(event->key());
-            break;
-        case Qt::Key_Left:
-            keysHeld_ ^= KEYLEFT;
-            emit signalKeyReleased(event->key());
-            break;
-        case Qt::Key_Right:
-            keysHeld_ ^= KEYRIGHT;
-            emit signalKeyReleased(event->key());
-            break;
-        case Qt::Key_R:
-            emit signalAltHeld(false);
-            break;
-        case Qt::Key_V:
-            //AudioManager::instance()->toggleCapturePause();
-            break;
-        case Qt::Key_Space:
-            emit signalSpacebarReleased();
-            break;
-        default:
-            QMainWindow::keyPressEvent(event);
-            break;
+    int mods = event->modifiers();
+    QKeySequence key(mods ? mods : event->key(), mods ? event->key() : 0);
+
+    if (keys_.menuKey.matches(key) == QKeySequence::ExactMatch) {
+        /* Menu key => Spacebar */
+        emit signalSpacebarReleased();
+    } else if (keys_.extraInfoKey.matches(key) == QKeySequence::ExactMatch) {
+        /* Extra info key => R */
+        emit signalAltHeld(false);
+    } else if (keys_.voiceKey.matches(key) == QKeySequence::ExactMatch) {
+        /* Voice key => V */
+        // Temporarily disabled
+        //AudioManager::instance()->toggleCapturePause();
+    } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
+        /* Arrow Up key => UP */
+        keysHeld_ ^= KEYUP;
+        emit signalKeyReleased(Qt::Key_Up);
+    } else if (keys_.arrowDown.matches(key) == QKeySequence::ExactMatch) {
+        /* Arrow Down key => DOWN */
+        keysHeld_ ^= KEYDOWN;
+        emit signalKeyReleased(Qt::Key_Down);
+    } else if (keys_.arrowLeft.matches(key) == QKeySequence::ExactMatch) {
+        /* Arrow Left key => LEFT */
+        keysHeld_ ^= KEYLEFT;
+        emit signalKeyReleased(Qt::Key_Left);
+    } else if (keys_.arrowRight.matches(key) == QKeySequence::ExactMatch) {
+        /* Arrow Right key => RIGHT */
+        keysHeld_ ^= KEYRIGHT;
+        emit signalKeyReleased(Qt::Key_Right);
+    } else {
+        QMainWindow::keyPressEvent(event);
     }
 }
 

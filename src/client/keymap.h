@@ -30,8 +30,7 @@ public:
     explicit KeymapDialog(QWidget *parent = 0);
     ~KeymapDialog();
 
-private slots:
-    void closewindow();
+    void savemap();
 
 private:
     Ui::KeymapDialog *ui;

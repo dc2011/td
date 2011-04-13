@@ -38,8 +38,6 @@ KeymapDialog::KeymapDialog(QWidget *parent) :
     ui->btnArrowRight->setText(keys.arrowRight.toString());
 
     settings.endGroup();
-
-    connect(this, SIGNAL(accepted()), this, SLOT(closewindow()));
 }
 
 KeymapDialog::~KeymapDialog()
@@ -47,7 +45,7 @@ KeymapDialog::~KeymapDialog()
     delete ui;
 }
 
-void KeymapDialog::closewindow() {
+void KeymapDialog::savemap() {
     QSettings settings;
     settings.beginGroup("keymap");
 
@@ -56,7 +54,14 @@ void KeymapDialog::closewindow() {
     settings.setValue("console", keys.consoleKey.toString());
     settings.setValue("voice", keys.voiceKey.toString());
 
+    settings.setValue("arrowup", keys.arrowUp.toString());
+    settings.setValue("arrowdown", keys.arrowDown.toString());
+    settings.setValue("arrowleft", keys.arrowLeft.toString());
+    settings.setValue("arrowright", keys.arrowRight.toString());
+
     settings.endGroup();
+
+    QDialog::accept();
 }
 
 } /* end namespace td */
