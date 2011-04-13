@@ -64,7 +64,7 @@ void ArrowProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
                 //create projectile effect
                 //add effect to npc
                 //qDebug("Enemy hit");
-                ((NPC*)(*it))->createEffect(new ArrowEffect(*it));
+                ((NPC*)(*it))->createEffect(EFFECT_ARROW);
                 break;
             }
 
@@ -142,13 +142,15 @@ void FireProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
                 continue;
             }
 
+            // NEED TO MAKE A DIFFERENCE HERE BETWEEN BURNING EFFECT AND NORMAL
+            // DAMAGE EFFECTS
             projBounds = parent_->getBounds();
             npcBounds = (*it)->getBounds();
             if(parent_->getBounds().intersected((*it)->getBounds()).count() != 0){
                 //create projectile effect
                 //add effect to npc
                 //qDebug("Enemy hit");
-                ((NPC*)(*it))->createEffect(new NPCTarEffect(*it));
+                ((NPC*)(*it))->createEffect(EFFECT_BURN);
             }else{
                 //qDebug("No hit");
             }
@@ -186,7 +188,7 @@ void TarProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
                 //create projectile effect
                 //add effect to npc
                 //qDebug("Enemy hit");
-                ((NPC*)(*it))->createEffect(new NPCTarEffect(*it));
+                ((NPC*)(*it))->createEffect(EFFECT_TAR);
             }else{
                 //qDebug("No hit");
             }
@@ -225,7 +227,7 @@ void FlakProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
                 //create projectile effect
                 //add effect to npc
                 //qDebug("Enemy hit");
-                ((NPC*)(*it))->createEffect(new FlakEffect(*it));
+                ((NPC*)(*it))->createEffect(EFFECT_FLAK);
             }else{
                 //qDebug("No hit");
             }
@@ -259,7 +261,7 @@ void CannonProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
             projBounds = parent_->getBounds();
             npcBounds = (*it)->getBounds();
             if(parent_->getBounds().intersected((*it)->getBounds()).count() != 0){
-                ((NPC*)(*it))->createEffect(new CannonEffect(*it));
+                ((NPC*)(*it))->createEffect(EFFECT_CANNON);
             }
         }
     }

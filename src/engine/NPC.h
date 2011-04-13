@@ -7,6 +7,7 @@
 
 #include "Unit.h"
 #include "Effect.h"
+#include "EffectTypes.h"
 #include "../input/NPCInputComponentTypes.h"
 #include "../physics/NPCPhysicsComponentTypes.h"
 #include "../graphics/NPCGraphicsComponentTypes.h"
@@ -157,9 +158,10 @@ public slots:
      *
      * @author Pan K.
      * @author Marcel Vangrootheest
+     * @author Luke Queennan
      * @param type Type of effect.
      */
-    void createEffect(Effect* effect);
+    void createEffect(int effectType);
 
     /**
      * Remove effect from the effect list.
@@ -174,7 +176,7 @@ private:
     int health_;
     int damage_;
     int maxHealth_;
-    QList<Effect> effects_;
+    QMap<int, Effect*> effects_;
     int height_;
     int width_;
     int type_;

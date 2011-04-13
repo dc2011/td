@@ -106,4 +106,10 @@ void Stream::write(const QByteArray& value)
     position_ += value.size();
 }
 
+void Stream::write(const char* value, const int length)
+{
+    data_ += QByteArray::fromRawData(value, length);
+    position_ += length;
+}
+
 } /* end namespace td */
