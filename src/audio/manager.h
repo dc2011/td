@@ -323,6 +323,60 @@ public:
 	captureStop_ = !captureStop_;
 	mutex_.unlock();
     }
+    
+    /**
+     * Set the music volume
+     *
+     * @author Terence Stenvold
+     */
+    void setMusicVol(int vol);
+
+    /**
+     * Set the sfx volume
+     *
+     * @author Terence Stenvold
+     */
+    void setSfxVol(int vol);
+
+    /**
+     * Set the voice volume
+     *
+     * @author Terence Stenvold
+     */
+    void setVoiceVol(int vol) {
+		
+    }
+
+    /**
+     * Set the music volume
+     *
+     * @author Terence Stenvold
+     * @return volume scale of music
+     */
+    int getMusicVol() {
+	return (int)gainScale[musicGain_] * 100;
+    }
+
+    /**
+     * Set the sfx volume
+     *
+     * @author Terence Stenvold
+     * @return volume scale of sfx
+     */
+    int getSfxVol() {
+	return (int)gainScale[sfxGain_] * 100;
+    }
+
+    /**
+     * get the voice volume
+     *
+     * @author Terence Stenvold
+     * @return volume scale of voice
+     */
+    int getVoiceVol() {
+	return (int)gainScale[VoiceGain_] * 100;
+    }
+
 
     /**
      * Adds the buffer into the cached map
