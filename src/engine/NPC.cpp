@@ -170,6 +170,15 @@ void NPC::createEffect(int effectType)
             break;
         }
         // Fall through if there is no tar effect in place
+    case EFFECT_FIRE:
+        effect = new FireEffect(this);
+        break;
+    case EFFECT_FLAK:
+        effect = new FlakEffect(this);
+        break;
+    case EFFECT_CANNON:
+        effect = new CannonEffect(this);
+        break;
     default:
         return;
     }
