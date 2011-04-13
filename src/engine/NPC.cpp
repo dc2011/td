@@ -193,6 +193,7 @@ void NPC::deleteEffect(Effect* effect){
 
 void NPC::isDead() {
     if(health_ <= 0) {
+        emit signalDropResource(RESOURCE_GEM, pos_, getRandomVector());
         emit dead(this->getID());
     }
 }

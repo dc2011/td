@@ -42,6 +42,11 @@ void CollectableInputComponent::makeForce(){
                              parent_->getPath().p1().x(),
                              parent_->getPath().p1().y());
     if (distance.length() <= parent_->getVelocity().length()) {
+        if (parent_->getType() == RESOURCE_GEM) {
+            parent_->setScale(GEM_SIZE);
+        } else {
+            parent_->setScale(RESOURCE_SIZE);
+        }
         disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                    parent_, SLOT(update()));
     } else {

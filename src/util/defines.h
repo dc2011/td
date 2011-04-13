@@ -122,7 +122,9 @@
 #define FLAK_VELOCITY   15
 
 // collectable velocity
-#define COLLECTABLE_VELOCITY    5
+#define COLLECTABLE_VELOCITY    3
+#define GEM_SIZE                0.6
+#define RESOURCE_SIZE           0.8
 
 // healthbar info (sizes are in pixels)
 #define HEALTHBAR_WIDTH     50

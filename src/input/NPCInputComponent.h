@@ -55,18 +55,6 @@ signals:
      * @param The id of the NPC to be deleted.
      */
     void deleteUnitLater(int id);
-
-    /**
-     * Emmitted when the player drops the resource that they are carrying.
-     *
-     * Connected to requestCollectable() in the driver.
-     *
-     * @author Dean Morin
-     * @param type The resource type.
-     * @param pos The player's coords when he drops the resource.
-     * @param velocity The player's velocity when he drops the resource.
-     */
-    void signalDropResource(int type, QPointF pos, QVector2D velocity);
 };
 
 } /* end namespace td */

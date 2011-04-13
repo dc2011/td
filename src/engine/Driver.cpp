@@ -137,6 +137,8 @@ NPC* Driver::createNPC(int type) {
     npc->initComponents();
 
     //connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
+    connect(npc, SIGNAL(signalDropResource(int, QPointF, QVector2D)),
+            this, SLOT(requestCollectable(int, QPointF, QVector2D)));
 
     return npc;
 }
