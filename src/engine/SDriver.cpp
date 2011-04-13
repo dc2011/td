@@ -296,10 +296,11 @@ void SDriver::onMsgReceive(Stream* s) {
 
             break;
         }
+        case network::kConsoleChat:
         case network::kVoiceMessage:
         {
             QByteArray vc = s->read(s->size() - 1);
-            net_->send(network::kVoiceMessage, vc);
+            net_->send(message, vc);
             break;
         }
         default:
