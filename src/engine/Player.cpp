@@ -63,8 +63,7 @@ void Player::update() {
         harvestResource();
     }
 
-    if (physics_ != NULL)
-    {
+    if (physics_ != NULL) {
         tileThatPlayerIsOn_ = getDriver()->getGameMap()->getTile(getPos());
         int tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
         switch(tileEffect) {
