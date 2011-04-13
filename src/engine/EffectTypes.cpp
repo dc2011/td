@@ -34,9 +34,7 @@ CannonEffect::CannonEffect(Unit* unit)
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
-void CannonEffect::apply() {
-    //unit_->setVelocity(velocityChangeValue_);
-}
+void CannonEffect::apply() {}
 
 FlakEffect::FlakEffect(Unit* unit)
         : Effect(unit, FLAK_TIME, EFFECT_FLAK, TRUE){
@@ -44,9 +42,7 @@ FlakEffect::FlakEffect(Unit* unit)
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
-void FlakEffect::apply(){
-    //unit_->setVelocity(velocityChangeValue_);
-}
+void FlakEffect::apply(){}
 
 PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
     : Effect(unit, EFFECT_SLOW, NO_TIME) {
