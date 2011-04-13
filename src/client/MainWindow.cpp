@@ -136,6 +136,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
 	    tInput = (PlayerInputComponent *)CDriver::instance()->
 		getHuman()->getInputComponent();
 	    tInput->playerMovement(false); 
+	    keysHeld_ = 0;
 	    break;
         case Qt::Key_1:
         case Qt::Key_2:

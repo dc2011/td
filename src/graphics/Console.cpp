@@ -18,6 +18,7 @@ QGraphicsTextItem *Console::label_;
 QGraphicsTextItem *Console::textLabel_; 
 QGraphicsRectItem *Console::rect_;
 int Console::y=-150;
+QTextCharFormat charFormat;
 
 //GLOBAL TODO HERE
 /**
@@ -33,6 +34,15 @@ Console::Console() {
     rect_ = new QGraphicsRectItem();
     text_.append("Say: ");
 
+    
+    QFont font("Monospace");
+    font.setBold(true);
+    QPen outlinePen = QPen (QColor(25, 200, 25), 0.2f, Qt::SolidLine);
+    
+    charFormat.setTextOutline(outlinePen);
+    charFormat.setFont(font);
+    charFormat.setFontPointSize(10);
+    
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
     CDriver::instance()->getMainWindow()->getScene()->addItem(textLabel_);
     CDriver::instance()->getMainWindow()->getScene()->addItem(rect_);
@@ -63,16 +73,7 @@ void Console::addText(QString text) {
     
     QString tmp;
     QTextDocument *doc = new QTextDocument();
-    QTextCharFormat charFormat;
-    QFont font("Monospace");
-    font.setBold(true);
-    QPen outlinePen = QPen (QColor(25, 200, 25), 0.2f, Qt::SolidLine);
     
-    charFormat.setTextOutline(outlinePen);
-    charFormat.setFont(font);
-    charFormat.setFontPointSize(10);
-    
-
     mutex_.lock();
     if(display_->size() > 4) {
 	display_->pop_back();
@@ -146,14 +147,6 @@ void Console::removeChar() {
     text_.chop(1);
     
     QTextDocument *doc = new QTextDocument();
-    QTextCharFormat charFormat;
-    QFont font("Monospace");
-    font.setBold(true);
-    QPen outlinePen = QPen (QColor(25, 200, 25), 0.2f, Qt::SolidLine);
-    
-    charFormat.setTextOutline(outlinePen);
-    charFormat.setFont(font);
-    charFormat.setFontPointSize(10);
     
     QTextCursor cursor = QTextCursor(doc);
     tmp = text_;
@@ -172,16 +165,8 @@ void Console::addChar(QString c) {
 
     text_.append(c);
     QTextDocument *doc = new QTextDocument();
-    QTextCharFormat charFormat;
-    QFont font("Monospace");
-    font.setBold(true);
-    QPen outlinePen = QPen (QColor(25, 200, 25), 0.2f, Qt::SolidLine);
-    
-    charFormat.setTextOutline(outlinePen);
-    charFormat.setFont(font);
-    charFormat.setFontPointSize(10);
-    
     QTextCursor cursor = QTextCursor(doc);
+
     tmp = text_;
     tmp.replace("\n","");
     

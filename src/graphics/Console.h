@@ -90,8 +90,14 @@ public:
      * @param c is the char to add
      */
     void addChar(QString c);
-
+    
+    /**
+     * removes a character for backspaces
+     *
+     * @author Terence Stenvold
+     */
     void removeChar();
+
 private slots:
     void scroll();
 
