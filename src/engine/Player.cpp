@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "Driver.h"
+#include "CDriver.h"
+#include "BuildingTower.h"
 #include "tile.h"
 #include "EffectTypes.h"
 #include "../graphics/PlayerGraphicsComponent.h"
@@ -63,19 +65,21 @@ void Player::update() {
         harvestResource();
     }
 
-    tileThatPlayerIsOn_ = getDriver()->getGameMap()->getTile(getPos());
-    int tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
-    switch(tileEffect) {
-        case Tile::NONE:
-            break;
-        case Tile::SLOW:
-            createEffect(EFFECT_SLOW);
-            break;
-        case Tile::FAST:
-            createEffect(EFFECT_FAST);
-            break;
-        default:
-            break;
+    if (physics_ != NULL) {
+        tileThatPlayerIsOn_ = getDriver()->getGameMap()->getTile(getPos());
+        int tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
+        switch(tileEffect) {
+            case Tile::NONE:
+                break;
+            case Tile::SLOW:
+                createEffect(EFFECT_SLOW);
+                break;
+            case Tile::FAST:
+                createEffect(EFFECT_FAST);
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -162,6 +166,14 @@ void Player::dropResource(bool addToTower) {
     setDirty(kResource);
     if (addToTower) {
 #ifndef SERVER
+        if (((CDriver*)getDriver())->isSinglePlayer()) {
+            Tile* cTile = getDriver()->getGameMap()->getTile(getPos());
+            BuildingTower* t = (BuildingTower*)cTile->getExtension();
+            if (t->isDone()) {
+                getDriver()->createTower(t->getType(), t->getPos());
+                getDriver()->destroyObject(t);
+            }
+        }
 	    Console::instance()->addText("Added Resource");
 #endif
     } else {

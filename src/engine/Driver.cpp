@@ -89,7 +89,6 @@ BuildingTower* Driver::createBuildingTower(int type, QPointF pos) {
 
 bool Driver::addToTower(BuildingTower* tower, Player* player) {
     int numResource = 0;
-
     switch (player->getResource()) {
     case RESOURCE_NONE:
         return false;

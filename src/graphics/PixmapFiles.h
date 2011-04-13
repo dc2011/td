@@ -87,5 +87,12 @@
 #define PIX_NPC_MAMMOTH_0       QString("./img/mammoth1.png");
 #define PIX_NPC_MAMMOTH_1       QString("./img/mammoth2.png");
 #define PIX_NPC_MAMMOTH_MAX     2
+
+//ending animations for projectiles
+#define PIX_END_CANNON_START    0
+#define PIX_END_CANNON_0        QString("./img/smallExp.png");
+#define PIX_END_CANNON_1        QString("./img/medExp.png");
+#define PIX_END_CANNON_2        QString("./img/finalExp.png");
+#define PIX_END_CANNON_MAX      3
 #endif
 

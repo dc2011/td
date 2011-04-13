@@ -196,7 +196,7 @@ void CDriver::requestResourceAddition(BuildingTower* t) {
     if (isSinglePlayer()) {
         if (addToTower(t, human_)) {
             if (t->isDone()) {
-                createTower(t->getType(), t->getPos());
+                Driver::createTower(t->getType(), t->getPos());
                 destroyObject(t);
             }
             human_->dropResource(true);
@@ -382,6 +382,35 @@ void CDriver::UDPReceived(Stream* s) {
             int health = s->readInt();
 
             setBaseHealth(health);
+            break;
+        }
+        case network::kGameOver:
+        {
+            bool successful = s->readByte();
+
+            if (successful) {
+                Console::instance()->addText("You won :D");
+            } else {
+                Console::instance()->addText("You lost :(");
+            }
+            break;
+        }
+        case network::kConsoleChat:
+        {
+            int playerID = s->readInt();
+            Player* p = (Player*)mgr_->findObject(playerID);
+
+            if (p == NULL || p == (Player*)-1) {
+                return;
+            }
+
+            int length = s->readInt();
+            QString text = s->read(length);
+
+            if (!text.isEmpty()) {
+                QString line = "[" + p->getNickname() + "] " + text;
+                Console::instance()->addText(line);
+            }
             break;
         }
         case network::kVoiceMessage:
