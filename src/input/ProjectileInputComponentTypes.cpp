@@ -113,7 +113,7 @@ void FireProjectileInputComponent::makeForce(){
         force = QVector2D(parent_->getPath().unitVector().dx() * -1,
                           parent_->getPath().unitVector().dy() * -1);
         parent_->setForce(force);
-        if(counter_ % 30 == 0){
+        if(counter_ % 15 == 0){
             if(!npcs.empty()){
                 parent_->createBounds();
                 this->checkNPCCollision(npcs);

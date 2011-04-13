@@ -121,6 +121,9 @@ public:
      * @author Duncan Donaldson
      */
     void apply();
+
+private:
+    int count_;
 };
 
 class FireEffect : public Effect {
