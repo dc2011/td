@@ -376,6 +376,24 @@ void CDriver::UDPReceived(Stream* s) {
             }
             break;
         }
+        case network::kConsoleChat:
+        {
+            int playerID = s->readInt();
+            Player* p = (Player*)mgr_->findObject(playerID);
+
+            if (p == NULL || p == (Player*)-1) {
+                return;
+            }
+
+            int length = s->readInt();
+            QString text = s->read(length);
+
+            if (!text.isEmpty()) {
+                QString line = "[" + p->getNickname() + "] " + text;
+                Console::instance()->addText(line);
+            }
+            break;
+        }
         case network::kVoiceMessage:
         {
             AudioManager::instance()->addToQueue(s);
