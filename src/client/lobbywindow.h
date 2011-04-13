@@ -49,6 +49,21 @@ private:
      */
     void readSettings();
 
+    /** Sends a chat message
+     *
+     * @author Kelvin Lui
+     * @param nickName the nickName of the sender
+     * @param chatMessage the messgae to send
+     **/
+    void sendChatMessage(QString nickName,QString chatMessage);
+
+    /**
+     *
+     *@author Kelvin Lui
+     *@param msg The new chat message to display
+     */
+    void displayChatMsgRx(QString& nickName, QString& msg);
+
     /**
      * Assigns a username if the default is not changed.
      *

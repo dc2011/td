@@ -187,32 +187,30 @@ void LobbyServer::readSocket()
         {
             int game = s.readInt();
             startGame(game);
-            /*foreach (QTcpSocket* sock, clients_) {
-                disconnect(sock, SIGNAL(readyRead()),
-                        this, SLOT(readSocket()));
-            }
-            qDebug() << "Starting a game...";
-
-            // Here we should be forking
-            int pid = fork();
-            qDebug() << "PID is" << pid;
-            if (pid == 0) {
-                disconnect(tcpServer_, SIGNAL(newConnection()),
-                        this, SLOT(handleNewConnection()));
-                tcpServer_->close();
-                qDebug() << "Exiting with code 1...";
-                _exit(1);
-            } else {
-                mutex_.lock();
-                connCount_ = 0;
-                clients_.clear();
-
-                foreach (QString nick, connections_.keys()) {
-                    qDebug() << "Master has Nickname:" << nick;
-                }
-                mutex_.unlock();
-            }*/
             break;
+        }
+        case network::kChatMessage:
+        {
+            int nameLen = s.readInt();
+            QString nickName(s.read(nameLen));
+            int msgLen = s.readInt();
+            QString msg(s.read(msgLen));
+            relayChatMessage(msg,nickName);
+        }
+    }
+}
+void LobbyServer::relayChatMessage(QString& nickName, QString& msg) {
+    Stream data;
+    data.writeByte(network::kChatMessage);
+    data.writeInt(nickName.size());
+    data.write(nickName.toAscii());
+    data.writeInt(msg.size());
+    data.write(msg.toAscii());
+
+    foreach(QTcpSocket* sock, clients_.keys()) {
+        if(nickName != clients_.value(sock)) {
+            sock->write(data.data());
+            sock->flush();
         }
     }
 }

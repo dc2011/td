@@ -14,10 +14,12 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LobbyWindow)
 {
+    this->applyStyleSheet(QString(":/file/client.qss"));
+
     ui->setupUi(this);
     ui->btnStart->setEnabled(false);
 
-    this->applyStyleSheet(QString(":/file/client.qss"));
+    //background-image: url("../../img/lobbyBg.png");
 
     connect(ui->btnConnect, SIGNAL(clicked()),
             this, SLOT(connectLobby()));
@@ -104,6 +106,15 @@ void LobbyWindow::onTCPReceived(Stream* s)
             
             break;
         }
+        case network::kChatMessage:
+        {
+            int nameLen = s->readInt();
+            QString nickName(s->read(nameLen));
+            int msgLen = s->readInt();
+            QString msg(s->read(msgLen));
+            displayChatMsgRx(nickName,msg);
+        }
+
         case network::kUpdateUserList:
         {
             QList<QString*> names;
@@ -175,15 +186,27 @@ void LobbyWindow::applyStyleSheet(QString path) {
     this->setStyleSheet(QString(f.readAll()));
     f.close();
 }
-
+void LobbyWindow::sendChatMessage(QString nickName,QString chatMessage) {
+    Stream s;
+    s.writeInt(nickName.size());
+    s.write(nickName.toAscii());
+    s.writeInt(chatMessage.size());
+    s.write(chatMessage.toAscii());
+    NetworkClient::instance()->send(network::kChatMessage, s.data());
+}
 void LobbyWindow::updateListOfUserNames(QList<QString*>& userNames) {
     //update gui here
 }
 
 void LobbyWindow::updateListOfGames(QMap<int,int>& gameList) {
-}
     //update gui here
 } 
 
+void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {
+    //update gui here
+}
+
 
 /* end namespace td */
+
+};

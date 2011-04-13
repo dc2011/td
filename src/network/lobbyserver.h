@@ -49,6 +49,8 @@ private:
     /** Id to use for the game*/
     int gameId;
 
+
+
 public:
     explicit LobbyServer(QObject* parent = 0);
     virtual ~LobbyServer();
@@ -83,6 +85,13 @@ protected:
      */
     void notifyClients(unsigned char msgType);
 
+    /**
+     * Relays a message sent by a client to all other connected clients
+     * @author Kelvin Lui
+     * @param nickname the nickname to be prepended to the message
+     * @param msg the message to be sent
+     */
+    void relayChatMessage(QString& nickName,QString& msg);
     void startGame(int);
 
     /**
