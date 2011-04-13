@@ -25,8 +25,14 @@ void ContextMenuGraphicsComponent::update(GameObject *) {
     dp->scale = scaleFactor_;
     dp->degrees = 0;
     dp->pos = menuPos_;
+    dp->pixmapIdx = nextImage_;
 
     emit signalDraw(dp,this, LAYER_MENU);
+}
+
+void ContextMenuGraphicsComponent::draw(DrawParams* dp, int layer) {
+    setImgIndex(dp->pixmapIdx);
+    GraphicsComponent::draw(dp, layer);
 }
 
 void ContextMenuGraphicsComponent::initPixmaps() {
@@ -54,7 +60,7 @@ void ContextMenuGraphicsComponent::showMenu(QPointF playerPos) {
     menuPos_.setY(tempMenuPos.y());
 
     scaleFactor_ = 0;
-    setImgIndex(0);
+    nextImage_ = 0;
     
     closeTimer_.stop();
     animate_ = true;
@@ -72,19 +78,19 @@ void ContextMenuGraphicsComponent::showSelectMenu(int type, QPointF playerPos) {
     switch(type) {
         //going to have some accessor to set img
     case ARROW_TOWER_SELECTED:
-        setImgIndex(2);
+        nextImage_ = 2;
         break;
     case CANNON_TOWER_SELECTED:
-        setImgIndex(3);
+        nextImage_ = 3;
         break;
     case FLAME_TOWER_SELECTED:
-        setImgIndex(4);
+        nextImage_ = 4;
         break;
     case TAR_TOWER_SELECTED:
-        setImgIndex(5);
+        nextImage_ = 5;
         break;
     case FLAK_TOWER_SELECTED:
-        setImgIndex(6);
+        nextImage_ = 6;
         break;
     }
 
@@ -119,11 +125,9 @@ void ContextMenuGraphicsComponent::hideSelectMenu() {
 
 void ContextMenuGraphicsComponent::showResources(bool show) {
     if (show) {
-        qDebug("ContextMenuGraphicsComponent::showResources; show = true");
-        setImgIndex(1);
+        nextImage_ = 1;
     } else {
-        qDebug("ContextMenuGraphicsComponent::showResources; show = false");
-        setImgIndex(0);
+        nextImage_ = 0;
     }
 
     scaleFactor_ = 1;
