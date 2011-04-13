@@ -164,29 +164,29 @@
 
 // tower requirements
 #define COST_FLAK_WOOD    1
-#define COST_FLAK_STONE   0
-#define COST_FLAK_BONE    1
+#define COST_FLAK_STONE   1
+#define COST_FLAK_BONE    0
 #define COST_FLAK_OIL     0
 
-#define COST_ARROW_WOOD   0
-#define COST_ARROW_STONE  1
+#define COST_ARROW_WOOD   1
+#define COST_ARROW_STONE  0
 #define COST_ARROW_BONE   1
 #define COST_ARROW_OIL    0
 
 #define COST_CANNON_WOOD  0
-#define COST_CANNON_STONE 1
+#define COST_CANNON_STONE 2
 #define COST_CANNON_BONE  0
-#define COST_CANNON_OIL   0
+#define COST_CANNON_OIL   2
 
 #define COST_TAR_WOOD     0
 #define COST_TAR_STONE    1
-#define COST_TAR_BONE     1
-#define COST_TAR_OIL      1
+#define COST_TAR_BONE     0
+#define COST_TAR_OIL      2
 
-#define COST_FLAME_WOOD    1
-#define COST_FLAME_STONE   0
+#define COST_FLAME_WOOD    0
+#define COST_FLAME_STONE   1
 #define COST_FLAME_BONE    1
-#define COST_FLAME_OIL     1
+#define COST_FLAME_OIL     2
 
 #endif
 
