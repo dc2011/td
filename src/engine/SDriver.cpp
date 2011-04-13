@@ -270,9 +270,9 @@ void SDriver::onMsgReceive(Stream* s) {
 
             Driver::sellTower(QPointF(x, y));
 
-            out.writeInt(TILE_BUILDABLE);
-            out.writeFloat(x);
-            out.writeFloat(y);
+            out->writeInt(TILE_BUILDABLE);
+            out->writeFloat(x);
+            out->writeFloat(y);
 
             break;
         }

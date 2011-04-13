@@ -217,8 +217,8 @@ void CDriver::requestSellTower(QPointF pos) {
         Driver::sellTower(pos);
     } else {
         Stream s;
-        s.writeFloat(pos().x());
-        s.writeFloat(pos().y());
+        s.writeFloat(pos.x());
+        s.writeFloat(pos.y());
         NetworkClient::instance()->send(network::kSellTower, s.data());
     }
 }
