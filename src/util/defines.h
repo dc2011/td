@@ -29,8 +29,8 @@
 
 // a tower's range
 #define RADIUS_ARROW    240
-#define RADIUS_CANNON   150
-#define RADIUS_FLAME    90
+#define RADIUS_CANNON   200
+#define RADIUS_FLAME    110
 #define RADIUS_TAR      170
 #define RADIUS_FLAK     300
 
