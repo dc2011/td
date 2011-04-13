@@ -112,7 +112,7 @@ void SDriver::startGame(bool multicast) {
     //tempWave = new NPCWave(this);
     //waves_.append(tempWave);
     while((tempWave = fileParser->readWave())!=NULL) {
-        qDebug("wave read");
+
         waves_.append(tempWave);
     }
     this->gameTimer_->start(30);
@@ -206,10 +206,10 @@ void SDriver::spawnWave() {
     disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
     //NPCWave* wave = new NPCWave(this);
 
-    qDebug("before createwave");
+
     waves_.first()->createWave();
     //waves_.append(wave);
-qDebug("after createwave");
+
 
     connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
 
