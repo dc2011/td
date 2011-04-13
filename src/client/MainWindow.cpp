@@ -104,7 +104,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
             emit signalAltHeld(true);
             break;
         case Qt::Key_V:
-            AudioManager::instance()->toggleCapturePause();
+            //AudioManager::instance()->toggleCapturePause();
             break;
         case Qt::Key_QuoteLeft :
             Console::instance()->toggle();
@@ -169,7 +169,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
             emit signalAltHeld(false);
             break;
         case Qt::Key_V:
-            AudioManager::instance()->toggleCapturePause();
+            //AudioManager::instance()->toggleCapturePause();
             break;
         case Qt::Key_Space:
             emit signalSpacebarReleased();
