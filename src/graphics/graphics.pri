@@ -19,7 +19,8 @@ GRAPHICS_HDRS +=    $$BASE_GRAPHICS_HDRS \
                     ./graphics/ResourceGraphicsComponent.h \
                     ./graphics/NPCGraphicsComponent.h \
                     ./graphics/NPCGraphicsComponentTypes.h \
-		            ./graphics/Console.h
+                    ./graphics/Console.h \
+                    ./graphics/EndingGraphicsComponent.h
 
 GRAPHICS_SRCS +=    $$BASE_GRAPHICS_SRCS \
                     ./graphics/CollectableGraphicsComponent.cpp \
@@ -35,4 +36,5 @@ GRAPHICS_SRCS +=    $$BASE_GRAPHICS_SRCS \
                     ./graphics/ResourceGraphicsComponent.cpp \
                     ./graphics/NPCGraphicsComponent.cpp \
                     ./graphics/NPCGraphicsComponentTypes.cpp \
-		            ./graphics/Console.cpp
+                    ./graphics/Console.cpp \
+                    ./graphics/EndingGraphicsComponent.cpp
