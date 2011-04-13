@@ -80,10 +80,20 @@ namespace network {
          */
         kDropResource   =   0x0B,
 
+        /**
+         * Indicates damage to the base.
+         * See Also: @ref basehealth
+         */
         kBaseHealth     =   0x0C,
 
         /** Indicates creation of a collectable. */
         kCollectable    =   0x0D,
+
+        /**
+         * Indicates the end of the game.
+         * See Also: @ref gameover
+         */
+        kGameOver       =   0x10,
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
@@ -236,6 +246,26 @@ namespace network {
  *  byte msgType = td::network::kMulticastIP
  *    // The final octet of the multicast address
  *  byte finalOctet
+ * @endcode
+ *
+ * @section basehealth Base Health Message
+ * This message informs all clients that the base health has changed.
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kBaseHealth
+ *    // The health value
+ *  int health
+ * @endcode
+ *
+ * @section gameover
+ * This message indicates that the game is ending and specifies a reason.
+ * The boolean happyEnding is true if all the NPC waves were destroyed, false
+ * if the health of the base reached 0.
+ * @code
+ *     // The message type
+ *   byte msgType = td::network::kGameOver
+ *     // Whether the game ended on a happy note
+ *   byte happyEnding
  * @endcode
  *
  * @section playsfx Play SFX Message
