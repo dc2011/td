@@ -171,7 +171,7 @@ void Projectile::checkNPCCollision(QSet<Unit*> npcs){
                 //TODO: Add sfx logic here (same as Player collisions)
                 //add effect to npc
                 //qDebug("Enemy hit");
-                ((NPC*)(*it))->createEffect(new ArrowEffect(*it));
+                ((NPC*)(*it))->createEffect(EFFECT_ARROW);
                 break;
             }else{
                 //qDebug("No hit");
