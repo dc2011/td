@@ -8,6 +8,7 @@
 #include "../graphics/MapDisplayer.h"
 #include "../util/DelayedDelete.h"
 #include <QLabel>
+#include "../graphics/Console.h"
 
 namespace td {
 
@@ -105,6 +106,9 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         case Qt::Key_V:
             AudioManager::instance()->toggleCapturePause();
             break;
+        case Qt::Key_QuoteLeft :
+            Console::instance()->toggle();
+            break;
         case Qt::Key_1:
         case Qt::Key_2:
         case Qt::Key_3:
@@ -169,7 +173,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
             break;
         case Qt::Key_Space:
             emit signalSpacebarReleased();
-    
+	    break;
         default:
             QMainWindow::keyPressEvent(event);
             break;
