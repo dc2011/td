@@ -15,6 +15,7 @@ namespace td {
 MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
+    consoleOpen_ = false;
 
     scene_->setItemIndexMethod(QGraphicsScene::NoIndex);
     keysHeld_ = 0;
@@ -94,7 +95,24 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
     if(event->isAutoRepeat()) {
         return;
     }
-
+    
+    if(consoleOpen_ == true) {
+	if(event->key() == Qt::Key_Return) {
+	    Console::instance()->addChar("\n");
+	    Console::instance()->toggle();
+	    consoleOpen_ = !consoleOpen_;
+	} else if (event->key() == Qt::Key_Backspace) {
+	    Console::instance()->removeChar();
+     	} else if (event->key() >= 32 && event->key() <= 126
+		   && event->key() != 96) {
+	    Console::instance()->addChar(event->text());
+	} else if (event->key() == 96) {
+	    Console::instance()->toggle();
+	    consoleOpen_ = !consoleOpen_;
+	}
+	return;
+    }
+    
     switch (event->key()) {
 
         case Qt::Key_Space:
@@ -108,7 +126,8 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
             break;
         case Qt::Key_QuoteLeft :
             Console::instance()->toggle();
-            break;
+	    consoleOpen_ = !consoleOpen_;
+	    break;
         case Qt::Key_1:
         case Qt::Key_2:
         case Qt::Key_3:
@@ -143,10 +162,10 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
 
 void MainWindow::keyReleaseEvent(QKeyEvent * event) {
 
-    if(event->isAutoRepeat()) {
+    if(event->isAutoRepeat() || consoleOpen_ == true) {
         return;
     }
-
+    
     switch (event->key()) {
 
         case Qt::Key_Up:

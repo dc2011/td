@@ -27,6 +27,11 @@ private:
     static QGraphicsRectItem *rect_;
     /** Y POS */
     static int y;
+    /** Text chat */
+    static QString text_;
+    /** the label to display text */
+    static QGraphicsTextItem *textLabel_;
+
 
     explicit Console();
     ~Console();
@@ -78,6 +83,15 @@ public:
      */    
     void toggle();
 
+    /**
+     * An event filter
+     *
+     * @author Terence Stenvold
+     * @param c is the char to add
+     */
+    void addChar(QString c);
+
+    void removeChar();
 private slots:
     void scroll();
 

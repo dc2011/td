@@ -10,17 +10,24 @@ namespace td {
 
 Console* Console::instance_ = NULL;
 QMutex Console::mutex_;
+QString Console::text_;
 QVector<QString> *Console::display_;
 QGraphicsTextItem *Console::label_; 
+QGraphicsTextItem *Console::textLabel_; 
 QGraphicsRectItem *Console::rect_;
-int Console::y=-115;
+int Console::y=-150;
+
 
 Console::Console() {
 
     display_ = new QVector<QString>();
     label_ = new QGraphicsTextItem();
+    textLabel_ = new QGraphicsTextItem();
     rect_ = new QGraphicsRectItem();
+    text_.append("Say: ");
+
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
+    CDriver::instance()->getMainWindow()->getScene()->addItem(textLabel_);
     CDriver::instance()->getMainWindow()->getScene()->addItem(rect_);
     
     rect_->setRect(5,y-10,200,30);
@@ -34,6 +41,12 @@ Console::Console() {
     label_->setTextWidth(240);
     label_->setZValue(99);
     label_->update();
+    
+    textLabel_->setDefaultTextColor(QColor(0,0,0));
+    textLabel_->setPos(3,3);
+    textLabel_->setZValue(99);
+    textLabel_->update();
+    
     hide();
 }
 
@@ -76,13 +89,15 @@ void Console::addText(QString text) {
 }
 
 void Console::hide() {
-    y=-115;
+    y=-150;
     label_->hide();
     rect_->hide();
     label_->setPos(15,y);
     rect_->setRect(label_->boundingRect().adjusted(0,y,0,y));
     label_->update();
-    rect_->update();    
+    rect_->update();   
+    text_ = "Say: ";
+    textLabel_->hide();
 }
 
 void Console::show() {
@@ -90,14 +105,15 @@ void Console::show() {
 	    this, SLOT(scroll()));
     label_->show();
     rect_->show();
+    textLabel_->show();
 }
 
 void Console::scroll() {
     y+=10;
     label_->setPos(15,y);
     rect_->setRect(label_->boundingRect().adjusted(0,y,0,y));
-    if(y>=15) {
-	y=15;
+    if(y>=30) {
+	y=30;
 	disconnect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
 	    this, SLOT(scroll()));
     }
@@ -111,6 +127,67 @@ void Console::toggle() {
     } else {
 	show();
     }
-};
+}
 
-} //end of namespace
+//TODO clean up the same stuff from the 3 different functions
+void Console::removeChar() {
+    
+    QString tmp;
+    if(text_.length() <=5) {
+	return;
+    }
+    text_.chop(1);
+    
+    QTextDocument *doc = new QTextDocument();
+    QTextCharFormat charFormat;
+    QFont font("Monospace");
+    font.setBold(true);
+    QPen outlinePen = QPen (QColor(25, 200, 25), 0.2f, Qt::SolidLine);
+    
+    charFormat.setTextOutline(outlinePen);
+    charFormat.setFont(font);
+    charFormat.setFontPointSize(10);
+    
+    QTextCursor cursor = QTextCursor(doc);
+    tmp = text_;
+    tmp.replace("\n","");
+    cursor.insertText(tmp, charFormat);
+
+    textLabel_->setDocument(doc);
+    textLabel_->update();
+
+}
+
+void Console::addChar(QString c) {
+    
+    QString tmp;
+    text_.append(c);
+    QTextDocument *doc = new QTextDocument();
+    QTextCharFormat charFormat;
+    QFont font("Monospace");
+    font.setBold(true);
+    QPen outlinePen = QPen (QColor(25, 200, 25), 0.2f, Qt::SolidLine);
+    
+    charFormat.setTextOutline(outlinePen);
+    charFormat.setFont(font);
+    charFormat.setFontPointSize(10);
+    
+    QTextCursor cursor = QTextCursor(doc);
+    tmp = text_;
+    tmp.replace("\n","");
+    
+    if(c.compare("\n") == 0) {
+	//TODO send over network
+	addText(tmp.mid(5));
+	text_.clear();
+	text_.append("Say: ");
+	cursor.insertText(text_, charFormat);
+    } else {
+	cursor.insertText(tmp, charFormat);
+    }
+
+    textLabel_->setDocument(doc);
+    textLabel_->update();
+}
+
+}; //end of namespace

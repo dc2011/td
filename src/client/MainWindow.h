@@ -52,6 +52,11 @@ private:
      */
     MapDisplayer * mapDisplayer_;
 
+    /**
+     *  Boolean for whether console is open
+     */
+    bool consoleOpen_;
+
 public:
     MainWindow();
     virtual ~MainWindow();
