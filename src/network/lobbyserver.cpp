@@ -160,15 +160,25 @@ void LobbyServer::readSocket()
                 conn->close();
                 return;
             }
-
+            mutex_.lock();
+            int len = s.readByte();
+            QString nick = QString(s.read(len));
+            connCount_++;
+            usernames_.insert(nick);
+            clients_.insert(conn, nick);
+            mutex_.unlock();
+            notifyClients(network::kLobbyWelcome);
+           // sleep(1);
+            notifyClients(network::kUpdateUserList);
+            qDebug() << "Number of clients connected = " << connCount_;
+            break;
+        }
+        case network::kJoinGame:
+        {
             int len = s.readByte();
             QString nick = QString(s.read(len));
             int game = s.readInt();
 
-            mutex_.lock();
-            connCount_++;
-            usernames_.insert(nick);
-            clients_.insert(conn, nick);
             if(game == 0) {
                 games_.insert(gameId++,conn);
                 notifyClients(network::kUpdateListOfGames);
@@ -176,13 +186,9 @@ void LobbyServer::readSocket()
             else {
                 games_.insert(game,conn);
             }
-            mutex_.unlock();
-
-            notifyClients(network::kLobbyWelcome);
-            notifyClients(network::kUpdateUserList);
-            qDebug() << "Number of clients connected = " << connCount_;
             break;
         }
+
         case network::kLobbyStartGame:
         {
             int game = s.readInt();
@@ -195,7 +201,8 @@ void LobbyServer::readSocket()
             QString nickName(s.read(nameLen));
             int msgLen = s.readInt();
             QString msg(s.read(msgLen));
-            relayChatMessage(msg,nickName);
+            relayChatMessage(nickName,msg);
+            break;
         }
     }
 }

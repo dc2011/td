@@ -93,6 +93,9 @@ namespace network {
 
         /**Indicates a chat message*/
         kChatMessage = 0x10,
+        
+        /**From client to Server. Indicates joining or creating a game if followed by 0 */
+        kJoinGame = 0x11,
 
         
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */

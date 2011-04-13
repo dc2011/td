@@ -31,6 +31,7 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
             ui->btnStart, SLOT(setEnabled(bool)));
     connect(this, SIGNAL(startGame(bool)),
             this, SLOT(close()));
+    connect(ui->sendMsg,SIGNAL(clicked()),this,SLOT(sendChatMessage()));
 
     // so I don't have to enter the ip address, like, every freaking time
     connect(ui->txtAddress, SIGNAL(editingFinished()),
@@ -70,8 +71,7 @@ void LobbyWindow::connectLobby()
     }
     s->writeByte(ui->txtUsername->text().length());
     s->write(ui->txtUsername->text().toAscii());
-    //placeholder for game number
-    s->writeInt(1);
+
     PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
     delete s;
@@ -113,6 +113,7 @@ void LobbyWindow::onTCPReceived(Stream* s)
             int msgLen = s->readInt();
             QString msg(s->read(msgLen));
             displayChatMsgRx(nickName,msg);
+            break;
         }
 
         case network::kUpdateUserList:
@@ -155,6 +156,12 @@ void LobbyWindow::onTCPReceived(Stream* s)
             break;
         }
     }
+    if(!s->eof()) {
+        this->onTCPReceived(s);
+    }
+    else {
+        delete s;
+    }
 }
 
 void LobbyWindow::writeSettings() {
@@ -186,15 +193,19 @@ void LobbyWindow::applyStyleSheet(QString path) {
     this->setStyleSheet(QString(f.readAll()));
     f.close();
 }
-void LobbyWindow::sendChatMessage(QString nickName,QString chatMessage) {
+void LobbyWindow::sendChatMessage() {
     Stream s;
-    s.writeInt(nickName.size());
-    s.write(nickName.toAscii());
-    s.writeInt(chatMessage.size());
-    s.write(chatMessage.toAscii());
+   // s->write(ui->txtUsername->text().toAscii());
+   // s.writeByte(network::kChatMessage);
+    s.writeInt(ui->txtUsername->text().size());
+    s.write(ui->txtUsername->text().toAscii());
+    s.writeInt(ui->msgBox->text().size());
+    s.write(ui->msgBox->text().toAscii());
     NetworkClient::instance()->send(network::kChatMessage, s.data());
+    ui->msgBox->text().clear();
 }
 void LobbyWindow::updateListOfUserNames(QList<QString*>& userNames) {
+
     //update gui here
 }
 
@@ -204,9 +215,12 @@ void LobbyWindow::updateListOfGames(QMap<int,int>& gameList) {
 
 void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {
     //update gui here
+    //ui->msgView->text().append("hi");
+    QString result(nickName);
+    result.append(": ");
+    result .append(msg);
+    ui->msgView->setText(result);
 }
-
-
 /* end namespace td */
 
 };

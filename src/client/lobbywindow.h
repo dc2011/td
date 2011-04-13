@@ -38,6 +38,14 @@ private slots:
      */
     void writeSettings();
 
+    /** Sends a chat message
+     *
+     * @author Kelvin Lui
+     * @param nickName the nickName of the sender
+     * @param chatMessage the messgae to send
+     **/
+    void sendChatMessage();
+
 
 private:
     void updateListOfUserNames(QList<QString*>&);
@@ -49,13 +57,7 @@ private:
      */
     void readSettings();
 
-    /** Sends a chat message
-     *
-     * @author Kelvin Lui
-     * @param nickName the nickName of the sender
-     * @param chatMessage the messgae to send
-     **/
-    void sendChatMessage(QString nickName,QString chatMessage);
+    
 
     /**
      *
