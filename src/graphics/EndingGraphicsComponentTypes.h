@@ -28,8 +28,6 @@ protected:
     void timerEvent(QTimerEvent*);
 
 private:
-    virtual void setLayer(DrawParams *dp);
-
     virtual void setNonStaticValues();
 
 private:

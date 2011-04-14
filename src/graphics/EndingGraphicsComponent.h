@@ -17,7 +17,7 @@ public:
     }
 
     virtual ~EndingGraphicsComponent() {
-        disconnect(this);
+        this->disconnect();
     }
 
     virtual void update(GameObject* obj);
@@ -40,8 +40,6 @@ private:
 
 private:
     virtual void setNonStaticValues() = 0;
-
-    virtual void setLayer(DrawParams* dp) = 0;
 };
 
 }

@@ -8,7 +8,7 @@ QPixmap* EndingGraphicsComponent::pixmapImgs_ = 0;
 void EndingGraphicsComponent::update(GameObject*) {
     DrawParams* dp = new DrawParams();
 
-    setLayer(dp);
+    emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 
 void EndingGraphicsComponent::draw(DrawParams *dp, int layer) {

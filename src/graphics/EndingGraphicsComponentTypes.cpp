@@ -21,10 +21,6 @@ void CannonEndingGraphicsComponent::initPixmaps() {
     setNonStaticValues();
 }
 
-void CannonEndingGraphicsComponent::setLayer(DrawParams *dp) {
-    emit signalDraw(dp, this, LAYER_DEFAULT);
-}
-
 void CannonEndingGraphicsComponent::setNonStaticValues() {
     animateMod_ = 3;
     arrayIndexMin_ = pixmapIndex_ = PIX_END_CANNON_START;
