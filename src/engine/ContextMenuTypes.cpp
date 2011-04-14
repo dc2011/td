@@ -1,11 +1,10 @@
 #include "ContextMenuTypes.h"
-#include "../graphics/ContextMenuGraphicsComponent.h"
+#include "../graphics/ContextMenuGraphicsComponentTypes.h"
 
 namespace td {
 
 BuildContextMenu::BuildContextMenu(Player* player) : ContextMenu(player) {
-    //graphics_ = new BuildContextMenuGraphicsComponent();
-    graphics_ = new ContextMenuGraphicsComponent();
+    graphics_ = new BuildContextMenuGraphicsComponent();
 }
 
 void BuildContextMenu::selectMenuItem(int keyPressed) {
@@ -17,7 +16,7 @@ void BuildContextMenu::selectMenuItem(int keyPressed) {
 }
 
 TowerContextMenu::TowerContextMenu(Player* player) : ContextMenu(player) {
-    //graphics_ = new TowerContextMenuGraphicsComponent();
+    graphics_ = new TowerContextMenuGraphicsComponent();
 }
 
 void TowerContextMenu::selectMenuItem(int keyPressed) {
@@ -29,7 +28,7 @@ void TowerContextMenu::selectMenuItem(int keyPressed) {
 }
 
 PlayerContextMenu::PlayerContextMenu(Player* player) : ContextMenu(player) {
-    //graphics_ = new PlayerContextMenuGraphicsComponent();
+    graphics_ = new PlayerContextMenuGraphicsComponent();
 }
 
 void PlayerContextMenu::selectMenuItem(int keyPressed) {
