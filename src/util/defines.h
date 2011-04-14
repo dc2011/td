@@ -22,17 +22,37 @@
 
 // how often the tower type can fire (in game ticks)
 #define FIRE_INTERVAL_ARROW     45
+#define FIRE_INTERVAL_ARROW_2   35
+#define FIRE_INTERVAL_ARROW_3   25
 #define FIRE_INTERVAL_CANNON    120
+#define FIRE_INTERVAL_CANNON_2  100
+#define FIRE_INTERVAL_CANNON_3  80
 #define FIRE_INTERVAL_FLAME     70
+#define FIRE_INTERVAL_FLAME_2   60
+#define FIRE_INTERVAL_FLAME_3   50
 #define FIRE_INTERVAL_TAR       90
+#define FIRE_INTERVAL_TAR_2     75
+#define FIRE_INTERVAL_TAR_3     60
 #define FIRE_INTERVAL_FLAK      15
+#define FIRE_INTERVAL_FLAK_2    10
+#define FIRE_INTERVAL_FLAK_3    5
 
 // a tower's range
 #define RADIUS_ARROW    240
+#define RADIUS_ARROW_2  270
+#define RADIUS_ARROW_3  300
 #define RADIUS_CANNON   150
+#define RADIUS_CANNON_2 180
+#define RADIUS_CANNON_3 210
 #define RADIUS_FLAME    90
+#define RADIUS_FLAME_2  120
+#define RADIUS_FLAME_3  150
 #define RADIUS_TAR      170
+#define RADIUS_TAR_2    200
+#define RADIUS_TAR_3    230
 #define RADIUS_FLAK     300
+#define RADIUS_FLAK_2   330
+#define RADIUS_FLAK_3   360
 
 //Tile action types specifying action for spacebar
 #define TILE_REGULAR    0
