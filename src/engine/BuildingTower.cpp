@@ -149,6 +149,7 @@ int BuildingTower::evaluateBuildingStage() {
     if (percentCompleted < 100) {
         return TOWER_COMPLETE_75;
     }
+    return TOWER_COMPLETE_75;
 }
 
 } // end of namespace td

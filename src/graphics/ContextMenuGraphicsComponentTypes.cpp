@@ -1,4 +1,4 @@
-#include "ContextMenuGraphicsComponentTypes.h";
+#include "ContextMenuGraphicsComponentTypes.h"
 #include "../util/defines.h"
 
 namespace td {
