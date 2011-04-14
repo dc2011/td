@@ -286,8 +286,8 @@
    <widget class="QPushButton" name="newGame">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>220</y>
+      <x>770</x>
+      <y>550</y>
       <width>98</width>
       <height>27</height>
      </rect>
@@ -344,6 +344,19 @@
       <string>Game</string>
      </property>
     </column>
+   </widget>
+   <widget class="QPushButton" name="btnExit">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>550</y>
+      <width>98</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Exit</string>
+    </property>
    </widget>
   </widget>
  </widget>

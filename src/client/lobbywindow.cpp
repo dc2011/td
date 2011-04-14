@@ -38,6 +38,8 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
     connect(ui->txtUsername, SIGNAL(editingFinished()),
             this, SLOT(writeSettings()));
 
+    connect(ui->btnExit, SIGNAL(clicked()), this, SLOT(close()));
+
     QCoreApplication::setOrganizationName("dc2011");
     QCoreApplication::setApplicationName("td");
     readSettings();
@@ -198,7 +200,14 @@ void LobbyWindow::applyStyleSheet(QString path) {
     f.open(QIODevice::ReadOnly);
     this->setStyleSheet(QString(f.readAll()));
     f.close();
+
+    QStringList tmpList("Test Name");
+    tmpList.append("Test Game");
+    QTreeWidgetItem tmpItem(tmpList);
+
+    ui->userList->addTopLevelItem(&tmpItem);
 }
+
 void LobbyWindow::sendChatMessage() {
     Stream s;
     s.writeInt(ui->txtUsername->text().size());
@@ -210,7 +219,6 @@ void LobbyWindow::sendChatMessage() {
 }
 void LobbyWindow::updateListOfUserNames(QList<QString*>& userNames) {
 
-    //update gui here
 }
 
 void LobbyWindow::updateListOfGames(QMultiMap<int, QString>& gameList) {
