@@ -84,14 +84,6 @@ private:
     /** arragy of pix map items for the required resources **/
     QGraphicsPixmapItem *
         resourcePixmapItemArray_[RESOURCE_TYPE_MAX][ICON_MAX];
-    /** Number of wood icons to display on tile */
-    int woodReq_;
-    /** Number of bone icons to display on tile */
-    int boneReq_;
-    /** Number of stone icons to display on tile */
-    int stoneReq_;
-    /** Number of tar icons to display on tile */
-    int tarReq_;
     /** True if the key to show all NPCs' health bars is being held. */
     static bool keyHeld_;
     /** The current building stage of the graphics component */
