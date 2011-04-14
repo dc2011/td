@@ -30,6 +30,9 @@ void Player::networkRead(Stream* s) {
     if (dirty_ & kResource) {
         resource_ = s->readInt();
     }
+    if (dirty_ & kMoving) {
+        isMoving_ = s->readInt();
+    }
 }
 
 void Player::networkWrite(Stream* s) {
@@ -41,6 +44,10 @@ void Player::networkWrite(Stream* s) {
     }
     if (dirty_ & kResource) {
         s->writeInt(resource_);
+    }
+
+    if (dirty_ & kMoving) {
+        s->writeInt(isMoving_);
     }
 }
 
@@ -55,6 +62,12 @@ void Player::initComponents() {
 void Player::update() {
     if (physics_ != NULL) {
         physics_->update(this);
+
+        bool moving = velocity_.length() != 0;
+        if (isMoving_ != moving) {
+            isMoving_ = moving;
+            setDirty(kMoving);
+        }
     }
     if (isDirty()) {
         getDriver()->updateRT(this);
