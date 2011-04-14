@@ -1,4 +1,5 @@
 #include "NPCWave.h"
+#include "CDriver.h"
 #include "Driver.h"
 #include "./audio/SfxManager.h"
 #include "../network/netmessages.h"
@@ -16,7 +17,10 @@ NPCWave::NPCWave(QObject* parent, unsigned int start, unsigned int count,
 }
 
 NPCWave::~NPCWave() {
-    children_.clear();
+    foreach(NPC* child, children_){
+        delete child;
+    }
+    //children_.clear();
 }
 
 void NPCWave::createWave() {
@@ -31,6 +35,10 @@ void NPCWave::createWave() {
 }
 
 void NPCWave::killChild(NPC* child) {
+#ifndef SERVER
+    disconnect(CDriver::instance()->getMainWindow(),  SIGNAL(signalAltHeld(bool)),
+            child->getGraphicsComponent(), SLOT(showHealth(bool)));
+#endif
     children_.remove(child);
 
     if (isDead()) {
@@ -55,7 +63,10 @@ void NPCWave::update() {
         npc->setWave(this);
 
         ((NPCInputComponent*)npc->getInputComponent())->initWaypoints(pathNum_);
-
+#ifndef SERVER
+        connect(CDriver::instance()->getMainWindow(),  SIGNAL(signalAltHeld(bool)),
+                npc->getGraphicsComponent(), SLOT(showHealth(bool)));
+#endif
         children_.insert(npc);
 
     }
