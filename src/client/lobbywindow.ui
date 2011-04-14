@@ -265,7 +265,7 @@
      <rect>
       <x>30</x>
       <y>280</y>
-      <width>281</width>
+      <width>280</width>
       <height>261</height>
      </rect>
     </property>
@@ -281,16 +281,6 @@
     </property>
     <property name="text">
      <string>Connected Users</string>
-    </property>
-   </widget>
-   <widget class="QListView" name="userList">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>370</y>
-      <width>351</width>
-      <height>171</height>
-     </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="newGame">
@@ -328,6 +318,32 @@
     <property name="text">
      <string>List of games</string>
     </property>
+   </widget>
+   <widget class="QTreeWidget" name="userList">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>370</y>
+      <width>340</width>
+      <height>170</height>
+     </rect>
+    </property>
+    <property name="columnCount">
+     <number>2</number>
+    </property>
+    <attribute name="headerDefaultSectionSize">
+     <number>170</number>
+    </attribute>
+    <column>
+     <property name="text">
+      <string>Username</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Game</string>
+     </property>
+    </column>
    </widget>
   </widget>
  </widget>
