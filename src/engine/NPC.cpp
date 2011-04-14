@@ -195,16 +195,17 @@ void NPC::createEffect(int effectType)
         effect = new ArrowEffect(this);
         break;
     case EFFECT_TAR:
-        if (effects_.contains(EFFECT_TAR))
-        {
-            deleteEffect(*effects_.find(EFFECT_TAR));
+        if (effects_.contains(EFFECT_TAR)) {
+            deleteEffect(effects_.value(EFFECT_TAR));
+        } else if(effects_.contains(EFFECT_BURN)) {
+            deleteEffect(effects_.value(EFFECT_BURN));
         }
         effect = new NPCTarEffect(this);
         break;
     case EFFECT_FIRE:
         if (effects_.contains(EFFECT_TAR))
         {
-            deleteEffect(*effects_.find(EFFECT_TAR));
+            deleteEffect(effects_.value(EFFECT_TAR));
             effect = new NPCBurnEffect(this);
             break;
         }
@@ -224,7 +225,7 @@ void NPC::createEffect(int effectType)
     }
     effects_.insert(effectType, effect);
 
-    switch (effect->getType()) {
+    switch (effectType) {
     case EFFECT_ARROW:
 	    PLAY_SFX(this, SfxManager::projectileHitArrow);
         break;
@@ -242,13 +243,14 @@ void NPC::createEffect(int effectType)
 
 void NPC::deleteEffect(Effect* effect)
 {
+
     if (effects_.empty()) {
         // TODO: connect to a slot in projectile collisions for sfx
         //emit signalEmptyEffectList();
         return;
     }
+    delete effects_.value(effect->getType());
     effects_.remove(effect->getType());
-    delete effect;
 
 }
 
@@ -267,7 +269,10 @@ void NPC::update() {
     if (physics_ != NULL) {
         physics_->update(this);
     }
-
+    for(QMap<int, Effect*>::iterator it = effects_.begin();
+        it != effects_.end(); ++it) {
+        it.value()->update();
+    }
     /*if (isDirty()) {
         getDriver()->updateRT(this);
     }*/

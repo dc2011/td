@@ -84,7 +84,7 @@ NPCTarEffect::NPCTarEffect(Unit* unit)
     oldVelocity_ = ((NPCPhysicsComponent*)(unit_->getPhysicsComponent()))->getMaxVelocity();
 
     velocityChangeValue_ = oldVelocity_ / 2;
-    healthChangeValue_ = -25;
+    healthChangeValue_ = -15;
 
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth()
                                 + healthChangeValue_);

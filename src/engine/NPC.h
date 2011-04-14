@@ -208,6 +208,7 @@ public slots:
      *
      * @author Pan K.
      * @author Marcel Vangrootheest
+     * @author Duncan Donaldson
      * @param effect Effect to delete.
      */
     void deleteEffect(Effect* effect);

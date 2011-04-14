@@ -59,6 +59,12 @@ void Player::update() {
     if (isDirty()) {
         getDriver()->updateRT(this);
     }
+
+    for(QMap<int, Effect*>::iterator it = effects_.begin();
+        it != effects_.end(); ++it) {
+        it.value()->update();
+    }
+
     if (graphics_ != NULL) {
         graphics_->update(this);
     }
