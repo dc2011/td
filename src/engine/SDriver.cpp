@@ -278,6 +278,20 @@ void SDriver::onMsgReceive(Stream* s) {
     Stream* out = new Stream();
 
     switch(message) {
+        case network::kSellTower:
+        {
+            float x = s->readFloat();
+            float y = s->readFloat();
+
+            Driver::sellTower(QPointF(x, y));
+
+            out->writeInt(TILE_BUILDABLE);
+            out->writeFloat(x);
+            out->writeFloat(y);
+            net_->send(network::kSellTower, out->data());
+
+            break;
+        }
         case network::kTowerChoice:
         {
             int playerID = s->readInt();

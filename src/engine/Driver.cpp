@@ -194,5 +194,66 @@ Resource* Driver::createResource(int type) {
     return resource;
 }
 
+void Driver::sellTower(QPointF pos) {
+    Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
+
+    switch(((Tower*)currentTile->getExtension())->getType()) {
+    case TOWER_ARROW:
+        dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
+                COST_ARROW_BONE, COST_ARROW_OIL, 0);
+        break;
+    case TOWER_CANNON:
+        dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
+                COST_CANNON_BONE, COST_CANNON_OIL, 0);
+        break;
+    case TOWER_FLAME:
+        dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
+                COST_FLAME_BONE, COST_FLAME_OIL, 0);
+        break;
+    case TOWER_TAR:
+        dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
+                COST_TAR_BONE, COST_TAR_OIL, 0);
+        break;
+    case TOWER_FLAK:
+        dropCollectables(pos, COST_FLAK_WOOD, COST_FLAK_STONE,
+                COST_FLAK_BONE, COST_FLAK_OIL, 0);
+        break;
+    }
+    destroyObject(currentTile->getExtension());
+    currentTile->setActionType(TILE_BUILDABLE);
+}
+
+QVector2D Driver::getRandomVector() {
+    float d = ((qrand() % 1000) / 21.0) + 50;
+    float x = (qrand() % 1000) - 500;
+    float y = (qrand() % 1000) - 500;
+
+    QVector2D v = QVector2D(x, y);
+    v.normalize();
+
+    return (v * d);
+}
+
+void Driver::dropCollectables(QPointF pos,
+        int wood, int stone, int bone, int oil, int gem) {
+    int i = 0;
+
+    for (i = 0; i < wood; i++) {
+        requestCollectable(RESOURCE_WOOD, pos, getRandomVector());
+    }
+    for (i = 0; i < stone; i++) {
+        requestCollectable(RESOURCE_STONE, pos, getRandomVector());
+    }
+    for (i = 0; i < bone; i++) {
+        requestCollectable(RESOURCE_BONE, pos, getRandomVector());
+    }
+    for (i = 0; i < oil; i++) {
+        requestCollectable(RESOURCE_TAR, pos, getRandomVector());
+    }
+    for (i = 0; i < gem; i++) {
+        requestCollectable(RESOURCE_GEM, pos, getRandomVector());
+    }
+}
+
 } /* end namespace td */
 
