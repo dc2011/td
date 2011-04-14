@@ -13,12 +13,17 @@
 // milliseconds between game ticks
 #define GAME_TICK_INTERVAL  30
 
-// based on the number keys used to select the tower
-#define TOWER_ARROW     49
-#define TOWER_CANNON    50
-#define TOWER_FLAME     51
-#define TOWER_TAR       52
-#define TOWER_FLAK      53
+// based on the number keys used to select the menu option
+#define TOWER_ARROW         49
+#define TOWER_CANNON        50
+#define TOWER_FLAME         51
+#define TOWER_TAR           52
+#define TOWER_FLAK          53
+#define UPGRADE_TOWER       49
+#define SELL_TOWER          57
+#define UPGRADE_SPEED       49
+#define UPGRADE_HARVEST     50
+#define UPGRADE_RECOVERY    51
 
 // how often the tower type can fire (in game ticks)
 #define FIRE_INTERVAL_ARROW     45

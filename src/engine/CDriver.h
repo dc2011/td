@@ -8,16 +8,18 @@
 
 namespace td {
 
-class ContextMenu;
+class BuildContextMenu;
 class GameObject;
+class MainWindow;
 class Map;
 class NPC;
 class Player;
+class PlayerContextMenu;
 class Projectile;
 class ResManager;
-class Tower;
-class MainWindow;
 class Stream;
+class Tower;
+class TowerContextMenu;
 class Unit;
 
 class CDriver : public Driver {
@@ -33,8 +35,14 @@ private:
     /** The main game window, where all graphics will be drawn. */
     MainWindow* mainWindow_;
     
-    /** A context menu that appears around the player. */
-    ContextMenu* contextMenu_;
+    /** The menu for building towers. */
+    BuildContextMenu* buildContextMenu_;
+
+    /** The menu for upgrading/selling towers. */
+    TowerContextMenu* towerContextMenu_;
+
+    /** The menu for upgrading players. */
+    PlayerContextMenu* playerContextMenu_;
 
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;

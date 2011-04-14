@@ -40,10 +40,12 @@ ENGINE_SRCS +=  ./engine/Collectable.cpp \
 # Client-side engine headers and sources
 ENGINE_HDRS_C +=    $$ENGINE_HDRS \
                     ./engine/ContextMenu.h \
+                    ./engine/ContextMenuTypes.h \
                     ./engine/CDriver.h
 
 ENGINE_SRCS_C +=    $$ENGINE_SRCS \
                     ./engine/ContextMenu.cpp \
+                    ./engine/ContextMenuTypes.cpp \
                     ./engine/CDriver.cpp
 
 # Server-side engine headers and sources

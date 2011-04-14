@@ -1,7 +1,7 @@
 #include "CDriver.h"
 #include <map.h>
 #include <tile.h>
-#include "ContextMenu.h"
+#include "ContextMenuTypes.h"
 #include "GameObject.h"
 #include "Map.h"
 #include "NPC.h"
@@ -27,7 +27,7 @@ CDriver* CDriver::instance_ = NULL;
 
 CDriver::CDriver(MainWindow* mainWindow)
         : Driver(), playerID_(0xFFFFFFFF), human_(NULL),
-        mainWindow_(mainWindow), contextMenu_(NULL)
+        mainWindow_(mainWindow), buildContextMenu_(NULL)
 {
     mgr_ = new ResManager(this);
     npcCounter_ = 0;
@@ -153,20 +153,43 @@ void CDriver::makeLocalPlayer(Player* player) {
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             player, SLOT(showName(bool)));
 
-    /* Set up the build context menu */
-    contextMenu_ = new ContextMenu(human_);
+    // set up the build context menu
+    buildContextMenu_ = new BuildContextMenu(human_);
+    connect(mainWindow_, SIGNAL(signalNumberPressed(int)),
+            buildContextMenu_, SLOT(selectMenuItem(int)));
+    connect(mainWindow_, SIGNAL(signalAltHeld(bool)),
+            buildContextMenu_, SLOT(viewResources(bool)));
+    connect(buildContextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
+            this, SLOT(requestBuildingTower(int, QPointF)));
+    connect(buildContextMenu_, SIGNAL(signalPlayerMovement(bool)),
+	        input, SLOT(playerMovement(bool)));
 
-    connect(contextMenu_, SIGNAL(signalPlayerMovement(bool)),
-	        input,        SLOT(playerMovement(bool)));
-    connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
-            this,         SLOT(handleSpacebarPress()));
-    connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
-            contextMenu_, SLOT(selectMenuItem(int)));
-    connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            contextMenu_, SLOT(viewResources(bool)));
-    /* TODO: alter temp solution */
-    connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
-            this,         SLOT(requestBuildingTower(int, QPointF)));
+    // set up the tower context menu
+    towerContextMenu_ = new TowerContextMenu(human_);
+    connect(mainWindow_, SIGNAL(signalNumberPressed(int)),
+            towerContextMenu_, SLOT(selectMenuItem(int)));
+    connect(mainWindow_, SIGNAL(signalAltHeld(bool)),
+            towerContextMenu_, SLOT(viewResources(bool)));
+    connect(towerContextMenu_, SIGNAL(signalSellTower(QPointF)),
+            this, SLOT(requestSellTower(QPointF)));
+    //connect(towerContextMenu_, SIGNAL(signalUpgradeTower(QPointF)),
+    //TODO macca add upgrade tower here        this, SLOT(***(QPointF)));
+    connect(towerContextMenu_, SIGNAL(signalPlayerMovement(bool)),
+	        input, SLOT(playerMovement(bool)));
+    
+    // set up the player context menu
+    playerContextMenu_ = new PlayerContextMenu(human_);
+    connect(mainWindow_, SIGNAL(signalNumberPressed(int)),
+            playerContextMenu_, SLOT(selectMenuItem(int)));
+    connect(mainWindow_, SIGNAL(signalAltHeld(bool)),
+            playerContextMenu_, SLOT(viewResources(bool)));
+    //connect(playerContextMenu_, SIGNAL(signalUpgradePlayer(int, QPointF)),
+    //TODO macca add upgrade player here        this, SLOT(***(int, QPointF)));
+    connect(playerContextMenu_, SIGNAL(signalPlayerMovement(bool)),
+	        input, SLOT(playerMovement(bool)));
+
+    connect(mainWindow_, SIGNAL(signalSpacebarPressed()),
+            this, SLOT(handleSpacebarPress()));
     connect(human_, SIGNAL(signalEmptyEffectList()),
             physics, SLOT(okayToPlayCollisionSfx()));
     
@@ -339,18 +362,19 @@ void CDriver::handleSpacebarPress() {
     switch (currentTile->getActionType()) {
 
         case TILE_BUILDABLE:
-            contextMenu_->toggleMenu();
+            buildContextMenu_->toggleMenu();
             break;
 
         case TILE_BUILDING:
             requestResourceAddition(t);
             break;
-            
+
         case TILE_BUILT:
-            //TODO Tower upgrade/sell context menu toggle
-            requestSellTower(currentTile->getPos());
+            towerContextMenu_->toggleMenu();
+            break;
+
         case TILE_BASE:
-            //TODO Player upgrade context menu toggle
+            playerContextMenu_->toggleMenu();
             break;
 
         case TILE_RESOURCE:
