@@ -258,6 +258,14 @@ public slots:
      */
     void requestBuildingTower(int type, QPointF pos);
 
+    /**
+     * Requests or sells a Tower at the player's current position.
+     * Should be connected to a context menu.
+     *
+     * @param pos The position of the tower to sell.
+     */
+    void requestSellTower(QPointF pos);
+
 private slots:
     /**
      * Creates a projectile object.

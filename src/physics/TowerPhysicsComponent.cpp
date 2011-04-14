@@ -16,11 +16,14 @@ TowerPhysicsComponent::TowerPhysicsComponent(Tower* tower, size_t fireInterval,
 
 TowerPhysicsComponent::~TowerPhysicsComponent() {}
 
-/*
 void TowerPhysicsComponent::update(GameObject *tower) {
+    this->findTarget();
+    if(target_ == NULL || enemies_.isEmpty()) {
+        return;
+    }
     this->applyDirection((Tower*)tower);
     this->fire();
-} */
+}
 
 void TowerPhysicsComponent::findTarget() {
     // This tile size value is a bit flakey.
@@ -73,15 +76,10 @@ void TowerPhysicsComponent::findTarget() {
 }
 
 void TowerPhysicsComponent::applyDirection(GameObject* tower) {
-
-    this->findTarget();
-    if(target_ == NULL || enemies_.isEmpty()) {
-        return;
-    }
     int angle = 0;
     int degree = 0;
-    int velX = target_->getPos().x() - tower->getPos().x();
-    int velY = target_->getPos().y() - tower->getPos().y();
+    int velX = projectilePath_.p2().x() - tower->getPos().x();
+    int velY = projectilePath_.p2().y() - tower->getPos().y();
 
     if (velX == 0 && velY == 0) {
         return;

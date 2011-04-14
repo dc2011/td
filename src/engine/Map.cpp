@@ -36,7 +36,7 @@ void Map::initMap() {
     Tiled::TileLayer * tileLayer = tMap_->layerAt(0)->asTileLayer();
     Tiled::TileLayer * towerLayer = tMap_->layerAt(1)->asTileLayer();
     Tiled::TileLayer * resLayer = tMap_->layerAt(2)->asTileLayer();
-    Tiled::ObjectGroup * path = tMap_->layerAt(3)->asObjectGroup();
+    Tiled::ObjectGroup * path;
     heightInTiles_ = tileLayer->height();
     widthInTiles_ = tileLayer->width();
 
@@ -70,7 +70,10 @@ void Map::initMap() {
             }
         }
     }
-    makeWaypoints(WP_PTERO, path);
+    for (int i = 3; i < tMap_->layerCount(); i++) {
+        path = tMap_->layerAt(i)->asObjectGroup();
+        makeWaypoints(i - 3, path);
+    }
 }
 
 void Map::createResource(int type, Tile * tile) {
@@ -90,10 +93,7 @@ void Map::createResource(int type, Tile * tile) {
 void Map::makeWaypoints(int key, Tiled::ObjectGroup* path) {
     int i = 0;
     QList<QPointF>* newPath = new QList<QPointF>();
-    QColor c = QColor();
 
-    //Doesn't actually make it green. But still useful.
-    path->setColor(c.green());
     for (i = 0; i < path->objects().size(); i++) {
         newPath->push_back(QPointF(path->objects().at(i)->position().x() * tileWidth(),
                     path->objects().at(i)->position().y() * tileHeight()));

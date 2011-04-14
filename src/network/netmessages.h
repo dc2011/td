@@ -101,6 +101,9 @@ namespace network {
          */
         kConsoleChat    =   0x11,
 
+        /** Indicates sale/deletion of Tower. */
+        kSellTower      =   0x12,
+
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
         /** Used as a separator to indicate UDP messages. */

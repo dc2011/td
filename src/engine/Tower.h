@@ -65,6 +65,16 @@ public:
         setDirty(kType);
     }
 
+    /**
+     * Gets the tower type
+     *
+     * @author Marcel Vangrootheest
+     * @return The type of tower.
+     */
+    int getType() {
+        return type_;
+    }
+
 private:
     int type_;
 };
