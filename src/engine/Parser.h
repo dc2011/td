@@ -45,8 +45,9 @@ public:
 
 // variables
 private:
-    QFile file_;
     QObject* parent_;
+    QFile file_;
+
 
 public:
     int difficulty; /**< Map difficulty multiplier. */

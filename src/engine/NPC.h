@@ -133,6 +133,28 @@ public:
         wave_ = wave;
     }
 
+    /**
+     * Makes a random vector for the collectable drop.
+     *
+     * @author Marcel Vangrootheest
+     * @return A random vector
+     */
+    QVector2D getRandomVector();
+
+    /**
+     * Sets the gem holding amount. Should be 0 or 1.
+     *
+     * @author Marcel Vangrootheest
+     * @param gem The number of gems you want NPC to hold.
+     */
+    void setGem(int gem) {
+        gem_ = gem;
+    }
+
+    int getGem() {
+        return gem_;
+    }
+
 signals:
     /**
      * signal emitted when an NPC needs to be destroyed.
@@ -150,6 +172,18 @@ signals:
      * @param type The type of Effect.
      */
     void stopEffect(uint type);
+
+    /**
+     * Emmitted when the player drops the resource that they are carrying.
+     *
+     * Connected to requestCollectable() in the driver.
+     *
+     * @author Dean Morin
+     * @param type The resource type.
+     * @param pos The player's coords when he drops the resource.
+     * @param velocity The player's velocity when he drops the resource.
+     */
+    void signalDropResource(int type, QPointF pos, QVector2D velocity);
 
 public slots:
     /**
@@ -180,6 +214,7 @@ private:
     int height_;
     int width_;
     int type_;
+    int gem_;
 
     /** The wave to which this NPC belongs. */
     NPCWave* wave_;

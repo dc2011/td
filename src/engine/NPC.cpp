@@ -2,6 +2,7 @@
 #include "NPCWave.h"
 #include "Driver.h"
 #include <QObject>
+#include "../audio/SfxManager.h"
 
 #ifndef SERVER
 #    include "CDriver.h"
@@ -84,6 +85,19 @@ void NPC::networkWrite(Stream* s) {
     if (dirty_ & kHealth) {
         s->writeInt(health_);
     }
+}
+
+QVector2D NPC::getRandomVector() {
+    float d = ((qrand() % 1000) / 21.0) + 50;
+    float direction = (qrand() % 1000) - 500;
+    QLineF normalVector = QLineF(QPointF(0, 0), velocity_.toPointF());
+
+    normalVector = normalVector.normalVector();
+
+    QVector2D v = QVector2D(normalVector.p2()) * direction;
+    v.normalize();
+
+    return (v * d);
 }
 
 void NPC::initComponents() {
@@ -182,6 +196,21 @@ void NPC::createEffect(int effectType)
     QObject::connect(getDriver()->getTimer(), SIGNAL(timeout()),
                      effect, SLOT(update()));
     effects_.insert(effectType, effect);
+
+    switch (effect->getType()) {
+    case EFFECT_ARROW:
+	    PLAY_SFX(this, SfxManager::projectileHitArrow);
+        break;
+    case EFFECT_CANNON:
+	    PLAY_SFX(this, SfxManager::projectileHitCannon);
+        break;
+    case EFFECT_TAR:
+	    PLAY_SFX(this, SfxManager::projectileHitTar);
+        break;
+    case EFFECT_FLAK:
+	    PLAY_SFX(this, SfxManager::projectileHitFlak);
+        break;
+    }
 }
 
 void NPC::deleteEffect(Effect* effect)
@@ -196,6 +225,8 @@ void NPC::deleteEffect(Effect* effect)
 
 void NPC::isDead() {
     if(health_ <= 0) {
+        //TODO NPC death sound/animation
+        emit signalDropResource(RESOURCE_GEM, pos_, getRandomVector());
         emit dead(this->getID());
     }
 }

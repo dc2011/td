@@ -1,3 +1,4 @@
+#include <QTime>
 #include "Unit.h"
 #include "CDriver.h"
 #include "Map.h"
@@ -6,7 +7,10 @@
 namespace td {
 
 Unit::Unit(QObject* parent) : GameObject(parent), velocity_(QVector2D(0, 0)),
-        force_(QVector2D(0, 0)), input_(NULL) { }
+        force_(QVector2D(0, 0)), input_(NULL) {
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.msec());
+}
 
 Unit::~Unit() {
     // Remove the unit from the map before deleting it
@@ -30,6 +34,17 @@ QVector2D& Unit::getVelocity() {
 
 void Unit::setVelocity(QVector2D& velocity) {
     velocity_ = velocity;
+}
+
+QVector2D Unit::getRandomVector() {
+    float d = ((qrand() % 1000) / 21.0) + 50;
+    float x = (qrand() % 1000) - 500;
+    float y = (qrand() % 1000) - 500;
+
+    QVector2D v = QVector2D(x, y);
+    v.normalize();
+
+    return (v * d);
 }
 
 void Unit::changeTile(QPointF newPos){

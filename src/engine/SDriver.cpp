@@ -79,6 +79,13 @@ void SDriver::setBaseHealth(int health) {
     Stream s;
     s.writeInt(health);
     net_->send(network::kBaseHealth, s.data());
+
+    if (health <= 0) {
+        /* Base was slaughtered. You lose. */
+        Stream send;
+        send.writeByte(false);
+        net_->send(network::kGameOver, send.data());
+    }
 }
 
 void SDriver::startGame(bool multicast) {
@@ -91,7 +98,7 @@ void SDriver::startGame(bool multicast) {
     }
 
     if (multicast) {
-        /* Not "proper" but it saves space and the client can deal with it anyways */
+        /* Not "proper" but it saves space and the client can deal with it */
         s.writeByte(network::kMulticastIP);
         s.writeByte(net_->getMulticastAddr());
     }
@@ -259,6 +266,25 @@ void SDriver::requestCollectable(int collType, QPointF source, QVector2D vel) {
     net_->send(network::kCollectable, s.data());
 }
 
+void SDriver::towerDrop(Stream* out, BuildingTower* t, Player* player) {
+    if (addToTower(t, player)) {
+        if (t->isDone()) {
+            Tower* tower = Driver::createTower(t->getType(),
+                    t->getPos());
+            updates_.insert(tower);
+            destroyObject(t);
+        } else {
+            updates_.insert(t);
+        }
+        out->writeInt(player->getID());
+        out->writeInt(true);
+    } else {
+        out->writeInt(player->getID());
+        out->writeInt(false);
+    }
+    net_->send(network::kDropResource, out->data());
+}
+
 void SDriver::onMsgReceive(Stream* s) {
 
     int message = s->readByte(); /* Message Type */
@@ -268,6 +294,7 @@ void SDriver::onMsgReceive(Stream* s) {
     switch(message) {
         case network::kTowerChoice:
         {
+            int playerID = s->readInt();
             int towertype = s->readInt();
             float x = s->readFloat();
             float y = s->readFloat();
@@ -277,10 +304,15 @@ void SDriver::onMsgReceive(Stream* s) {
                 break;
             }
 
+            Player* player = (Player*)mgr_->findObject(playerID);
+
             BuildingTower* t = Driver::createBuildingTower(towertype,
                     QPointF(x,y));
 
             updates_.insert(t);
+
+            towerDrop(out, t, player);
+
             break;
         }
         case network::kDropResource:
@@ -300,28 +332,16 @@ void SDriver::onMsgReceive(Stream* s) {
             }
             
             BuildingTower* t = (BuildingTower*)currentTile->getExtension();
-            
-            if (addToTower(t, player)) {
-                if (t->isDone()) {
-                    Tower* tower = Driver::createTower(t->getType(),
-                            t->getPos());
-                    updates_.insert(tower);
-                    destroyObject(t);
-                }
-                out->writeInt(player->getID());
-                out->writeInt(true);
-            } else {
-                out->writeInt(player->getID());
-                out->writeInt(false);
-            }
-            net_->send(network::kDropResource, out->data());
+
+            towerDrop(out, t, player);
 
             break;
         }
+        case network::kConsoleChat:
         case network::kVoiceMessage:
         {
             QByteArray vc = s->read(s->size() - 1);
-            net_->send(network::kVoiceMessage, vc);
+            net_->send(message, vc);
             break;
         }
         default:

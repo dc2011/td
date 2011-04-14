@@ -143,7 +143,6 @@ public:
      */
     virtual void setBaseHealth(int health);
 
-public:
     /**
      * Sets a player as the local human player object.
      * Sets event filter for key presses to be passed to PlayerInputComponent.
@@ -203,6 +202,14 @@ public:
      * @param the value to set singlePlayer to.
      */
     void setSinglePlayer(bool singlePlayer);
+
+    /**
+     * Tries to add a resource to a specified BuildingTower.
+     *
+     * @author Marcel Vangrootheest
+     * @param t The Building tower that a resource is added to.
+     */
+    void requestResourceAddition(BuildingTower* t);
 
 signals:
     /**
