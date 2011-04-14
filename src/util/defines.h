@@ -161,15 +161,6 @@
 #define RESBAR_WIDTH    30
 #define RESBAR_HEIGHT   6
 
-// Temp defines pending a map object
-#define MAP_ROWS 99
-#define MAP_COLS 99
-
-//temp defines
-#define TILE_HEIGHT 48
-#define TILE_WIDTH 48
-#define TILE_SIZE 48
-
 // tower requirements
 #define COST_FLAK_WOOD    1
 #define COST_FLAK_STONE   0

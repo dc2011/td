@@ -11,9 +11,11 @@
 #include <QMutex>
 #include <math.h>
 
+// Including Tiled Map header.
+#include <map.h>
+
 namespace Tiled {
 class ObjectGroup;
-class Map;
 class MapReader;
 }
 
@@ -41,8 +43,8 @@ private:
     /**  */
     Tile ***tiles_;
 
-    /**  */
-    Tiled::Map * tMap_;
+    /** The Tiled map object used to build this map. */
+    Tiled::Map* tMap_;
 
     /**  */
     int heightInTiles_;
@@ -59,6 +61,24 @@ private:
     void createResource(int type, Tile * tile);
 
 public:
+    /**
+     * Returns the tile width. This is a wrapper around
+     * Tiled::Map::tileWidth().
+     *
+     * @return The tile width.
+     * @author Tom Nightingale
+     */
+    int tileWidth() { return tMap_->tileWidth(); }
+
+    /**
+     * Returns the tile height. This is a wrapper around
+     * Tiled::Map::tileHeight().
+     *
+     * @return The tile height.
+     * @author Tom Nightingale
+     */
+    int tileHeight() { return tMap_->tileHeight(); }
+
     /**
      * This is a testing function pending a real map load function.
      *

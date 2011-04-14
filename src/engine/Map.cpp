@@ -49,7 +49,7 @@ void Map::initMap() {
             Tile::TileAttributes attrs = Tile::getAttributes(tile->id());
 
             //save into array
-            tiles_[row][col] = new Tile(row, col, attrs.type, attrs.effect);
+            tiles_[row][col] = new Tile(tile, row, col, attrs.type, attrs.effect);
 
             // Check for buildable tiles.
             if (towerLayer->contains(col, row)
@@ -65,7 +65,7 @@ void Map::initMap() {
             if (resLayer->contains(col, row) 
                     && (tile = resLayer->tileAt(col, row)) != NULL) {
                 createResource(tile->id(), tiles_[row][col]);
-                // Setting the resource tile to the td::Tile.
+                // Setting the correct resource tile to the td::Tile.
                 tiles_[row][col]->setTiledTile(tile);
             }
         }
@@ -95,23 +95,23 @@ void Map::makeWaypoints(int key, Tiled::ObjectGroup* path) {
     //Doesn't actually make it green. But still useful.
     path->setColor(c.green());
     for (i = 0; i < path->objects().size(); i++) {
-        newPath->push_back(QPointF(path->objects().at(i)->position().x()*48,
-                    path->objects().at(i)->position().y() * 48));
+        newPath->push_back(QPointF(path->objects().at(i)->position().x() * tileWidth(),
+                    path->objects().at(i)->position().y() * tileHeight()));
     }
     addWaypoints(key, newPath);
 }
 
 void Map::getTileType(double x, double y, int *blockingType)
 {
-    int row = floor(y / TILE_HEIGHT);
-    int col = floor(x / TILE_WIDTH);
+    int row = floor(y / tMap_->tileHeight());
+    int col = floor(x / tMap_->tileWidth());
 
     *blockingType = tiles_[row][col]->getType();
 }
 
 void Map::getTileCoords(double x, double y, int* row, int* column){
-    *row = floor(y / TILE_HEIGHT);
-    *column= floor(x / TILE_WIDTH);
+    *row = floor(y / tMap_->tileHeight());
+    *column= floor(x / tMap_->tileWidth());
 }
 
 Tile* Map::getTile(double x, double y){
