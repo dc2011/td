@@ -281,27 +281,19 @@
      </rect>
     </property>
    </widget>
-   <zorder>bgFrame</zorder>
-   <zorder>mapsList</zorder>
-   <zorder>btnStart</zorder>
-   <zorder>easyBtn</zorder>
-   <zorder>mediumBtn</zorder>
-   <zorder>txtUsername</zorder>
-   <zorder>lblDisplayCount</zorder>
-   <zorder>lblCount</zorder>
-   <zorder>chkSingleplayer</zorder>
-   <zorder>btnConnect</zorder>
-   <zorder>lblAddress</zorder>
-   <zorder>txtAddress</zorder>
-   <zorder>lblUsername</zorder>
-   <zorder>hardBtn</zorder>
-   <zorder>label</zorder>
-   <zorder>label_2</zorder>
-   <zorder>sendMsg</zorder>
-   <zorder>msgBox</zorder>
-   <zorder>msgView</zorder>
-   <zorder>label_3</zorder>
-   <zorder>userList</zorder>
+   <widget class="QPushButton" name="newGame">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>220</y>
+      <width>98</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>New Game</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
