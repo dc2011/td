@@ -84,9 +84,30 @@
 #define PIX_NPC_PLEA_1          QString("./img/plea-2.png")
 #define PIX_NPC_PLEA_MAX        2
 #define PIX_NPC_MAMMOTH_START   0
-#define PIX_NPC_MAMMOTH_0       QString("./img/mammoth1.png");
-#define PIX_NPC_MAMMOTH_1       QString("./img/mammoth2.png");
+#define PIX_NPC_MAMMOTH_0       QString("./img/mammoth1.png")
+#define PIX_NPC_MAMMOTH_1       QString("./img/mammoth2.png")
 #define PIX_NPC_MAMMOTH_MAX     2
+#define PIX_NPC_ANKLY_START     0
+#define PIX_NPC_ANKLY_0         QString("./img/anklyosaurus1.png")
+#define PIX_NPC_ANKLY_1         QString("./img/anklyosaurus2.png")
+#define PIX_NPC_ANKLY_2         QString("./img/anklyosaurus3.png")
+#define PIX_NPC_ANKLY_MAX       3
+#define PIX_NPC_BRONTO_START    0
+#define PIX_NPC_BRONTO_0        QString("./img/Brontosaurus1.png")
+#define PIX_NPC_BRONTO_1        QString("./img/Brontosaurus2.png")
+#define PIX_NPC_BRONTO_MAX      2
+#define PIX_NPC_SABER_START     0
+#define PIX_NPC_SABER_0         QString("./img/fast1.png")
+#define PIX_NPC_SABER_1         QString("./img/fast2.png")
+#define PIX_NPC_SABER_MAX       2
+#define PIX_NPC_TREX_START      0
+#define PIX_NPC_TREX_0          QString("./img/trex1.png")
+#define PIX_NPC_TREX_1          QString("./img/trex2.png")
+#define PIX_NPC_TREX_MAX        2
+#define PIX_NPC_TRICERO_START   0
+#define PIX_NPC_TRICERO_0       QString("./img/tri-1.png")
+#define PIX_NPC_TRICERO_1       QString("./img/tri-2.png")
+#define PIX_NPC_TRICERO_MAX     2
 
 //ending animations for projectiles
 #define PIX_END_CANNON_START    0
