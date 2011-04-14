@@ -57,7 +57,6 @@ void PlayerTerrainSlowEffect::apply() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
     if((((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::NONE
             || (((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::FAST) {
-        disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
         emit effectFinished(this);
     }
 }
@@ -76,7 +75,6 @@ void PlayerTerrainFastEffect::apply() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
     if((((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::NONE
             || (((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::SLOW) {
-        disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
         emit effectFinished(this);
     }
 }

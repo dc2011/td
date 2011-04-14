@@ -23,13 +23,11 @@ NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
 
 NPC::~NPC() {
     // Delete all effects in the map
-    /*QMap<int, Effect*>::iterator i;
+    QMap<int, Effect*>::iterator i;
     for (i = effects_.begin(); i != effects_.end(); ++i)
     {
-        deleteEffect(*i);
-        //cout << i.key() << ": " << i.value() << endl;
+        deleteEffect(i.value());
     }
-    */
     if (wave_ != NULL) {
         wave_->killChild(this);
     }
@@ -224,12 +222,6 @@ void NPC::createEffect(int effectType)
     default:
         return;
     }
-    QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
-                     this, SLOT(deleteEffect(Effect*)));
-    QObject::connect(this, SIGNAL(stopEffect(uint)),
-                     effect, SLOT(effectStop(uint)));
-    QObject::connect(getDriver()->getTimer(), SIGNAL(timeout()),
-                     effect, SLOT(update()));
     effects_.insert(effectType, effect);
 
     switch (effect->getType()) {
@@ -250,18 +242,14 @@ void NPC::createEffect(int effectType)
 
 void NPC::deleteEffect(Effect* effect)
 {
-    effects_.remove(effect->getType());
-    QObject::disconnect(effect, SIGNAL(effectFinished(Effect*)),
-                        this, SLOT(deleteEffect(Effect*)));
-    QObject::disconnect(this, SIGNAL(stopEffect(uint)),
-                        effect, SLOT(effectStop(uint)));
-    QObject::disconnect(getDriver()->getTimer(), SIGNAL(timeout()),
-                        effect, SLOT(update()));
-    delete effect;
     if (effects_.empty()) {
         // TODO: connect to a slot in projectile collisions for sfx
         //emit signalEmptyEffectList();
+        return;
     }
+    effects_.remove(effect->getType());
+    delete effect;
+
 }
 
 void NPC::isDead() {

@@ -110,12 +110,6 @@ void Player::createEffect(int effectType)
         // Dean's sound signal thing
         emit signalEmptyEffectList();
 
-        // Connect signal rubbish
-        QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
-                         this, SLOT(deleteEffect(Effect*)));
-        QObject::connect(getDriver()->getTimer(), SIGNAL(timeout()),
-                         effect, SLOT(update()));
-
         // Insert the effect into the map
         effects_.insert(effectType, effect);
     }

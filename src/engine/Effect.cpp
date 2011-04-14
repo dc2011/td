@@ -1,12 +1,22 @@
 #include "Effect.h"
 #include "Driver.h"
-
+#include "Player.h"
 namespace td {
 
 Effect::Effect(Unit* unit, uint type, int duration, bool timerEnabled):
         GameObject(NULL), unit_(unit), duration_(duration),
         type_(type), timerEnabled_(timerEnabled), applyEnabled_(true),
-        timer_(unit->getDriver()->getTimer()) {}
+        timer_(unit->getDriver()->getTimer()) {
+
+    if((unit_->getID() & 0xFF000000)>>24 != Player::clsIdx()) {
+        connect(unit_, SIGNAL(stopEffect(uint)),
+                         this, SLOT(effectStop(uint)));
+    }
+    connect(this, SIGNAL(effectFinished(Effect*)),
+                     unit_, SLOT(deleteEffect(Effect*)));
+    connect(timer_, SIGNAL(timeout()),
+                     this, SLOT(update()));
+}
 
 Effect::Effect(const Effect& e) : GameObject() {
     type_ = e.type_;
@@ -16,6 +26,14 @@ Effect::Effect(const Effect& e) : GameObject() {
     healthChangeValue_ = e.healthChangeValue_;
     timerEnabled_ = e.timerEnabled_;
     timer_ = e.timer_;
+    if((unit_->getID() & 0xFF000000)>>24 != Player::clsIdx()) {
+        connect(unit_, SIGNAL(stopEffect(uint)),
+                         this, SLOT(effectStop(uint)));
+    }
+    connect(this, SIGNAL(effectFinished(Effect*)),
+                     unit_, SLOT(deleteEffect(Effect*)));
+    connect(timer_, SIGNAL(timeout()),
+                     this, SLOT(update()));
 }
 
 Effect& Effect::operator=(const Effect &rhs) {
@@ -26,6 +44,14 @@ Effect& Effect::operator=(const Effect &rhs) {
         velocityChangeValue_ = rhs.velocityChangeValue_;
         healthChangeValue_ = rhs.healthChangeValue_;
         timerEnabled_ = rhs.timerEnabled_;
+        if((unit_->getID() & 0xFF000000)>>24 != Player::clsIdx()) {
+            connect(unit_, SIGNAL(stopEffect(uint)),
+                             this, SLOT(effectStop(uint)));
+        }
+        connect(this, SIGNAL(effectFinished(Effect*)),
+                         unit_, SLOT(deleteEffect(Effect*)));
+        connect(timer_, SIGNAL(timeout()),
+                         this, SLOT(update()));
     }
     return *this;
 }
@@ -38,7 +64,16 @@ bool Effect::operator!=(const Effect &e) const {
     return (type_ != e.type_);
 }
 
-Effect::~Effect(){}
+Effect::~Effect(){
+    if((unit_->getID() & 0xFF000000)>>24 != Player::clsIdx()) {
+        disconnect(unit_, SIGNAL(stopEffect(uint)),
+                         this, SLOT(effectStop(uint)));
+    }
+    disconnect(this, SIGNAL(effectFinished(Effect*)),
+                     unit_, SLOT(deleteEffect(Effect*)));
+    disconnect(timer_, SIGNAL(timeout()),
+                     this, SLOT(update()));
+}
 
 void Effect::update(){
     if (applyEnabled_) {
@@ -60,7 +95,6 @@ void Effect::apply() {}
 void Effect::countdown() {
     duration_--;
     if(duration_ <= 0){
-        disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
         emit effectFinished(this);
     }
 }
