@@ -65,6 +65,9 @@ public:
     bool isDead() const {
         return children_.size() == 0 && count_ == created_;
     }
+    unsigned int getStart(){
+        return start_;
+    }
 
 private:
     /**

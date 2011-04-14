@@ -24,9 +24,6 @@ class ContextMenuGraphicsComponent : public GraphicsComponent {
     };
 
 public:
-    /**
-     * Instantiates the ContextMenuGraphicsComponent
-     */
     ContextMenuGraphicsComponent();
     virtual ~ContextMenuGraphicsComponent() {}
 
@@ -50,11 +47,11 @@ public:
     virtual void draw(void* dp, int layer=0);
 
     /**
-     * Gets a pixmap for the object based on its current animation state.
+     * Initializes all of the images for this object.
      *
      * @author Warren Voelkl
      */
-    virtual void initPixmaps();
+    virtual void initPixmaps() = 0;
 
     /**
      * Changes the index, and sets the position of the context menu to be shown.
@@ -78,12 +75,10 @@ public:
      * This function is called when a user chooses a tower he wishes to build
      *
      * @author Karl Castillo, Warren Voelkl
-     * @param type - the keypressed; each keypress (49 - 53) is associated with
-     *               a specific type of tower
      * @param playerPos The coordinates of the player, which will be used as a
-     * reference as to where the context menu will be paited.
+     * reference as to where the context menu will be painted.
      */
-    void showSelectMenu(int type, QPointF playerPos);
+    virtual void showSelectMenu(int, QPointF playerPos);
 
     /**
      * Displays the types and amounts of resources required to build each tower.
@@ -93,6 +88,15 @@ public:
      * be hidden.
      */
     void showResources(bool show);
+
+protected:
+    /**
+     * Gets the current image being used for this object.
+     *
+     * @returns The pixmap array from the current graphics object.
+     * @author Warren Voelkl
+     */
+    virtual QPixmap* getPixmapArray() = 0;
 
 public slots:
     /**
@@ -110,40 +114,19 @@ public slots:
      */
     void hideSelectMenu();
 
-private:
-
-    /**
-     * Holds the position of the position where the menu is to be painted.
-     */
+protected:
+    /** Holds the position of the position where the menu is to be painted. */
     QPointF menuPos_;
 
-    /**
-     * Holds the scale factor that determines the size of the context menu.
-     * This variable is for animation purposes only.
-     */
+    /** Holds the scale factor that determines the size of the context menu.
+     *  This variable is for animation purposes only. */
     float scaleFactor_;
 
-    /**
-     * The timer that is used that will close the select menu after a period
-     * of time.
-     */
+    /** Timer used to close the select menu after a period of time. */
     QTimer closeTimer_;
 
-    /**
-     * The next pixmap image that should be displayed by the graphics thread.
-     */
+    /** Next pixmap image that should be displayed by the graphics thread. */
     int nextImage_;
-
-    /**
-     * container for all pixmaps which pertain to the current object
-     **/
-    static QPixmap * pixmapImgs_;
-
-    /**
-     * @returns the pixmap array from the current graphics object
-     * @author Warren Voelkl
-     */
-    virtual QPixmap * getPixmapArray();
 };
 
 } /* end namespace td */
