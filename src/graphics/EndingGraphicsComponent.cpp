@@ -3,8 +3,6 @@
 
 namespace td {
 
-QPixmap* EndingGraphicsComponent::pixmapImgs_ = 0;
-
 void EndingGraphicsComponent::update(GameObject*) {
     DrawParams* dp = new DrawParams();
 
