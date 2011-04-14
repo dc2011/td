@@ -197,6 +197,10 @@ void NPC::createEffect(int effectType)
         effect = new ArrowEffect(this);
         break;
     case EFFECT_TAR:
+        if (effects_.contains(EFFECT_TAR))
+        {
+            deleteEffect(*effects_.find(EFFECT_TAR));
+        }
         effect = new NPCTarEffect(this);
         break;
     case EFFECT_FIRE:
