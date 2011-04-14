@@ -7,7 +7,7 @@
 
 namespace td {
 
-class ContextMenu;
+class BuildContextMenu;
 class GameObject;
 class Map;
 class NPC;
@@ -32,8 +32,8 @@ private:
     /** The main game window, where all graphics will be drawn. */
     MainWindow* mainWindow_;
     
-    /** A context menu that appears around the player. */
-    ContextMenu* contextMenu_;
+    /** The menu for building towers. */
+    BuildContextMenu* buildContextMenu_;
 
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;

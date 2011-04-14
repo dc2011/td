@@ -2,11 +2,13 @@
 #define CONTEXTMENU_H
 
 #include <QObject>
+#include <QPointF>
 #include <QTimer>
-#include "Player.h"
-class ContextMenuGraphicsComponent;
+#include "ClsIdx.h"
 
 namespace td {
+class ContextMenuGraphicsComponent;
+class Player;
 
 class ContextMenu : public QObject {
     Q_OBJECT
@@ -26,20 +28,14 @@ public:
     ContextMenu(Player* player);
     virtual ~ContextMenu();
 
-private:
-    /**
-     * Is responsible for rendering this object.
-     */
-    GraphicsComponent* graphics_;
+protected:
+    /** Is responsible for rendering this object. */
+    ContextMenuGraphicsComponent* graphics_;
 
-    /**
-     * The human player on this client. Needed for position info.
-     */
+    /** The human player on this client. Needed for position info. */
     Player* player_;
 
-    /**
-     * True if a context menu is currently open.
-     */
+    /** True if a context menu is currently open. */
     bool menuIsOpen_;
 
 public slots:
@@ -56,7 +52,7 @@ public slots:
      * @author Dean Morin
      * @param keyPressed The numerical key that was pressed.
      */
-    void selectMenuItem(int keyPressed);
+    virtual void selectMenuItem(int keyPressed);
 
     /**
      * Shows or hides the resources required to build the towers.
@@ -68,35 +64,14 @@ public slots:
 
 signals:
     /**
-     * Emitted when a flame tower is selected to be built.
-     */
-    void signalFlameTowerSelected(QPointF);
-    
-    /**
-     * Emitted when a flak tower is selected to be built.
-     */
-    void signalFlakTowerSelected(QPointF);
-    
-    /**
-     * Emitted when a cannon tower is selected to be built.
-     */
-    void signalCannonTowerSelected(QPointF);
-    
-    /**
      * Emitted when an arrow tower is selected to be built.
      */
     void signalTowerSelected(int towerType, QPointF pos);
     
     /**
-     * Emitted when a tar tower is selected to be built.
-     */
-    void signalTarTowerSelected(QPointF);
-    
-    /**
      * Emitted when the menu is shown
      */
     void signalPlayerMovement(bool);
-    
 };
 
 } /* end namespace td */

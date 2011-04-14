@@ -1,7 +1,7 @@
 #include "ContextMenuGraphicsComponent.h"
+#include "../engine/CDriver.h"
 #include "../engine/ContextMenu.h"
 #include "../engine/Player.h"
-#include "../engine/CDriver.h"
 
 #define ARROW_TOWER_SELECTED    49
 #define CANNON_TOWER_SELECTED   50
@@ -11,7 +11,7 @@
 
 namespace td {
 
-    QPixmap * ContextMenuGraphicsComponent::pixmapImgs_ = 0;
+QPixmap* ContextMenuGraphicsComponent::pixmapImgs_ = 0;
 
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
     : GraphicsComponent() {
