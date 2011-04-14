@@ -1,3 +1,7 @@
+QObject {
+    color: black;
+}
+
 QMainWindow#LobbyWindow {
     background-image: url("./img/lobbyBg.png");
 }
@@ -7,7 +11,17 @@ QFrame#bgFrame {
     border: none;
 }
 
-QListWidget#mapsList {
+QListWidget#mapsList, QLineEdit#msgView, QLineEdit#msgBox {
     background: transparent;
+    border: none;
+}
+
+QFrame#chatBgFrame {
+    background-image: url("./img/chatBg.png");
+    border: none;
+}
+
+QFrame#chatInputBg {
+    background-image: url("./img/chatInputBg.png");
     border: none;
 }

@@ -194,11 +194,11 @@ void LobbyWindow::applyStyleSheet(QString path) {
     this->setStyleSheet(QString(f.readAll()));
     f.close();
 
-    QStringList tmpList("Test Name");
+    /*QStringList tmpList("Test Name");
     tmpList.append("Test Game");
     QTreeWidgetItem tmpItem(tmpList);
 
-    ui->userList->addTopLevelItem(&tmpItem);
+    ui->userList->addTopLevelItem(tmpItem);*/
 }
 
 void LobbyWindow::sendChatMessage() {
