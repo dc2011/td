@@ -48,7 +48,6 @@ void NPC::setHealth(int health){
     if (health_ > 0)
     {
         ((NPCGraphicsComponent*) graphics_)->showDamage();
-        //((NPCGraphicsComponent*)graphics_)->showHealth(true);
     }
 #endif
 }
