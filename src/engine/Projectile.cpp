@@ -30,7 +30,7 @@ Projectile::~Projectile() {
     case PROJ_ARROW:
         break;
     case PROJ_CANNON:
-//        new CannonEndingGraphicsComponent(pos_);
+        new CannonEndingGraphicsComponent(pos_);
         break;
     case PROJ_FIRE:
         break;

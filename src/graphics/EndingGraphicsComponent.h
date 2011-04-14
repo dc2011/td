@@ -11,7 +11,8 @@ class EndingGraphicsComponent : public GraphicsComponent {
 
 public:
     EndingGraphicsComponent(const QPointF& pos)
-        : GraphicsComponent(), pos_(pos), currentIndex_(0)  {
+        : GraphicsComponent(), arrayIndexMin_(0), arrayIndexMax_(0),
+        currentIndex_(0), timerID_(0),  pos_(pos)  {
 
     }
 
@@ -35,12 +36,12 @@ protected:
     QPointF pos_;
 
 private:
+    static QPixmap* pixmapImgs_;
+
+private:
     virtual void setNonStaticValues() = 0;
 
     virtual void setLayer(DrawParams* dp) = 0;
-
-private:
-    static QPixmap* pixmapImgs_;
 };
 
 
@@ -52,7 +53,7 @@ public:
     CannonEndingGraphicsComponent(const QPointF& pos)
         : EndingGraphicsComponent(pos) {
         emit created(this);
-        timerID_ = this->startTimer(35);
+        timerID_ = this->startTimer(55);
     }
 
     virtual ~CannonEndingGraphicsComponent() { }
@@ -66,8 +67,8 @@ public:
 protected:
     void timerEvent(QTimerEvent*) {
         if (currentIndex_++ > arrayIndexMax_ + 1) {
-            this->deleteComponent();
             this->killTimer(timerID_);
+            this->deleteComponent();
             return;
         }
         DrawParams* dp = new DrawParams();

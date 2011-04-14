@@ -4,6 +4,7 @@
 #include <QPointF>
 #include <QSet>
 #include "Driver.h"
+#include "NPCWave.h"
 
 namespace td {
 
@@ -43,6 +44,10 @@ private:
     
     /** Tells objects whether or not the game is being played single player **/
     bool singlePlayer_;
+
+
+    QList<NPCWave*> waves_;
+    QTimer* waveTimer_;
 
     CDriver(MainWindow* parent = 0);
     ~CDriver();
@@ -286,6 +291,7 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCCreator();
+    void deadWave();
 };
 
 } /* end namespace td */
