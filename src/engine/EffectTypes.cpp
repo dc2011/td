@@ -113,8 +113,6 @@ NPCBurnEffect::NPCBurnEffect(Unit* unit):Effect(unit, EFFECT_BURN, BURN_TIME) {
     count_ = 15;
 }
 
-NPCBurnEffect::~NPCBurnEffect();
-
 void NPCBurnEffect::apply() {
     if(count_ % 15 == 0){
         ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
