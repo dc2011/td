@@ -475,7 +475,7 @@ void AudioManager::clearProcessedBuffers
 
     alGetSourcei(*source, AL_BUFFERS_PROCESSED, &processed);
 
-    while (processed || !checkError()) {
+    while (processed && !checkError()) {
         alSourceUnqueueBuffers(*source, 1, &tempBuffer);
         processed--;
 
