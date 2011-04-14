@@ -22,16 +22,12 @@ NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
 }
 
 NPC::~NPC() {
-    if (!effects_.empty())
+    // Delete all effects in the map
+    QMap<int, Effect*>::iterator i;
+    for (i = effects_.begin(); i != effects_.end(); ++i)
     {
-        if (effects_.contains(EFFECT_BURN))
-        {
-            deleteEffect(*effects_.find(EFFECT_BURN));
-        }
-        if (effects_.contains(EFFECT_TAR))
-        {
-            deleteEffect(*effects_.find(EFFECT_TAR));
-        }
+        deleteEffect(*i);
+        //cout << i.key() << ": " << i.value() << endl;
     }
     if (wave_ != NULL) {
         wave_->killChild(this);
