@@ -1,4 +1,4 @@
-QMainWindow {
+QMainWindow#LobbyWindow {
     background-image: url("./img/lobbyBg.png");
 }
 

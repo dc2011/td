@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>706</width>
-    <height>350</height>
+    <width>700</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
       <x>340</x>
       <y>50</y>
       <width>321</width>
-      <height>51</height>
+      <height>261</height>
      </rect>
     </property>
    </widget>
@@ -189,7 +189,7 @@
       <x>320</x>
       <y>30</y>
       <width>360</width>
-      <height>81</height>
+      <height>300</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -215,8 +215,8 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>120</y>
+      <x>30</x>
+      <y>260</y>
       <width>67</width>
       <height>17</height>
      </rect>
@@ -228,8 +228,8 @@
    <widget class="QPushButton" name="sendMsg">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>320</y>
+      <x>330</x>
+      <y>550</y>
       <width>98</width>
       <height>27</height>
      </rect>
@@ -242,7 +242,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>320</y>
+      <y>550</y>
       <width>281</width>
       <height>27</height>
      </rect>
@@ -251,18 +251,18 @@
    <widget class="QLineEdit" name="msgView">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>140</y>
-      <width>151</width>
-      <height>111</height>
+      <x>30</x>
+      <y>280</y>
+      <width>281</width>
+      <height>261</height>
      </rect>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>120</y>
+      <x>330</x>
+      <y>340</y>
       <width>121</width>
       <height>20</height>
      </rect>
@@ -274,13 +274,34 @@
    <widget class="QListView" name="userList">
     <property name="geometry">
      <rect>
-      <x>500</x>
-      <y>140</y>
-      <width>161</width>
-      <height>121</height>
+      <x>330</x>
+      <y>370</y>
+      <width>351</width>
+      <height>171</height>
      </rect>
     </property>
    </widget>
+   <zorder>bgFrame</zorder>
+   <zorder>mapsList</zorder>
+   <zorder>btnStart</zorder>
+   <zorder>easyBtn</zorder>
+   <zorder>mediumBtn</zorder>
+   <zorder>txtUsername</zorder>
+   <zorder>lblDisplayCount</zorder>
+   <zorder>lblCount</zorder>
+   <zorder>chkSingleplayer</zorder>
+   <zorder>btnConnect</zorder>
+   <zorder>lblAddress</zorder>
+   <zorder>txtAddress</zorder>
+   <zorder>lblUsername</zorder>
+   <zorder>hardBtn</zorder>
+   <zorder>label</zorder>
+   <zorder>label_2</zorder>
+   <zorder>sendMsg</zorder>
+   <zorder>msgBox</zorder>
+   <zorder>msgView</zorder>
+   <zorder>label_3</zorder>
+   <zorder>userList</zorder>
   </widget>
  </widget>
  <resources/>
