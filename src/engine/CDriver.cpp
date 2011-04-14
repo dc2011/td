@@ -34,8 +34,10 @@ CDriver::CDriver(MainWindow* mainWindow)
 }
 
 CDriver::~CDriver() {
+    if(!waves_.empty()) {
+        disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+    }
     waves_.clear();
-    //disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
 }
 
 CDriver* CDriver::init(MainWindow* mainWindow) {
@@ -215,6 +217,16 @@ void CDriver::requestResourceAddition(BuildingTower* t) {
     }
 }
 
+void CDriver::requestSellTower(QPointF pos) {
+    if (isSinglePlayer()) {
+        Driver::sellTower(pos);
+    } else {
+        Stream s;
+        s.writeFloat(pos.x());
+        s.writeFloat(pos.y());
+        NetworkClient::instance()->send(network::kSellTower, s.data());
+    }
+}
 void CDriver::NPCCreator() {
 
     if(!waves_.empty()) {
@@ -333,6 +345,7 @@ void CDriver::handleSpacebarPress() {
             
         case TILE_BUILT:
             //TODO Tower upgrade/sell context menu toggle
+            requestSellTower(currentTile->getPos());
         case TILE_BASE:
             //TODO Player upgrade context menu toggle
             break;
@@ -396,6 +409,17 @@ void CDriver::UDPReceived(Stream* s) {
             if (human_->getID() == id) {
                 human_->dropResource(addToTower);
             }
+            break;
+        }
+        case network::kSellTower:
+        {
+            int actionType = s->readInt();
+            float x = s->readFloat();
+            float y = s->readFloat();
+
+            Tile* tile = gameMap_->getTile(QPointF(x, y));
+            tile->setActionType(actionType);
+
             break;
         }
         case network::kDestroyObject:
