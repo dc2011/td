@@ -25,6 +25,11 @@
 #define UPGRADE_HARVEST     50
 #define UPGRADE_RECOVERY    51
 
+// Current map to use
+#define MAP      "bigmap"
+#define MAP_TMX   QString("./maps/") + QString(MAP) + QString(".tmx")
+#define MAP_NFO   QString("./maps/") + QString(MAP) + QString(".nfo")
+
 // how often the tower type can fire (in game ticks)
 #define FIRE_INTERVAL_ARROW     45
 #define FIRE_INTERVAL_ARROW_2   35
@@ -166,15 +171,6 @@
 // resource collection bar size, in pixels
 #define RESBAR_WIDTH    30
 #define RESBAR_HEIGHT   6
-
-// Temp defines pending a map object
-#define MAP_ROWS 99
-#define MAP_COLS 99
-
-//temp defines
-#define TILE_HEIGHT 48
-#define TILE_WIDTH 48
-#define TILE_SIZE 48
 
 // tower requirements
 #define COST_FLAK_WOOD    1

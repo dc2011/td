@@ -143,6 +143,10 @@ void CDriver::makeLocalPlayer(Player* player) {
     connect(mainWindow_, SIGNAL(signalKeyReleased(int)),
             input, SLOT(keyReleased(int)));
 
+    /* Connect movement to window scrolling. */
+    connect(player, SIGNAL(signalPlayerMovement(QPointF)),
+            mainWindow_, SLOT(scroll(QPointF)));
+
     // Connection for collisions -- waiting on map object
     connect(physics, SIGNAL(requestTileType(double, double, int*)), 
             gameMap_, SLOT(getTileType(double, double, int*)));
@@ -314,7 +318,7 @@ void CDriver::startGame(bool singlePlayer) {
 
         this->makeLocalPlayer(player);
 
-        Parser* fileParser = new Parser(this, "./maps/mapinfo.nfo");
+        Parser* fileParser = new Parser(this, MAP_NFO);
         NPCWave* tempWave;
         setBaseHealth(fileParser->baseHP);
         while((tempWave = fileParser->readWave())!=NULL) {
