@@ -117,6 +117,8 @@ void NPC::initComponents() {
     switch(type_) {
     case NPC_NORM:
         maxHealth_ = health_ = 100;
+        height_ = 90;
+        width_ = 30;
         input = new NormNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new NormNPCPhysicsComponent());
@@ -127,6 +129,8 @@ void NPC::initComponents() {
         break;
     case NPC_SLOW:
         maxHealth_ = health_ = 200;
+        height_ = 30;
+        width_ = 90;
         input = new SlowNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new SlowNPCPhysicsComponent());
@@ -137,6 +141,8 @@ void NPC::initComponents() {
         break;
     case NPC_FAST:
         maxHealth_ = health_ = 50;
+        height_ = 30;
+        width_ = 90;
         input = new FastNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new FastNPCPhysicsComponent());
@@ -147,6 +153,8 @@ void NPC::initComponents() {
         break;
     case NPC_FLY:
         maxHealth_ = health_ = 100;
+        height_ = 30;
+        width_ = 90;
         input = new FlyNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new FlyNPCPhysicsComponent());
@@ -157,6 +165,8 @@ void NPC::initComponents() {
         break;
     case NPC_BOSS:
         maxHealth_ = health_ = 300;
+        height_ = 30;
+        width_ = 90;
         input = new BossNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new BossNPCPhysicsComponent());

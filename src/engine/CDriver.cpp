@@ -217,16 +217,11 @@ void CDriver::requestResourceAddition(BuildingTower* t) {
 void CDriver::NPCCreator() {
 
     if(!waves_.empty()) {
-    disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
-    //NPCWave* wave = new NPCWave(this);
-
-
-    waves_.first()->createWave();
-    //waves_.append(wave);
-
-
-    connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
-
+        disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
+        //NPCWave* wave = new NPCWave(this);
+        waves_.first()->createWave();
+        //waves_.append(wave);
+        connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
     }
 
     /*
