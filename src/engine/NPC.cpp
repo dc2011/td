@@ -47,7 +47,11 @@ void NPC::setHealth(int health){
     health_ = health;
     setDirty(kHealth);
 #ifndef SERVER
-    ((NPCGraphicsComponent*) graphics_)->showDamage();
+    // Make sure that we are only displaying health that exists...
+    if (health_ > 0)
+    {
+        ((NPCGraphicsComponent*) graphics_)->showDamage();
+    }
 #endif
 }
 
