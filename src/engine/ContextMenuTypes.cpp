@@ -26,7 +26,7 @@ void TowerContextMenu::selectMenuItem(int keyPressed) {
         return;
     }
     if (keyPressed == UPGRADE_TOWER) {
-        //TODO emit upgrade signal
+        emit signalUpgradeTower(player_->getPos());
     } else {
         emit signalSellTower(player_->getPos()); 
     }
@@ -43,6 +43,7 @@ void PlayerContextMenu::selectMenuItem(int keyPressed) {
              keyPressed != UPGRADE_RECOVERY)) {
         return;
     }
+    emit signalUpgradePlayer(keyPressed, player_->getPos());
     ContextMenu::selectMenuItem(keyPressed);
 }
 

@@ -59,6 +59,14 @@ signals:
      * @param pos Where the tower to sell is.
      */
     void signalSellTower(QPointF pos); 
+
+    /**
+     * Emitted when a tower should be upgraded.
+     *
+     * @author Dean Morin
+     * @param pos Where the tower to upgrade is.
+     */
+    void signalUpgradeTower(QPointF pos);
 };
 
 /**
@@ -77,6 +85,16 @@ public:
      * @param keyPressed The numerical key that was pressed.
      */
     virtual void selectMenuItem(int keyPressed);
+
+signals:
+    /**
+     * Emitted when a tower should be sold.
+     *
+     * @author Dean Morin
+     * @param upgradeType The attribute being updated.
+     * @param pos Where the tower to sell is.
+     */
+    void signalUpgradePlayer(int upgradeType, QPointF pos); 
 };
 
 } // end namespace td
