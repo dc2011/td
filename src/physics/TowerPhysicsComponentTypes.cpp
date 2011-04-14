@@ -62,7 +62,7 @@ FlameTowerPhysicsComponent::FlameTowerPhysicsComponent(Tower* tower)
 
 void FlameTowerPhysicsComponent::update(GameObject *tower){
     this->findDirectionToShoot();
-    if(!foundTarget_ && !ready_) {
+    if(!foundTarget_ || !ready_) {
         return;
     }
     this->applyDirection((Tower*)tower);
