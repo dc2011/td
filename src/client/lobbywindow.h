@@ -29,6 +29,7 @@ public slots:
     void connectLobby();
     void tmp_startGame();
     void onTCPReceived(Stream* s);
+    void onCreateNewGame();
 
 private slots:
     /**
@@ -49,7 +50,7 @@ private slots:
 
 private:
     void updateListOfUserNames(QList<QString*>&);
-    void updateListOfGames(QMap<int,int>&);
+    void updateListOfGames(QMultiMap<int,QString>&);
     /**
      * Reads the last used settings from a persistent file.
      *

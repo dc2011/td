@@ -75,6 +75,7 @@ void LobbyWindow::connectLobby()
 
     PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
+    connect(ui->newGame,SIGNAL(clicked()),this,SLOT(onCreateNewGame()));
     delete s;
 }
 
@@ -130,14 +131,20 @@ void LobbyWindow::onTCPReceived(Stream* s)
         }
         case network::kUpdateListOfGames:
         {
-            QMap<int,int> gameList;
+            QMultiMap<int,QString> gameList;
             int numOfGames = s->readInt();
             for(int i = 0; i < numOfGames; i++) {
                 int gameName = s->readInt();
                 int numOfPlayers = s->readInt();
-                gameList[gameName] = numOfPlayers;      
+                for(int j = 0; j < numOfPlayers; j++) {
+                    int nameLen = s->readInt();
+                    gameList.insert(gameName,(s->read(nameLen)));   
+                    
+                }
+                   
             }
             updateListOfGames(gameList);
+            break;
         }
         case network::kLobbyStartGame:
         {
@@ -203,8 +210,6 @@ void LobbyWindow::applyStyleSheet(QString path) {
 
 void LobbyWindow::sendChatMessage() {
     Stream s;
-   // s->write(ui->txtUsername->text().toAscii());
-   // s.writeByte(network::kChatMessage);
     s.writeInt(ui->txtUsername->text().size());
     s.write(ui->txtUsername->text().toAscii());
     s.writeInt(ui->msgBox->text().size());
@@ -216,7 +221,7 @@ void LobbyWindow::updateListOfUserNames(QList<QString*>& userNames) {
 
 }
 
-void LobbyWindow::updateListOfGames(QMap<int,int>& gameList) {
+void LobbyWindow::updateListOfGames(QMultiMap<int, QString>& gameList) {
     //update gui here
 } 
 
@@ -228,6 +233,16 @@ void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {
     result .append(msg);
     ui->msgView->setText(result);
 }
+
+void LobbyWindow::onCreateNewGame() {
+    Stream s;
+    s.writeInt(ui->txtUsername->text().size());
+    s.write(ui->txtUsername->text().toAscii());
+    s.writeInt(0);
+    NetworkClient::instance()->send(network::kJoinGame, s.data());
+}
 /* end namespace td */
 
 };
+
+
