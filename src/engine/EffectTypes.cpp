@@ -55,7 +55,8 @@ PlayerTerrainSlowEffect::~PlayerTerrainSlowEffect() {
 
 void PlayerTerrainSlowEffect::apply() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
-    if((((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::NONE) {
+    if((((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::NONE
+            || (((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::FAST) {
         disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
         emit effectFinished(this);
     }
@@ -73,7 +74,8 @@ PlayerTerrainFastEffect::~PlayerTerrainFastEffect() {
 
 void PlayerTerrainFastEffect::apply() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
-    if((((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::NONE) {
+    if((((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::NONE
+            || (((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::SLOW) {
         disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
         emit effectFinished(this);
     }
@@ -104,14 +106,14 @@ FireEffect::FireEffect(Unit* unit)
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
-void FireEffect::apply(){
-
-}
+void FireEffect::apply(){}
 
 NPCBurnEffect::NPCBurnEffect(Unit* unit):Effect(unit, EFFECT_BURN, BURN_TIME) {
     healthChangeValue_ = -5;
-    count_ = 0;
+    count_ = 15;
 }
+
+NPCBurnEffect::~NPCBurnEffect();
 
 void NPCBurnEffect::apply() {
     if(count_ % 15 == 0){
