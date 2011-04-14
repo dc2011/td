@@ -36,8 +36,6 @@ public:
     bool isValidTarget(Unit *);
     void fire();
 private:
-    /** The enemy that's currently being tracked by the tower. */
-    Unit* endPoint_;
     bool foundTarget_;
     bool ready_;
 

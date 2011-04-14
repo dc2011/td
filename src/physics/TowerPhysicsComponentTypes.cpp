@@ -103,7 +103,7 @@ void FlameTowerPhysicsComponent::findDirectionToShoot(){
             projectilePath_.setP2((*iter)->getPos());
             // check that they're actually in range
             if (projectilePath_.length() < getRadius()) {
-                endPoint_ = *iter;
+                target_ = *iter;
                 projectilePath_.setLength(getRadius());
                 foundTarget_ = true;
                 return;
@@ -132,7 +132,7 @@ void FlameTowerPhysicsComponent::fire() {
     // TODO: move to projectilePC, once the different types have been created
     PLAY_SFX(tower_, SfxManager::projectileFireFlame);
     emit fireProjectile(PROJ_FIRE, tower_->getPos(), projectilePath_.p2(),
-            endPoint_);
+            target_);
     fireCountdown_ = fireInterval_;
     foundTarget_ = false;
 }
