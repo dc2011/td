@@ -16,7 +16,10 @@ NPCWave::NPCWave(QObject* parent, unsigned int start, unsigned int count,
 }
 
 NPCWave::~NPCWave() {
-    children_.clear();
+    foreach(NPC* child, children_){
+        delete child;
+    }
+    //children_.clear();
 }
 
 void NPCWave::createWave() {
