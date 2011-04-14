@@ -101,6 +101,26 @@ public:
         return radius_;
     }
 
+    /**
+     * Sets fire interval value of tower.
+     *
+     * @author Marcel Vangrootheest
+     * @param fireInterval sets fireInterval_
+     */
+    void setFireInterval(size_t fireInterval) {
+        fireInterval_ = fireInterval;
+    }
+
+    /**
+     * returns fireInterval value of the tower
+     *
+     * @author Marcel Vangrootheest
+     * @return fire interval value
+     */
+    int getFireInterval() {
+        return fireInterval_;
+    }
+
     virtual bool isValidTarget(Unit*) = 0;
 
 protected:
