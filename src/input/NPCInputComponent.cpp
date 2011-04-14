@@ -24,12 +24,12 @@ void NPCInputComponent::update() {
 void NPCInputComponent::setParent(Unit *parent) {
     // Casting Unit* to NPC*.
     parent_ = (NPC*) parent;
-    nextDest_ = 0;
+   // nextDest_ = 0;
 
     connect(this, SIGNAL(deleteUnitLater(int)),
             parent_->getDriver(), SLOT(destroyObject(int)),
             Qt::QueuedConnection);
-
+/*
     waypoints_ = parent->getDriver()->getGameMap() ->getWaypoints(WP_PTERO);
     segment_ =  QLineF(waypoints_.at(nextDest_).x(),
                        waypoints_.at(nextDest_).y(),
@@ -37,6 +37,17 @@ void NPCInputComponent::setParent(Unit *parent) {
                        waypoints_.at(nextDest_ + 1).y());
     nextDest_++;
 
+    parent_->setPos(segment_.p1().x(), segment_.p1().y());
+*/
+}
+void NPCInputComponent::initWaypoints(int path) {
+    nextDest_ = 0;
+    waypoints_ = parent_->getDriver()->getGameMap()->getWaypoints(path);
+    segment_ =  QLineF(waypoints_.at(nextDest_).x(),
+                       waypoints_.at(nextDest_).y(),
+                       waypoints_.at(nextDest_ + 1).x(),
+                       waypoints_.at(nextDest_ + 1).y());
+    nextDest_++;
     parent_->setPos(segment_.p1().x(), segment_.p1().y());
 }
 

@@ -57,6 +57,14 @@ void BuildingTowerGraphicsComponent::draw(DrawParams* dp, int layer)  {
                 dp->pos.x() + threequarters, dp->pos.y(),layer,i);
         resourcePixmapItemArray_[RESOURCE_TAR][i]
             ->setPixmap(pixmapImgs_[PIX_BUILDING_TOWER_MAX + 3]);
+        setIconVisibility(resourcePixmapItemArray_[RESOURCE_WOOD][i],
+                i, woodReq_);
+        setIconVisibility(resourcePixmapItemArray_[RESOURCE_STONE][i],
+                i, stoneReq_);
+        setIconVisibility(resourcePixmapItemArray_[RESOURCE_TAR][i],
+                i, tarReq_);
+        setIconVisibility(resourcePixmapItemArray_[RESOURCE_BONE][i],
+                i, boneReq_);
     }
     setBuildingGraphic(this->getPixmapItem());
     GraphicsComponent::draw(dp, layer - 1);
@@ -68,7 +76,7 @@ void BuildingTowerGraphicsComponent::iconDrawingHelper(
     int center = getPixmapItem()->boundingRect().center().x();
     icon->setPos(x - center, y + i * yoffset - center);
     icon->setZValue(layer);
-    icon->setScale(.5);
+    icon->setScale(.6);
 }
 
 void BuildingTowerGraphicsComponent::initPixmaps() {
@@ -157,24 +165,12 @@ void BuildingTowerGraphicsComponent::setIconVisibility(
         iconGraphic->setVisible(false);
     }
 }
-
+/*
 void BuildingTowerGraphicsComponent::showIcons(bool keyHeld) {
     int i, j;
+
     if (keyHeld) {
-        for (i = 0; i != ICON_MAX; i++) {
-            setIconVisibility(
-                    resourcePixmapItemArray_[RESOURCE_WOOD][i],
-                    i, woodReq_);
-            setIconVisibility(
-                    resourcePixmapItemArray_[RESOURCE_STONE][i],
-                    i, stoneReq_);
-            setIconVisibility(
-                    resourcePixmapItemArray_[RESOURCE_TAR][i],
-                    i, tarReq_);
-            setIconVisibility(
-                    resourcePixmapItemArray_[RESOURCE_BONE][i],
-                    i, boneReq_);
-        }
+
     } else {
         for (i = 0; i != ICON_MAX; i++) {
             for (j = 0; j != RESOURCE_TYPE_MAX; j++) {
@@ -182,8 +178,9 @@ void BuildingTowerGraphicsComponent::showIcons(bool keyHeld) {
             }
         }
     }
-}
 
+}
+*/
 void BuildingTowerGraphicsComponent::setBuildingGraphic(QGraphicsPixmapItem * gpi) {
     gpi->setPixmap(pixmapImgs_[buildingStage_]);
 }

@@ -19,15 +19,15 @@ QStringList SfxManager::projectileFireFlak
 
 // projectile lands
 QStringList SfxManager::projectileHitArrow  
-        = QStringList() << "";
+        = QStringList() << "death-3";
 QStringList SfxManager::projectileHitCannon 
-        = QStringList() << "";
+        = QStringList() << "bridge";
 QStringList SfxManager::projectileHitFlame  
         = QStringList() << "";
 QStringList SfxManager::projectileHitTar    
-        = QStringList() << "";
+        = QStringList() << "death-1";
 QStringList SfxManager::projectileHitFlak   
-        = QStringList() << "";
+        = QStringList() << "death-2";
 
 // tower SFX
 QStringList SfxManager::towerBuildingStarted

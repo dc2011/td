@@ -61,7 +61,7 @@ public slots:
      * Slot connected to the k keypress used to display the icons required
      * to finish construction of tower
      */
-    void showIcons(bool);
+    //void showIcons(bool);
 
 private:
     /** container for all pixmaps which pertain to the current object */

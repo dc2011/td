@@ -112,6 +112,17 @@ public:
      * @param health The new base health.
      */
     virtual void setBaseHealth(int health);
+    
+    /**
+     * Writes a message to either drop a resource or add it
+     * to the Building Stage.
+     *
+     * @author Marcel Vangrootheest
+     * @param out The stream to write the message to.
+     * @param t The BuildingTower to add the resource to.
+     * @param player The player that needs to drop the resource.
+     */
+    void towerDrop(Stream* out, BuildingTower* t, Player* player);
 
 signals:
     /**
@@ -180,6 +191,7 @@ public slots:
      * @author Duncan Donaldson
      */
     void deadNPC(int id);
+    void deadWave();
     /**
      * Handles a UDP packet receive by updating a currently existing player
      * or adding the player to the players list if the player does not exist.

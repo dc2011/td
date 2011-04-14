@@ -29,6 +29,8 @@ struct DrawParams {
     bool moving;
     /** current health from 1 - 100  ie a percent */
     int health;
+    /** index of pixmap image to use */
+    int pixmapIdx;
 };
 //Q_DECLARE_METATYPE(DrawParams);
 

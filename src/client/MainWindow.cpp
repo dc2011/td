@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include <QScrollArea>
+#include <QLabel>
 #include <QSize>
 #include "map.h"
 #include "maprenderer.h"
@@ -7,14 +8,19 @@
 #include "../graphics/GraphicsComponent.h"
 #include "../graphics/MapDisplayer.h"
 #include "../util/DelayedDelete.h"
-#include <QLabel>
 #include "../graphics/Console.h"
+#include "../engine/CDriver.h"
+#include "../engine/Player.h"
 
 namespace td {
 
 MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
+    stats_ = new QGraphicsTextItem();
+    statsRect_ = new QGraphicsRectItem();
+    
+    consoleOpen_ = false;
 
     scene_->setItemIndexMethod(QGraphicsScene::NoIndex);
     keysHeld_ = 0;
@@ -32,6 +38,21 @@ MainWindow::MainWindow() : QMainWindow() {
     Tiled::MapRenderer* mRenderer = mapDisplayer_->getMRenderer();
     QSize mapSize = mRenderer->mapSize();
 
+    //Status bar
+    statsRect_->setRect(500,0,500,30);
+    statsRect_->setBrush(QBrush(QColor(0,0,0)));
+    statsRect_->setPen(QPen(QColor(0,0,0)));
+    statsRect_->setZValue(98);
+    statsRect_->setOpacity(0.8);
+
+    stats_->setDefaultTextColor(QColor(200,200,0));
+    stats_->setPos(505,0);
+    stats_->setZValue(99);
+    stats_->setPlainText("|i|Base Health: 100% |i| Gems: 10 |i| NPC WAVE 0:10s");
+    stats_->update();
+
+    scene_->addItem(statsRect_);
+    scene_->addItem(stats_);
     this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
     scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
@@ -89,11 +110,31 @@ void MainWindow::keyHeld()
 }
 
 void MainWindow::keyPressEvent(QKeyEvent * event) {
-
+    PlayerInputComponent *tInput;
     if(event->isAutoRepeat()) {
         return;
     }
+    
+    if(consoleOpen_ == true) {
+        if(event->key() == Qt::Key_Return) {
+            Console::instance()->addChar("\n");            
+        } else if (event->key() == Qt::Key_Backspace) {
+            Console::instance()->removeChar();
+        } else if (event->key() >= 32 && event->key() <= 126
+                   && event->key() != 96) {
+            Console::instance()->addChar(event->text());
+        }
 
+        if (event->key() == 96) {
+            Console::instance()->hide();
+            consoleOpen_ = !consoleOpen_;
+            tInput = (PlayerInputComponent *)CDriver::instance()->
+                getHuman()->getInputComponent();
+            tInput->playerMovement(true);
+        }
+        return;
+    }
+    
     switch (event->key()) {
 
         case Qt::Key_Space:
@@ -106,7 +147,12 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
             //AudioManager::instance()->toggleCapturePause();
             break;
         case Qt::Key_QuoteLeft :
-            Console::instance()->toggle();
+            Console::instance()->show();
+            consoleOpen_ = !consoleOpen_;
+            tInput = (PlayerInputComponent *)CDriver::instance()->
+                getHuman()->getInputComponent();
+            tInput->playerMovement(false); 
+            keysHeld_ = 0;
             break;
         case Qt::Key_1:
         case Qt::Key_2:
@@ -142,10 +188,10 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
 
 void MainWindow::keyReleaseEvent(QKeyEvent * event) {
 
-    if(event->isAutoRepeat()) {
+    if(event->isAutoRepeat() || consoleOpen_ == true) {
         return;
     }
-
+    
     switch (event->key()) {
 
         case Qt::Key_Up:
@@ -172,7 +218,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
             break;
         case Qt::Key_Space:
             emit signalSpacebarReleased();
-	    break;
+            break;
         default:
             QMainWindow::keyPressEvent(event);
             break;

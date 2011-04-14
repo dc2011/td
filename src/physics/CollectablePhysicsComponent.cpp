@@ -29,13 +29,23 @@ void CollectablePhysicsComponent::applyVelocity(Collectable* collectable) {
 
 void CollectablePhysicsComponent::setScale(Collectable *collectable) {
     if (duration_ < 0) {
-        duration_ = collectable->getPath().length() / maxVelocity_;
+        duration_ = collectable->getPath().length() / maxVelocity_ ;
         increment_ = 0;
     }
-    if (increment_++ < (duration_ / 2)) {
-        collectable->setScale(collectable->getScale() + 0.05);
+    if ((increment_++ < (duration_ / 3)) || (increment_ > (duration_ * 0.75)
+                && increment_ < (duration_ * 0.875))) {
+        collectable->setScale(collectable->getScale() + 0.1);
     } else if (increment_ < duration_) {
-        collectable->setScale(collectable->getScale() - 0.05);
+        if (increment_ >= (duration_ * 0.75)) {
+            maxVelocity_ = COLLECTABLE_VELOCITY / 3;
+        }
+        if (collectable->getType() == RESOURCE_GEM) {
+            collectable->setScale(qMax(collectable->getScale() - 0.1,
+                        GEM_SIZE));
+        } else {
+            collectable->setScale(qMax(collectable->getScale() - 0.1,
+                        RESOURCE_SIZE));
+        }
     }
 }
 
