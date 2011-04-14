@@ -10,7 +10,7 @@
 #include "../physics/ProjectilePhysicsComponentTypes.h"
 #include "../graphics/ProjectileGraphicsComponentTypes.h"
 #include "Driver.h"
-#include "../graphics/EndingGraphicsComponent.h"
+#include "../graphics/EndingGraphicsComponentTypes.h"
 
 namespace td {
 
