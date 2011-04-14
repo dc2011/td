@@ -9,14 +9,27 @@
  * @author Warren Voelkl, Karl Castillo
  */
 
-#define PIX_CONTEXT_MENU_MAIN   QString("./img/buildmenu.png")
-#define PIX_CONTEXT_MENU_RES    QString("./img/buildResources.png");
-#define PIX_CONTEXT_MENU_T1     QString("./img/menuArrow.png")
-#define PIX_CONTEXT_MENU_T2     QString("./img/menuCannon.png")
-#define PIX_CONTEXT_MENU_T3     QString("./img/menuFlame.png")
-#define PIX_CONTEXT_MENU_T4     QString("./img/menuTar.png")
-#define PIX_CONTEXT_MENU_T5     QString("./img/menuFlak.png")
-#define PIX_CONTEXT_MENU_MAX    7
+#define PIX_BUILD_MENU_MAIN     QString("./img/buildmenu.png")
+#define PIX_BUILD_MENU_RES      QString("./img/buildResources.png");
+#define PIX_BUILD_MENU_T1       QString("./img/menuArrow.png")
+#define PIX_BUILD_MENU_T2       QString("./img/menuCannon.png")
+#define PIX_BUILD_MENU_T3       QString("./img/menuFlame.png")
+#define PIX_BUILD_MENU_T4       QString("./img/menuTar.png")
+#define PIX_BUILD_MENU_T5       QString("./img/menuFlak.png")
+#define PIX_BUILD_MENU_MAX      7
+#define PIX_TOWER_MENU_MAIN     QString("./img/towerUpgradeMenu.png")
+//temp
+#define PIX_TOWER_MENU_RES      QString("./img/buildResources.png")
+#define PIX_TOWER_MENU_UPGR     QString("./img/towerUpgradeIcon.png")
+#define PIX_TOWER_MENU_SELL     QString("./img/sellIcon.png")
+#define PIX_TOWER_MENU_MAX      4
+#define PIX_PLAYER_MENU_MAIN    QString("./img/playerUpgradeMenu.png")
+//temp
+#define PIX_PLAYER_MENU_RES     QString("./img/buildResources.png")
+#define PIX_PLAYER_MENU_SPD     QString("./img/speedIcon.png")
+#define PIX_PLAYER_MENU_HAR     QString("./img/harvestIcon.png")
+#define PIX_PLAYER_MENU_REC     QString("./img/stunIcon.png")
+#define PIX_PLAYER_MENU_MAX     5
 #define PIX_PLAYER_0            QString("./img/player-stand.png")
 #define PIX_PLAYER_1            QString("./img/player-move1.png")
 #define PIX_PLAYER_2            QString("./img/player-move2.png")

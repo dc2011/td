@@ -66,17 +66,17 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     points.append(lowerRight);
     points.append(upperRight);
     QPolygonF polygon = QPolygonF(points);
-    bool flag = false;
+    bool collision = false;
     foreach (Tile* targetTile ,targetTiles){
 
         QPolygonF otherpolygon = targetTile->getBounds();
         if(polygon.intersected(otherpolygon).count() != 0){
-            flag = true;
+            collision = true;
             break;
         }
     }
 
-    if (!flag) {
+    if (!collision) {
         player->changeTile(newPos);
         player->setPos(newPos);
         player->setBounds(polygon);
@@ -209,6 +209,7 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
     }
 }
 
+/*
 bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
     int blockingType = 0;
 
@@ -233,13 +234,17 @@ bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
 }
 
 bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
+    // Get pointer to map.
+    Map* map = getDriver()->getGameMap();
+    int tWidth = map->tileWidth();
+    int tHeight = map->tileHeight();
 
-    float posX = (int) pos.x() % TILE_WIDTH;
-    float posY = (int) pos.y() % TILE_HEIGHT;
+    float posX = (int) pos.x() % tWidth;
+    float posY = (int) pos.y() % tHeight;
 
     switch(type) {
         case Tile::NORTH_WEST:
-            if (posY > (TILE_WIDTH - posX)) {
+            if (posY > (tWidth - posX)) {
                 return false;
             }
             break;
@@ -257,7 +262,7 @@ bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
             break;
 
         case Tile::SOUTH_EAST:
-            if (posY < (TILE_WIDTH - posX)) {
+            if (posY < (tWidth - posX)) {
                 return false;
             }
             break;
@@ -268,6 +273,7 @@ bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
 
     return true;
 }
+*/
 
 void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
     QSet<Unit*>::iterator it;

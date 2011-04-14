@@ -34,7 +34,7 @@ MainWindow::MainWindow() : QMainWindow() {
 
     //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
-    mapDisplayer_->viewMap(QString("./maps/netbookmap3.tmx"));
+    mapDisplayer_->viewMap(MAP_TMX);
     Tiled::MapRenderer* mRenderer = mapDisplayer_->getMRenderer();
     QSize mapSize = mRenderer->mapSize();
 
@@ -53,15 +53,13 @@ MainWindow::MainWindow() : QMainWindow() {
 
     scene_->addItem(statsRect_);
     scene_->addItem(stats_);
-    this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);    
     this->setCentralWidget(view_);
     scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
-    view_->setFixedSize(mapSize.width(), mapSize.height());
+    //view_->setFixedSize(mapSize.width(), mapSize.height());
     //this->showFullScreen();
     
     // This focus policy may be implied by default...
     this->setFocusPolicy(Qt::StrongFocus);
-    //this->grabKeyboard();
 
     connect(keysTimer_, SIGNAL(timeout()), this, SLOT(keyHeld()));
 }
@@ -153,8 +151,8 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
             tInput = (PlayerInputComponent *)CDriver::instance()->
                 getHuman()->getInputComponent();
             tInput->playerMovement(false); 
-            keysHeld_ = 0;
-            break;
+	    keysHeld_ = 0;
+	    break;
         case Qt::Key_1:
         case Qt::Key_2:
         case Qt::Key_3:
@@ -189,8 +187,11 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
 
 void MainWindow::keyReleaseEvent(QKeyEvent * event) {
 
-    if(event->isAutoRepeat() || consoleOpen_ == true) {
+    if(event->isAutoRepeat()) {
         return;
+    } else if (consoleOpen_ == true) {
+	keysHeld_ = 0;
+	return;
     }
     
     switch (event->key()) {
@@ -224,6 +225,11 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
             QMainWindow::keyPressEvent(event);
             break;
     }
+}
+
+void MainWindow::scroll(QPointF pos) {
+  //qDebug("MainWindow::scroll(); Player must be moving pos: (%d, %d)", x, y);
+  view_->centerOn(pos);
 }
 
 } /* end namespace td */

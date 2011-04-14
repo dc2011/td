@@ -70,6 +70,10 @@ void FlameTowerPhysicsComponent::update(GameObject *tower){
 }
 
 void FlameTowerPhysicsComponent::findDirectionToShoot(){
+    // This tile size value is a bit flakey.
+    Map* map = tower_->getDriver()->getGameMap();
+    int tileSize = (map->tileWidth() + map->tileHeight()) / 2;
+
     // check if there's an npc currently being tracked
     if(foundTarget_) {
         return;
@@ -84,9 +88,8 @@ void FlameTowerPhysicsComponent::findDirectionToShoot(){
     projectilePath_.setLength(0);
 
     // get all npcs within range
-    Map* map = tower_->getDriver()->getGameMap();
     enemies_ = map->getUnits(tower_->getPos().x(), tower_->getPos().y(),
-                             ceil((double) getRadius() / TILE_SIZE));
+                             ceil((double) getRadius() / tileSize));
 
     if (enemies_.isEmpty()) {
         foundTarget_ = false;

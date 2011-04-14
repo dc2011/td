@@ -78,13 +78,17 @@ bool CollectableInputComponent::validateMovement(const QPointF& newPos) {
 }
 
 bool CollectableInputComponent::checkSemiBlocked(QPointF pos, int type) {
+    // Get pointer to map.
+    Map* map = parent_->getDriver()->getGameMap();
+    int tWidth = map->tileWidth();
+    int tHeight = map->tileHeight();
 
-    float posX = (int) pos.x() % TILE_WIDTH;
-    float posY = (int) pos.y() % TILE_HEIGHT;
+    float posX = (int) pos.x() % tWidth;
+    float posY = (int) pos.y() % tHeight;
 
     switch(type) {
         case Tile::NORTH_WEST:
-            if (posY > (TILE_WIDTH - posX)) {
+            if (posY > (tWidth - posX)) {
                 return false;
             }
             break;
@@ -102,7 +106,7 @@ bool CollectableInputComponent::checkSemiBlocked(QPointF pos, int type) {
             break;
 
         case Tile::SOUTH_EAST:
-            if (posY < (TILE_WIDTH - posX)) {
+            if (posY < (tWidth - posX)) {
                 return false;
             }
             break;
