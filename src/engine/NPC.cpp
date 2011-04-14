@@ -238,6 +238,12 @@ void NPC::createEffect(int effectType)
 void NPC::deleteEffect(Effect* effect)
 {
     effects_.remove(effect->getType());
+    QObject::disconnect(effect, SIGNAL(effectFinished(Effect*)),
+                        this, SLOT(deleteEffect(Effect*)));
+    QObject::disconnect(this, SIGNAL(stopEffect(uint)),
+                        effect, SLOT(effectStop(uint)));
+    QObject::disconnect(getDriver()->getTimer(), SIGNAL(timeout()),
+                        effect, SLOT(update()));
     delete effect;
     if (effects_.empty()) {
         // TODO: connect to a slot in projectile collisions for sfx
