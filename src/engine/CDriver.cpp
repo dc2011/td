@@ -37,6 +37,7 @@ CDriver::~CDriver() {
     if(!waves_.empty()) {
         disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
     }
+    waves_.clear();
 }
 
 CDriver* CDriver::init(MainWindow* mainWindow) {

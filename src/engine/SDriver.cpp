@@ -82,9 +82,7 @@ void SDriver::setBaseHealth(int health) {
 
     if (health <= 0) {
         /* Base was slaughtered. You lose. */
-        Stream send;
-        send.writeByte(false);
-        net_->send(network::kGameOver, send.data());
+        endGame(false);
     }
 }
 
@@ -122,7 +120,11 @@ void SDriver::startGame(bool multicast) {
     connect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 }
 
-void SDriver::endGame() {
+void SDriver::endGame(bool success) {
+    Stream send;
+    send.writeByte(success);
+    net_->send(network::kGameOver, send.data());
+
     net_->shutdown();
     this->gameTimer_->stop();
     this->waveTimer_->stop();
@@ -164,6 +166,7 @@ void SDriver::onTimerTick() {
 
     foreach (GameObject* go, updates_) {
         go->networkWrite(&s);
+        go->resetDirty();
     }
 
     updates_.clear();
@@ -216,23 +219,6 @@ void SDriver::spawnWave() {
     connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
 
     }
-    /*if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
-        Driver::createNPC(NPC_NORM);
-    }
-    if (npcCounter_ % 40 == 0 && (npcCounter_ % 1400) > 1000) {
-        Driver::createNPC(NPC_SLOW);
-    }*/
-
-    /*qDebug("spawned wave");
-    for(int i=0; i < 20; ++i) {
-	    Stream* out = new Stream();
-	    NPC* n;
-	    n = (NPC*)mgr_->createObject(NPC::clsIdx());
-        n->setType(NPC_NORM);
-	    n->networkWrite(out);
-	    net_->send(network::kServerCreateObj, out->data());
-	    delete out;
-    }*/
 }
 void SDriver::deadWave(){
     if(!waves_.empty()) {
@@ -240,7 +226,7 @@ void SDriver::deadWave(){
         waves_.takeFirst();
         connect(waveTimer_, SIGNAL(timeout()),this, SLOT(spawnWave()));
     } else {
-        endGame();
+        endGame(true);
     }
 }
 
