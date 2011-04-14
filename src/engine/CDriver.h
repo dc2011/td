@@ -48,6 +48,7 @@ private:
 
     QList<NPCWave*> waves_;
     QTimer* waveTimer_;
+    unsigned int timeCount_;
 
     CDriver(MainWindow* parent = 0);
     ~CDriver();
