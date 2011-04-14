@@ -1,10 +1,5 @@
 #include "ContextMenuGraphicsComponentTypes.h";
-
-#define ARROW_TOWER_SELECTED    49
-#define CANNON_TOWER_SELECTED   50
-#define FLAME_TOWER_SELECTED    51
-#define TAR_TOWER_SELECTED      52
-#define FLAK_TOWER_SELECTED     53
+#include "../util/defines.h"
 
 namespace td {
 
@@ -19,36 +14,36 @@ void BuildContextMenuGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_CONTEXT_MENU_MAX];
+        pixmapImgs_ = new QPixmap[PIX_BUILD_MENU_MAX];
     }
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_MAIN;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_RES;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T1;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T2;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T3;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T4;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T5;
+    pixmapImgs_[pixmapIndex_++] = PIX_BUILD_MENU_MAIN;
+    pixmapImgs_[pixmapIndex_++] = PIX_BUILD_MENU_RES;
+    pixmapImgs_[pixmapIndex_++] = PIX_BUILD_MENU_T1;
+    pixmapImgs_[pixmapIndex_++] = PIX_BUILD_MENU_T2;
+    pixmapImgs_[pixmapIndex_++] = PIX_BUILD_MENU_T3;
+    pixmapImgs_[pixmapIndex_++] = PIX_BUILD_MENU_T4;
+    pixmapImgs_[pixmapIndex_++] = PIX_BUILD_MENU_T5;
     pixmapIndex_ = 0;
 }
 
 void BuildContextMenuGraphicsComponent::showSelectMenu(int type,
                                                        QPointF playerPos) {
     switch(type) {
-        case ARROW_TOWER_SELECTED:
+        case TOWER_ARROW:
             nextImage_ = 2;
             break;
-        case CANNON_TOWER_SELECTED:
+        case TOWER_CANNON:
             nextImage_ = 3;
             break;
-        case FLAME_TOWER_SELECTED:
+        case TOWER_FLAME:
             nextImage_ = 4;
             break;
-        case TAR_TOWER_SELECTED:
+        case TOWER_TAR:
             nextImage_ = 5;
             break;
-        case FLAK_TOWER_SELECTED:
+        case TOWER_FLAK:
             nextImage_ = 6;
             break;
         }
@@ -70,37 +65,25 @@ void TowerContextMenuGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_CONTEXT_MENU_MAX];
+        pixmapImgs_ = new QPixmap[PIX_TOWER_MENU_MAX];
     }
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_MAIN;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_RES;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T1;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T2;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T3;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T4;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T5;
+    pixmapImgs_[pixmapIndex_++] = PIX_TOWER_MENU_MAIN;
+    pixmapImgs_[pixmapIndex_++] = PIX_TOWER_MENU_RES;
+    pixmapImgs_[pixmapIndex_++] = PIX_TOWER_MENU_UPGR;
+    pixmapImgs_[pixmapIndex_++] = PIX_TOWER_MENU_SELL;
     pixmapIndex_ = 0;
 }
 
 void TowerContextMenuGraphicsComponent::showSelectMenu(int type,
                                                        QPointF playerPos) {
     switch(type) {
-        case ARROW_TOWER_SELECTED:
+        case UPGRADE_TOWER:
             nextImage_ = 2;
             break;
-        case CANNON_TOWER_SELECTED:
+        case SELL_TOWER:
             nextImage_ = 3;
-            break;
-        case FLAME_TOWER_SELECTED:
-            nextImage_ = 4;
-            break;
-        case TAR_TOWER_SELECTED:
-            nextImage_ = 5;
-            break;
-        case FLAK_TOWER_SELECTED:
-            nextImage_ = 6;
             break;
         }
     ContextMenuGraphicsComponent::showSelectMenu(type, playerPos);
@@ -121,37 +104,29 @@ void PlayerContextMenuGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_CONTEXT_MENU_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PLAYER_MENU_MAX];
     }
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_MAIN;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_RES;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T1;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T2;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T3;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T4;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T5;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_MAIN;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_RES;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_SPD;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_HAR;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_REC;
     pixmapIndex_ = 0;
 }
 
 void PlayerContextMenuGraphicsComponent::showSelectMenu(int type,
                                                         QPointF playerPos) {
     switch(type) {
-        case ARROW_TOWER_SELECTED:
+        case UPGRADE_SPEED:
             nextImage_ = 2;
             break;
-        case CANNON_TOWER_SELECTED:
+        case UPGRADE_HARVEST:
             nextImage_ = 3;
             break;
-        case FLAME_TOWER_SELECTED:
+        case UPGRADE_RECOVERY:
             nextImage_ = 4;
-            break;
-        case TAR_TOWER_SELECTED:
-            nextImage_ = 5;
-            break;
-        case FLAK_TOWER_SELECTED:
-            nextImage_ = 6;
             break;
         }
     ContextMenuGraphicsComponent::showSelectMenu(type, playerPos);
