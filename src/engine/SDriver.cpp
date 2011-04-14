@@ -31,7 +31,12 @@ SDriver::SDriver() : Driver() {
             this, SIGNAL(disconnecting()));
 }
 SDriver::~SDriver() {
-    disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+    if(!waves_.empty()) {
+        NPCWave* temp;
+        foreach(temp, waves_){
+            disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+        }
+    }
     delete net_;
 }
 
@@ -208,6 +213,16 @@ void SDriver::destroyObject(int id) {
 
 void SDriver::spawnWave() {
     if(!waves_.empty()) {
+
+        //disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
+        NPCWave* temp;
+        foreach(temp,waves_) {
+            if(temp->getStart() == timeCount_){
+                temp->createWave();
+                connect(temp, SIGNAL(waveDead()),this,SLOT(deadWave()));
+            }
+        }
+    /*
     disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
     //NPCWave* wave = new NPCWave(this);
 
@@ -217,14 +232,14 @@ void SDriver::spawnWave() {
 
 
     connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
-
+    */
     }
 }
 void SDriver::deadWave(){
     if(!waves_.empty()) {
-        disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+        /*disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
         waves_.takeFirst();
-        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(spawnWave()));
+        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(spawnWave()));*/
     } else {
         endGame(true);
     }
