@@ -18,6 +18,7 @@ QGraphicsTextItem *Console::label_;
 QGraphicsTextItem *Console::textLabel_; 
 QGraphicsRectItem *Console::rect_;
 QGraphicsRectItem *Console::textRect_;
+QGraphicsView* Console::view_;
 int Console::y=-150;
 QTextCharFormat charFormat;
 
@@ -34,6 +35,7 @@ Console::Console() {
     textLabel_ = new QGraphicsTextItem();
     rect_ = new QGraphicsRectItem();
     textRect_ = new QGraphicsRectItem();
+    view_ = CDriver::instance()->getMainWindow()->getView();
 
     text_.append("Say: ");
     
@@ -50,7 +52,6 @@ Console::Console() {
     cursor.insertText(text_, charFormat);
     textLabel_->setDocument(doc);
     textLabel_->update();
-    
     
     CDriver::instance()->getMainWindow()->getScene()->addItem(label_);
     CDriver::instance()->getMainWindow()->getScene()->addItem(textLabel_);
@@ -94,7 +95,7 @@ void Console::addText(QString text) {
     if(display_->size() > 4) {
         display_->pop_back();
     }
-    display_->push_front(text.leftJustified(50));
+    display_->push_front(text.leftJustified(49));
 
     for(int i=0; i < display_->size(); i++) {
         tmp.append(display_->at(i));
@@ -105,10 +106,8 @@ void Console::addText(QString text) {
     cursor.insertText(tmp, charFormat);
 
     label_->setDocument(doc);
-    rect_->setRect(label_->boundingRect().adjusted(0,y,0,y));
-    label_->update();
-    rect_->update();
     
+    translate();
     mutex_.unlock();
 }
 
@@ -116,10 +115,8 @@ void Console::hide() {
     y=-150;
     label_->hide();
     rect_->hide();
-    label_->setPos(15,y);
-    rect_->setRect(label_->boundingRect().adjusted(0,y,0,y));
-    label_->update();
-    rect_->update();   
+
+    translate();
     text_ = "Say: ";
     textLabel_->hide();
     textRect_->hide();
@@ -128,6 +125,9 @@ void Console::hide() {
 void Console::show() {
     connect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
             this, SLOT(scroll()));
+    
+    translate();
+
     label_->show();
     rect_->show();
     textLabel_->show();
@@ -136,17 +136,14 @@ void Console::show() {
 
 void Console::scroll() {
     y+=10;
-    label_->setPos(15,y);
-    rect_->setRect(label_->boundingRect().adjusted(0,y,0,y));
+    
+    translate();
+
     if(y>=30) {
         y=30;
         disconnect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
             this, SLOT(scroll()));
     }
-    label_->update();
-    rect_->update();
-    textLabel_->update();
-    textRect_->update();
 }
 
 void Console::toggle() {
@@ -157,7 +154,26 @@ void Console::toggle() {
     }
 }
 
-//TODO clean up the same stuff from the 3 different functions
+void Console::translate() {
+    
+    QPointF aPoint = view_->mapToScene(0,0);
+    textLabel_->setPos(aPoint);
+    textRect_->setRect(aPoint.x(),aPoint.y(),400,30);
+    
+    aPoint = view_->mapToScene(0,y);
+    label_->setPos(aPoint);
+
+    QRectF rRect = label_->boundingRect().adjusted(0,y,0,y);
+    QPolygonF rPoly = view_->mapToScene(rRect.toRect());
+    rect_->setRect(rPoly.boundingRect());
+
+    label_->update();
+    rect_->update();
+    textLabel_->update();
+    textRect_->update();
+
+}
+
 void Console::removeChar() {
     
     QString tmp;

@@ -72,6 +72,7 @@ public:
     virtual ~MainWindow();
     
     QGraphicsScene* getScene() { return scene_; }
+    QGraphicsView* getView() { return view_; }
 
     MapDisplayer * getMD() { return mapDisplayer_; }
     
