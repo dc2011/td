@@ -164,6 +164,7 @@ void SDriver::onTimerTick() {
 
     foreach (GameObject* go, updates_) {
         go->networkWrite(&s);
+        go->resetDirty();
     }
 
     updates_.clear();
@@ -216,23 +217,6 @@ void SDriver::spawnWave() {
     connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
 
     }
-    /*if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
-        Driver::createNPC(NPC_NORM);
-    }
-    if (npcCounter_ % 40 == 0 && (npcCounter_ % 1400) > 1000) {
-        Driver::createNPC(NPC_SLOW);
-    }*/
-
-    /*qDebug("spawned wave");
-    for(int i=0; i < 20; ++i) {
-	    Stream* out = new Stream();
-	    NPC* n;
-	    n = (NPC*)mgr_->createObject(NPC::clsIdx());
-        n->setType(NPC_NORM);
-	    n->networkWrite(out);
-	    net_->send(network::kServerCreateObj, out->data());
-	    delete out;
-    }*/
 }
 void SDriver::deadWave(){
     if(!waves_.empty()) {
