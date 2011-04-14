@@ -13,6 +13,11 @@
 // milliseconds between game ticks
 #define GAME_TICK_INTERVAL  30
 
+// Current map to use
+#define MAP      "bigmap"
+#define MAP_TMX   QString("./maps/") + QString(MAP) + QString(".tmx")
+#define MAP_NFO   QString("./maps/") + QString(MAP) + QString(".nfo")
+
 // based on the number keys used to select the tower
 #define TOWER_ARROW     49
 #define TOWER_CANNON    50

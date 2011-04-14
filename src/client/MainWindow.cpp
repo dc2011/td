@@ -34,7 +34,7 @@ MainWindow::MainWindow() : QMainWindow() {
 
     //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
-    mapDisplayer_->viewMap(QString("./maps/bigmap.tmx"));
+    mapDisplayer_->viewMap(MAP_TMX);
     Tiled::MapRenderer* mRenderer = mapDisplayer_->getMRenderer();
     QSize mapSize = mRenderer->mapSize();
 

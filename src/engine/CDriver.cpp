@@ -279,7 +279,7 @@ void CDriver::startGame(bool singlePlayer) {
 
         this->makeLocalPlayer(player);
 
-        Parser* fileParser = new Parser(this, "./maps/mapinfo.nfo");
+        Parser* fileParser = new Parser(this, MAP_NFO);
         NPCWave* tempWave;
         setBaseHealth(fileParser->baseHP);
         while((tempWave = fileParser->readWave())!=NULL) {
