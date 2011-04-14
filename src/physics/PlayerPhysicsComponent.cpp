@@ -209,6 +209,7 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
     }
 }
 
+/*
 bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
     int blockingType = 0;
 
@@ -272,6 +273,7 @@ bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
 
     return true;
 }
+*/
 
 void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
     QSet<Unit*>::iterator it;

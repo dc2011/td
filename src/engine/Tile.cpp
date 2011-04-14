@@ -47,7 +47,7 @@ void Tile::setInitialBounds(int row, int column, BlockingType type)
     switch (type) {
     case CLOSED:
         // Top left corner
-        point.setX(column * width_);
+        point.setX(column * width_ + width_);
         point.setY(row * height_);
         points.append(point);
         // Top right corner
