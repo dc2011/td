@@ -46,8 +46,8 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
 
     DrawParamsPlayer* dp = new DrawParamsPlayer();
     dp->pos     = player->getPos();
-    dp->moving  = player->getVelocity().length() != 0;
-    //need to be changed to dp->moving = player->getMoving();
+    //dp->moving  = player->getVelocity().length() != 0;
+    dp->moving = player->getMoving();
     dp->scale   = 1;
     dp->degrees = player->getOrientation();
     dp->resourceProgressShowing = resourceProgressShowing_;
