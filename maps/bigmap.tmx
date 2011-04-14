@@ -11,10 +11,10 @@
  </tileset>
  <layer name="Terrain" width="52" height="30">
   <data encoding="base64" compression="zlib">
-   eJy1mN1y0zAUhJUYOqU3DtCbFgo0FG6ckrz/0xHNaGe2O3v0Y8zFziS2LOnTnnMke59S2hftjGb5/57a1+T6cvp41aGh+9L2+1XfjLgtxr8ZmMOWPJ87WbKeO3mYZbrqnRn3adCjXp4Wk7Z1TF+ovfqC+TCTxhyYblLM59ZkDdcnaRPFHJh4/adUj7/cZqnw/YtHkPMoM+U8+xqwZD0IT4tFa8Rirm/hUS2XHmX+j8QBIS965zLJ/VZebcnD/rTyLcpr5fpg5rpU+tkih5RFPWEhF2o1C0yvV52ISVln08+aHFKmXhb4g5hp1eHbwnMyrNG+uyaHmGuEhf2p5QB0RzytuKtd6xXX5h4W9cfNgXnPxNPjkfYR3a9xuD2zxaNjsUcaL45H26onOe/+dDBFe+WIP7XzgIsV9ohjTvet1/SW/URMPfNfw8I8bp11rwErMzHLXJSf49oBXQY5lCWfTVvn156zchRL5+LRXbm+0Bpw7YDmQRbdN1t71CHoo3Vm5vpxLusOX1xtZ29GWNSbnr0q6gsxhNqQ15vj3+W15hO4LsW7tXF2kHE0D8B0H/R1lOe1TmOt2Sc9O7CwDiPecH1mb6bkY2YXjKEsynUJ7mmuMNdt8XOEx73TKIt7D9A+IhaOL3iBdV8MjztDjPI8kDc9LFnPFW/m4LfbUzQmNTaXFSzR+X/kW8eOxo/28BfD9BQwzfTcmjqN923UpVEWPcv1zOOF+JlJ98/fdO9XhzeuttU0pbffGzimRtfzBz3LexJi+mj8c0zubKPfRCKWfaV9NO9jir+DIfaibyaLMP3sYKntpa7uuTVYzJxdHdc2mleuLnBM8/NbsOyT91VzqCbMCbyuJlxKn1zndYzW+0yLw/GoTxozURypwIRzjl537w98ZsH/yJuIxfG4fKr5FX2L+x+qcUB/AVqJVb8=
+   eJy1mEtP5DAQhJ0JIOCS2V0uvGEW9pKBmf//64gltyhK1XY7mj2UeMSx/bm62443KaVN0bzos/w0TYsG0Dm0r2kI6teibUM3pe3zoichbGvjX3TM4ZQ8f4IsWa9BHmQZF52JcR87PYrytJi4rWK6h/bsi80HmTjmjOki+XxqTdZw/aY2XswZE67/mOrxl9uonPKYenkGx6PMlPPswWHJuiWeFgtqKlytvFrjUS2X7mj+d8BhsryIzmWk5628OiUP+tPKNy+vmetKzHWu9HOKHGIW9gRluVCrWcb0sWgPTMw6iX7W5BAzRVnMH4uZVh2+LDx7wertu2tyCLl6WNCfWg6YroGnFXe1/0WFtTnCwv6oOSDvAXgiHnEf3vMah9ozWzw8FnrE8aJ4uC17kvPuM8Dk7ZU9/tTOAypW0COMOd63PtJP9j0wRea/hgV51DrzXmOsyIQsU1F+D2uH6djJwSz5bNo6v0bOyl4sHYpH1+n7+8LWAGuHaepk4X2ztUdtnT5aZ2asH4ey7uaLqu3oTQ8LexPZq7y+LIasNuT1xvhXec35ZFzH4t3aONvSOJwHxnTj9LWj97lO21qjT3x2QNk69HiD9Rm9GZOOmcEZg1mY6+g841xBrsviZw+P+qZhFvUdwH14LBhf5oWt+yx41Bmil+cWvImwZL1WvJmc39WewjHJsTmvYPHO/z13HQOM7+3hb4Lp0WGa4L01ddq+t60u9bLwWS4yjzfgRybeP//Bs/eAN6q21TSmn/cNGFO96/kC7+KeZDG9E/4pJnW24TsRj2VTae/Ne5f8ezCLPe/OZCamvwGW2l6q6p5ag1nMWdVxbsN5peoCxjS+fwqWTdK+cg7VZHMyXlUTjqVPrPM8Rut7psWheNgnjhkvjljGZOcc/r/6fsAzi/3teeOxKB6VTzW/vLu4/6Eah+kLkv1WlA==
   </data>
  </layer>
- <layer name="Misc" width="52" height="30" opacity="0.87">
+ <layer name="Misc" width="52" height="30" visible="0" opacity="0.87">
   <data encoding="base64" compression="zlib">
    eJztmEESgDAIA/lW/f/DevBUp60DLYQB9uiBkEStI9FIozmr61ag9Wdo7XQyF5mThbbH+8AazWe08o0LuluEPtrzDXYeIvjjIPX7MGf96WQ/69D+PWaD3gmtv8PzbpmR9CLtss7/+HzzrvxHLPPQ0Ko+13j9d4Yiq28O3IxQ74/q8sXye+n2DAQdV6UKeQ==
   </data>

@@ -52,6 +52,9 @@ private:
     /**  */
     int widthInTiles_;
 
+    /** The tile containing the caveman's home base. */
+    Tile* homeTile_;
+
     /**
      * Creates a resource to be placed on a tile.
      *
@@ -78,6 +81,13 @@ public:
      * @author Tom Nightingale
      */
     int tileHeight() { return tMap_->tileHeight(); }
+
+    /**
+     * Get's the location of the caveman's home tile.
+     * @return Returns the location of the home tile.
+     * @author Tom Nightingale
+     */
+    QPointF getHomeLoc();
 
     /**
      * This is a testing function pending a real map load function.

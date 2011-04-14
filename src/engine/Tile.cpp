@@ -278,6 +278,12 @@ Tile::TileAttributes Tile::getAttributes(int id) {
         {SOUTH_WEST, SLOW},
         {SOUTH_EAST, SLOW},
 
+        // Four placeholder tiles.
+        {OPEN, NONE},
+        {OPEN, NONE},
+        {OPEN, NONE},
+        {OPEN, NONE},
+
         // Row 4
         {OPEN, NONE},
         {OPEN, SLOW},

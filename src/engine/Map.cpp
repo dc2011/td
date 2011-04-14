@@ -24,11 +24,13 @@ namespace td{
 Map::Map(Tiled::Map * tMap, Driver* driver) : driver_(driver) {
     tMap_ = tMap;
     waypoints = QMap<int,QList<QPointF> >();
+    homeTile_ = NULL;
 }
 
 Map::Map(const QString& filename, Driver* driver) : driver_(driver) {
     Tiled::MapReader reader;
     tMap_ = reader.readMap(filename);
+    homeTile_ = NULL;
 }
 
 void Map::initMap() {
@@ -47,7 +49,7 @@ void Map::initMap() {
         for (int col = 0; col < widthInTiles_; col++) {
             tile = tileLayer->tileAt(col, row);
             Tile::TileAttributes attrs = Tile::getAttributes(tile->id());
-
+            
             //save into array
             tiles_[row][col] = new Tile(tile, row, col, attrs.type, attrs.effect);
 
@@ -57,6 +59,10 @@ void Map::initMap() {
                 // Ignore Home Base tile (id() == 1).
                 if (tile->id() == 0) {
                     tiles_[row][col]->setActionType(TILE_BUILDABLE);
+                }
+                // Home base tile.
+                else {
+                    homeTile_ = tiles_[row][col];
                 }
             }
 
@@ -118,6 +124,10 @@ Tile* Map::getTile(double x, double y){
     int r,c;
     getTileCoords(x,y,&r,&c);
     return tiles_[r][c];
+}
+
+QPointF Map::getHomeLoc() {
+    return homeTile_->getPos();
 }
 
 Tile* Map::getTile(QPointF coords) {

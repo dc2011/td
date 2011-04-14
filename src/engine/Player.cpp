@@ -16,7 +16,8 @@ Player::Player(QObject* parent)
     QVector2D force(0, 0);
     this->setForce(force);
 
-    this->setPos(100, 100);
+    QPointF homeLocation = getDriver()->getGameMap()->getHomeLoc();
+    this->setPos(homeLocation.x(), homeLocation.y());
 }
 
 void Player::networkRead(Stream* s) {
