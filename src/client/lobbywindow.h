@@ -29,6 +29,7 @@ public slots:
     void connectLobby();
     void tmp_startGame();
     void onTCPReceived(Stream* s);
+    void onCreateNewGame();
 
 private slots:
     /**

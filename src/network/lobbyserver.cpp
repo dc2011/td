@@ -175,7 +175,7 @@ void LobbyServer::readSocket()
         }
         case network::kJoinGame:
         {
-            int len = s.readByte();
+            int len = s.readInt();
             QString nick = QString(s.read(len));
             int game = s.readInt();
 

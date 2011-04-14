@@ -73,6 +73,7 @@ void LobbyWindow::connectLobby()
 
     PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
+    connect(ui->newGame,SIGNAL(clicked()),this,SLOT(onCreateNewGame()));
     delete s;
 }
 
@@ -136,6 +137,7 @@ void LobbyWindow::onTCPReceived(Stream* s)
                 gameList[gameName] = numOfPlayers;      
             }
             updateListOfGames(gameList);
+            break;
         }
         case network::kLobbyStartGame:
         {
@@ -194,8 +196,6 @@ void LobbyWindow::applyStyleSheet(QString path) {
 }
 void LobbyWindow::sendChatMessage() {
     Stream s;
-   // s->write(ui->txtUsername->text().toAscii());
-   // s.writeByte(network::kChatMessage);
     s.writeInt(ui->txtUsername->text().size());
     s.write(ui->txtUsername->text().toAscii());
     s.writeInt(ui->msgBox->text().size());
@@ -220,6 +220,16 @@ void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {
     result .append(msg);
     ui->msgView->setText(result);
 }
+
+void LobbyWindow::onCreateNewGame() {
+    Stream s;
+    s.writeInt(ui->txtUsername->text().size());
+    s.write(ui->txtUsername->text().toAscii());
+    s.writeInt(0);
+    NetworkClient::instance()->send(network::kJoinGame, s.data());
+}
 /* end namespace td */
 
 };
+
+
