@@ -31,6 +31,7 @@ SDriver::SDriver() : Driver() {
             this, SIGNAL(disconnecting()));
 }
 SDriver::~SDriver() {
+    disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
     delete net_;
 }
 
@@ -124,6 +125,7 @@ void SDriver::startGame(bool multicast) {
 void SDriver::endGame() {
     net_->shutdown();
     this->gameTimer_->stop();
+    this->waveTimer_->stop();
 }
 
 GameObject* SDriver::updateObject(Stream* s) {
@@ -237,6 +239,8 @@ void SDriver::deadWave(){
         disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
         waves_.takeFirst();
         connect(waveTimer_, SIGNAL(timeout()),this, SLOT(spawnWave()));
+    } else {
+        endGame();
     }
 }
 

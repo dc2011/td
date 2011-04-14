@@ -34,6 +34,7 @@ CDriver::CDriver(MainWindow* mainWindow)
 }
 
 CDriver::~CDriver() {
+    disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
 }
 
 CDriver* CDriver::init(MainWindow* mainWindow) {
@@ -305,11 +306,13 @@ void CDriver::deadWave(){
         disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
         waves_.takeFirst();
         connect(waveTimer_, SIGNAL(timeout()),this, SLOT(NPCCreator()));
+    } else {
+        endGame();
     }
 }
 void CDriver::endGame() {
     disconnectFromServer();
-
+    this->waveTimer_->stop();
     this->gameTimer_->stop();
 }
 
