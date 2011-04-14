@@ -31,6 +31,7 @@ SDriver::SDriver() : Driver() {
             this, SIGNAL(disconnecting()));
 }
 SDriver::~SDriver() {
+    disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
     delete net_;
 }
 

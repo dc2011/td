@@ -34,6 +34,7 @@ CDriver::CDriver(MainWindow* mainWindow)
 }
 
 CDriver::~CDriver() {
+    disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
 }
 
 CDriver* CDriver::init(MainWindow* mainWindow) {
