@@ -12,6 +12,7 @@ void BuildContextMenu::selectMenuItem(int keyPressed) {
                      || keyPressed > TOWER_FLAK) {
         return;
     }
+    emit signalTowerSelected(keyPressed, player_->getPos());
     ContextMenu::selectMenuItem(keyPressed);
 }
 
@@ -23,6 +24,11 @@ void TowerContextMenu::selectMenuItem(int keyPressed) {
     if (!menuIsOpen_ || 
             (keyPressed != UPGRADE_TOWER && keyPressed != SELL_TOWER)) {
         return;
+    }
+    if (keyPressed == UPGRADE_TOWER) {
+        //TODO emit upgrade signal
+    } else {
+        emit signalSellTower(player_->getPos()); 
     }
     ContextMenu::selectMenuItem(keyPressed);
 }

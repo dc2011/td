@@ -14,7 +14,24 @@ class BuildContextMenu : public ContextMenu {
 
 public:
     BuildContextMenu(Player* player);
+    
+    /**
+     * Select a choice in an open context menu.
+     *
+     * @author Dean Morin
+     * @param keyPressed The numerical key that was pressed.
+     */
     virtual void selectMenuItem(int keyPressed);
+
+signals:
+    /**
+     * Emitted when an tower is selected to be built.
+     *
+     * @author Dean Morin
+     * @param towerType The type of tower to be built.
+     * @param pos Where to build the tower.
+     */
+    void signalTowerSelected(int towerType, QPointF pos);
 };
 
 /**
@@ -25,7 +42,23 @@ class TowerContextMenu : public ContextMenu {
 
 public:
     TowerContextMenu(Player* player);
+    
+    /**
+     * Select a choice in an open context menu.
+     *
+     * @author Dean Morin
+     * @param keyPressed The numerical key that was pressed.
+     */
     virtual void selectMenuItem(int keyPressed);
+
+signals:
+    /**
+     * Emitted when a tower should be sold.
+     *
+     * @author Dean Morin
+     * @param pos Where the tower to sell is.
+     */
+    void signalSellTower(QPointF pos); 
 };
 
 /**
@@ -36,6 +69,13 @@ class PlayerContextMenu : public ContextMenu {
 
 public:
     PlayerContextMenu(Player* player);
+    
+    /**
+     * Select a choice in an open context menu.
+     *
+     * @author Dean Morin
+     * @param keyPressed The numerical key that was pressed.
+     */
     virtual void selectMenuItem(int keyPressed);
 };
 

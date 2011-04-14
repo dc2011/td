@@ -1,4 +1,5 @@
 #include "NPCWave.h"
+#include "CDriver.h"
 #include "Driver.h"
 #include "./audio/SfxManager.h"
 #include "../network/netmessages.h"
@@ -16,26 +17,38 @@ NPCWave::NPCWave(QObject* parent, unsigned int start, unsigned int count,
 }
 
 NPCWave::~NPCWave() {
-    children_.clear();
+    foreach(NPC* child, children_){
+        delete child;
+    }
+    //children_.clear();
 }
 
 void NPCWave::createWave() {
 
+
     PLAY_SFX(this, SfxManager::npcPterodactylEnters);
+
 
     connect(getDriver()->getTimer(), SIGNAL(timeout()),
             this, SLOT(update()));
+
 }
 
 void NPCWave::killChild(NPC* child) {
+#ifndef SERVER
+    disconnect(CDriver::instance()->getMainWindow(),  SIGNAL(signalAltHeld(bool)),
+            child->getGraphicsComponent(), SLOT(showHealth(bool)));
+#endif
     children_.remove(child);
 
     if (isDead()) {
+
         emit waveDead();
     }
 }
 
 void NPCWave::update() {
+
     static unsigned int tickmod = 0;
     static unsigned int sfxdelay = 0;
     if (++sfxdelay < 130) {
@@ -48,17 +61,28 @@ void NPCWave::update() {
 
         NPC* npc = getDriver()->createNPC(type_);
         npc->setWave(this);
-        children_.insert(npc);
-    }
 
+        ((NPCInputComponent*)npc->getInputComponent())->initWaypoints(pathNum_);
+#ifndef SERVER
+        connect(CDriver::instance()->getMainWindow(),  SIGNAL(signalAltHeld(bool)),
+                npc->getGraphicsComponent(), SLOT(showHealth(bool)));
+#endif
+        children_.insert(npc);
+
+    }
+#ifdef SERVER
     Stream s;
     s.writeShort(children_.size());
+    #endif
     foreach (NPC* npc, children_) {
         npc->update();
+        #ifdef SERVER
         npc->networkWrite(&s);
+        #endif
     }
-
+#ifdef SERVER
     getDriver()->sendNetMessage(network::kNPCWave, s.data());
+#endif
 }
 
 }

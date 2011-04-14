@@ -4,6 +4,7 @@
 #include <QPointF>
 #include <QSet>
 #include "Driver.h"
+#include "NPCWave.h"
 
 namespace td {
 
@@ -51,6 +52,10 @@ private:
     
     /** Tells objects whether or not the game is being played single player **/
     bool singlePlayer_;
+
+
+    QList<NPCWave*> waves_;
+    QTimer* waveTimer_;
 
     CDriver(MainWindow* parent = 0);
     ~CDriver();
@@ -261,6 +266,14 @@ public slots:
      */
     void requestBuildingTower(int type, QPointF pos);
 
+    /**
+     * Requests or sells a Tower at the player's current position.
+     * Should be connected to a context menu.
+     *
+     * @param pos The position of the tower to sell.
+     */
+    void requestSellTower(QPointF pos);
+
 private slots:
     /**
      * Creates a projectile object.
@@ -286,6 +299,7 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCCreator();
+    void deadWave();
 };
 
 } /* end namespace td */

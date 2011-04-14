@@ -9,7 +9,11 @@
 #include "Tower.h"
 #include "NPCWave.h"
 #include "Projectile.h"
+
 #include "BuildingTower.h"
+
+#include "Parser.h"
+
 
 namespace td {
 
@@ -27,6 +31,7 @@ SDriver::SDriver() : Driver() {
             this, SIGNAL(disconnecting()));
 }
 SDriver::~SDriver() {
+    disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
     delete net_;
 }
 
@@ -102,6 +107,15 @@ void SDriver::startGame(bool multicast) {
 
     gameMap_->initMap();
 
+    Parser* fileParser = new Parser(this, "./maps/mapinfo.nfo");
+    NPCWave* tempWave;
+    setBaseHealth(fileParser->baseHP);
+    //tempWave = new NPCWave(this);
+    //waves_.append(tempWave);
+    while((tempWave = fileParser->readWave())!=NULL) {
+
+        waves_.append(tempWave);
+    }
     this->gameTimer_->start(30);
     this->waveTimer_->start(1000);
     connect(gameTimer_, SIGNAL(timeout()), this, SLOT(onTimerTick()));
@@ -111,6 +125,7 @@ void SDriver::startGame(bool multicast) {
 void SDriver::endGame() {
     net_->shutdown();
     this->gameTimer_->stop();
+    this->waveTimer_->stop();
 }
 
 GameObject* SDriver::updateObject(Stream* s) {
@@ -189,13 +204,18 @@ void SDriver::destroyObject(int id) {
 }
 
 void SDriver::spawnWave() {
-    NPCWave* wave = new NPCWave(this);
-
-    wave->createWave();
-    waves_.append(wave);
-
+    if(!waves_.empty()) {
     disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
+    //NPCWave* wave = new NPCWave(this);
 
+
+    waves_.first()->createWave();
+    //waves_.append(wave);
+
+
+    connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+
+    }
     /*if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
         Driver::createNPC(NPC_NORM);
     }
@@ -213,6 +233,15 @@ void SDriver::spawnWave() {
 	    net_->send(network::kServerCreateObj, out->data());
 	    delete out;
     }*/
+}
+void SDriver::deadWave(){
+    if(!waves_.empty()) {
+        disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+        waves_.takeFirst();
+        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(spawnWave()));
+    } else {
+        endGame();
+    }
 }
 
 void SDriver::deadNPC(int id) {
@@ -263,6 +292,20 @@ void SDriver::onMsgReceive(Stream* s) {
     Stream* out = new Stream();
 
     switch(message) {
+        case network::kSellTower:
+        {
+            float x = s->readFloat();
+            float y = s->readFloat();
+
+            Driver::sellTower(QPointF(x, y));
+
+            out->writeInt(TILE_BUILDABLE);
+            out->writeFloat(x);
+            out->writeFloat(y);
+            net_->send(network::kSellTower, out->data());
+
+            break;
+        }
         case network::kTowerChoice:
         {
             int playerID = s->readInt();

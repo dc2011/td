@@ -64,14 +64,12 @@ public slots:
 
 signals:
     /**
-     * Emitted when an arrow tower is selected to be built.
+     * Emitted when the menu is shown to stop the players movement.
+     *
+     * @author Dean Morin
+     * @param move False if the player should stop moving.
      */
-    void signalTowerSelected(int towerType, QPointF pos);
-    
-    /**
-     * Emitted when the menu is shown
-     */
-    void signalPlayerMovement(bool);
+    void signalPlayerMovement(bool move);
 };
 
 } /* end namespace td */

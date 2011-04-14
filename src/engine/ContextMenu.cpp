@@ -38,8 +38,6 @@ void ContextMenu::selectMenuItem(int keyPressed) {
     ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
     ((ContextMenuGraphicsComponent*)
      graphics_)->showSelectMenu(keyPressed, player_->getPos());
-    
-    emit signalTowerSelected(keyPressed, player_->getPos());
 }
 
 void ContextMenu::viewResources(bool altHeld) {
