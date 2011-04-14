@@ -129,12 +129,17 @@ void LobbyWindow::onTCPReceived(Stream* s)
         }
         case network::kUpdateListOfGames:
         {
-            QMap<int,int> gameList;
+            QMultiMap<int,QString> gameList;
             int numOfGames = s->readInt();
             for(int i = 0; i < numOfGames; i++) {
                 int gameName = s->readInt();
                 int numOfPlayers = s->readInt();
-                gameList[gameName] = numOfPlayers;      
+                for(int j = 0; j < numOfPlayers; j++) {
+                    int nameLen = s->readInt();
+                    gameList.insert(gameName,(s->read(nameLen)));   
+                    
+                }
+                   
             }
             updateListOfGames(gameList);
             break;
@@ -208,7 +213,7 @@ void LobbyWindow::updateListOfUserNames(QList<QString*>& userNames) {
     //update gui here
 }
 
-void LobbyWindow::updateListOfGames(QMap<int,int>& gameList) {
+void LobbyWindow::updateListOfGames(QMultiMap<int, QString>& gameList) {
     //update gui here
 } 
 

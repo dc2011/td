@@ -50,7 +50,7 @@ private slots:
 
 private:
     void updateListOfUserNames(QList<QString*>&);
-    void updateListOfGames(QMap<int,int>&);
+    void updateListOfGames(QMultiMap<int,QString>&);
     /**
      * Reads the last used settings from a persistent file.
      *

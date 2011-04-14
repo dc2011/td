@@ -67,6 +67,10 @@ void LobbyServer::notifyClients(unsigned char msgType)
             foreach(int name, gameNames) {
                 s.writeInt(name);
                 s.writeInt(games_.count(name));
+                foreach(QString name,clients_.values(games_.value(name))) {
+                    s.writeInt(name.size());
+                    s.write(name.toAscii());
+                }
             }
             foreach (QTcpSocket* sock, clients_.keys()) {
                 sock->write(s.data());
