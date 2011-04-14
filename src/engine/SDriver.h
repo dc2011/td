@@ -60,8 +60,10 @@ public:
      * Stop game timer, and shuts down the network server.
      * 
      * @author Duncan Donaldson
+     * @param success true if the game was won, false otherwise.
      */
-    void endGame();
+    void endGame(bool success);
+
     /**
      * If an object exists, updates its values with the ones read.
      * otherwise creates an object.

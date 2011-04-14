@@ -82,9 +82,7 @@ void SDriver::setBaseHealth(int health) {
 
     if (health <= 0) {
         /* Base was slaughtered. You lose. */
-        Stream send;
-        send.writeByte(false);
-        net_->send(network::kGameOver, send.data());
+        endGame(false);
     }
 }
 
@@ -122,7 +120,11 @@ void SDriver::startGame(bool multicast) {
     connect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 }
 
-void SDriver::endGame() {
+void SDriver::endGame(bool success) {
+    Stream send;
+    send.writeByte(success);
+    net_->send(network::kGameOver, send.data());
+
     net_->shutdown();
     this->gameTimer_->stop();
     this->waveTimer_->stop();
@@ -224,7 +226,7 @@ void SDriver::deadWave(){
         waves_.takeFirst();
         connect(waveTimer_, SIGNAL(timeout()),this, SLOT(spawnWave()));
     } else {
-        endGame();
+        endGame(true);
     }
 }
 
