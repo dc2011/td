@@ -77,6 +77,7 @@ void FlameTowerPhysicsComponent::findDirectionToShoot(){
     if(fireCountdown_ == 0) {
         ready_ = true;
     } else {
+        fireCountdown_--;
         return;
     }
     projectilePath_.setP1(tower_->getPos());
@@ -124,14 +125,6 @@ bool FlameTowerPhysicsComponent::isValidTarget(Unit * target) {
 
 void FlameTowerPhysicsComponent::fire() {
 
-    if (fireCountdown_ != 0) {
-            fireCountdown_--;
-            ready_ = false;
-            return;
-    }
-    if(!foundTarget_) {
-        return;
-    }
     // TODO: move to projectilePC, once the different types have been created
     PLAY_SFX(tower_, SfxManager::projectileFireFlame);
     emit fireProjectile(PROJ_FIRE, tower_->getPos(), projectilePath_.p2(),
