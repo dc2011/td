@@ -151,8 +151,8 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
             tInput = (PlayerInputComponent *)CDriver::instance()->
                 getHuman()->getInputComponent();
             tInput->playerMovement(false); 
-            keysHeld_ = 0;
-            break;
+	    keysHeld_ = 0;
+	    break;
         case Qt::Key_1:
         case Qt::Key_2:
         case Qt::Key_3:
@@ -187,8 +187,11 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
 
 void MainWindow::keyReleaseEvent(QKeyEvent * event) {
 
-    if(event->isAutoRepeat() || consoleOpen_ == true) {
+    if(event->isAutoRepeat()) {
         return;
+    } else if (consoleOpen_ == true) {
+	keysHeld_ = 0;
+	return;
     }
     
     switch (event->key()) {

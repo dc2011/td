@@ -22,12 +22,6 @@ QGraphicsView* Console::view_;
 int Console::y=-150;
 QTextCharFormat charFormat;
 
-//GLOBAL TODO HERE
-/**
- * redraw whole area get rid of artifacting
- * clean up the formatting
- */
-
 Console::Console() {
 
     display_ = new QVector<QString>();
@@ -135,7 +129,6 @@ void Console::show() {
 }
 
 void Console::scroll() {
-    y+=10;
     
     translate();
 
@@ -143,7 +136,9 @@ void Console::scroll() {
         y=30;
         disconnect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
             this, SLOT(scroll()));
+	return;
     }
+    y+=10;
 }
 
 void Console::toggle() {
