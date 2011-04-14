@@ -287,10 +287,10 @@ Tile::TileAttributes Tile::getAttributes(int id) {
         // Row 4
         {OPEN, NONE},
         {OPEN, SLOW},
-        {OPEN, SLOW},
-        {OPEN, SLOW},
-        {OPEN, SLOW},
-        {OPEN, SLOW},
+        {OPEN, NONE},
+        {OPEN, NONE},
+        {OPEN, NONE},
+        {OPEN, NONE},
     };
 
     return attributes[id];
