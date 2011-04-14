@@ -5,7 +5,8 @@
 
 namespace td {
 
-Parser::Parser(const QString &filename) throw (const char*) : file_(filename) {
+Parser::Parser(QObject* parent, const QString &filename) throw (const char*) :parent_(parent), file_(filename) {
+
     if (!file_.exists()) {
         throw "Parser::Parser(const QString&) : file does not exist.";
     }
@@ -34,7 +35,7 @@ NPCWave* Parser::readWave() {
     QString waveLine = file_.readLine();
     QStringList waveInfo = waveLine.split(',');
 
-    NPCWave* wave = new NPCWave(0, waveInfo.at(3).toUInt(), waveInfo.at(2).toUInt(),
+    NPCWave* wave = new NPCWave(parent_, waveInfo.at(3).toUInt(), waveInfo.at(2).toUInt(),
                                 waveInfo.at(1).toUInt(),waveInfo.at(0).toUInt(),
                                 waveInfo.at(5).toUInt());
     return wave;

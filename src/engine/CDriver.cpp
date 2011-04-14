@@ -19,6 +19,7 @@
 #include "../network/netclient.h"
 #include "../network/stream.h"
 #include "../util/defines.h"
+#include "Parser.h"
 
 namespace td {
 
@@ -104,8 +105,6 @@ void CDriver::readObject(Stream* s) {
             Tile* tile = gameMap_->getTile(((TileExtension*)go)->getPos());
             tile->setActionType(TILE_BUILDING);
             tile->setExtension((BuildingTower*)go);
-            connect(mainWindow_, SIGNAL(signalAltHeld(bool)),
-                go->getGraphicsComponent(), SLOT(showIcons(bool)));
         }
 
         if (go->getClsIdx() == Tower::clsIdx()) {
@@ -186,6 +185,7 @@ void CDriver::requestBuildingTower(int type, QPointF pos) {
         human_->dropResource(Driver::addToTower(t, human_));
     } else {
         Stream s;
+        s.writeInt(human_->getID());
         s.writeInt(type);
         s.writeFloat(pos.x());
         s.writeFloat(pos.y());
@@ -193,7 +193,42 @@ void CDriver::requestBuildingTower(int type, QPointF pos) {
     }
 }
 
+void CDriver::requestResourceAddition(BuildingTower* t) {
+    if (isSinglePlayer()) {
+        if (addToTower(t, human_)) {
+            if (t->isDone()) {
+                Driver::createTower(t->getType(), t->getPos());
+                destroyObject(t);
+            }
+            human_->dropResource(true);
+        } else {
+            human_->dropResource(false);
+        }
+    } else {
+        Stream s;
+        s.writeInt(human_->getID());
+        s.writeFloat(t->getPos().x());
+        s.writeFloat(t->getPos().y());
+        NetworkClient::instance()->send(network::kDropResource, s.data());
+    }
+}
+
 void CDriver::NPCCreator() {
+
+    if(!waves_.empty()) {
+    disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
+    //NPCWave* wave = new NPCWave(this);
+
+
+    waves_.first()->createWave();
+    //waves_.append(wave);
+
+
+    connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+
+    }
+
+    /*
     NPC* npc = NULL;
 
     if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
@@ -204,16 +239,23 @@ void CDriver::NPCCreator() {
     }
 
     if (npc) {
+        if ((npcCounter_ % 2) == 0) {
+            npc->setGem(1);
+        } else {
+            npc->setGem(0);
+        }
         connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
                 npc->getGraphicsComponent(), SLOT(showHealth(bool)));
         connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
     }
+    */
 }
 
 void CDriver::startGame(bool singlePlayer) {
     // Create hard coded map
     gameMap_ = new Map(mainWindow_->getMD()->map(), this);
     gameTimer_ = new QTimer(this);
+    waveTimer_ = new QTimer(this);
     gameMap_->initMap();
     QQueue<QString> musicList;
 
@@ -224,6 +266,7 @@ void CDriver::startGame(bool singlePlayer) {
     td::AudioManager::instance()->playMusic(musicList);
 
     if (singlePlayer) {
+
         Player* player = (Player*)mgr_->createObject(Player::clsIdx());
         playerID_ = player->getID();
 
@@ -232,7 +275,16 @@ void CDriver::startGame(bool singlePlayer) {
 
         this->makeLocalPlayer(player);
 
-        connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
+        Parser* fileParser = new Parser(this, "./maps/mapinfo.nfo");
+        NPCWave* tempWave;
+        setBaseHealth(fileParser->baseHP);
+        while((tempWave = fileParser->readWave())!=NULL) {
+
+            waves_.append(tempWave);
+        }
+
+        waveTimer_->start(1000);
+        connect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
     }
 
     //connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
@@ -240,7 +292,13 @@ void CDriver::startGame(bool singlePlayer) {
 
     gameTimer_->start(GAME_TICK_INTERVAL);
 }
-
+void CDriver::deadWave(){
+    if(!waves_.empty()) {
+        disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+        waves_.takeFirst();
+        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(NPCCreator()));
+    }
+}
 void CDriver::endGame() {
     disconnectFromServer();
 
@@ -266,28 +324,13 @@ void CDriver::handleSpacebarPress() {
             break;
 
         case TILE_BUILDING:
-            if (isSinglePlayer()) {
-                if (addToTower(t, human_)) {
-                    if (t->isDone()) {
-                        qDebug("create Tower");
-                        createTower(t->getType(), t->getPos());
-                        destroyObject(t);
-                    }
-                    human_->dropResource(true);
-                } else {
-                    human_->dropResource(false);
-                }
-            } else {
-                Stream s;
-                s.writeInt(human_->getID());
-                s.writeFloat(t->getPos().x());
-                s.writeFloat(t->getPos().y());
-                NetworkClient::instance()->send(network::kDropResource,
-                        s.data());
-            }
+            requestResourceAddition(t);
             break;
+            
         case TILE_BUILT:
+            //TODO Tower upgrade/sell context menu toggle
         case TILE_BASE:
+            //TODO Player upgrade context menu toggle
             break;
 
         case TILE_RESOURCE:
@@ -306,7 +349,6 @@ void CDriver::UDPReceived(Stream* s) {
         case network::kAssignPlayerID:
         {
             playerID_ = s->readInt();
-            //qDebug("My player ID is %08X", playerID_);
             break;
         }
         case network::kMulticastIP:

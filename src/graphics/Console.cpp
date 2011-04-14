@@ -92,13 +92,13 @@ void Console::addText(QString text) {
     
     mutex_.lock();
     if(display_->size() > 4) {
-	display_->pop_back();
+        display_->pop_back();
     }
     display_->push_front(text.leftJustified(50));
 
     for(int i=0; i < display_->size(); i++) {
-	tmp.append(display_->at(i));
-	tmp.append("\n");
+        tmp.append(display_->at(i));
+        tmp.append("\n");
     }
     
     QTextCursor cursor = QTextCursor(doc);
@@ -127,7 +127,7 @@ void Console::hide() {
 
 void Console::show() {
     connect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
-	    this, SLOT(scroll()));
+            this, SLOT(scroll()));
     label_->show();
     rect_->show();
     textLabel_->show();
@@ -139,9 +139,9 @@ void Console::scroll() {
     label_->setPos(15,y);
     rect_->setRect(label_->boundingRect().adjusted(0,y,0,y));
     if(y>=30) {
-	y=30;
-	disconnect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
-	    this, SLOT(scroll()));
+        y=30;
+        disconnect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
+            this, SLOT(scroll()));
     }
     label_->update();
     rect_->update();
@@ -151,9 +151,9 @@ void Console::scroll() {
 
 void Console::toggle() {
     if(label_->isVisible()) {
-	hide();
+        hide();
     } else {
-	show();
+        show();
     }
 }
 
@@ -162,7 +162,7 @@ void Console::removeChar() {
     
     QString tmp;
     if(text_.length() <=5) {
-	return;
+        return;
     }
     text_.chop(1);
     
@@ -192,19 +192,19 @@ void Console::addChar(QString c) {
     
     if(c.compare("\n") == 0) {
 
-	if(CDriver::instance()->isSinglePlayer() == false) {
-	    s.writeInt(CDriver::instance()->getHuman()->getID());
-	    s.writeInt(tmp.length()-5);
-	    s.write(tmp.mid(5).toAscii());
-	    
-	    NetworkClient::instance()->send(network::kConsoleChat, s.data());
-	    
-	}
-	text_.clear();
-	text_.append("Say: ");
-	cursor.insertText(text_, charFormat);
+        if(CDriver::instance()->isSinglePlayer() == false) {
+            s.writeInt(CDriver::instance()->getHuman()->getID());
+            s.writeInt(tmp.length()-5);
+            s.write(tmp.mid(5).toAscii());
+            
+            NetworkClient::instance()->send(network::kConsoleChat, s.data());
+            
+        }
+        text_.clear();
+        text_.append("Say: ");
+        cursor.insertText(text_, charFormat);
     } else {
-	cursor.insertText(tmp, charFormat);
+        cursor.insertText(tmp, charFormat);
     }
 
     textLabel_->setDocument(doc);

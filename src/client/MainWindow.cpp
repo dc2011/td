@@ -140,8 +140,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
     
     if(consoleOpen_ == true) {
         if(event->key() == Qt::Key_Return) {
-            Console::instance()->addChar("\n");
-            
+            Console::instance()->addChar("\n");            
         } else if (event->key() == Qt::Key_Backspace) {
             Console::instance()->removeChar();
         } else if (event->key() >= 32 && event->key() <= 126
@@ -149,8 +148,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
             Console::instance()->addChar(event->text());
         }
 
-        if ((keys_.consoleKey.matches(key) == QKeySequence::ExactMatch) ||
-                (event->key() == Qt::Key_Return)) {
+        if (keys_.consoleKey.matches(key) == QKeySequence::ExactMatch) {
             Console::instance()->hide();
             consoleOpen_ = !consoleOpen_;
             tInput = (PlayerInputComponent *)CDriver::instance()->

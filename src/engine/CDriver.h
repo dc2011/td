@@ -4,6 +4,7 @@
 #include <QPointF>
 #include <QSet>
 #include "Driver.h"
+#include "NPCWave.h"
 
 namespace td {
 
@@ -43,6 +44,10 @@ private:
     
     /** Tells objects whether or not the game is being played single player **/
     bool singlePlayer_;
+
+
+    QList<NPCWave*> waves_;
+    QTimer* waveTimer_;
 
     CDriver(MainWindow* parent = 0);
     ~CDriver();
@@ -138,7 +143,6 @@ public:
      */
     virtual void setBaseHealth(int health);
 
-public:
     /**
      * Sets a player as the local human player object.
      * Sets event filter for key presses to be passed to PlayerInputComponent.
@@ -198,6 +202,14 @@ public:
      * @param the value to set singlePlayer to.
      */
     void setSinglePlayer(bool singlePlayer);
+
+    /**
+     * Tries to add a resource to a specified BuildingTower.
+     *
+     * @author Marcel Vangrootheest
+     * @param t The Building tower that a resource is added to.
+     */
+    void requestResourceAddition(BuildingTower* t);
 
 signals:
     /**
@@ -271,6 +283,7 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCCreator();
+    void deadWave();
 };
 
 } /* end namespace td */

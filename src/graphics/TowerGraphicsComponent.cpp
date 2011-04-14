@@ -4,10 +4,14 @@
 #include <QPointF>
 #include <QPainter>
 #include "../engine/CDriver.h"
+#include <QGradientStops>
 
 namespace td {
 
-TowerGraphicsComponent::~TowerGraphicsComponent() {}
+TowerGraphicsComponent::~TowerGraphicsComponent() {
+    disconnect();
+    delete rangeCircle_;
+}
 
 void TowerGraphicsComponent::update(GameObject* obj) {
     Tower* tower = (Tower*)obj;
@@ -29,10 +33,11 @@ void TowerGraphicsComponent::update(GameObject* obj) {
 
 void TowerGraphicsComponent::initRangeCircle(QColor color) {
     visibleRange_ = false;
-
     rangeCircle_ = new QGraphicsEllipseItem(OFFSCREEN, OFFSCREEN, 1,1);
-
-    rangeCircle_->setBrush(QBrush(color));
+    QPen pen(color);
+    pen.setWidth(3);
+    rangeCircle_->setBrush(QBrush(Qt::transparent));
+    rangeCircle_->setPen(pen);
     CDriver::instance()->getMainWindow()->getScene()->addItem(rangeCircle_);
 }
 void TowerGraphicsComponent::draw(DrawParams* dp, int layer) {
@@ -40,7 +45,7 @@ void TowerGraphicsComponent::draw(DrawParams* dp, int layer) {
 
         QPointF point = dp->pos;
         rangeCircle_->setRect(point.x()-radius_, point.y()-radius_, radius_ * 2, radius_ * 2);
-        rangeCircle_->setOpacity(.1);
+        rangeCircle_->setOpacity(.5);
 
         rangeCircle_->setVisible(true);
         rangeCircle_->update();

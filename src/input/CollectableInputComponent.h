@@ -34,12 +34,37 @@ public:
     void setPath(QPointF* start, QPointF* end);
 
     /**
-     * Applies a direction to the position.
-     * This function uses path to find angle
+     * Updates the force for the collectable.
      *
-     * @author Joel Stewart , Marcel Vangrootheest
+     * @author Marcel Vangrootheest
      */
-    void applyDirection();
+    virtual void update();
+    /**
+     * Makes a force that will follow the path set.
+     *
+     * @author Marcel Vangrootheest
+     */
+    void makeForce();
+
+    /**
+     * Return true if moving to newPos is a valid move.
+     *
+     * @param newPos, Desired position to move to.
+     *
+     * @author Daniel Wright
+     */
+    bool validateMovement(const QPointF& newPos);
+
+    /**
+     * Return true if pos is in unblocked half of tile.
+     * Return false if pos is in blocked half of tile.
+     *
+     * @param pos, Position to be checked
+     * @param type, Blocking type of tile
+     *
+     * @author Daniel Wright
+     */
+    bool checkSemiBlocked(QPointF pos, int type);
 
 protected:
     /** The collectable this component applies to. */
