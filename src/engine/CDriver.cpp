@@ -232,17 +232,19 @@ void CDriver::requestSellTower(QPointF pos) {
     }
 }
 void CDriver::NPCCreator() {
-
+    timeCount_++;
     if(!waves_.empty()) {
-    disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
-    //NPCWave* wave = new NPCWave(this);
+        //disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
+        NPCWave* temp;
+        foreach(temp,waves_) {
+            if(temp->getStart() == timeCount_){
+                temp->createWave();
+                connect(temp, SIGNAL(waveDead()),this,SLOT(deadWave()));
+            }
+        }
 
-
-    waves_.first()->createWave();
-    //waves_.append(wave);
-
-
-    connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+        //waves_.first()->createWave();
+        //connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
 
     }
 
@@ -303,6 +305,7 @@ void CDriver::startGame(bool singlePlayer) {
 
         waveTimer_->start(1000);
         connect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
+        timeCount_ = 0;
     }
 
     //connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
@@ -312,9 +315,9 @@ void CDriver::startGame(bool singlePlayer) {
 }
 void CDriver::deadWave(){
     if(!waves_.empty()) {
-        disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+        /*disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
         waves_.takeFirst();
-        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(NPCCreator()));
+        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(NPCCreator()));*/
     } else {
         endGame();
     }
