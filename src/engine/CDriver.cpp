@@ -171,6 +171,8 @@ void CDriver::makeLocalPlayer(Player* player) {
             towerContextMenu_, SLOT(viewResources(bool)));
     connect(towerContextMenu_, SIGNAL(signalSellTower(QPointF)),
             this, SLOT(requestSellTower(QPointF)));
+    //connect(towerContextMenu_, SIGNAL(signalUpgradeTower(QPointF)),
+    //TODO macca add upgrade tower here        this, SLOT(***(QPointF)));
     connect(towerContextMenu_, SIGNAL(signalPlayerMovement(bool)),
 	        input, SLOT(playerMovement(bool)));
     
@@ -180,8 +182,8 @@ void CDriver::makeLocalPlayer(Player* player) {
             playerContextMenu_, SLOT(selectMenuItem(int)));
     connect(mainWindow_, SIGNAL(signalAltHeld(bool)),
             playerContextMenu_, SLOT(viewResources(bool)));
-    //connect(playerContextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
-    //        this, SLOT(requestBuildingTower(int, QPointF)));
+    //connect(playerContextMenu_, SIGNAL(signalUpgradePlayer(int, QPointF)),
+    //TODO macca add upgrade player here        this, SLOT(***(int, QPointF)));
     connect(playerContextMenu_, SIGNAL(signalPlayerMovement(bool)),
 	        input, SLOT(playerMovement(bool)));
 
