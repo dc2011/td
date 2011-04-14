@@ -110,20 +110,6 @@
 //DONT USE THIS MACRO UNLESS YOUR NAME IS DTRAIN
 #define NO_TIME         0,false
 
-//NPC path key for waypoints
-//TODO: either take out or change to something generic
-#define WP_TRICERATOPS  0
-#define WP_ANKLYO       1
-#define WP_SABERTOOTH   2
-#define WP_COMPIES      3
-#define WP_BRONTO       4
-#define WP_TREX         5
-#define WP_STEGO        6
-#define WP_GODZILLA     7
-#define WP_SOG_RAPTOR   8
-#define WP_MAMMOTH      9
-#define WP_PTERO        10
-
 //Projectile types
 #define PROJ_ARROW  0
 #define PROJ_CANNON 1
