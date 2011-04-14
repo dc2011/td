@@ -23,12 +23,13 @@ NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
 
 NPC::~NPC() {
     // Delete all effects in the map
-    QMap<int, Effect*>::iterator i;
+    /*QMap<int, Effect*>::iterator i;
     for (i = effects_.begin(); i != effects_.end(); ++i)
     {
         deleteEffect(*i);
         //cout << i.key() << ": " << i.value() << endl;
     }
+    */
     if (wave_ != NULL) {
         wave_->killChild(this);
     }
