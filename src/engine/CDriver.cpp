@@ -140,6 +140,10 @@ void CDriver::makeLocalPlayer(Player* player) {
     connect(mainWindow_, SIGNAL(signalKeyReleased(int)),
             input, SLOT(keyReleased(int)));
 
+    /* Connect movement to window scrolling. */
+    connect(player, SIGNAL(signalPlayerMovement(QPointF)),
+            mainWindow_, SLOT(scroll(QPointF)));
+
     // Connection for collisions -- waiting on map object
     connect(physics, SIGNAL(requestTileType(double, double, int*)), 
             gameMap_, SLOT(getTileType(double, double, int*)));

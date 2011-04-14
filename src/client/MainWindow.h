@@ -116,6 +116,15 @@ public slots:
         this->show();
     }
 
+    /**
+     * Scrolls the window to keep it centered around the provided co-ordinates.
+     *
+     * @param pos The co-ordinate to center on.
+     *
+     * @author Tom Nightingale
+     */
+    void scroll(QPointF pos);
+
 signals:
     void signalKeyPressed(int);
     void signalKeyReleased(int);

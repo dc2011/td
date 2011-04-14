@@ -215,6 +215,16 @@ signals:
     void signalPlayerMovement(bool move);
 
     /**
+     * Signals player movement, this is for notifying the MainWindow for
+     * scrolling purposes.
+     *
+     * @param pos The player's new position co-ordinate.
+     *
+     * @author Tom Nightingale
+     */
+    void signalPlayerMovement(QPointF pos);
+
+    /**
      * Emmitted when the player drops the resource that they are carrying.
      *
      * Connected to requestCollectable() in the driver.

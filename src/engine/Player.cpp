@@ -77,6 +77,8 @@ void Player::update() {
         default:
             break;
     }
+
+    emit signalPlayerMovement(getPos());
 }
 
 void Player::createEffect(int effectType)
