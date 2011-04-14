@@ -20,19 +20,21 @@ ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
 }
 
 void ContextMenuGraphicsComponent::update(GameObject *) {
-    DrawParams *dp = new DrawParams();
+    DrawParamsMenuGraphics* dp = new DrawParamsMenuGraphics();
 
     dp->scale = scaleFactor_;
     dp->degrees = 0;
     dp->pos = menuPos_;
     dp->pixmapIdx = nextImage_;
+    //DrawParams() :pos(0,0), degrees(90), scale(1), moving(0), health(-1) {}
 
     emit signalDraw(dp,this, LAYER_MENU);
 }
 
-void ContextMenuGraphicsComponent::draw(DrawParams* dp, int layer) {
-    setImgIndex(dp->pixmapIdx);
-    GraphicsComponent::draw(dp, layer);
+void ContextMenuGraphicsComponent::draw(void* dp, int layer) {
+    DrawParamsMenuGraphics *dpMenu = (DrawParamsMenuGraphics*) dp;
+    setImgIndex(dpMenu->pixmapIdx);
+    GraphicsComponent::draw(dpMenu, layer);
 }
 
 void ContextMenuGraphicsComponent::initPixmaps() {

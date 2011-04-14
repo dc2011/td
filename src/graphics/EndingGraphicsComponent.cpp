@@ -7,11 +7,13 @@ QPixmap* EndingGraphicsComponent::pixmapImgs_ = 0;
 
 void EndingGraphicsComponent::update(GameObject*) {
     DrawParams* dp = new DrawParams();
-
-    setLayer(dp);
+    dp->pos = pos_;
+    dp->degrees = 90;
+    dp->scale = 1;
+    emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 
-void EndingGraphicsComponent::draw(DrawParams *dp, int layer) {
+void EndingGraphicsComponent::draw(void *dp, int layer) {
     GraphicsComponent::draw(dp, layer);
 }
 
@@ -24,7 +26,6 @@ void EndingGraphicsComponent::animate() {
 }
 
 // cannon ending animation
-
 QPixmap* CannonEndingGraphicsComponent::pixmapImgs_ = NULL;
 
 
@@ -40,10 +41,6 @@ void CannonEndingGraphicsComponent::initPixmaps() {
     pixmapImgs_[pixmapIndex_++] = PIX_END_CANNON_1;
     pixmapImgs_[pixmapIndex_++] = PIX_END_CANNON_2;
     setNonStaticValues();
-}
-
-void CannonEndingGraphicsComponent::setLayer(DrawParams *dp) {
-    emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 
 void CannonEndingGraphicsComponent::setNonStaticValues() {

@@ -79,7 +79,7 @@ void MainWindow::removeGraphicRepr(GraphicsComponent* gc) {
     new DelayedDelete<GraphicsComponent>(gc);
 }
 
-void MainWindow::drawItem(DrawParams* dp, GraphicsComponent* gc, int layer) {
+void MainWindow::drawItem(void* dp, GraphicsComponent* gc, int layer) {
     gc->draw(dp,layer);
 }
 

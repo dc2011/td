@@ -29,7 +29,7 @@ void NormNPCGraphicsComponent::initPixmaps() {
     setNonStaticValues();
 }
 
-void NormNPCGraphicsComponent::setLayer(DrawParams* dp) {    
+void NormNPCGraphicsComponent::setLayer(void* dp) {
     emit signalDraw(dp, this, LAYER_NPC);
 }
 
@@ -55,7 +55,7 @@ void SlowNPCGraphicsComponent::initPixmaps() {
     setNonStaticValues();
 }
 
-void SlowNPCGraphicsComponent::setLayer(DrawParams* dp) {    
+void SlowNPCGraphicsComponent::setLayer(void* dp) {
     emit signalDraw(dp, this, LAYER_NPC);
 }
 
@@ -83,7 +83,7 @@ void FastNPCGraphicsComponent::initPixmaps() {
     setNonStaticValues();
 }
 
-void FastNPCGraphicsComponent::setLayer(DrawParams* dp) {    
+void FastNPCGraphicsComponent::setLayer(void* dp) {
     emit signalDraw(dp, this, LAYER_NPC);
 }
 
@@ -110,7 +110,7 @@ void FlyNPCGraphicsComponent::initPixmaps() {
     setNonStaticValues();
 }
 
-void FlyNPCGraphicsComponent::setLayer(DrawParams* dp) {
+void FlyNPCGraphicsComponent::setLayer(void* dp) {
     emit signalDraw(dp, this, LAYER_FLYNPC);
 }
 
@@ -138,7 +138,7 @@ void BossNPCGraphicsComponent::initPixmaps() {
     setNonStaticValues();
 }
 
-void BossNPCGraphicsComponent::setLayer(DrawParams* dp) {
+void BossNPCGraphicsComponent::setLayer(void* dp) {
     emit signalDraw(dp, this, LAYER_NPC);
 }
 

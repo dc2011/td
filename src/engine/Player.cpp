@@ -183,20 +183,12 @@ void Player::dropResource(bool addToTower) {
 #endif
     }
     resource_ = RESOURCE_NONE;
-    if (getGraphicsComponent()) {
-        getGraphicsComponent()->setCurrentResource(RESOURCE_NONE);
-    }
 }
 
 void Player::harvestResource() {
     if (--harvestCountdown_ <= 0) {
         resource_ = harvesting_;
         harvestCountdown_ = HARVEST_COUNTDOWN;
-        if (getGraphicsComponent()) {
-            getGraphicsComponent()->setCurrentResource(resource_);
-            getGraphicsComponent()->update(this);
-
-        }
         setDirty(kResource);
         stopHarvesting();
 

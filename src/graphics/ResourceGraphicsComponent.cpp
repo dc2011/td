@@ -15,15 +15,9 @@ ResourceGraphicsComponent::~ResourceGraphicsComponent() {}
 
 void ResourceGraphicsComponent::update(GameObject* obj) {
     Resource* resource = (Resource*)obj;
-    //if (!resource->getDirtyStatus()) {//checks if object is dirty.
-    //    return;
-    //}
-    //resource->resetDirty();
-
     DrawParams* dp = new DrawParams();
     dp->pos     = resource->getPos();
-    dp->moving  = 1;
-    //player->getVelocity().length() != 0;
+    //dp->moving  = 1;
     dp->scale   = 1;//resource->getScale();
     dp->degrees = resource->getOrientation();
     emit signalDraw(dp, this, LAYER_DEFAULT);

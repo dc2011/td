@@ -22,7 +22,7 @@ public:
 
     virtual void update(GameObject* obj);
 
-    virtual void draw(DrawParams* dp, int layer=0);
+    virtual void draw(void* dp, int layer=0);
 
     virtual void initPixmaps() = 0;
 
@@ -41,7 +41,7 @@ private:
 private:
     virtual void setNonStaticValues() = 0;
 
-    virtual void setLayer(DrawParams* dp) = 0;
+    virtual void setLayer(void*) {}
 };
 
 
@@ -77,8 +77,6 @@ protected:
     }
 
 private:
-    virtual void setLayer(DrawParams *dp);
-
     virtual void setNonStaticValues();
 
 private:
