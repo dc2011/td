@@ -34,7 +34,7 @@ NPCWave* Parser::readWave() {
     }
     QString waveLine = file_.readLine();
 
-    if (waveLine.compare("==") || waveLine.compare("\n"))
+    if ((waveLine.compare("==") > 0) || (waveLine.compare("\n") == 0))
     {
         return NULL;
     }
