@@ -38,6 +38,23 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
 
     Map* gameMap = player->getDriver()->getGameMap();
     QSet<Tile*> targetTiles = gameMap->getTiles(newPos, 2);
+    Tiled::Map* tMap = gameMap->getTMap();
+    int mapHeight = tMap->height();
+    int mapWidth = tMap->width();
+    QSize mapSize = tMap->maxTileSize();
+
+    if(newPos.x() < 20){
+        newPos.setX(20);
+    }
+    if(newPos.x() > (mapWidth * mapSize.width() - 20)){
+        newPos.setX(mapWidth * mapSize.width() - 20);
+    }
+    if(newPos.y() < 20){
+        newPos.setY(20);
+    }
+    if(newPos.y() > (mapHeight * mapSize.height() - 20)){
+        newPos.setY(mapHeight * mapSize.height() - 20);
+    }
 
     QPointF upperRight;
     QPointF upperLeft;
@@ -82,7 +99,7 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
         player->setBounds(polygon);
         npcs = gameMap->getUnits(newPos.x(), newPos.y(), 3);
         if (npcs.size() != 1) {
-            checkNPCCollision(npcs, player);
+            checkUnitCollision(npcs, player);
         }
     }
 }
@@ -209,77 +226,11 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
     }
 }
 
-/*
-bool PlayerPhysicsComponent::validateMovement(const QPointF& newPos) {
-    int blockingType = 0;
-
-    emit requestTileType(newPos.x(), newPos.y(), &blockingType);
-
-    if (blockingType == Tile::OPEN) {
-        return true;
-    }
-
-    else if (blockingType == Tile::CLOSED) {
-        return false;
-    }
-
-    else {
-        // TODO: This is where we will call a function to determine what areas
-        // are blocked due to other blocking types or other units
-        if (checkSemiBlocked(newPos, blockingType)) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool PlayerPhysicsComponent::checkSemiBlocked(QPointF pos, int type) {
-    // Get pointer to map.
-    Map* map = getDriver()->getGameMap();
-    int tWidth = map->tileWidth();
-    int tHeight = map->tileHeight();
-
-    float posX = (int) pos.x() % tWidth;
-    float posY = (int) pos.y() % tHeight;
-
-    switch(type) {
-        case Tile::NORTH_WEST:
-            if (posY > (tWidth - posX)) {
-                return false;
-            }
-            break;
-
-        case Tile::NORTH_EAST:
-            if ((posX < posY)) {
-                return false;
-            }
-            break;
-
-        case Tile::SOUTH_WEST:
-            if ((posX > posY)) {
-                return false;
-            }
-            break;
-
-        case Tile::SOUTH_EAST:
-            if (posY < (tWidth - posX)) {
-                return false;
-            }
-            break;
-
-        default:
-            break;
-    }
-
-    return true;
-}
-*/
-
-void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
+void PlayerPhysicsComponent::checkUnitCollision(QSet<Unit*> units, Unit* player){
     QSet<Unit*>::iterator it;
     QPolygonF playerBounds;
     QPolygonF npcBounds;
-    for (it = npcs.begin(); it != npcs.end(); ++it) {
+    for (it = units.begin(); it != units.end(); ++it) {
         if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
             playerBounds = player->getBounds();
             npcBounds = (*it)->getBounds();
@@ -293,8 +244,13 @@ void PlayerPhysicsComponent::checkNPCCollision(QSet<Unit*> npcs, Unit* player){
                 //Effect::EffectType effectType = Effect::stunned;
                 emit NPCPlayerCollided(EFFECT_NPCPLAYER);
                 break;
-            } else {
-                //qDebug("PlayerPhysicsComponenet, line 279, No Collision");
+            }
+        } else if ((((*it)->getID() & 0xFF000000)>>24) == Collectable::clsIdx()) {
+            playerBounds = player->getBounds();
+            npcBounds = (*it)->getBounds();
+            if (player->getBounds().intersected((*it)->getBounds()).count() != 0) {
+                emit pickupCollectable(player->getPos().x(), player->getPos().y(), *it);
+                break;
             }
         }
     }
