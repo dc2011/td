@@ -38,7 +38,7 @@ public:
 
 private:
     virtual void setNonStaticValues();
-    virtual void setLayer(DrawParams* dp);
+    virtual void setLayer(void* dp);
 };
 
 class SlowNPCGraphicsComponent : public NPCGraphicsComponent
@@ -74,7 +74,7 @@ public:
 
 private:
     virtual void setNonStaticValues();
-    virtual void setLayer(DrawParams* dp);
+    virtual void setLayer(void* dp);
 };
 
 class FastNPCGraphicsComponent : public NPCGraphicsComponent
@@ -110,7 +110,7 @@ public:
 
 private:
     virtual void setNonStaticValues();
-    virtual void setLayer(DrawParams* dp);
+    virtual void setLayer(void* dp);
 };
 
 class FlyNPCGraphicsComponent : public NPCGraphicsComponent
@@ -146,7 +146,7 @@ public:
 
 private:
     virtual void setNonStaticValues();
-    virtual void setLayer(DrawParams* dp);
+    virtual void setLayer(void* dp);
 };
 
 class BossNPCGraphicsComponent : public NPCGraphicsComponent
@@ -182,7 +182,7 @@ public:
 
 private:
     virtual void setNonStaticValues();
-    virtual void setLayer(DrawParams* dp);
+    virtual void setLayer(void* dp);
 };
 
 } /* end namespace td */

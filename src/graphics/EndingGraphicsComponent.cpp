@@ -5,11 +5,14 @@ namespace td {
 
 void EndingGraphicsComponent::update(GameObject*) {
     DrawParams* dp = new DrawParams();
+    dp->pos = pos_;
+    dp->degrees = 90;
+    dp->scale = 1;
 
     emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 
-void EndingGraphicsComponent::draw(DrawParams *dp, int layer) {
+void EndingGraphicsComponent::draw(void *dp, int layer) {
     GraphicsComponent::draw(dp, layer);
 }
 
@@ -39,6 +42,8 @@ void EndingGraphicsComponent::redraw(int timerLength, int layer) {
     }
     DrawParams* dp = new DrawParams();
     dp->pos = this->pos_;
+    dp->degrees = 90;
+    dp->scale = 1;
     this->draw(dp, layer);
 
     created_.release();

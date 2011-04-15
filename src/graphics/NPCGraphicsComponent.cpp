@@ -24,35 +24,37 @@ void NPCGraphicsComponent::update(GameObject* obj) {
     }
     npc->resetDirty();
 
-    DrawParams* dp = new DrawParams();
+    DrawParamsNPC* dp = new DrawParamsNPC();
     dp->pos     = npc->getPos();
-    dp->moving  = 1;
+    dp->scale = 1;
     dp->degrees = npc->getOrientation();
-    npcHealth   = (npc->getHealth() / (double)npc->getMaxHealth());
-    //npcHealth   = npcHealth - 0.003; //This and the following lines are for tests.
-    if(npcHealth < 0) {
-        npcHealth = 0;
+    dp->keyHeld = keyHeld_;
+    npcHealth_   = (npc->getHealth() / (double)npc->getMaxHealth());
+    //npcHealth_   = npcHealth_ - 0.003; //This and the following lines are for tests.
+    if(npcHealth_ < 0) {
+        npcHealth_ = 0;
     }
-    
+    dp->health = npcHealth_;
     setLayer(dp);
 }
 
-void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {
+void NPCGraphicsComponent::draw(void* dp, int layer) {
+    DrawParamsNPC* drawParamsNPC = (DrawParamsNPC*) dp;
 
-    if (--damageDisplayTime_ > 0 || keyHeld_) {
+    if (--damageDisplayTime_ > 0 || drawParamsNPC->keyHeld) {
         healthbarItem_->setVisible(true);
-        healthbarItem_->setRect(QRectF(0, 0, HEALTHBAR_WIDTH * npcHealth, 
-                                       HEALTHBAR_HEIGHT));
-        if(npcHealth > 0.25 && npcHealth < 0.51) {
+        healthbarItem_->setRect(QRectF(0, 0, HEALTHBAR_WIDTH *
+                                      drawParamsNPC->health, HEALTHBAR_HEIGHT));
+        if(drawParamsNPC->health > 0.25 && drawParamsNPC->health < 0.51) {
             healthbarItem_->setBrush(QBrush(Qt::yellow));
-        } else if (npcHealth <= 0.25) {
+        } else if (drawParamsNPC->health <= 0.25) {
             healthbarItem_->setBrush(QBrush(Qt::red));
         } else {
             healthbarItem_->setBrush(QBrush(Qt::green));
         }
-        healthbarItem_->setPos((dp->pos.x()
+        healthbarItem_->setPos((drawParamsNPC->pos.x()
                     - healthbarItem_->boundingRect().center().x()),
-                    (dp->pos.y()
+                    (drawParamsNPC->pos.y()
                     - (getPixmapItem()->boundingRect().height())/2));
         healthbarItem_->setZValue(layer);
         healthbarItem_->update();
@@ -67,7 +69,7 @@ void NPCGraphicsComponent::draw(DrawParams* dp, int layer) {
 void NPCGraphicsComponent::initHealthbar() {
     healthbarItem_ = new QGraphicsRectItem(QRectF(OFFSCREEN, OFFSCREEN,
                                            HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT));
-    npcHealth = 1;
+    npcHealth_ = 1;
     CDriver::instance()->getMainWindow()->getScene()->addItem(healthbarItem_);
 }
 

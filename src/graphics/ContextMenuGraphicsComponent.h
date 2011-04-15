@@ -12,6 +12,17 @@ namespace td {
 class ContextMenuGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
+    struct DrawParamsMenuGraphics {
+        /** location */
+        QPointF pos;
+        /** in degrees 0 is up 180 down... */
+        int degrees;
+        /** normal is 1 .5 is half 2 is double */
+        float scale;
+        /** index of pixmap to be displayed */
+        int pixmapIdx;
+    };
+
 public:
     ContextMenuGraphicsComponent();
     virtual ~ContextMenuGraphicsComponent() {}
@@ -33,7 +44,7 @@ public:
      * to render an image.
      * @param layer is what layer to draw image defaults to 0
      */
-    virtual void draw(DrawParams* dp, int layer=0);
+    virtual void draw(void* dp, int layer=0);
 
     /**
      * Initializes all of the images for this object.
