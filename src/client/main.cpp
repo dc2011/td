@@ -3,6 +3,7 @@
 #include <QThreadPool>
 #include "MainWindow.h"
 #include "lobbywindow.h"
+#include "settingswindow.h"
 #include "../util/thread.h"
 #include "../engine/CDriver.h"
 #include "../audio/manager.h"
@@ -28,12 +29,15 @@ int main(int argc, char **argv) {
     td::MainWindow* qmw = new td::MainWindow();
     td::CDriver* clientDriver = td::CDriver::init(qmw);
     td::Thread* driverThread = new td::Thread();
+    td::settingsWindow* settings = new td::settingsWindow();
 
     QObject::connect(lobby, SIGNAL(startGame(bool)),
                      clientDriver, SLOT(startGame(bool)));
     QObject::connect(lobby, SIGNAL(startGame(bool)),
                      qmw, SLOT(openWindow()));
     clientDriver->moveToThread(driverThread);
+    QObject::connect(qmw,SIGNAL(signalShowSettings()),
+                     settings, SLOT(slotShowSettings()));
 
     driverThread->start();
 

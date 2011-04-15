@@ -221,6 +221,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
         case Qt::Key_Space:
             emit signalSpacebarReleased();
             break;
+        case Qt::Key_Escape:
+            emit signalShowSettings();
+            break;
         default:
             QMainWindow::keyPressEvent(event);
             break;

@@ -183,6 +183,11 @@ signals:
      * @author Dean Morin
      */
     void signalSpacebarReleased();
+    /**
+     *
+     * display or hide the settings window
+     */
+    void signalShowSettings();
 };
 
 } /* end namespace td */
