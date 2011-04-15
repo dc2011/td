@@ -33,6 +33,9 @@ public:
      */
     void nextDestination();
 
+    /**
+      */
+    void initWaypoints(int path);
 private:
     /** The NPC to catch input. */
     NPC* parent_;

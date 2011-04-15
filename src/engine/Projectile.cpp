@@ -10,6 +10,7 @@
 #include "../physics/ProjectilePhysicsComponentTypes.h"
 #include "../graphics/ProjectileGraphicsComponentTypes.h"
 #include "Driver.h"
+#include "../graphics/EndingGraphicsComponent.h"
 
 namespace td {
 
@@ -24,6 +25,21 @@ Projectile::Projectile(QObject* parent) : Unit(parent) {
 }
 
 Projectile::~Projectile() {
+#ifndef SERVER
+    switch (type_) {
+    case PROJ_ARROW:
+        break;
+    case PROJ_CANNON:
+        new CannonEndingGraphicsComponent(pos_);
+        break;
+    case PROJ_FIRE:
+        break;
+    case PROJ_FLAK:
+        break;
+    case PROJ_TAR:
+        break;
+    }
+#endif
     delete start_;
     delete end_;
 }
@@ -171,7 +187,7 @@ void Projectile::checkNPCCollision(QSet<Unit*> npcs){
                 //TODO: Add sfx logic here (same as Player collisions)
                 //add effect to npc
                 //qDebug("Enemy hit");
-                ((NPC*)(*it))->createEffect(new ArrowEffect(*it));
+                ((NPC*)(*it))->createEffect(EFFECT_ARROW);
                 break;
             }else{
                 //qDebug("No hit");

@@ -2,6 +2,7 @@
 #include "NPCWave.h"
 #include "Driver.h"
 #include <QObject>
+#include "../audio/SfxManager.h"
 
 #ifndef SERVER
 #    include "CDriver.h"
@@ -86,60 +87,73 @@ void NPC::networkWrite(Stream* s) {
     }
 }
 
+QVector2D NPC::getRandomVector() {
+    float d = ((qrand() % 1000) / 21.0) + 50;
+    float direction = (qrand() % 1000) - 500;
+    QLineF normalVector = QLineF(QPointF(0, 0), velocity_.toPointF());
+
+    normalVector = normalVector.normalVector();
+
+    QVector2D v = QVector2D(normalVector.p2()) * direction;
+    v.normalize();
+
+    return (v * d);
+}
+
 void NPC::initComponents() {
     NPCInputComponent* input;
 
     switch(type_) {
-        case NPC_NORM:
-            maxHealth_ = health_ = 100;
-            input = new NormNPCInputComponent();
-            input->setParent(this);
-            setPhysicsComponent(new NormNPCPhysicsComponent());
+    case NPC_NORM:
+        maxHealth_ = health_ = 100;
+        input = new NormNPCInputComponent();
+        input->setParent(this);
+        setPhysicsComponent(new NormNPCPhysicsComponent());
 #ifndef SERVER
-            setGraphicsComponent(new NormNPCGraphicsComponent());
+        setGraphicsComponent(new NormNPCGraphicsComponent());
 #endif
-            setInputComponent(input);
-            break;
-        case NPC_SLOW:
-            maxHealth_ = health_ = 200;
-            input = new SlowNPCInputComponent();
-            input->setParent(this);
-            setPhysicsComponent(new SlowNPCPhysicsComponent());
+        setInputComponent(input);
+        break;
+    case NPC_SLOW:
+        maxHealth_ = health_ = 200;
+        input = new SlowNPCInputComponent();
+        input->setParent(this);
+        setPhysicsComponent(new SlowNPCPhysicsComponent());
 #ifndef SERVER
-            setGraphicsComponent(new SlowNPCGraphicsComponent());
+        setGraphicsComponent(new SlowNPCGraphicsComponent());
 #endif
-            setInputComponent(input);
-            break;
-        case NPC_FAST:
-            maxHealth_ = health_ = 50;
-            input = new FastNPCInputComponent();
-            input->setParent(this);
-            setPhysicsComponent(new FastNPCPhysicsComponent());
+        setInputComponent(input);
+        break;
+    case NPC_FAST:
+        maxHealth_ = health_ = 50;
+        input = new FastNPCInputComponent();
+        input->setParent(this);
+        setPhysicsComponent(new FastNPCPhysicsComponent());
 #ifndef SERVER
-            setGraphicsComponent(new FastNPCGraphicsComponent());
+        setGraphicsComponent(new FastNPCGraphicsComponent());
 #endif
-            setInputComponent(input);
-            break;
-        case NPC_FLY:
-            maxHealth_ = health_ = 100;
-            input = new FlyNPCInputComponent();
-            input->setParent(this);
-            setPhysicsComponent(new FlyNPCPhysicsComponent());
+        setInputComponent(input);
+        break;
+    case NPC_FLY:
+        maxHealth_ = health_ = 100;
+        input = new FlyNPCInputComponent();
+        input->setParent(this);
+        setPhysicsComponent(new FlyNPCPhysicsComponent());
 #ifndef SERVER
-            setGraphicsComponent(new FlyNPCGraphicsComponent());
+        setGraphicsComponent(new FlyNPCGraphicsComponent());
 #endif
-            setInputComponent(input);
-            break;
-        case NPC_BOSS:
-            maxHealth_ = health_ = 300;
-            input = new BossNPCInputComponent();
-            input->setParent(this);
-            setPhysicsComponent(new BossNPCPhysicsComponent());
+        setInputComponent(input);
+        break;
+    case NPC_BOSS:
+        maxHealth_ = health_ = 300;
+        input = new BossNPCInputComponent();
+        input->setParent(this);
+        setPhysicsComponent(new BossNPCPhysicsComponent());
 #ifndef SERVER
-            setGraphicsComponent(new BossNPCGraphicsComponent());
+        setGraphicsComponent(new BossNPCGraphicsComponent());
 #endif
-            setInputComponent(input);
-            break;
+        setInputComponent(input);
+        break;
     }
 
 #ifndef SERVER
@@ -152,23 +166,56 @@ void NPC::initComponents() {
 #endif
 }
 
-void NPC::createEffect(Effect* effect){
-    if (effects_.contains(*effect)) {
-        emit stopEffect(effect->getType());
-        effects_.removeOne(*effect);
+void NPC::createEffect(int effectType)
+{
+    Effect* effect;
+
+    // Create the effect
+    switch (effectType)
+    {
+    case EFFECT_ARROW:
+        effect = new ArrowEffect(this);
+        break;
+    case EFFECT_TAR:
+        effect = new NPCTarEffect(this);
+        break;
+    case EFFECT_BURN:
+        if (effects_.contains(EFFECT_TAR))
+        {
+            effect = new NPCBurnEffect(this);
+            break;
+        }
+        // Fall through if there is no tar effect in place
+    default:
+        return;
     }
     QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
-        this, SLOT(deleteEffect(Effect*)));
-    connect(this, SIGNAL(stopEffect(uint)),
-        effect, SLOT(effectStop(uint)));
-    connect(getDriver()->getTimer(), SIGNAL(timeout()),
-        effect, SLOT(update()));
-        
-    effects_.push_back(*effect);
+                     this, SLOT(deleteEffect(Effect*)));
+    QObject::connect(this, SIGNAL(stopEffect(uint)),
+                     effect, SLOT(effectStop(uint)));
+    QObject::connect(getDriver()->getTimer(), SIGNAL(timeout()),
+                     effect, SLOT(update()));
+    effects_.insert(effectType, effect);
+
+    switch (effect->getType()) {
+    case EFFECT_ARROW:
+	    PLAY_SFX(this, SfxManager::projectileHitArrow);
+        break;
+    case EFFECT_CANNON:
+	    PLAY_SFX(this, SfxManager::projectileHitCannon);
+        break;
+    case EFFECT_TAR:
+	    PLAY_SFX(this, SfxManager::projectileHitTar);
+        break;
+    case EFFECT_FLAK:
+	    PLAY_SFX(this, SfxManager::projectileHitFlak);
+        break;
+    }
 }
 
-void NPC::deleteEffect(Effect* effect){
-    effects_.removeOne(*effect);
+void NPC::deleteEffect(Effect* effect)
+{
+    effects_.remove(effect->getType());
     delete effect;
     if (effects_.empty()) {
         // TODO: connect to a slot in projectile collisions for sfx
@@ -178,6 +225,8 @@ void NPC::deleteEffect(Effect* effect){
 
 void NPC::isDead() {
     if(health_ <= 0) {
+        //TODO NPC death sound/animation
+        emit signalDropResource(RESOURCE_GEM, pos_, getRandomVector());
         emit dead(this->getID());
     }
 }

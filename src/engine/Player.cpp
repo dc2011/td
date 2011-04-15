@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "Driver.h"
+#include "CDriver.h"
+#include "BuildingTower.h"
 #include "tile.h"
 #include "EffectTypes.h"
 #include "../graphics/PlayerGraphicsComponent.h"
@@ -63,19 +65,21 @@ void Player::update() {
         harvestResource();
     }
 
-    tileThatPlayerIsOn_ = getDriver()->getGameMap()->getTile(getPos());
-    int tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
-    switch(tileEffect) {
-        case Tile::NONE:
-            break;
-        case Tile::SLOW:
-            createEffect(EFFECT_SLOW);
-            break;
-        case Tile::FAST:
-            createEffect(EFFECT_FAST);
-            break;
-        default:
-            break;
+    if (physics_ != NULL) {
+        tileThatPlayerIsOn_ = getDriver()->getGameMap()->getTile(getPos());
+        int tileEffect = getDriver()->getGameMap()->getTile(getPos())->getTileEffect();
+        switch(tileEffect) {
+            case Tile::NONE:
+                break;
+            case Tile::SLOW:
+                createEffect(EFFECT_SLOW);
+                break;
+            case Tile::FAST:
+                createEffect(EFFECT_FAST);
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -124,13 +128,10 @@ void Player::deleteEffect(Effect* effect)
 
 void Player::startHarvesting(int type) {
     if (resource_ != RESOURCE_NONE) {
-        qDebug("Player::startHarvesting(); already carrying a resource");
         return;
     }
     harvesting_ = type;
     emit signalPlayerMovement(false);
-    qDebug("Player::startHarvesting(); resource %d", harvesting_);
-
     switch (type) {
         case RESOURCE_WOOD:
             PLAY_LOCAL_SFX(SfxManager::resourceWood);
@@ -164,13 +165,19 @@ void Player::dropResource(bool addToTower) {
     }
     setDirty(kResource);
     if (addToTower) {
-        qDebug("Player::dropResource(); added resource to BuildingTower");
 #ifndef SERVER
+        if (((CDriver*)getDriver())->isSinglePlayer()) {
+            Tile* cTile = getDriver()->getGameMap()->getTile(getPos());
+            BuildingTower* t = (BuildingTower*)cTile->getExtension();
+            if (t->isDone()) {
+                getDriver()->createTower(t->getType(), t->getPos());
+                getDriver()->destroyObject(t);
+            }
+        }
 	    Console::instance()->addText("Added Resource");
 #endif
     } else {
-        emit signalDropResource(resource_, pos_, velocity_);
-        qDebug("Player::dropResource(); dropped resource");
+        emit signalDropResource(resource_, pos_, getRandomVector());
 #ifndef SERVER
 	    Console::instance()->addText("Dropped Resource");
 #endif
@@ -185,8 +192,6 @@ void Player::harvestResource() {
     if (--harvestCountdown_ <= 0) {
         resource_ = harvesting_;
         harvestCountdown_ = HARVEST_COUNTDOWN;
-
-        qDebug("Player::harvestResource(); resource: %d", harvesting_);
         if (getGraphicsComponent()) {
             getGraphicsComponent()->setCurrentResource(resource_);
             getGraphicsComponent()->update(this);

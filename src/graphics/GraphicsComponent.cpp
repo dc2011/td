@@ -81,6 +81,3 @@ void GraphicsComponent::setBuildingStage(int) {
 }
 
 } /* end namespace td */
-QPixmap * getPixmapArray() {
-    return 0;
-}
