@@ -1,50 +1,31 @@
 #include "ContextMenuGraphicsComponent.h"
+#include "../engine/CDriver.h"
 #include "../engine/ContextMenu.h"
 #include "../engine/Player.h"
-#include "../engine/CDriver.h"
-
-#define ARROW_TOWER_SELECTED    49
-#define CANNON_TOWER_SELECTED   50
-#define FLAME_TOWER_SELECTED    51
-#define TAR_TOWER_SELECTED      52
-#define FLAK_TOWER_SELECTED     53
 
 namespace td {
 
-    QPixmap * ContextMenuGraphicsComponent::pixmapImgs_ = 0;
-
 ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
-    : GraphicsComponent() {
-    emit created(this);
+        : GraphicsComponent() {
     connect(&closeTimer_, SIGNAL(timeout()), this, SLOT(hideSelectMenu()));
 }
 
 void ContextMenuGraphicsComponent::update(GameObject *) {
-    DrawParams *dp = new DrawParams();
+    DrawParamsMenuGraphics* dp = new DrawParamsMenuGraphics();
 
     dp->scale = scaleFactor_;
     dp->degrees = 0;
     dp->pos = menuPos_;
+    dp->pixmapIdx = nextImage_;
+    //DrawParams() :pos(0,0), degrees(90), scale(1), moving(0), health(-1) {}
 
     emit signalDraw(dp,this, LAYER_MENU);
 }
 
-void ContextMenuGraphicsComponent::initPixmaps() {
-    if (pixmapImgs_) {
-        return;
-    } else {
-        pixmapImgs_ = new QPixmap[PIX_CONTEXT_MENU_MAX];
-    }
-
-    pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_MAIN;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_RES;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T1;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T2;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T3;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T4;
-    pixmapImgs_[pixmapIndex_++] = PIX_CONTEXT_MENU_T5;
-    pixmapIndex_ = 0;
+void ContextMenuGraphicsComponent::draw(void* dp, int layer) {
+    DrawParamsMenuGraphics *dpMenu = (DrawParamsMenuGraphics*) dp;
+    setImgIndex(dpMenu->pixmapIdx);
+    GraphicsComponent::draw(dpMenu, layer);
 }
 
 void ContextMenuGraphicsComponent::showMenu(QPointF playerPos) {
@@ -54,7 +35,7 @@ void ContextMenuGraphicsComponent::showMenu(QPointF playerPos) {
     menuPos_.setY(tempMenuPos.y());
 
     scaleFactor_ = 0;
-    setImgIndex(0);
+    nextImage_ = 0;
     
     closeTimer_.stop();
     animate_ = true;
@@ -62,31 +43,12 @@ void ContextMenuGraphicsComponent::showMenu(QPointF playerPos) {
     update(NULL);
 }
 
-void ContextMenuGraphicsComponent::showSelectMenu(int type, QPointF playerPos) {
+void ContextMenuGraphicsComponent::showSelectMenu(int, QPointF playerPos) {
     QPointF tempMenuPos(playerPos);
     animate_ = false;
 
     menuPos_.setX(tempMenuPos.x());
     menuPos_.setY(tempMenuPos.y());
-
-    switch(type) {
-        //going to have some accessor to set img
-    case ARROW_TOWER_SELECTED:
-        setImgIndex(2);
-        break;
-    case CANNON_TOWER_SELECTED:
-        setImgIndex(3);
-        break;
-    case FLAME_TOWER_SELECTED:
-        setImgIndex(4);
-        break;
-    case TAR_TOWER_SELECTED:
-        setImgIndex(5);
-        break;
-    case FLAK_TOWER_SELECTED:
-        setImgIndex(6);
-        break;
-    }
 
     closeTimer_.start(500);
     scaleFactor_ = 1;
@@ -119,20 +81,14 @@ void ContextMenuGraphicsComponent::hideSelectMenu() {
 
 void ContextMenuGraphicsComponent::showResources(bool show) {
     if (show) {
-        qDebug("ContextMenuGraphicsComponent::showResources; show = true");
-        setImgIndex(1);
+        nextImage_ = 1;
     } else {
-        qDebug("ContextMenuGraphicsComponent::showResources; show = false");
-        setImgIndex(0);
+        nextImage_ = 0;
     }
 
     scaleFactor_ = 1;
 
     update(NULL);
-}
-
-QPixmap * ContextMenuGraphicsComponent::getPixmapArray() {
-    return pixmapImgs_;
 }
 
 } /* end namespace td */

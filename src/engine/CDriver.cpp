@@ -1,8 +1,7 @@
 #include "CDriver.h"
 #include <map.h>
 #include <tile.h>
-#include "ContextMenu.h"
-#include "GameInfo.h"
+#include "ContextMenuTypes.h"
 #include "GameObject.h"
 #include "Map.h"
 #include "NPC.h"
@@ -20,6 +19,7 @@
 #include "../network/netclient.h"
 #include "../network/stream.h"
 #include "../util/defines.h"
+#include "Parser.h"
 
 namespace td {
 
@@ -27,13 +27,17 @@ CDriver* CDriver::instance_ = NULL;
 
 CDriver::CDriver(MainWindow* mainWindow)
         : Driver(), playerID_(0xFFFFFFFF), human_(NULL),
-        mainWindow_(mainWindow), contextMenu_(NULL)
+        mainWindow_(mainWindow), buildContextMenu_(NULL)
 {
     mgr_ = new ResManager(this);
     npcCounter_ = 0;
 }
 
 CDriver::~CDriver() {
+    if(!waves_.empty()) {
+        disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+    }
+    waves_.clear();
 }
 
 CDriver* CDriver::init(MainWindow* mainWindow) {
@@ -105,8 +109,6 @@ void CDriver::readObject(Stream* s) {
             Tile* tile = gameMap_->getTile(((TileExtension*)go)->getPos());
             tile->setActionType(TILE_BUILDING);
             tile->setExtension((BuildingTower*)go);
-            connect(mainWindow_, SIGNAL(signalAltHeld(bool)),
-                go->getGraphicsComponent(), SLOT(showIcons(bool)));
         }
 
         if (go->getClsIdx() == Tower::clsIdx()) {
@@ -141,30 +143,57 @@ void CDriver::makeLocalPlayer(Player* player) {
     connect(mainWindow_, SIGNAL(signalKeyReleased(int)),
             input, SLOT(keyReleased(int)));
 
+    /* Connect movement to window scrolling. */
+    connect(player, SIGNAL(signalPlayerMovement(QPointF)),
+            mainWindow_, SLOT(scroll(QPointF)));
+
     // Connection for collisions -- waiting on map object
     connect(physics, SIGNAL(requestTileType(double, double, int*)), 
             gameMap_, SLOT(getTileType(double, double, int*)));
 
     // NPC -> Player effect
-    connect(physics, SIGNAL(NPCPlayerCollided(Effect*)), 
-            human_, SLOT(createEffect(Effect*)));
+    connect(physics, SIGNAL(NPCPlayerCollided(int)), 
+            human_, SLOT(createEffect(int)));
     connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
             player, SLOT(showName(bool)));
 
-    /* Set up the build context menu */
-    contextMenu_ = new ContextMenu(human_);
+    // set up the build context menu
+    buildContextMenu_ = new BuildContextMenu(human_);
+    connect(mainWindow_, SIGNAL(signalNumberPressed(int)),
+            buildContextMenu_, SLOT(selectMenuItem(int)));
+    connect(mainWindow_, SIGNAL(signalAltHeld(bool)),
+            buildContextMenu_, SLOT(viewResources(bool)));
+    connect(buildContextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
+            this, SLOT(requestBuildingTower(int, QPointF)));
+    connect(buildContextMenu_, SIGNAL(signalPlayerMovement(bool)),
+	        input, SLOT(playerMovement(bool)));
 
-    connect(contextMenu_, SIGNAL(signalPlayerMovement(bool)),
-	        input,        SLOT(playerMovement(bool)));
-    connect(mainWindow_,  SIGNAL(signalSpacebarPressed()),
-            this,         SLOT(handleSpacebarPress()));
-    connect(mainWindow_,  SIGNAL(signalNumberPressed(int)),
-            contextMenu_, SLOT(selectMenuItem(int)));
-    connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            contextMenu_, SLOT(viewResources(bool)));
-    /* TODO: alter temp solution */
-    connect(contextMenu_, SIGNAL(signalTowerSelected(int, QPointF)),
-            this,         SLOT(requestBuildingTower(int, QPointF)));
+    // set up the tower context menu
+    towerContextMenu_ = new TowerContextMenu(human_);
+    connect(mainWindow_, SIGNAL(signalNumberPressed(int)),
+            towerContextMenu_, SLOT(selectMenuItem(int)));
+    connect(mainWindow_, SIGNAL(signalAltHeld(bool)),
+            towerContextMenu_, SLOT(viewResources(bool)));
+    connect(towerContextMenu_, SIGNAL(signalSellTower(QPointF)),
+            this, SLOT(requestSellTower(QPointF)));
+    //connect(towerContextMenu_, SIGNAL(signalUpgradeTower(QPointF)),
+    //TODO macca add upgrade tower here        this, SLOT(***(QPointF)));
+    connect(towerContextMenu_, SIGNAL(signalPlayerMovement(bool)),
+	        input, SLOT(playerMovement(bool)));
+    
+    // set up the player context menu
+    playerContextMenu_ = new PlayerContextMenu(human_);
+    connect(mainWindow_, SIGNAL(signalNumberPressed(int)),
+            playerContextMenu_, SLOT(selectMenuItem(int)));
+    connect(mainWindow_, SIGNAL(signalAltHeld(bool)),
+            playerContextMenu_, SLOT(viewResources(bool)));
+    //connect(playerContextMenu_, SIGNAL(signalUpgradePlayer(int, QPointF)),
+    //TODO macca add upgrade player here        this, SLOT(***(int, QPointF)));
+    connect(playerContextMenu_, SIGNAL(signalPlayerMovement(bool)),
+	        input, SLOT(playerMovement(bool)));
+
+    connect(mainWindow_, SIGNAL(signalSpacebarPressed()),
+            this, SLOT(handleSpacebarPress()));
     connect(human_, SIGNAL(signalEmptyEffectList()),
             physics, SLOT(okayToPlayCollisionSfx()));
     
@@ -187,6 +216,7 @@ void CDriver::requestBuildingTower(int type, QPointF pos) {
         human_->dropResource(Driver::addToTower(t, human_));
     } else {
         Stream s;
+        s.writeInt(human_->getID());
         s.writeInt(type);
         s.writeFloat(pos.x());
         s.writeFloat(pos.y());
@@ -194,7 +224,54 @@ void CDriver::requestBuildingTower(int type, QPointF pos) {
     }
 }
 
+void CDriver::requestResourceAddition(BuildingTower* t) {
+    if (isSinglePlayer()) {
+        if (addToTower(t, human_)) {
+            if (t->isDone()) {
+                Driver::createTower(t->getType(), t->getPos());
+                destroyObject(t);
+            }
+            human_->dropResource(true);
+        } else {
+            human_->dropResource(false);
+        }
+    } else {
+        Stream s;
+        s.writeInt(human_->getID());
+        s.writeFloat(t->getPos().x());
+        s.writeFloat(t->getPos().y());
+        NetworkClient::instance()->send(network::kDropResource, s.data());
+    }
+}
+
+void CDriver::requestSellTower(QPointF pos) {
+    if (isSinglePlayer()) {
+        Driver::sellTower(pos);
+    } else {
+        Stream s;
+        s.writeFloat(pos.x());
+        s.writeFloat(pos.y());
+        NetworkClient::instance()->send(network::kSellTower, s.data());
+    }
+}
 void CDriver::NPCCreator() {
+    timeCount_++;
+    if(!waves_.empty()) {
+        //disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
+        NPCWave* temp;
+        foreach(temp,waves_) {
+            if(temp->getStart() == timeCount_){
+                temp->createWave();
+                connect(temp, SIGNAL(waveDead()),this,SLOT(deadWave()));
+            }
+        }
+
+        //waves_.first()->createWave();
+        //connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+
+    }
+
+    /*
     NPC* npc = NULL;
 
     if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
@@ -205,16 +282,23 @@ void CDriver::NPCCreator() {
     }
 
     if (npc) {
+        if ((npcCounter_ % 2) == 0) {
+            npc->setGem(1);
+        } else {
+            npc->setGem(0);
+        }
         connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
                 npc->getGraphicsComponent(), SLOT(showHealth(bool)));
         connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
     }
+    */
 }
 
 void CDriver::startGame(bool singlePlayer) {
     // Create hard coded map
     gameMap_ = new Map(mainWindow_->getMD()->map(), this);
     gameTimer_ = new QTimer(this);
+    waveTimer_ = new QTimer(this);
     gameMap_->initMap();
     QQueue<QString> musicList;
 
@@ -225,6 +309,7 @@ void CDriver::startGame(bool singlePlayer) {
     td::AudioManager::instance()->playMusic(musicList);
 
     if (singlePlayer) {
+
         Player* player = (Player*)mgr_->createObject(Player::clsIdx());
         playerID_ = player->getID();
 
@@ -233,7 +318,17 @@ void CDriver::startGame(bool singlePlayer) {
 
         this->makeLocalPlayer(player);
 
-        connect(gameTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
+        Parser* fileParser = new Parser(this, MAP_NFO);
+        NPCWave* tempWave;
+        setBaseHealth(fileParser->baseHP);
+        while((tempWave = fileParser->readWave())!=NULL) {
+
+            waves_.append(tempWave);
+        }
+
+        waveTimer_->start(1000);
+        connect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
+        timeCount_ = 0;
     }
 
     //connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
@@ -241,10 +336,18 @@ void CDriver::startGame(bool singlePlayer) {
 
     gameTimer_->start(GAME_TICK_INTERVAL);
 }
-
+void CDriver::deadWave(){
+    if(!waves_.empty()) {
+        /*disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+        waves_.takeFirst();
+        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(NPCCreator()));*/
+    } else {
+        endGame();
+    }
+}
 void CDriver::endGame() {
     disconnectFromServer();
-
+    this->waveTimer_->stop();
     this->gameTimer_->stop();
 }
 
@@ -263,32 +366,19 @@ void CDriver::handleSpacebarPress() {
     switch (currentTile->getActionType()) {
 
         case TILE_BUILDABLE:
-            contextMenu_->toggleMenu();
+            buildContextMenu_->toggleMenu();
             break;
 
         case TILE_BUILDING:
-            if (isSinglePlayer()) {
-                if (addToTower(t, human_)) {
-                    if (t->isDone()) {
-                        qDebug("create Tower");
-                        createTower(t->getType(), t->getPos());
-                        destroyObject(t);
-                    }
-                    human_->dropResource(true);
-                } else {
-                    human_->dropResource(false);
-                }
-            } else {
-                Stream s;
-                s.writeInt(human_->getID());
-                s.writeFloat(t->getPos().x());
-                s.writeFloat(t->getPos().y());
-                NetworkClient::instance()->send(network::kDropResource,
-                        s.data());
-            }
+            requestResourceAddition(t);
             break;
+
         case TILE_BUILT:
+            towerContextMenu_->toggleMenu();
+            break;
+
         case TILE_BASE:
+            playerContextMenu_->toggleMenu();
             break;
 
         case TILE_RESOURCE:
@@ -307,7 +397,6 @@ void CDriver::UDPReceived(Stream* s) {
         case network::kAssignPlayerID:
         {
             playerID_ = s->readInt();
-            //qDebug("My player ID is %08X", playerID_);
             break;
         }
         case network::kMulticastIP:
@@ -345,12 +434,23 @@ void CDriver::UDPReceived(Stream* s) {
         }
         case network::kDropResource:
         {
-            int id = s->readInt();
+            unsigned int id = s->readInt();
             bool addToTower = s->readInt();
             
             if (human_->getID() == id) {
                 human_->dropResource(addToTower);
             }
+            break;
+        }
+        case network::kSellTower:
+        {
+            int actionType = s->readInt();
+            float x = s->readFloat();
+            float y = s->readFloat();
+
+            Tile* tile = gameMap_->getTile(QPointF(x, y));
+            tile->setActionType(actionType);
+
             break;
         }
         case network::kDestroyObject:
@@ -365,6 +465,40 @@ void CDriver::UDPReceived(Stream* s) {
 
             setBaseHealth(health);
             break;
+        }
+        case network::kGameOver:
+        {
+            bool successful = s->readByte();
+
+            if (successful) {
+                Console::instance()->addText("You won :D");
+            } else {
+                Console::instance()->addText("You lost :(");
+            }
+            break;
+        }
+        case network::kConsoleChat:
+        {
+            int playerID = s->readInt();
+            Player* p = (Player*)mgr_->findObject(playerID);
+
+            if (p == NULL || p == (Player*)-1) {
+                return;
+            }
+
+            int length = s->readInt();
+            QString text = s->read(length);
+
+            if (!text.isEmpty()) {
+                QString line = "[" + p->getNickname() + "] " + text;
+                Console::instance()->addText(line);
+            }
+            break;
+        }
+        case network::kVoiceMessage:
+        {
+            AudioManager::instance()->addToQueue(s);
+            return;
         }
         case network::kPlaySfx:
         {

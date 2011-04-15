@@ -27,7 +27,7 @@ BuildingTowerGraphicsComponent::~BuildingTowerGraphicsComponent() {
     }
 }
 
-void BuildingTowerGraphicsComponent::draw(DrawParams* dp, int layer)  {
+void BuildingTowerGraphicsComponent::draw(void* dp, int layer)  {
     int i;
     int quarter;
     int half;
@@ -36,27 +36,36 @@ void BuildingTowerGraphicsComponent::draw(DrawParams* dp, int layer)  {
     quarter = rect.width() * .25;
     half = rect.width() * .5;
     threequarters = rect.width() * .75;
+    DrawParamsBuildTower *dps = (DrawParamsBuildTower*) dp;
 
     for (i = 0; i != ICON_MAX; i++) {
         iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_WOOD][i],
-                dp->pos.x(), dp->pos.y(),layer,i);
+                dps->pos.x(), dps->pos.y(),layer,i);
         resourcePixmapItemArray_[RESOURCE_WOOD][i]
             ->setPixmap(pixmapImgs_[PIX_BUILDING_TOWER_MAX]);
 
         iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_STONE][i],
-                dp->pos.x() + quarter, dp->pos.y(),layer,i);
+                dps->pos.x() + quarter, dps->pos.y(),layer,i);
         resourcePixmapItemArray_[RESOURCE_STONE][i]
             ->setPixmap(pixmapImgs_[PIX_BUILDING_TOWER_MAX + 1]);
 
         iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_BONE][i],
-                dp->pos.x() + half, dp->pos.y(),layer,i);
+                dps->pos.x() + half, dps->pos.y(),layer,i);
         resourcePixmapItemArray_[RESOURCE_BONE][i]
             ->setPixmap(pixmapImgs_[PIX_BUILDING_TOWER_MAX + 2]);
 
         iconDrawingHelper(resourcePixmapItemArray_[RESOURCE_TAR][i],
-                dp->pos.x() + threequarters, dp->pos.y(),layer,i);
+                dps->pos.x() + threequarters, dps->pos.y(),layer,i);
         resourcePixmapItemArray_[RESOURCE_TAR][i]
             ->setPixmap(pixmapImgs_[PIX_BUILDING_TOWER_MAX + 3]);
+        setIconVisibility(resourcePixmapItemArray_[RESOURCE_WOOD][i],
+                i, dps->wood);
+        setIconVisibility(resourcePixmapItemArray_[RESOURCE_STONE][i],
+                i, dps->stone);
+        setIconVisibility(resourcePixmapItemArray_[RESOURCE_TAR][i],
+                i, dps->oil);
+        setIconVisibility(resourcePixmapItemArray_[RESOURCE_BONE][i],
+                i, dps->bone);
     }
     setBuildingGraphic(this->getPixmapItem());
     GraphicsComponent::draw(dp, layer - 1);
@@ -64,11 +73,12 @@ void BuildingTowerGraphicsComponent::draw(DrawParams* dp, int layer)  {
 
 void BuildingTowerGraphicsComponent::iconDrawingHelper(
         QGraphicsPixmapItem *icon, int x, int y, int layer, int i) {
+
     int yoffset = getPixmapItem()->boundingRect().width() / 5;
     int center = getPixmapItem()->boundingRect().center().x();
     icon->setPos(x - center, y + i * yoffset - center);
     icon->setZValue(layer);
-    icon->setScale(.5);
+    icon->setScale(.6);
 }
 
 void BuildingTowerGraphicsComponent::initPixmaps() {
@@ -97,29 +107,17 @@ void BuildingTowerGraphicsComponent::update(GameObject* obj) {
     }
     tower->resetDirty();
 
-    DrawParams* dp = new DrawParams();
-    dp->pos     = tower->getPos();
-    dp->moving  = 1;
-    dp->scale   = 1;
-    dp->degrees = 0;
-    emit signalDraw(dp, this, LAYER_TOWER);
-}
-
-void BuildingTowerGraphicsComponent::setBuildingResources(int resourceType, int num) {
-    switch (resourceType) {
-    case RESOURCE_WOOD:
-        woodReq_ = num;
-        break;
-    case RESOURCE_STONE:
-        stoneReq_ = num;
-        break;
-    case RESOURCE_BONE:
-        boneReq_ = num;
-        break;
-    case RESOURCE_TAR:
-        tarReq_ = num;
-        break;
-    }
+    DrawParamsBuildTower* dps = new DrawParamsBuildTower();
+    dps->pos     = tower->getPos();
+    dps->moving  = 0;
+    dps->scale   = 1;
+    dps->degrees = 0;
+    dps->bone = tower->getBone();
+    dps->oil = tower->getOil();
+    dps->stone = tower->getStone();
+    dps->wood = tower->getWood();
+    dps->pixmapIdx = tower->evaluateBuildingStage();
+    emit signalDraw(dps, this, LAYER_TOWER);
 }
 
 void BuildingTowerGraphicsComponent::setIconImages() {
@@ -158,38 +156,8 @@ void BuildingTowerGraphicsComponent::setIconVisibility(
     }
 }
 
-void BuildingTowerGraphicsComponent::showIcons(bool keyHeld) {
-    int i, j;
-    if (keyHeld) {
-        for (i = 0; i != ICON_MAX; i++) {
-            setIconVisibility(
-                    resourcePixmapItemArray_[RESOURCE_WOOD][i],
-                    i, woodReq_);
-            setIconVisibility(
-                    resourcePixmapItemArray_[RESOURCE_STONE][i],
-                    i, stoneReq_);
-            setIconVisibility(
-                    resourcePixmapItemArray_[RESOURCE_TAR][i],
-                    i, tarReq_);
-            setIconVisibility(
-                    resourcePixmapItemArray_[RESOURCE_BONE][i],
-                    i, boneReq_);
-        }
-    } else {
-        for (i = 0; i != ICON_MAX; i++) {
-            for (j = 0; j != RESOURCE_TYPE_MAX; j++) {
-                resourcePixmapItemArray_[j][i]->setVisible(keyHeld);
-            }
-        }
-    }
-}
-
 void BuildingTowerGraphicsComponent::setBuildingGraphic(QGraphicsPixmapItem * gpi) {
     gpi->setPixmap(pixmapImgs_[buildingStage_]);
-}
-
-void BuildingTowerGraphicsComponent::setBuildingStage(int i) {
-    buildingStage_ = i;
 }
 
 } /* end namespace td */

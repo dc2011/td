@@ -3,7 +3,7 @@
 
 namespace td {
 
-Effect::Effect(Unit* unit, int duration, uint type, bool timerEnabled):
+Effect::Effect(Unit* unit, uint type, int duration, bool timerEnabled):
         GameObject(NULL), unit_(unit), duration_(duration),
         type_(type), timerEnabled_(timerEnabled), applyEnabled_(true),
         timer_(unit->getDriver()->getTimer()) {}
@@ -27,7 +27,6 @@ Effect& Effect::operator=(const Effect &rhs) {
         healthChangeValue_ = rhs.healthChangeValue_;
         timerEnabled_ = rhs.timerEnabled_;
     }
-
     return *this;
 }
 
@@ -74,11 +73,11 @@ size_t Effect::getDuration() {
     return duration_;
 }
 
-void Effect::setVelocityChangeValue(QVector2D velocity) {
+void Effect::setVelocityChangeValue(float velocity) {
     velocityChangeValue_ = velocity;
 }
 
-QVector2D Effect::getVelocityChangeValue() {
+float Effect::getVelocityChangeValue() {
     return velocityChangeValue_;
 }
 

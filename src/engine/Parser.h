@@ -17,7 +17,7 @@ public:
       @throws File does not exist.
       @author Nick Huber
       */
-    explicit Parser(const QString& filename) throw (const char*);
+    explicit Parser(QObject* parent, const QString& filename) throw (const char*);
 
     /**
       Destructor. Closes the file.
@@ -45,7 +45,9 @@ public:
 
 // variables
 private:
+    QObject* parent_;
     QFile file_;
+
 
 public:
     int difficulty; /**< Map difficulty multiplier. */

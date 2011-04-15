@@ -1,5 +1,5 @@
 QObject {
-    color: black;
+    color: #252525 !important;
 }
 
 QMainWindow#LobbyWindow {
@@ -27,5 +27,9 @@ QFrame#chatInputBg {
 }
 
 QTextEdit#msgView, QLineEdit#msgBox {
-    color: white;
+}
+
+QFrame#logoFrame {
+    background-image: url("./img/logo.png");
+    border: none;
 }

@@ -6,8 +6,8 @@
 
 #include "Unit.h"
 #include "../input/PlayerInputComponent.h"
-#include "CollisionComponent.h"
 #include "Effect.h"
+#include "Tile.h"
 #include "../graphics/PlayerGraphicsComponent.h"
 #include "../physics/PlayerPhysicsComponent.h"
 
@@ -19,6 +19,7 @@ class Player : public Unit {
     Q_OBJECT
 
 public:
+    Tile* tileThatPlayerIsOn_;
     /**
      * Gets the unique class index for this object type.
      *
@@ -35,7 +36,8 @@ private:
         kOrientation    = (1 << 1),
         kScale          = (1 << 2),
         kNickname       = (1 << 3),
-        kResource       = (1 << 4)
+        kResource       = (1 << 4),
+        kMoving         = (1 << 5)
     };
 
 public:
@@ -112,6 +114,16 @@ Collectable* collectable_;
         return resource_;
     }
 
+    /**
+     * Gets whether the player is moving or not.
+     *
+     * @author Darryl Pogue
+     * @return true if the player is moving; false otherwise.
+     */
+    bool getMoving() const {
+        return isMoving_;
+    }
+
 private: 
     /**
      * Checks to see if the resource being harvested is ready to be picked up.
@@ -127,18 +139,20 @@ public slots:
      *
      * @author Pan K.
      * @author Marcel Vangrootheest
+     * @author Luke Queenan
      * @param type Type of effect.
      */
-    void createEffect(Effect* effect);
+    void createEffect(int effectType);
 
     /**
      * Remove effect from the effect list.
      *
      * @author Pan K.
      * @author Marcel Vangrootheest
+     * @author Luke Queenan
      * @param effect Effect to delete.
      */
-    void deleteEffect(Effect* effect);
+    void deleteEffect(Effect*);
 
     /**
      * Sets the boolean that determines whether or not the player's nickname
@@ -176,7 +190,7 @@ public slots:
     void dropResource(bool addToTower);
 
 private:
-    QList<Effect> effects_;
+    QMap<int, Effect*> effects_;
 
     /** Nickname associated with this player for display purposes and chat. */
     QString nickname_;
@@ -189,6 +203,9 @@ private:
 
     /** The resource (if any) that the player is currently carrying. */
     int resource_;
+
+    /** Whether the player is moving or not. */
+    bool isMoving_;
 
 signals:
     /**
@@ -209,6 +226,16 @@ signals:
      * @param move False if the player should stop moving.
      */
     void signalPlayerMovement(bool move);
+
+    /**
+     * Signals player movement, this is for notifying the MainWindow for
+     * scrolling purposes.
+     *
+     * @param pos The player's new position co-ordinate.
+     *
+     * @author Tom Nightingale
+     */
+    void signalPlayerMovement(QPointF pos);
 
     /**
      * Emmitted when the player drops the resource that they are carrying.

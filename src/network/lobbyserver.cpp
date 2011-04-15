@@ -98,7 +98,7 @@ void LobbyServer::startGame(int game) {
 
     Thread* gamethread = new Thread();
     SDriver* sd = new SDriver();
-    connect(this, SIGNAL(startingGame()), sd, SLOT(startGame()));
+    connect(this, SIGNAL(startingGame(bool)), sd, SLOT(startGame(bool)));
     connect(sd, SIGNAL(disconnecting()), gamethread, SLOT(quit()));
     connect(sd, SIGNAL(disconnecting()), this, SLOT(gameEnd()));
 
@@ -126,7 +126,7 @@ void LobbyServer::startGame(int game) {
     sd->initNetworking();
     sd->moveToThread(gamethread);
     gamethread->start();
-    emit startingGame();
+    emit startingGame(false);
 }
 
 void LobbyServer::incomingConnection(int socketDescriptor)

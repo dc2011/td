@@ -6,6 +6,7 @@
 #include <QVector>
 #include <QString>
 #include <QGraphicsTextItem>
+#include <QGraphicsView>
 #include "../util/mutex_magic.h"
 
 namespace td {
@@ -23,6 +24,19 @@ private:
     static QVector<QString> *display_;
     /** the label to display text */
     static QGraphicsTextItem *label_;
+    /** the rect around the text */
+    static QGraphicsRectItem *rect_;
+    /** the rect around the text */
+    static QGraphicsRectItem *textRect_;
+    /** Y POS */
+    static int y;
+    /** Text chat */
+    static QString text_;
+    /** the label to display text */
+    static QGraphicsTextItem *textLabel_;
+    /** the graphicsview */
+    static QGraphicsView *view_;
+
 
     explicit Console();
     ~Console();
@@ -40,7 +54,7 @@ public:
         if (instance_ == NULL) {
             instance_ = new Console();
         }
-        mutex_.unlock();	
+        mutex_.unlock();        
         return instance_;
     }
     
@@ -52,6 +66,53 @@ public:
      * @param text to add to the console
      */
     void addText(QString text);
+
+    /**
+     * hides the console 
+     *
+     * @author Terence Stenvold
+     */
+    void hide();
+    
+    /**
+     * hides the console 
+     *
+     * @author Terence Stenvold
+     */    
+    void show();
+
+    /**
+     * toggles the console 
+     *
+     * @author Terence Stenvold
+     */    
+    void toggle();
+
+    /**
+     * An event filter
+     *
+     * @author Terence Stenvold
+     * @param c is the char to add
+     */
+    void addChar(QString c);
+    
+    /**
+     * removes a character for backspaces
+     *
+     * @author Terence Stenvold
+     */
+    void removeChar();
+
+    /**
+     * updates the console to the proper
+     * location on screen.
+     *
+     * @author Terence Stenvold
+     */
+    void translate();
+
+private slots:
+    void scroll();
 
 };
 

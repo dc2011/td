@@ -80,6 +80,10 @@ namespace network {
          */
         kDropResource   =   0x0B,
 
+        /**
+         * Indicates damage to the base.
+         * See Also: @ref basehealth
+         */
         kBaseHealth     =   0x0C,
 
         /** Indicates creation of a collectable. */
@@ -91,13 +95,28 @@ namespace network {
         /** Indicates an update: games available needs to be sent */
         kUpdateListOfGames = 0x0F,
 
+
         /**Indicates a chat message*/
         kChatMessage = 0x10,
         
         /**From client to Server. Indicates joining or creating a game if followed by 0 */
-        kJoinGame = 0x11,
+        kJoinGame = 0x11,      
 
-        
+        /**
+         * Indicates the end of the game.
+         * See Also: @ref gameover
+         */
+        kGameOver       =   0x10,
+
+        /**
+         * Indicates a line of chat sent from the console.
+         * See Also: @ref consolechat
+         */
+        kConsoleChat    =   0x11,
+
+        /** Indicates sale/deletion of Tower. */
+        kSellTower      =   0x12,
+
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
         /** Used as a separator to indicate UDP messages. */
@@ -108,6 +127,9 @@ namespace network {
 
         /** Indicates a position update for an NPC wave */
         kNPCWave        =   0x81,
+
+        /** Indicates a message of voice data. */
+        kVoiceMessage   =   0x82,
         
 	    /** Server has created an object, sending object state to player **/
 	    kServerCreateObj = 0x85,
@@ -246,6 +268,40 @@ namespace network {
  *  byte msgType = td::network::kMulticastIP
  *    // The final octet of the multicast address
  *  byte finalOctet
+ * @endcode
+ *
+ * @section basehealth Base Health Message
+ * This message informs all clients that the base health has changed.
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kBaseHealth
+ *    // The health value
+ *  int health
+ * @endcode
+ *
+ * @section gameover
+ * This message indicates that the game is ending and specifies a reason.
+ * The boolean happyEnding is true if all the NPC waves were destroyed, false
+ * if the health of the base reached 0.
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kGameOver
+ *    // Whether the game ended on a happy note
+ *  byte happyEnding
+ * @endcode
+ *
+ * @section consolechat Console Chat Message
+ * This message describes a text chat message sent from one user to all
+ * other clients through the console.
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kConsoleChat
+ *    // The ID of the player sending the message
+ *  int playerID
+ *    // The length of the chat string
+ *  int length
+ *    // The chat string data
+ *  char[length] message
  * @endcode
  *
  * @section playsfx Play SFX Message

@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>LobbyWindow</class>
  <widget class="QMainWindow" name="LobbyWindow">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -43,7 +46,7 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>180</y>
+      <y>200</y>
       <width>131</width>
       <height>27</height>
      </rect>
@@ -56,7 +59,7 @@
     <property name="geometry">
      <rect>
       <x>29</x>
-      <y>149</y>
+      <y>159</y>
       <width>62</width>
       <height>22</height>
      </rect>
@@ -69,7 +72,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>150</y>
+      <y>160</y>
       <width>85</width>
       <height>22</height>
      </rect>
@@ -82,7 +85,7 @@
     <property name="geometry">
      <rect>
       <x>167</x>
-      <y>82</y>
+      <y>80</y>
       <width>146</width>
       <height>27</height>
      </rect>
@@ -94,8 +97,8 @@
    <widget class="QLabel" name="lblDisplayCount">
     <property name="geometry">
      <rect>
-      <x>168</x>
-      <y>220</y>
+      <x>578</x>
+      <y>555</y>
       <width>16</width>
       <height>17</height>
      </rect>
@@ -107,8 +110,8 @@
    <widget class="QLabel" name="lblCount">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>220</y>
+      <x>440</x>
+      <y>555</y>
       <width>132</width>
       <height>17</height>
      </rect>
@@ -121,7 +124,7 @@
     <property name="geometry">
      <rect>
       <x>29</x>
-      <y>115</y>
+      <y>120</y>
       <width>160</width>
       <height>22</height>
      </rect>
@@ -134,7 +137,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>180</y>
+      <y>200</y>
       <width>131</width>
       <height>27</height>
      </rect>
@@ -147,7 +150,7 @@
     <property name="geometry">
      <rect>
       <x>29</x>
-      <y>49</y>
+      <y>37</y>
       <width>70</width>
       <height>17</height>
      </rect>
@@ -160,7 +163,7 @@
     <property name="geometry">
      <rect>
       <x>167</x>
-      <y>49</y>
+      <y>37</y>
       <width>146</width>
       <height>27</height>
      </rect>
@@ -173,7 +176,7 @@
     <property name="geometry">
      <rect>
       <x>29</x>
-      <y>82</y>
+      <y>80</y>
       <width>69</width>
       <height>17</height>
      </rect>
@@ -186,7 +189,7 @@
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>150</y>
+      <y>160</y>
       <width>63</width>
       <height>22</height>
      </rect>
@@ -215,7 +218,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>20</y>
+      <y>30</y>
       <width>131</width>
       <height>17</height>
      </rect>
@@ -234,7 +237,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Chat Box</string>
+     <string>Chat</string>
     </property>
    </widget>
    <widget class="QPushButton" name="sendMsg">
@@ -253,9 +256,9 @@
    <widget class="QLineEdit" name="msgBox">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>39</x>
       <y>550</y>
-      <width>280</width>
+      <width>271</width>
       <height>30</height>
      </rect>
     </property>
@@ -290,9 +293,9 @@
     <property name="geometry">
      <rect>
       <x>690</x>
-      <y>50</y>
+      <y>140</y>
       <width>291</width>
-      <height>491</height>
+      <height>401</height>
      </rect>
     </property>
    </widget>
@@ -300,7 +303,7 @@
     <property name="geometry">
      <rect>
       <x>690</x>
-      <y>20</y>
+      <y>120</y>
       <width>131</width>
       <height>17</height>
      </rect>
@@ -313,9 +316,9 @@
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>370</y>
+      <y>359</y>
       <width>340</width>
-      <height>170</height>
+      <height>181</height>
      </rect>
     </property>
     <property name="columnCount">
@@ -368,8 +371,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>280</width>
-       <height>280</height>
+       <width>270</width>
+       <height>270</height>
       </rect>
      </property>
      <property name="readOnly">
@@ -393,8 +396,23 @@
      <enum>QFrame::Raised</enum>
     </property>
    </widget>
-   <zorder>chatBgFrame</zorder>
-   <zorder>chatInputBg</zorder>
+   <widget class="QFrame" name="logoFrame">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>20</y>
+      <width>280</width>
+      <height>98</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+   </widget>
+   <zorder>logoFrame</zorder>
    <zorder>mapsList</zorder>
    <zorder>btnStart</zorder>
    <zorder>easyBtn</zorder>
@@ -419,6 +437,8 @@
    <zorder>label_4</zorder>
    <zorder>userList</zorder>
    <zorder>btnExit</zorder>
+   <zorder>chatBgFrame</zorder>
+   <zorder>chatInputBg</zorder>
   </widget>
  </widget>
  <resources/>

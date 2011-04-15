@@ -1,19 +1,23 @@
 #include "Collectable.h"
 #include "../engine/CDriver.h"
-#include "../input/CollectableInputComponentTypes.h"
+#include "../input/CollectableInputComponent.h"
 #include "../physics/CollectablePhysicsComponent.h"
 #include "../graphics/CollectableGraphicsComponentTypes.h" 
 namespace td {
 
 Collectable::Collectable(QObject* parent) 
-        : Unit(parent) {
+        : Unit(parent), disappearCount_(TIME_TO_DISAPPEAR), 
+          atEndOfPath_(false) {
     start_ = new QPointF(0,0);
     end_ = new QPointF(0,0);
     scale_ = 1;
     path_ = QLineF(end_->x(), end_->y(), start_->x(), start_->y());
     this->pos_ = QPointF(0,0);
-    this->setHeight(10);
-    this->setWidth(48);
+    this->setHeight(24);
+    this->setWidth(24);
+    
+    connect(this, SIGNAL(deleteCollectableLater(int)),
+            getDriver(), SLOT(destroyObject(int)), Qt::QueuedConnection);
 }
 
 Collectable::~Collectable() {
@@ -57,63 +61,71 @@ void Collectable::initComponents() {
 
     switch (type_) {
         case RESOURCE_WOOD:
-            setInputComponent(new ResourceCollectableInputComponent());
-            setPhysicsComponent(new CollectablePhysicsComponent());
+            input_ = new CollectableInputComponent();
+            physics_ = new CollectablePhysicsComponent();
 #ifndef SERVER
             setGraphicsComponent(new WoodCollectableGraphicsComponent());
 #endif
             break;
 
         case RESOURCE_STONE:
-            setInputComponent(new ResourceCollectableInputComponent());
-            setPhysicsComponent(new CollectablePhysicsComponent());
+            input_ = new CollectableInputComponent();
+            physics_ = new CollectablePhysicsComponent();
 #ifndef SERVER
             setGraphicsComponent(new StoneCollectableGraphicsComponent());
 #endif
             break;
 
         case RESOURCE_BONE:
-            setInputComponent(new ResourceCollectableInputComponent());
-            setPhysicsComponent(new CollectablePhysicsComponent());
+            input_ = new CollectableInputComponent();
+            physics_ = new CollectablePhysicsComponent();
 #ifndef SERVER
             setGraphicsComponent(new BoneCollectableGraphicsComponent());
 #endif
             break;
 
         case RESOURCE_TAR:
-            setInputComponent(new ResourceCollectableInputComponent());
-            setPhysicsComponent(new CollectablePhysicsComponent());
+            input_ = new CollectableInputComponent();
+            physics_ = new CollectablePhysicsComponent();
 #ifndef SERVER
             setGraphicsComponent(new TarCollectableGraphicsComponent());
 #endif
             break;
 
         case RESOURCE_GEM:
-            setInputComponent(new ResourceCollectableInputComponent());
-            setPhysicsComponent(new CollectablePhysicsComponent());
+            setScale(0.4);
+            input_ = new CollectableInputComponent();
+            physics_ = new CollectablePhysicsComponent();
 #ifndef SERVER
             setGraphicsComponent(new GemCollectableGraphicsComponent());
 #endif
             break;
             
     }
-    getInputComponent()->setParent(this);
-    ((CollectableInputComponent*) getInputComponent())->setPath(start_, end_);
+    input_->setParent(this);
+    ((CollectableInputComponent*)input_)->setPath(start_, end_);
 }
 
 void Collectable::setPath(QPointF source, QVector2D velocity) {
     start_ = new QPointF(source);
-    end_ = new QPointF(source);
+    end_ = new QPointF(source + velocity.toPointF());
 }
 
 void Collectable::update() {
+    if (--disappearCount_ <= 0) {
+        emit deleteCollectableLater(getID());
+        return;
+    }
+    
+    if (!atEndOfPath_) {
+        if (input_ != NULL) {
+            input_->update();
+        }
+        if (physics_ != NULL) {
+            physics_->update(this);
+        }
+    }
 
-    if (input_ != NULL) {
-//        input_->update();
-    }
-    if (physics_ != NULL) {
-        physics_->update(this);
-    }
     if (graphics_ != NULL) {
         graphics_->update(this);
     }

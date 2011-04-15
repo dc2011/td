@@ -16,7 +16,7 @@ public:
      * Instantiates a collectable graphics component
      * @author Warren Voelkl
      */
-    CollectableGraphicsComponent(): GraphicsComponent() {}
+    CollectableGraphicsComponent(): GraphicsComponent(), flickerShow_(false) {}
     virtual ~CollectableGraphicsComponent();
 
     /**
@@ -39,6 +39,10 @@ public:
      * @author Warren Voelkl
      */
     virtual QPixmap * getPixmapArray() = 0;
+
+private:
+    /** Determines whether to show the collectable while it's flickering. */
+    bool flickerShow_;
 };
 
 } /* end namespace td */

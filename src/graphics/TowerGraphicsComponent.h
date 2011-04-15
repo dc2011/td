@@ -40,14 +40,14 @@ public:
     /**
      * Sets up the rangeCircle associated with this tower.
      * @param color the color of the range circle for this tower.
-     * @author Ian Lee
+     * @author Ian Lee, Warren Voelkl
      */
     void initRangeCircle(QColor color);
     /**
      *
-     * @author Ian Lee
+     * @author Ian Lee, Warren Voelkl
      */
-    virtual void draw(DrawParams* dp, int layer=0);
+    virtual void draw(void* dp, int layer=0);
 
 private:
     /**

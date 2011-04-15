@@ -19,6 +19,7 @@ Makefile*
 .qdevelop
 *.user
 *.plist
+*.pro.user*
 /td.xcodeproj
 /img
 core

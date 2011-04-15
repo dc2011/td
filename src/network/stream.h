@@ -216,6 +216,15 @@ public:
      * @param value The byte array to be written.
      */
     void write(const QByteArray& value);
+
+    /**
+     * Writes an existing character array to the buffer.
+     *
+     * @author Darryl Pogue
+     * @param value The byte array to be written.
+     * @param length The size of the byte array.
+     */
+    void write(const char* value, const int length);
 };
 
 } /* end namespace td */

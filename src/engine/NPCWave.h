@@ -63,7 +63,10 @@ public:
      * @return true if there are no more children; false otherwise.
      */
     bool isDead() const {
-        return children_.size() == 0;
+        return children_.size() == 0 && count_ == created_;
+    }
+    unsigned int getStart(){
+        return start_;
     }
 
 private:
@@ -76,6 +79,10 @@ private:
     Driver* getDriver() const {
         return (Driver*)this->parent();
     }
+
+signals:
+    /** Emitted when all the NPCs in the wave have been killed. */
+    void waveDead();
 
 public slots:
     /**

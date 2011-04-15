@@ -159,6 +159,15 @@ public:
         return oil_;
     }
 
+    /**
+     * Checks the current building state returns the value of the corresponding
+     * tower construction stage.
+     * @author Warren Voelkl
+     * @returns a value that will be used by the graphics component to set the
+     * img index.
+     */
+    int evaluateBuildingStage();
+
 private:
     /** The type of tower to be built. */
     int type_;
@@ -177,7 +186,6 @@ private:
     /** the total amount of resources required to build structure */
     double totalResources_;
 
-    void evaluateBuildingStage();
 };
 
 } // end of namespace td

@@ -35,6 +35,16 @@ private:
      * The view which displays the graphics scene.
      */
     QGraphicsView* view_;
+    
+    /**
+     * The stats menu bar
+     */
+    QGraphicsTextItem* stats_;
+
+    /**
+     * The view which displays the graphics scene.
+     */
+    QGraphicsRectItem* statsRect_;
 
     /**
      * The bitmask of keys held and not released
@@ -52,11 +62,17 @@ private:
      */
     MapDisplayer * mapDisplayer_;
 
+    /**
+     *  Boolean for whether console is open
+     */
+    bool consoleOpen_;
+
 public:
     MainWindow();
     virtual ~MainWindow();
     
     QGraphicsScene* getScene() { return scene_; }
+    QGraphicsView* getView() { return view_; }
 
     MapDisplayer * getMD() { return mapDisplayer_; }
     
@@ -98,7 +114,7 @@ public slots:
      * @author Darryl Pogue
      * @param gc The GraphicsComponent of the game object.
      */
-    void drawItem(DrawParams* dp, GraphicsComponent* gc, int layer);
+    void drawItem(void* dp, GraphicsComponent* gc, int layer);
     
     /**
      * Emits signals depending on the keys held down
@@ -115,6 +131,15 @@ public slots:
     void openWindow() {
         this->show();
     }
+
+    /**
+     * Scrolls the window to keep it centered around the provided co-ordinates.
+     *
+     * @param pos The co-ordinate to center on.
+     *
+     * @author Tom Nightingale
+     */
+    void scroll(QPointF pos);
 
 signals:
     void signalKeyPressed(int);

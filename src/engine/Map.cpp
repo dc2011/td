@@ -24,11 +24,13 @@ namespace td{
 Map::Map(Tiled::Map * tMap, Driver* driver) : driver_(driver) {
     tMap_ = tMap;
     waypoints = QMap<int,QList<QPointF> >();
+    homeTile_ = NULL;
 }
 
 Map::Map(const QString& filename, Driver* driver) : driver_(driver) {
     Tiled::MapReader reader;
     tMap_ = reader.readMap(filename);
+    homeTile_ = NULL;
 }
 
 void Map::initMap() {
@@ -36,41 +38,48 @@ void Map::initMap() {
     Tiled::TileLayer * tileLayer = tMap_->layerAt(0)->asTileLayer();
     Tiled::TileLayer * towerLayer = tMap_->layerAt(1)->asTileLayer();
     Tiled::TileLayer * resLayer = tMap_->layerAt(2)->asTileLayer();
-    Tiled::ObjectGroup * path = tMap_->layerAt(3)->asObjectGroup();
+    Tiled::ObjectGroup * path;
     heightInTiles_ = tileLayer->height();
     widthInTiles_ = tileLayer->width();
 
     tiles_ = new Tile**[heightInTiles_];
-    for (size_t row = (unsigned) 0; row < heightInTiles_; row++) {
+    for (int row = 0; row < heightInTiles_; row++) {
         tiles_[row] = new Tile*[widthInTiles_];
 
-        for (size_t col = (unsigned) 0; col < widthInTiles_; col++) {
+        for (int col = 0; col < widthInTiles_; col++) {
             tile = tileLayer->tileAt(col, row);
-            //type = (Tile::BlockingType) tile->id();
             Tile::TileAttributes attrs = Tile::getAttributes(tile->id());
-
+            
             //save into array
-            tiles_[row][col] = new Tile(row, col, attrs.type);
+            tiles_[row][col] = new Tile(tile, row, col, attrs.type, attrs.effect);
 
             // Check for buildable tiles.
             if (towerLayer->contains(col, row)
-                    && towerLayer->tileAt(col, row) != NULL) {
-                tiles_[row][col]->setActionType(TILE_BUILDABLE);
+                    && (tile = towerLayer->tileAt(col, row)) != NULL) {
+                // Ignore Home Base tile (id() == 1).
+                if (tile->id() == 0) {
+                    tiles_[row][col]->setActionType(TILE_BUILDABLE);
+                }
+                // Home base tile.
+                else {
+                    homeTile_ = tiles_[row][col];
+                }
             }
-            
+
             // Create resources.
+            // And grabbing the tile from the resource layer.
             if (resLayer->contains(col, row) 
-                    && resLayer->tileAt(col, row) != NULL) {
-                // Grabbing the tile from the resource layer.
-                tile = resLayer->tileAt(col, row);
+                    && (tile = resLayer->tileAt(col, row)) != NULL) {
                 createResource(tile->id(), tiles_[row][col]);
-                // Setting the resource tile to the td::Tile.
+                // Setting the correct resource tile to the td::Tile.
                 tiles_[row][col]->setTiledTile(tile);
             }
         }
     }
-    makeWaypoints(WP_PTERO, path);
-
+    for (int i = 3; i < tMap_->layerCount(); i++) {
+        path = tMap_->layerAt(i)->asObjectGroup();
+        makeWaypoints(i - 3, path);
+    }
 }
 
 void Map::createResource(int type, Tile * tile) {
@@ -90,34 +99,35 @@ void Map::createResource(int type, Tile * tile) {
 void Map::makeWaypoints(int key, Tiled::ObjectGroup* path) {
     int i = 0;
     QList<QPointF>* newPath = new QList<QPointF>();
-    QColor c = QColor();
 
-    //Doesn't actually make it green. But still useful.
-    path->setColor(c.green());
     for (i = 0; i < path->objects().size(); i++) {
-        newPath->push_back(QPointF(path->objects().at(i)->position().x()*48,
-                    path->objects().at(i)->position().y() * 48));
+        newPath->push_back(QPointF(path->objects().at(i)->position().x() * tileWidth(),
+                    path->objects().at(i)->position().y() * tileHeight()));
     }
     addWaypoints(key, newPath);
 }
 
 void Map::getTileType(double x, double y, int *blockingType)
 {
-    int row = floor(y / TILE_HEIGHT);
-    int col = floor(x / TILE_WIDTH);
+    int row = floor(y / tMap_->tileHeight());
+    int col = floor(x / tMap_->tileWidth());
 
     *blockingType = tiles_[row][col]->getType();
 }
 
 void Map::getTileCoords(double x, double y, int* row, int* column){
-    *row = floor(y / TILE_HEIGHT);
-    *column= floor(x / TILE_WIDTH);
+    *row = floor(y / tMap_->tileHeight());
+    *column= floor(x / tMap_->tileWidth());
 }
 
 Tile* Map::getTile(double x, double y){
     int r,c;
     getTileCoords(x,y,&r,&c);
     return tiles_[r][c];
+}
+
+QPointF Map::getHomeLoc() {
+    return homeTile_->getPos();
 }
 
 Tile* Map::getTile(QPointF coords) {

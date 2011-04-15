@@ -3,7 +3,6 @@
 
 // System includes
 #include <QObject>
-#include <set>
 #include <QSet>
 #include <QPointF>
 #include <QPolygon>
@@ -52,9 +51,9 @@ public:
      */
     static unsigned char clsIdx() { return clsidx::kTile; }
 
-public:
     Tile();
-    Tile(int row, int column, BlockingType type);
+    Tile(Tiled::Tile* tTile, int row, int column, BlockingType type,
+         TileEffect tileEffect);
     virtual ~Tile() { }
 
     // The following two methods are going to be problematic in their current
@@ -67,6 +66,29 @@ public:
     void removeUnit(Unit *unitToRemove);
     QSet<Unit*> getUnits();
     BlockingType getType();
+
+    /**
+     * Returns the effect associated with this tile, or NULL if there is no
+     * effect.
+     *
+     * @return the effect associated with this tile.
+     * @author Luke Queenan
+     */
+    TileEffect getTileEffect()
+    {
+        return tileEffect_;
+    }
+
+    /**
+     * setter for tile effect.
+     *
+     * @param tileEffect, the effect to set to the tile.
+     * @author DTRAIN
+     */
+    void getTileEffect(TileEffect tileEffect)
+    {
+        tileEffect_ = tileEffect;
+    }
 
     /**
      * Specifies whether a tile is one of the following:
@@ -177,13 +199,14 @@ public:
     static TileAttributes getAttributes(int id);
 
 private:
-    int tileID_;
+    Tiled::Tile* tTile_;
+    int width_;
+    int height_;
     BlockingType type_;
+    TileEffect tileEffect_;
+    int actionType_;
     QSet<Unit*> currentUnits_;
     QPolygonF myBounds_;
-    int actionType_;
-
-    Tiled::Tile * tTile_;
 
     /** 
      * Tiles can have an extension attached to them. Currently this is a tower 

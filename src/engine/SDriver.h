@@ -25,6 +25,7 @@ private:
     QList<Player*> players_;
     QSet<GameObject*> updates_;
     QList<NPCWave*> waves_;
+    QTimer* waveTimer_;
 
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
@@ -59,8 +60,10 @@ public:
      * Stop game timer, and shuts down the network server.
      * 
      * @author Duncan Donaldson
+     * @param success true if the game was won, false otherwise.
      */
-    void endGame();
+    void endGame(bool success);
+
     /**
      * If an object exists, updates its values with the ones read.
      * otherwise creates an object.
@@ -111,6 +114,17 @@ public:
      * @param health The new base health.
      */
     virtual void setBaseHealth(int health);
+    
+    /**
+     * Writes a message to either drop a resource or add it
+     * to the Building Stage.
+     *
+     * @author Marcel Vangrootheest
+     * @param out The stream to write the message to.
+     * @param t The BuildingTower to add the resource to.
+     * @param player The player that needs to drop the resource.
+     */
+    void towerDrop(Stream* out, BuildingTower* t, Player* player);
 
 signals:
     /**
@@ -160,8 +174,9 @@ public slots:
      * state to all clients.
      * 
      * @author Duncan Donaldson
+     * @param multicast Whether this server sends multicast messages.
      */
-    void startGame();
+    void startGame(bool multicast);
 
     /**
      * Spawns a server-side wave and updates all clients.
@@ -173,12 +188,12 @@ public slots:
      */
     void spawnWave();
     /**
-     * Handles a packet received by updating a currently existing player
      * slot that is called to destroy an NPC when its health reaches 0.
      *
      * @author Duncan Donaldson
      */
     void deadNPC(int id);
+    void deadWave();
     /**
      * Handles a UDP packet receive by updating a currently existing player
      * or adding the player to the players list if the player does not exist.

@@ -55,6 +55,11 @@ private:
      */
     unsigned char multicastAddr_;
 
+    /**
+     * Indicates that the server should shut down when the queue is empty.
+     */
+    bool shuttingDown_;
+
 public:
     /**
      * Constructor for the server-side networking singleton.
@@ -151,11 +156,7 @@ public:
      * @param msgType The type of message to be sent. (See netmessages.h)
      * @param msg The message data as a byte array.
      */
-    void send(unsigned char msgType, QByteArray msg) {
-        SAFE_OPERATION(msgQueue_.enqueue(msg.prepend(msgType)))
-
-        emit msgQueued();
-    }
+    void send(unsigned char msgType, QByteArray msg);
 
     /**
      * Adds the specified socket to the list of connected sockets.
@@ -175,7 +176,10 @@ public:
      * @author Darryl Pogue
      * @return The final multicast address octet.
      */
-    unsigned char getMulticastAddr() const {
+    unsigned char getMulticastAddr() {
+        if (multicastAddr_ == 0) {
+            multicastAddr_ = nextMulticast++;
+        }
         return multicastAddr_;
     }
 };

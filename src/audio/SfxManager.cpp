@@ -9,25 +9,25 @@ namespace td {
 QStringList SfxManager::projectileFireArrow  
         = QStringList() << "arrow-1" << "arrow-2" << "arrow-3";
 QStringList SfxManager::projectileFireCannon 
-        = QStringList() << "cannon-1";
+        = QStringList() << "cannon-1" << "cannon-2" << "cannon-3";
 QStringList SfxManager::projectileFireFlame  
-        = QStringList() << "flame-1" << "flame-2";
+        = QStringList() << "fire-1";
 QStringList SfxManager::projectileFireTar    
         = QStringList() << "tar-1" << "tar-2" << "tar-3";
 QStringList SfxManager::projectileFireFlak   
-        = QStringList() << "";
+        = QStringList() << "flak-1" << "flak-2";
 
 // projectile lands
 QStringList SfxManager::projectileHitArrow  
-        = QStringList() << "";
+        = QStringList() << "death-3";
 QStringList SfxManager::projectileHitCannon 
-        = QStringList() << "";
+        = QStringList() << "bridge";
 QStringList SfxManager::projectileHitFlame  
         = QStringList() << "";
 QStringList SfxManager::projectileHitTar    
-        = QStringList() << "";
+        = QStringList() << "death-1";
 QStringList SfxManager::projectileHitFlak   
-        = QStringList() << "";
+        = QStringList() << "death-2";
 
 // tower SFX
 QStringList SfxManager::towerBuildingStarted
@@ -49,7 +49,7 @@ QStringList SfxManager::contextMenuSelect
 
 // NPC wave entrance
 QStringList SfxManager::npcPterodactylEnters
-        = QStringList() << "";
+        = QStringList() << "entrance-1";
 
 // NPC death 
 QStringList SfxManager::npcPterodactylDies
@@ -59,11 +59,11 @@ QStringList SfxManager::npcPterodactylDies
 QStringList SfxManager::resourceWood
         = QStringList() << "wood";
 QStringList SfxManager::resourceStone
-        = QStringList() << "shovel";
+        = QStringList() << "stone";
 QStringList SfxManager::resourceBone
-        = QStringList() << "wood";
+        = QStringList() << "bone";
 QStringList SfxManager::resourceTar
-        = QStringList() << "tar-1";
+        = QStringList() << "oil";
 
 // player SFX
 QStringList SfxManager::playerOpensMenu
@@ -90,7 +90,7 @@ QStringList SfxManager::lobbyMulti
 QStringList SfxManager::lobbyConnect
         = QStringList() << "connecting";
 
-void SfxManager::makeSfxNetworkMsg(GameObject* gameObject, QStringList sfxList,  
+void SfxManager::makeSfxNetworkMsg(QObject* gameObject, QStringList sfxList,  
         int type)
 {
     int rdNum;
@@ -107,7 +107,7 @@ void SfxManager::makeSfxNetworkMsg(GameObject* gameObject, QStringList sfxList,
     s.writeInt(type);
     s.writeInt(filename.size());
     s.write(filename.toAscii());
-    gameObject->getDriver()->sendNetMessage(network::kPlaySfx, s.data());
+    ((Driver*)gameObject->parent())->sendNetMessage(network::kPlaySfx, s.data());
 }
 
 } // end namespace td

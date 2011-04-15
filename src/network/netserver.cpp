@@ -9,7 +9,8 @@ NetworkServer::NetworkServer()
 {
     netthread_ = new Thread();
     udpSocket_ = new QUdpSocket();
-    multicastAddr_ = nextMulticast++;
+    multicastAddr_ = 0;
+    shuttingDown_ = false;
 
     connect(this, SIGNAL(msgQueued()), this, SLOT(onMsgQueued()),
             Qt::QueuedConnection);
@@ -39,7 +40,18 @@ void NetworkServer::start()
 
 void NetworkServer::shutdown()
 {
-    netthread_->exit(0);
+    SAFE_OPERATION(shuttingDown_ = true);
+}
+
+void NetworkServer::send(unsigned char msgType, QByteArray msg) {
+    SAFE_OPERATION(bool b = shuttingDown_)
+    if (b) {
+        /* Don't add more messages if we're shutting down. */
+        return;
+    }
+    SAFE_OPERATION(msgQueue_.enqueue(msg.prepend(msgType)))
+
+    emit msgQueued();
 }
 
 void NetworkServer::onMsgQueued()
@@ -48,13 +60,26 @@ void NetworkServer::onMsgQueued()
 
     bool isUDP = ((unsigned char)tmp.at(0) >= td::network::kBLOCK_UDP);
 
-    if (isUDP) {
+    if (isUDP && multicastAddr_) {
         udpSocket_->writeDatagram(tmp, TD_GROUP(multicastAddr_), TD_PORT);
+    } else if (isUDP) {
+        foreach (QTcpSocket* sock, tcpSockets_) {
+            udpSocket_->writeDatagram(tmp, sock->peerAddress(), TD_PORT);
+        }
     } else {
         foreach (QTcpSocket* sock, tcpSockets_) {
             sock->write(tmp);
             sock->flush();
         }
+    }
+
+    mutex_.lock();
+    bool b = shuttingDown_;
+    int count = msgQueue_.size();
+    mutex_.unlock();
+
+    if (b && count == 0) {
+        netthread_->exit(0);
     }
 }
 

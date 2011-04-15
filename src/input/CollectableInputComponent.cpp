@@ -5,6 +5,7 @@
 #include "../engine/Driver.h"
 #include "../engine/CDriver.h"
 #include "../engine/Map.h"
+#include "../engine/Tile.h"
 #define PI 3.141592653589793238
 
 namespace td {
@@ -20,65 +21,101 @@ void CollectableInputComponent::setParent(Unit *parent) {
 void CollectableInputComponent::setPath(QPointF* start, QPointF* end) {
     parent_->setPos(*start);
     parent_->setStartPoint(start);
+    QLineF tempPath = QLineF(*start, *end);
+
+    while (!validateMovement(*end)) {
+        tempPath.setLength(tempPath.length() - 5);
+        *end = tempPath.p2();
+    }
+
     parent_->setEndPoint(end);
     parent_->getPath().setPoints(*end, *start);
-    this->applyDirection();
 }
 
-void CollectableInputComponent::applyDirection() {
-    int angle = 0;
-    int degree = 0;
-    int projX = parent_->getPath().x1() - parent_->getPath().x2();
-    int projY = parent_->getPath().y1() - parent_->getPath().y2();
+void CollectableInputComponent::update() {
+    this->makeForce();
+}
 
-    if (projX == 0 && projY == 0) {
-        return;
+void CollectableInputComponent::makeForce(){
+    QVector2D force;
+    QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
+                             parent_->getPath().p1().x(),
+                             parent_->getPath().p1().y());
+    if (distance.length() <= parent_->getVelocity().length()) {
+        if (parent_->getType() == RESOURCE_GEM) {
+            parent_->setScale(GEM_SIZE);
+        } else {
+            parent_->setScale(RESOURCE_SIZE);
+        }
+        parent_->setAtEndOfPath(true);
+    } else {
+        force = QVector2D(parent_->getPath().unitVector().dx() * -1,
+                          parent_->getPath().unitVector().dy() * -1);
+        parent_->setForce(force);
+    }
+}
+
+bool CollectableInputComponent::validateMovement(const QPointF& newPos) {
+    int blockingType = parent_->getDriver()->getGameMap()
+        ->getTile(newPos)->getType();
+
+    if (blockingType == Tile::OPEN) {
+        return true;
     }
 
-    if (qAbs(projX) >= qAbs(projY)) {
-        angle = atan(projY / (float)projX) * (180 / PI);
+    else if (blockingType == Tile::CLOSED) {
+        return false;
+    }
 
-        if (projX > 0) {
-            if (projY == 0) {
-                degree = 0;
-            } else if (projX == projY) {
-                degree = 315;
-            } else if (projX == (-projY)) {
-                degree = 45;
-            } else if (angle < 0) {
-                degree =  -angle;
-            } else {
-                degree = 360 - angle;
-            }
-        } else if (projX < 0) {
-            if (projY == 0) {
-                degree = 180;
-            } else if (projX == projY) {
-                degree = 135;
-            } else if (projX == (-projY)) {
-                degree = 225;
-            } else {
-                degree = 180 - angle;
-            }
-        }
-    } else if (qAbs(projY) > qAbs(projX)) {
-        angle = atan(projX / (float) projY) * (180 / PI);
-
-        if (projY < 0) {
-            if (projX == 0) {
-                degree = 90;
-            } else {
-                degree = 90 + angle;
-            }
-        } else if (projY > 0) {
-            if (projX == 0) {
-                degree = 270;
-            } else {
-                degree = 270 + angle;
-            }
+    else {
+        // TODO: This is where we will call a function to determine what areas
+        // are blocked due to other blocking types or other units
+        if (checkSemiBlocked(newPos, blockingType)) {
+            return true;
         }
     }
-    parent_->setOrientation(degree);
+    return false;
+}
+
+bool CollectableInputComponent::checkSemiBlocked(QPointF pos, int type) {
+    // Get pointer to map.
+    Map* map = parent_->getDriver()->getGameMap();
+    int tWidth = map->tileWidth();
+    int tHeight = map->tileHeight();
+
+    float posX = (int) pos.x() % tWidth;
+    float posY = (int) pos.y() % tHeight;
+
+    switch(type) {
+        case Tile::NORTH_WEST:
+            if (posY > (tWidth - posX)) {
+                return false;
+            }
+            break;
+
+        case Tile::NORTH_EAST:
+            if ((posX < posY)) {
+                return false;
+            }
+            break;
+
+        case Tile::SOUTH_WEST:
+            if ((posX > posY)) {
+                return false;
+            }
+            break;
+
+        case Tile::SOUTH_EAST:
+            if (posY < (tWidth - posX)) {
+                return false;
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    return true;
 }
 
 } /* end namespace td */
