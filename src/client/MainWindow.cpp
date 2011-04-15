@@ -19,7 +19,7 @@ MainWindow::MainWindow() : QMainWindow() {
     view_ = new QGraphicsView(scene_);
     stats_ = new QGraphicsTextItem();
     statsRect_ = new QGraphicsRectItem();
-    
+
     consoleOpen_ = false;
 
     scene_->setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -27,6 +27,7 @@ MainWindow::MainWindow() : QMainWindow() {
     keysTimer_ = new QTimer(this);
     keysTimer_->start(50);
 
+    view_->setCacheMode(QGraphicsView::CacheBackground);
     view_->setFocusPolicy( Qt::NoFocus );
     view_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -110,6 +111,7 @@ void MainWindow::keyHeld()
 
 void MainWindow::keyPressEvent(QKeyEvent * event) {
     PlayerInputComponent *tInput;
+    
     if(event->isAutoRepeat()) {
         return;
     }
@@ -145,6 +147,9 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         case Qt::Key_V:
             //AudioManager::instance()->toggleCapturePause();
             break;
+        case Qt::Key_Z:    
+	    view_->scale(.5,.5);
+	    break;
         case Qt::Key_QuoteLeft :
             Console::instance()->show();
             consoleOpen_ = !consoleOpen_;
@@ -217,6 +222,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
             break;
         case Qt::Key_V:
             //AudioManager::instance()->toggleCapturePause();
+            break;
+        case Qt::Key_Z:
+            view_->scale(2,2);
             break;
         case Qt::Key_Space:
             emit signalSpacebarReleased();
