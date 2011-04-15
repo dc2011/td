@@ -95,9 +95,12 @@
 #define EFFECT_NPCPLAYER    1
 #define EFFECT_SLOW         2
 #define EFFECT_FAST         3
+// These 5 need to stay in the same block
 #define EFFECT_ARROW        4
 #define EFFECT_TAR          5
 #define EFFECT_BURN         6
+#define EFFECT_CANNON       7
+#define EFFECT_FLAK         8
 
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20
@@ -135,8 +138,14 @@
 #define TAR_VELOCITY    10
 #define FLAK_VELOCITY   15
 
-// collectable velocity
-#define COLLECTABLE_VELOCITY    10
+// collectable misc
+#define COLLECTABLE_VELOCITY    3
+#define GEM_SIZE                0.6
+#define RESOURCE_SIZE           0.8
+#define TIME_TO_DISAPPEAR       600
+#define FLICKER_RATE            9
+#define FLICKER_POINT           (int) (TIME_TO_DISAPPEAR * 0.25) \
+                              - (int) (TIME_TO_DISAPPEAR * 0.25) % FLICKER_RATE
 
 // healthbar info (sizes are in pixels)
 #define HEALTHBAR_WIDTH     50
@@ -155,6 +164,32 @@
 #define TILE_HEIGHT 48
 #define TILE_WIDTH 48
 #define TILE_SIZE 48
+
+// tower requirements
+#define COST_FLAK_WOOD    1
+#define COST_FLAK_STONE   0
+#define COST_FLAK_BONE    1
+#define COST_FLAK_OIL     0
+
+#define COST_ARROW_WOOD   0
+#define COST_ARROW_STONE  1
+#define COST_ARROW_BONE   1
+#define COST_ARROW_OIL    0
+
+#define COST_CANNON_WOOD  0
+#define COST_CANNON_STONE 1
+#define COST_CANNON_BONE  0
+#define COST_CANNON_OIL   0
+
+#define COST_TAR_WOOD     0
+#define COST_TAR_STONE    1
+#define COST_TAR_BONE     1
+#define COST_TAR_OIL      1
+
+#define COST_FLAME_WOOD    1
+#define COST_FLAME_STONE   0
+#define COST_FLAME_BONE    1
+#define COST_FLAME_OIL     1
 
 #endif
 
