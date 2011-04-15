@@ -433,6 +433,33 @@
      </rect>
     </property>
    </widget>
+   <zorder>mapsList</zorder>
+   <zorder>btnStart</zorder>
+   <zorder>easyBtn</zorder>
+   <zorder>mediumBtn</zorder>
+   <zorder>txtUsername</zorder>
+   <zorder>lblDisplayCount</zorder>
+   <zorder>lblCount</zorder>
+   <zorder>chkSingleplayer</zorder>
+   <zorder>btnConnect</zorder>
+   <zorder>lblAddress</zorder>
+   <zorder>txtAddress</zorder>
+   <zorder>lblUsername</zorder>
+   <zorder>hardBtn</zorder>
+   <zorder>bgFrame</zorder>
+   <zorder>label</zorder>
+   <zorder>label_2</zorder>
+   <zorder>sendMsg</zorder>
+   <zorder>label_3</zorder>
+   <zorder>newGame</zorder>
+   <zorder>label_4</zorder>
+   <zorder>userList</zorder>
+   <zorder>btnExit</zorder>
+   <zorder>chatBgFrame</zorder>
+   <zorder>chatInputBg</zorder>
+   <zorder>logoFrame</zorder>
+   <zorder>gameList</zorder>
+   <zorder>msgBox</zorder>
   </widget>
  </widget>
  <resources/>

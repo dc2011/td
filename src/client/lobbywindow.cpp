@@ -238,12 +238,6 @@ void LobbyWindow::updateListOfGames(QMultiMap<int, QString>& gameList) {
     }
     foreach(int gameName, gameList.keys()) {
         QString name(QString("Game").append(QString::number(gameName)));
-
-        //tmpList.append(userList.key(name) == 0 ? "N/A" : QString::number(userList.key(name)));
-        //QTreeWidgetItem *tmpItem = new QTreeWidgetItem(ui->gameList, tmpList);
-       // if(ui->gameList->size() > 0) {
-         //   ui->gameList->clear();
-        //}
         ui->gameList->addItem(name);
     }
 }

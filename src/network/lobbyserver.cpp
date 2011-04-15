@@ -221,10 +221,10 @@ void LobbyServer::relayChatMessage(QString& nickName, QString& msg) {
     data.write(msg.toAscii());
 
     foreach(QTcpSocket* sock, clients_.keys()) {
-        if(nickName != clients_.value(sock)) {
+       // if(nickName != clients_.value(sock)) {
             sock->write(data.data());
             sock->flush();
-        }
+       // }
     }
 }
 
