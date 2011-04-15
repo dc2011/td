@@ -19,7 +19,7 @@ MainWindow::MainWindow() : QMainWindow() {
     view_ = new QGraphicsView(scene_);
     stats_ = new QGraphicsTextItem();
     statsRect_ = new QGraphicsRectItem();
-    
+
     consoleOpen_ = false;
 
     scene_->setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -27,6 +27,7 @@ MainWindow::MainWindow() : QMainWindow() {
     keysTimer_ = new QTimer(this);
     keysTimer_->start(50);
 
+    view_->setCacheMode(QGraphicsView::CacheBackground);
     view_->setFocusPolicy( Qt::NoFocus );
     view_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -140,6 +141,7 @@ void MainWindow::keyHeld()
 
 void MainWindow::keyPressEvent(QKeyEvent * event) {
     PlayerInputComponent *tInput = NULL;
+    
     if(event->isAutoRepeat()) {
         return;
     }
@@ -187,7 +189,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         //AudioManager::instance()->toggleCapturePause();
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
-        // tstenvold: TODO
+        view_->scale(.5,.5);
     } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
         /* Arrow Up key => UP */
         keysHeld_ |= KEYUP;
@@ -264,7 +266,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
         //AudioManager::instance()->toggleCapturePause();
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
-        // tstenvold: TODO
+        view_->scale(2,2);
     } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
         /* Arrow Up key => UP */
         keysHeld_ ^= KEYUP;

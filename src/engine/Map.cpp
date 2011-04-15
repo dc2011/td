@@ -63,6 +63,7 @@ void Map::initMap() {
                 // Home base tile.
                 else {
                     homeTile_ = tiles_[row][col];
+                    tiles_[row][col]->setActionType(TILE_BASE);
                 }
             }
 

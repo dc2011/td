@@ -27,7 +27,7 @@ NPC::~NPC() {
     if (type_ == NPC_FLY) {
         new FlyingEndingGraphicsComponent(pos_);
     } else {
-        new FlyingEndingGraphicsComponent(pos_);
+        new GenericNPCEndingGraphicsComponent(pos_);
     }
 #endif
     // Delete all effects in the map
