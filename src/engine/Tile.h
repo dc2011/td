@@ -52,7 +52,8 @@ public:
     static unsigned char clsIdx() { return clsidx::kTile; }
 
     Tile();
-    Tile(int row, int column, BlockingType type, TileEffect tileEffect);
+    Tile(Tiled::Tile* tTile, int row, int column, BlockingType type,
+         TileEffect tileEffect);
     virtual ~Tile() { }
 
     // The following two methods are going to be problematic in their current
@@ -63,7 +64,7 @@ public:
     //int getRow();
     void addUnit(Unit *unitToAdd);
     void removeUnit(Unit *unitToRemove);
-    QSet<Unit*> getUnits();
+    QList<Unit*> getUnits();
     BlockingType getType();
 
     /**
@@ -198,13 +199,14 @@ public:
     static TileAttributes getAttributes(int id);
 
 private:
-    int tileID_;
+    Tiled::Tile* tTile_;
+    int width_;
+    int height_;
     BlockingType type_;
-    QSet<Unit*> currentUnits_;
-    QPolygonF myBounds_;
-    int actionType_;
     TileEffect tileEffect_;
-    Tiled::Tile * tTile_;
+    int actionType_;
+    QList<Unit*> currentUnits_;
+    QPolygonF myBounds_;
 
     /** 
      * Tiles can have an extension attached to them. Currently this is a tower 

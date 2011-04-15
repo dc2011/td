@@ -3,12 +3,10 @@
 
 namespace td {
 
-QPixmap* EndingGraphicsComponent::pixmapImgs_ = 0;
-
 void EndingGraphicsComponent::update(GameObject*) {
     DrawParams* dp = new DrawParams();
 
-    setLayer(dp);
+    emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 
 void EndingGraphicsComponent::draw(DrawParams *dp, int layer) {
@@ -16,6 +14,9 @@ void EndingGraphicsComponent::draw(DrawParams *dp, int layer) {
 }
 
 void EndingGraphicsComponent::animate() {
+    if(animateMod_ == 0) {
+        return;
+    }
     if (!(animateCount_++ % animateMod_)) {
         ++pixmapIndex_ > arrayIndexMax_ ? pixmapIndex_ = arrayIndexMin_
             : pixmapIndex_;
@@ -23,33 +24,24 @@ void EndingGraphicsComponent::animate() {
     }
 }
 
-// cannon ending animation
+void EndingGraphicsComponent::redraw(int timerLength, int layer) {
+    created_.acquire();
 
-QPixmap* CannonEndingGraphicsComponent::pixmapImgs_ = NULL;
-
-
-void CannonEndingGraphicsComponent::initPixmaps() {
-    if (pixmapImgs_) {
-        setNonStaticValues();
-        return;
-    } else {
-        pixmapImgs_ = new QPixmap[PIX_END_CANNON_MAX];
+    if (timerID_ != 0) {
+        killTimer(timerID_);
     }
-    pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_END_CANNON_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_END_CANNON_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_END_CANNON_2;
-    setNonStaticValues();
-}
+    timerID_ = this->startTimer(timerLength);
 
-void CannonEndingGraphicsComponent::setLayer(DrawParams *dp) {
-    emit signalDraw(dp, this, LAYER_DEFAULT);
-}
+    if (currentIndex_++ > arrayIndexMax_ + 1) {
+       this->killTimer(timerID_);
+       this->deleteComponent();
+       return;
+    }
+    DrawParams* dp = new DrawParams();
+    dp->pos = this->pos_;
+    this->draw(dp, LAYER_DEFAULT);
 
-void CannonEndingGraphicsComponent::setNonStaticValues() {
-    animateMod_ = 3;
-    arrayIndexMin_ = pixmapIndex_ = PIX_END_CANNON_START;
-    arrayIndexMax_ = PIX_END_CANNON_START + PIX_END_CANNON_MAX - 1;
+    created_.release();
 }
 
 }

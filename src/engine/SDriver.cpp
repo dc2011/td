@@ -20,7 +20,7 @@ namespace td {
 SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
     waveTimer_ = new QTimer(this);
-    gameMap_ = new Map(QString("./maps/netbookmap3.tmx"), this);
+    gameMap_ = new Map(MAP_TMX, this);
     net_ = new NetworkServer();
     npcCounter_ = 0;
 
@@ -31,6 +31,12 @@ SDriver::SDriver() : Driver() {
             this, SIGNAL(disconnecting()));
 }
 SDriver::~SDriver() {
+    if(!waves_.empty()) {
+        NPCWave* temp;
+        foreach(temp, waves_){
+            disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+        }
+    }
     delete net_;
 }
 
@@ -81,9 +87,7 @@ void SDriver::setBaseHealth(int health) {
 
     if (health <= 0) {
         /* Base was slaughtered. You lose. */
-        Stream send;
-        send.writeByte(false);
-        net_->send(network::kGameOver, send.data());
+        endGame(false);
     }
 }
 
@@ -106,7 +110,7 @@ void SDriver::startGame(bool multicast) {
 
     gameMap_->initMap();
 
-    Parser* fileParser = new Parser(this, "./maps/mapinfo.nfo");
+    Parser* fileParser = new Parser(this, MAP_NFO);
     NPCWave* tempWave;
     setBaseHealth(fileParser->baseHP);
     //tempWave = new NPCWave(this);
@@ -121,9 +125,14 @@ void SDriver::startGame(bool multicast) {
     connect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
 }
 
-void SDriver::endGame() {
+void SDriver::endGame(bool success) {
+    Stream send;
+    send.writeByte(success);
+    net_->send(network::kGameOver, send.data());
+
     net_->shutdown();
     this->gameTimer_->stop();
+    this->waveTimer_->stop();
 }
 
 GameObject* SDriver::updateObject(Stream* s) {
@@ -162,6 +171,7 @@ void SDriver::onTimerTick() {
 
     foreach (GameObject* go, updates_) {
         go->networkWrite(&s);
+        go->resetDirty();
     }
 
     updates_.clear();
@@ -203,6 +213,16 @@ void SDriver::destroyObject(int id) {
 
 void SDriver::spawnWave() {
     if(!waves_.empty()) {
+
+        //disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
+        NPCWave* temp;
+        foreach(temp,waves_) {
+            if(temp->getStart() == timeCount_){
+                temp->createWave();
+                connect(temp, SIGNAL(waveDead()),this,SLOT(deadWave()));
+            }
+        }
+    /*
     disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
     //NPCWave* wave = new NPCWave(this);
 
@@ -212,31 +232,16 @@ void SDriver::spawnWave() {
 
 
     connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
-
+    */
     }
-    /*if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
-        Driver::createNPC(NPC_NORM);
-    }
-    if (npcCounter_ % 40 == 0 && (npcCounter_ % 1400) > 1000) {
-        Driver::createNPC(NPC_SLOW);
-    }*/
-
-    /*qDebug("spawned wave");
-    for(int i=0; i < 20; ++i) {
-	    Stream* out = new Stream();
-	    NPC* n;
-	    n = (NPC*)mgr_->createObject(NPC::clsIdx());
-        n->setType(NPC_NORM);
-	    n->networkWrite(out);
-	    net_->send(network::kServerCreateObj, out->data());
-	    delete out;
-    }*/
 }
 void SDriver::deadWave(){
     if(!waves_.empty()) {
-        disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+        /*disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
         waves_.takeFirst();
-        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(spawnWave()));
+        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(spawnWave()));*/
+    } else {
+        endGame(true);
     }
 }
 
@@ -288,6 +293,20 @@ void SDriver::onMsgReceive(Stream* s) {
     Stream* out = new Stream();
 
     switch(message) {
+        case network::kSellTower:
+        {
+            float x = s->readFloat();
+            float y = s->readFloat();
+
+            Driver::sellTower(QPointF(x, y));
+
+            out->writeInt(TILE_BUILDABLE);
+            out->writeFloat(x);
+            out->writeFloat(y);
+            net_->send(network::kSellTower, out->data());
+
+            break;
+        }
         case network::kTowerChoice:
         {
             int playerID = s->readInt();

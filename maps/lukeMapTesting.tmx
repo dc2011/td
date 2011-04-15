@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="10" tilewidth="48" tileheight="48">
+ <tileset firstgid="1" name="map-tiles3" tilewidth="48" tileheight="48">
+  <image source="../img/map-tiles3.png" trans="ff00ff" width="672" height="192"/>
+ </tileset>
+ <tileset firstgid="57" name="Base" tilewidth="48" tileheight="48">
+  <image source="../img/Base.png" trans="ff00ff" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="61" name="resourcetiles" tilewidth="48" tileheight="48">
+  <image source="../img/resourcetiles.png" trans="ff00ff" width="192" height="48"/>
+ </tileset>
+ <tileset firstgid="65" name="towerlayer2" tilewidth="48" tileheight="48">
+  <image source="../img/towerlayer2.png" trans="ff00ff" width="96" height="48"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYmBgYKIiZgNiRiphkHkCVMIw81io4C5k85hoZB61/MuEZgel8UFL8yjxK7J51MQANvIEIQ==
+  </data>
+ </layer>
+ <layer name="Tower" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh5wJFCPFTBYPGnJRBbUdE8ayC2oaJ5yAAAOkwIBw==
+  </data>
+ </layer>
+ <layer name="Resource" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYKA+sAViOyC2B2IHMvhDDYw0/8LASPAnAKTFCr8=
+  </data>
+ </layer>
+ <objectgroup name="Flying" width="20" height="10">
+  <object x="18" y="120"/>
+  <object x="848" y="122"/>
+  <object x="844" y="266"/>
+  <object x="122" y="268"/>
+  <object x="126" y="414"/>
+  <object x="846" y="416"/>
+ </objectgroup>
+ <objectgroup name="Land" width="20" height="10">
+  <object x="20" y="124"/>
+  <object x="844" y="122"/>
+  <object x="844" y="266"/>
+  <object x="120" y="264"/>
+  <object x="122" y="410"/>
+  <object x="848" y="412"/>
+ </objectgroup>
+</map>

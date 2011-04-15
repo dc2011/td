@@ -7,6 +7,7 @@
 #include "../graphics/PlayerGraphicsComponent.h"
 #include "../audio/SfxManager.h"
 #include "../graphics/Console.h"
+#include "Resource.h"
 
 namespace td {
 
@@ -16,7 +17,8 @@ Player::Player(QObject* parent)
     QVector2D force(0, 0);
     this->setForce(force);
 
-    this->setPos(100, 100);
+    QPointF homeLocation = getDriver()->getGameMap()->getHomeLoc();
+    this->setPos(homeLocation.x(), homeLocation.y());
 }
 
 void Player::networkRead(Stream* s) {
@@ -58,6 +60,10 @@ void Player::update() {
     if (isDirty()) {
         getDriver()->updateRT(this);
     }
+    foreach (Effect* e, effects_) {
+        e->update();
+    }
+
     if (graphics_ != NULL) {
         graphics_->update(this);
     }
@@ -81,6 +87,8 @@ void Player::update() {
                 break;
         }
     }
+
+    emit signalPlayerMovement(getPos());
 }
 
 void Player::createEffect(int effectType)
@@ -109,12 +117,6 @@ void Player::createEffect(int effectType)
         // Dean's sound signal thing
         emit signalEmptyEffectList();
 
-        // Connect signal rubbish
-        QObject::connect(effect, SIGNAL(effectFinished(Effect*)),
-                         this, SLOT(deleteEffect(Effect*)));
-        QObject::connect(getDriver()->getTimer(), SIGNAL(timeout()),
-                         effect, SLOT(update()));
-
         // Insert the effect into the map
         effects_.insert(effectType, effect);
     }
@@ -124,6 +126,7 @@ void Player::deleteEffect(Effect* effect)
 {
     effects_.remove(effect->getType());
     delete effect;
+    effect = NULL;
 }
 
 void Player::startHarvesting(int type) {
@@ -207,5 +210,22 @@ void Player::harvestResource() {
 	return;
     }
 }
+void Player::pickupCollectable(double x, double y, Unit* u) {
+    Tile* t = getDriver()->getGameMap()->getTile(x, y);
+    t->removeUnit(u);
+    if(((Collectable*)u)->getType() == RESOURCE_GEM) {
+        //increment global gem count here.
+        getDriver()->destroyObject(u);
+        return;
+    }
 
+    resource_ = ((Collectable*)u)->getType();
+    if (getGraphicsComponent()) {
+        getGraphicsComponent()->setCurrentResource(resource_);
+        getGraphicsComponent()->update(this);
+
+    }
+    setDirty(kResource);
+    getDriver()->destroyObject(u);
+}
 } /* end namespace td */

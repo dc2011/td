@@ -48,11 +48,14 @@ QVector2D Unit::getRandomVector() {
 }
 
 void Unit::changeTile(QPointF newPos){
-    //get pointer to map
+    // Get pointer to map.
     Map* map = getDriver()->getGameMap();
+    int tWidth = map->tileWidth();
+    int tHeight = map->tileHeight();
+
     //check if changed tiles
-    if ((int)getPos().x() / TILE_WIDTH  != (int)newPos.x() / TILE_WIDTH ||
-        (int)getPos().y() / TILE_HEIGHT != (int)newPos.y() / TILE_HEIGHT) {
+    if ((int)getPos().x() / tWidth != (int)newPos.x() / tWidth ||
+        (int)getPos().y() / tHeight != (int)newPos.y() / tHeight) {
         //remove from old tile
         map->removeUnit(getPos().x(), getPos().y(), this);
         //add to new tile

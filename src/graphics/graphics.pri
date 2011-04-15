@@ -8,6 +8,7 @@ GRAPHICS_HDRS +=    $$BASE_GRAPHICS_HDRS \
                     ./graphics/CollectableGraphicsComponentTypes.h \
                     ./graphics/MapDisplayer.h \
                     ./graphics/ContextMenuGraphicsComponent.h \
+                    ./graphics/ContextMenuGraphicsComponentTypes.h \
                     ./graphics/PlayerGraphicsComponent.h \
                     ./graphics/PixmapFiles.h \
                     ./graphics/DrawParams.h \
@@ -20,13 +21,15 @@ GRAPHICS_HDRS +=    $$BASE_GRAPHICS_HDRS \
                     ./graphics/NPCGraphicsComponent.h \
                     ./graphics/NPCGraphicsComponentTypes.h \
                     ./graphics/Console.h \
-                    ./graphics/EndingGraphicsComponent.h
+                    ./graphics/EndingGraphicsComponent.h \
+                    ./graphics/EndingGraphicsComponentTypes.h
 
 GRAPHICS_SRCS +=    $$BASE_GRAPHICS_SRCS \
                     ./graphics/CollectableGraphicsComponent.cpp \
                     ./graphics/CollectableGraphicsComponentTypes.cpp \
                     ./graphics/MapDisplayer.cpp \
                     ./graphics/ContextMenuGraphicsComponent.cpp \
+                    ./graphics/ContextMenuGraphicsComponentTypes.cpp \
                     ./graphics/PlayerGraphicsComponent.cpp \
                     ./graphics/ProjectileGraphicsComponent.cpp \
                     ./graphics/ProjectileGraphicsComponentTypes.cpp \
@@ -37,4 +40,5 @@ GRAPHICS_SRCS +=    $$BASE_GRAPHICS_SRCS \
                     ./graphics/NPCGraphicsComponent.cpp \
                     ./graphics/NPCGraphicsComponentTypes.cpp \
                     ./graphics/Console.cpp \
-                    ./graphics/EndingGraphicsComponent.cpp
+                    ./graphics/EndingGraphicsComponent.cpp \
+                    ./graphics/EndingGraphicsComponentTypes.cpp

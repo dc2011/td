@@ -26,6 +26,7 @@ private:
     QSet<GameObject*> updates_;
     QList<NPCWave*> waves_;
     QTimer* waveTimer_;
+    unsigned int timeCount_;
 
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
@@ -60,8 +61,10 @@ public:
      * Stop game timer, and shuts down the network server.
      * 
      * @author Duncan Donaldson
+     * @param success true if the game was won, false otherwise.
      */
-    void endGame();
+    void endGame(bool success);
+
     /**
      * If an object exists, updates its values with the ones read.
      * otherwise creates an object.

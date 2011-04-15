@@ -9,14 +9,27 @@
  * @author Warren Voelkl, Karl Castillo
  */
 
-#define PIX_CONTEXT_MENU_MAIN   QString("./img/buildmenu.png")
-#define PIX_CONTEXT_MENU_RES    QString("./img/buildResources.png");
-#define PIX_CONTEXT_MENU_T1     QString("./img/menuArrow.png")
-#define PIX_CONTEXT_MENU_T2     QString("./img/menuCannon.png")
-#define PIX_CONTEXT_MENU_T3     QString("./img/menuFlame.png")
-#define PIX_CONTEXT_MENU_T4     QString("./img/menuTar.png")
-#define PIX_CONTEXT_MENU_T5     QString("./img/menuFlak.png")
-#define PIX_CONTEXT_MENU_MAX    7
+#define PIX_BUILD_MENU_MAIN     QString("./img/buildmenu.png")
+#define PIX_BUILD_MENU_RES      QString("./img/buildResources.png");
+#define PIX_BUILD_MENU_T1       QString("./img/menuArrow.png")
+#define PIX_BUILD_MENU_T2       QString("./img/menuCannon.png")
+#define PIX_BUILD_MENU_T3       QString("./img/menuFlame.png")
+#define PIX_BUILD_MENU_T4       QString("./img/menuTar.png")
+#define PIX_BUILD_MENU_T5       QString("./img/menuFlak.png")
+#define PIX_BUILD_MENU_MAX      7
+#define PIX_TOWER_MENU_MAIN     QString("./img/towerUpgradeMenu.png")
+//temp
+#define PIX_TOWER_MENU_RES      QString("./img/buildResources.png")
+#define PIX_TOWER_MENU_UPGR     QString("./img/towerUpgradeIcon.png")
+#define PIX_TOWER_MENU_SELL     QString("./img/sellIcon.png")
+#define PIX_TOWER_MENU_MAX      4
+#define PIX_PLAYER_MENU_MAIN    QString("./img/playerUpgradeMenu.png")
+//temp
+#define PIX_PLAYER_MENU_RES     QString("./img/buildResources.png")
+#define PIX_PLAYER_MENU_SPD     QString("./img/speedIcon.png")
+#define PIX_PLAYER_MENU_HAR     QString("./img/harvestIcon.png")
+#define PIX_PLAYER_MENU_REC     QString("./img/stunIcon.png")
+#define PIX_PLAYER_MENU_MAX     5
 #define PIX_PLAYER_0            QString("./img/player-stand.png")
 #define PIX_PLAYER_1            QString("./img/player-move1.png")
 #define PIX_PLAYER_2            QString("./img/player-move2.png")
@@ -84,15 +97,48 @@
 #define PIX_NPC_PLEA_1          QString("./img/plea-2.png")
 #define PIX_NPC_PLEA_MAX        2
 #define PIX_NPC_MAMMOTH_START   0
-#define PIX_NPC_MAMMOTH_0       QString("./img/mammoth1.png");
-#define PIX_NPC_MAMMOTH_1       QString("./img/mammoth2.png");
+#define PIX_NPC_MAMMOTH_0       QString("./img/mammoth1.png")
+#define PIX_NPC_MAMMOTH_1       QString("./img/mammoth2.png")
 #define PIX_NPC_MAMMOTH_MAX     2
+#define PIX_NPC_ANKLY_START     0
+#define PIX_NPC_ANKLY_0         QString("./img/anklyosaurus1.png")
+#define PIX_NPC_ANKLY_1         QString("./img/anklyosaurus2.png")
+#define PIX_NPC_ANKLY_2         QString("./img/anklyosaurus3.png")
+#define PIX_NPC_ANKLY_MAX       3
+#define PIX_NPC_BRONTO_START    0
+#define PIX_NPC_BRONTO_0        QString("./img/Brontosaurus1.png")
+#define PIX_NPC_BRONTO_1        QString("./img/Brontosaurus2.png")
+#define PIX_NPC_BRONTO_MAX      2
+#define PIX_NPC_SABER_START     0
+#define PIX_NPC_SABER_0         QString("./img/fast1.png")
+#define PIX_NPC_SABER_1         QString("./img/fast2.png")
+#define PIX_NPC_SABER_MAX       2
+#define PIX_NPC_TREX_START      0
+#define PIX_NPC_TREX_0          QString("./img/trex1.png")
+#define PIX_NPC_TREX_1          QString("./img/trex2.png")
+#define PIX_NPC_TREX_MAX        2
+#define PIX_NPC_TRICERO_START   0
+#define PIX_NPC_TRICERO_0       QString("./img/tri-1.png")
+#define PIX_NPC_TRICERO_1       QString("./img/tri-2.png")
+#define PIX_NPC_TRICERO_MAX     2
 
 //ending animations for projectiles
 #define PIX_END_CANNON_START    0
-#define PIX_END_CANNON_0        QString("./img/smallExp.png");
-#define PIX_END_CANNON_1        QString("./img/medExp.png");
-#define PIX_END_CANNON_2        QString("./img/finalExp.png");
+#define PIX_END_CANNON_0        QString("./img/smallExp.png")
+#define PIX_END_CANNON_1        QString("./img/medExp.png")
+#define PIX_END_CANNON_2        QString("./img/finalExp.png")
 #define PIX_END_CANNON_MAX      3
+
+#define PIX_END_ARROW_START     0
+#define PIX_END_ARROW_0         QString("./img/blood.png")
+#define PIX_END_ARROW_MAX       1
+
+//ending animations for NPCs
+#define PIX_END_FLYING_START    0
+#define PIX_END_FLYING_0        QString("./img/death1.png")
+#define PIX_END_FLYING_1        QString("./img/death2.png")
+#define PIX_END_FLYING_2        QString("./img/death3.png")
+#define PIX_END_FLYING_MAX      3
+
 #endif
 

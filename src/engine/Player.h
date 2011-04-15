@@ -6,7 +6,6 @@
 
 #include "Unit.h"
 #include "../input/PlayerInputComponent.h"
-#include "CollisionComponent.h"
 #include "Effect.h"
 #include "Tile.h"
 #include "../graphics/PlayerGraphicsComponent.h"
@@ -178,6 +177,12 @@ public slots:
      * @author Dean Morin
      */
     void dropResource(bool addToTower);
+    /**
+     * picks up a collectable from the ground when a player collides with it.
+     *
+     * @author Duncan Donaldson
+     */
+    void pickupCollectable(double x, double y, Unit* u);
 
 private:
     QMap<int, Effect*> effects_;
@@ -213,6 +218,16 @@ signals:
      * @param move False if the player should stop moving.
      */
     void signalPlayerMovement(bool move);
+
+    /**
+     * Signals player movement, this is for notifying the MainWindow for
+     * scrolling purposes.
+     *
+     * @param pos The player's new position co-ordinate.
+     *
+     * @author Tom Nightingale
+     */
+    void signalPlayerMovement(QPointF pos);
 
     /**
      * Emmitted when the player drops the resource that they are carrying.
