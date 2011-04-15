@@ -39,7 +39,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QPushButton" name="btnChoice1">
+      <widget class="td::KeyButton" name="btnChoice1">
        <property name="text">
         <string>1</string>
        </property>
@@ -56,7 +56,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QPushButton" name="btnChoice2">
+      <widget class="td::KeyButton" name="btnChoice2">
        <property name="text">
         <string>2</string>
        </property>
@@ -73,7 +73,7 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QPushButton" name="btnChoice3">
+      <widget class="td::KeyButton" name="btnChoice3">
        <property name="text">
         <string>3</string>
        </property>
@@ -90,7 +90,7 @@
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QPushButton" name="btnChoice4">
+      <widget class="td::KeyButton" name="btnChoice4">
        <property name="text">
         <string>4</string>
        </property>
@@ -113,7 +113,7 @@
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QPushButton" name="btnChoice5">
+      <widget class="td::KeyButton" name="btnChoice5">
        <property name="text">
         <string>5</string>
        </property>
@@ -143,7 +143,7 @@
       </widget>
      </item>
      <item row="6" column="1">
-      <widget class="QPushButton" name="btnMenu">
+      <widget class="td::KeyButton" name="btnMenu">
        <property name="text">
         <string>SPACE</string>
        </property>
@@ -160,7 +160,7 @@
       </widget>
      </item>
      <item row="7" column="1">
-      <widget class="QPushButton" name="btnExtraInfo">
+      <widget class="td::KeyButton" name="btnExtraInfo">
        <property name="text">
         <string>R</string>
        </property>
@@ -177,7 +177,7 @@
       </widget>
      </item>
      <item row="8" column="1">
-      <widget class="QPushButton" name="btnConsole">
+      <widget class="td::KeyButton" name="btnConsole">
        <property name="text">
         <string>~</string>
        </property>
@@ -191,7 +191,7 @@
       </widget>
      </item>
      <item row="9" column="1">
-      <widget class="QPushButton" name="btnVoice">
+      <widget class="td::KeyButton" name="btnVoice">
        <property name="text">
         <string>V</string>
        </property>
@@ -231,7 +231,7 @@
       </widget>
      </item>
      <item row="12" column="1">
-      <widget class="QPushButton" name="btnArrowDown">
+      <widget class="td::KeyButton" name="btnArrowDown">
        <property name="text">
         <string>DOWN</string>
        </property>
@@ -248,7 +248,7 @@
       </widget>
      </item>
      <item row="13" column="1">
-      <widget class="QPushButton" name="btnArrowLeft">
+      <widget class="td::KeyButton" name="btnArrowLeft">
        <property name="text">
         <string>LEFT</string>
        </property>
@@ -265,14 +265,14 @@
       </widget>
      </item>
      <item row="14" column="1">
-      <widget class="QPushButton" name="btnArrowRight">
+      <widget class="td::KeyButton" name="btnArrowRight">
        <property name="text">
         <string>RIGHT</string>
        </property>
       </widget>
      </item>
      <item row="11" column="1">
-      <widget class="QPushButton" name="btnArrowUp">
+      <widget class="td::KeyButton" name="btnArrowUp">
        <property name="text">
         <string>UP</string>
        </property>
@@ -292,6 +292,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>td::KeyButton</class>
+   <extends>QPushButton</extends>
+   <header>../src/client/keybutton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

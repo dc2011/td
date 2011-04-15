@@ -32,6 +32,17 @@ public:
 
     void savemap();
 
+private slots:
+    void setArrowUp(QKeySequence seq);
+    void setArrowDown(QKeySequence seq);
+    void setArrowLeft(QKeySequence seq);
+    void setArrowRight(QKeySequence seq);
+
+    void setMenu(QKeySequence seq);
+    void setExtraInfo(QKeySequence seq);
+    void setConsole(QKeySequence seq);
+    void setVoice(QKeySequence seq);
+
 private:
     Ui::KeymapDialog *ui;
     Keymap keys;

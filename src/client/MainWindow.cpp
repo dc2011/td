@@ -195,6 +195,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         KeymapDialog* km = new KeymapDialog();
         if (km->exec() == QDialog::Accepted) {
             km->savemap();
+            loadKeymap();
         }
     } else {
         /* Any other key */
