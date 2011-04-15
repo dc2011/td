@@ -10,4 +10,11 @@ CLIENT_SRCS +=  ./client/main.cpp \
                 ./client/lobbywindow.cpp
 
 FORMS +=        ./client/keymap.ui \
-                ./client/lobbywindow.ui
+                ./client/lobbywindow.ui \
+    client/stats.ui
+
+HEADERS += \
+    client/stats.h
+
+SOURCES += \
+    client/stats.cpp
