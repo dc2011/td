@@ -35,6 +35,13 @@ public:
     virtual void initComponents();
     
     /**
+     * Changes the components based on the tower type.
+     *
+     * @author Marcel Vangrootheest
+     */
+    virtual void setComponents();
+
+    /**
      * Reads the object state from a network stream.
      * You should assign to variables directly inside this function, rather
      * than using mutator methods to change the values.

@@ -4,10 +4,20 @@ namespace td {
 
 /* Initialize the QPixmap arrays for all classes */
 QPixmap* ArrowTowerGraphicsComponent::pixmapImgs_ = NULL;
+QPixmap* ArrowTowerL2GraphicsComponent::pixmapImgs_ = NULL;
+QPixmap* ArrowTowerL3GraphicsComponent::pixmapImgs_ = NULL;
 QPixmap* CannonTowerGraphicsComponent::pixmapImgs_ = NULL;
+QPixmap* CannonTowerL2GraphicsComponent::pixmapImgs_ = NULL;
+QPixmap* CannonTowerL3GraphicsComponent::pixmapImgs_ = NULL;
 QPixmap* TarTowerGraphicsComponent::pixmapImgs_ = NULL;
+QPixmap* TarTowerL2GraphicsComponent::pixmapImgs_ = NULL;
+QPixmap* TarTowerL3GraphicsComponent::pixmapImgs_ = NULL;
 QPixmap* FlameTowerGraphicsComponent::pixmapImgs_ = NULL;
+QPixmap* FlameTowerL2GraphicsComponent::pixmapImgs_ = NULL;
+QPixmap* FlameTowerL3GraphicsComponent::pixmapImgs_ = NULL;
 QPixmap* FlakTowerGraphicsComponent::pixmapImgs_ = NULL;
+QPixmap* FlakTowerL2GraphicsComponent::pixmapImgs_ = NULL;
+QPixmap* FlakTowerL3GraphicsComponent::pixmapImgs_ = NULL;
 
 ArrowTowerGraphicsComponent::ArrowTowerGraphicsComponent()
         : TowerGraphicsComponent() {
@@ -22,6 +32,36 @@ void ArrowTowerGraphicsComponent::initPixmaps() {
 
     pixmapImgs_ = new QPixmap[1];
     pixmapImgs_[0] = PIX_TOWER_ARROW;
+}
+
+ArrowTowerL2GraphicsComponent::ArrowTowerL2GraphicsComponent()
+        : TowerGraphicsComponent() {
+    initRangeCircle(QColor(250,128,114));
+    emit created(this);
+}
+
+void ArrowTowerL2GraphicsComponent::initPixmaps() {
+    if (pixmapImgs_ != NULL) {
+        return;
+    }
+
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_ARROW_2;
+}
+
+ArrowTowerL3GraphicsComponent::ArrowTowerL3GraphicsComponent()
+        : TowerGraphicsComponent() {
+    initRangeCircle(QColor(233,150,122));
+    emit created(this);
+}
+
+void ArrowTowerL3GraphicsComponent::initPixmaps() {
+    if (pixmapImgs_ != NULL) {
+        return;
+    }
+
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_ARROW_3;
 }
 
 CannonTowerGraphicsComponent::CannonTowerGraphicsComponent()
@@ -39,6 +79,36 @@ void CannonTowerGraphicsComponent::initPixmaps() {
     pixmapImgs_[0] = PIX_TOWER_CANNON;
 }
 
+CannonTowerL2GraphicsComponent::CannonTowerL2GraphicsComponent()
+        : TowerGraphicsComponent() {
+    initRangeCircle(QColor(238,130,238));
+    emit created(this);
+}
+
+void CannonTowerL2GraphicsComponent::initPixmaps() {
+    if (pixmapImgs_ != NULL) {
+        return;
+    }
+
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_CANNON_2;
+}
+
+CannonTowerL3GraphicsComponent::CannonTowerL3GraphicsComponent()
+        : TowerGraphicsComponent() {
+    initRangeCircle(QColor(221,160,221));
+    emit created(this);
+}
+
+void CannonTowerL3GraphicsComponent::initPixmaps() {
+    if (pixmapImgs_ != NULL) {
+        return;
+    }
+
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_CANNON_3;
+}
+
 TarTowerGraphicsComponent::TarTowerGraphicsComponent()
         : TowerGraphicsComponent() {
     initRangeCircle(TAR_COLOR);
@@ -52,6 +122,36 @@ void TarTowerGraphicsComponent::initPixmaps() {
 
     pixmapImgs_ = new QPixmap[1];
     pixmapImgs_[0] = PIX_TOWER_TAR;
+}
+
+TarTowerL2GraphicsComponent::TarTowerL2GraphicsComponent()
+        : TowerGraphicsComponent() {
+    initRangeCircle(QColor(0,0,238));
+    emit created(this);
+}
+
+void TarTowerL2GraphicsComponent::initPixmaps() {
+    if (pixmapImgs_ != NULL) {
+        return;
+    }
+
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_TAR_2;
+}
+
+TarTowerL3GraphicsComponent::TarTowerL3GraphicsComponent()
+        : TowerGraphicsComponent() {
+    initRangeCircle(QColor(0,0,205));
+    emit created(this);
+}
+
+void TarTowerL3GraphicsComponent::initPixmaps() {
+    if (pixmapImgs_ != NULL) {
+        return;
+    }
+
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_TAR_3;
 }
 
 FlameTowerGraphicsComponent::FlameTowerGraphicsComponent()
@@ -69,6 +169,36 @@ void FlameTowerGraphicsComponent::initPixmaps() {
     pixmapImgs_[0] = PIX_TOWER_FLAME;
 }
 
+FlameTowerL2GraphicsComponent::FlameTowerL2GraphicsComponent()
+        : TowerGraphicsComponent() {
+    initRangeCircle(QColor(238,0,0));
+    emit created(this);
+}
+
+void FlameTowerL2GraphicsComponent::initPixmaps() {
+    if (pixmapImgs_ != NULL) {
+        return;
+    }
+
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_FLAME_2;
+}
+
+FlameTowerL3GraphicsComponent::FlameTowerL3GraphicsComponent()
+        : TowerGraphicsComponent() {
+    initRangeCircle(QColor(178,34,34));
+    emit created(this);
+}
+
+void FlameTowerL3GraphicsComponent::initPixmaps() {
+    if (pixmapImgs_ != NULL) {
+        return;
+    }
+
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_FLAME_3;
+}
+
 FlakTowerGraphicsComponent::FlakTowerGraphicsComponent()
         : TowerGraphicsComponent() {
     initRangeCircle(FLAK_COLOR);
@@ -82,6 +212,36 @@ void FlakTowerGraphicsComponent::initPixmaps() {
 
     pixmapImgs_ = new QPixmap[1];
     pixmapImgs_[0] = PIX_TOWER_FLAK;
+}
+
+FlakTowerL2GraphicsComponent::FlakTowerL2GraphicsComponent()
+        : TowerGraphicsComponent() {
+    initRangeCircle(QColor(124,252,0));
+    emit created(this);
+}
+
+void FlakTowerL2GraphicsComponent::initPixmaps() {
+    if (pixmapImgs_ != NULL) {
+        return;
+    }
+
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_FLAK_2;
+}
+
+FlakTowerL3GraphicsComponent::FlakTowerL3GraphicsComponent()
+        : TowerGraphicsComponent() {
+    initRangeCircle(QColor(0,255,127));
+    emit created(this);
+}
+
+void FlakTowerL3GraphicsComponent::initPixmaps() {
+    if (pixmapImgs_ != NULL) {
+        return;
+    }
+
+    pixmapImgs_ = new QPixmap[1];
+    pixmapImgs_[0] = PIX_TOWER_FLAK_3;
 }
 
 } /* end namespace td */

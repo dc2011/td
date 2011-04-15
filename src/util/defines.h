@@ -26,6 +26,17 @@
 #define UPGRADE_HARVEST     50
 #define UPGRADE_RECOVERY    51
 
+#define TOWER_ARROW_2       0
+#define TOWER_ARROW_3       1
+#define TOWER_CANNON_2      2
+#define TOWER_CANNON_3      3
+#define TOWER_FLAME_2       4
+#define TOWER_FLAME_3       5
+#define TOWER_TAR_2         6
+#define TOWER_TAR_3         7
+#define TOWER_FLAK_2        8
+#define TOWER_FLAK_3        9
+
 // Current map to use
 #define MAP      "bigmap"
 #define MAP_TMX   QString("./maps/") + QString(MAP) + QString(".tmx")
@@ -146,11 +157,21 @@
 #define NO_TIME         0,false
 
 //Projectile types
-#define PROJ_ARROW  0
-#define PROJ_CANNON 1
-#define PROJ_FIRE   2
-#define PROJ_TAR    3
-#define PROJ_FLAK   4
+#define PROJ_ARROW      0
+#define PROJ_ARROW_2    1
+#define PROJ_ARROW_3    2
+#define PROJ_CANNON     3
+#define PROJ_CANNON_2   4
+#define PROJ_CANNON_3   5
+#define PROJ_FIRE       6
+#define PROJ_FIRE_2     7
+#define PROJ_FIRE_3     8
+#define PROJ_TAR        9
+#define PROJ_TAR_2      10
+#define PROJ_TAR_3      11
+#define PROJ_FLAK       12
+#define PROJ_FLAK_2     13
+#define PROJ_FLAK_3     14
 
 //Projectile Velocity
 #define ARROW_VELOCITY  15
@@ -202,6 +223,8 @@
 #define COST_FLAME_STONE   1
 #define COST_FLAME_BONE    0
 #define COST_FLAME_OIL     0
+#define COST_TOWER_UPGRADE      1
+#define COST_TOWER_UPGRADE_2    2
 
 //colors for tower colors
 #define ARROW_COLOR     QColor(255,160,122)
@@ -211,4 +234,3 @@
 #define FLAK_COLOR      QColor(0,255,0)
 
 #endif
-

@@ -201,6 +201,15 @@ public:
     void sellTower(QPointF pos);
 
     /**
+     * Upgrades the tower at specified position.
+     *
+     * @author Marcel Vangrootheest
+     * @param pos The position of the tower to upgrade.
+     * @return True if upgrade is successful.
+     */
+    bool upgradeTower(QPointF pos);
+
+    /**
      * Makes a random vector for the collectable drop.
      *
      * @author Marcel Vangrootheest
