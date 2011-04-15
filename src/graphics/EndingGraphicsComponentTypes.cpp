@@ -70,4 +70,44 @@ void ArrowEndingGraphicsComponent::timerEvent(QTimerEvent*) {
            this->draw(dp, LAYER_FLYNPC);
 }
 
+// flying death
+
+QPixmap* FlyingEndingGraphicsComponent::pixmapImgs_ = NULL;
+
+void FlyingEndingGraphicsComponent::initPixmaps() {
+    if (pixmapImgs_) {
+        setNonStaticValues();
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_END_FLYING_MAX];
+        pixmapIndex_ = 0;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_FLYING_0;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_FLYING_1;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_FLYING_2;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_FLYING_3;
+        setNonStaticValues();
+    }
+
+}
+void FlyingEndingGraphicsComponent::setNonStaticValues() {
+    animateMod_ = PIX_END_FLYING_MAX;
+    arrayIndexMin_ = pixmapIndex_ = PIX_END_FLYING_START;
+    arrayIndexMax_ = PIX_END_FLYING_START + PIX_END_FLYING_MAX - 1;
+}
+
+void FlyingEndingGraphicsComponent::timerEvent(QTimerEvent*) {
+
+    killTimer(timerID_);
+    timerID_ = this->startTimer(1000);
+
+    if (currentIndex_++ > arrayIndexMax_ + 1) {
+       this->killTimer(timerID_);
+       this->deleteComponent();
+       return;
+    }
+    DrawParams* dp = new DrawParams();
+    dp->pos = this->pos_;
+    this->draw(dp, LAYER_DEFAULT);
+}
+
 }
