@@ -27,4 +27,24 @@ void EndingGraphicsComponent::animate() {
     }
 }
 
+void EndingGraphicsComponent::redraw(int timerLength, int layer) {
+    created_.acquire();
+
+    if (timerID_ != 0) {
+        killTimer(timerID_);
+    }
+    timerID_ = this->startTimer(timerLength);
+
+    if (currentIndex_++ > arrayIndexMax_ + 1) {
+       this->killTimer(timerID_);
+       this->deleteComponent();
+       return;
+    }
+    DrawParams* dp = new DrawParams();
+    dp->pos = this->pos_;
+    this->draw(dp, LAYER_DEFAULT);
+
+    created_.release();
+}
+
 }
