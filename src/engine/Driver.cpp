@@ -313,9 +313,9 @@ bool Driver::upgradeTower(QPointF pos) {
 }
 
 QVector2D Driver::getRandomVector() {
-    float d = ((qrand() % 1000) / 21.0) + 50;
-    float x = (qrand() % 1000) - 500;
-    float y = (qrand() % 1000) - 500;
+    float d = ((rand() % 1000) / 21.0) + 50;
+    float x = (rand() % 1000) - 500;
+    float y = (rand() % 1000) - 500;
 
     QVector2D v = QVector2D(x, y);
     v.normalize();
@@ -326,6 +326,7 @@ QVector2D Driver::getRandomVector() {
 void Driver::dropCollectables(QPointF pos,
         int wood, int stone, int bone, int oil, int gem) {
     int i = 0;
+    // TODO reduce the number of dropped items here
 
     for (i = 0; i < wood; i++) {
         requestCollectable(RESOURCE_WOOD, pos, getRandomVector());
