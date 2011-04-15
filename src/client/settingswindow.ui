@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>265</width>
+    <height>213</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>60</y>
+     <x>30</x>
+     <y>20</y>
      <width>203</width>
      <height>129</height>
     </rect>
@@ -91,8 +91,8 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>250</y>
+     <x>80</x>
+     <y>170</y>
      <width>98</width>
      <height>27</height>
     </rect>
