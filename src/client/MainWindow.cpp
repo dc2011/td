@@ -21,6 +21,7 @@ MainWindow::MainWindow() : QMainWindow() {
     statsRect_ = new QGraphicsRectItem();
 
     consoleOpen_ = false;
+    mapZoomOut_ = false;
 
     scene_->setItemIndexMethod(QGraphicsScene::NoIndex);
     keysHeld_ = 0;
@@ -189,7 +190,10 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         //AudioManager::instance()->toggleCapturePause();
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
-        view_->scale(.5,.5);
+        if(mapZoomOut_ == false) {
+	    view_->scale(.5,.5);
+	    mapZoomOut_ = !mapZoomOut_;
+	}
     } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
         /* Arrow Up key => UP */
         keysHeld_ |= KEYUP;
@@ -266,7 +270,10 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
         //AudioManager::instance()->toggleCapturePause();
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
-        view_->scale(2,2);
+        if(mapZoomOut_ == true) {
+	    view_->scale(2,2);
+	    mapZoomOut_ = !mapZoomOut_;
+	}
     } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
         /* Arrow Up key => UP */
         keysHeld_ ^= KEYUP;

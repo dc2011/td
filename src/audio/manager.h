@@ -362,41 +362,10 @@ public:
      * @author Terence Stenvold
      */
     void setVol(int vol, int *gain) {
-
-	if(vol<=100 && vol>95) {
-	    *gain=14;
-	} else if(vol<=95 && vol>90) {
-	    *gain=13;
-	} else if(vol<=90 && vol>85) {
-	    *gain=12;
-	} else if(vol<=85 && vol>80) {
-	    *gain=11;
-	} else if(vol<=80 && vol>75) {
-	    *gain=10;
-	} else if(vol<=75 && vol>70) {
-	    *gain=9;
-	} else if(vol<=70 && vol>65) {
-	    *gain=8;
-	} else if(vol<=65 && vol>60) {
-	    *gain=7;
-	} else if(vol<=60 && vol>55) {
-	    *gain=6;
-	} else if(vol<=55 && vol>50) {
-	    *gain=5;
-	} else if(vol<=50 && vol>40) {
-	    *gain=4;
-	} else if(vol<=40 && vol>30) {
-	    *gain=3;
-	} else if(vol<=30 && vol>20) {
-	    *gain=2;
-	} else if(vol<=20 && vol>10) {
-	    *gain=1;
-	} else if(vol<=10 && vol>0) {
-	    *gain=0;
+	if(vol<=100 && vol >= 0) {
+	    *gain = (int)(vol/5);
 	}
     }
-
-
 
     /**
      * Set the music volume
@@ -405,7 +374,7 @@ public:
      * @return volume scale of music
      */
     int getMusicVol() {
-	return (int)gainScale[musicGain_] * 100;
+	return (int)(gainScale[musicGain_] * 100);
     }
 
     /**
@@ -415,7 +384,7 @@ public:
      * @return volume scale of sfx
      */
     int getSfxVol() {
-	return (int)gainScale[sfxGain_] * 100;
+	return (int)(gainScale[sfxGain_] * 100);
     }
 
     /**
@@ -425,7 +394,7 @@ public:
      * @return volume scale of voice
      */
     int getVoiceVol() {
-	return (int)gainScale[voiceGain_] * 100;
+	return (int)(gainScale[voiceGain_] * 100);
     }
 
 
