@@ -28,32 +28,25 @@ void NPCPhysicsComponent::applyVelocity(NPC* npc)
     QMatrix matrix = QMatrix();
     matrix.rotate(-npc->getOrientation());
 
-    //prevent enemies from leaving the map
-    /*Map* gameMap = npc->getDriver()->getGameMap();
+    //prevent enemies from leaving the map. May not be necessary
+    Map* gameMap = npc->getDriver()->getGameMap();
     Tiled::Map* tMap = gameMap->getTMap();
     int mapHeight = tMap->height();
     int mapWidth = tMap->width();
-    int bufferWidth;
-    if(npc->getHeight() > npc->getWidth()){
-        bufferWidth = npc->getHeight();
-    }else{
-        bufferWidth = npc->getWidth();
-    }
-    bufferWidth += bufferWidth/3;
     QSize mapSize = tMap->maxTileSize();
 
-    if(newPos.x() < bufferWidth){
-        newPos.setX(bufferWidth);
+    if(newPos.x() < 20){
+        newPos.setX(20);
     }
-    if(newPos.x() > (mapWidth * mapSize.width() - bufferWidth)){
-        newPos.setX(mapWidth * mapSize.width() - bufferWidth);
+    if(newPos.x() > (mapWidth * mapSize.width() - 20)){
+        newPos.setX(mapWidth * mapSize.width() - 20);
     }
-    if(newPos.y() < bufferWidth){
-        newPos.setY(bufferWidth);
+    if(newPos.y() < 20){
+        newPos.setY(20);
     }
-    if(newPos.y() > (mapHeight * mapSize.height() - bufferWidth)){
-        newPos.setY(mapHeight * mapSize.height() - bufferWidth);
-    }*/
+    if(newPos.y() > (mapHeight * mapSize.height() - 20)){
+        newPos.setY(mapHeight * mapSize.height() - 20);
+    }
     // Determine if the NPC needs to update its tile position.
     npc->changeTile(newPos);
     npc->setPos(newPos);
