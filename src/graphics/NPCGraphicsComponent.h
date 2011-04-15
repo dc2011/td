@@ -15,6 +15,18 @@ namespace td {
 
 class NPCGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
+struct DrawParamsNPC {
+    /** location */
+    QPointF pos;
+    /** in degrees 0 is up 180 down... */
+    int degrees;
+    /** normal is 1 .5 is half 2 is double */
+    float scale;
+    /** the current state of the keypres */
+    bool keyHeld;
+    /** the current health of the NPC */
+    double health;
+};
 
 public:
     /**
@@ -45,7 +57,7 @@ public:
      * to render an image.
      * @param layer is what layer to draw image defaults to 0
      */
-    virtual void draw(DrawParams* dp, int layer=0);
+    virtual void draw(void* dp, int layer=0);
 
     /**
      * Gets a pixmap for the object based on its current animation state.
@@ -69,7 +81,7 @@ private:
     QGraphicsRectItem* healthbarItem_;
     
     /** Percentage of health in decimal form (0 to 1).  */
-    double npcHealth;
+    double npcHealth_;
 
     /** How many ticks to continue displaying the health bar for, as a result of
      *  the NPC taking damage. */
@@ -90,7 +102,7 @@ private:
      */
     virtual void setNonStaticValues() = 0;
     
-    virtual void setLayer(DrawParams* dp) = 0;
+    virtual void setLayer(void* dp) = 0;
 
 protected:
 

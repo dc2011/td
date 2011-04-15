@@ -24,6 +24,8 @@ SDriver::SDriver() : Driver() {
     net_ = new NetworkServer();
     npcCounter_ = 0;
 
+    gameMap_->initMap();
+
     connect(net_, SIGNAL(msgReceived(Stream*)), 
             this, SLOT(onMsgReceive(Stream*)));
 
@@ -102,8 +104,6 @@ void SDriver::startGame(bool multicast) {
     }
 
     net_->send(network::kServerPlayers, s.data());
-
-    gameMap_->initMap();
 
     Parser* fileParser = new Parser(this, MAP_NFO);
     NPCWave* tempWave;

@@ -11,6 +11,28 @@
 
 namespace td {
 
+struct DrawParamsBuildTower {
+    /** location */
+    QPointF pos;
+    /** in degrees 0 is up 180 down... */
+    int degrees;
+    /** normal is 1 .5 is half 2 is double */
+    float scale;
+    /** movement for animation projectiles get bigger/smaller during arc */
+    bool moving;
+    /** index of pixmap image to use */
+    int pixmapIdx;
+    /** current number of wood to display */
+    int wood;
+    /** current number of stone to display */
+    int stone;
+    /** current number of bone to display */
+    int bone;
+    /** current number of oil to display */
+    int oil;
+    /** current building tower stage to display */
+};
+
 class BuildingTowerGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
@@ -38,13 +60,6 @@ public:
     void initPixmaps();
 
     /**
-     * @param resourceType the definded value of the current resource being set
-     * @param num the new value for the resources required
-     * @author Warren Voelkl
-     */
-    void setBuildingResources(int resourceType, int num);
-
-    /**
      * Sets the currently dispalyed graphics item for the current stage
      * @param i the current building stage
      * @author Warren Voelkl
@@ -54,7 +69,7 @@ public:
      * Draw functions that displays icons on top of tower when r is pressed
      * @author Warren Voelkl
      */
-    virtual void draw(DrawParams* dp, int layer=0);
+    virtual void draw(void* dp, int layer=0);
 
 public slots:
     /**
@@ -69,14 +84,6 @@ private:
     /** arragy of pix map items for the required resources **/
     QGraphicsPixmapItem *
         resourcePixmapItemArray_[RESOURCE_TYPE_MAX][ICON_MAX];
-    /** Number of wood icons to display on tile */
-    int woodReq_;
-    /** Number of bone icons to display on tile */
-    int boneReq_;
-    /** Number of stone icons to display on tile */
-    int stoneReq_;
-    /** Number of tar icons to display on tile */
-    int tarReq_;
     /** True if the key to show all NPCs' health bars is being held. */
     static bool keyHeld_;
     /** The current building stage of the graphics component */
