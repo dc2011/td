@@ -39,7 +39,7 @@ void EndingGraphicsComponent::redraw(int timerLength, int layer) {
     }
     DrawParams* dp = new DrawParams();
     dp->pos = this->pos_;
-    this->draw(dp, LAYER_DEFAULT);
+    this->draw(dp, layer);
 
     created_.release();
 }
