@@ -31,6 +31,9 @@ SDriver::SDriver() : Driver() {
 
     connect(net_, SIGNAL(disconnected()),
             this, SIGNAL(disconnecting()));
+
+    connect(net_, SIGNAL(socketDisconnect(QTcpSocket*)),
+            this, SIGNAL(playerQuit(QTcpSocket*)));
 }
 SDriver::~SDriver() {
     if(!waves_.empty()) {
@@ -48,7 +51,7 @@ unsigned int SDriver::addPlayer(QTcpSocket* sock, QString nickname) {
 
     Player* p = (Player*)mgr_->createObject(Player::clsIdx());
     p->setNickname(nickname);
-    players_.append(p);
+    players_.insert(sock, p);
     mutex_.unlock();
 
     return p->getID();
@@ -97,7 +100,7 @@ void SDriver::startGame(bool multicast) {
     Stream s;
     s.writeByte(players_.size());
 
-    foreach (Player* user, players_) {
+    foreach (Player* user, players_.values()) {
         user->networkWrite(&s);
         user->resetDirty();
     }
@@ -372,6 +375,14 @@ void SDriver::onMsgReceive(Stream* s) {
     }
 
     delete out;
+}
+
+void SDriver::playerQuit(QTcpSocket* sock) {
+    Player* p = players_.value(sock);
+
+    destroyObject(p);
+
+    players_.remove(sock);
 }
 
 } /* end namespace td */

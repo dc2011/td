@@ -22,7 +22,7 @@ class SDriver : public Driver {
 
 private:
     NetworkServer* net_;
-    QList<Player*> players_;
+    QMap<QTcpSocket*, Player*> players_;
     QSet<GameObject*> updates_;
     QList<NPCWave*> waves_;
     QTimer* waveTimer_;
@@ -224,6 +224,14 @@ public slots:
      * @param vel The velocity of the dropper.
      */
     void requestCollectable(int collType, QPointF source, QVector2D vel);
+
+    /**
+     * Let other players know when a player has quit.
+     *
+     * @author Darryl Pogue
+     * @param sock The socket of the player.
+     */
+    void playerQuit(QTcpSocket* sock);
 };
 
 } /* end namespace td */
