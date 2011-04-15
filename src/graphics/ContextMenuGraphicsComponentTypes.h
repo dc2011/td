@@ -46,7 +46,14 @@ private:
      * container for all pixmaps which pertain to the current object
      **/
     static QPixmap * pixmapImgs_;
+
+    /** array of of circles to draw around a context menu **/
     QGraphicsEllipseItem* circleRanges_[TOWER_TYPE_MAX];
+
+    /**
+     * Creates the values for the arrays of images
+     * @author Warren Voelkl
+     */
     void initTowerRanges();
 };
 
