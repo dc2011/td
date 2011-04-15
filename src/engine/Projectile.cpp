@@ -29,15 +29,25 @@ Projectile::~Projectile() {
 #ifndef SERVER
     switch (type_) {
     case PROJ_ARROW:
+    case PROJ_ARROW_2:
+    case PROJ_ARROW_3:
         break;
     case PROJ_CANNON:
+    case PROJ_CANNON_2:
+    case PROJ_CANNON_3:
         new CannonEndingGraphicsComponent(pos_);
         break;
     case PROJ_FIRE:
+    case PROJ_FIRE_2:
+    case PROJ_FIRE_3:
         break;
     case PROJ_FLAK:
+    case PROJ_FLAK_2:
+    case PROJ_FLAK_3:
         break;
     case PROJ_TAR:
+    case PROJ_TAR_2:
+    case PROJ_TAR_3:
         break;
     }
 #endif
@@ -48,6 +58,8 @@ Projectile::~Projectile() {
 void Projectile::initComponents() {
     switch(type_) {
         case PROJ_ARROW:
+        case PROJ_ARROW_2:
+        case PROJ_ARROW_3:
             PLAY_SFX(this, SfxManager::projectileFireArrow);
             setInputComponent(new ArrowProjectileInputComponent());
             setPhysicsComponent(new ArrowProjectilePhysicsComponent());
@@ -57,6 +69,8 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_CANNON:
+        case PROJ_CANNON_2:
+        case PROJ_CANNON_3:
             PLAY_SFX(this, SfxManager::projectileFireCannon);
             setInputComponent(new CannonProjectileInputComponent());
             setPhysicsComponent(new CannonProjectilePhysicsComponent());
@@ -66,6 +80,8 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_FIRE:
+        case PROJ_FIRE_2:
+        case PROJ_FIRE_3:
             PLAY_SFX(this, SfxManager::projectileFireFlame);
             setInputComponent(new FireProjectileInputComponent());
             setPhysicsComponent(new FireProjectilePhysicsComponent());
@@ -75,6 +91,8 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_TAR:
+        case PROJ_TAR_2:
+        case PROJ_TAR_3:
             PLAY_SFX(this, SfxManager::projectileFireTar);
             setInputComponent(new TarProjectileInputComponent());
             setPhysicsComponent(new TarProjectilePhysicsComponent());
@@ -84,6 +102,8 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_FLAK:
+        case PROJ_FLAK_2:
+        case PROJ_FLAK_3:
             PLAY_SFX(this, SfxManager::projectileFireFlak);
             setInputComponent(new FlakProjectileInputComponent());
             setPhysicsComponent(new FlakProjectilePhysicsComponent());
