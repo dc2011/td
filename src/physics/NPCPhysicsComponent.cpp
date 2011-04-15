@@ -3,6 +3,8 @@
 #define PI 3.141592653589793238
 #include <math.h>
 #include "../engine/Unit.h"
+#include "../engine/Map.h"
+#include "../engine/CDriver.h"
 
 namespace td {
 
@@ -25,6 +27,26 @@ void NPCPhysicsComponent::applyVelocity(NPC* npc)
     QVector<QPointF> points;
     QMatrix matrix = QMatrix();
     matrix.rotate(-npc->getOrientation());
+
+    //prevent enemies from leaving the map. May not be necessary
+    Map* gameMap = npc->getDriver()->getGameMap();
+    Tiled::Map* tMap = gameMap->getTMap();
+    int mapHeight = tMap->height();
+    int mapWidth = tMap->width();
+    QSize mapSize = tMap->maxTileSize();
+
+    if(newPos.x() < 20){
+        newPos.setX(20);
+    }
+    if(newPos.x() > (mapWidth * mapSize.width() - 20)){
+        newPos.setX(mapWidth * mapSize.width() - 20);
+    }
+    if(newPos.y() < 20){
+        newPos.setY(20);
+    }
+    if(newPos.y() > (mapHeight * mapSize.height() - 20)){
+        newPos.setY(mapHeight * mapSize.height() - 20);
+    }
     // Determine if the NPC needs to update its tile position.
     npc->changeTile(newPos);
     npc->setPos(newPos);

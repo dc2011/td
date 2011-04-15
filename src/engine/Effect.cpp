@@ -1,12 +1,15 @@
 #include "Effect.h"
 #include "Driver.h"
-
+#include "Player.h"
 namespace td {
 
 Effect::Effect(Unit* unit, uint type, int duration, bool timerEnabled):
         GameObject(NULL), unit_(unit), duration_(duration),
-        type_(type), timerEnabled_(timerEnabled), applyEnabled_(true),
-        timer_(unit->getDriver()->getTimer()) {}
+        type_(type), timerEnabled_(timerEnabled) {
+
+    connect(this, SIGNAL(effectFinished(Effect*)),
+                     unit_, SLOT(deleteEffect(Effect*)));
+}
 
 Effect::Effect(const Effect& e) : GameObject() {
     type_ = e.type_;
@@ -15,7 +18,8 @@ Effect::Effect(const Effect& e) : GameObject() {
     velocityChangeValue_ = e.velocityChangeValue_;
     healthChangeValue_ = e.healthChangeValue_;
     timerEnabled_ = e.timerEnabled_;
-    timer_ = e.timer_;
+    connect(this, SIGNAL(effectFinished(Effect*)),
+                     unit_, SLOT(deleteEffect(Effect*)));
 }
 
 Effect& Effect::operator=(const Effect &rhs) {
@@ -26,6 +30,8 @@ Effect& Effect::operator=(const Effect &rhs) {
         velocityChangeValue_ = rhs.velocityChangeValue_;
         healthChangeValue_ = rhs.healthChangeValue_;
         timerEnabled_ = rhs.timerEnabled_;
+        connect(this, SIGNAL(effectFinished(Effect*)),
+                         unit_, SLOT(deleteEffect(Effect*)));
     }
     return *this;
 }
@@ -38,20 +44,15 @@ bool Effect::operator!=(const Effect &e) const {
     return (type_ != e.type_);
 }
 
-Effect::~Effect(){}
-
-void Effect::update(){
-    if (applyEnabled_) {
-        this->apply();
-    }
-    if(timerEnabled_ == true) {
-        countdown();
-    }
+Effect::~Effect(){
+    disconnect(this, SIGNAL(effectFinished(Effect*)),
+                     unit_, SLOT(deleteEffect(Effect*)));
 }
 
-void Effect::effectStop(uint type) {
-    if (type_ == type) {
-        applyEnabled_ = false; 
+void Effect::update(){
+    apply();
+    if(timerEnabled_ == true) {
+        countdown();
     }
 }
 
@@ -60,7 +61,6 @@ void Effect::apply() {}
 void Effect::countdown() {
     duration_--;
     if(duration_ <= 0){
-        disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
         emit effectFinished(this);
     }
 }

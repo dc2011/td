@@ -177,6 +177,12 @@ public slots:
      * @author Dean Morin
      */
     void dropResource(bool addToTower);
+    /**
+     * picks up a collectable from the ground when a player collides with it.
+     *
+     * @author Duncan Donaldson
+     */
+    void pickupCollectable(double x, double y, Unit* u);
 
 private:
     QMap<int, Effect*> effects_;
