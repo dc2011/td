@@ -63,6 +63,12 @@ void NPCGraphicsComponent::draw(void* dp, int layer) {
         healthbarItem_->update();
     }
 
+    if(CDriver::instance()->getMainWindow()->getMapState()) {
+	QPixmap qTemp(10,10);
+	qTemp.fill(Qt::red);
+	getPixmapItem()->setPixmap(qTemp);
+    }
+
     GraphicsComponent::draw(dp, layer);
 }
 
@@ -86,11 +92,12 @@ QPixmap * NPCGraphicsComponent::getPixmapArray() {
 }
 
 void NPCGraphicsComponent::animate() {
-    if (!(animateCount_++ % animateMod_)) {
+    if(CDriver::instance()->getMainWindow()->getMapState()) {
+	return;
+    } else if (!(animateCount_++ % animateMod_)) {
         ++pixmapIndex_ > arrayIndexMax_ ? pixmapIndex_ = arrayIndexMin_
             : pixmapIndex_;
         setImgIndex(pixmapIndex_);
-
     }
 }
 
