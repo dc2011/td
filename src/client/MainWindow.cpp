@@ -17,10 +17,10 @@ namespace td {
 MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
-    stats_ = new QGraphicsTextItem();
-    statsRect_ = new QGraphicsRectItem();
+    stats_ = new QFrame();
 
     consoleOpen_ = false;
+    mapZoomOut_ = false;
 
     scene_->setItemIndexMethod(QGraphicsScene::NoIndex);
     keysHeld_ = 0;
@@ -33,28 +33,22 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
 
+    stats_->setFixedHeight(22);
+
     //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
     mapDisplayer_->viewMap(MAP_TMX);
     Tiled::MapRenderer* mRenderer = mapDisplayer_->getMRenderer();
     QSize mapSize = mRenderer->mapSize();
 
-    //Status bar
-    statsRect_->setRect(500,0,500,30);
-    statsRect_->setBrush(QBrush(QColor(0,0,0)));
-    statsRect_->setPen(QPen(QColor(0,0,0)));
-    statsRect_->setZValue(98);
-    statsRect_->setOpacity(0.8);
+    QWidget* centre = new QWidget(this);
+    QVBoxLayout* bl = new QVBoxLayout(centre);
+    bl->addWidget(stats_);
+    bl->addWidget(view_);
+    bl->setMargin(0);
+    bl->setSpacing(0);
 
-    stats_->setDefaultTextColor(QColor(200,200,0));
-    stats_->setPos(505,0);
-    stats_->setZValue(99);
-    stats_->setPlainText("|i|Base Health: 100% |i| Gems: 10 |i| NPC WAVE 0:10s");
-    stats_->update();
-
-    scene_->addItem(statsRect_);
-    scene_->addItem(stats_);
-    this->setCentralWidget(view_);
+    this->setCentralWidget(centre);
     scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
     //view_->setFixedSize(mapSize.width(), mapSize.height());
     //this->showFullScreen();
@@ -189,7 +183,12 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         //AudioManager::instance()->toggleCapturePause();
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
-        view_->scale(.5,.5);
+        if(mapZoomOut_ == false && 
+	   view_->sceneRect().toRect().contains(view_->frameRect(),false)) {
+
+	    view_->scale(.5,.5);
+	    mapZoomOut_ = !mapZoomOut_;
+	}
     } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
         /* Arrow Up key => UP */
         keysHeld_ |= KEYUP;
@@ -266,7 +265,12 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
         //AudioManager::instance()->toggleCapturePause();
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
-        view_->scale(2,2);
+        if(mapZoomOut_ == true && 
+	   view_->sceneRect().toRect().contains(view_->frameRect(),false)) {
+	   
+	    view_->scale(2,2);
+	    mapZoomOut_ = !mapZoomOut_;
+	}
     } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
         /* Arrow Up key => UP */
         keysHeld_ ^= KEYUP;
