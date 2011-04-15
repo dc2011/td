@@ -94,7 +94,7 @@ public:
      * to render an image.
      * @param layer is what layer to draw image defaults to 0
      */
-    virtual void draw(DrawParams* dp, int layer=0);
+    virtual void draw(void * dp, int layer=0);
 
     /**
      * Called from main. instantiates the QGRaphicsPixmapItem
@@ -139,7 +139,7 @@ public:
     
 signals:
     void created(GraphicsComponent* gc);
-    void signalDraw(DrawParams* dp, GraphicsComponent* gc, int layer);
+    void signalDraw(void *, GraphicsComponent* gc, int layer);
 
     /**
      * Lets the graphics thread know that this object should be deleted.
@@ -149,10 +149,6 @@ signals:
      * @param gc The graphics component to be deleted
      */
     void removeGraphicsItem(GraphicsComponent* gc);
-public:
-    virtual void setCurrentResource(int resourceType); //empty fns
-    virtual void setBuildingResources(int resourceType, int num);
-    virtual void setBuildingStage(int i);
 };
 
 } /* end namespace td */

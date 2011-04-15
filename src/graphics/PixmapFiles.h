@@ -10,7 +10,7 @@
  */
 
 #define PIX_BUILD_MENU_MAIN     QString("./img/buildmenu.png")
-#define PIX_BUILD_MENU_RES      QString("./img/buildResources.png");
+#define PIX_BUILD_MENU_RES      QString("./img/buildResources.png")
 #define PIX_BUILD_MENU_T1       QString("./img/menuArrow.png")
 #define PIX_BUILD_MENU_T2       QString("./img/menuCannon.png")
 #define PIX_BUILD_MENU_T3       QString("./img/menuFlame.png")
@@ -135,10 +135,17 @@
 
 //ending animations for NPCs
 #define PIX_END_FLYING_START    0
-#define PIX_END_FLYING_0        QString("./img/death1.png")
-#define PIX_END_FLYING_1        QString("./img/death2.png")
-#define PIX_END_FLYING_2        QString("./img/death3.png")
-#define PIX_END_FLYING_MAX      3
+#define PIX_END_FLYING_0        QString("./img/ptero-death-1.png")
+#define PIX_END_FLYING_1        QString("./img/ptero-death-2.png")
+#define PIX_END_FLYING_2        QString("./img/ptero-death-3.png")
+#define PIX_END_FLYING_3        QString("./img/ptero-death-4.png")
+#define PIX_END_FLYING_MAX      4
+
+#define PIX_END_GENERIC_START    0
+#define PIX_END_GENERIC_0        QString("./img/death1.png")
+#define PIX_END_GENERIC_1        QString("./img/death2.png")
+#define PIX_END_GENERIC_2        QString("./img/death3.png")
+#define PIX_END_GENERIC_MAX      3
 
 #endif
 
