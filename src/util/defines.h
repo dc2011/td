@@ -219,5 +219,8 @@
 #define COST_FLAME_BONE    1
 #define COST_FLAME_OIL     1
 
+#define COST_TOWER_UPGRADE      1
+#define COST_TOWER_UPGRADE_2    2
+
 #endif
 

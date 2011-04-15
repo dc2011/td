@@ -202,25 +202,113 @@ void Driver::sellTower(QPointF pos) {
         dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
                 COST_ARROW_BONE, COST_ARROW_OIL, 0);
         break;
+    case TOWER_ARROW_2:
+        dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
+                COST_ARROW_BONE, COST_ARROW_OIL, COST_TOWER_UPGRADE);
+        break;
+    case TOWER_ARROW_3:
+        dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
+                COST_ARROW_BONE, COST_ARROW_OIL, COST_TOWER_UPGRADE_2);
+        break;
     case TOWER_CANNON:
         dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
                 COST_CANNON_BONE, COST_CANNON_OIL, 0);
+        break;
+    case TOWER_CANNON_2:
+        dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
+                COST_CANNON_BONE, COST_CANNON_OIL, COST_TOWER_UPGRADE);
+        break;
+    case TOWER_CANNON_3:
+        dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
+                COST_CANNON_BONE, COST_CANNON_OIL, COST_TOWER_UPGRADE_2);
         break;
     case TOWER_FLAME:
         dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
                 COST_FLAME_BONE, COST_FLAME_OIL, 0);
         break;
+    case TOWER_FLAME_2:
+        dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
+                COST_FLAME_BONE, COST_FLAME_OIL, COST_TOWER_UPGRADE);
+        break;
+    case TOWER_FLAME_3:
+        dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
+                COST_FLAME_BONE, COST_FLAME_OIL, COST_TOWER_UPGRADE_2);
+        break;
     case TOWER_TAR:
         dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
                 COST_TAR_BONE, COST_TAR_OIL, 0);
+        break;
+    case TOWER_TAR_2:
+        dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
+                COST_TAR_BONE, COST_TAR_OIL, COST_TOWER_UPGRADE);
+        break;
+    case TOWER_TAR_3:
+        dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
+                COST_TAR_BONE, COST_TAR_OIL, COST_TOWER_UPGRADE_2);
         break;
     case TOWER_FLAK:
         dropCollectables(pos, COST_FLAK_WOOD, COST_FLAK_STONE,
                 COST_FLAK_BONE, COST_FLAK_OIL, 0);
         break;
+    case TOWER_FLAK_2:
+        dropCollectables(pos, COST_FLAK_WOOD, COST_FLAK_STONE,
+                COST_FLAK_BONE, COST_FLAK_OIL, COST_TOWER_UPGRADE);
+        break;
+    case TOWER_FLAK_3:
+        dropCollectables(pos, COST_FLAK_WOOD, COST_FLAK_STONE,
+                COST_FLAK_BONE, COST_FLAK_OIL, COST_TOWER_UPGRADE_2);
+        break;
     }
     destroyObject(currentTile->getExtension());
     currentTile->setActionType(TILE_BUILDABLE);
+}
+
+void Driver::upgradeTower(QPointF pos) {
+    Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
+    Tower* t = (Tower*)currentTile->getExtension();
+
+    switch (t->getType()) {
+    case TOWER_ARROW:
+        t->setType(TOWER_ARROW_2);
+        t->setComponents();
+        break;
+    case TOWER_ARROW_2:
+        t->setType(TOWER_ARROW_3);
+        t->setComponents();
+        break;
+    case TOWER_CANNON:
+        t->setType(TOWER_CANNON_2);
+        t->setComponents();
+        break;
+    case TOWER_CANNON_2:
+        t->setType(TOWER_CANNON_3);
+        t->setComponents();
+        break;
+    case TOWER_FLAME:
+        t->setType(TOWER_FLAME_2);
+        t->setComponents();
+        break;
+    case TOWER_FLAME_2:
+        t->setType(TOWER_FLAME_3);
+        t->setComponents();
+        break;
+    case TOWER_FLAK:
+        t->setType(TOWER_FLAK_2);
+        t->setComponents();
+        break;
+    case TOWER_FLAK_2:
+        t->setType(TOWER_FLAK_3);
+        t->setComponents();
+        break;
+    case TOWER_TAR:
+        t->setType(TOWER_TAR_2);
+        t->setComponents();
+        break;
+    case TOWER_TAR_2:
+        t->setType(TOWER_TAR_3);
+        t->setComponents();
+        break;
+    }
 }
 
 QVector2D Driver::getRandomVector() {

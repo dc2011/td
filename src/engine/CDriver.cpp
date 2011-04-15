@@ -176,8 +176,8 @@ void CDriver::makeLocalPlayer(Player* player) {
             towerContextMenu_, SLOT(viewResources(bool)));
     connect(towerContextMenu_, SIGNAL(signalSellTower(QPointF)),
             this, SLOT(requestSellTower(QPointF)));
-    //connect(towerContextMenu_, SIGNAL(signalUpgradeTower(QPointF)),
-    //TODO macca add upgrade tower here        this, SLOT(***(QPointF)));
+    connect(towerContextMenu_, SIGNAL(signalUpgradeTower(QPointF)),
+            this, SLOT(requestUpgradeTower(QPointF)));
     connect(towerContextMenu_, SIGNAL(signalPlayerMovement(bool)),
 	        input, SLOT(playerMovement(bool)));
     
@@ -254,6 +254,15 @@ void CDriver::requestSellTower(QPointF pos) {
         NetworkClient::instance()->send(network::kSellTower, s.data());
     }
 }
+
+void CDriver::requestUpgradeTower(QPointF pos) {
+    if (isSinglePlayer()) {
+        Driver::upgradeTower(pos);
+    } else {
+        //send message to server
+    }
+}
+
 void CDriver::NPCCreator() {
     timeCount_++;
     if(!waves_.empty()) {
