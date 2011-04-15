@@ -3,6 +3,8 @@
 #define PI 3.141592653589793238
 #include <math.h>
 #include "../engine/Unit.h"
+#include "../engine/Map.h"
+#include "../engine/CDriver.h"
 
 namespace td {
 
@@ -25,6 +27,33 @@ void NPCPhysicsComponent::applyVelocity(NPC* npc)
     QVector<QPointF> points;
     QMatrix matrix = QMatrix();
     matrix.rotate(-npc->getOrientation());
+
+    //prevent enemies from leaving the map
+    /*Map* gameMap = npc->getDriver()->getGameMap();
+    Tiled::Map* tMap = gameMap->getTMap();
+    int mapHeight = tMap->height();
+    int mapWidth = tMap->width();
+    int bufferWidth;
+    if(npc->getHeight() > npc->getWidth()){
+        bufferWidth = npc->getHeight();
+    }else{
+        bufferWidth = npc->getWidth();
+    }
+    bufferWidth += bufferWidth/3;
+    QSize mapSize = tMap->maxTileSize();
+
+    if(newPos.x() < bufferWidth){
+        newPos.setX(bufferWidth);
+    }
+    if(newPos.x() > (mapWidth * mapSize.width() - bufferWidth)){
+        newPos.setX(mapWidth * mapSize.width() - bufferWidth);
+    }
+    if(newPos.y() < bufferWidth){
+        newPos.setY(bufferWidth);
+    }
+    if(newPos.y() > (mapHeight * mapSize.height() - bufferWidth)){
+        newPos.setY(mapHeight * mapSize.height() - bufferWidth);
+    }*/
     // Determine if the NPC needs to update its tile position.
     npc->changeTile(newPos);
     npc->setPos(newPos);

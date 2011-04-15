@@ -7,6 +7,7 @@
 namespace td {
 
 class NPC;
+class CDriver;
 
 class NPCPhysicsComponent : public PhysicsComponent {
 public:
