@@ -54,7 +54,7 @@ void ArrowEndingGraphicsComponent::setNonStaticValues() {
 }
 
 void ArrowEndingGraphicsComponent::timerEvent(QTimerEvent*) {
-    redraw(65, LAYER_FLYNPC);
+    redraw(65, LAYER_DEFAULT);
 }
 
 // flying death
@@ -71,6 +71,7 @@ void FlyingEndingGraphicsComponent::initPixmaps() {
         pixmapImgs_[pixmapIndex_++] = PIX_END_FLYING_0;
         pixmapImgs_[pixmapIndex_++] = PIX_END_FLYING_1;
         pixmapImgs_[pixmapIndex_++] = PIX_END_FLYING_2;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_FLYING_3;
         setNonStaticValues();
     }
 
@@ -83,6 +84,35 @@ void FlyingEndingGraphicsComponent::setNonStaticValues() {
 }
 
 void FlyingEndingGraphicsComponent::timerEvent(QTimerEvent*) {
+    redraw(1000, LAYER_DEFAULT);
+}
+
+// generic NPC death
+
+QPixmap* GenericNPCEndingGraphicsComponent::pixmapImgs_ = NULL;
+
+void GenericNPCEndingGraphicsComponent::initPixmaps() {
+    if (pixmapImgs_) {
+        setNonStaticValues();
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_END_GENERIC_MAX];
+        pixmapIndex_ = 0;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_GENERIC_0;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_GENERIC_1;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_GENERIC_2;
+        setNonStaticValues();
+    }
+
+}
+void GenericNPCEndingGraphicsComponent::setNonStaticValues() {
+    animateMod_ = PIX_END_GENERIC_MAX;
+    arrayIndexMin_ = pixmapIndex_ = PIX_END_GENERIC_START;
+    arrayIndexMax_ = PIX_END_GENERIC_START + PIX_END_GENERIC_MAX - 1;
+    created_.release();
+}
+
+void GenericNPCEndingGraphicsComponent::timerEvent(QTimerEvent*) {
     redraw(1000, LAYER_DEFAULT);
 }
 

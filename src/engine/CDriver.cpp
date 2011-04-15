@@ -344,7 +344,6 @@ void CDriver::startGame(bool singlePlayer) {
         NPCWave* tempWave;
         setBaseHealth(fileParser->baseHP);
         while((tempWave = fileParser->readWave())!=NULL) {
-
             waves_.append(tempWave);
         }
 
