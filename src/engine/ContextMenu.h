@@ -28,6 +28,17 @@ public:
     ContextMenu(Player* player);
     virtual ~ContextMenu();
 
+    /**
+     * Gets the state of the various upgrades that can be selected through this
+     * menu.
+     *
+     * @author Dean Morin
+     * @return The state of all upgrades related to this menu.
+     */
+    int getUpgradeLevels() const {
+        return upgradeLevels_;
+    }
+
 protected:
     /** Is responsible for rendering this object. */
     ContextMenuGraphicsComponent* graphics_;
@@ -37,6 +48,9 @@ protected:
 
     /** True if a context menu is currently open. */
     bool menuIsOpen_;
+
+    /** The state of all upgrades that this menu can represent. */ 
+    int upgradeLevels_;
 
 public slots:
     /**

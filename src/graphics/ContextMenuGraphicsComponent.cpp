@@ -5,19 +5,18 @@
 
 namespace td {
 
-ContextMenuGraphicsComponent::ContextMenuGraphicsComponent()
-        : GraphicsComponent() {
+ContextMenuGraphicsComponent::ContextMenuGraphicsComponent(ContextMenu* menu)
+        : GraphicsComponent(), menu_(menu) {
     connect(&closeTimer_, SIGNAL(timeout()), this, SLOT(hideSelectMenu()));
 }
 
-void ContextMenuGraphicsComponent::update(GameObject *) {
+void ContextMenuGraphicsComponent::update(GameObject*) {
     DrawParamsMenuGraphics* dp = new DrawParamsMenuGraphics();
 
     dp->scale = scaleFactor_;
     dp->degrees = 0;
     dp->pos = menuPos_;
-    dp->pixmapIdx = nextImage_;
-    //DrawParams() :pos(0,0), degrees(90), scale(1), moving(0), health(-1) {}
+    dp->pixmapIdx = getCurrentImage();
 
     emit signalDraw(dp,this, LAYER_MENU);
 }
@@ -35,7 +34,7 @@ void ContextMenuGraphicsComponent::showMenu(QPointF playerPos) {
     menuPos_.setY(tempMenuPos.y());
 
     scaleFactor_ = 0;
-    nextImage_ = 0;
+    nextImage_ = MENU_BASE;
     
     closeTimer_.stop();
     animate_ = true;
@@ -81,14 +80,18 @@ void ContextMenuGraphicsComponent::hideSelectMenu() {
 
 void ContextMenuGraphicsComponent::showResources(bool show) {
     if (show) {
-        nextImage_ = 1;
+        nextImage_ = MENU_TOWER_RESOURCES;
     } else {
-        nextImage_ = 0;
+        nextImage_ = MENU_BASE;
     }
 
     scaleFactor_ = 1;
 
     update(NULL);
+}
+    
+int ContextMenuGraphicsComponent::getCurrentImage() {
+    return nextImage_;
 }
 
 } /* end namespace td */

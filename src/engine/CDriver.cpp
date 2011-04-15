@@ -27,7 +27,8 @@ CDriver* CDriver::instance_ = NULL;
 
 CDriver::CDriver(MainWindow* mainWindow)
         : Driver(), playerID_(0xFFFFFFFF), human_(NULL),
-        mainWindow_(mainWindow), buildContextMenu_(NULL)
+          mainWindow_(mainWindow), buildContextMenu_(NULL),
+          towerContextMenu_(NULL), playerContextMenu_(NULL)
 {
     mgr_ = new ResManager(this);
     npcCounter_ = 0;

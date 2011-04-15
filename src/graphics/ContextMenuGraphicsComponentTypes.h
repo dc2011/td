@@ -8,7 +8,7 @@ namespace td {
 class BuildContextMenuGraphicsComponent : public ContextMenuGraphicsComponent {
     
 public:
-    BuildContextMenuGraphicsComponent();
+    BuildContextMenuGraphicsComponent(ContextMenu* menu);
 
     /**
      * Initializes all of the images for this object.
@@ -38,6 +38,16 @@ protected:
      */
     virtual QPixmap* getPixmapArray();
 
+    /**
+     * Gets the menu image index appropriate for the levels of the upgrades. 
+     * (eg. there will be a different image when a tower has been upgraded to 
+     * level 3, as opposed to when no upgrades have taken place.
+     *
+     * @author Dean Morin
+     * @return The current base menu image index.
+     */
+    virtual int getCurrentImage();
+
 private:
     /**
      * container for all pixmaps which pertain to the current object
@@ -48,7 +58,7 @@ private:
 class TowerContextMenuGraphicsComponent : public ContextMenuGraphicsComponent {
     
 public:
-    TowerContextMenuGraphicsComponent();
+    TowerContextMenuGraphicsComponent(ContextMenu* menu);
 
     /**
      * Initializes all of the images for this object.
@@ -68,6 +78,16 @@ public:
      * reference as to where the context menu will be painted.
      */
     virtual void showSelectMenu(int type, QPointF playerPos);
+
+    /**
+     * Gets the menu image index appropriate for the levels of the upgrades. 
+     * (eg. there will be a different image when a tower has been upgraded to 
+     * level 3, as opposed to when no upgrades have taken place.
+     *
+     * @author Dean Morin
+     * @return The current base menu image index.
+     */
+    virtual int getCurrentImage();
 
 protected:
     /**
@@ -88,7 +108,7 @@ private:
 class PlayerContextMenuGraphicsComponent : public ContextMenuGraphicsComponent {
     
 public:
-    PlayerContextMenuGraphicsComponent();
+    PlayerContextMenuGraphicsComponent(ContextMenu* menu);
 
     /**
      * Initializes all of the images for this object.
@@ -117,6 +137,16 @@ protected:
      * @author Warren Voelkl
      */
     virtual QPixmap* getPixmapArray();
+
+    /**
+     * Gets the menu image index appropriate for the levels of the upgrades. 
+     * (eg. there will be a different image when a tower has been upgraded to 
+     * level 3, as opposed to when no upgrades have taken place.
+     *
+     * @author Dean Morin
+     * @return The current base menu image index.
+     */
+    virtual int getCurrentImage();
 
 private:
     /**

@@ -18,18 +18,28 @@
 #define PIX_BUILD_MENU_T5       QString("./img/menuFlak.png")
 #define PIX_BUILD_MENU_MAX      7
 #define PIX_TOWER_MENU_MAIN     QString("./img/towerUpgradeMenu.png")
-//temp
-#define PIX_TOWER_MENU_RES      QString("./img/buildResources.png")
+#define PIX_TOWER_MENU_MAIN_2   QString("./img/towerUpgradeMenu2.png")
+#define PIX_TOWER_MENU_RES_L1   QString("./img/towerUpgradeMenuCost1.png")
+#define PIX_TOWER_MENU_RES_L2   QString("./img/towerUpgradeMenuCost2.png")
+#define PIX_TOWER_MENU_RES_L3   QString("./img/towerUpgradeMenuCost3.png")
+#define PIX_TOWER_MENU_RES_L4   QString("./img/towerUpgradeMenuCost4.png")
+#define PIX_TOWER_MENU_RES_L5   QString("./img/buildResources.png")
 #define PIX_TOWER_MENU_UPGR     QString("./img/towerUpgradeIcon.png")
 #define PIX_TOWER_MENU_SELL     QString("./img/sellIcon.png")
-#define PIX_TOWER_MENU_MAX      4
+#define PIX_TOWER_MENU_MAX      9
 #define PIX_PLAYER_MENU_MAIN    QString("./img/playerUpgradeMenu.png")
-//temp
-#define PIX_PLAYER_MENU_RES     QString("./img/buildResources.png")
+#define PIX_PLAYER_MENU_MAIN_2  QString("./img/playerUpgradeMenu2.png")
+#define PIX_PLAYER_MENU_MAIN_3  QString("./img/playerUpgradeMenu3.png")
+#define PIX_PLAYER_MENU_MAIN_4  QString("./img/playerUpgradeMenu4.png")
+#define PIX_PLAYER_MENU_MAIN_5  QString("./img/playerUpgradeMenu5.png")
+#define PIX_PLAYER_MENU_MAIN_6  QString("./img/playerUpgradeMenu6.png")
+#define PIX_PLAYER_MENU_MAIN_7  QString("./img/playerUpgradeMenu7.png")
+#define PIX_PLAYER_MENU_MAIN_8  QString("./img/playerUpgradeMenu8.png")
+#define PIX_PLAYER_MENU_RES     QString("./img/playerUpgrademenuCost.png")
 #define PIX_PLAYER_MENU_SPD     QString("./img/speedIcon.png")
 #define PIX_PLAYER_MENU_HAR     QString("./img/harvestIcon.png")
 #define PIX_PLAYER_MENU_REC     QString("./img/stunIcon.png")
-#define PIX_PLAYER_MENU_MAX     5
+#define PIX_PLAYER_MENU_MAX     12
 #define PIX_PLAYER_0            QString("./img/player-stand.png")
 #define PIX_PLAYER_1            QString("./img/player-move1.png")
 #define PIX_PLAYER_2            QString("./img/player-move2.png")

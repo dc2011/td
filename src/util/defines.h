@@ -20,10 +20,25 @@
 #define TOWER_TAR           52
 #define TOWER_FLAK          53
 #define UPGRADE_TOWER       49
-#define SELL_TOWER          57
+#define SELL_TOWER          53
 #define UPGRADE_SPEED       49
 #define UPGRADE_HARVEST     50
 #define UPGRADE_RECOVERY    51
+
+// for tower upgrade bitmask
+#define PLAYER_NONE         0x0
+#define PLAYER_SPEED        0x1
+#define PLAYER_HARVEST      0x2
+#define PLAYER_RECOVERY     0x4
+
+#define MAX_TOWER_LEVEL         5
+
+// context menu image index
+#define MENU_BASE               0
+#define MENU_UPGRADE_ALL        1
+#define MENU_TOWER_RESOURCES    2
+#define MENU_TOWER_UPGRADE      7
+#define MENU_TOWER_SELL         8
 
 // Current map to use
 #define MAP      "bigmap"
