@@ -20,7 +20,7 @@ namespace td {
 SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
     waveTimer_ = new QTimer(this);
-    gameMap_ = new Map(QString("./maps/netbookmap3.tmx"), this);
+    gameMap_ = new Map(MAP_TMX, this);
     net_ = new NetworkServer();
     npcCounter_ = 0;
 
@@ -110,7 +110,7 @@ void SDriver::startGame(bool multicast) {
 
     gameMap_->initMap();
 
-    Parser* fileParser = new Parser(this, "./maps/mapinfo.nfo");
+    Parser* fileParser = new Parser(this, MAP_NFO);
     NPCWave* tempWave;
     setBaseHealth(fileParser->baseHP);
     //tempWave = new NPCWave(this);

@@ -13,12 +13,22 @@
 // milliseconds between game ticks
 #define GAME_TICK_INTERVAL  30
 
-// based on the number keys used to select the tower
-#define TOWER_ARROW     49
-#define TOWER_CANNON    50
-#define TOWER_FLAME     51
-#define TOWER_TAR       52
-#define TOWER_FLAK      53
+// based on the number keys used to select the menu option
+#define TOWER_ARROW         49
+#define TOWER_CANNON        50
+#define TOWER_FLAME         51
+#define TOWER_TAR           52
+#define TOWER_FLAK          53
+#define UPGRADE_TOWER       49
+#define SELL_TOWER          57
+#define UPGRADE_SPEED       49
+#define UPGRADE_HARVEST     50
+#define UPGRADE_RECOVERY    51
+
+// Current map to use
+#define MAP      "bigmap"
+#define MAP_TMX   QString("./maps/") + QString(MAP) + QString(".tmx")
+#define MAP_NFO   QString("./maps/") + QString(MAP) + QString(".nfo")
 
 // how often the tower type can fire (in game ticks)
 #define FIRE_INTERVAL_ARROW     45
@@ -161,15 +171,6 @@
 // resource collection bar size, in pixels
 #define RESBAR_WIDTH    30
 #define RESBAR_HEIGHT   6
-
-// Temp defines pending a map object
-#define MAP_ROWS 99
-#define MAP_COLS 99
-
-//temp defines
-#define TILE_HEIGHT 48
-#define TILE_WIDTH 48
-#define TILE_SIZE 48
 
 // tower requirements
 #define COST_FLAK_WOOD    1

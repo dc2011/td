@@ -6,6 +6,7 @@
 #include <QVector>
 #include <QString>
 #include <QGraphicsTextItem>
+#include <QGraphicsView>
 #include "../util/mutex_magic.h"
 
 namespace td {
@@ -33,6 +34,8 @@ private:
     static QString text_;
     /** the label to display text */
     static QGraphicsTextItem *textLabel_;
+    /** the graphicsview */
+    static QGraphicsView *view_;
 
 
     explicit Console();
@@ -99,6 +102,14 @@ public:
      * @author Terence Stenvold
      */
     void removeChar();
+
+    /**
+     * updates the console to the proper
+     * location on screen.
+     *
+     * @author Terence Stenvold
+     */
+    void translate();
 
 private slots:
     void scroll();
