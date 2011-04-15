@@ -35,7 +35,10 @@ CDriver::CDriver(MainWindow* mainWindow)
 
 CDriver::~CDriver() {
     if(!waves_.empty()) {
-        disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+        NPCWave* temp;
+        foreach(temp, waves_){
+            disconnect(temp, SIGNAL(waveDead()),this,SLOT(deadWave()));
+        }
     }
     waves_.clear();
 }
@@ -136,7 +139,7 @@ void CDriver::makeLocalPlayer(Player* player) {
     player->setPhysicsComponent(physics);
     player->setInputComponent(input);
     human_ = player;
-
+    connect(physics, SIGNAL(pickupCollectable(double, double, Unit*)), human_, SLOT(pickupCollectable(double,double,Unit*)));
     /* Connect to arrow key events */
     connect(mainWindow_, SIGNAL(signalKeyPressed(int)),
             input, SLOT(keyPressed(int)));
@@ -280,7 +283,6 @@ void CDriver::NPCCreator() {
 
         //waves_.first()->createWave();
         //connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
-
     }
 
     /*
@@ -288,9 +290,17 @@ void CDriver::NPCCreator() {
 
     if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
         npc = Driver::createNPC(NPC_FLY);
+        if(npc){
+            npc->setHeight(90);
+            npc->setWidth(30);
+        }
     }
     if (npcCounter_ % 40 == 0 && (npcCounter_ % 1400) > 1000) {
         npc = Driver::createNPC(NPC_SLOW);
+        if(npc){
+            npc->setHeight(30);
+            npc->setWidth(90);
+        }
     }
 
     if (npc) {

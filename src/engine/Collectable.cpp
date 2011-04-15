@@ -125,7 +125,9 @@ void Collectable::update() {
             physics_->update(this);
         }
     }
-
+    if(atEndOfPath_) {
+        getDriver()->getGameMap()->addUnit(this->getPos().x(), this->getPos().y(), this);
+    }
     if (graphics_ != NULL) {
         graphics_->update(this);
     }

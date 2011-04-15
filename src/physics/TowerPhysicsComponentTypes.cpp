@@ -32,7 +32,7 @@ FlameTowerPhysicsComponent::FlameTowerPhysicsComponent(Tower* tower)
 
 void FlameTowerPhysicsComponent::update(GameObject *tower){
     this->findDirectionToShoot();
-    if(!foundTarget_ && !ready_) {
+    if(!foundTarget_ || !ready_) {
         return;
     }
     this->applyDirection((Tower*)tower);
@@ -51,6 +51,7 @@ void FlameTowerPhysicsComponent::findDirectionToShoot(){
     if(fireCountdown_ == 0) {
         ready_ = true;
     } else {
+        fireCountdown_--;
         return;
     }
     projectilePath_.setP1(tower_->getPos());
@@ -73,6 +74,9 @@ void FlameTowerPhysicsComponent::findDirectionToShoot(){
         // this would be the place to add a priority algorithm if we need one
         // make sure that the unit is not a player
         if((((*iter)->getID()&0xFF000000)>>24) == NPC::clsIdx()) {
+            if(!isValidTarget(*iter)) {
+                continue;
+            }
             projectilePath_.setP2((*iter)->getPos());
             // check that they're actually in range
             if (projectilePath_.length() < getRadius()) {
@@ -94,14 +98,6 @@ bool FlameTowerPhysicsComponent::isValidTarget(Unit * target) {
 
 void FlameTowerPhysicsComponent::fire() {
 
-    if (fireCountdown_ != 0) {
-            fireCountdown_--;
-            ready_ = false;
-            return;
-    }
-    if(!foundTarget_) {
-        return;
-    }
     emit fireProjectile(PROJ_FIRE, tower_->getPos(), projectilePath_.p2(),
             target_);
     fireCountdown_ = fireInterval_;

@@ -11,7 +11,10 @@
 #include "../physics/ProjectilePhysicsComponentTypes.h"
 #include "../graphics/ProjectileGraphicsComponentTypes.h"
 #include "Driver.h"
-#include "../graphics/EndingGraphicsComponent.h"
+
+#ifndef SERVER
+#   include "../graphics/EndingGraphicsComponentTypes.h"
+#endif
 
 namespace td {
 
@@ -21,8 +24,6 @@ Projectile::Projectile(QObject* parent) : Unit(parent) {
     scale_ = 0.25;
     path_ = QLineF(end_->x(), end_->y(), start_->x(), start_->y());
     this->pos_ = QPointF(0,0);
-    this->setHeight(10);
-    this->setWidth(48);
 }
 
 Projectile::~Projectile() {
@@ -31,6 +32,7 @@ Projectile::~Projectile() {
     case PROJ_ARROW:
     case PROJ_ARROW_2:
     case PROJ_ARROW_3:
+        new ArrowEndingGraphicsComponent(pos_);
         break;
     case PROJ_CANNON:
     case PROJ_CANNON_2:
@@ -61,6 +63,8 @@ void Projectile::initComponents() {
         case PROJ_ARROW_2:
         case PROJ_ARROW_3:
             PLAY_SFX(this, SfxManager::projectileFireArrow);
+            this->setHeight(10);
+            this->setWidth(48);
             setInputComponent(new ArrowProjectileInputComponent());
             setPhysicsComponent(new ArrowProjectilePhysicsComponent());
 #ifndef SERVER
@@ -72,6 +76,8 @@ void Projectile::initComponents() {
         case PROJ_CANNON_2:
         case PROJ_CANNON_3:
             PLAY_SFX(this, SfxManager::projectileFireCannon);
+            this->setWidth(100);
+            this->setHeight(100);
             setInputComponent(new CannonProjectileInputComponent());
             setPhysicsComponent(new CannonProjectilePhysicsComponent());
 #ifndef SERVER
@@ -83,6 +89,8 @@ void Projectile::initComponents() {
         case PROJ_FIRE_2:
         case PROJ_FIRE_3:
             PLAY_SFX(this, SfxManager::projectileFireFlame);
+            this->setWidth(110);
+            this->setHeight(36);
             setInputComponent(new FireProjectileInputComponent());
             setPhysicsComponent(new FireProjectilePhysicsComponent());
 #ifndef SERVER
@@ -94,6 +102,8 @@ void Projectile::initComponents() {
         case PROJ_TAR_2:
         case PROJ_TAR_3:
             PLAY_SFX(this, SfxManager::projectileFireTar);
+            this->setWidth(100);
+            this->setHeight(100);
             setInputComponent(new TarProjectileInputComponent());
             setPhysicsComponent(new TarProjectilePhysicsComponent());
 #ifndef SERVER
@@ -105,6 +115,8 @@ void Projectile::initComponents() {
         case PROJ_FLAK_2:
         case PROJ_FLAK_3:
             PLAY_SFX(this, SfxManager::projectileFireFlak);
+            this->setWidth(40);
+            this->setHeight(40);
             setInputComponent(new FlakProjectileInputComponent());
             setPhysicsComponent(new FlakProjectilePhysicsComponent());
 #ifndef SERVER
@@ -182,46 +194,6 @@ void Projectile::update() {
 #ifndef SERVER
     graphics_->update(this);
 #endif
-}
-
-void Projectile::checkNPCCollision(QSet<Unit*> npcs){
-    QSet<Unit*>::iterator it;
-    QPolygonF projBounds;
-    QPolygonF npcBounds;
-
-//Note: for arrow/flak/other autohit projectiles
-// Just need to add effect to this->getEnemy()
-
-    for (it = npcs.begin(); it != npcs.end(); ++it) {
-        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
-            // Check to see if this projectile can damage this unit
-            if ((this->type_ == PROJ_FLAK) && (((NPC*)*it)->getType() != NPC_FLY))
-            {
-                continue;
-            }
-            if ((((NPC*)*it)->getType() == NPC_FLY)
-                && ((this->type_ == PROJ_CANNON) || (this->type_ == PROJ_FIRE)
-                    || (this->type_ == PROJ_TAR)))
-            {
-                continue;
-            }
-
-            projBounds = this->getBounds();
-            npcBounds = (*it)->getBounds();
-            if(this->getBounds().intersected((*it)->getBounds()).count() != 0){
-                //create projectile effect
-                //TODO: Add sfx logic here (same as Player collisions)
-                //add effect to npc
-                //qDebug("Enemy hit");
-                ((NPC*)(*it))->createEffect(EFFECT_ARROW);
-                break;
-            }else{
-                //qDebug("No hit");
-            }
-
-        }
-    }
-
 }
 
 void Projectile::createBounds(){
