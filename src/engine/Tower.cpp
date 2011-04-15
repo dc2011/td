@@ -80,5 +80,127 @@ void Tower::initComponents() {
 #endif
 }
 
+void Tower::setComponents() {
+    disconnect(getDriver()->getTimer(), SIGNAL(timeout()),
+            this, SLOT(update()));
+    switch (type_) {
+    case TOWER_ARROW_2:
+        ((TowerPhysicsComponent*)physics_)
+            ->setFireInterval(FIRE_INTERVAL_ARROW_2);
+        ((TowerPhysicsComponent*)physics_)->setRadius(RADIUS_ARROW_2);
+        ((TowerPhysicsComponent*)physics_)->setProjType(PROJ_ARROW_2);
+#ifndef SERVER
+        graphics_->deleteComponent();
+        setGraphicsComponent(new ArrowTowerL2GraphicsComponent());
+#endif
+        break;
+
+    case TOWER_ARROW_3:
+        ((TowerPhysicsComponent*)physics_)
+            ->setFireInterval(FIRE_INTERVAL_ARROW_3);
+        ((TowerPhysicsComponent*)physics_)->setRadius(RADIUS_ARROW_3);
+        ((TowerPhysicsComponent*)physics_)->setProjType(PROJ_ARROW_3);
+#ifndef SERVER
+        graphics_->deleteComponent();
+        setGraphicsComponent(new ArrowTowerL3GraphicsComponent());
+#endif
+        break;
+
+    case TOWER_CANNON_2:
+        ((TowerPhysicsComponent*)physics_)
+            ->setFireInterval(FIRE_INTERVAL_CANNON_2);
+        ((TowerPhysicsComponent*)physics_)->setRadius(RADIUS_CANNON_2);
+        ((TowerPhysicsComponent*)physics_)->setProjType(PROJ_CANNON_2);
+#ifndef SERVER
+        graphics_->deleteComponent();
+        setGraphicsComponent(new CannonTowerL2GraphicsComponent());
+#endif
+        break;
+
+    case TOWER_CANNON_3:
+        ((TowerPhysicsComponent*)physics_)
+            ->setFireInterval(FIRE_INTERVAL_CANNON_3);
+        ((TowerPhysicsComponent*)physics_)->setRadius(RADIUS_CANNON_3);
+        ((TowerPhysicsComponent*)physics_)->setProjType(PROJ_CANNON_3);
+#ifndef SERVER
+        graphics_->deleteComponent();
+        setGraphicsComponent(new CannonTowerL3GraphicsComponent());
+#endif
+        break;
+
+    case TOWER_FLAME_2:
+        ((TowerPhysicsComponent*)physics_)
+            ->setFireInterval(FIRE_INTERVAL_FLAME_2);
+        ((TowerPhysicsComponent*)physics_)->setRadius(RADIUS_FLAME_2);
+        ((TowerPhysicsComponent*)physics_)->setProjType(PROJ_FIRE_2);
+#ifndef SERVER
+        graphics_->deleteComponent();
+        setGraphicsComponent(new FlameTowerL2GraphicsComponent());
+#endif
+        break;
+
+    case TOWER_FLAME_3:
+        ((TowerPhysicsComponent*)physics_)
+            ->setFireInterval(FIRE_INTERVAL_FLAME_3);
+        ((TowerPhysicsComponent*)physics_)->setRadius(RADIUS_FLAME_3);
+        ((TowerPhysicsComponent*)physics_)->setProjType(PROJ_FIRE_3);
+#ifndef SERVER
+        graphics_->deleteComponent();
+        setGraphicsComponent(new FlameTowerL3GraphicsComponent());
+#endif
+        break;
+
+    case TOWER_TAR_2:
+        ((TowerPhysicsComponent*)physics_)
+            ->setFireInterval(FIRE_INTERVAL_TAR_2);
+        ((TowerPhysicsComponent*)physics_)->setRadius(RADIUS_TAR_2);
+        ((TowerPhysicsComponent*)physics_)->setProjType(PROJ_TAR_2);
+#ifndef SERVER
+        graphics_->deleteComponent();
+        setGraphicsComponent(new TarTowerL2GraphicsComponent());
+#endif
+        break;
+
+    case TOWER_TAR_3:
+        ((TowerPhysicsComponent*)physics_)
+            ->setFireInterval(FIRE_INTERVAL_TAR_3);
+        ((TowerPhysicsComponent*)physics_)->setRadius(RADIUS_TAR_3);
+        ((TowerPhysicsComponent*)physics_)->setProjType(PROJ_TAR_3);
+#ifndef SERVER
+        graphics_->deleteComponent();
+        setGraphicsComponent(new TarTowerL3GraphicsComponent());
+#endif
+        break;
+
+    case TOWER_FLAK_2:
+        ((TowerPhysicsComponent*)physics_)
+            ->setFireInterval(FIRE_INTERVAL_FLAK_2);
+        ((TowerPhysicsComponent*)physics_)->setRadius(RADIUS_FLAK_2);
+        ((TowerPhysicsComponent*)physics_)->setProjType(PROJ_FLAK_2);
+#ifndef SERVER
+        graphics_->deleteComponent();
+        setGraphicsComponent(new FlakTowerL2GraphicsComponent());
+#endif
+        break;
+
+    case TOWER_FLAK_3:
+        ((TowerPhysicsComponent*)physics_)
+            ->setFireInterval(FIRE_INTERVAL_FLAK_3);
+        ((TowerPhysicsComponent*)physics_)->setRadius(RADIUS_FLAK_3);
+        ((TowerPhysicsComponent*)physics_)->setProjType(PROJ_FLAK_3);
+#ifndef SERVER
+        graphics_->deleteComponent();
+        setGraphicsComponent(new FlakTowerL3GraphicsComponent());
+#endif
+        break;
+    }
+    connect(getDriver()->getTimer(), SIGNAL(timeout()),
+            this, SLOT(update()));
+#ifndef SERVER
+    connect(CDriver::instance()->getMainWindow(), SIGNAL(signalAltHeld(bool)),
+                getGraphicsComponent(), SLOT(setVisibleRange(bool)));
+#endif
+}
+
 } // end of namespace td
 
