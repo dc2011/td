@@ -23,8 +23,30 @@ void CollectablePhysicsComponent::update(GameObject* collectable) {
 void CollectablePhysicsComponent::applyVelocity(Collectable* collectable) {
     QPointF newPos = collectable->getPos()
                      + collectable->getVelocity().toPointF();
+    QPointF point;
+    QVector<QPointF> points;
+    QMatrix matrix = QMatrix();
+    matrix.rotate(-collectable->getOrientation());
+
+    //set up Vector to construct bounding Polygon
+    point = QPointF(-collectable->getWidth()/2, -collectable->getHeight( )/2) * matrix;
+    point += newPos;
+    points.append(point);
+    point = QPointF(collectable->getWidth()/2, -collectable->getHeight()/2) * matrix;
+    point += newPos;
+    points.append(point);
+    point = QPointF(collectable->getWidth()/2, collectable->getHeight()/2) * matrix;
+    point += newPos;
+    points.append(point);
+    point = QPointF(-collectable->getWidth()/2, collectable->getHeight()/2) * matrix;
+    point += newPos;
+    points.append(point);
+    point = QPointF(-collectable->getWidth()/2, -collectable->getHeight()/2) * matrix;
+    point += newPos;
+    points.append(point);
 
     collectable->setPos(newPos);
+    collectable->setBounds(QPolygonF(points));
 }
 
 void CollectablePhysicsComponent::setScale(Collectable *collectable) {

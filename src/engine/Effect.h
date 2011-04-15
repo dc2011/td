@@ -86,15 +86,6 @@ public:
 public slots:
     void update();
 
-    /**
-     * Stops applying the effect if the correct type.
-     * Connected to stopEffect(uint) in Unit.
-     *
-     * @author Marcel Vangrootheest
-     * @param type The type of Effect.
-     */
-    void effectStop(uint type);
-
 signals:
     void effectFinished(Effect* effect);
 
@@ -107,8 +98,6 @@ protected:
     float oldVelocity_;
     uint type_;
     bool timerEnabled_;
-    bool applyEnabled_;
-    QTimer* timer_;
 };
 
 } /* end namespace td */

@@ -23,6 +23,27 @@ public:
     virtual ~ArrowEffect() {}
     void apply();
 };
+
+class CannonEffect : public Effect {
+    Q_OBJECT
+
+public:
+    explicit CannonEffect(Unit* unit);
+    virtual ~CannonEffect() {}
+
+    void apply();
+};
+
+class FlakEffect : public Effect {
+    Q_OBJECT
+
+public:
+    explicit FlakEffect(Unit* unit);
+    virtual ~FlakEffect() {}
+
+    void apply();
+};
+
 /**
 * an effect that modifies a player's movement speed
 * if they are on a bad type of terrain..
@@ -99,6 +120,19 @@ public:
      *
      * @author Duncan Donaldson
      */
+    void apply();
+
+private:
+    int count_;
+};
+
+class FireEffect : public Effect {
+    Q_OBJECT
+
+public:
+    explicit FireEffect(Unit* unit);
+    virtual ~FireEffect(){}
+
     void apply();
 };
 

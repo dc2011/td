@@ -87,7 +87,7 @@
 #define RESOURCE_GEM        99
 
 // time to harvest a resource (in game ticks)
-#define HARVEST_COUNTDOWN   120
+#define HARVEST_COUNTDOWN   60
 
 // NPC types
 #define NPC_NORM    0
@@ -112,10 +112,10 @@
 
 // Maximum Velocity of NPC types
 #define NPC_NORM_MAX_V  2  
-#define NPC_SLOW_MAX_V  1  
-#define NPC_FAST_MAX_V  4  
-#define NPC_FLY_MAX_V   2  
-#define NPC_BOSS_MAX_V  1  
+#define NPC_SLOW_MAX_V  1
+#define NPC_FAST_MAX_V  4
+#define NPC_FLY_MAX_V   2
+#define NPC_BOSS_MAX_V  1
 
 //Player velocity
 #define PLAYER_MAX_V 5
@@ -130,13 +130,17 @@
 #define EFFECT_TAR          5
 #define EFFECT_BURN         6
 #define EFFECT_CANNON       7
-#define EFFECT_FLAK         8
+#define EFFECT_FIRE         8
+#define EFFECT_FLAK         9
 
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20
-#define TAR_TIME        10
-#define BURN_TIME       5
+#define TAR_TIME        100
 #define ARROW_TIME      1
+#define FLAK_TIME       1
+#define CANNON_TIME     1
+#define FIRE_TIME       1
+#define BURN_TIME       75
 //DONT USE THIS MACRO UNLESS YOUR NAME IS DTRAIN
 #define NO_TIME         0,false
 
@@ -173,14 +177,14 @@
 #define RESBAR_HEIGHT   6
 
 // tower requirements
-#define COST_FLAK_WOOD    1
-#define COST_FLAK_STONE   0
-#define COST_FLAK_BONE    1
+#define COST_FLAK_WOOD    0
+#define COST_FLAK_STONE   1
+#define COST_FLAK_BONE    0
 #define COST_FLAK_OIL     0
 
 #define COST_ARROW_WOOD   0
 #define COST_ARROW_STONE  1
-#define COST_ARROW_BONE   1
+#define COST_ARROW_BONE   0
 #define COST_ARROW_OIL    0
 
 #define COST_CANNON_WOOD  0
@@ -190,13 +194,13 @@
 
 #define COST_TAR_WOOD     0
 #define COST_TAR_STONE    1
-#define COST_TAR_BONE     1
-#define COST_TAR_OIL      1
+#define COST_TAR_BONE     0
+#define COST_TAR_OIL      0
 
-#define COST_FLAME_WOOD    1
-#define COST_FLAME_STONE   0
-#define COST_FLAME_BONE    1
-#define COST_FLAME_OIL     1
+#define COST_FLAME_WOOD    0
+#define COST_FLAME_STONE   1
+#define COST_FLAME_BONE    0
+#define COST_FLAME_OIL     0
 
 #endif
 

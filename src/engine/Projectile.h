@@ -89,6 +89,10 @@ public:
         setDirty(kType);
     }
 
+    int getType(){
+            return type_;
+    }
+
     virtual void update();
 
     size_t getDamage(){
@@ -170,14 +174,6 @@ public:
         enemy_ = enemy;
         setDirty(kTargetType);
     }
-    /**
-     * Checks for collision between projectile and npcs
-     * and applies effects to hit npcs.
-     *
-     * @author Daniel Wright
-     * @param npcs, set of npcs to check collision with
-     */
-    void checkNPCCollision(QSet<Unit*> npcs);
 
     /**
     * Creates a bounding polygon based on the projectiles end point.
