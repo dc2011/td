@@ -14,6 +14,8 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LobbyWindow)
 {
+    this->setWindowFlags(Qt::FramelessWindowHint);
+
     ui->setupUi(this);
     ui->btnStart->setEnabled(false);
 
@@ -39,8 +41,6 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
             this, SLOT(writeSettings()));
 
     connect(ui->btnExit, SIGNAL(clicked()), this, SLOT(close()));
-
-    ui->msgView->append("test by pan");
 
     QCoreApplication::setOrganizationName("dc2011");
     QCoreApplication::setApplicationName("td");
@@ -202,12 +202,6 @@ void LobbyWindow::applyStyleSheet(QString path) {
     f.open(QIODevice::ReadOnly);
     this->setStyleSheet(QString(f.readAll()));
     f.close();
-
-    /*QStringList tmpList("Test Name");
-    tmpList.append("Test Game");
-    QTreeWidgetItem tmpItem(tmpList);
-
-    ui->userList->addTopLevelItem(tmpItem);*/
 }
 
 void LobbyWindow::sendChatMessage() {
@@ -220,7 +214,11 @@ void LobbyWindow::sendChatMessage() {
     ui->msgBox->text().clear();
 }
 void LobbyWindow::updateListOfUserNames(QList<QString*>& userNames) {
+    QStringList tmpList("Put the user name here");
+    tmpList.append("Game");
+    QTreeWidgetItem *tmpItem = new QTreeWidgetItem(ui->userList, tmpList);
 
+    ui->userList->addTopLevelItem(tmpItem);
 }
 
 void LobbyWindow::updateListOfGames(QMultiMap<int, QString>& gameList) {
@@ -228,8 +226,6 @@ void LobbyWindow::updateListOfGames(QMultiMap<int, QString>& gameList) {
 } 
 
 void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {
-    //update gui here
-    //ui->msgView->text().append("hi");
     QString result(nickName);
     result.append(": ");
     result.append(msg);
