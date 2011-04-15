@@ -110,29 +110,14 @@ void settingsWindow::slotShowSettings() {
         voiceLevel_ = AudioManager::instance()->getVoiceVol();
         sfxLevel_ = AudioManager::instance()->getSfxVol();
         musicLevel_ = AudioManager::instance()->getMusicVol();
-        /*
-    void setMusicSlider(int i);
-    void setVoiceSlider(int i);
-    void setSfxSlider(int i);
-    void setMusicLabel(QString str);
-    void setSfxLabel(QString str);
-    void setVoiceLabel(QString str);
-         */
-
         emit setMusicSlider(musicLevel_);
         emit setVoiceSlider(voiceLevel_);
-        emit setSfxSlider(sfxLevel_);/*
-        sprintf(str, "%d", musicLevel_);
-        emit setMusicLabel(str);
-        sprintf(str, "%d", voiceLevel_);
-        emit setVoiceLabel(str);
-        sprintf(str, "%d", sfxLevel_);
-        emit setSfxLabel(str);
-        */
+        emit setSfxSlider(sfxLevel_);
         this->show();
     } else {
         isShowing_ = false;
         this->hide();
+        emit signalWindowClosed();
     }
 }
 

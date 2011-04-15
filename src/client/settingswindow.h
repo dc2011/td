@@ -41,6 +41,7 @@ signals:
     void setMusicLabel(QString str);
     void setSfxLabel(QString str);
     void setVoiceLabel(QString str);
+    void signalWindowClosed();
 };
 
 }

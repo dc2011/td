@@ -6,6 +6,7 @@
 
 #ifndef SERVER
 #    include "CDriver.h"
+#    include "../graphics/EndingGraphicsComponentTypes.h"
 #endif
 
 namespace td {
@@ -256,6 +257,13 @@ void NPC::deleteEffect(Effect* effect)
 void NPC::isDead() {
     if(health_ <= 0) {
         //TODO NPC death sound/animation
+#ifndef SERVER
+        if (type_ == NPC_FLY) {
+            new FlyingEndingGraphicsComponent(pos_);
+        } else {
+            new GenericNPCEndingGraphicsComponent(pos_);
+        }
+#endif
         emit signalDropResource(RESOURCE_GEM, pos_, getRandomVector());
         emit dead(this->getID());
     }
