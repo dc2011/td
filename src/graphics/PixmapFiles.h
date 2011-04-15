@@ -133,5 +133,12 @@
 #define PIX_END_ARROW_0         QString("./img/blood.png")
 #define PIX_END_ARROW_MAX       1
 
+//ending animations for NPCs
+#define PIX_END_FLYING_START    0
+#define PIX_END_FLYING_0        QString("./img/death1.png")
+#define PIX_END_FLYING_1        QString("./img/death2.png")
+#define PIX_END_FLYING_2        QString("./img/death3.png")
+#define PIX_END_FLYING_MAX      3
+
 #endif
 
