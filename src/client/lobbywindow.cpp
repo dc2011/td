@@ -17,6 +17,7 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
     this->setWindowFlags(Qt::FramelessWindowHint);
 
     ui->setupUi(this);
+    setCursor(QCursor(QPixmap(":/file/cursor.png")));
     ui->btnStart->setEnabled(false);
     ui->userList->header()->setResizeMode(QHeaderView::Fixed);
 
@@ -79,6 +80,8 @@ void LobbyWindow::connectLobby()
     PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
     connect(ui->newGame,SIGNAL(clicked()),this,SLOT(onCreateNewGame()));
+    connect(ui->gameList,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(onJoinGame(QListWidgetItem*)));
+
     delete s;
 }
 
@@ -123,13 +126,16 @@ void LobbyWindow::onTCPReceived(Stream* s)
 
         case network::kUpdateUserList:
         {
-            QList<QString*> names;
-            int numOfNames = s->readInt();
-            for(int i = 0; i < numOfNames; i++) {
-                int len = s->readInt();
-                names.push_back(new QString(s->read(len)));
+            QMultiMap<int,QString> userList;
+            int numOfPlayers = s->readInt();
+            for(int i = 0; i < numOfPlayers; i++) {
+                int nameLen = s->readInt();
+                QString name(s->read(nameLen));
+                int game = s->readInt();
+                userList.insert(game,name);
+
             }
-            updateListOfUserNames(names);
+            updateListOfUserNames(userList);
             break;
         }
         case network::kUpdateListOfGames:
@@ -214,17 +220,38 @@ void LobbyWindow::sendChatMessage() {
     NetworkClient::instance()->send(network::kChatMessage, s.data());
     ui->msgBox->text().clear();
 }
-void LobbyWindow::updateListOfUserNames(QList<QString*>& userNames) {
-    QStringList tmpList("Put the user name here");
-    tmpList.append("Game");
-    QTreeWidgetItem *tmpItem = new QTreeWidgetItem(ui->userList, tmpList);
+void LobbyWindow::updateListOfUserNames(QMultiMap<int, QString>& userList) {
 
-    ui->userList->addTopLevelItem(tmpItem);
+    foreach(QString name, userList) {
+        QStringList tmpList(name);
+        tmpList.append(userList.key(name) == 0 ? "N/A" : QString::number(userList.key(name)));
+        QTreeWidgetItem *tmpItem = new QTreeWidgetItem(ui->userList, tmpList);
+        ui->userList->addTopLevelItem(tmpItem);
+    }
+
 }
 
 void LobbyWindow::updateListOfGames(QMultiMap<int, QString>& gameList) {
-    //update gui here
-} 
+
+    if(ui->gameList->count() > 0) {
+        ui->gameList->clear();
+    }
+    foreach(int gameName, gameList.keys()) {
+        QString name(QString("Game").append(QString::number(gameName)));
+
+        //tmpList.append(userList.key(name) == 0 ? "N/A" : QString::number(userList.key(name)));
+        //QTreeWidgetItem *tmpItem = new QTreeWidgetItem(ui->gameList, tmpList);
+       // if(ui->gameList->size() > 0) {
+         //   ui->gameList->clear();
+        //}
+        ui->gameList->addItem(name);
+    }
+}
+
+void LobbyWindow::onJoinGame(QListWidgetItem*) {
+    int x;
+    x++;
+}
 
 void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {
     QString result(nickName);

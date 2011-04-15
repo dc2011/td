@@ -44,11 +44,13 @@ void LobbyServer::notifyClients(unsigned char msgType)
         case network::kUpdateUserList:
         {
             Stream s;
+            QList<int> gameNames = games_.keys();
             s.writeByte(msgType);
-            s.writeInt(usernames_.size());
-            foreach (QString name, usernames_) {
+            s.writeInt(clients_.size());
+            foreach(QString name, clients_) {
                 s.writeInt(name.size());
-                s.write(name.toAscii().data());
+                s.write(name.toAscii());
+                s.writeInt(games_.key(clients_.key(name)));
 
             }
             foreach (QTcpSocket* sock, clients_.keys()) {

@@ -423,23 +423,15 @@
      <enum>QFrame::Raised</enum>
     </property>
    </widget>
-   <widget class="QTreeWidget" name="gameList">
+   <widget class="QListWidget" name="gameList">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>140</y>
-      <width>280</width>
-      <height>400</height>
+      <x>710</x>
+      <y>150</y>
+      <width>256</width>
+      <height>391</height>
      </rect>
     </property>
-    <attribute name="headerVisible">
-     <bool>false</bool>
-    </attribute>
-    <column>
-     <property name="text">
-      <string notr="true">1</string>
-     </property>
-    </column>
    </widget>
   </widget>
  </widget>

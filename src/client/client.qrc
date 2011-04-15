@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/file">
         <file>client.qss</file>
+        <file>cursor.png</file>
     </qresource>
 </RCC>

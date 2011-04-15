@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QHostAddress>
+#include <QListWidgetItem>
 #include "../util/defines.h"
 #include "../network/stream.h"
 
@@ -47,9 +48,15 @@ private slots:
      **/
     void sendChatMessage();
 
+    /** Called when a user double clicks on a game
+     *
+     * @author Kelvin Lui
+     * @param  item the qlistwidgetItem that was clicked
+     **/
+    void onJoinGame(QListWidgetItem*);
 
 private:
-    void updateListOfUserNames(QList<QString*>&);
+    void updateListOfUserNames(QMultiMap<int, QString>&);
     void updateListOfGames(QMultiMap<int,QString>&);
     /**
      * Reads the last used settings from a persistent file.
