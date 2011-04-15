@@ -7,13 +7,14 @@
 namespace td {
 
 NPCWave::NPCWave(QObject* parent) : QObject(parent), start_(10),
-        count_(5), type_(NPC_NORM), created_(0), pathNum_(0), gemCount_(0) {
+        count_(5), type_(NPC_NORM), created_(0), pathNum_(0), gemCount_(0) , density_(15){
 }
 
 NPCWave::NPCWave(QObject* parent, unsigned int start, unsigned int count,
-        unsigned int type, unsigned int path, unsigned int gems) : QObject(parent),
+        unsigned int type, unsigned int path, unsigned int gems,
+        unsigned int density) : QObject(parent),
     start_(start), count_(count), type_(type), created_(0), pathNum_(path),
-    gemCount_(gems) {
+    gemCount_(gems), density_(density) {
 }
 
 NPCWave::~NPCWave() {
@@ -54,9 +55,8 @@ void NPCWave::update() {
     if (++sfxdelay < 130) {
         return;
     }
-
     // TODO: Some actual logic here to fix this
-    if (created_ < count_ && ++tickmod % 15 == 0) {
+    if (created_ < count_ && ++tickmod % density_ == 0) {
         created_++;
 
         NPC* npc = getDriver()->createNPC(type_);

@@ -43,7 +43,7 @@ NPCWave* Parser::readWave() {
 
     NPCWave* wave = new NPCWave(parent_, waveInfo.at(3).toUInt(), waveInfo.at(2).toUInt(),
                                 waveInfo.at(1).toUInt(),waveInfo.at(0).toUInt(),
-                                waveInfo.at(5).toUInt());
+                                waveInfo.at(5).toUInt(),waveInfo.at(4).toUInt());
     return wave;
 }
 
