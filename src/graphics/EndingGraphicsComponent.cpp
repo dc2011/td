@@ -42,6 +42,8 @@ void EndingGraphicsComponent::redraw(int timerLength, int layer) {
     }
     DrawParams* dp = new DrawParams();
     dp->pos = this->pos_;
+    dp->degrees = 90;
+    dp->scale = 1;
     this->draw(dp, LAYER_DEFAULT);
 
     created_.release();
