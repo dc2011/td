@@ -26,7 +26,7 @@
 #define UPGRADE_RECOVERY    51
 
 // Current map to use
-#define MAP      "bigmap"
+#define MAP      "lukeMapTesting"
 #define MAP_TMX   QString("./maps/") + QString(MAP) + QString(".tmx")
 #define MAP_NFO   QString("./maps/") + QString(MAP) + QString(".nfo")
 

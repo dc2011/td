@@ -68,10 +68,10 @@ bool CollectableInputComponent::validateMovement(const QPointF& newPos) {
     int y = parent_->getDriver()->getGameMap()->getHeightInTiles();
     x = x * parent_->getDriver()->getGameMap()->getTMap()->tileWidth();
     y = y * parent_->getDriver()->getGameMap()->getTMap()->tileHeight();
-    x--;
-    y--;
+    x-=20;
+    y-=20;
 
-    if (newPos.x() > x || newPos.y() > y || newPos.x() < 0 || newPos.y() < 0)
+    if (newPos.x() > x || newPos.y() > y || newPos.x() < 20 || newPos.y() < 20)
     {
         return false;
     }

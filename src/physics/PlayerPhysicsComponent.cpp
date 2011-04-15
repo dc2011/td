@@ -43,7 +43,7 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     int mapWidth = tMap->width();
     QSize mapSize = tMap->maxTileSize();
 
-    if(newPos.x() < 20){
+   /* if(newPos.x() < 20){
         newPos.setX(20);
     }
     if(newPos.x() > (mapWidth * mapSize.width() - 20)){
@@ -54,7 +54,7 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     }
     if(newPos.y() > (mapHeight * mapSize.height() - 20)){
         newPos.setY(mapHeight * mapSize.height() - 20);
-    }
+    } */
 
     QPointF upperRight;
     QPointF upperLeft;

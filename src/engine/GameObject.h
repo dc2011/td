@@ -164,28 +164,21 @@ public:
      * center of the object.
      * 
      * @author Tom Nightingale
+     * @author Duncan Donaldson
      * @param p The coordinates of the center of the object.
      */
-    void setPos(QPointF& p) {
-        pos_.setX(p.x());
-        pos_.setY(p.y());
-        setDirty(kPosition);
-        //qDebug("Pos: (%.2f, %.2f)", (float) pos_.x(), (float) pos_.y());
-    }
+    void setPos(QPointF& p);
 
     /**
      * Sets the object's coordinates in the game world. This should be the
      * center of the object.
      *
      * @author Darryl Pogue
+     * @author Duncan Donaldson
      * @param x The X coordinate value.
      * @param y The Y coordinate value.
      */
-    void setPos(float x, float y) {
-        pos_.setX(x);
-        pos_.setY(y);
-        setDirty(kPosition);
-    }
+    void setPos(float x, float y);
     
     /**
       * Overloaded < comparator for set implementation
