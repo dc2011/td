@@ -167,30 +167,13 @@
       </widget>
      </item>
      <item row="8" column="0">
-      <widget class="QLabel" name="lblConsole">
-       <property name="text">
-        <string>Show/Hide the Console</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="td::KeyButton" name="btnConsole">
-       <property name="text">
-        <string>~</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="0">
       <widget class="QLabel" name="lblVoice">
        <property name="text">
         <string>Push-to-Talk Voice Chat</string>
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
+     <item row="8" column="1">
       <widget class="td::KeyButton" name="btnVoice">
        <property name="text">
         <string>V</string>
@@ -217,6 +200,13 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <widget class="td::KeyButton" name="btnArrowUp">
+       <property name="text">
+        <string>UP</string>
        </property>
       </widget>
      </item>
@@ -271,10 +261,17 @@
        </property>
       </widget>
      </item>
-     <item row="11" column="1">
-      <widget class="td::KeyButton" name="btnArrowUp">
+     <item row="9" column="0">
+      <widget class="QLabel" name="lblZoom">
        <property name="text">
-        <string>UP</string>
+        <string>Map Overview</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QPushButton" name="btnZoom">
+       <property name="text">
+        <string>Z</string>
        </property>
       </widget>
      </item>

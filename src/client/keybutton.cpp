@@ -22,6 +22,8 @@ bool KeyButton::event(QEvent* e) {
    if (this->isChecked() && e->type() == QEvent::ShortcutOverride) {
        e->accept();
        return true;
+   } else if (e->type() == QEvent::FocusOut) {
+       this->setChecked(false);
    }
 
    return QPushButton::event(e);

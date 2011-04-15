@@ -87,10 +87,21 @@ void MainWindow::loadKeymap() {
     QSettings settings;
     settings.beginGroup("keymap");
 
+    keys_.choice1Key = QKeySequence(settings.value("choice1", "1").toString());
+    keys_.choice2Key = QKeySequence(settings.value("choice2", "2").toString());
+    keys_.choice3Key = QKeySequence(settings.value("choice3", "3").toString());
+    keys_.choice4Key = QKeySequence(settings.value("choice4", "4").toString());
+    keys_.choice5Key = QKeySequence(settings.value("choice5", "5").toString());
+    keys_.choice6Key = QKeySequence(settings.value("choice6", "6").toString());
+    keys_.choice7Key = QKeySequence(settings.value("choice7", "7").toString());
+    keys_.choice8Key = QKeySequence(settings.value("choice8", "8").toString());
+    keys_.choice9Key = QKeySequence(settings.value("choice9", "9").toString());
+
     keys_.menuKey = QKeySequence(settings.value("menu", "space").toString());
     keys_.extraInfoKey = QKeySequence(settings.value("extrainfo", "r").toString());
     keys_.consoleKey = QKeySequence(settings.value("console", "`").toString());
     keys_.voiceKey = QKeySequence(settings.value("voice", "v").toString());
+    keys_.zoomKey = QKeySequence(settings.value("zoom", "z").toString());
 
     keys_.arrowUp = QKeySequence(settings.value("arrowup", "up").toString());
     keys_.arrowDown = QKeySequence(settings.value("arrowdown", "down").toString());
@@ -174,6 +185,9 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         /* Voice key => V */
         // Temporarily disabled
         //AudioManager::instance()->toggleCapturePause();
+    } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
+        /* Zoom key => Z */
+        // tstenvold: TODO
     } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
         /* Arrow Up key => UP */
         keysHeld_ |= KEYUP;
@@ -186,6 +200,33 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
     } else if (keys_.arrowRight.matches(key) == QKeySequence::ExactMatch) {
         /* Arrow Right key => RIGHT */
         keysHeld_ |= KEYRIGHT;
+    } else if (keys_.choice1Key.matches(key) == QKeySequence::ExactMatch) {
+        /* Choice 1 key => 1 */
+        emit signalNumberPressed(Qt::Key_1);
+    } else if (keys_.choice2Key.matches(key) == QKeySequence::ExactMatch) {
+        /* Choice 2 key => 2 */
+        emit signalNumberPressed(Qt::Key_2);
+    } else if (keys_.choice3Key.matches(key) == QKeySequence::ExactMatch) {
+        /* Choice 3 key => 3 */
+        emit signalNumberPressed(Qt::Key_3);
+    } else if (keys_.choice4Key.matches(key) == QKeySequence::ExactMatch) {
+        /* Choice 4 key => 4 */
+        emit signalNumberPressed(Qt::Key_4);
+    } else if (keys_.choice5Key.matches(key) == QKeySequence::ExactMatch) {
+        /* Choice 5 key => 5 */
+        emit signalNumberPressed(Qt::Key_5);
+    } else if (keys_.choice6Key.matches(key) == QKeySequence::ExactMatch) {
+        /* Choice 6 key => 6 */
+        emit signalNumberPressed(Qt::Key_6);
+    } else if (keys_.choice7Key.matches(key) == QKeySequence::ExactMatch) {
+        /* Choice 7 key => 7 */
+        emit signalNumberPressed(Qt::Key_7);
+    } else if (keys_.choice8Key.matches(key) == QKeySequence::ExactMatch) {
+        /* Choice 8 key => 8 */
+        emit signalNumberPressed(Qt::Key_8);
+    } else if (keys_.choice9Key.matches(key) == QKeySequence::ExactMatch) {
+        /* Choice 9 key => 9 */
+        emit signalNumberPressed(Qt::Key_9);
     } else if (event->key() == Qt::Key_Escape) {
         /* Open the keymap editor => ESC */
         KeymapDialog* km = new KeymapDialog();
@@ -197,21 +238,6 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         /* Any other key */
         QMainWindow::keyPressEvent(event);
     }
-
-    switch (event->key()) {
-        case Qt::Key_1:
-        case Qt::Key_2:
-        case Qt::Key_3:
-        case Qt::Key_4:
-        case Qt::Key_5:
-        case Qt::Key_6:
-        case Qt::Key_7:
-        case Qt::Key_8:
-        case Qt::Key_9:
-        case Qt::Key_0:
-            emit signalNumberPressed(event->key());
-            break;
-    }
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent * event) {
@@ -219,8 +245,8 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
     if(event->isAutoRepeat()) {
         return;
     } else if (consoleOpen_ == true) {
-	keysHeld_ = 0;
-	return;
+        keysHeld_ = 0;
+        return;
     }
 
     int mods = event->modifiers();
@@ -236,6 +262,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
         /* Voice key => V */
         // Temporarily disabled
         //AudioManager::instance()->toggleCapturePause();
+    } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
+        /* Zoom key => Z */
+        // tstenvold: TODO
     } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
         /* Arrow Up key => UP */
         keysHeld_ ^= KEYUP;
@@ -258,8 +287,8 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
 }
 
 void MainWindow::scroll(QPointF pos) {
-  //qDebug("MainWindow::scroll(); Player must be moving pos: (%d, %d)", x, y);
-  view_->centerOn(pos);
+    //qDebug("MainWindow::scroll(); Player must be moving pos: (%d, %d)", x, y);
+    view_->centerOn(pos);
 }
 
 } /* end namespace td */
