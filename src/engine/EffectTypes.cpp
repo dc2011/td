@@ -28,7 +28,7 @@ ArrowEffect::ArrowEffect(Unit* unit)
 void ArrowEffect::apply() {}
 
 CannonEffect::CannonEffect(Unit* unit)
-        : Effect(unit, EFFECT_CANNON, CANNON_TIME, TRUE){
+        : Effect(unit, EFFECT_CANNON, CANNON_TIME){
     healthChangeValue_ = -75;
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
@@ -99,7 +99,7 @@ NPCTarEffect::~NPCTarEffect() {
 void NPCTarEffect::apply() {}
 
 FireEffect::FireEffect(Unit* unit)
-        : Effect(unit, EFFECT_FIRE, FIRE_TIME, TRUE){
+        : Effect(unit, EFFECT_FIRE, FIRE_TIME){
     healthChangeValue_ = -10;
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }

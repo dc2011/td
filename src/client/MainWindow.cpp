@@ -228,13 +228,6 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
     } else if (keys_.choice9Key.matches(key) == QKeySequence::ExactMatch) {
         /* Choice 9 key => 9 */
         emit signalNumberPressed(Qt::Key_9);
-    } else if (event->key() == Qt::Key_Escape) {
-        /* Open the keymap editor => ESC */
-        KeymapDialog* km = new KeymapDialog();
-        if (km->exec() == QDialog::Accepted) {
-            km->savemap();
-            loadKeymap();
-        }
     } else {
         /* Any other key */
         QMainWindow::keyPressEvent(event);
@@ -287,6 +280,10 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
         /* Arrow Right key => RIGHT */
         keysHeld_ ^= KEYRIGHT;
         emit signalKeyReleased(Qt::Key_Right);
+    } else if (event->key() == Qt::Key_Escape) {
+        /* Open the mainmenu editor => ESC */
+        emit signalShowMainMenu();
+
     } else {
         QMainWindow::keyPressEvent(event);
     }

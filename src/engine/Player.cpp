@@ -115,12 +115,27 @@ void Player::createEffect(int effectType)
         switch (effectType)
         {
         case EFFECT_FAST:
+            if(effects_.contains(EFFECT_NPCPLAYER)) {
+                return;
+            }
+            if(effects_.contains(EFFECT_FAST)) {
+                return;
+            }
             effect = new PlayerTerrainFastEffect(this);
             break;
         case EFFECT_SLOW:
+            if(effects_.contains(EFFECT_NPCPLAYER)) {
+                return;
+            }
+            if(effects_.contains(EFFECT_SLOW)) {
+                return;
+            }
             effect = new PlayerTerrainSlowEffect(this);
             break;
         case EFFECT_NPCPLAYER:
+            foreach(Effect* e, effects_) {
+                deleteEffect(e);
+            }
             effect = new NPCPlayerEffect(this);
             break;
         default:

@@ -92,7 +92,7 @@ protected:
      */
     virtual void keyPressEvent(QKeyEvent * event);
     virtual void keyReleaseEvent(QKeyEvent *);
-
+public:
     void loadKeymap();
 
 public slots:
@@ -192,6 +192,11 @@ signals:
      * @author Dean Morin
      */
     void signalSpacebarReleased();
+    /**
+     * Display the MainMenu window
+     * @author Warren Voelkl
+     */
+    void signalShowMainMenu();
 };
 
 } /* end namespace td */

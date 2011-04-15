@@ -104,6 +104,9 @@ namespace network {
         /** Indicates sale/deletion of Tower. */
         kSellTower      =   0x12,
 
+        /** Indicates sale/deletion of Tower. */
+        kUpgradeTower   =   0x13,
+
         /**
          * Indicates the dropping of a Collectable.
          * See Also: @ref dropcollect

@@ -179,8 +179,8 @@ void CDriver::makeLocalPlayer(Player* player) {
             towerContextMenu_, SLOT(viewResources(bool)));
     connect(towerContextMenu_, SIGNAL(signalSellTower(QPointF)),
             this, SLOT(requestSellTower(QPointF)));
-    //connect(towerContextMenu_, SIGNAL(signalUpgradeTower(QPointF)),
-    //TODO macca add upgrade tower here        this, SLOT(***(QPointF)));
+    connect(towerContextMenu_, SIGNAL(signalUpgradeTower(QPointF)),
+            this, SLOT(requestUpgradeTower(QPointF)));
     connect(towerContextMenu_, SIGNAL(signalPlayerMovement(bool)),
 	        input, SLOT(playerMovement(bool)));
     
@@ -257,6 +257,18 @@ void CDriver::requestSellTower(QPointF pos) {
         NetworkClient::instance()->send(network::kSellTower, s.data());
     }
 }
+
+void CDriver::requestUpgradeTower(QPointF pos) {
+    if (isSinglePlayer()) {
+        Driver::upgradeTower(pos);
+    } else {
+        Stream s;
+        s.writeFloat(pos.x());
+        s.writeFloat(pos.y());
+        NetworkClient::instance()->send(network::kUpgradeTower, s.data());
+    }
+}
+
 void CDriver::NPCCreator() {
     timeCount_++;
     if(!waves_.empty()) {
@@ -459,6 +471,15 @@ void CDriver::UDPReceived(Stream* s) {
 
             Tile* tile = gameMap_->getTile(QPointF(x, y));
             tile->setActionType(actionType);
+
+            break;
+        }
+        case network::kUpgradeTower:
+        {
+            float x = s->readFloat();
+            float y = s->readFloat();
+
+            Driver::upgradeTower(QPointF(x, y));
 
             break;
         }
