@@ -19,6 +19,7 @@
 #define TOWER_FLAME         51
 #define TOWER_TAR           52
 #define TOWER_FLAK          53
+#define TOWER_TYPE_MAX       5
 #define UPGRADE_TOWER       49
 #define SELL_TOWER          57
 #define UPGRADE_SPEED       49
@@ -201,6 +202,13 @@
 #define COST_FLAME_STONE   1
 #define COST_FLAME_BONE    0
 #define COST_FLAME_OIL     0
+
+//colors for tower colors
+#define ARROW_COLOR     QColor(255,160,122)
+#define CANNON_COLOR    QColor(255,0,255)
+#define TAR_COLOR       QColor(0,0,255)
+#define FLAME_COLOR     QColor(255,0,0)
+#define FLAK_COLOR      QColor(0,255,0)
 
 #endif
 

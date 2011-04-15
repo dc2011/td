@@ -11,7 +11,7 @@ QPixmap* FlakTowerGraphicsComponent::pixmapImgs_ = NULL;
 
 ArrowTowerGraphicsComponent::ArrowTowerGraphicsComponent()
         : TowerGraphicsComponent() {
-    initRangeCircle(QColor(255,160,122));
+    initRangeCircle(ARROW_COLOR);
     emit created(this);
 }
 
@@ -26,7 +26,7 @@ void ArrowTowerGraphicsComponent::initPixmaps() {
 
 CannonTowerGraphicsComponent::CannonTowerGraphicsComponent()
         : TowerGraphicsComponent() {
-    initRangeCircle(QColor(255,0,255));
+    initRangeCircle(CANNON_COLOR);
     emit created(this);
 }
 
@@ -41,7 +41,7 @@ void CannonTowerGraphicsComponent::initPixmaps() {
 
 TarTowerGraphicsComponent::TarTowerGraphicsComponent()
         : TowerGraphicsComponent() {
-    initRangeCircle(QColor(0,0,255));
+    initRangeCircle(TAR_COLOR);
     emit created(this);
 }
 
@@ -56,7 +56,7 @@ void TarTowerGraphicsComponent::initPixmaps() {
 
 FlameTowerGraphicsComponent::FlameTowerGraphicsComponent()
         : TowerGraphicsComponent() {
-    initRangeCircle(QColor(255,0,0));
+    initRangeCircle(FLAME_COLOR);
     emit created(this);
 }
 
@@ -71,7 +71,7 @@ void FlameTowerGraphicsComponent::initPixmaps() {
 
 FlakTowerGraphicsComponent::FlakTowerGraphicsComponent()
         : TowerGraphicsComponent() {
-    initRangeCircle(QColor(0,255,0));
+    initRangeCircle(FLAK_COLOR);
     emit created(this);
 }
 

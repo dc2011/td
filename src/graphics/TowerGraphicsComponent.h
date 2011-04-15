@@ -12,6 +12,18 @@ namespace td {
 
 class Tower;
 
+struct DrawParamsTower {
+    /** location */
+    QPointF pos;
+    /** in degrees 0 is up 180 down... */
+    int degrees;
+    /** normal is 1 .5 is half 2 is double */
+    float scale;
+    /** when true it displays the range of the tower */
+    bool displayRadius;
+};
+
+
 class TowerGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
@@ -62,6 +74,7 @@ private:
     QGraphicsEllipseItem * rangeCircle_;
 
     bool visibleRange_;
+protected:
     int radius_;
 public slots:
     /**

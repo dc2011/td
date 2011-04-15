@@ -17,7 +17,6 @@ void ContextMenuGraphicsComponent::update(GameObject *) {
     dp->degrees = 0;
     dp->pos = menuPos_;
     dp->pixmapIdx = nextImage_;
-    //DrawParams() :pos(0,0), degrees(90), scale(1), moving(0), health(-1) {}
 
     emit signalDraw(dp,this, LAYER_MENU);
 }
