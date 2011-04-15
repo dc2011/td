@@ -69,7 +69,12 @@ FireProjectileGraphicsComponent::FireProjectileGraphicsComponent()
 }
 
 void FireProjectileGraphicsComponent::initPixmaps() {
+    animateMod_ = PIX_PROJ_FIRE_MAX;
+    arrayIndexMin_ = pixmapIndex_ = 0;
+    arrayIndexMax_ = PIX_PROJ_FIRE_MAX - 1;
+    currentIndex_ = 0;
     if (pixmapImgs_) {
+        timerID_ = this->startTimer(125);
         return;
     } else {
         pixmapImgs_ = new QPixmap[PIX_PROJ_FIRE_MAX];
@@ -82,7 +87,43 @@ void FireProjectileGraphicsComponent::initPixmaps() {
     pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_2;
     pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_3;
     pixmapIndex_ = 0;
+    timerID_ = this->startTimer(125);
 }
+
+void FireProjectileGraphicsComponent::animate() {
+    if (animateMod_ == 0) {
+        return;
+    }
+
+    if (currentIndex_ == 0) {
+        currentIndex_ = 1;
+        return;
+    } else if (currentIndex_ == 1) {
+        setImgIndex(currentIndex_);
+        currentIndex_ = 2;
+        return;
+    } else {
+        if (currentIndex_ == 2) {
+            setImgIndex(currentIndex_);
+            currentIndex_ = 3;
+            return;
+        } else if (currentIndex_ == 3) {
+            setImgIndex(currentIndex_);
+            currentIndex_ = 2;
+            return;
+        }
+    }
+
+}
+
+void FireProjectileGraphicsComponent::timerEvent(QTimerEvent *) {
+    DrawParams* dp = new DrawParams();
+    dp->pos = pos_;
+    dp->scale = scale_;
+    dp->degrees = degrees_;
+    this->draw(dp, LAYER_FLYNPC);
+}
+
 
 FlakProjectileGraphicsComponent::FlakProjectileGraphicsComponent()
         : ProjectileGraphicsComponent() {
