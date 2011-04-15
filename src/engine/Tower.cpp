@@ -196,6 +196,10 @@ void Tower::setComponents() {
     }
     connect(getDriver()->getTimer(), SIGNAL(timeout()),
             this, SLOT(update()));
+#ifndef SERVER
+    connect(CDriver::instance()->getMainWindow(), SIGNAL(signalAltHeld(bool)),
+                getGraphicsComponent(), SLOT(setVisibleRange(bool)));
+#endif
 }
 
 } // end of namespace td
