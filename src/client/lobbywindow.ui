@@ -260,16 +260,6 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="msgView">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>260</y>
-      <width>280</width>
-      <height>280</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
@@ -373,6 +363,19 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <widget class="QTextEdit" name="msgView">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>280</width>
+       <height>280</height>
+      </rect>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="chatInputBg">
     <property name="geometry">
@@ -410,7 +413,6 @@
    <zorder>label_2</zorder>
    <zorder>sendMsg</zorder>
    <zorder>msgBox</zorder>
-   <zorder>msgView</zorder>
    <zorder>label_3</zorder>
    <zorder>newGame</zorder>
    <zorder>gamesList</zorder>

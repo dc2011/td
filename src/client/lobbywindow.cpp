@@ -40,6 +40,8 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
 
     connect(ui->btnExit, SIGNAL(clicked()), this, SLOT(close()));
 
+    ui->msgView->append("test by pan");
+
     QCoreApplication::setOrganizationName("dc2011");
     QCoreApplication::setApplicationName("td");
     readSettings();
@@ -230,8 +232,8 @@ void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {
     //ui->msgView->text().append("hi");
     QString result(nickName);
     result.append(": ");
-    result .append(msg);
-    ui->msgView->setText(result);
+    result.append(msg);
+    ui->msgView->append(result);
 }
 
 void LobbyWindow::onCreateNewGame() {
