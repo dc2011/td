@@ -114,7 +114,7 @@ public slots:
      * @author Darryl Pogue
      * @param gc The GraphicsComponent of the game object.
      */
-    void drawItem(DrawParams* dp, GraphicsComponent* gc, int layer);
+    void drawItem(void* dp, GraphicsComponent* gc, int layer);
     
     /**
      * Emits signals depending on the keys held down

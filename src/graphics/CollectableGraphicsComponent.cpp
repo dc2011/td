@@ -4,6 +4,8 @@
 #include <QPointF>
 namespace td {
 
+
+
 CollectableGraphicsComponent::~CollectableGraphicsComponent() {}
 
 void CollectableGraphicsComponent::update(GameObject* obj) {
@@ -35,8 +37,6 @@ void CollectableGraphicsComponent::update(GameObject* obj) {
     } else {
         dp->pos = collectable->getPos();
     }
-
-    dp->moving  = true;
     dp->scale   = collectable->getScale();
     dp->degrees = collectable->getOrientation();
     emit signalDraw(dp, this, LAYER_DEFAULT);
