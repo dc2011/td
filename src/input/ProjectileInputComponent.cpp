@@ -4,6 +4,9 @@
 #include "../engine/Driver.h"
 #include "../engine/CDriver.h"
 #include "../engine/Map.h"
+#ifndef SERVER
+#   include "../graphics/EndingGraphicsComponentTypes.h"
+#endif
 #define PI 3.141592653589793238
 #include <math.h>
 
@@ -55,6 +58,23 @@ void ProjectileInputComponent::makeForce(){
             this->checkNPCCollision(npcs);
         }
         //check for collisions here
+#ifndef SERVER
+    switch (parent_->getType()) {
+    case PROJ_ARROW:
+        new ArrowEndingGraphicsComponent(parent_->getPos());
+        break;
+    case PROJ_CANNON:
+        new CannonEndingGraphicsComponent(parent_->getPos());
+        break;
+    case PROJ_FIRE:
+        break;
+    case PROJ_FLAK:
+        break;
+    case PROJ_TAR:
+        new TarEndingGraphicsComponent(parent_->getPos());
+        break;
+    }
+#endif
         emit deleteProjectileLater(parent_->getID());
     } else {
         force = QVector2D(parent_->getPath().unitVector().dx() * -1,

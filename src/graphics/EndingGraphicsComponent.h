@@ -48,7 +48,7 @@ public:
       @param layer Layer to draw the object at.
       @author Nick Huber
       */
-    virtual void draw(DrawParams* dp, int layer = LAYER_DEFAULT);
+    virtual void draw(void* dp, int layer = LAYER_DEFAULT);
 
     /**
       Initilize the pixmaps for each object,
@@ -88,6 +88,8 @@ private:
       @author Nick Huber
       */
     virtual void setNonStaticValues() = 0;
+
+    virtual void setLayer(void*) {}
 };
 
 }

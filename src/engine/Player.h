@@ -36,7 +36,8 @@ private:
         kOrientation    = (1 << 1),
         kScale          = (1 << 2),
         kNickname       = (1 << 3),
-        kResource       = (1 << 4)
+        kResource       = (1 << 4),
+        kMoving         = (1 << 5)
     };
 
 public:
@@ -111,6 +112,16 @@ Collectable* collectable_;
      */
     int getResource() {
         return resource_;
+    }
+
+    /**
+     * Gets whether the player is moving or not.
+     *
+     * @author Darryl Pogue
+     * @return true if the player is moving; false otherwise.
+     */
+    bool getMoving() const {
+        return isMoving_;
     }
 
 private: 
@@ -198,6 +209,9 @@ private:
 
     /** The resource (if any) that the player is currently carrying. */
     int resource_;
+
+    /** Whether the player is moving or not. */
+    bool isMoving_;
 
 signals:
     /**
