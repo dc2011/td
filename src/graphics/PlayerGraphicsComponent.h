@@ -10,6 +10,26 @@
 
 namespace td {
 
+
+struct DrawParamsPlayer {
+    /** location */
+    QPointF pos;
+    /** in degrees 0 is up 180 down... */
+    int degrees;
+    /** normal is 1 .5 is half 2 is double */
+    float scale;
+    /** current moving state of player */
+    bool moving;
+    /** if the resource bar should currently be shown */
+    bool resourceProgressShowing;
+    /** the current progress of harvesting a resource */
+    double resourceProgress;
+    /** The type of resource the player is playing */
+    int resourceType;
+    /** if the players name should be shown */
+    bool showName;
+};
+
 class PlayerGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
@@ -67,7 +87,7 @@ public:
      * to render an image.
      * @param layer is what layer to draw image defaults to 0
      */
-    virtual void draw(DrawParams* dp, int layer=0);
+    virtual void draw(void* dp, int layer=0);
     
     /**
      * The primary method used to determine the behaviours of animation

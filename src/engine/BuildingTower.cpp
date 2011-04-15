@@ -32,22 +32,18 @@ void BuildingTower::networkRead(Stream* s) {
     
     if (dirty_ & kWood) {
         wood_ = s->readInt();
-        setGraphicsResources(RESOURCE_WOOD, wood_);
     }
     
     if (dirty_ & kStone) {
         stone_ = s->readInt();
-        setGraphicsResources(RESOURCE_STONE, stone_);
     }
     
     if (dirty_ & kBone) {
         bone_ = s->readInt();
-        setGraphicsResources(RESOURCE_BONE, bone_);
     }
     
     if (dirty_ & kOil) {
         oil_ = s->readInt();
-        setGraphicsResources(RESOURCE_TAR, oil_);
     }
 }
 
@@ -115,63 +111,45 @@ void BuildingTower::initComponents() {
     totalResources_ = wood_ + bone_ + oil_ + stone_;
 #ifndef SERVER
     setGraphicsComponent(new BuildingTowerGraphicsComponent());
-    getGraphicsComponent()->setBuildingResources(RESOURCE_WOOD, wood_);
-    getGraphicsComponent()->setBuildingResources(RESOURCE_TAR, oil_);
-    getGraphicsComponent()->setBuildingResources(RESOURCE_BONE, bone_);
-    getGraphicsComponent()->setBuildingResources(RESOURCE_STONE, stone_);
 #endif
 }
 
 void BuildingTower::setWood(int wood) {
     wood_ = wood;
     setDirty(kWood);
-    setGraphicsResources(RESOURCE_WOOD, wood);
 }
 
 void BuildingTower::setStone(int stone) {
     stone_ = stone;
     setDirty(kStone);
-    setGraphicsResources(RESOURCE_STONE, stone);
 }
 
 void BuildingTower::setOil(int oil) {
     oil_ = oil;
     setDirty(kOil);
-    setGraphicsResources(RESOURCE_TAR, oil);
 }
 
 void BuildingTower::setBone(int bone) {
     bone_ = bone;
     setDirty(kBone);
-    setGraphicsResources(RESOURCE_BONE, bone);
 }
 
-void BuildingTower::evaluateBuildingStage() {
+int BuildingTower::evaluateBuildingStage() {
     double resourcesNeeded = totalResources_ - (wood_ + oil_ + stone_ + bone_);
     if (totalResources_ == 0) {
-        return;
+        return TOWER_COMPLETE_75;
     }
     double percentCompleted = (resourcesNeeded / totalResources_) * 100;
     if (percentCompleted < 33) {
-         getGraphicsComponent()->setBuildingStage(TOWER_COMPLETE_25);
-         return;
+         return TOWER_COMPLETE_25;
     }
     if (percentCompleted < 66) {
-        getGraphicsComponent()->setBuildingStage(TOWER_COMPLETE_50);
-        return;
+        return TOWER_COMPLETE_50;
     }
     if (percentCompleted < 100) {
-        getGraphicsComponent()->setBuildingStage(TOWER_COMPLETE_75);
-        return;
+        return TOWER_COMPLETE_75;
     }
-}
-
-void BuildingTower::setGraphicsResources(int resType, int resNum) {
-    if (getGraphicsComponent()) {
-        getGraphicsComponent()->setBuildingResources(resType, resNum);
-        getGraphicsComponent()->update(this);
-        evaluateBuildingStage();
-    }
+    return TOWER_COMPLETE_75;
 }
 
 } // end of namespace td
