@@ -139,10 +139,17 @@
 
 //ending animations for NPCs
 #define PIX_END_FLYING_START    0
-#define PIX_END_FLYING_0        QString("./img/death1.png")
-#define PIX_END_FLYING_1        QString("./img/death2.png")
-#define PIX_END_FLYING_2        QString("./img/death3.png")
-#define PIX_END_FLYING_MAX      3
+#define PIX_END_FLYING_0        QString("./img/ptero-death-1.png")
+#define PIX_END_FLYING_1        QString("./img/ptero-death-2.png")
+#define PIX_END_FLYING_2        QString("./img/ptero-death-3.png")
+#define PIX_END_FLYING_3        QString("./img/ptero-death-4.png")
+#define PIX_END_FLYING_MAX      4
+
+#define PIX_END_GENERIC_START    0
+#define PIX_END_GENERIC_0        QString("./img/death1.png")
+#define PIX_END_GENERIC_1        QString("./img/death2.png")
+#define PIX_END_GENERIC_2        QString("./img/death3.png")
+#define PIX_END_GENERIC_MAX      3
 
 #endif
 
