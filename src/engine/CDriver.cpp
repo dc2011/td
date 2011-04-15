@@ -259,7 +259,10 @@ void CDriver::requestUpgradeTower(QPointF pos) {
     if (isSinglePlayer()) {
         Driver::upgradeTower(pos);
     } else {
-        //send message to server
+        Stream s;
+        s.writeFloat(pos.x());
+        s.writeFloat(pos.y());
+        NetworkClient::instance()->send(network::kUpgradeTower, s.data());
     }
 }
 
@@ -459,6 +462,15 @@ void CDriver::UDPReceived(Stream* s) {
 
             Tile* tile = gameMap_->getTile(QPointF(x, y));
             tile->setActionType(actionType);
+
+            break;
+        }
+        case network::kUpgradeTower:
+        {
+            float x = s->readFloat();
+            float y = s->readFloat();
+
+            Driver::upgradeTower(QPointF(x, y));
 
             break;
         }

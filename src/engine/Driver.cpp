@@ -262,8 +262,8 @@ void Driver::sellTower(QPointF pos) {
     destroyObject(currentTile->getExtension());
     currentTile->setActionType(TILE_BUILDABLE);
 }
-
-void Driver::upgradeTower(QPointF pos) {
+//TODO macca gem validation
+bool Driver::upgradeTower(QPointF pos) {
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
     Tower* t = (Tower*)currentTile->getExtension();
 
@@ -309,6 +309,7 @@ void Driver::upgradeTower(QPointF pos) {
         t->setComponents();
         break;
     }
+    return true;
 }
 
 QVector2D Driver::getRandomVector() {
