@@ -59,10 +59,8 @@ void Player::update() {
     if (isDirty()) {
         getDriver()->updateRT(this);
     }
-
-    for(QMap<int, Effect*>::iterator it = effects_.begin();
-        it != effects_.end(); ++it) {
-        it.value()->update();
+    foreach (Effect* e, effects_) {
+        e->update();
     }
 
     if (graphics_ != NULL) {
@@ -125,6 +123,7 @@ void Player::deleteEffect(Effect* effect)
 {
     effects_.remove(effect->getType());
     delete effect;
+    effect = NULL;
 }
 
 void Player::startHarvesting(int type) {

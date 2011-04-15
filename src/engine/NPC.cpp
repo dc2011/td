@@ -23,10 +23,9 @@ NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
 
 NPC::~NPC() {
     // Delete all effects in the map
-    QMap<int, Effect*>::iterator i;
-    for (i = effects_.begin(); i != effects_.end(); ++i)
+    foreach (Effect* e, effects_)
     {
-        deleteEffect(i.value());
+        deleteEffect(e);
     }
     if (wave_ != NULL) {
         wave_->killChild(this);
@@ -269,9 +268,8 @@ void NPC::update() {
     if (physics_ != NULL) {
         physics_->update(this);
     }
-    for(QMap<int, Effect*>::iterator it = effects_.begin();
-        it != effects_.end(); ++it) {
-        it.value()->update();
+    foreach(Effect* e, effects_) {
+        e->update();
     }
     /*if (isDirty()) {
         getDriver()->updateRT(this);

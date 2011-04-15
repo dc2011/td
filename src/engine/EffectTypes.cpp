@@ -107,7 +107,7 @@ FireEffect::FireEffect(Unit* unit)
 void FireEffect::apply(){}
 
 NPCBurnEffect::NPCBurnEffect(Unit* unit):Effect(unit, EFFECT_BURN, BURN_TIME) {
-    healthChangeValue_ = -5;
+    healthChangeValue_ = -40;
     count_ = 15;
 }
 
