@@ -11,7 +11,7 @@ QFrame#bgFrame {
     border: none;
 }
 
-QListWidget#mapsList, QTextEdit#msgView, QLineEdit#msgBox {
+QListWidget#mapsList, QTextEdit#msgView, QLineEdit#msgBox, QHeaderView, QHeaderView::section {
     background: transparent;
     border: none;
 }
@@ -31,5 +31,15 @@ QTextEdit#msgView, QLineEdit#msgBox {
 
 QFrame#logoFrame {
     background-image: url("./img/logo.png");
+    border: none;
+}
+
+QTreeWidget#gameList {
+    background-image: url("./img/gameListBg.png");
+    border: none;
+}
+
+QTreeWidget#userList {
+    background-image: url("./img/userListBg.png");
     border: none;
 }

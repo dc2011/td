@@ -18,6 +18,7 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
 
     ui->setupUi(this);
     ui->btnStart->setEnabled(false);
+    ui->userList->header()->setResizeMode(QHeaderView::Fixed);
 
     this->applyStyleSheet(QString(":/file/client.qss"));
 

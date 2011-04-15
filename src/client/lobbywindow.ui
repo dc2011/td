@@ -289,16 +289,6 @@
      <string>New Game</string>
     </property>
    </widget>
-   <widget class="QListWidget" name="gamesList">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>140</y>
-      <width>291</width>
-      <height>401</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
@@ -318,14 +308,35 @@
       <x>330</x>
       <y>359</y>
       <width>340</width>
-      <height>181</height>
+      <height>180</height>
      </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="animated">
+     <bool>true</bool>
+    </property>
+    <property name="headerHidden">
+     <bool>false</bool>
     </property>
     <property name="columnCount">
      <number>2</number>
     </property>
+    <attribute name="headerCascadingSectionResizes">
+     <bool>false</bool>
+    </attribute>
     <attribute name="headerDefaultSectionSize">
      <number>170</number>
+    </attribute>
+    <attribute name="headerMinimumSectionSize">
+     <number>170</number>
+    </attribute>
+    <attribute name="headerShowSortIndicator" stdset="0">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="headerStretchLastSection">
+     <bool>false</bool>
     </attribute>
     <column>
      <property name="text">
@@ -412,33 +423,24 @@
      <enum>QFrame::Raised</enum>
     </property>
    </widget>
-   <zorder>logoFrame</zorder>
-   <zorder>mapsList</zorder>
-   <zorder>btnStart</zorder>
-   <zorder>easyBtn</zorder>
-   <zorder>mediumBtn</zorder>
-   <zorder>txtUsername</zorder>
-   <zorder>lblDisplayCount</zorder>
-   <zorder>lblCount</zorder>
-   <zorder>chkSingleplayer</zorder>
-   <zorder>btnConnect</zorder>
-   <zorder>lblAddress</zorder>
-   <zorder>txtAddress</zorder>
-   <zorder>lblUsername</zorder>
-   <zorder>hardBtn</zorder>
-   <zorder>bgFrame</zorder>
-   <zorder>label</zorder>
-   <zorder>label_2</zorder>
-   <zorder>sendMsg</zorder>
-   <zorder>msgBox</zorder>
-   <zorder>label_3</zorder>
-   <zorder>newGame</zorder>
-   <zorder>gamesList</zorder>
-   <zorder>label_4</zorder>
-   <zorder>userList</zorder>
-   <zorder>btnExit</zorder>
-   <zorder>chatBgFrame</zorder>
-   <zorder>chatInputBg</zorder>
+   <widget class="QTreeWidget" name="gameList">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>140</y>
+      <width>280</width>
+      <height>400</height>
+     </rect>
+    </property>
+    <attribute name="headerVisible">
+     <bool>false</bool>
+    </attribute>
+    <column>
+     <property name="text">
+      <string notr="true">1</string>
+     </property>
+    </column>
+   </widget>
   </widget>
  </widget>
  <resources/>
