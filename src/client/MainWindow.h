@@ -69,6 +69,11 @@ private:
      */
     bool consoleOpen_;
 
+    /**
+     *  Boolean for map being zoomed out
+     */
+    bool mapZoomOut_;
+
     /** The keymap defining which keys are bound to which events. */
     Keymap keys_;
 
