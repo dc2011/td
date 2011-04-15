@@ -50,6 +50,9 @@ void SlowNPCGraphicsComponent::initPixmaps() {
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_NPC_BRONTO_0;
     pixmapImgs_[pixmapIndex_++] = PIX_NPC_BRONTO_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BRONTO_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BRONTO_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BRONTO_4;
     setNonStaticValues();
 }
 
@@ -127,6 +130,7 @@ void BossNPCGraphicsComponent::initPixmaps() {
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_NPC_TREX_0;
     pixmapImgs_[pixmapIndex_++] = PIX_NPC_TREX_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_TREX_2;
     setNonStaticValues();
 }
 
