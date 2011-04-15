@@ -64,7 +64,7 @@ public:
     //int getRow();
     void addUnit(Unit *unitToAdd);
     void removeUnit(Unit *unitToRemove);
-    QSet<Unit*> getUnits();
+    QList<Unit*> getUnits();
     BlockingType getType();
 
     /**
@@ -205,7 +205,7 @@ private:
     BlockingType type_;
     TileEffect tileEffect_;
     int actionType_;
-    QSet<Unit*> currentUnits_;
+    QList<Unit*> currentUnits_;
     QPolygonF myBounds_;
 
     /** 
