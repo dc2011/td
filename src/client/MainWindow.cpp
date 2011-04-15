@@ -190,7 +190,9 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         //AudioManager::instance()->toggleCapturePause();
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
-        if(mapZoomOut_ == false) {
+        if(mapZoomOut_ == false && 
+	   view_->sceneRect().toRect().contains(view_->frameRect(),false)) {
+
 	    view_->scale(.5,.5);
 	    mapZoomOut_ = !mapZoomOut_;
 	}
@@ -270,7 +272,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
         //AudioManager::instance()->toggleCapturePause();
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
-        if(mapZoomOut_ == true) {
+        if(mapZoomOut_ == true && 
+	   view_->sceneRect().toRect().contains(view_->frameRect(),false)) {
+	   
 	    view_->scale(2,2);
 	    mapZoomOut_ = !mapZoomOut_;
 	}
