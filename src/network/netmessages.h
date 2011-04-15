@@ -104,6 +104,18 @@ namespace network {
         /** Indicates sale/deletion of Tower. */
         kSellTower      =   0x12,
 
+        /**
+         * Indicates the dropping of a Collectable.
+         * See Also: @ref dropcollect
+         */
+        kDropCollect    =   0x14,
+
+        /**
+         * Indicates the picking up of a Collectable.
+         * See Also: @ref pickcollect
+         */
+        kPickCollect    =   0x15,
+
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
         /** Used as a separator to indicate UDP messages. */
@@ -289,6 +301,44 @@ namespace network {
  *  int length
  *    // The chat string data
  *  char[length] message
+ * @endcode
+ *
+ * @section dropcollect Drop Collectable Message
+ * This message indicates the dropping of a resource.
+ * On the client it is formatted as follows:
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kDropCollect
+ *    // The ID of the player sending the message
+ *  int playerID
+ * @endcode
+ * When sent from the server, it contains much more information:
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kDropCollect
+ *    // The ID of the player sending the message
+ *  int playerID
+ *    // The type of the collectable
+ *  int type
+ *    // The X component of the collectable's vector
+ *  float vectorX
+ *    // The Y component of the collectable's vector
+ *  float vectorY
+ *    // The player's X position
+ *  float playerX
+ *    // The player's Y position
+ *  float playerY
+ * @endcode
+ *
+ * @section pickcollect Pick-up Collectable Message
+ * This message is sent when a player picks up a collectable.
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kPickCollect
+ *    // The ID of the player sending the message
+ *  int playerID
+ *    // The ID of the collectable
+ *  int collectableID
  * @endcode
  *
  * @section playsfx Play SFX Message
