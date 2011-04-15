@@ -44,10 +44,10 @@
 #define PIX_PROJ_TAR_MAX        1
 #define PIX_PROJ_CANNON         QString("./img/cannonProjectile.png")
 #define PIX_PROJ_CANNON_MAX     1
-#define PIX_PROJ_FIRE_0         QString("./img/flameProjectile1.png")
-#define PIX_PROJ_FIRE_1         QString("./img/flameProjectile2.png")
-#define PIX_PROJ_FIRE_2         QString("./img/medFlame.png")
-#define PIX_PROJ_FIRE_3         QString("./img/smallFlame.png")
+#define PIX_PROJ_FIRE_0         QString("./img/smallFlame.png")
+#define PIX_PROJ_FIRE_1         QString("./img/medFlame.png")
+#define PIX_PROJ_FIRE_2         QString("./img/flameProjectile2.png")
+#define PIX_PROJ_FIRE_3         QString("./img/flameProjectile1.png")
 #define PIX_PROJ_FIRE_MAX       4
 #define PIX_PROJ_FLAK           QString("./img/flakProjectile.png")
 #define PIX_PROJ_FLAK_MAX       1
