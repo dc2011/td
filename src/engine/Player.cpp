@@ -223,13 +223,9 @@ void Player::pickupCollectable(double x, double y, Unit* u) {
         getDriver()->destroyObject(u);
         return;
     }
+    disconnect(getDriver()->getTimer(),  SIGNAL(timeout()), u, SLOT(update()));
 
     resource_ = ((Collectable*)u)->getType();
-    if (getGraphicsComponent()) {
-        getGraphicsComponent()->setCurrentResource(resource_);
-        getGraphicsComponent()->update(this);
-
-    }
     setDirty(kResource);
     getDriver()->destroyObject(u);
 }
