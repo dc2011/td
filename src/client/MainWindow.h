@@ -7,6 +7,8 @@
 #include <QKeyEvent>
 #include <QTimer>
 #include <QSettings>
+#include <QFrame>
+#include <QBoxLayout>
 #include "../graphics/DrawParams.h"
 #include "keymap.h"
 
@@ -37,17 +39,12 @@ private:
      * The view which displays the graphics scene.
      */
     QGraphicsView* view_;
+
+    /**
+     * The stats bar.
+     */
+    QFrame* stats_;
     
-    /**
-     * The stats menu bar
-     */
-    QGraphicsTextItem* stats_;
-
-    /**
-     * The view which displays the graphics scene.
-     */
-    QGraphicsRectItem* statsRect_;
-
     /**
      * The bitmask of keys held and not released
      */

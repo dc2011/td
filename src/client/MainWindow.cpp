@@ -17,8 +17,7 @@ namespace td {
 MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
-    stats_ = new QGraphicsTextItem();
-    statsRect_ = new QGraphicsRectItem();
+    stats_ = new QFrame();
 
     consoleOpen_ = false;
     mapZoomOut_ = false;
@@ -34,28 +33,22 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
 
+    stats_->setFixedHeight(22);
+
     //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
     mapDisplayer_->viewMap(MAP_TMX);
     Tiled::MapRenderer* mRenderer = mapDisplayer_->getMRenderer();
     QSize mapSize = mRenderer->mapSize();
 
-    //Status bar
-    statsRect_->setRect(500,0,500,30);
-    statsRect_->setBrush(QBrush(QColor(0,0,0)));
-    statsRect_->setPen(QPen(QColor(0,0,0)));
-    statsRect_->setZValue(98);
-    statsRect_->setOpacity(0.8);
+    QWidget* centre = new QWidget(this);
+    QVBoxLayout* bl = new QVBoxLayout(centre);
+    bl->addWidget(stats_);
+    bl->addWidget(view_);
+    bl->setMargin(0);
+    bl->setSpacing(0);
 
-    stats_->setDefaultTextColor(QColor(200,200,0));
-    stats_->setPos(505,0);
-    stats_->setZValue(99);
-    stats_->setPlainText("|i|Base Health: 100% |i| Gems: 10 |i| NPC WAVE 0:10s");
-    stats_->update();
-
-    scene_->addItem(statsRect_);
-    scene_->addItem(stats_);
-    this->setCentralWidget(view_);
+    this->setCentralWidget(centre);
     scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
     //view_->setFixedSize(mapSize.width(), mapSize.height());
     //this->showFullScreen();
