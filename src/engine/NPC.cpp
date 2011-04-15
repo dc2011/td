@@ -6,6 +6,7 @@
 
 #ifndef SERVER
 #    include "CDriver.h"
+#    include "../graphics/EndingGraphicsComponentTypes.h"
 #endif
 
 namespace td {
@@ -22,6 +23,13 @@ NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
 }
 
 NPC::~NPC() {
+#ifndef SERVER
+    if (type_ == NPC_FLY) {
+        new FlyingEndingGraphicsComponent(pos_);
+    } else {
+        new FlyingEndingGraphicsComponent(pos_);
+    }
+#endif
     // Delete all effects in the map
     foreach (Effect* e, effects_)
     {
