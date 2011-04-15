@@ -19,9 +19,8 @@ public:
       */
     CannonEndingGraphicsComponent(const QPointF& pos)
         : EndingGraphicsComponent(pos) {
-        animateMod_ = animateCount_ = PIX_END_CANNON_MAX;
         emit created(this);
-        timerID_ = this->startTimer(55);
+        redraw(55, LAYER_FLYNPC);
     }
 
     /**
@@ -81,9 +80,8 @@ public:
       */
     ArrowEndingGraphicsComponent(const QPointF& pos)
         : EndingGraphicsComponent(pos) {
-        animateMod_ = animateCount_ = PIX_END_ARROW_MAX;
         emit created(this);
-        timerID_ = this->startTimer(55);
+        redraw(55, LAYER_FLYNPC);
     }
 
     /**
@@ -142,9 +140,8 @@ public:
       */
     FlyingEndingGraphicsComponent(const QPointF& pos)
         : EndingGraphicsComponent(pos) {
-        animateMod_ = animateCount_ = PIX_END_FLYING_MAX;
         emit created(this);
-        timerID_ = this->startTimer(55);
+        redraw(1000, LAYER_DEFAULT);
     }
 
     /**

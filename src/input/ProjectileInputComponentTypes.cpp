@@ -4,6 +4,10 @@
 #include "../engine/Driver.h"
 #include "../engine/CDriver.h"
 #include "../engine/Map.h"
+#include "../engine/EffectTypes.h"
+#include "../engine/NPC.h"
+#define PI 3.141592653589793238
+#include <math.h>
 #include "../physics/ProjectilePhysicsComponent.h"
 
 namespace td {
@@ -20,85 +24,58 @@ void ArrowProjectileInputComponent::update() {
 
 }
 
-void ArrowProjectileInputComponent::makeForce(){
-    QVector2D force;
-    Map* map = parent_->getDriver()->getGameMap();
-    QSet<Unit*> npcs;
-    QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
-                             parent_->getPath().p1().x(), parent_->getPath().p1().y());
-    if (distance.length() <= parent_->getVelocity().length()) {
-        if (parent_->getEnemy() != NULL) {
-            disconnect(parent_->getEnemy(), SIGNAL(signalNPCDied()),
-                       parent_, SLOT(enemyDied()));
-        }
-        disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
-                   parent_, SLOT(update()));
-#ifndef SERVER
-        if (!((CDriver*)parent_->getDriver())->isSinglePlayer()) {
-            emit deleteProjectileLater(parent_->getID());
-            return;
-        }
-#endif
-        QPointF *end = parent_->getEndPoint();
-        npcs = map->getUnits(end->x(), end->y(), 1);
-        if(!npcs.empty()){
-            parent_->createBounds();
-            parent_->checkNPCCollision(npcs);
-        }
-        //check for collisions here
-        emit deleteProjectileLater(parent_->getID());
-    } else {
-        force = QVector2D(parent_->getPath().unitVector().dx() * -1,
-                          parent_->getPath().unitVector().dy() * -1);
-        parent_->setForce(force);
-    }
-}
-
 void CannonProjectileInputComponent::update(){
     this->makeForce();
 }
 
-void CannonProjectileInputComponent::makeForce(){
-    QVector2D force;
-    Map* map = parent_->getDriver()->getGameMap();
-    QSet<Unit*> npcs;
-    QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
-                             parent_->getPath().p1().x(), parent_->getPath().p1().y());
-    if (distance.length() <= parent_->getVelocity().length()) {
-        if (parent_->getEnemy() != NULL) {
-            disconnect(parent_->getEnemy(), SIGNAL(signalNPCDied()),
-                       parent_, SLOT(enemyDied()));
-        }
-        disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
-                   parent_, SLOT(update()));
-#ifndef SERVER
-        // TODO: start ending animation
-
-        if (!((CDriver*)parent_->getDriver())->isSinglePlayer()) {
-            emit deleteProjectileLater(parent_->getID());
-            return;
-        }
-#endif
-        QPointF *end = parent_->getEndPoint();
-        npcs = map->getUnits(end->x(), end->y(), 1);
-        if(!npcs.empty()){
-            parent_->createBounds();
-            parent_->checkNPCCollision(npcs);
-        }
-        //check for collisions here
-        emit deleteProjectileLater(parent_->getID());
-    } else {
-        force = QVector2D(parent_->getPath().unitVector().dx() * -1,
-                          parent_->getPath().unitVector().dy() * -1);
-        parent_->setForce(force);
-    }
+void TarProjectileInputComponent::update(){
+    this->makeForce();
 }
 
+void FlakProjectileInputComponent::update(){
+    this->makeForce();
+}
+
+void ArrowProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
+    QSet<Unit*>::iterator it;
+    QPolygonF projBounds;
+    QPolygonF npcBounds;
+
+//Note: for arrow/flak/other autohit projectiles
+// Just need to add effect to this->getEnemy()
+
+    for (it = npcs.begin(); it != npcs.end(); ++it) {
+        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
+            // Check to see if this projectile can damage this unit
+            if ((parent_->getType() == PROJ_FLAK) && (((NPC*)*it)->getType() != NPC_FLY))
+            {
+                continue;
+            }
+            if ((((NPC*)*it)->getType() == NPC_FLY)
+                && ((parent_->getType() == PROJ_CANNON) || (parent_->getType() == PROJ_FIRE)
+                    || (parent_->getType() == PROJ_TAR)))
+            {
+                continue;
+            }
+
+            projBounds = parent_->getBounds();
+            npcBounds = (*it)->getBounds();
+            if(parent_->getBounds().intersected((*it)->getBounds()).count() != 0){
+                //create projectile effect
+                //add effect to npc
+                //qDebug("Enemy hit");
+                ((NPC*)(*it))->createEffect(EFFECT_ARROW);
+                break;
+            }
+        }
+    }
+}
 
 FireProjectileInputComponent::FireProjectileInputComponent()
     :ProjectileInputComponent() {
     duration_ = 60;
     increment_ = 0;
+    counter_ = 0;
 }
 
 void FireProjectileInputComponent::update(){
@@ -109,8 +86,10 @@ void FireProjectileInputComponent::makeForce(){
     QVector2D force;
     Map* map = parent_->getDriver()->getGameMap();
     QSet<Unit*> npcs;
-    QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
-                             parent_->getPath().p1().x(), parent_->getPath().p1().y());
+    //QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
+    //                       parent_->getPath().p1().x(), parent_->getPath().p1().y());
+    QPointF *end = parent_->getEndPoint();
+    npcs = map->getUnits(end->x(), end->y(), 4);
     if (++increment_ == duration_) {
         if (parent_->getEnemy() != NULL) {
             disconnect(parent_->getEnemy(), SIGNAL(signalNPCDied()),
@@ -124,11 +103,9 @@ void FireProjectileInputComponent::makeForce(){
             return;
         }
 #endif
-        QPointF *end = parent_->getEndPoint();
-        npcs = map->getUnits(end->x(), end->y(), 1);
         if(!npcs.empty()){
             parent_->createBounds();
-            parent_->checkNPCCollision(npcs);
+            this->checkNPCCollision(npcs);
         }
         //check for collisions here
         emit deleteProjectileLater(parent_->getID());
@@ -136,82 +113,162 @@ void FireProjectileInputComponent::makeForce(){
         force = QVector2D(parent_->getPath().unitVector().dx() * -1,
                           parent_->getPath().unitVector().dy() * -1);
         parent_->setForce(force);
+        if(counter_ % 15 == 0){
+            if(!npcs.empty()){
+                parent_->createBounds();
+                this->checkNPCCollision(npcs);
+            }
+        }
+        counter_++;
     }
 }
 
-void TarProjectileInputComponent::update(){
-    this->makeForce();
+void FireProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
+    QSet<Unit*>::iterator it;
+    QPolygonF projBounds;
+    QPolygonF npcBounds;
+
+//Note: for arrow/flak/other autohit projectiles
+// Just need to add effect to this->getEnemy()
+
+    for (it = npcs.begin(); it != npcs.end(); ++it) {
+        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
+            // Check to see if this projectile can damage this unit
+            if ((parent_->getType() == PROJ_FLAK) && (((NPC*)*it)->getType() != NPC_FLY))
+            {
+                continue;
+            }
+            if ((((NPC*)*it)->getType() == NPC_FLY)
+                && ((parent_->getType() == PROJ_CANNON) || (parent_->getType() == PROJ_FIRE)
+                    || (parent_->getType() == PROJ_TAR)))
+            {
+                continue;
+            }
+
+            // NEED TO MAKE A DIFFERENCE HERE BETWEEN BURNING EFFECT AND NORMAL
+            // DAMAGE EFFECTS
+            projBounds = parent_->getBounds();
+            npcBounds = (*it)->getBounds();
+            if(parent_->getBounds().intersected((*it)->getBounds()).count() != 0){
+                //create projectile effect
+                //add effect to npc
+                //qDebug("Enemy hit");
+                ((NPC*)(*it))->createEffect(EFFECT_FIRE);
+            }else{
+                //qDebug("No hit");
+            }
+
+        }
+    }
+
 }
 
-void TarProjectileInputComponent::makeForce(){
-    QVector2D force;
-    Map* map = parent_->getDriver()->getGameMap();
-    QSet<Unit*> npcs;
-    QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
-                             parent_->getPath().p1().x(), parent_->getPath().p1().y());
-    if (distance.length() <= parent_->getVelocity().length()) {
-        if (parent_->getEnemy() != NULL) {
-            disconnect(parent_->getEnemy(), SIGNAL(signalNPCDied()),
-                       parent_, SLOT(enemyDied()));
+void TarProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
+    QSet<Unit*>::iterator it;
+    QPolygonF projBounds;
+    QPolygonF npcBounds;
+
+//Note: for arrow/flak/other autohit projectiles
+// Just need to add effect to this->getEnemy()
+
+    for (it = npcs.begin(); it != npcs.end(); ++it) {
+        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
+            // Check to see if this projectile can damage this unit
+            if ((parent_->getType() == PROJ_FLAK) && (((NPC*)*it)->getType() != NPC_FLY))
+            {
+                continue;
+            }
+            if ((((NPC*)*it)->getType() == NPC_FLY)
+                && ((parent_->getType() == PROJ_CANNON) || (parent_->getType() == PROJ_FIRE)
+                    || (parent_->getType() == PROJ_TAR)))
+            {
+                continue;
+            }
+
+            projBounds = parent_->getBounds();
+            npcBounds = (*it)->getBounds();
+            if(parent_->getBounds().intersected((*it)->getBounds()).count() != 0){
+                //create projectile effect
+                //add effect to npc
+                //qDebug("Enemy hit");
+                ((NPC*)(*it))->createEffect(EFFECT_TAR);
+            }else{
+                //qDebug("No hit");
+            }
+
         }
-        disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
-                   parent_, SLOT(update()));
-#ifndef SERVER
-        if (!((CDriver*)parent_->getDriver())->isSinglePlayer()) {
-            emit deleteProjectileLater(parent_->getID());
-            return;
+    }
+
+}
+
+void FlakProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
+
+    QSet<Unit*>::iterator it;
+    QPolygonF projBounds;
+    QPolygonF npcBounds;
+
+//Note: for arrow/flak/other autohit projectiles
+// Just need to add effect to this->getEnemy()
+
+    for (it = npcs.begin(); it != npcs.end(); ++it) {
+        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
+            // Check to see if this projectile can damage this unit
+            if ((parent_->getType() == PROJ_FLAK) && (((NPC*)*it)->getType() != NPC_FLY))
+            {
+                continue;
+            }
+            if ((((NPC*)*it)->getType() == NPC_FLY)
+                && ((parent_->getType() == PROJ_CANNON) || (parent_->getType() == PROJ_FIRE)
+                    || (parent_->getType() == PROJ_TAR)))
+            {
+                continue;
+            }
+
+            projBounds = parent_->getBounds();
+            npcBounds = (*it)->getBounds();
+            if(parent_->getBounds().intersected((*it)->getBounds()).count() != 0){
+                //create projectile effect
+                //add effect to npc
+                //qDebug("Enemy hit");
+                ((NPC*)(*it))->createEffect(EFFECT_FLAK);
+            }else{
+                //qDebug("No hit");
+            }
+
         }
-#endif
-        QPointF *end = parent_->getEndPoint();
-        npcs = map->getUnits(end->x(), end->y(), 1);
-        if(!npcs.empty()){
-            parent_->createBounds();
-            parent_->checkNPCCollision(npcs);
-        }
-        //check for collisions here
-        emit deleteProjectileLater(parent_->getID());
-    } else {
-        force = QVector2D(parent_->getPath().unitVector().dx() * -1,
-                          parent_->getPath().unitVector().dy() * -1);
-        parent_->setForce(force);
     }
 }
 
-void FlakProjectileInputComponent::update(){
-    this->makeForce();
+void CannonProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
+    QSet<Unit*>::iterator it;
+    QPolygonF projBounds;
+    QPolygonF npcBounds;
+
+//Note: for arrow/flak/other autohit projectiles
+// Just need to add effect to this->getEnemy()
+
+    for (it = npcs.begin(); it != npcs.end(); ++it) {
+        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
+            // Check to see if this projectile can damage this unit
+            if ((parent_->getType() == PROJ_FLAK) && (((NPC*)*it)->getType() != NPC_FLY))
+            {
+                continue;
+            }
+            if ((((NPC*)*it)->getType() == NPC_FLY)
+                && ((parent_->getType() == PROJ_CANNON) || (parent_->getType() == PROJ_FIRE)
+                    || (parent_->getType() == PROJ_TAR)))
+            {
+                continue;
+            }
+
+            projBounds = parent_->getBounds();
+            npcBounds = (*it)->getBounds();
+            if(parent_->getBounds().intersected((*it)->getBounds()).count() != 0){
+                ((NPC*)(*it))->createEffect(EFFECT_CANNON);
+            }
+        }
+    }
+
 }
 
-void FlakProjectileInputComponent::makeForce(){
-    QVector2D force;
-    Map* map = parent_->getDriver()->getGameMap();
-    QSet<Unit*> npcs;
-    QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
-                             parent_->getPath().p1().x(), parent_->getPath().p1().y());
-    if (distance.length() <= parent_->getVelocity().length()) {
-        if (parent_->getEnemy() != NULL) {
-            disconnect(parent_->getEnemy(), SIGNAL(signalNPCDied()),
-                       parent_, SLOT(enemyDied()));
-        }
-        disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
-                   parent_, SLOT(update()));
-#ifndef SERVER
-        if (!((CDriver*)parent_->getDriver())->isSinglePlayer()) {
-            emit deleteProjectileLater(parent_->getID());
-            return;
-        }
-#endif
-        QPointF *end = parent_->getEndPoint();
-        npcs = map->getUnits(end->x(), end->y(), 1);
-        if(!npcs.empty()){
-            parent_->createBounds();
-            parent_->checkNPCCollision(npcs);
-        }
-        //check for collisions here
-        emit deleteProjectileLater(parent_->getID());
-    } else {
-        force = QVector2D(parent_->getPath().unitVector().dx() * -1,
-                          parent_->getPath().unitVector().dy() * -1);
-        parent_->setForce(force);
-    }
-}
 } /* end namespace td */

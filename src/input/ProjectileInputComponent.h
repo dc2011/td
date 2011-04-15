@@ -41,6 +41,21 @@ public:
      */
     void applyDirection();
 
+    /**
+     * Makes a force that will follow the path.
+     *
+     * @author Marcel Vangrootheest
+     */
+    virtual void makeForce();
+    /**
+     * Checks for collision between projectile and npcs
+     * and applies effects to hit npcs.
+     *
+     * @author Daniel Wright
+     * @param npcs, set of npcs to check collision with
+     */
+    virtual void checkNPCCollision(QSet<Unit*>){}
+
 signals:
     /**
      * Deletes the projectile.
