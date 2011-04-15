@@ -110,6 +110,9 @@ void Player::createEffect(int effectType)
     if (!effects_.contains(effectType))
     {
         Effect* effect;
+        foreach(Effect* e, effects_) {
+            deleteEffect(e);
+        }
 
         // Create the effect
         switch (effectType)
