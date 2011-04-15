@@ -31,6 +31,7 @@ NPC::~NPC() {
     if (wave_ != NULL) {
         wave_->killChild(this);
     }
+    this->getDriver()->getGameMap()->removeUnit(getPos().x(), getPos().y(), this);
     emit signalNPCDied();
 }
 

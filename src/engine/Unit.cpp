@@ -13,10 +13,6 @@ Unit::Unit(QObject* parent) : GameObject(parent), velocity_(QVector2D(0, 0)),
 }
 
 Unit::~Unit() {
-    // Remove the unit from the map before deleting it
-    Map* map = getDriver()->getGameMap();
-    map->removeUnit(getPos().x(), getPos().y(), this);
-
     delete input_;
 }
 
