@@ -54,7 +54,7 @@ void ArrowEndingGraphicsComponent::setNonStaticValues() {
 }
 
 void ArrowEndingGraphicsComponent::timerEvent(QTimerEvent*) {
-    redraw(65, LAYER_FLYNPC);
+    redraw(65, LAYER_DEFAULT);
 }
 
 // flying death
