@@ -28,6 +28,7 @@ Projectile::~Projectile() {
 #ifndef SERVER
     switch (type_) {
     case PROJ_ARROW:
+        new ArrowEndingGraphicsComponent(pos_);
         break;
     case PROJ_CANNON:
         new CannonEndingGraphicsComponent(pos_);

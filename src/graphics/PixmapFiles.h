@@ -132,5 +132,10 @@
 #define PIX_END_CANNON_1        QString("./img/medExp.png")
 #define PIX_END_CANNON_2        QString("./img/finalExp.png")
 #define PIX_END_CANNON_MAX      3
+
+#define PIX_END_ARROW_START     0
+#define PIX_END_ARROW_0         QString("./img/blood.png")
+#define PIX_END_ARROW_MAX       1
+
 #endif
 
