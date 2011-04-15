@@ -13,16 +13,16 @@ void CannonEndingGraphicsComponent::initPixmaps() {
         return;
     } else {
         pixmapImgs_ = new QPixmap[PIX_END_CANNON_MAX];
+        pixmapIndex_ = 0;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_CANNON_0;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_CANNON_1;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_CANNON_2;
+        setNonStaticValues();
     }
-    pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_END_CANNON_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_END_CANNON_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_END_CANNON_2;
-    setNonStaticValues();
-}
 
+}
 void CannonEndingGraphicsComponent::setNonStaticValues() {
-    animateMod_ = 3;
+    animateMod_ = PIX_END_CANNON_MAX;
     arrayIndexMin_ = pixmapIndex_ = PIX_END_CANNON_START;
     arrayIndexMax_ = PIX_END_CANNON_START + PIX_END_CANNON_MAX - 1;
 }

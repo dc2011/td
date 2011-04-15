@@ -8,6 +8,7 @@ GRAPHICS_HDRS +=    $$BASE_GRAPHICS_HDRS \
                     ./graphics/CollectableGraphicsComponentTypes.h \
                     ./graphics/MapDisplayer.h \
                     ./graphics/ContextMenuGraphicsComponent.h \
+                    ./graphics/ContextMenuGraphicsComponentTypes.h \
                     ./graphics/PlayerGraphicsComponent.h \
                     ./graphics/PixmapFiles.h \
                     ./graphics/DrawParams.h \
@@ -28,6 +29,7 @@ GRAPHICS_SRCS +=    $$BASE_GRAPHICS_SRCS \
                     ./graphics/CollectableGraphicsComponentTypes.cpp \
                     ./graphics/MapDisplayer.cpp \
                     ./graphics/ContextMenuGraphicsComponent.cpp \
+                    ./graphics/ContextMenuGraphicsComponentTypes.cpp \
                     ./graphics/PlayerGraphicsComponent.cpp \
                     ./graphics/ProjectileGraphicsComponent.cpp \
                     ./graphics/ProjectileGraphicsComponentTypes.cpp \

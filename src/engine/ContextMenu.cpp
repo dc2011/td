@@ -1,15 +1,15 @@
 #include "ContextMenu.h"
+#include "CDriver.h"
+#include "Map.h"
+#include "Player.h"
+#include "Tile.h"
 #include "../audio/SfxManager.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"
 #include "../util/defines.h"
-#include "../engine/Tile.h"
-#include "../engine/CDriver.h"
-#include "../engine/Map.h"
 
 namespace td {
 
 ContextMenu::ContextMenu(Player* player) : player_(player) {
-    graphics_   = new ContextMenuGraphicsComponent();
     menuIsOpen_ = false;
 }
 
@@ -32,18 +32,12 @@ void ContextMenu::toggleMenu() {
 }
 
 void ContextMenu::selectMenuItem(int keyPressed) {
-    if (!menuIsOpen_ || keyPressed < TOWER_ARROW
-                     || keyPressed > TOWER_FLAK) {
-        return;
-    }
     PLAY_LOCAL_SFX(SfxManager::contextMenuSelect);
     menuIsOpen_ = false;
     emit signalPlayerMovement(true);
     ((ContextMenuGraphicsComponent*)graphics_)->hideMenu();
     ((ContextMenuGraphicsComponent*)
      graphics_)->showSelectMenu(keyPressed, player_->getPos());
-    
-    emit signalTowerSelected(keyPressed, player_->getPos());
 }
 
 void ContextMenu::viewResources(bool altHeld) {
