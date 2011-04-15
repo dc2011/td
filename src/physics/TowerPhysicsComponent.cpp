@@ -8,10 +8,10 @@
 namespace td {
 
 TowerPhysicsComponent::TowerPhysicsComponent(Tower* tower, size_t fireInterval, 
-                                             int radius)
+                                             int radius, int projType)
         : PhysicsComponent(), enemies_(QSet<Unit*>()), tower_(tower), 
           target_(NULL), fireInterval_(fireInterval), radius_(radius), 
-          fireCountdown_(0) {
+          projType_(projType), fireCountdown_(0) {
 }
 
 TowerPhysicsComponent::~TowerPhysicsComponent() {}
@@ -129,6 +129,19 @@ void TowerPhysicsComponent::applyDirection(GameObject* tower) {
         }
     }
     tower->setOrientation(degree);
+}
+
+void TowerPhysicsComponent::fire() {
+    if (fireCountdown_ != 0) {
+        fireCountdown_--;
+        return;
+    }
+    if (target_ == NULL) {
+        return;
+    }
+    emit fireProjectile(projType_, tower_->getPos(), target_->getPos(),
+            target_);
+    fireCountdown_ = fireInterval_;
 }
 
 void TowerPhysicsComponent::targetDied() {

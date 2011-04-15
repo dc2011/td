@@ -12,7 +12,6 @@ public:
     ArrowTowerPhysicsComponent(Tower* tower);
     virtual ~ArrowTowerPhysicsComponent() { }
     bool isValidTarget(Unit *);
-    void fire();
 };
 
 class CannonTowerPhysicsComponent : public TowerPhysicsComponent {
@@ -22,7 +21,6 @@ public:
     CannonTowerPhysicsComponent(Tower* tower);
     virtual ~CannonTowerPhysicsComponent() { }
     bool isValidTarget(Unit *);
-    void fire();
 };
 
 class FlameTowerPhysicsComponent : public TowerPhysicsComponent {
@@ -49,7 +47,6 @@ public:
     virtual ~TarTowerPhysicsComponent() { }
     virtual void update(GameObject *tower);
     bool isValidTarget(Unit *);
-    void fire();
 };
 
 class FlakTowerPhysicsComponent : public TowerPhysicsComponent {
@@ -59,7 +56,6 @@ public:
     FlakTowerPhysicsComponent(Tower* tower);
     virtual ~FlakTowerPhysicsComponent() { }
     bool isValidTarget(Unit *);
-    void fire();
 };
 
 } /* end namespace td */

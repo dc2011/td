@@ -3,6 +3,7 @@
 #ifndef SERVER
 #include "CDriver.h"
 #endif
+#include "../audio/SfxManager.h"
 #include "EffectTypes.h"
 #include "../util/defines.h"
 #include "../input/ProjectileInputComponent.h"
@@ -47,6 +48,7 @@ Projectile::~Projectile() {
 void Projectile::initComponents() {
     switch(type_) {
         case PROJ_ARROW:
+            PLAY_SFX(this, SfxManager::projectileFireArrow);
             setInputComponent(new ArrowProjectileInputComponent());
             setPhysicsComponent(new ArrowProjectilePhysicsComponent());
 #ifndef SERVER
@@ -55,6 +57,7 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_CANNON:
+            PLAY_SFX(this, SfxManager::projectileFireCannon);
             setInputComponent(new CannonProjectileInputComponent());
             setPhysicsComponent(new CannonProjectilePhysicsComponent());
 #ifndef SERVER
@@ -63,6 +66,7 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_FIRE:
+            PLAY_SFX(this, SfxManager::projectileFireFlame);
             setInputComponent(new FireProjectileInputComponent());
             setPhysicsComponent(new FireProjectilePhysicsComponent());
 #ifndef SERVER
@@ -71,6 +75,7 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_TAR:
+            PLAY_SFX(this, SfxManager::projectileFireTar);
             setInputComponent(new TarProjectileInputComponent());
             setPhysicsComponent(new TarProjectilePhysicsComponent());
 #ifndef SERVER
@@ -79,6 +84,7 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_FLAK:
+            PLAY_SFX(this, SfxManager::projectileFireFlak);
             setInputComponent(new FlakProjectileInputComponent());
             setPhysicsComponent(new FlakProjectilePhysicsComponent());
 #ifndef SERVER

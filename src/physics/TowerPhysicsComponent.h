@@ -19,7 +19,8 @@ class TowerPhysicsComponent: public PhysicsComponent {
     Q_OBJECT
 
 public:
-    TowerPhysicsComponent(Tower* tower, size_t fireInterval, int radius);
+    TowerPhysicsComponent(Tower* tower, size_t fireInterval, int radius,
+            int projType);
     virtual ~TowerPhysicsComponent();
 
     /**
@@ -50,7 +51,7 @@ public:
      *
      * @author Dean Morin
      */
-    virtual void fire() = 0;
+    virtual void fire();
 
     /**
      * returns current enemies in sight.
@@ -121,6 +122,26 @@ public:
         return fireInterval_;
     }
 
+    /**
+     * Sets the projectile type the tower will fire.
+     *
+     * @author Marcel Vangrootheest
+     * @param projType sets projType_
+     */
+    void setProjType(int projType) {
+        projType_ = projType;
+    }
+
+    /**
+     * Returns the projetile type the tower will fire.
+     *
+     * @author Marcel Vangrootheest
+     * @return projectile type
+     */
+    int getProjType() {
+        return projType_;
+    }
+
     virtual bool isValidTarget(Unit*) = 0;
 
 protected:
@@ -141,6 +162,9 @@ protected:
 
     /** The range of the tower. */
     int radius_;
+
+    /** The projectile type that the tower will fire. */
+    int projType_;
     
     /** Number of game timer ticks before this tower can fire a projectile. */
     size_t fireCountdown_;
