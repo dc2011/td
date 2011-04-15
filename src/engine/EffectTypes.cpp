@@ -28,7 +28,7 @@ ArrowEffect::ArrowEffect(Unit* unit)
 void ArrowEffect::apply() {}
 
 CannonEffect::CannonEffect(Unit* unit)
-        : Effect(unit, CANNON_TIME, EFFECT_CANNON, TRUE){
+        : Effect(unit, EFFECT_CANNON, CANNON_TIME, TRUE){
     healthChangeValue_ = -75;
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
@@ -36,7 +36,7 @@ CannonEffect::CannonEffect(Unit* unit)
 void CannonEffect::apply() {}
 
 FlakEffect::FlakEffect(Unit* unit)
-        : Effect(unit, FLAK_TIME, EFFECT_FLAK, TRUE){
+        : Effect(unit, EFFECT_FLAK, FLAK_TIME, TRUE){
     healthChangeValue_ = -10;
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
@@ -99,7 +99,7 @@ NPCTarEffect::~NPCTarEffect() {
 void NPCTarEffect::apply() {}
 
 FireEffect::FireEffect(Unit* unit)
-        : Effect(unit, FIRE_TIME, EFFECT_FIRE, TRUE){
+        : Effect(unit, EFFECT_FIRE, FIRE_TIME, TRUE){
     healthChangeValue_ = -10;
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
@@ -107,7 +107,7 @@ FireEffect::FireEffect(Unit* unit)
 void FireEffect::apply(){}
 
 NPCBurnEffect::NPCBurnEffect(Unit* unit):Effect(unit, EFFECT_BURN, BURN_TIME) {
-    healthChangeValue_ = -40;
+    healthChangeValue_ = -5;
     count_ = 15;
 }
 
