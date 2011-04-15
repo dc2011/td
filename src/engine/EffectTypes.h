@@ -12,7 +12,7 @@ class NPCPlayerEffect : public Effect {
 public:
     explicit NPCPlayerEffect(Unit* unit);
     virtual ~NPCPlayerEffect();
-    void apply();
+    virtual void apply();
 };
 
 class ArrowEffect : public Effect {
@@ -21,7 +21,7 @@ class ArrowEffect : public Effect {
 public:
     explicit ArrowEffect(Unit* unit);
     virtual ~ArrowEffect() {}
-    void apply();
+    virtual void apply();
 };
 
 class CannonEffect : public Effect {
@@ -31,7 +31,7 @@ public:
     explicit CannonEffect(Unit* unit);
     virtual ~CannonEffect() {}
 
-    void apply();
+    virtual void apply();
 };
 
 class FlakEffect : public Effect {
@@ -41,7 +41,7 @@ public:
     explicit FlakEffect(Unit* unit);
     virtual ~FlakEffect() {}
 
-    void apply();
+    virtual void apply();
 };
 
 /**
@@ -63,7 +63,7 @@ public:
      * @author Duncan Donaldson
      * @author Luke Queenan
      */
-    void apply();
+    virtual void apply();
 };
 /**
 * an effect that modifies a player's movement speed
@@ -83,7 +83,7 @@ public:
      * @author Duncan Donaldson
      * @author Luke Queenan
      */
-    void apply();
+    virtual void apply();
 };
 /**
 * an effect that does initial damage to an NPC
@@ -102,7 +102,7 @@ public:
      *
      * @author Duncan Donaldson
      */
-    void apply();
+    virtual void apply();
 };
 /**
 * an effect that deals damage over time to an NPC.
@@ -120,7 +120,7 @@ public:
      *
      * @author Duncan Donaldson
      */
-    void apply();
+    virtual void apply();
 
 private:
     int count_;
@@ -133,7 +133,7 @@ public:
     explicit FireEffect(Unit* unit);
     virtual ~FireEffect(){}
 
-    void apply();
+    virtual void apply();
 };
 
 } /* end namespace td */

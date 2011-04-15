@@ -10,7 +10,7 @@
   <image source="../img/towerlayer2.png" trans="ff00ff" width="96" height="48"/>
  </tileset>
  <tileset firstgid="63" name="Base" tilewidth="48" tileheight="48">
-  <image source="../img/Base.png" trans="ff00ff" width="48" height="48"/>
+  <image source="../img/Base.png" trans="ff00ff" width="96" height="96"/>
  </tileset>
  <layer name="Tile Layer 1" width="20" height="10">
   <data encoding="base64" compression="zlib">
@@ -19,12 +19,12 @@
  </layer>
  <layer name="Tower" width="20" height="10">
   <data encoding="base64" compression="zlib">
-   eJyzZWBgsKUipiaghbusqIQZsJhNLT8jm00tv1PDv8juoxTYU9mf6IBa/gUA/TUepA==
+   eJyzZWBgsKUipiYYrO5Cdx+1zUQ2e7D5nVrm2QOxAwP1/OgIxE5UchsyAABZ6RQT
   </data>
  </layer>
  <layer name="Resource" width="20" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBg5wGqgHUAADHb3DQVgxUDdcAQAAdcA6Q==
+   eJxjYBg5wIqKmFbuoxWghp8taeg+agFqxa81ENsAMQBrfg0n
   </data>
  </layer>
  <objectgroup name="Flying" width="20" height="10">

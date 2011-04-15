@@ -26,7 +26,7 @@
 #define UPGRADE_RECOVERY    51
 
 // Current map to use
-#define MAP      "bigmap"
+#define MAP      "lukeMapTesting"
 #define MAP_TMX   QString("./maps/") + QString(MAP) + QString(".tmx")
 #define MAP_NFO   QString("./maps/") + QString(MAP) + QString(".nfo")
 
@@ -140,7 +140,7 @@
 #define FLAK_TIME       1
 #define CANNON_TIME     1
 #define FIRE_TIME       1
-#define BURN_TIME       75
+#define BURN_TIME       90
 //DONT USE THIS MACRO UNLESS YOUR NAME IS DTRAIN
 #define NO_TIME         0,false
 

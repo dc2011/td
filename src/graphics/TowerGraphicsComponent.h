@@ -47,7 +47,7 @@ public:
      *
      * @author Ian Lee, Warren Voelkl
      */
-    virtual void draw(DrawParams* dp, int layer=0);
+    virtual void draw(void* dp, int layer=0);
 
 private:
     /**

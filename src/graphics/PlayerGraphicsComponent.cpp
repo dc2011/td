@@ -44,44 +44,51 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
 
     player->resetDirty();
 
-    DrawParams* dp = new DrawParams();
+    DrawParamsPlayer* dp = new DrawParamsPlayer();
     dp->pos     = player->getPos();
-    dp->moving  = player->getVelocity().length() != 0;
-    //dp->scale   = player->getScale();  will likely be a constant value here
+    //dp->moving  = player->getVelocity().length() != 0;
+    dp->moving = player->getMoving();
+    dp->scale   = 1;
     dp->degrees = player->getOrientation();
+    dp->resourceProgressShowing = resourceProgressShowing_;
+    dp->resourceProgress = resourceProgress_;
+    dp->resourceType = player->getResource();
+    dp->showName = showName_;
     emit signalDraw(dp, this, LAYER_PLAYER);
 }
 
-void PlayerGraphicsComponent::draw(DrawParams* dp, int layer) {
+void PlayerGraphicsComponent::draw(void* dp, int layer) {
+    DrawParamsPlayer *dpPlayer = (DrawParamsPlayer*) dp;
+    isMoving_ = dpPlayer->moving;
     
-    if (resourceProgressShowing_) {
+    if (dpPlayer->resourceProgressShowing) {
         resourceProgressBar_->setVisible(true);
         resourceProgressBar_->setRect(0, 0,
-                                  RESBAR_WIDTH * resourceProgress_, RESBAR_HEIGHT);
-        resourceProgressBar_->setPos((dp->pos.x()
+                                  RESBAR_WIDTH * dpPlayer->resourceProgress, RESBAR_HEIGHT);
+        resourceProgressBar_->setPos((dpPlayer->pos.x()
                     - resourceProgressBar_->boundingRect().center().x()),
-                    (dp->pos.y()
+                    (dpPlayer->pos.y()
                     - (getPixmapItem()->boundingRect().height())/2));
         resourceProgressBar_->setZValue(layer);
         resourceProgressBar_->update();
     } else {
         resourceProgressBar_->setVisible(false);
     }
-    if (resourceType_ >= 0) {
-        resourcePixmapItem_->setPixmap(pixmapImgs_[PIX_PLAYER_MAX + resourceType_]);
+    if (dpPlayer->resourceType >= 0) {
+        resourcePixmapItem_->setPixmap(pixmapImgs_[PIX_PLAYER_MAX + dpPlayer->resourceType]);
         resourcePixmapItem_->setVisible(true);
 
         resourcePixmapItem_->setZValue(layer);
         resourcePixmapItem_->setScale(.7);
-        resourcePixmapItem_->setPos(dp->pos.x() + 8, dp->pos.y() + 17);
+        resourcePixmapItem_->setPos(dpPlayer->pos.x() + 8, dpPlayer->pos.y() + 17);
         resourcePixmapItem_->update();
     } else {
         resourcePixmapItem_->setVisible(false);
     }
 
-    if (showName_) {
-        label_->setPos(dp->pos.x() - label_->boundingRect().center().x(),
-                       dp->pos.y() - getPixmapItem()->boundingRect().height());
+    if (dpPlayer->showName) {
+        label_->setPos(dpPlayer->pos.x() - label_->boundingRect().center().x(),
+                       dpPlayer->pos.y() - getPixmapItem()->boundingRect().height());
         label_->setZValue(layer);
         label_->setVisible(true);
         label_->update();

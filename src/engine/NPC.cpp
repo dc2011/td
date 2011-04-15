@@ -23,13 +23,6 @@ NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
 }
 
 NPC::~NPC() {
-#ifndef SERVER
-    if (type_ == NPC_FLY) {
-        new FlyingEndingGraphicsComponent(pos_);
-    } else {
-        new FlyingEndingGraphicsComponent(pos_);
-    }
-#endif
     // Delete all effects in the map
     foreach (Effect* e, effects_)
     {
@@ -196,30 +189,23 @@ void NPC::createEffect(int effectType)
     Effect* effect;
 
     // Create the effect
-    switch (effectType)
-    {
+    switch (effectType) {
     case EFFECT_ARROW:
         effect = new ArrowEffect(this);
         break;
     case EFFECT_TAR:
         if (effects_.contains(EFFECT_TAR)) {
             deleteEffect(effects_.value(EFFECT_TAR));
-        } else if(effects_.contains(EFFECT_BURN)) {
-            deleteEffect(effects_.value(EFFECT_BURN));
         }
         effect = new NPCTarEffect(this);
         break;
     case EFFECT_FIRE:
-        if (effects_.contains(EFFECT_TAR))
-        {
+        if (effects_.contains(EFFECT_TAR)) {
             deleteEffect(effects_.value(EFFECT_TAR));
             effect = new NPCBurnEffect(this);
-            break;
+            effects_.insert(effect->getType(), effect);
         }
-        else
-        {
-            effect = new FireEffect(this);
-        }
+        effect = new FireEffect(this);
         break;
     case EFFECT_FLAK:
         effect = new FlakEffect(this);
@@ -230,7 +216,7 @@ void NPC::createEffect(int effectType)
     default:
         return;
     }
-    effects_.insert(effectType, effect);
+    effects_.insert(effect->getType(), effect);
 
     switch (effectType) {
     case EFFECT_ARROW:
@@ -264,6 +250,13 @@ void NPC::deleteEffect(Effect* effect)
 void NPC::isDead() {
     if(health_ <= 0) {
         //TODO NPC death sound/animation
+#ifndef SERVER
+        if (type_ == NPC_FLY) {
+            new FlyingEndingGraphicsComponent(pos_);
+        } else {
+            new GenericNPCEndingGraphicsComponent(pos_);
+        }
+#endif
         emit signalDropResource(RESOURCE_GEM, pos_, getRandomVector());
         emit dead(this->getID());
     }

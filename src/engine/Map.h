@@ -217,6 +217,24 @@ public:
         return tMap_;
     }
 
+    /**
+      * Returns the height of the map in tiles.
+      *
+      * @author Luke Queenan
+      */
+    int getHeightInTiles() {
+        return heightInTiles_;
+    }
+
+    /**
+      * Returns the width of the map in tiles.
+      *
+      * @author Luke Queenan
+      */
+    int getWidthInTiles() {
+        return widthInTiles_;
+    }
+
 public slots:
     /**
      * Slot for getting a tile's list of occupying units and blocking status

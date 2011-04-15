@@ -159,6 +159,15 @@ public:
         return oil_;
     }
 
+    /**
+     * Checks the current building state returns the value of the corresponding
+     * tower construction stage.
+     * @author Warren Voelkl
+     * @returns a value that will be used by the graphics component to set the
+     * img index.
+     */
+    int evaluateBuildingStage();
+
 private:
     /** The type of tower to be built. */
     int type_;
@@ -176,23 +185,7 @@ private:
     int oil_;
     /** the total amount of resources required to build structure */
     double totalResources_;
-    /**
-     * Checks the current building state and informs the graphics component of
-     * the current image to display
-     * @author Warren Voelkl
-     */
-    void evaluateBuildingStage();
 
-    /**
-     * Set Graphics Resources.
-     * Used for updating the graphics when the resources change.
-     *
-     * @author Marcel Vangrootheest
-     * @author Warren Voelkl
-     * @param resType The type of resource that was changed.
-     * @param resNum The amount of resource it was changed to.
-     */
-    void setGraphicsResources(int resType, int resNum);
 };
 
 } // end of namespace td
