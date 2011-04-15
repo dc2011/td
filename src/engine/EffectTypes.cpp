@@ -9,27 +9,39 @@ namespace td {
 NPCPlayerEffect::NPCPlayerEffect(Unit* unit): Effect(unit, EFFECT_NPCPLAYER, NPC_PLAYER_TIME) {
     oldVelocity_ = PLAYER_MAX_V;
     velocityChangeValue_ = oldVelocity_ / 5;
+    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
 }
 
 NPCPlayerEffect::~NPCPlayerEffect() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
 }
 
-void NPCPlayerEffect::apply() {
-    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
-}
+void NPCPlayerEffect::apply() {}
 
 ArrowEffect::ArrowEffect(Unit* unit)
         : Effect(unit, EFFECT_ARROW, ARROW_TIME) {    
 
     healthChangeValue_ = -25;
-    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth()
-        + healthChangeValue_);
-}
-
-void ArrowEffect::apply() {
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
+
+void ArrowEffect::apply() {}
+
+CannonEffect::CannonEffect(Unit* unit)
+        : Effect(unit, EFFECT_CANNON, CANNON_TIME, TRUE){
+    healthChangeValue_ = -75;
+    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
+}
+
+void CannonEffect::apply() {}
+
+FlakEffect::FlakEffect(Unit* unit)
+        : Effect(unit, EFFECT_FLAK, FLAK_TIME, TRUE){
+    healthChangeValue_ = -10;
+    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
+}
+
+void FlakEffect::apply(){}
 
 PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
     : Effect(unit, EFFECT_SLOW, NO_TIME) {
@@ -43,8 +55,8 @@ PlayerTerrainSlowEffect::~PlayerTerrainSlowEffect() {
 
 void PlayerTerrainSlowEffect::apply() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
-    if((((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::NONE) {
-        disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
+    if((((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::NONE
+            || (((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::FAST) {
         emit effectFinished(this);
     }
 }
@@ -61,34 +73,49 @@ PlayerTerrainFastEffect::~PlayerTerrainFastEffect() {
 
 void PlayerTerrainFastEffect::apply() {
     ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
-    if((((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::NONE) {
-        disconnect(timer_, SIGNAL(timeout()), this, SLOT(update()));
+    if((((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::NONE
+            || (((Player*)unit_)->tileThatPlayerIsOn_)->getTileEffect() == Tile::SLOW) {
         emit effectFinished(this);
     }
 }
 
 NPCTarEffect::NPCTarEffect(Unit* unit)
     : Effect(unit, EFFECT_TAR, TAR_TIME) {
-    velocityChangeValue_ = 0.5;
-    healthChangeValue_ = -25;
+    oldVelocity_ = ((NPCPhysicsComponent*)(unit_->getPhysicsComponent()))->getMaxVelocity();
+
+    velocityChangeValue_ = oldVelocity_ / 2;
+    healthChangeValue_ = -15;
+
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth()
                                 + healthChangeValue_);
+    ((NPCPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
+
 }
 
 NPCTarEffect::~NPCTarEffect() {
     ((NPCPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
 }
 
-void NPCTarEffect::apply() {
-    ((NPCPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
+void NPCTarEffect::apply() {}
+
+FireEffect::FireEffect(Unit* unit)
+        : Effect(unit, EFFECT_FIRE, FIRE_TIME, TRUE){
+    healthChangeValue_ = -10;
+    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
+
+void FireEffect::apply(){}
 
 NPCBurnEffect::NPCBurnEffect(Unit* unit):Effect(unit, EFFECT_BURN, BURN_TIME) {
     healthChangeValue_ = -5;
+    count_ = 15;
 }
 
 void NPCBurnEffect::apply() {
-    ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
+    if(count_ % 15 == 0){
+        ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
+    }
+    count_++;
 }
 
 } /* end namespace td */

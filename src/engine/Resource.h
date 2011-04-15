@@ -66,6 +66,10 @@ public:
         setDirty(kType);
     }
 
+    int getType() {
+        return type_;
+    }
+
 private:
     int type_;
     int remaining_;

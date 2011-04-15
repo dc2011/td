@@ -14,6 +14,9 @@ void EndingGraphicsComponent::draw(DrawParams *dp, int layer) {
 }
 
 void EndingGraphicsComponent::animate() {
+    if(animateMod_ == 0) {
+        return;
+    }
     if (!(animateCount_++ % animateMod_)) {
         ++pixmapIndex_ > arrayIndexMax_ ? pixmapIndex_ = arrayIndexMin_
             : pixmapIndex_;
