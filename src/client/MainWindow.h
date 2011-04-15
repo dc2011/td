@@ -6,7 +6,9 @@
 #include <QGraphicsView>
 #include <QKeyEvent>
 #include <QTimer>
+#include <QSettings>
 #include "../graphics/DrawParams.h"
+#include "keymap.h"
 
 /*Bitmask Defines*/
 #define KEYUP 1
@@ -67,6 +69,9 @@ private:
      */
     bool consoleOpen_;
 
+    /** The keymap defining which keys are bound to which events. */
+    Keymap keys_;
+
 public:
     MainWindow();
     virtual ~MainWindow();
@@ -85,6 +90,8 @@ protected:
      */
     virtual void keyPressEvent(QKeyEvent * event);
     virtual void keyReleaseEvent(QKeyEvent *);
+public:
+    void loadKeymap();
 
 public slots:
     /**
@@ -183,6 +190,11 @@ signals:
      * @author Dean Morin
      */
     void signalSpacebarReleased();
+    /**
+     * Display the MainMenu window
+     * @author Warren Voelkl
+     */
+    void signalShowMainMenu();
 };
 
 } /* end namespace td */

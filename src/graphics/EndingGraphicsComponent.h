@@ -1,6 +1,8 @@
 #ifndef ENDINGGRAPHICSCOMPONENT_H
 #define ENDINGGRAPHICSCOMPONENT_H
 
+#include <QSemaphore>
+
 #include "GraphicsComponent.h"
 
 namespace td {
@@ -19,7 +21,7 @@ public:
       */
     EndingGraphicsComponent(const QPointF& pos)
         : GraphicsComponent(), arrayIndexMin_(0), arrayIndexMax_(0),
-        currentIndex_(0), timerID_(0),  pos_(pos)  {
+        currentIndex_(0), timerID_(0),  pos_(pos), created_(0)  {
 
     }
 
@@ -59,7 +61,17 @@ public:
 
       @author Nick Huber
       */
-    virtual void animate();    
+    virtual void animate();
+
+    /**
+      Redraw the animation frame.
+      Called from the timer events.
+
+      @param timerLength how long to wait for next animation.
+      @param layer Layer to draw on.
+      @author Nick Huber
+      */
+    virtual void redraw(int timerLenght, int layer);
 
 protected:
     int arrayIndexMin_; /**< Minimum index for the array of animations. */
@@ -67,6 +79,7 @@ protected:
     int currentIndex_;  /**< Current index of animation. */
     int timerID_;       /**< Animation timer ID. */
     QPointF pos_;       /**< Position to draw at. */
+    QSemaphore created_;/**< Make sure it isn't used till its created. */
 
 private:
     /**

@@ -307,6 +307,19 @@ void SDriver::onMsgReceive(Stream* s) {
 
             break;
         }
+        case network::kUpgradeTower:
+        {
+            float x = s->readFloat();
+            float y = s->readFloat();
+
+            if (Driver::upgradeTower(QPointF(x, y))) {
+                out->writeFloat(x);
+                out->writeFloat(y);
+                net_->send(network::kUpgradeTower, out->data());
+            }
+
+            break;
+        }
         case network::kTowerChoice:
         {
             int playerID = s->readInt();

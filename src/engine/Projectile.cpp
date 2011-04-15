@@ -3,6 +3,7 @@
 #ifndef SERVER
 #include "CDriver.h"
 #endif
+#include "../audio/SfxManager.h"
 #include "EffectTypes.h"
 #include "../util/defines.h"
 #include "../input/ProjectileInputComponent.h"
@@ -10,7 +11,10 @@
 #include "../physics/ProjectilePhysicsComponentTypes.h"
 #include "../graphics/ProjectileGraphicsComponentTypes.h"
 #include "Driver.h"
-#include "../graphics/EndingGraphicsComponentTypes.h"
+
+#ifndef SERVER
+#   include "../graphics/EndingGraphicsComponentTypes.h"
+#endif
 
 namespace td {
 
@@ -26,16 +30,26 @@ Projectile::~Projectile() {
 #ifndef SERVER
     switch (type_) {
     case PROJ_ARROW:
+    case PROJ_ARROW_2:
+    case PROJ_ARROW_3:
         new ArrowEndingGraphicsComponent(pos_);
         break;
     case PROJ_CANNON:
+    case PROJ_CANNON_2:
+    case PROJ_CANNON_3:
         new CannonEndingGraphicsComponent(pos_);
         break;
     case PROJ_FIRE:
+    case PROJ_FIRE_2:
+    case PROJ_FIRE_3:
         break;
     case PROJ_FLAK:
+    case PROJ_FLAK_2:
+    case PROJ_FLAK_3:
         break;
     case PROJ_TAR:
+    case PROJ_TAR_2:
+    case PROJ_TAR_3:
         break;
     }
 #endif
@@ -46,6 +60,9 @@ Projectile::~Projectile() {
 void Projectile::initComponents() {
     switch(type_) {
         case PROJ_ARROW:
+        case PROJ_ARROW_2:
+        case PROJ_ARROW_3:
+            PLAY_SFX(this, SfxManager::projectileFireArrow);
             this->setHeight(10);
             this->setWidth(48);
             setInputComponent(new ArrowProjectileInputComponent());
@@ -56,6 +73,9 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_CANNON:
+        case PROJ_CANNON_2:
+        case PROJ_CANNON_3:
+            PLAY_SFX(this, SfxManager::projectileFireCannon);
             this->setWidth(100);
             this->setHeight(100);
             setInputComponent(new CannonProjectileInputComponent());
@@ -66,6 +86,9 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_FIRE:
+        case PROJ_FIRE_2:
+        case PROJ_FIRE_3:
+            PLAY_SFX(this, SfxManager::projectileFireFlame);
             this->setWidth(110);
             this->setHeight(36);
             setInputComponent(new FireProjectileInputComponent());
@@ -76,6 +99,9 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_TAR:
+        case PROJ_TAR_2:
+        case PROJ_TAR_3:
+            PLAY_SFX(this, SfxManager::projectileFireTar);
             this->setWidth(100);
             this->setHeight(100);
             setInputComponent(new TarProjectileInputComponent());
@@ -86,6 +112,9 @@ void Projectile::initComponents() {
             break;
 
         case PROJ_FLAK:
+        case PROJ_FLAK_2:
+        case PROJ_FLAK_3:
+            PLAY_SFX(this, SfxManager::projectileFireFlak);
             this->setWidth(40);
             this->setHeight(40);
             setInputComponent(new FlakProjectileInputComponent());

@@ -275,6 +275,14 @@ public slots:
      */
     void requestSellTower(QPointF pos);
 
+    /**
+     * Request to upgrade a tower at the player's current position.
+     * Connected to signalupgradetower in player
+     *
+     * @param pos The position of the player and tower to upgrade.
+     */
+    void requestUpgradeTower(QPointF pos);
+
 private slots:
     /**
      * Creates a projectile object.
