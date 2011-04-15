@@ -26,6 +26,9 @@ void TowerPhysicsComponent::update(GameObject *tower) {
 }
 
 void TowerPhysicsComponent::findTarget() {
+    // This tile size value is a bit flakey.
+    Map* map = tower_->getDriver()->getGameMap();
+    int tileSize = (map->tileWidth() + map->tileHeight()) / 2;
     
     // check if there's an npc currently being tracked
     if (target_ != NULL) {
@@ -41,9 +44,8 @@ void TowerPhysicsComponent::findTarget() {
     projectilePath_.setP1(tower_->getPos());
     
     // get all npcs within range 
-    Map* map = tower_->getDriver()->getGameMap();
     enemies_ = map->getUnits(tower_->getPos().x(), tower_->getPos().y(), 
-                             ceil((double) radius_ / TILE_SIZE)); 
+                             ceil((double) radius_ / tileSize)); 
  
     if (enemies_.isEmpty()) {
         return;

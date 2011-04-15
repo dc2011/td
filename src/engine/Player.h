@@ -6,7 +6,6 @@
 
 #include "Unit.h"
 #include "../input/PlayerInputComponent.h"
-#include "CollisionComponent.h"
 #include "Effect.h"
 #include "Tile.h"
 #include "../graphics/PlayerGraphicsComponent.h"
@@ -219,6 +218,16 @@ signals:
      * @param move False if the player should stop moving.
      */
     void signalPlayerMovement(bool move);
+
+    /**
+     * Signals player movement, this is for notifying the MainWindow for
+     * scrolling purposes.
+     *
+     * @param pos The player's new position co-ordinate.
+     *
+     * @author Tom Nightingale
+     */
+    void signalPlayerMovement(QPointF pos);
 
     /**
      * Emmitted when the player drops the resource that they are carrying.

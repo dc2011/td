@@ -66,17 +66,17 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
     points.append(lowerRight);
     points.append(upperRight);
     QPolygonF polygon = QPolygonF(points);
-    bool flag = false;
+    bool collision = false;
     foreach (Tile* targetTile ,targetTiles){
 
         QPolygonF otherpolygon = targetTile->getBounds();
         if(polygon.intersected(otherpolygon).count() != 0){
-            flag = true;
+            collision = true;
             break;
         }
     }
 
-    if (!flag) {
+    if (!collision) {
         player->changeTile(newPos);
         player->setPos(newPos);
         player->setBounds(polygon);
