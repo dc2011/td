@@ -10,7 +10,7 @@
  */
 
 #define PIX_BUILD_MENU_MAIN     QString("./img/buildmenu.png")
-#define PIX_BUILD_MENU_RES      QString("./img/buildResources.png");
+#define PIX_BUILD_MENU_RES      QString("./img/buildResources.png")
 #define PIX_BUILD_MENU_T1       QString("./img/menuArrow.png")
 #define PIX_BUILD_MENU_T2       QString("./img/menuCannon.png")
 #define PIX_BUILD_MENU_T3       QString("./img/menuFlame.png")
