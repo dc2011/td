@@ -104,7 +104,6 @@ void settingsWindow::volumeMusic(int n) {
 }
 
 void settingsWindow::slotShowSettings() {
-    char str[4];
     if (!isShowing_) {
         isShowing_ = true;
         voiceLevel_ = AudioManager::instance()->getVoiceVol();
