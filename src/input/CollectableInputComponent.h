@@ -52,6 +52,7 @@ public:
      * @param newPos, Desired position to move to.
      *
      * @author Daniel Wright
+     * @author Luke Queenan
      */
     bool validateMovement(const QPointF& newPos);
 

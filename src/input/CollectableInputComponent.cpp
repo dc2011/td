@@ -24,7 +24,14 @@ void CollectableInputComponent::setPath(QPointF* start, QPointF* end) {
     QLineF tempPath = QLineF(*start, *end);
 
     while (!validateMovement(*end)) {
-        tempPath.setLength(tempPath.length() - 5);
+        if (tempPath.length() < 5)
+        {
+            tempPath.setLength(0);
+        }
+        else
+        {
+            tempPath.setLength(tempPath.length() - 5);
+        }
         *end = tempPath.p2();
     }
 
@@ -56,6 +63,17 @@ void CollectableInputComponent::makeForce(){
 }
 
 bool CollectableInputComponent::validateMovement(const QPointF& newPos) {
+
+    int x = parent_->getDriver()->getGameMap()->getWidthInTiles();
+    int y = parent_->getDriver()->getGameMap()->getHeightInTiles();
+    x = x * parent_->getDriver()->getGameMap()->getTMap()->tileWidth();
+    y = y * parent_->getDriver()->getGameMap()->getTMap()->tileHeight();
+
+    if (newPos.x() > x || newPos.y() > y || newPos.x() < 0 || newPos.y() < 0)
+    {
+        return false;
+    }
+
     int blockingType = parent_->getDriver()->getGameMap()
         ->getTile(newPos)->getType();
 
