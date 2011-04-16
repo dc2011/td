@@ -154,6 +154,7 @@ void FireProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
                 //add effect to npc
                 //qDebug("Enemy hit");
                 ((NPC*)(*it))->createEffect(EFFECT_FIRE);
+
             }else{
                 //qDebug("No hit");
             }
@@ -190,12 +191,8 @@ void TarProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
             if(parent_->getBounds().intersected((*it)->getBounds()).count() != 0){
                 //create projectile effect
                 //add effect to npc
-                //qDebug("Enemy hit");
                 ((NPC*)(*it))->createEffect(EFFECT_TAR);
-            }else{
-                //qDebug("No hit");
             }
-
         }
     }
 
@@ -231,6 +228,7 @@ void FlakProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs){
                 //add effect to npc
                 //qDebug("Enemy hit");
                 ((NPC*)(*it))->createEffect(EFFECT_FLAK);
+
             }else{
                 //qDebug("No hit");
             }
