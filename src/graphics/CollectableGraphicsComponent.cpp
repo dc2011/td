@@ -36,6 +36,7 @@ void CollectableGraphicsComponent::update(GameObject* obj) {
     }
     dp->scale   = collectable->getScale();
     dp->degrees = collectable->getOrientation();
+    dp->animate = animate_;
     emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 

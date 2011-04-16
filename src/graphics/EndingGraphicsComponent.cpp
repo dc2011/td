@@ -8,6 +8,7 @@ void EndingGraphicsComponent::update(GameObject*) {
     dp->pos = pos_;
     dp->degrees = 90;
     dp->scale = 1;
+    dp->animate = animate_;
 
     emit signalDraw(dp, this, LAYER_DEFAULT);
 }

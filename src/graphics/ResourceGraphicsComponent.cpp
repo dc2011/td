@@ -17,9 +17,9 @@ void ResourceGraphicsComponent::update(GameObject* obj) {
     Resource* resource = (Resource*)obj;
     DrawParams* dp = new DrawParams();
     dp->pos     = resource->getPos();
-    //dp->moving  = 1;
-    dp->scale   = 1;//resource->getScale();
+    dp->scale   = 1;
     dp->degrees = resource->getOrientation();
+    dp->animate = animate_;
     emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 

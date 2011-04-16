@@ -18,6 +18,8 @@ struct DrawParamsBuildTower {
     int degrees;
     /** normal is 1 .5 is half 2 is double */
     float scale;
+    /** true if animate() should be called to set the current image. */
+    bool animate;
     /** movement for animation projectiles get bigger/smaller during arc */
     bool moving;
     /** index of pixmap image to use */

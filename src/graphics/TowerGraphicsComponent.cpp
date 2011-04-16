@@ -21,10 +21,9 @@ void TowerGraphicsComponent::update(GameObject* obj) {
 
     DrawParamsTower* dp = new DrawParamsTower();
     dp->pos     = tower->getPos();
-    //dp->moving  = 1;
-    //player->getVelocity().length() != 0;
-    dp->scale   = 1;//tower->getScale();
+    dp->scale   = 1;
     dp->degrees = tower->getOrientation();
+    dp->animate = animate_;
     dp->displayRadius = visibleRange_;
     emit signalDraw(dp, this, LAYER_TOWER);
 }

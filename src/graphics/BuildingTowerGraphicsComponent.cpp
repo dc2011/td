@@ -106,9 +106,10 @@ void BuildingTowerGraphicsComponent::update(GameObject* obj) {
 
     DrawParamsBuildTower* dps = new DrawParamsBuildTower();
     dps->pos     = tower->getPos();
-    dps->moving  = 0;
+    dps->moving  = false;
     dps->scale   = 1;
     dps->degrees = 0;
+    dps->animate = animate_;
     dps->bone = tower->getBone();
     dps->oil = tower->getOil();
     dps->stone = tower->getStone();

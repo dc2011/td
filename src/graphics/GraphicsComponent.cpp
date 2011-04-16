@@ -7,7 +7,7 @@
 namespace td {
 
 GraphicsComponent::GraphicsComponent() 
-        : pixmapIndex_(0), isMoving_(false), animate_(true) {
+        : pixmapIndex_(0), isMoving_(false), animate_(false) {
 
 #ifndef SERVER    
     MainWindow* mainWindow = CDriver::instance()->getMainWindow();
@@ -31,7 +31,7 @@ void GraphicsComponent::deleteComponent() {
 
 void GraphicsComponent::draw(void* dp, int layer) {
     DrawParams* drawParams = (DrawParams*) dp;
-    if (animate_) {
+    if (drawParams->animate) {
         animate();
     }
 
