@@ -46,12 +46,12 @@ void ArrowProjectileL2GraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_PROJ_ARROW_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PROJ_ARROW_2_MAX];
     }
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_ARROW;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_ARROW_2;
     pixmapIndex_ = 0;
 }
 
@@ -64,12 +64,12 @@ void ArrowProjectileL3GraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_PROJ_ARROW_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PROJ_ARROW_3_MAX];
     }
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_ARROW;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_ARROW_3;
     pixmapIndex_ = 0;
 }
 
@@ -100,12 +100,12 @@ void CannonProjectileL2GraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_PROJ_CANNON_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PROJ_CANNON_2_MAX];
     }
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_CANNON;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_CANNON_2;
     pixmapIndex_ = 0;
 }
 
@@ -118,12 +118,12 @@ void CannonProjectileL3GraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_PROJ_CANNON_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PROJ_CANNON_3_MAX];
     }
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_CANNON;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_CANNON_3;
     pixmapIndex_ = 0;
 }
 
@@ -154,12 +154,12 @@ void TarProjectileL2GraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_PROJ_TAR_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PROJ_TAR_2_MAX];
     }
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_TAR;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_TAR_2;
     pixmapIndex_ = 0;
 }
 
@@ -172,12 +172,12 @@ void TarProjectileL3GraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_PROJ_TAR_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PROJ_TAR_3_MAX];
     }
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_TAR;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_TAR_3;
     pixmapIndex_ = 0;
 }
 
@@ -238,6 +238,7 @@ void FireProjectileL1GraphicsComponent::initPixmaps() {
     pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_1;
     pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_2;
     pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_4;
     pixmapIndex_ = 0;
     timerID_ = this->startTimer(125);
 }
@@ -248,23 +249,23 @@ FireProjectileL2GraphicsComponent::FireProjectileL2GraphicsComponent()
 }
 
 void FireProjectileL2GraphicsComponent::initPixmaps() {
-    animateMod_ = PIX_PROJ_FIRE_MAX;
+    animateMod_ = PIX_PROJ_FIRE_2_MAX;
     arrayIndexMin_ = pixmapIndex_ = 0;
-    arrayIndexMax_ = PIX_PROJ_FIRE_MAX - 1;
+    arrayIndexMax_ = PIX_PROJ_FIRE_2_MAX - 1;
     currentIndex_ = 0;
     if (pixmapImgs_) {
         timerID_ = this->startTimer(125);
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_PROJ_FIRE_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PROJ_FIRE_2_MAX];
     }
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_2;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_2_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_2_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_2_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_2_3;
     pixmapIndex_ = 0;
     timerID_ = this->startTimer(125);
 }
@@ -275,23 +276,24 @@ FireProjectileL3GraphicsComponent::FireProjectileL3GraphicsComponent()
 }
 
 void FireProjectileL3GraphicsComponent::initPixmaps() {
-    animateMod_ = PIX_PROJ_FIRE_MAX;
+    animateMod_ = PIX_PROJ_FIRE_3_MAX;
     arrayIndexMin_ = pixmapIndex_ = 0;
-    arrayIndexMax_ = PIX_PROJ_FIRE_MAX - 1;
+    arrayIndexMax_ = PIX_PROJ_FIRE_3_MAX - 1;
     currentIndex_ = 0;
     if (pixmapImgs_) {
         timerID_ = this->startTimer(125);
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_PROJ_FIRE_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PROJ_FIRE_3_MAX];
     }
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_2;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_3_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_3_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_3_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_3_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FIRE_3_4;
     pixmapIndex_ = 0;
     timerID_ = this->startTimer(125);
 }
@@ -324,12 +326,12 @@ void FlakProjectileL2GraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_PROJ_FLAK_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PROJ_FLAK_2_MAX];
     }
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FLAK;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FLAK_2;
     pixmapIndex_ = 0;
 }
 
@@ -342,12 +344,12 @@ void FlakProjectileL3GraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_PROJ_FLAK_MAX];
+        pixmapImgs_ = new QPixmap[PIX_PROJ_FLAK_3_MAX];
     }
     //TODO: add animation images here
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FLAK;
+    pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FLAK_3;
     pixmapIndex_ = 0;
 }
 

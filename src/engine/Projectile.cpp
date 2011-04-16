@@ -62,6 +62,7 @@ Projectile::~Projectile() {
 }
 
 void Projectile::initComponents() {
+    qDebug("type %d", type_);
     if (type_ >= PROJ_ARROW && type_ <= PROJ_ARROW_5) {
         PLAY_SFX(this, SfxManager::projectileFireArrow);
         this->setHeight(10);
@@ -82,19 +83,19 @@ void Projectile::initComponents() {
         case PROJ_ARROW_3:
             effectType_ = EFFECT_ARROW;
 #ifndef SERVER
-            setGraphicsComponent(new ArrowProjectileGraphicsComponent());
+            setGraphicsComponent(new ArrowProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_ARROW_4:
             effectType_ = EFFECT_ARROW;
 #ifndef SERVER
-            setGraphicsComponent(new ArrowProjectileGraphicsComponent());
+            setGraphicsComponent(new ArrowProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_ARROW_5:
             effectType_ = EFFECT_ARROW;
 #ifndef SERVER
-            setGraphicsComponent(new ArrowProjectileGraphicsComponent());
+            setGraphicsComponent(new ArrowProjectileL3GraphicsComponent());
 #endif
             break;
         }
@@ -124,7 +125,7 @@ void Projectile::initComponents() {
             this->setWidth(100);
             this->setHeight(100);
 #ifndef SERVER
-            setGraphicsComponent(new CannonProjectileGraphicsComponent());
+            setGraphicsComponent(new CannonProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_CANNON_4:
@@ -132,7 +133,7 @@ void Projectile::initComponents() {
             this->setWidth(100);
             this->setHeight(100);
 #ifndef SERVER
-            setGraphicsComponent(new CannonProjectileGraphicsComponent());
+            setGraphicsComponent(new CannonProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_CANNON_5:
@@ -140,7 +141,7 @@ void Projectile::initComponents() {
             this->setWidth(100);
             this->setHeight(100);
 #ifndef SERVER
-            setGraphicsComponent(new CannonProjectileGraphicsComponent());
+            setGraphicsComponent(new CannonProjectileL3GraphicsComponent());
 #endif
             break;
         }
@@ -218,7 +219,7 @@ void Projectile::initComponents() {
             this->setWidth(100);
             this->setHeight(100);
 #ifndef SERVER
-            setGraphicsComponent(new TarProjectileGraphicsComponent());
+            setGraphicsComponent(new TarProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_TAR_4:
@@ -226,7 +227,7 @@ void Projectile::initComponents() {
             this->setWidth(100);
             this->setHeight(100);
 #ifndef SERVER
-            setGraphicsComponent(new TarProjectileGraphicsComponent());
+            setGraphicsComponent(new TarProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_TAR_5:
@@ -234,7 +235,7 @@ void Projectile::initComponents() {
             this->setWidth(100);
             this->setHeight(100);
 #ifndef SERVER
-            setGraphicsComponent(new TarProjectileGraphicsComponent());
+            setGraphicsComponent(new TarProjectileL3GraphicsComponent());
 #endif
             break;
         }
@@ -265,7 +266,7 @@ void Projectile::initComponents() {
             this->setWidth(40);
             this->setHeight(40);
 #ifndef SERVER
-            setGraphicsComponent(new FlakProjectileGraphicsComponent());
+            setGraphicsComponent(new FlakProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_FLAK_4:
@@ -273,7 +274,7 @@ void Projectile::initComponents() {
             this->setWidth(40);
             this->setHeight(40);
 #ifndef SERVER
-            setGraphicsComponent(new FlakProjectileGraphicsComponent());
+            setGraphicsComponent(new FlakProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_FLAK_5:
@@ -281,7 +282,7 @@ void Projectile::initComponents() {
             this->setWidth(40);
             this->setHeight(40);
 #ifndef SERVER
-            setGraphicsComponent(new FlakProjectileGraphicsComponent());
+            setGraphicsComponent(new FlakProjectileL3GraphicsComponent());
 #endif
             break;
         }

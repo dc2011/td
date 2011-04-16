@@ -98,7 +98,7 @@ bool FlameTowerPhysicsComponent::isValidTarget(Unit * target) {
 
 void FlameTowerPhysicsComponent::fire() {
 
-    emit fireProjectile(PROJ_FIRE, tower_->getPos(), projectilePath_.p2(),
+    emit fireProjectile(projType_, tower_->getPos(), projectilePath_.p2(),
             target_);
     fireCountdown_ = fireInterval_;
     foundTarget_ = false;
