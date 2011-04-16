@@ -362,28 +362,6 @@ void SDriver::onMsgReceive(Stream* s) {
 
             break;
         }
-        /*case network::kDropResource:
-        {
-            int playerID = s->readInt();
-            float x = s->readFloat();
-            float y = s->readFloat();
-
-            Player* player = (Player*)mgr_->findObject(playerID);
-
-            Tile* currentTile = gameMap_->getTile(x, y);
-            if (currentTile->getActionType() != TILE_BUILDING) {
-                out->writeInt(player->getID());
-                out->writeInt(false);
-	            net_->send(network::kDropResource, out->data());
-                break;
-            }
-            
-            BuildingTower* t = (BuildingTower*)currentTile->getExtension();
-
-            towerDrop(out, t, player);
-
-            break;
-        }*/
         case network::kDropCollect:
         {
             int playerID = s->readInt();
