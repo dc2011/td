@@ -210,6 +210,7 @@ void LobbyServer::readSocket()
             QString name(s.read(nameLen));
             int gameNum = s.readInt();
             games_.remove(gameNum,clients_.key(name));
+            notifyClients(network::kUpdateUserList);
             notifyClients(network::kUpdateListOfGames);
             break;
         }
