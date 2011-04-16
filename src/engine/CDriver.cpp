@@ -484,6 +484,10 @@ void CDriver::UDPReceived(Stream* s) {
             unsigned int playerID = s->readInt();
             unsigned int collID = s->readInt();
 
+            if (playerID == human_->getID()) {
+                break;
+            }
+
             Player* p = (Player*)mgr_->findObject(playerID);
             Collectable* c = (Collectable*)mgr_->findObject(collID);
 

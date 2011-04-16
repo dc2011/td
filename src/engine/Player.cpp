@@ -213,7 +213,6 @@ void Player::harvestResource() {
 void Player::pickupCollectable(double x, double y, Unit* u) {
     Tile* t = getDriver()->getGameMap()->getTile(x, y);
     t->removeUnit(u);
-    disconnect(getDriver()->getTimer(),  SIGNAL(timeout()), u, SLOT(update()));
 
     emit signalPickupCollectable(u->getID());
 
