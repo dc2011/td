@@ -1,6 +1,8 @@
 #ifndef _manager_
 #define _manager_
 
+#include <QDebug>
+
 #include <QMutex>
 #include <QObject>
 #include <QString>
@@ -362,9 +364,10 @@ public:
      * @author Terence Stenvold
      */
     void setVol(int vol, int *gain) {
-	if(vol<=100 && vol >= 0) {
-	    *gain = (int)(vol/5);
-	}
+
+    if(vol<=100 && vol >= 0) {
+        *gain = (int)(vol/5);
+    }
     }
 
     /**
@@ -374,7 +377,7 @@ public:
      * @return volume scale of music
      */
     int getMusicVol() {
-	return (int)(gainScale[musicGain_] * 100);
+        return (int)(gainScale[musicGain_] * 100);
     }
 
     /**
@@ -384,7 +387,7 @@ public:
      * @return volume scale of sfx
      */
     int getSfxVol() {
-	return (int)(gainScale[sfxGain_] * 100);
+        return (int)(gainScale[sfxGain_] * 100);
     }
 
     /**
@@ -394,7 +397,7 @@ public:
      * @return volume scale of voice
      */
     int getVoiceVol() {
-	return (int)(gainScale[voiceGain_] * 100);
+        return (int)(gainScale[voiceGain_] * 100);
     }
 
 

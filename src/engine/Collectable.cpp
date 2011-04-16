@@ -21,6 +21,7 @@ Collectable::Collectable(QObject* parent)
 }
 
 Collectable::~Collectable() {
+    this->getDriver()->getGameMap()->removeUnit(getPos().x(), getPos().y(), this);
     delete start_;
     delete end_;
 }
