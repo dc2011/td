@@ -30,3 +30,31 @@ Set paths in each project for the following libraries:
         libvorbisfile
         libogg
 Build.
+
+
+Map script (.conf file in ./maps):
+Comma separated values
+--------------------------------
+First line contains map specific information
+    ..
+Any following lines contain wave information
+    
+Map Composition:
+    Difficulty
+    Map Name
+    Base's HP
+    Wood Quantity
+    Stone Quantity
+    Bone Quantity
+    Tar Quantity
+Wave Composition:
+    Path on which wave travels
+    Type of NPC
+    Number of NPC's in wave
+    Time at which wave starts (from start of game)    
+    Density of monsters (number of game ticks between each npc)
+    Number of Gems in wave
+    
+Anything after an empty line or a '==' is ignored
+
+
