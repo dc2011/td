@@ -95,6 +95,7 @@ void LobbyWindow::tmp_startGame()
     }
 
     Stream s;
+    s.writeInt(gameNum_);
     NetworkClient::instance()->send(network::kLobbyStartGame, s.data());
 }
 
@@ -218,10 +219,11 @@ void LobbyWindow::sendChatMessage() {
     s.writeInt(ui->msgBox->text().size());
     s.write(ui->msgBox->text().toAscii());
     NetworkClient::instance()->send(network::kChatMessage, s.data());
-    ui->msgBox->text().clear();
+    ui->msgBox->clear();
 }
 void LobbyWindow::updateListOfUserNames(QMultiMap<int, QString>& userList) {
 
+    ui->userList->clear();
     foreach(QString name, userList) {
         QStringList tmpList(name);
         tmpList.append(userList.key(name) == 0 ? "N/A" : QString::number(userList.key(name)));
@@ -230,21 +232,34 @@ void LobbyWindow::updateListOfUserNames(QMultiMap<int, QString>& userList) {
     }
 
 }
-
 void LobbyWindow::updateListOfGames(QMultiMap<int, QString>& gameList) {
 
     if(ui->gameList->count() > 0) {
         ui->gameList->clear();
     }
-    foreach(int gameName, gameList.keys()) {
-        QString name(QString("Game").append(QString::number(gameName)));
-        ui->gameList->addItem(name);
+    foreach(int gameName, QSet<int>(gameList.keys().toSet())) {
+        QListWidgetItem* item = new QListWidgetItem;
+        QString name(QString("Game").append(QString::number(gameName)).append(
+                     QString("\t")).append(QString::number(gameList.values(gameName).size()).append(QString("/256"))));
+
+        gameList.values(gameName).size();
+
+        item->setText(name);
+        item->setData(Qt::UserRole,gameName);
+        ui->gameList->addItem(item);
+
     }
 }
 
-void LobbyWindow::onJoinGame(QListWidgetItem*) {
-    int x;
-    x++;
+void LobbyWindow::onJoinGame(QListWidgetItem* item) {
+    int gameNum = item->data(Qt::UserRole).toInt();
+    gameNum_ = gameNum;
+    Stream s;
+    s.writeInt(ui->txtUsername->text().size());
+    s.write(ui->txtUsername->text().toAscii());
+    s.writeInt(gameNum);
+
+    NetworkClient::instance()->send(network::kJoinGame, s.data());
 }
 
 void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {

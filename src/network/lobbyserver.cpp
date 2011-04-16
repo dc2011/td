@@ -63,13 +63,15 @@ void LobbyServer::notifyClients(unsigned char msgType)
         case network::kUpdateListOfGames:
         {
             Stream s;
-            QList<int> gameNames = games_.keys();
+
+            QSet<int> gameNames = games_.keys().toSet();
             s.writeByte(msgType);
-            s.writeInt(games_.size());
+            s.writeInt(gameNames.size());
             foreach(int name, gameNames) {
                 s.writeInt(name);
                 s.writeInt(games_.count(name));
-                foreach(QString name,clients_.values(games_.value(name))) {
+                foreach(QTcpSocket* sock,games_.values(name)) {
+                    QString name = clients_.value(sock);
                     s.writeInt(name.size());
                     s.write(name.toAscii());
                 }
@@ -176,6 +178,7 @@ void LobbyServer::readSocket()
             notifyClients(network::kLobbyWelcome);
            // sleep(1);
             notifyClients(network::kUpdateUserList);
+            notifyClients(network::kUpdateListOfGames);
             qDebug() << "Number of clients connected = " << connCount_;
             break;
         }
@@ -192,6 +195,8 @@ void LobbyServer::readSocket()
             else {
                 games_.insert(game,conn);
             }
+            notifyClients(network::kUpdateListOfGames);
+            notifyClients(network::kUpdateUserList);
             break;
         }
 

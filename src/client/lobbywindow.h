@@ -81,6 +81,8 @@ private:
      */
     void assignName();
 
+    /** the game number the client is connected to*/
+    int gameNum_;
     Ui::LobbyWindow *ui;
 };
 
