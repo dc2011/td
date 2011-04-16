@@ -32,11 +32,15 @@ Projectile::~Projectile() {
     case PROJ_ARROW:
     case PROJ_ARROW_2:
     case PROJ_ARROW_3:
+    case PROJ_ARROW_4:
+    case PROJ_ARROW_5:
         new ArrowEndingGraphicsComponent(pos_);
         break;
     case PROJ_CANNON:
     case PROJ_CANNON_2:
     case PROJ_CANNON_3:
+    case PROJ_CANNON_4:
+    case PROJ_CANNON_5:
         new CannonEndingGraphicsComponent(pos_);
         break;
     case PROJ_FIRE:
@@ -93,12 +97,6 @@ void Projectile::initComponents() {
             setGraphicsComponent(new ArrowProjectileGraphicsComponent());
 #endif
             break;
-        case PROJ_ARROW_6:
-            effectType_ = EFFECT_ARROW;
-#ifndef SERVER
-            setGraphicsComponent(new ArrowProjectileGraphicsComponent());
-#endif
-            break;
         }
         setInputComponent(new ArrowProjectileInputComponent());
         setPhysicsComponent(new ArrowProjectilePhysicsComponent());
@@ -138,14 +136,6 @@ void Projectile::initComponents() {
 #endif
             break;
         case PROJ_CANNON_5:
-            effectType_ = EFFECT_CANNON;
-            this->setWidth(100);
-            this->setHeight(100);
-#ifndef SERVER
-            setGraphicsComponent(new CannonProjectileGraphicsComponent());
-#endif
-            break;
-        case PROJ_CANNON_6:
             effectType_ = EFFECT_CANNON;
             this->setWidth(100);
             this->setHeight(100);
@@ -200,14 +190,6 @@ void Projectile::initComponents() {
             setGraphicsComponent(new FireProjectileGraphicsComponent());
 #endif
             break;
-        case PROJ_FIRE_6:
-            effectType_ = EFFECT_FIRE;
-            this->setWidth(110);
-            this->setHeight(36);
-#ifndef SERVER
-            setGraphicsComponent(new FireProjectileGraphicsComponent());
-#endif
-            break;
         }
         setInputComponent(new FireProjectileInputComponent());
         setPhysicsComponent(new FireProjectilePhysicsComponent());
@@ -248,14 +230,6 @@ void Projectile::initComponents() {
 #endif
             break;
         case PROJ_TAR_5:
-            effectType_ = EFFECT_TAR;
-            this->setWidth(100);
-            this->setHeight(100);
-#ifndef SERVER
-            setGraphicsComponent(new TarProjectileGraphicsComponent());
-#endif
-            break;
-        case PROJ_TAR_6:
             effectType_ = EFFECT_TAR;
             this->setWidth(100);
             this->setHeight(100);
@@ -310,18 +284,10 @@ void Projectile::initComponents() {
             setGraphicsComponent(new FlakProjectileGraphicsComponent());
 #endif
             break;
-        case PROJ_FLAK_6:
-            effectType_ = EFFECT_FLAK;
-            this->setWidth(40);
-            this->setHeight(40);
-#ifndef SERVER
-            setGraphicsComponent(new FlakProjectileGraphicsComponent());
-#endif
-            break;
-            PLAY_SFX(this, SfxManager::projectileFireFlak);
-            setInputComponent(new FlakProjectileInputComponent());
-            setPhysicsComponent(new FlakProjectilePhysicsComponent());
         }
+        PLAY_SFX(this, SfxManager::projectileFireFlak);
+        setInputComponent(new FlakProjectileInputComponent());
+        setPhysicsComponent(new FlakProjectilePhysicsComponent());
     }
 
     getInputComponent()->setParent(this);
