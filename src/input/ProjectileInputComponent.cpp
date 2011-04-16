@@ -71,6 +71,7 @@ void ProjectileInputComponent::makeForce(){
     case PROJ_FLAK:
         break;
     case PROJ_TAR:
+        new TarEndingGraphicsComponent(parent_->getPos());
         break;
     }
 #endif

@@ -57,6 +57,33 @@ void ArrowEndingGraphicsComponent::timerEvent(QTimerEvent*) {
     redraw(65, LAYER_DEFAULT);
 }
 
+// tar
+QPixmap* TarEndingGraphicsComponent::pixmapImgs_ = NULL;
+
+void TarEndingGraphicsComponent::initPixmaps() {
+    if (pixmapImgs_) {
+        setNonStaticValues();
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_END_TAR_MAX];
+        pixmapIndex_ = 0;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_TAR_0;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_TAR_1;
+        setNonStaticValues();
+    }
+
+}
+void TarEndingGraphicsComponent::setNonStaticValues() {
+    animateMod_ = PIX_END_TAR_MAX;
+    arrayIndexMin_ = pixmapIndex_ = PIX_END_TAR_START;
+    arrayIndexMax_ = PIX_END_TAR_START + PIX_END_TAR_MAX - 1;
+    created_.release();
+}
+
+void TarEndingGraphicsComponent::timerEvent(QTimerEvent*) {
+    redraw(225, LAYER_NPC);
+}
+
 // flying death
 
 QPixmap* FlyingEndingGraphicsComponent::pixmapImgs_ = NULL;

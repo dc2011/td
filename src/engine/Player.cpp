@@ -21,6 +21,12 @@ Player::Player(QObject* parent)
     this->setPos(homeLocation.x(), homeLocation.y());
 }
 
+Player::~Player()
+{
+    // Remove the unit from the map before deleting it
+    this->getDriver()->getGameMap()->removeUnit(getPos().x(), getPos().y(), this);
+}
+
 void Player::networkRead(Stream* s) {
     Unit::networkRead(s);
 

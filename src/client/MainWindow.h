@@ -82,6 +82,7 @@ public:
     QGraphicsView* getView() { return view_; }
 
     MapDisplayer * getMD() { return mapDisplayer_; }
+    bool getMapState() { return mapZoomOut_; }
     
 protected:
     /**
