@@ -53,7 +53,13 @@ private slots:
      * @author Kelvin Lui
      * @param  item the qlistwidgetItem that was clicked
      **/
+
     void onJoinGame(QListWidgetItem*);
+    /**
+      * Called when a user clicks on the leave game button
+      * @author Kelvin Lui
+      **/
+    void onLeaveGame();
 
 private:
     void updateListOfUserNames(QMultiMap<int, QString>&);
@@ -64,8 +70,6 @@ private:
      * @author Dean Morin
      */
     void readSettings();
-
-    
 
     /**
      *

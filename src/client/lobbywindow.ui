@@ -46,39 +46,13 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>200</y>
+      <y>160</y>
       <width>131</width>
       <height>27</height>
      </rect>
     </property>
     <property name="text">
      <string>Start Game</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="easyBtn">
-    <property name="geometry">
-     <rect>
-      <x>29</x>
-      <y>159</y>
-      <width>62</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Easy</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="mediumBtn">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>160</y>
-      <width>85</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Medium</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="txtUsername">
@@ -137,7 +111,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>200</y>
+      <y>160</y>
       <width>131</width>
       <height>27</height>
      </rect>
@@ -183,19 +157,6 @@
     </property>
     <property name="text">
      <string>Username</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="hardBtn">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>160</y>
-      <width>63</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Hard</string>
     </property>
    </widget>
    <widget class="QFrame" name="bgFrame">
@@ -433,33 +394,19 @@
      </rect>
     </property>
    </widget>
-   <zorder>mapsList</zorder>
-   <zorder>btnStart</zorder>
-   <zorder>easyBtn</zorder>
-   <zorder>mediumBtn</zorder>
-   <zorder>txtUsername</zorder>
-   <zorder>lblDisplayCount</zorder>
-   <zorder>lblCount</zorder>
-   <zorder>chkSingleplayer</zorder>
-   <zorder>btnConnect</zorder>
-   <zorder>lblAddress</zorder>
-   <zorder>txtAddress</zorder>
-   <zorder>lblUsername</zorder>
-   <zorder>hardBtn</zorder>
-   <zorder>bgFrame</zorder>
-   <zorder>label</zorder>
-   <zorder>label_2</zorder>
-   <zorder>sendMsg</zorder>
-   <zorder>label_3</zorder>
-   <zorder>newGame</zorder>
-   <zorder>label_4</zorder>
-   <zorder>userList</zorder>
-   <zorder>btnExit</zorder>
-   <zorder>chatBgFrame</zorder>
-   <zorder>chatInputBg</zorder>
-   <zorder>logoFrame</zorder>
-   <zorder>gameList</zorder>
-   <zorder>msgBox</zorder>
+   <widget class="QPushButton" name="leaveGame">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>190</y>
+      <width>131</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Leave Game</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

@@ -123,6 +123,9 @@ namespace network {
 		
 	/**From server to client. Indicates the id of the new game */
 	kGameId = 0x16,
+	
+	/**Sent from client to server when they are leaving a queue */
+	kLobbyleaveGame = 0x17,
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 

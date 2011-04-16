@@ -204,6 +204,15 @@ void LobbyServer::readSocket()
             notifyClients(network::kUpdateUserList);
             break;
         }
+        case network::kLobbyleaveGame:
+        {
+            int nameLen = s.readInt();
+            QString name(s.read(nameLen));
+            int gameNum = s.readInt();
+            games_.remove(gameNum,clients_.key(name));
+            notifyClients(network::kUpdateListOfGames);
+            break;
+        }
 
         case network::kLobbyStartGame:
         {

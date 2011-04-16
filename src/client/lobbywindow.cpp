@@ -82,6 +82,7 @@ void LobbyWindow::connectLobby()
     PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
     connect(ui->newGame,SIGNAL(clicked()),this,SLOT(onCreateNewGame()));
+    connect(ui->leaveGame,SIGNAL(clicked()),this,SLOT(onLeaveGame()));
     connect(ui->gameList,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(onJoinGame(QListWidgetItem*)));
 
     delete s;
@@ -220,13 +221,16 @@ void LobbyWindow::applyStyleSheet(QString path) {
 }
 
 void LobbyWindow::sendChatMessage() {
-    Stream s;
-    s.writeInt(ui->txtUsername->text().size());
-    s.write(ui->txtUsername->text().toAscii());
-    s.writeInt(ui->msgBox->text().size());
-    s.write(ui->msgBox->text().toAscii());
-    NetworkClient::instance()->send(network::kChatMessage, s.data());
-    ui->msgBox->clear();
+    if(ui->msgBox->text().size() > 0)
+    {
+        Stream s;
+        s.writeInt(ui->txtUsername->text().size());
+        s.write(ui->txtUsername->text().toAscii());
+        s.writeInt(ui->msgBox->text().size());
+        s.write(ui->msgBox->text().toAscii());
+        NetworkClient::instance()->send(network::kChatMessage, s.data());
+        ui->msgBox->clear();
+    }
 }
 void LobbyWindow::updateListOfUserNames(QMultiMap<int, QString>& userList) {
 
@@ -268,6 +272,17 @@ void LobbyWindow::onJoinGame(QListWidgetItem* item) {
         s.writeInt(gameNum);
 
         NetworkClient::instance()->send(network::kJoinGame, s.data());
+    }
+}
+
+void LobbyWindow::onLeaveGame() {
+    if(gameNum_ != 0) {
+        Stream s;
+        s.writeInt(ui->txtUsername->text().size());
+        s.write(ui->txtUsername->text().toAscii());
+        s.writeInt(gameNum_);
+        gameNum_ = 0;
+        NetworkClient::instance()->send(network::kLobbyleaveGame, s.data());
     }
 }
 
