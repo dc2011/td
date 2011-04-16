@@ -5,9 +5,6 @@ namespace td {
 namespace network {
 
     enum {
-        /** Used as a separator to indicate TCP messages. */
-        kBLOCK_TCP      =   0x00,
-
         /**
          * Requests to join the lobby server or indicates the number of
          * players connected to the lobby.
@@ -119,6 +116,9 @@ namespace network {
          * See Also: @ref consolechat
          */
         kConsoleChat    =   0x15,
+
+	/** Used as a separator to indicate TCP messages. */
+        kBLOCK_TCP      =   0x16,
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
