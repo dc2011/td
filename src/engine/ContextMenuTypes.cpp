@@ -43,7 +43,7 @@ void PlayerContextMenu::selectMenuItem(int keyPressed) {
              keyPressed != UPGRADE_RECOVERY)) {
         return;
     }
-    emit signalUpgradePlayer(keyPressed, player_->getPos());
+    emit signalUpgradePlayer(keyPressed);
     ContextMenu::selectMenuItem(keyPressed);
 }
 

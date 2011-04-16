@@ -140,6 +140,7 @@
 
 //Player velocity
 #define PLAYER_MAX_V 5
+#define PLAYER_UPGRADE_V 7.5
 
 //effect types for operator==
 #define EFFECT_NONE         0

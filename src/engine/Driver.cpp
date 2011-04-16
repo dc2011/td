@@ -312,6 +312,34 @@ bool Driver::upgradeTower(QPointF pos) {
     return true;
 }
 
+bool Driver::upgradePlayer(int id, int type) {
+    //TODO: gem validation
+    Player* player = (Player*)mgr_->findObject(id);
+
+    switch (type) {
+    case UPGRADE_SPEED:
+        if (player->hasEffect(EFFECT_SLOW)) {
+            player->deleteEffect(EFFECT_SLOW);
+            ((PlayerPhysicsComponent*)player->getPhysicsComponent())
+                ->setMaxVelocity(PLAYER_UPGRADE_V);
+            player->createEffect(EFFECT_SLOW);
+        } else if (player->hasEffect(EFFECT_FAST)) {
+            player->deleteEffect(EFFECT_FAST);
+            ((PlayerPhysicsComponent*)player->getPhysicsComponent())
+                ->setMaxVelocity(PLAYER_UPGRADE_V);
+            player->createEffect(EFFECT_FAST);
+        }
+        break;
+    case UPGRADE_HARVEST:
+        player->setHarvestTime(HARVEST_COUNTDOWN_UPGRADE);
+        break;
+    case UPGRADE_RECOVERY:
+        player->setStunUpgrade(true);
+        break;
+    }
+    return true;
+}
+
 QVector2D Driver::getRandomVector() {
     float d = ((qrand() % 1000) / 21.0) + 50;
     float x = (qrand() % 1000) - 500;

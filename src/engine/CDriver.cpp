@@ -190,8 +190,8 @@ void CDriver::makeLocalPlayer(Player* player) {
             playerContextMenu_, SLOT(selectMenuItem(int)));
     connect(mainWindow_, SIGNAL(signalAltHeld(bool)),
             playerContextMenu_, SLOT(viewResources(bool)));
-    //connect(playerContextMenu_, SIGNAL(signalUpgradePlayer(int, QPointF)),
-    //TODO macca add upgrade player here        this, SLOT(***(int, QPointF)));
+    connect(playerContextMenu_, SIGNAL(signalUpgradePlayer(int)),
+            this, SLOT(requestUpgradePlayer(int)));
     connect(playerContextMenu_, SIGNAL(signalPlayerMovement(bool)),
 	        input, SLOT(playerMovement(bool)));
 
@@ -266,6 +266,19 @@ void CDriver::requestUpgradeTower(QPointF pos) {
         s.writeFloat(pos.x());
         s.writeFloat(pos.y());
         NetworkClient::instance()->send(network::kUpgradeTower, s.data());
+    }
+}
+
+void CDriver::requestUpgradePlayer(int type) {
+    if (isSinglePlayer()) {
+        Driver::upgradePlayer(human_->getID(), type);
+    } else {
+        /** TODO implement network read 
+        Stream s;
+        s.writeInt(human_->getID());
+        s.writeInt(type);
+        NetworkClient::instance()->send(network::kUpgradePlayer, s.data());
+        */
     }
 }
 
