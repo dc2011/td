@@ -3,13 +3,17 @@
 #include "../engine/GameObject.h"
 #include "../engine/CDriver.h"
 #include "../util/DelayedDelete.h"
+#include <QDebug>
 
 namespace td {
 
 GraphicsComponent::GraphicsComponent() 
         : pixmapIndex_(0), isMoving_(false), animate_(true) {
+    oldDP_.pos = QPointF(0,0);
+    oldDP_.degrees = -1;
+    oldDP_.scale = -1;
 
-#ifndef SERVER    
+#ifndef SERVER
     MainWindow* mainWindow = CDriver::instance()->getMainWindow();
 
     connect(this, SIGNAL(created(GraphicsComponent*)), 
@@ -34,6 +38,19 @@ void GraphicsComponent::draw(void* dp, int layer) {
     if (animate_) {
         animate();
     }
+
+    if (oldDP_.pos != drawParams->pos || oldDP_.scale != drawParams->scale || oldDP_.degrees != drawParams->degrees) {
+
+        oldDP_.pos = drawParams->pos;
+        oldDP_.scale = drawParams->scale;
+        oldDP_.degrees = drawParams->degrees;
+    } else {
+        static int counter = 1;
+        qDebug() << "shortcircuit the draw: " << ++counter;
+        delete dp;
+        return;
+    }
+
 
     QPointF center = pixmapItem_->boundingRect().center();
     pixmapItem_->resetMatrix();

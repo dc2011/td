@@ -46,6 +46,8 @@ protected:
     bool animate_;
 
 private:
+    /** copy of the last used states to limit unneccisary calls */
+    DrawParams oldDP_;
     /** The pixelmapItem which is is used to draw a pixel map at a location. */
     QGraphicsPixmapItem* pixmapItem_;
 
