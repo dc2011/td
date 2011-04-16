@@ -68,18 +68,21 @@ void settingsWindow::muteSfx(bool toggled) {
 
 
 void settingsWindow::setMusic(int n) {
+    QString tmp;
     AudioManager::instance()->setMusicVol(n);
-    emit setMusicLabel(QString(n));
+    emit setMusicLabel(tmp.setNum(n));
 }
 
 void settingsWindow::setVoice(int n) {
+    QString tmp;
     AudioManager::instance()->setVoiceVol(n);
-    emit setVoiceLabel(QString(n));
+    emit setVoiceLabel(tmp.setNum(n));
 }
 
 void settingsWindow::setSfx(int n) {
+    QString tmp;
     AudioManager::instance()->setSfxVol(n);
-    emit setSfxLabel(QString(n));
+    emit setSfxLabel(tmp.setNum(n));
 }
 
 void settingsWindow::volumeVoice(int n) {
