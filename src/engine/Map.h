@@ -52,6 +52,19 @@ private:
     /**  */
     int widthInTiles_;
 
+    /**
+      * The height of the tiles, retrieved from Tiled Map.
+      *
+      * @author Luke Queenan
+      */
+    int tileHeight_;
+    /**
+      * The width of the tiles, retrieved from Tiled Map.
+      *
+      * @author Luke Queenan
+      */
+    int tileWidth_;
+
     /** The tile containing the caveman's home base. */
     Tile* homeTile_;
 
@@ -122,7 +135,7 @@ public:
      * @author Ian Lee
      */
     Tile* getTile(double x, double y);
-    
+
     /**
      * Gets the tile at the coordinates coords.
      *
