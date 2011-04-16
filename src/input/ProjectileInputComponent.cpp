@@ -148,18 +148,20 @@ void ProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs) {
     for (it = npcs.begin(); it != npcs.end(); ++it) {
         if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
             // Check to see if this projectile can damage this unit
-            if ((type_ == PROJ_FLAK) && (((NPC*)*it)->getType() != NPC_FLY))
+            if ((parent_->getType() == PROJ_FLAK)
+                    && (((NPC*)*it)->getType() != NPC_FLY))
             {
                 continue;
             }
             if ((((NPC*)*it)->getType() == NPC_FLY)
-                && ((type_ == PROJ_CANNON) || (type_ == PROJ_FIRE)
-                    || (type_ == PROJ_TAR)))
+                && ((parent_->getType() == PROJ_CANNON)
+                    || (parent_->getType() == PROJ_FIRE)
+                    || (parent_->getType() == PROJ_TAR)))
             {
                 continue;
             }
 
-            projBounds = getBounds();
+            projBounds = parent_->getBounds();
             npcBounds = (*it)->getBounds();
             if(projBounds.intersected(npcBounds).count() != 0){
                 ((NPC*)(*it))->createEffect(parent_->getEffectType());

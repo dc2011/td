@@ -62,7 +62,7 @@ Projectile::~Projectile() {
 }
 
 void Projectile::initComponents() {
-    if (type_ >= PROJ_ARROW && type_ <= PROJ_ARROW_6) {
+    if (type_ >= PROJ_ARROW && type_ <= PROJ_ARROW_5) {
         PLAY_SFX(this, SfxManager::projectileFireArrow);
         this->setHeight(10);
         this->setWidth(48);
@@ -101,7 +101,7 @@ void Projectile::initComponents() {
         setInputComponent(new ArrowProjectileInputComponent());
         setPhysicsComponent(new ArrowProjectilePhysicsComponent());
     }
-    if (type_ >= PROJ_CANNON && type_ <= PROJ_CANNON_6) {
+    if (type_ >= PROJ_CANNON && type_ <= PROJ_CANNON_5) {
         switch(type_) {
         case PROJ_CANNON:
             effectType_ = EFFECT_CANNON;
@@ -148,7 +148,7 @@ void Projectile::initComponents() {
         setPhysicsComponent(new CannonProjectilePhysicsComponent());
         PLAY_SFX(this, SfxManager::projectileFireCannon);
     }
-    if (type_ >= PROJ_FIRE && type_ <= PROJ_FIRE_6) {
+    if (type_ >= PROJ_FIRE && type_ <= PROJ_FIRE_5) {
         switch(type_) {
         case PROJ_FIRE:
             effectType_ = EFFECT_FIRE;
@@ -195,7 +195,7 @@ void Projectile::initComponents() {
         setPhysicsComponent(new FireProjectilePhysicsComponent());
         PLAY_SFX(this, SfxManager::projectileFireFlame);
     }
-    if (type_ >= PROJ_TAR && type_ <= PROJ_TAR_6) {
+    if (type_ >= PROJ_TAR && type_ <= PROJ_TAR_5) {
         switch(type_) {
         case PROJ_TAR:
             effectType_ = EFFECT_TAR;
@@ -242,7 +242,7 @@ void Projectile::initComponents() {
         setPhysicsComponent(new TarProjectilePhysicsComponent());
         PLAY_SFX(this, SfxManager::projectileFireTar);
     }
-    if (type_ >= PROJ_FLAK && type_ <= PROJ_FLAK_6) {
+    if (type_ >= PROJ_FLAK && type_ <= PROJ_FLAK_5) {
         switch(type_) {
         case PROJ_FLAK:
             effectType_ = EFFECT_FLAK;

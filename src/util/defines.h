@@ -170,8 +170,8 @@
 #define PROJ_FIRE       10
 #define PROJ_FIRE_2     11
 #define PROJ_FIRE_3     12
-#define PROJ_FIRE_3     13
-#define PROJ_FIRE_3     14
+#define PROJ_FIRE_4     13
+#define PROJ_FIRE_5     14
 #define PROJ_TAR        15
 #define PROJ_TAR_2      16
 #define PROJ_TAR_3      17
