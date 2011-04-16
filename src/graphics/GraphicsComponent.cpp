@@ -44,7 +44,7 @@ void GraphicsComponent::draw(void* dp, int layer) {
         oldDP_.scale = drawParams->scale;
         oldDP_.degrees = drawParams->degrees;
     } else {
-        delete dp;
+        delete drawParams;
         return;
     }
 
