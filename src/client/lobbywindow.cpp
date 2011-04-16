@@ -12,7 +12,9 @@ namespace td {
 
 LobbyWindow::LobbyWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::LobbyWindow)
+    ui(new Ui::LobbyWindow),
+    gameNum_(0)
+
 {
     this->setWindowFlags(Qt::FramelessWindowHint);
 
@@ -156,6 +158,11 @@ void LobbyWindow::onTCPReceived(Stream* s)
             updateListOfGames(gameList);
             break;
         }
+        case network::kGameId:
+        {
+            gameNum_ = s->readInt();
+            break;
+        }
         case network::kLobbyStartGame:
         {
             connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
@@ -252,14 +259,16 @@ void LobbyWindow::updateListOfGames(QMultiMap<int, QString>& gameList) {
 }
 
 void LobbyWindow::onJoinGame(QListWidgetItem* item) {
-    int gameNum = item->data(Qt::UserRole).toInt();
-    gameNum_ = gameNum;
-    Stream s;
-    s.writeInt(ui->txtUsername->text().size());
-    s.write(ui->txtUsername->text().toAscii());
-    s.writeInt(gameNum);
+    if(gameNum_ == 0) {
+        int gameNum = item->data(Qt::UserRole).toInt();
+        gameNum_ = gameNum;
+        Stream s;
+        s.writeInt(ui->txtUsername->text().size());
+        s.write(ui->txtUsername->text().toAscii());
+        s.writeInt(gameNum);
 
-    NetworkClient::instance()->send(network::kJoinGame, s.data());
+        NetworkClient::instance()->send(network::kJoinGame, s.data());
+    }
 }
 
 void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {
@@ -270,11 +279,13 @@ void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {
 }
 
 void LobbyWindow::onCreateNewGame() {
-    Stream s;
-    s.writeInt(ui->txtUsername->text().size());
-    s.write(ui->txtUsername->text().toAscii());
-    s.writeInt(0);
-    NetworkClient::instance()->send(network::kJoinGame, s.data());
+    if(gameNum_ == 0) {
+        Stream s;
+        s.writeInt(ui->txtUsername->text().size());
+        s.write(ui->txtUsername->text().toAscii());
+        s.writeInt(0);
+        NetworkClient::instance()->send(network::kJoinGame, s.data());
+    }
 }
 /* end namespace td */
 

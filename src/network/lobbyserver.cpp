@@ -176,9 +176,10 @@ void LobbyServer::readSocket()
             clients_.insert(conn, nick);
             mutex_.unlock();
             notifyClients(network::kLobbyWelcome);
-           // sleep(1);
             notifyClients(network::kUpdateUserList);
-            notifyClients(network::kUpdateListOfGames);
+            if(games_.size() > 0) {
+                notifyClients(network::kUpdateListOfGames);
+            }
             qDebug() << "Number of clients connected = " << connCount_;
             break;
         }
@@ -189,8 +190,12 @@ void LobbyServer::readSocket()
             int game = s.readInt();
 
             if(game == 0) {
+                Stream s;
+                s.writeByte(network::kGameId);
+                s.writeInt(gameId);
                 games_.insert(gameId++,conn);
                 notifyClients(network::kUpdateListOfGames);
+                conn->write(s.data());
             }
             else {
                 games_.insert(game,conn);

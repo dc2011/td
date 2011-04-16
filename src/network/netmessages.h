@@ -100,7 +100,8 @@ namespace network {
         kChatMessage = 0x10,
         
         /**From client to Server. Indicates joining or creating a game if followed by 0 */
-        kJoinGame = 0x11,      
+        kJoinGame = 0x11,
+	
 
         /** Indicates sale/deletion of Tower. */
         kSellTower      =   0x12,
@@ -119,6 +120,9 @@ namespace network {
          * See Also: @ref consolechat
          */
         kConsoleChat    =   0x15,
+		
+	/**From server to client. Indicates the id of the new game */
+	kGameId = 0x16,
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
