@@ -210,7 +210,10 @@ void Map::addUnit(double x, double y, Unit *unitToAdd)
 
     getTileCoords(x, y, &row, &column);
 
-    tiles_[row][column]->addUnit(unitToAdd);
+    if (validateTileBounds(column, row))
+    {
+        tiles_[row][column]->addUnit(unitToAdd);
+    }
     //qDebug("add to tile: %d, %d",row, column);
 }
 
@@ -221,8 +224,20 @@ void Map::removeUnit(double x, double y, Unit *unitToRemove)
 
     getTileCoords(x, y, &row, &column);
 
-    tiles_[row][column]->removeUnit(unitToRemove);
+    if (validateTileBounds(column, row))
+    {
+        tiles_[row][column]->removeUnit(unitToRemove);
+    }
     //qDebug("leaving tile: %d, %d", row, column);
+}
+
+bool Map::validateTileBounds(int x, int y)
+{
+    if (y >= heightInTiles_ || y < 0 || x >= widthInTiles_ || x < 0)
+    {
+        return false;
+    }
+    return true;
 }
 
 }//end namespace

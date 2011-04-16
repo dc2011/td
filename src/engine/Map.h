@@ -76,6 +76,14 @@ private:
      */
     void createResource(int type, Tile * tile);
 
+    /**
+      * Function to ensure that the tile array does not get accesed with values
+      * that would put it out of bounds.
+      *
+      * @author Luke Queenan
+      */
+    bool validateTileBounds(int x, int y);
+
 public:
     /**
      * Returns the tile width. This is a wrapper around
