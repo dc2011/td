@@ -273,12 +273,10 @@ void CDriver::requestUpgradePlayer(int type) {
     if (isSinglePlayer()) {
         Driver::upgradePlayer(human_->getID(), type);
     } else {
-        /** TODO implement network read 
         Stream s;
         s.writeInt(human_->getID());
         s.writeInt(type);
         NetworkClient::instance()->send(network::kUpgradePlayer, s.data());
-        */
     }
 }
 
@@ -475,6 +473,15 @@ void CDriver::UDPReceived(Stream* s) {
                 human_->dropResource(addToTower);
             }
             break;
+        }
+        case network::kUpgradePlayer:
+        {
+            unsigned int playerID = s->readInt();
+            int upgradeType = s->readInt();
+
+            if (human_->getID() == playerID) {
+                Driver::upgradePlayer(playerID, upgradeType);
+            }
         }
         case network::kSellTower:
         {

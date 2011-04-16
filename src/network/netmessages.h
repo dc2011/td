@@ -107,6 +107,9 @@ namespace network {
         /** Indicates sale/deletion of Tower. */
         kUpgradeTower   =   0x13,
 
+        /** Indicates a player upgrade. */
+        kUpgradePlayer  =   0x20,
+
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
         /** Used as a separator to indicate UDP messages. */

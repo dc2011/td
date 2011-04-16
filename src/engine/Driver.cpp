@@ -314,6 +314,10 @@ bool Driver::upgradeTower(QPointF pos) {
 
 bool Driver::upgradePlayer(int id, int type) {
     //TODO: gem validation
+#ifdef SERVER
+    return true;
+#endif
+
     Player* player = (Player*)mgr_->findObject(id);
 
     switch (type) {
