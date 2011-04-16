@@ -264,6 +264,16 @@ public slots:
     void dropResource();
 
     /**
+     * Creates collectable on server and send message to client for creation.
+     *
+     * @author Dean Morin
+     * @param projType The type of the collectable (resource or gem).
+     * @param source The origin of the collectable.
+     * @param vel The velocity of the dropper.
+     */
+    void requestCollectable(int collType, QPointF source, QVector2D vel);
+
+    /**
      * Requests or creates a Building Tower
      * of specified type at specified position.
      * Connected to TowerSelected in ContextMenu.

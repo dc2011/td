@@ -244,6 +244,13 @@ void CDriver::dropResource() {
     }
 }
 
+void CDriver::requestCollectable(int collType, QPointF source,
+        QVector2D vel) {
+    if (isSinglePlayer()) {
+        this->createCollectable(collType, source, vel);
+    }
+}
+
 void CDriver::requestBuildingTower(int type, QPointF pos) {
     if (isSinglePlayer()) {
         BuildingTower* t = Driver::createBuildingTower(type, pos);

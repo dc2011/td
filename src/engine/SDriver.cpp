@@ -264,10 +264,23 @@ void SDriver::requestProjectile(int projType, QPointF source,
 
 void SDriver::requestCollectable(int collType, QPointF source, QVector2D vel) {
     Collectable* c = Driver::createCollectable(collType, source, vel);
+    int id = 0;
+
+    GameObject* go = (GameObject*)QObject::sender();
+    if (go != NULL) {
+        id = go->getID();
+    }
 
     Stream s;
-    c->networkWrite(&s);
-    net_->send(network::kCollectable, s.data());
+    s.writeInt(id);
+    s.writeInt(collType);
+    s.writeFloat(vel.x());
+    s.writeFloat(vel.y());
+    s.writeFloat(source.x());
+    s.writeFloat(source.y());
+    s.writeByte(false);
+
+    net_->send(network::kDropCollect, s.data());
 }
 
 void SDriver::towerDrop(BuildingTower* t, Player* player, bool drop) {

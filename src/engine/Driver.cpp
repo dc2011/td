@@ -148,9 +148,7 @@ void Driver::requestProjectile(int projType, QPointF source,
             enemy);
 }
 
-void Driver::requestCollectable(int projType, QPointF source, 
-        QVector2D velocity) {
-    Driver::createCollectable(projType, source, velocity);
+void Driver::requestCollectable(int, QPointF, QVector2D) {
 }
 
 Projectile* Driver::createProjectile(int projType, QPointF source,
@@ -328,19 +326,19 @@ void Driver::dropCollectables(QPointF pos,
     int i = 0;
 
     for (i = 0; i < wood; i++) {
-        requestCollectable(RESOURCE_WOOD, pos, getRandomVector());
+        createCollectable(RESOURCE_WOOD, pos, getRandomVector());
     }
     for (i = 0; i < stone; i++) {
-        requestCollectable(RESOURCE_STONE, pos, getRandomVector());
+        createCollectable(RESOURCE_STONE, pos, getRandomVector());
     }
     for (i = 0; i < bone; i++) {
-        requestCollectable(RESOURCE_BONE, pos, getRandomVector());
+        createCollectable(RESOURCE_BONE, pos, getRandomVector());
     }
     for (i = 0; i < oil; i++) {
-        requestCollectable(RESOURCE_TAR, pos, getRandomVector());
+        createCollectable(RESOURCE_TAR, pos, getRandomVector());
     }
     for (i = 0; i < gem; i++) {
-        requestCollectable(RESOURCE_GEM, pos, getRandomVector());
+        createCollectable(RESOURCE_GEM, pos, getRandomVector());
     }
 }
 
