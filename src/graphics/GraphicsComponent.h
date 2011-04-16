@@ -32,7 +32,8 @@ protected:
     /** The current index for the currently drawn pixmap. */
     int pixmapIndex_;
 
-    /** Slows down how often the images animate from the timer. */
+    /** Slows down how often the images animate from the timer. Should only be
+     *  used in the graphics thread. */
     int animateMod_;
 
     /** The number of times the timer has ticked. */
@@ -69,17 +70,23 @@ public:
     virtual void deleteComponent();
 
     /**
-     * This is were all animation logic will be implemented
+     * This is where all animation logic will be implemented. If this version
+     * is ever called, then the calling subclass has no animation method, so
+     * animate_ is set to false.
      *
      * @author Warren Voelkl
+     * @author Dean Morin
      */
-    virtual void animate() { }
+    virtual void animate() { 
+        animate_ = false;
+    }
 
     /**
-     * TODO for each GraphicsComponensts update function
+     * For each GraphicsComponent update function
      * 1. check for dirty value
      * 2. Instantiate DrawParams structure
-     * 3. load only the modifiable values of structure rest will be set to a default.
+     * 3. load only the modifiable values of structure rest will be set to a 
+     * default.
      * @author Warren Voelkl
      */
     virtual void update(GameObject* obj) = 0;

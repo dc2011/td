@@ -26,6 +26,7 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
     dp->scale   = projectile->getScale();
     dp->degrees = projectile->getOrientation();
     dp->animate = animate_;
+    emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 
 } /* end namespace td */

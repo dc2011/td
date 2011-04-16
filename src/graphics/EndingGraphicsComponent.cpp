@@ -50,4 +50,5 @@ void EndingGraphicsComponent::redraw(int timerLength, int layer) {
     created_.release();
 }
 
-}
+} // end namespace td
+

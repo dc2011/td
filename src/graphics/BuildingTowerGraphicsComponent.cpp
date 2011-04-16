@@ -9,7 +9,6 @@ QPixmap* BuildingTowerGraphicsComponent::pixmapImgs_ = NULL;
 
 BuildingTowerGraphicsComponent::BuildingTowerGraphicsComponent()
         : GraphicsComponent() {
-    animate_ = 0;
     buildingStage_ = 0;
     emit created(this);
 }

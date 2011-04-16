@@ -7,7 +7,7 @@
 namespace td {
 
 GraphicsComponent::GraphicsComponent() 
-        : pixmapIndex_(0), isMoving_(false), animate_(false) {
+        : pixmapIndex_(0), isMoving_(false), animate_(true) {
 
 #ifndef SERVER    
     MainWindow* mainWindow = CDriver::instance()->getMainWindow();
