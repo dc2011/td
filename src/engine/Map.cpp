@@ -143,9 +143,9 @@ QSet<Tile*> Map::getTiles(QPointF coords, int radius){
 
     for (i = 0; i< radius ; i++){
         for(j=0; j+i < radius ; j++){
-            if( i + r < heightInTiles_){
+            if( i + r < heightInTiles_ - 1){
 
-                if(j + c < widthInTiles_){
+                if(j + c < widthInTiles_ - 1){
                     tempTiles += tiles_[i+r][j+c];
                 }
                 if(c - j >= 0){
@@ -155,7 +155,7 @@ QSet<Tile*> Map::getTiles(QPointF coords, int radius){
             }
             if( r - i >= 0){
 
-                if(j + c < widthInTiles_){
+                if(j + c < widthInTiles_ - 1){
                     tempTiles += tiles_[r-i][j+c];
                 }
                 if(c - j >= 0){
@@ -176,7 +176,7 @@ QSet<Unit*> Map::getUnits(double x, double y, double radius){
 
     for (i = 0; i< radius ; i++){
         for(j=0; j+i < radius ; j++){
-            if( i + r < heightInTiles_){
+            if( i + r < heightInTiles_ - 1){
 
                 if(j + c < widthInTiles_ - 1){
                     units.append(tiles_[i+r][j+c]->getUnits());
@@ -186,7 +186,7 @@ QSet<Unit*> Map::getUnits(double x, double y, double radius){
                 }
 
             }
-            if( r - i >= 0){
+            if((r - i >= 0) && (r - i < heightInTiles_)){
 
                 if(j + c < widthInTiles_ - 1){
                     units.append(tiles_[r-i][j+c]->getUnits());
