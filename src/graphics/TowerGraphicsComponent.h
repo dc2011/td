@@ -32,8 +32,7 @@ public:
      * Instantiates a Tower graphics component
      * @author Warren Voelkl
      */
-    TowerGraphicsComponent():GraphicsComponent(),oldPos_(0,0),oldDegrees_(-1),
-    oldVisibleRange_(false){}
+    TowerGraphicsComponent():GraphicsComponent(){}
     virtual ~TowerGraphicsComponent();
 
     /**
@@ -74,9 +73,6 @@ private:
      */
     QGraphicsEllipseItem * rangeCircle_;
     bool visibleRange_;
-    QPointF oldPos_;
-    int oldDegrees_;
-    bool oldVisibleRange_;
 
 protected:
     int radius_;
