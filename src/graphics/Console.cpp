@@ -136,7 +136,7 @@ void Console::scroll() {
         y=30;
         disconnect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
             this, SLOT(scroll()));
-	return;
+        return;
     }
     y+=10;
 }
@@ -156,10 +156,10 @@ void Console::translate() {
     int xSize, xDiff = 0;
     
     if(a.topRight().x() > b.topRight().x()) {
-	xSize = a.topRight().x();
+        xSize = a.topRight().x();
     } else {
-	xSize = b.topRight().x();
-	xDiff = b.topRight().x() - a.topRight().x();
+        xSize = b.topRight().x();
+        xDiff = b.topRight().x() - a.topRight().x();
     }
 
     QPointF aPoint = view_->mapToScene(0,0);
