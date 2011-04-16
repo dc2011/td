@@ -405,6 +405,24 @@ void SDriver::onMsgReceive(Stream* s) {
 
             break;
         }
+        case network::kPickCollect:
+        {
+            unsigned int playerID = s->readInt();
+            unsigned int collID = s->readInt();
+
+            Collectable* c = (Collectable*)mgr_->findObject(collID);
+            Player* player = (Player*)mgr_->findObject(playerID);
+            Tile* currentTile = gameMap_->getTile(player->getPos().x(),
+                                                  player->getPos().y());
+
+            currentTile->removeUnit(c);
+            this->destroyObject(c);
+
+            out->writeInt(playerID);
+            out->writeInt(collID);
+            net_->send(network::kPickCollect, out->data());
+            break;
+        }
         case network::kConsoleChat:
         case network::kVoiceMessage:
         {

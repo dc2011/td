@@ -205,6 +205,8 @@ void CDriver::makeLocalPlayer(Player* player) {
     
     connect(this, SIGNAL(signalDropResource()),
             this, SLOT(dropResource()));
+    connect(human_, SIGNAL(signalPickupCollectable(int)),
+            this, SLOT(pickupCollectable(int)));
 
     connect(this, SIGNAL(signalHarvesting(int)),
             player, SLOT(startHarvesting(int)));
@@ -241,6 +243,16 @@ void CDriver::dropResource() {
         s.writeInt(human_->getResource());
 
         NetworkClient::instance()->send(network::kDropCollect, s.data());
+    }
+}
+
+void CDriver::pickupCollectable(int id) {
+    if (!this->isSinglePlayer()) {
+        Stream s;
+        s.writeInt(human_->getID());
+        s.writeInt(id);
+        
+        NetworkClient::instance()->send(network::kPickCollect, s.data());
     }
 }
 
@@ -441,16 +453,6 @@ void CDriver::UDPReceived(Stream* s) {
             }
             break;
         }
-        /*case network::kDropResource:
-        {
-            unsigned int id = s->readInt();
-            bool addToTower = s->readInt();
-            
-            if (human_->getID() == id) {
-                human_->dropResource(addToTower);
-            }
-            break;
-        }*/
         case network::kDropCollect:
         {
             unsigned int srcID = s->readInt();
@@ -474,6 +476,18 @@ void CDriver::UDPReceived(Stream* s) {
             if (!addToTower) {
                 Driver::createCollectable(type, src, velocity);
             }
+
+            break;
+        }
+        case network::kPickCollect:
+        {
+            unsigned int playerID = s->readInt();
+            unsigned int collID = s->readInt();
+
+            Player* p = (Player*)mgr_->findObject(playerID);
+            Collectable* c = (Collectable*)mgr_->findObject(collID);
+
+            p->pickupCollectable(p->getPos().x(), p->getPos().y(), c);
 
             break;
         }

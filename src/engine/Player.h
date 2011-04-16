@@ -256,6 +256,14 @@ signals:
      * @param velocity The player's velocity when he drops the resource.
      */
     void signalDropResource(int type, QPointF pos, QVector2D velocity);
+
+    /**
+     * Emitted when a player picks up a collectable from the map.
+     *
+     * @author Darryl Pogue
+     * @param id The ID of the collectable.
+     */
+    void signalPickupCollectable(int id);
 };
 
 }

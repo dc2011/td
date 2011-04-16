@@ -209,18 +209,23 @@ void Player::harvestResource() {
 	return;
     }
 }
+
 void Player::pickupCollectable(double x, double y, Unit* u) {
     Tile* t = getDriver()->getGameMap()->getTile(x, y);
     t->removeUnit(u);
-    if(((Collectable*)u)->getType() == RESOURCE_GEM) {
+    disconnect(getDriver()->getTimer(),  SIGNAL(timeout()), u, SLOT(update()));
+
+    emit signalPickupCollectable(u->getID());
+
+    if (((Collectable*)u)->getType() == RESOURCE_GEM) {
         //increment global gem count here.
         getDriver()->destroyObject(u);
         return;
     }
-    disconnect(getDriver()->getTimer(),  SIGNAL(timeout()), u, SLOT(update()));
 
     resource_ = ((Collectable*)u)->getType();
     setDirty(kResource);
     getDriver()->destroyObject(u);
 }
+
 } /* end namespace td */

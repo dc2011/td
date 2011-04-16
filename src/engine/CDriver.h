@@ -264,6 +264,14 @@ public slots:
     void dropResource();
 
     /**
+     * Picks up a collectable and tells the server.
+     *
+     * @author Darryl Pogue
+     * @param id The id of the Collectable.
+     */
+    void pickupCollectable(int id);
+
+    /**
      * Creates collectable on server and send message to client for creation.
      *
      * @author Dean Morin
