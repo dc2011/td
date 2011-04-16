@@ -155,7 +155,7 @@ void Projectile::initComponents() {
             this->setWidth(110);
             this->setHeight(36);
 #ifndef SERVER
-            setGraphicsComponent(new FireProjectileGraphicsComponent());
+            setGraphicsComponent(new FireProjectileL1GraphicsComponent());
 #endif
             break;
         case PROJ_FIRE_2:
@@ -163,7 +163,7 @@ void Projectile::initComponents() {
             this->setWidth(110);
             this->setHeight(36);
 #ifndef SERVER
-            setGraphicsComponent(new FireProjectileGraphicsComponent());
+            setGraphicsComponent(new FireProjectileL1GraphicsComponent());
 #endif
             break;
         case PROJ_FIRE_3:
@@ -171,7 +171,7 @@ void Projectile::initComponents() {
             this->setWidth(110);
             this->setHeight(36);
 #ifndef SERVER
-            setGraphicsComponent(new FireProjectileGraphicsComponent());
+            setGraphicsComponent(new FireProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_FIRE_4:
@@ -179,7 +179,7 @@ void Projectile::initComponents() {
             this->setWidth(110);
             this->setHeight(36);
 #ifndef SERVER
-            setGraphicsComponent(new FireProjectileGraphicsComponent());
+            setGraphicsComponent(new FireProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_FIRE_5:
@@ -187,7 +187,7 @@ void Projectile::initComponents() {
             this->setWidth(110);
             this->setHeight(36);
 #ifndef SERVER
-            setGraphicsComponent(new FireProjectileGraphicsComponent());
+            setGraphicsComponent(new FireProjectileL3GraphicsComponent());
 #endif
             break;
         }
