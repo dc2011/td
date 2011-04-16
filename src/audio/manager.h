@@ -28,6 +28,7 @@
 enum SoundType {
      sfx,
      ntf,
+     msk
 };
 
 namespace td
@@ -204,9 +205,10 @@ private:
      *
      * @author Terence Stenvold
      * @param filename the path to file.
-     * @param gain is a float with a default param of 1.0
+     * @param sType is the type of the sound file
+     * @param cacheThis is whether to cache the sfx or not
      */
-    void streamFile(QString filename, float gain = 1, bool cacheThis = false);
+    void streamFile(QString filename, SoundType sType, bool cacheThis = false);
 
     /**
      * Goes through all the filenames in the queue
@@ -254,9 +256,9 @@ private:
      *
      * @author Terence Stenvold
      * @param filename is the filename 
-     * @param gain is the volume for playback
+     * @param sType is the type of the sound file
      */
-    void playCached(QString filename, float gain);
+    void playCached(QString filename, SoundType sType);
 
     /**
      * Encode voice data using Speex.
@@ -342,7 +344,7 @@ public:
      */
     void setSfxVol(int vol) {
 	setVol(vol,&sfxGain_);
-	if(vol<80) {
+	if(vol<80 && vol != 0) {
 	    setVol(vol+20,&notiGain_);
 	} else {
 	    setVol(vol,&notiGain_);
@@ -365,9 +367,9 @@ public:
      */
     void setVol(int vol, int *gain) {
 
-    if(vol<=100 && vol >= 0) {
-        *gain = (int)(vol/5);
-    }
+        if(vol<=100 && vol >= 0) {
+	    *gain = (int)(vol/5);
+        }
     }
 
     /**
@@ -528,17 +530,6 @@ public:
      * @param type is a Enum either ntf for notifcation or sfx. defaults sfx. 
      */
     void playSfx(QStringList files, SoundType type=sfx);
-
-    /**
-     * Play an Ogg Vorbis sound file, looping when it reaches the end.
-     * !!!NOT IMPLEMENTED!!!
-     *
-     * @author Terence Stenvold
-     * @param filename The path to the .ogg file.
-     * @param loop The number of times to loop the sound file. The default 
-     * of -1 results in infinite looping.
-     */
-    void loopSfx(QString filename, int loop = -1);
 
     /**
      * Play the Queue of Ogg Vorbis sound files as background music.
