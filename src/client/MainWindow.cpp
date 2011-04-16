@@ -11,13 +11,14 @@
 #include "../graphics/Console.h"
 #include "../engine/CDriver.h"
 #include "../engine/Player.h"
+#include "stats.h"
 
 namespace td {
 
 MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
-    stats_ = new QFrame();
+    stats_ = new Stats();
 
     consoleOpen_ = false;
     mapZoomOut_ = false;
