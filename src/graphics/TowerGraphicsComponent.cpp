@@ -8,26 +8,47 @@
 
 namespace td {
 
+
 TowerGraphicsComponent::~TowerGraphicsComponent() {
     disconnect();
     delete rangeCircle_;
 }
 
+//#include <QDebug>
+//virtual void draw(void *dp, int layer) {
+//      if
+//  static int count = 0;
+//    qDebug() << "Drawing Resource" << ++count;
+//GraphicsComponent::draw(dp,layer);
+//this->disconnect();
+//}
+
+
+
 void TowerGraphicsComponent::update(GameObject* obj) {
     Tower* tower = (Tower*)obj;
     tower->resetDirty();
 
-    radius_ = ((TowerPhysicsComponent*)(tower->getPhysicsComponent()))->getRadius();
-
     DrawParamsTower* dp = new DrawParamsTower();
+
+    radius_ = ((TowerPhysicsComponent*)(tower->getPhysicsComponent()))->getRadius();
     dp->pos     = tower->getPos();
     //dp->moving  = 1;
     //player->getVelocity().length() != 0;
     dp->scale   = 1;//tower->getScale();
     dp->degrees = tower->getOrientation();
     dp->displayRadius = visibleRange_;
-    emit signalDraw(dp, this, LAYER_TOWER);
+    if (this->oldDegrees_ != dp->degrees || this->oldPos_ != dp->pos
+        || this->oldVisibleRange_ != dp->displayRadius) {
+        oldDegrees_ = dp->degrees;
+        oldPos_ = dp->pos;
+        oldVisibleRange_ = dp->displayRadius;
+        emit signalDraw(dp, this, LAYER_TOWER);
+    } else {
+        delete dp;
+    }
 }
+
 
 
 void TowerGraphicsComponent::initRangeCircle(QColor color) {
