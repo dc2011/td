@@ -68,24 +68,18 @@ void settingsWindow::muteSfx(bool toggled) {
 
 
 void settingsWindow::setMusic(int n) {
-    char str[4];
-    sprintf(str, "%d", n);
-    emit setMusicLabel(str);
     AudioManager::instance()->setMusicVol(n);
+    emit setMusicLabel(QString(n));
 }
 
 void settingsWindow::setVoice(int n) {
-    char str[4];
     AudioManager::instance()->setVoiceVol(n);
-    sprintf(str, "%d", n);
-    emit setVoiceLabel(str);
+    emit setVoiceLabel(QString(n));
 }
 
 void settingsWindow::setSfx(int n) {
-    char str[4];
     AudioManager::instance()->setSfxVol(n);
-    sprintf(str, "%d", n);
-    emit setSfxLabel(str);
+    emit setSfxLabel(QString(n));
 }
 
 void settingsWindow::volumeVoice(int n) {
