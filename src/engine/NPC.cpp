@@ -31,6 +31,7 @@ NPC::~NPC() {
     if (wave_ != NULL) {
         wave_->killChild(this);
     }
+    this->getDriver()->getGameMap()->removeUnit(getPos().x(), getPos().y(), this);
     emit signalNPCDied();
 }
 
@@ -189,30 +190,23 @@ void NPC::createEffect(int effectType)
     Effect* effect;
 
     // Create the effect
-    switch (effectType)
-    {
+    switch (effectType) {
     case EFFECT_ARROW:
         effect = new ArrowEffect(this);
         break;
     case EFFECT_TAR:
         if (effects_.contains(EFFECT_TAR)) {
             deleteEffect(effects_.value(EFFECT_TAR));
-        } else if(effects_.contains(EFFECT_BURN)) {
-            deleteEffect(effects_.value(EFFECT_BURN));
         }
         effect = new NPCTarEffect(this);
         break;
     case EFFECT_FIRE:
-        if (effects_.contains(EFFECT_TAR))
-        {
+        if (effects_.contains(EFFECT_TAR)) {
             deleteEffect(effects_.value(EFFECT_TAR));
             effect = new NPCBurnEffect(this);
-            break;
+            effects_.insert(effect->getType(), effect);
         }
-        else
-        {
-            effect = new FireEffect(this);
-        }
+        effect = new FireEffect(this);
         break;
     case EFFECT_FLAK:
         effect = new FlakEffect(this);
@@ -223,22 +217,8 @@ void NPC::createEffect(int effectType)
     default:
         return;
     }
-    effects_.insert(effectType, effect);
+    effects_.insert(effect->getType(), effect);
 
-    switch (effectType) {
-    case EFFECT_ARROW:
-	    PLAY_SFX(this, SfxManager::projectileHitArrow);
-        break;
-    case EFFECT_CANNON:
-	    PLAY_SFX(this, SfxManager::projectileHitCannon);
-        break;
-    case EFFECT_TAR:
-	    PLAY_SFX(this, SfxManager::projectileHitTar);
-        break;
-    case EFFECT_FLAK:
-	    PLAY_SFX(this, SfxManager::projectileHitFlak);
-        break;
-    }
 }
 
 void NPC::deleteEffect(Effect* effect)

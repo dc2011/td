@@ -42,7 +42,7 @@ private:
 
 public:
     Player(QObject* parent = 0);
-    virtual ~Player() {}
+    virtual ~Player();
 //TEMP
 Collectable* collectable_;
     /**

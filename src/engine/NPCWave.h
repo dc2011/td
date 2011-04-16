@@ -33,11 +33,17 @@ private:
 
     /** The number of gems this wave will drop. */
     unsigned int gemCount_;
+    /** The density of the NPC's in this wave.
+     *  value must be >0.  number is the number of game ticks between each
+     *  NPC.
+     */
+    unsigned int density_;
 
 public:
     NPCWave(QObject* parent = 0);
     NPCWave(QObject* parent, unsigned int start, unsigned int count, 
-            unsigned int type, unsigned int path, unsigned int gems);
+            unsigned int type, unsigned int path, unsigned int gems,
+            unsigned int density);
     virtual ~NPCWave();
 
     /**

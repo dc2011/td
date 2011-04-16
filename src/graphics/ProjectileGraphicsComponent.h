@@ -39,6 +39,11 @@ public:
      * @author Warren Voelkl
      */
     virtual QPixmap * getPixmapArray() = 0;
+
+protected:
+    QPointF pos_;
+    float scale_;
+    int degrees_;
 };
 
 } /* end namespace td */
