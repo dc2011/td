@@ -21,7 +21,7 @@ namespace td {
 Projectile::Projectile(QObject* parent) : Unit(parent) {
     start_ = new QPointF(0,0);
     end_ = new QPointF(0,0);
-    scale_ = 1;
+    scale_ = 0.25;
     path_ = QLineF(end_->x(), end_->y(), start_->x(), start_->y());
     this->pos_ = QPointF(0,0);
 }
