@@ -31,6 +31,7 @@ NPC::~NPC() {
     if (wave_ != NULL) {
         wave_->killChild(this);
     }
+    this->getDriver()->getGameMap()->removeUnit(getPos().x(), getPos().y(), this);
     emit signalNPCDied();
 }
 
@@ -218,20 +219,6 @@ void NPC::createEffect(int effectType)
     }
     effects_.insert(effect->getType(), effect);
 
-    switch (effectType) {
-    case EFFECT_ARROW:
-	    PLAY_SFX(this, SfxManager::projectileHitArrow);
-        break;
-    case EFFECT_CANNON:
-	    PLAY_SFX(this, SfxManager::projectileHitCannon);
-        break;
-    case EFFECT_TAR:
-	    PLAY_SFX(this, SfxManager::projectileHitTar);
-        break;
-    case EFFECT_FLAK:
-	    PLAY_SFX(this, SfxManager::projectileHitFlak);
-        break;
-    }
 }
 
 void NPC::deleteEffect(Effect* effect)
