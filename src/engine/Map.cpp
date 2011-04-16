@@ -178,7 +178,7 @@ QSet<Unit*> Map::getUnits(double x, double y, double radius){
         for(j=0; j+i < radius ; j++){
             if( i + r < heightInTiles_){
 
-                if(j + c < widthInTiles_){
+                if(j + c < widthInTiles_ - 1){
                     units.append(tiles_[i+r][j+c]->getUnits());
                 } 
                 if(c - j >= 0){
@@ -188,7 +188,7 @@ QSet<Unit*> Map::getUnits(double x, double y, double radius){
             }
             if( r - i >= 0){
 
-                if(j + c < widthInTiles_){
+                if(j + c < widthInTiles_ - 1){
                     units.append(tiles_[r-i][j+c]->getUnits());
                 }
                 if(c - j >= 0){
