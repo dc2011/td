@@ -19,11 +19,23 @@
 #define TOWER_FLAME         51
 #define TOWER_TAR           52
 #define TOWER_FLAK          53
+#define TOWER_TYPE_MAX       5
 #define UPGRADE_TOWER       49
 #define SELL_TOWER          57
 #define UPGRADE_SPEED       49
 #define UPGRADE_HARVEST     50
 #define UPGRADE_RECOVERY    51
+
+#define TOWER_ARROW_2       0
+#define TOWER_ARROW_3       1
+#define TOWER_CANNON_2      2
+#define TOWER_CANNON_3      3
+#define TOWER_FLAME_2       4
+#define TOWER_FLAME_3       5
+#define TOWER_TAR_2         6
+#define TOWER_TAR_3         7
+#define TOWER_FLAK_2        8
+#define TOWER_FLAK_3        9
 
 // Current map to use
 #define MAP      "bigmap"
@@ -87,7 +99,7 @@
 #define RESOURCE_GEM        99
 
 // time to harvest a resource (in game ticks)
-#define HARVEST_COUNTDOWN   120
+#define HARVEST_COUNTDOWN   60
 
 // NPC types
 #define NPC_NORM    0
@@ -112,10 +124,10 @@
 
 // Maximum Velocity of NPC types
 #define NPC_NORM_MAX_V  2  
-#define NPC_SLOW_MAX_V  1  
-#define NPC_FAST_MAX_V  4  
-#define NPC_FLY_MAX_V   2  
-#define NPC_BOSS_MAX_V  1  
+#define NPC_SLOW_MAX_V  1
+#define NPC_FAST_MAX_V  4
+#define NPC_FLY_MAX_V   2
+#define NPC_BOSS_MAX_V  1
 
 //Player velocity
 #define PLAYER_MAX_V 5
@@ -130,22 +142,36 @@
 #define EFFECT_TAR          5
 #define EFFECT_BURN         6
 #define EFFECT_CANNON       7
-#define EFFECT_FLAK         8
+#define EFFECT_FIRE         8
+#define EFFECT_FLAK         9
 
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20
-#define TAR_TIME        10
-#define BURN_TIME       5
+#define TAR_TIME        100
 #define ARROW_TIME      1
+#define FLAK_TIME       1
+#define CANNON_TIME     1
+#define FIRE_TIME       1
+#define BURN_TIME       75
 //DONT USE THIS MACRO UNLESS YOUR NAME IS DTRAIN
 #define NO_TIME         0,false
 
 //Projectile types
-#define PROJ_ARROW  0
-#define PROJ_CANNON 1
-#define PROJ_FIRE   2
-#define PROJ_TAR    3
-#define PROJ_FLAK   4
+#define PROJ_ARROW      0
+#define PROJ_ARROW_2    1
+#define PROJ_ARROW_3    2
+#define PROJ_CANNON     3
+#define PROJ_CANNON_2   4
+#define PROJ_CANNON_3   5
+#define PROJ_FIRE       6
+#define PROJ_FIRE_2     7
+#define PROJ_FIRE_3     8
+#define PROJ_TAR        9
+#define PROJ_TAR_2      10
+#define PROJ_TAR_3      11
+#define PROJ_FLAK       12
+#define PROJ_FLAK_2     13
+#define PROJ_FLAK_3     14
 
 //Projectile Velocity
 #define ARROW_VELOCITY  15
@@ -173,14 +199,14 @@
 #define RESBAR_HEIGHT   6
 
 // tower requirements
-#define COST_FLAK_WOOD    1
-#define COST_FLAK_STONE   0
-#define COST_FLAK_BONE    1
+#define COST_FLAK_WOOD    0
+#define COST_FLAK_STONE   1
+#define COST_FLAK_BONE    0
 #define COST_FLAK_OIL     0
 
 #define COST_ARROW_WOOD   0
 #define COST_ARROW_STONE  1
-#define COST_ARROW_BONE   1
+#define COST_ARROW_BONE   0
 #define COST_ARROW_OIL    0
 
 #define COST_CANNON_WOOD  0
@@ -190,13 +216,21 @@
 
 #define COST_TAR_WOOD     0
 #define COST_TAR_STONE    1
-#define COST_TAR_BONE     1
-#define COST_TAR_OIL      1
+#define COST_TAR_BONE     0
+#define COST_TAR_OIL      0
 
-#define COST_FLAME_WOOD    1
-#define COST_FLAME_STONE   0
-#define COST_FLAME_BONE    1
-#define COST_FLAME_OIL     1
+#define COST_FLAME_WOOD    0
+#define COST_FLAME_STONE   1
+#define COST_FLAME_BONE    0
+#define COST_FLAME_OIL     0
+#define COST_TOWER_UPGRADE      1
+#define COST_TOWER_UPGRADE_2    2
+
+//colors for tower colors
+#define ARROW_COLOR     QColor(255,160,122)
+#define CANNON_COLOR    QColor(255,0,255)
+#define TAR_COLOR       QColor(0,0,255)
+#define FLAME_COLOR     QColor(255,0,0)
+#define FLAK_COLOR      QColor(0,255,0)
 
 #endif
-

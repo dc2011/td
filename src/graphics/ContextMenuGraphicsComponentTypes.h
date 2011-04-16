@@ -2,6 +2,8 @@
 #define TD_CONTEXTMENUGRAPHICSCOMPONENTTYPES_H
 
 #include "ContextMenuGraphicsComponent.h"
+#include <QGraphicsEllipseItem>
+#include "../util/defines.h"
 
 namespace td {
 
@@ -16,6 +18,7 @@ public:
      * @author Warren Voelkl
      */
     virtual void initPixmaps();
+    virtual void draw(void* dp, int layer);
 
     /**
      * Changes the index, and sets the position of the context menu to be shown.
@@ -43,6 +46,15 @@ private:
      * container for all pixmaps which pertain to the current object
      **/
     static QPixmap * pixmapImgs_;
+
+    /** array of of circles to draw around a context menu **/
+    QGraphicsEllipseItem* circleRanges_[TOWER_TYPE_MAX];
+
+    /**
+     * Creates the values for the arrays of images
+     * @author Warren Voelkl
+     */
+    void initTowerRanges();
 };
 
 class TowerContextMenuGraphicsComponent : public ContextMenuGraphicsComponent {

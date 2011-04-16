@@ -33,6 +33,12 @@ NPCWave* Parser::readWave() {
         return NULL;
     }
     QString waveLine = file_.readLine();
+
+    if ((waveLine.compare("==") > 0) || (waveLine.compare("\n") == 0))
+    {
+        return NULL;
+    }
+
     QStringList waveInfo = waveLine.split(',');
 
     NPCWave* wave = new NPCWave(parent_, waveInfo.at(3).toUInt(), waveInfo.at(2).toUInt(),

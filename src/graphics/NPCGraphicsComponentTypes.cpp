@@ -19,13 +19,12 @@ void NormNPCGraphicsComponent::initPixmaps() {
         setNonStaticValues();
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_NPC_PTERO_MAX];
+        pixmapImgs_ = new QPixmap[PIX_NPC_ANKLY_MAX];
     }
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_2;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_ANKLY_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_ANKLY_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_ANKLY_2;
     setNonStaticValues();
 }
 
@@ -35,11 +34,10 @@ void NormNPCGraphicsComponent::setLayer(void* dp) {
 
 void NormNPCGraphicsComponent::setNonStaticValues() {
     animateMod_ = 4;
-    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_PTERO_START;
-    arrayIndexMax_ = PIX_NPC_PTERO_START + PIX_NPC_PTERO_MAX - 1;
+    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_ANKLY_START;
+    arrayIndexMax_ = PIX_NPC_ANKLY_START + PIX_NPC_ANKLY_MAX - 1;
 }
 
-//TODO: need pics and animation for this yet
 void SlowNPCGraphicsComponent::initPixmaps() {
     initHealthbar();
 
@@ -47,11 +45,11 @@ void SlowNPCGraphicsComponent::initPixmaps() {
         setNonStaticValues();
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_NPC_PLEA_MAX];
+        pixmapImgs_ = new QPixmap[PIX_NPC_BRONTO_MAX];
     }
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PLEA_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PLEA_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BRONTO_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BRONTO_1;
     setNonStaticValues();
 }
 
@@ -61,11 +59,10 @@ void SlowNPCGraphicsComponent::setLayer(void* dp) {
 
 void SlowNPCGraphicsComponent::setNonStaticValues() {
     animateMod_ = 4;
-    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_PLEA_START;
-    arrayIndexMax_ = PIX_NPC_PLEA_START + PIX_NPC_PLEA_MAX - 1;
+    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_BRONTO_START;
+    arrayIndexMax_ = PIX_NPC_BRONTO_START + PIX_NPC_BRONTO_MAX - 1;
 }
 
-//TODO: need pics and animation for this yet
 void FastNPCGraphicsComponent::initPixmaps() {
     initHealthbar();
 
@@ -73,13 +70,11 @@ void FastNPCGraphicsComponent::initPixmaps() {
         setNonStaticValues();
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_NPC_PTERO_MAX];
+        pixmapImgs_ = new QPixmap[PIX_NPC_SABER_MAX];
     }
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_2;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SABER_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SABER_1;
     setNonStaticValues();
 }
 
@@ -89,8 +84,8 @@ void FastNPCGraphicsComponent::setLayer(void* dp) {
 
 void FastNPCGraphicsComponent::setNonStaticValues() {
     animateMod_ = 4;
-    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_PTERO_START;
-    arrayIndexMax_ = PIX_NPC_PTERO_START + PIX_NPC_PTERO_MAX - 1;
+    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_SABER_START;
+    arrayIndexMax_ = PIX_NPC_SABER_START + PIX_NPC_SABER_MAX - 1;
 }
 
 void FlyNPCGraphicsComponent::initPixmaps() {
@@ -120,7 +115,6 @@ void FlyNPCGraphicsComponent::setNonStaticValues() {
     arrayIndexMax_ = PIX_NPC_PTERO_START + PIX_NPC_PTERO_MAX - 1;
 }
 
-//TODO: need pics and animation for this yet
 void BossNPCGraphicsComponent::initPixmaps() {
     initHealthbar();
 
@@ -128,13 +122,11 @@ void BossNPCGraphicsComponent::initPixmaps() {
         setNonStaticValues();
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_NPC_PTERO_MAX];
+        pixmapImgs_ = new QPixmap[PIX_NPC_TREX_MAX];
     }
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_2;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_TREX_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_TREX_1;
     setNonStaticValues();
 }
 
@@ -144,8 +136,8 @@ void BossNPCGraphicsComponent::setLayer(void* dp) {
 
 void BossNPCGraphicsComponent::setNonStaticValues() {
     animateMod_ = 4;
-    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_PTERO_START;
-    arrayIndexMax_ = PIX_NPC_PTERO_START + PIX_NPC_PTERO_MAX - 1;
+    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_TREX_START;
+    arrayIndexMax_ = PIX_NPC_TREX_START + PIX_NPC_TREX_MAX - 1;
 }
 
 } /* end namespace td */

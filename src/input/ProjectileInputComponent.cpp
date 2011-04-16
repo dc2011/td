@@ -4,6 +4,9 @@
 #include "../engine/Driver.h"
 #include "../engine/CDriver.h"
 #include "../engine/Map.h"
+#ifndef SERVER
+#   include "../graphics/EndingGraphicsComponentTypes.h"
+#endif
 #define PI 3.141592653589793238
 #include <math.h>
 
@@ -27,6 +30,56 @@ void ProjectileInputComponent::setPath(QPointF* start, QPointF* end) {
     parent_->setEndPoint(end);
     parent_->getPath().setPoints(*end, *start);
     this->applyDirection();
+}
+
+void ProjectileInputComponent::makeForce(){
+    QVector2D force;
+    Map* map = parent_->getDriver()->getGameMap();
+    QSet<Unit*> npcs;
+    QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
+                             parent_->getPath().p1().x(), parent_->getPath().p1().y());
+    if (distance.length() <= parent_->getVelocity().length()) {
+        if (parent_->getEnemy() != NULL) {
+            disconnect(parent_->getEnemy(), SIGNAL(signalNPCDied()),
+                       parent_, SLOT(enemyDied()));
+        }
+        disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
+                   parent_, SLOT(update()));
+#ifndef SERVER
+        if (!((CDriver*)parent_->getDriver())->isSinglePlayer()) {
+            emit deleteProjectileLater(parent_->getID());
+            return;
+        }
+#endif
+        QPointF *end = parent_->getEndPoint();
+        npcs = map->getUnits(end->x(), end->y(), 3);
+        if(!npcs.empty()){
+            parent_->createBounds();
+            this->checkNPCCollision(npcs);
+        }
+        //check for collisions here
+#ifndef SERVER
+    switch (parent_->getType()) {
+    case PROJ_ARROW:
+        new ArrowEndingGraphicsComponent(parent_->getPos());
+        break;
+    case PROJ_CANNON:
+        new CannonEndingGraphicsComponent(parent_->getPos());
+        break;
+    case PROJ_FIRE:
+        break;
+    case PROJ_FLAK:
+        break;
+    case PROJ_TAR:
+        break;
+    }
+#endif
+        emit deleteProjectileLater(parent_->getID());
+    } else {
+        force = QVector2D(parent_->getPath().unitVector().dx() * -1,
+                          parent_->getPath().unitVector().dy() * -1);
+        parent_->setForce(force);
+    }
 }
 
 void ProjectileInputComponent::applyDirection() {

@@ -45,6 +45,12 @@ public:
 
     virtual void update();
     int getHealth();
+    /**
+     * Checks to see if the health is a positive value now before displaying the
+     * health bar.
+     *
+     * @author Luke Queenan
+     */
     void setHealth(int);
     int getDamage();
     void setDamage(int);
@@ -202,6 +208,7 @@ public slots:
      *
      * @author Pan K.
      * @author Marcel Vangrootheest
+     * @author Duncan Donaldson
      * @param effect Effect to delete.
      */
     void deleteEffect(Effect* effect);

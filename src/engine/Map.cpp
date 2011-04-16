@@ -63,6 +63,7 @@ void Map::initMap() {
                 // Home base tile.
                 else {
                     homeTile_ = tiles_[row][col];
+                    tiles_[row][col]->setActionType(TILE_BASE);
                 }
             }
 
@@ -171,32 +172,33 @@ QSet<Unit*> Map::getUnits(double x, double y, double radius){
     int r,c;
     getTileCoords(x,y,&r,&c);
 
-    QSet<Unit*> units = QSet<Unit*>();
+    QList<Unit*> units = QList<Unit*>();
 
     for (i = 0; i< radius ; i++){
         for(j=0; j+i < radius ; j++){
             if( i + r < heightInTiles_){
 
                 if(j + c < widthInTiles_){
-                    units += tiles_[i+r][j+c]->getUnits();
+                    units.append(tiles_[i+r][j+c]->getUnits());
                 } 
                 if(c - j >= 0){
-                    units += tiles_[i+r][c-j]->getUnits();
+                    units.append(tiles_[i+r][c-j]->getUnits());
                 }
 
             }
             if( r - i >= 0){
 
                 if(j + c < widthInTiles_){
-                    units += tiles_[r-i][j+c]->getUnits();
+                    units.append(tiles_[r-i][j+c]->getUnits());
                 }
                 if(c - j >= 0){
-                    units += tiles_[r-i][c-j]->getUnits();
+                    units.append(tiles_[r-i][c-j]->getUnits());
                 }
             }
         }
     }
-    return units;
+
+    return units.toSet();
 }
 
 void Map::addUnit(double x, double y, Unit *unitToAdd)

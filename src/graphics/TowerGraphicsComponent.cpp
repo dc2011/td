@@ -13,28 +13,19 @@ TowerGraphicsComponent::~TowerGraphicsComponent() {
     delete rangeCircle_;
 }
 
-struct DrawParamsTower {
-    /** location */
-    QPointF pos;
-    /** in degrees 0 is up 180 down... */
-    int degrees;
-    /** normal is 1 .5 is half 2 is double */
-    float scale;
-
-};
-
 void TowerGraphicsComponent::update(GameObject* obj) {
     Tower* tower = (Tower*)obj;
     tower->resetDirty();
 
     radius_ = ((TowerPhysicsComponent*)(tower->getPhysicsComponent()))->getRadius();
 
-    DrawParams* dp = new DrawParams();
+    DrawParamsTower* dp = new DrawParamsTower();
     dp->pos     = tower->getPos();
     //dp->moving  = 1;
     //player->getVelocity().length() != 0;
     dp->scale   = 1;//tower->getScale();
     dp->degrees = tower->getOrientation();
+    dp->displayRadius = visibleRange_;
     emit signalDraw(dp, this, LAYER_TOWER);
 }
 
@@ -49,9 +40,8 @@ void TowerGraphicsComponent::initRangeCircle(QColor color) {
     CDriver::instance()->getMainWindow()->getScene()->addItem(rangeCircle_);
 }
 void TowerGraphicsComponent::draw(void* dp, int layer) {
-    DrawParams * dps = (DrawParams*) dp;
-    if (visibleRange_) {
-
+    DrawParamsTower * dps = (DrawParamsTower*) dp;
+    if (dps->displayRadius) {
         QPointF point = dps->pos;
         rangeCircle_->setRect(point.x()-radius_, point.y()-radius_, radius_ * 2, radius_ * 2);
         rangeCircle_->setOpacity(.5);
@@ -63,6 +53,5 @@ void TowerGraphicsComponent::draw(void* dp, int layer) {
         rangeCircle_->update();
     }
     GraphicsComponent::draw(dp, layer);
-
 }
 } /* end namespace td */

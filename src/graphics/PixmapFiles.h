@@ -61,10 +61,20 @@
 #define PIX_BUILDING_TOWER_75   QString("./img/build3.png")
 #define PIX_BUILDING_TOWER_MAX  3
 #define PIX_TOWER_ARROW         QString("./img/towerArrow.png")
+#define PIX_TOWER_ARROW_2       QString("./img/towerArrow2.png")
+#define PIX_TOWER_ARROW_3       QString("./img/towerArrow3.png")
 #define PIX_TOWER_CANNON        QString("./img/towerCannon.png")
+#define PIX_TOWER_CANNON_2      QString("./img/towerCannon2.png")
+#define PIX_TOWER_CANNON_3      QString("./img/towerCannon3.png")
 #define PIX_TOWER_TAR           QString("./img/towerTar.png")
+#define PIX_TOWER_TAR_2         QString("./img/towerTar2.png")
+#define PIX_TOWER_TAR_3         QString("./img/towerTar3.png")
 #define PIX_TOWER_FLAME         QString("./img/towerFlame.png")
+#define PIX_TOWER_FLAME_2       QString("./img/towerFlame2.png")
+#define PIX_TOWER_FLAME_3       QString("./img/towerFlame3.png")
 #define PIX_TOWER_FLAK          QString("./img/towerFlak.png")
+#define PIX_TOWER_FLAK_2        QString("./img/towerFlak2.png")
+#define PIX_TOWER_FLAK_3        QString("./img/towerFlak3.png")
 #define PIX_TOWER_MAX           5
 #define PIX_RESOURCE_WOOD       QString("./img/woodTile.png")
 #define PIX_RESOURCE_STONE      QString("./img/stoneTile.png")
@@ -97,15 +107,55 @@
 #define PIX_NPC_PLEA_1          QString("./img/plea-2.png")
 #define PIX_NPC_PLEA_MAX        2
 #define PIX_NPC_MAMMOTH_START   0
-#define PIX_NPC_MAMMOTH_0       QString("./img/mammoth1.png");
-#define PIX_NPC_MAMMOTH_1       QString("./img/mammoth2.png");
+#define PIX_NPC_MAMMOTH_0       QString("./img/mammoth1.png")
+#define PIX_NPC_MAMMOTH_1       QString("./img/mammoth2.png")
 #define PIX_NPC_MAMMOTH_MAX     2
+#define PIX_NPC_ANKLY_START     0
+#define PIX_NPC_ANKLY_0         QString("./img/anklyosaurus1.png")
+#define PIX_NPC_ANKLY_1         QString("./img/anklyosaurus2.png")
+#define PIX_NPC_ANKLY_2         QString("./img/anklyosaurus3.png")
+#define PIX_NPC_ANKLY_MAX       3
+#define PIX_NPC_BRONTO_START    0
+#define PIX_NPC_BRONTO_0        QString("./img/Brontosaurus1.png")
+#define PIX_NPC_BRONTO_1        QString("./img/Brontosaurus2.png")
+#define PIX_NPC_BRONTO_MAX      2
+#define PIX_NPC_SABER_START     0
+#define PIX_NPC_SABER_0         QString("./img/fast1.png")
+#define PIX_NPC_SABER_1         QString("./img/fast2.png")
+#define PIX_NPC_SABER_MAX       2
+#define PIX_NPC_TREX_START      0
+#define PIX_NPC_TREX_0          QString("./img/trex1.png")
+#define PIX_NPC_TREX_1          QString("./img/trex2.png")
+#define PIX_NPC_TREX_MAX        2
+#define PIX_NPC_TRICERO_START   0
+#define PIX_NPC_TRICERO_0       QString("./img/tri-1.png")
+#define PIX_NPC_TRICERO_1       QString("./img/tri-2.png")
+#define PIX_NPC_TRICERO_MAX     2
 
 //ending animations for projectiles
 #define PIX_END_CANNON_START    0
-#define PIX_END_CANNON_0        QString("./img/smallExp.png");
-#define PIX_END_CANNON_1        QString("./img/medExp.png");
-#define PIX_END_CANNON_2        QString("./img/finalExp.png");
+#define PIX_END_CANNON_0        QString("./img/smallExp.png")
+#define PIX_END_CANNON_1        QString("./img/medExp.png")
+#define PIX_END_CANNON_2        QString("./img/finalExp.png")
 #define PIX_END_CANNON_MAX      3
+
+#define PIX_END_ARROW_START     0
+#define PIX_END_ARROW_0         QString("./img/blood.png")
+#define PIX_END_ARROW_MAX       1
+
+//ending animations for NPCs
+#define PIX_END_FLYING_START    0
+#define PIX_END_FLYING_0        QString("./img/ptero-death-1.png")
+#define PIX_END_FLYING_1        QString("./img/ptero-death-2.png")
+#define PIX_END_FLYING_2        QString("./img/ptero-death-3.png")
+#define PIX_END_FLYING_3        QString("./img/ptero-death-4.png")
+#define PIX_END_FLYING_MAX      4
+
+#define PIX_END_GENERIC_START    0
+#define PIX_END_GENERIC_0        QString("./img/death1.png")
+#define PIX_END_GENERIC_1        QString("./img/death2.png")
+#define PIX_END_GENERIC_2        QString("./img/death3.png")
+#define PIX_END_GENERIC_MAX      3
+
 #endif
 

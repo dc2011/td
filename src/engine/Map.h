@@ -213,6 +213,10 @@ public:
       */
     void removeUnit(double x, double y, Unit *unitToRemove);
 
+    Tiled::Map* getTMap(){
+        return tMap_;
+    }
+
 public slots:
     /**
      * Slot for getting a tile's list of occupying units and blocking status
