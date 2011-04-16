@@ -17,6 +17,7 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
 
 {
     this->setWindowFlags(Qt::FramelessWindowHint);
+    this->move(40, 40);
 
     ui->setupUi(this);
     setCursor(QCursor(QPixmap(":/file/cursor.png")));

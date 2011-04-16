@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>265</width>
-    <height>213</height>
+    <width>300</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>20</y>
+     <x>50</x>
+     <y>70</y>
      <width>203</width>
      <height>129</height>
     </rect>
@@ -39,6 +39,9 @@
     </item>
     <item row="1" column="1">
      <widget class="QSlider" name="sfxSlider">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -46,6 +49,9 @@
     </item>
     <item row="2" column="1">
      <widget class="QSlider" name="voiceSlider">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -81,6 +87,9 @@
     </item>
     <item row="0" column="1">
      <widget class="QSlider" name="musicSlider">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -91,8 +100,8 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>170</y>
+     <x>100</x>
+     <y>220</y>
      <width>98</width>
      <height>27</height>
     </rect>

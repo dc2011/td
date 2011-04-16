@@ -6,288 +6,484 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>274</width>
-    <height>498</height>
+    <width>500</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <layout class="QFormLayout" name="formLayout">
-     <property name="fieldGrowthPolicy">
-      <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-     </property>
-     <property name="rowWrapPolicy">
-      <enum>QFormLayout::DontWrapRows</enum>
-     </property>
-     <property name="labelAlignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-     <property name="formAlignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <item row="0" column="0">
-      <widget class="QLabel" name="lblChoice1">
-       <property name="text">
-        <string>Choice 1</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="td::KeyButton" name="btnChoice1">
-       <property name="text">
-        <string>1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="lblChoice2">
-       <property name="text">
-        <string>Choice 2</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="td::KeyButton" name="btnChoice2">
-       <property name="text">
-        <string>2</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="lblChoice3">
-       <property name="text">
-        <string>Choice 3</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="td::KeyButton" name="btnChoice3">
-       <property name="text">
-        <string>3</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="lblChoice4">
-       <property name="text">
-        <string>Choice 4</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="td::KeyButton" name="btnChoice4">
-       <property name="text">
-        <string>4</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="lblChoice5">
-       <property name="text">
-        <string>Choice 5</string>
-       </property>
-       <property name="scaledContents">
-        <bool>false</bool>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-       <property name="indent">
-        <number>-1</number>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="td::KeyButton" name="btnChoice5">
-       <property name="text">
-        <string>5</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0" colspan="2">
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="lblMenu">
-       <property name="text">
-        <string>Menu, Mining, and Building</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="td::KeyButton" name="btnMenu">
-       <property name="text">
-        <string>SPACE</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="lblExtraInfo">
-       <property name="text">
-        <string>Show Extra Information</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="td::KeyButton" name="btnExtraInfo">
-       <property name="text">
-        <string>R</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="0">
-      <widget class="QLabel" name="lblVoice">
-       <property name="text">
-        <string>Push-to-Talk Voice Chat</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="td::KeyButton" name="btnVoice">
-       <property name="text">
-        <string>V</string>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="0" colspan="2">
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="11" column="0">
-      <widget class="QLabel" name="lblArrowUp">
-       <property name="text">
-        <string>Move Up</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="1">
-      <widget class="td::KeyButton" name="btnArrowUp">
-       <property name="text">
-        <string>UP</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="0">
-      <widget class="QLabel" name="lblArrowDown">
-       <property name="text">
-        <string>Move Down</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="1">
-      <widget class="td::KeyButton" name="btnArrowDown">
-       <property name="text">
-        <string>DOWN</string>
-       </property>
-      </widget>
-     </item>
-     <item row="13" column="0">
-      <widget class="QLabel" name="lblArrowLeft">
-       <property name="text">
-        <string>Move Left</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="13" column="1">
-      <widget class="td::KeyButton" name="btnArrowLeft">
-       <property name="text">
-        <string>LEFT</string>
-       </property>
-      </widget>
-     </item>
-     <item row="14" column="0">
-      <widget class="QLabel" name="lblRightArrow">
-       <property name="text">
-        <string>Move Right</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="14" column="1">
-      <widget class="td::KeyButton" name="btnArrowRight">
-       <property name="text">
-        <string>RIGHT</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="0">
-      <widget class="QLabel" name="lblZoom">
-       <property name="text">
-        <string>Map Overview</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="1">
-      <widget class="td::KeyButton" name="btnZoom">
-       <property name="text">
-        <string>Z</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-  </layout>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>660</y>
+     <width>176</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="td::KeyButton" name="btnArrowDown">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>370</y>
+     <width>85</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>DOWN</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblRightArrow">
+   <property name="geometry">
+    <rect>
+     <x>297</x>
+     <y>530</y>
+     <width>77</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Move Right</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblChoice1">
+   <property name="geometry">
+    <rect>
+     <x>25</x>
+     <y>39</y>
+     <width>56</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Choice 1</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblChoice2">
+   <property name="geometry">
+    <rect>
+     <x>24</x>
+     <y>109</y>
+     <width>57</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Choice 2</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="td::KeyButton" name="btnChoice1">
+   <property name="geometry">
+    <rect>
+     <x>87</x>
+     <y>20</y>
+     <width>85</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>1</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblChoice3">
+   <property name="geometry">
+    <rect>
+     <x>24</x>
+     <y>179</y>
+     <width>57</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Choice 3</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="td::KeyButton" name="btnChoice2">
+   <property name="geometry">
+    <rect>
+     <x>87</x>
+     <y>90</y>
+     <width>85</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>2</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblChoice4">
+   <property name="geometry">
+    <rect>
+     <x>24</x>
+     <y>246</y>
+     <width>57</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Choice 4</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="td::KeyButton" name="btnChoice3">
+   <property name="geometry">
+    <rect>
+     <x>87</x>
+     <y>160</y>
+     <width>85</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>3</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblChoice5">
+   <property name="geometry">
+    <rect>
+     <x>24</x>
+     <y>319</y>
+     <width>57</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Choice 5</string>
+   </property>
+   <property name="scaledContents">
+    <bool>false</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+   <property name="indent">
+    <number>-1</number>
+   </property>
+  </widget>
+  <widget class="td::KeyButton" name="btnChoice4">
+   <property name="geometry">
+    <rect>
+     <x>87</x>
+     <y>230</y>
+     <width>85</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>4</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblMenu">
+   <property name="geometry">
+    <rect>
+     <x>193</x>
+     <y>39</y>
+     <width>181</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Menu, Mining, and Building</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="td::KeyButton" name="btnChoice5">
+   <property name="geometry">
+    <rect>
+     <x>87</x>
+     <y>300</y>
+     <width>85</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>5</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblExtraInfo">
+   <property name="geometry">
+    <rect>
+     <x>214</x>
+     <y>110</y>
+     <width>160</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Show Extra Information</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="td::KeyButton" name="btnMenu">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>20</y>
+     <width>85</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>SPACE</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblVoice">
+   <property name="geometry">
+    <rect>
+     <x>218</x>
+     <y>180</y>
+     <width>156</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Push-to-Talk Voice Chat</string>
+   </property>
+  </widget>
+  <widget class="td::KeyButton" name="btnExtraInfo">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>90</y>
+     <width>85</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>R</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblArrowUp">
+   <property name="geometry">
+    <rect>
+     <x>315</x>
+     <y>320</y>
+     <width>59</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Move Up</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="td::KeyButton" name="btnVoice">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>160</y>
+     <width>85</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>V</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblArrowDown">
+   <property name="geometry">
+    <rect>
+     <x>294</x>
+     <y>390</y>
+     <width>80</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Move Down</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="td::KeyButton" name="btnArrowUp">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>300</y>
+     <width>85</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>UP</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblArrowLeft">
+   <property name="geometry">
+    <rect>
+     <x>305</x>
+     <y>460</y>
+     <width>69</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Move Left</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="td::KeyButton" name="btnArrowLeft">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>440</y>
+     <width>85</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>LEFT</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblZoom">
+   <property name="geometry">
+    <rect>
+     <x>277</x>
+     <y>250</y>
+     <width>97</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Map Overview</string>
+   </property>
+  </widget>
+  <widget class="td::KeyButton" name="btnArrowRight">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>510</y>
+     <width>85</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>RIGHT</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="td::KeyButton" name="btnZoom">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>230</y>
+     <width>85</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>Z</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>

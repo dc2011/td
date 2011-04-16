@@ -2,6 +2,7 @@
 #include "ui_settingswindow.h"
 #include "../audio/manager.h"
 #include <cstdio>
+#include <QBitmap>
 
 namespace td {
 
@@ -9,6 +10,18 @@ settingsWindow::settingsWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::settingsWindow)
 {
+
+    this->setWindowFlags(Qt::FramelessWindowHint);
+    this->move(500, 300);
+
+    QPixmap pixmap("./img/mainMenuBg.png");
+    this->setMask(pixmap.mask());
+
+    QFile f(QString(":/file/client.qss"));
+    f.open(QIODevice::ReadOnly);
+    this->setStyleSheet(QString(f.readAll()));
+    f.close();
+
     ui->setupUi(this);
 
     //from the ui to the files slots
