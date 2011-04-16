@@ -3,7 +3,6 @@
 #include "../engine/GameObject.h"
 #include "../engine/CDriver.h"
 #include "../util/DelayedDelete.h"
-#include <QDebug>
 
 namespace td {
 
