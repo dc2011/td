@@ -140,5 +140,32 @@ void ProjectileInputComponent::applyDirection() {
     parent_->setOrientation(degree);
 }
 
+void ProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs) {
+    QSet<Unit*>::iterator it;
+    QPolygonF projBounds;
+    QPolygonF npcBounds;
+
+    for (it = npcs.begin(); it != npcs.end(); ++it) {
+        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
+            // Check to see if this projectile can damage this unit
+            if ((type_ == PROJ_FLAK) && (((NPC*)*it)->getType() != NPC_FLY))
+            {
+                continue;
+            }
+            if ((((NPC*)*it)->getType() == NPC_FLY)
+                && ((type_ == PROJ_CANNON) || (type_ == PROJ_FIRE)
+                    || (type_ == PROJ_TAR)))
+            {
+                continue;
+            }
+
+            projBounds = getBounds();
+            npcBounds = (*it)->getBounds();
+            if(projBounds.intersected(npcBounds).count() != 0){
+                ((NPC*)(*it))->createEffect(parent_->getEffectType());
+            }
+        }
+    }
+}
 
 } /* end namespace td */

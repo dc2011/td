@@ -16,7 +16,6 @@ public:
     }
     
     virtual void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 class CannonProjectileInputComponent : public ProjectileInputComponent {
@@ -34,7 +33,6 @@ public:
      * @author Marcel Vangrootheest
      */
     virtual void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 class FireProjectileInputComponent : public ProjectileInputComponent {
@@ -56,7 +54,6 @@ public:
      * @author Marcel Vangrootheest
      */
     void makeForce();
-    void checkNPCCollision(QSet<Unit *> npcs);
 private:
     int duration_;
     int increment_;
@@ -78,7 +75,6 @@ public:
      * @author Marcel Vangrootheest
      */
     virtual void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 class FlakProjectileInputComponent : public ProjectileInputComponent {
@@ -96,7 +92,6 @@ public:
      * @author Marcel Vangrootheest
      */
     virtual void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 } /* end namespace td */

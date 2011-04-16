@@ -198,6 +198,26 @@ public:
         height_ = height;
     }
 
+    /**
+     * Sets the effect type.
+     *
+     * @author Marcel Vangrootheest
+     * @param type The effect type.
+     */
+    void setEffectType(int type) {
+        effectType_ = type;
+    }
+
+    /**
+     * Gets the effect type.
+     *
+     * @author Marcel Vangrootheest
+     * @return The effect type of the projectile.
+     */
+    int getEffectType() {
+        return effectType_;
+    }
+
 public slots:
     /**
      * Sets the enemy_ member to null if the NPC dies.
@@ -241,6 +261,9 @@ private:
     int height_;
     int width_;
     int type_;
+
+    /** The effect type this projectile generates. */
+    int effectType_;
 };
 
 } /* end namespace td */
