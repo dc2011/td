@@ -27,7 +27,6 @@ class GameObject;
 
 class GraphicsComponent : public QObject {
     Q_OBJECT
-    //THREAD_SAFE_SINGLETON
 
 protected:
     /** The current index for the currently drawn pixmap. */

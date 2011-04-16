@@ -16,10 +16,10 @@ BuildingTowerGraphicsComponent::BuildingTowerGraphicsComponent()
 
 BuildingTowerGraphicsComponent::~BuildingTowerGraphicsComponent() {
     int i, j;
-    this->disconnect();
     for (i = 0; i != RESOURCE_TYPE_MAX; i++) {
         for (j = 0; j != ICON_MAX; j++) {
-            CDriver::instance()->getMainWindow()->getScene()->removeItem(resourcePixmapItemArray_[i][j]);
+            CDriver::instance()->getMainWindow()->getScene()->
+                    removeItem(resourcePixmapItemArray_[i][j]);
             delete resourcePixmapItemArray_[i][j];
         }
     }
@@ -80,7 +80,6 @@ void BuildingTowerGraphicsComponent::iconDrawingHelper(
 }
 
 void BuildingTowerGraphicsComponent::initPixmaps() {
-    //resourcePixmapItemArray_ = new QGraphicsPixmapItem[RESOURCE_TYPE_MAX][ICON_MAX];
 
     if (pixmapImgs_ != NULL) {
         setIconImages();

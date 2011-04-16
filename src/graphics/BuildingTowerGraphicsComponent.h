@@ -65,6 +65,7 @@ public:
      * @author Warren Voelkl
      */
     void setBuildingStage(int i);
+
     /**
      * Draw functions that displays icons on top of tower when r is pressed
      * @author Warren Voelkl
@@ -122,8 +123,6 @@ private:
      * @author Warren Voelkl
      */
     void setBuildingGraphic(QGraphicsPixmapItem * gpi);
-
-
 };
 
 } /* end namespace td */

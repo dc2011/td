@@ -1,16 +1,13 @@
 #include "CollectableGraphicsComponent.h"
+#include <QPointF>
 #include "../engine/Collectable.h"
 
-#include <QPointF>
 namespace td {
-
-
 
 CollectableGraphicsComponent::~CollectableGraphicsComponent() {}
 
 void CollectableGraphicsComponent::update(GameObject* obj) {
     Collectable* collectable = (Collectable*)obj;
-
     int timeLeft = collectable->getDisappearCount();
 
     if (timeLeft > FLICKER_POINT && !collectable->isDirty()) {
