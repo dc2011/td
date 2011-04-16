@@ -195,33 +195,6 @@ void Player::stopHarvesting() {
     emit signalPlayerMovement(true);
 }
 
-void Player::dropResource(bool addToTower) {
-
-    if (resource_ == RESOURCE_NONE) {
-        return;
-    }
-    setDirty(kResource);
-    if (addToTower) {
-#ifndef SERVER
-        if (((CDriver*)getDriver())->isSinglePlayer()) {
-            Tile* cTile = getDriver()->getGameMap()->getTile(getPos());
-            BuildingTower* t = (BuildingTower*)cTile->getExtension();
-            if (t->isDone()) {
-                getDriver()->createTower(t->getType(), t->getPos());
-                getDriver()->destroyObject(t);
-            }
-        }
-	    Console::instance()->addText("Added Resource");
-#endif
-    } else {
-        emit signalDropResource(resource_, pos_, getRandomVector());
-#ifndef SERVER
-	    Console::instance()->addText("Dropped Resource");
-#endif
-    }
-    resource_ = RESOURCE_NONE;
-}
-
 void Player::harvestResource() {
     if (--harvestCountdown_ <= 0) {
         resource_ = harvesting_;

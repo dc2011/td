@@ -331,6 +331,8 @@ namespace network {
  *  float playerX
  *    // The player's Y position
  *  float playerY
+ *    // Whether the collectable is being added to a tower
+ *  byte addingToTower
  * @endcode
  *
  * @section pickcollect Pick-up Collectable Message
