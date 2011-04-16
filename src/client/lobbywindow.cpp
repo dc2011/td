@@ -237,7 +237,7 @@ void LobbyWindow::updateListOfUserNames(QMultiMap<int, QString>& userList) {
     ui->userList->clear();
     foreach(QString name, userList) {
         QStringList tmpList(name);
-        tmpList.append(userList.key(name) == 0 ? "N/A" : QString::number(userList.key(name)));
+        tmpList.append(userList.key(name) == 0 ? "Not In Game" : QString::number(userList.key(name)));
         QTreeWidgetItem *tmpItem = new QTreeWidgetItem(ui->userList, tmpList);
         ui->userList->addTopLevelItem(tmpItem);
     }
