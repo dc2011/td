@@ -4,8 +4,8 @@
 namespace td {
 
 Effect::Effect(Unit* unit, uint type, int duration, bool timerEnabled):
-        GameObject(NULL), unit_(unit), duration_(duration),
-        type_(type), timerEnabled_(timerEnabled) {
+        GameObject(NULL), unit_(unit), type_(type),
+        duration_(duration), timerEnabled_(timerEnabled) {
 
     connect(this, SIGNAL(effectFinished(Effect*)),
                      unit_, SLOT(deleteEffect(Effect*)));

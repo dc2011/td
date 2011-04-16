@@ -41,18 +41,13 @@
 #define PIX_PROJ_ARROW          QString("./img/arrowProjectile.png")
 #define PIX_PROJ_ARROW_MAX      1
 #define PIX_PROJ_TAR            QString("./img/tarProjectile.png")
-#define PIX_PROJ_TAR_SPLAT_0    QString("./img/tarSplatter.png")
-#define PIX_PROJ_TAR_SPLAT_1    QString("./img/tarSplatter2.png")
-#define PIX_PROJ_TAR_MAX        4
+#define PIX_PROJ_TAR_MAX        1
 #define PIX_PROJ_CANNON         QString("./img/cannonProjectile.png")
-#define PIX_PROJ_CANNON_EXP_0   QString("./img/finalExp.png")
-#define PIX_PROJ_CANNON_EXP_1   QString("./img/medExp.png")
-#define PIX_PROJ_CANNON_EXP_2   QString("./img/smallExp.png")
-#define PIX_PROJ_CANNON_MAX     4
-#define PIX_PROJ_FIRE_0         QString("./img/flameProjectile1.png")
-#define PIX_PROJ_FIRE_1         QString("./img/flameProjectile2.png")
-#define PIX_PROJ_FIRE_2         QString("./img/medFlame.png")
-#define PIX_PROJ_FIRE_3         QString("./img/smallFlame.png")
+#define PIX_PROJ_CANNON_MAX     1
+#define PIX_PROJ_FIRE_0         QString("./img/smallFlame.png")
+#define PIX_PROJ_FIRE_1         QString("./img/medFlame.png")
+#define PIX_PROJ_FIRE_2         QString("./img/flameProjectile2.png")
+#define PIX_PROJ_FIRE_3         QString("./img/flameProjectile1.png")
 #define PIX_PROJ_FIRE_MAX       4
 #define PIX_PROJ_FLAK           QString("./img/flakProjectile.png")
 #define PIX_PROJ_FLAK_MAX       1
@@ -142,6 +137,11 @@
 #define PIX_END_ARROW_START     0
 #define PIX_END_ARROW_0         QString("./img/blood.png")
 #define PIX_END_ARROW_MAX       1
+
+#define PIX_END_TAR_START       0
+#define PIX_END_TAR_0           QString("./img/tarSplatter.png")
+#define PIX_END_TAR_1           QString("./img/tarSplatter2.png")
+#define PIX_END_TAR_MAX         2
 
 //ending animations for NPCs
 #define PIX_END_FLYING_START    0
