@@ -266,6 +266,7 @@ void LobbyServer::disconnected()
 
     notifyClients(network::kLobbyWelcome);
     notifyClients(network::kUpdateUserList);
+    notifyClients(network::kUpdateListOfGames);
     qDebug() << "Number of clients connected = " << connCount_;
 }
 
