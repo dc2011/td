@@ -15,6 +15,15 @@ public:
     virtual void apply();
 };
 
+class UpgradeNPCPlayerEffect : public Effect {
+    Q_OBJECT
+
+public:
+    explicit UpgradeNPCPlayerEffect(Unit* unit);
+    virtual ~UpgradeNPCPlayerEffect();
+    virtual void apply();
+};
+
 class ArrowEffect : public Effect {
     Q_OBJECT
 

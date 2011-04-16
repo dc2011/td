@@ -154,13 +154,14 @@
 #define EFFECT_FLAK         9
 
 //Effect durations for each type
-#define NPC_PLAYER_TIME 20
-#define TAR_TIME        100
-#define ARROW_TIME      1
-#define FLAK_TIME       1
-#define CANNON_TIME     1
-#define FIRE_TIME       1
-#define BURN_TIME       90
+#define NPC_PLAYER_TIME         20
+#define NPC_PLAYER_TIME_UPGRADE 20
+#define TAR_TIME                100
+#define ARROW_TIME              1
+#define FLAK_TIME               1
+#define CANNON_TIME             1
+#define FIRE_TIME               1
+#define BURN_TIME               90
 //DONT USE THIS MACRO UNLESS YOUR NAME IS DTRAIN
 #define NO_TIME         0,false
 
