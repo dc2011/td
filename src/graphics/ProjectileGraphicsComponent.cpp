@@ -22,7 +22,7 @@ void ProjectileGraphicsComponent::update(GameObject* obj) {
     //player->getVelocity().length() != 0;
     dp->scale   = projectile->getScale();
     dp->degrees = projectile->getOrientation();
-    //emit signalDraw(dp, this, LAYER_DEFAULT);
+    emit signalDraw(dp, this, LAYER_DEFAULT);
 }
 
 } /* end namespace td */
