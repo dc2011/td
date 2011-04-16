@@ -5,8 +5,6 @@
 
 namespace td {
 
-    bool BuildingTowerGraphicsComponent::keyHeld_ = false;
-
 QPixmap* BuildingTowerGraphicsComponent::pixmapImgs_ = NULL;
 
 BuildingTowerGraphicsComponent::BuildingTowerGraphicsComponent()

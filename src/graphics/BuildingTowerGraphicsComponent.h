@@ -71,25 +71,15 @@ public:
      */
     virtual void draw(void* dp, int layer=0);
 
-public slots:
-    /**
-     * Slot connected to the k keypress used to display the icons required
-     * to finish construction of tower
-     */
-    //void showIcons(bool);
-
 private:
     /** container for all pixmaps which pertain to the current object */
     static QPixmap * pixmapImgs_;
+
     /** arragy of pix map items for the required resources **/
-    QGraphicsPixmapItem *
-        resourcePixmapItemArray_[RESOURCE_TYPE_MAX][ICON_MAX];
-    /** True if the key to show all NPCs' health bars is being held. */
-    static bool keyHeld_;
+    QGraphicsPixmapItem* resourcePixmapItemArray_[RESOURCE_TYPE_MAX][ICON_MAX];
+
     /** The current building stage of the graphics component */
     int buildingStage_;
-
-
 
     /**
      * @returns the pixmap array from the current graphics object
