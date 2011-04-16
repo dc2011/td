@@ -45,8 +45,6 @@ void GraphicsComponent::draw(void* dp, int layer) {
         oldDP_.scale = drawParams->scale;
         oldDP_.degrees = drawParams->degrees;
     } else {
-        static int counter = 1;
-        qDebug() << "shortcircuit the draw: " << ++counter;
         delete dp;
         return;
     }
