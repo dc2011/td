@@ -124,6 +124,11 @@ private:
     /** The array of pixmaps for the animations. */
     static QPixmap* pixmapImgs_;
 
+    int timerID_;
+    int arrayIndexMax_;
+    int arrayIndexMin_;
+    int currentIndex_;
+
 public:
     /**
      * Constructor.
@@ -151,6 +156,11 @@ public:
     virtual QPixmap* getPixmapArray() {
         return pixmapImgs_;
     }
+
+    virtual void animate();
+
+protected:
+    void timerEvent(QTimerEvent*);
 };
 
 class FlakProjectileGraphicsComponent : public ProjectileGraphicsComponent
