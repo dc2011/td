@@ -11,7 +11,7 @@ QFrame#bgFrame {
     border: none;
 }
 
-QListWidget#mapsList, QTextEdit#msgView, QLineEdit#msgBox, QHeaderView, QHeaderView::section {
+QListWidget#mapsList, QTextEdit#msgView, QLineEdit#msgBox, QHeaderView, QHeaderView::section, QDialog#MainMenu {
     background: transparent;
     border: none;
 }
@@ -43,3 +43,9 @@ QTreeWidget#userList {
     background-image: url("./img/userListBg.png");
     border: none;
 }
+
+QDialog#MainMenu {
+    background-image: url("./img/mainMenuBg.png");
+    border: none;
+}
+

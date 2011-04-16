@@ -4,6 +4,8 @@
 #include "keymap.h"
 #include "../engine/CDriver.h"
 #include <QApplication>
+#include <QBitmap>
+#include <QFile>
 
 namespace td {
 
@@ -11,6 +13,17 @@ MainMenu::MainMenu(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MainMenu)
 {
+    this->setWindowFlags(Qt::FramelessWindowHint);
+    this->move(500, 300);
+
+    QPixmap pixmap("./img/mainMenuBg.png");
+    this->setMask(pixmap.mask());
+
+    QFile f(QString(":/file/client.qss"));
+    f.open(QIODevice::ReadOnly);
+    this->setStyleSheet(QString(f.readAll()));
+    f.close();
+
     ui->setupUi(this);
     showing_ = false;
 
