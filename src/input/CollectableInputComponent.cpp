@@ -27,6 +27,8 @@ void CollectableInputComponent::setPath(QPointF* start, QPointF* end) {
         if (tempPath.length() < 5)
         {
             tempPath.setLength(0);
+            *end = tempPath.p2();
+            break;
         }
         else
         {
