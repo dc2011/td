@@ -102,23 +102,23 @@ namespace network {
         /**From client to Server. Indicates joining or creating a game if followed by 0 */
         kJoinGame = 0x11,      
 
-        /**
-         * Indicates the end of the game.
-         * See Also: @ref gameover
-         */
-        kGameOver       =   0x10,
-
-        /**
-         * Indicates a line of chat sent from the console.
-         * See Also: @ref consolechat
-         */
-        kConsoleChat    =   0x11,
-
         /** Indicates sale/deletion of Tower. */
         kSellTower      =   0x12,
 
         /** Indicates sale/deletion of Tower. */
         kUpgradeTower   =   0x13,
+
+        /**
+         * Indicates the end of the game.
+         * See Also: @ref gameover
+         */
+        kGameOver       =   0x14,
+
+        /**
+         * Indicates a line of chat sent from the console.
+         * See Also: @ref consolechat
+         */
+        kConsoleChat    =   0x15,
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
