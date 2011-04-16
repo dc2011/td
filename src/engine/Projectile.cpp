@@ -21,7 +21,7 @@ namespace td {
 Projectile::Projectile(QObject* parent) : Unit(parent) {
     start_ = new QPointF(0,0);
     end_ = new QPointF(0,0);
-    scale_ = 0.25;
+    scale_ = 1;
     path_ = QLineF(end_->x(), end_->y(), start_->x(), start_->y());
     this->pos_ = QPointF(0,0);
 }
@@ -153,40 +153,45 @@ void Projectile::initComponents() {
         switch(type_) {
         case PROJ_FIRE:
             effectType_ = EFFECT_FIRE;
-            this->setWidth(110);
-            this->setHeight(36);
+            this->setWidth(FLAME_WIDTH);
+            this->setHeight(FLAME_HEIGHT);
+            this->setScale(1.0);
 #ifndef SERVER
             setGraphicsComponent(new FireProjectileL1GraphicsComponent());
 #endif
             break;
         case PROJ_FIRE_2:
             effectType_ = EFFECT_FIRE;
-            this->setWidth(110);
-            this->setHeight(36);
+            this->setWidth(FLAME_WIDTH);
+            this->setHeight(FLAME_WIDTH);
+            this->setScale(1.0);
 #ifndef SERVER
             setGraphicsComponent(new FireProjectileL1GraphicsComponent());
 #endif
             break;
         case PROJ_FIRE_3:
             effectType_ = EFFECT_FIRE;
-            this->setWidth(110);
-            this->setHeight(36);
+            this->setWidth(FLAME_WIDTH * FLAME_2_SCALE);
+            this->setHeight(FLAME_HEIGHT * FLAME_2_SCALE);
+            this->setScale(FLAME_2_SCALE);
 #ifndef SERVER
             setGraphicsComponent(new FireProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_FIRE_4:
             effectType_ = EFFECT_FIRE;
-            this->setWidth(110);
-            this->setHeight(36);
+            this->setWidth(FLAME_WIDTH * FLAME_2_SCALE);
+            this->setHeight(FLAME_HEIGHT * FLAME_2_SCALE);
+            this->setScale(FLAME_2_SCALE);
 #ifndef SERVER
             setGraphicsComponent(new FireProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_FIRE_5:
             effectType_ = EFFECT_FIRE;
-            this->setWidth(110);
-            this->setHeight(36);
+            this->setWidth(FLAME_3_WIDTH * FLAME_3_SCALE);
+            this->setHeight(FLAME_3_HEIGHT * FLAME_3_SCALE);
+            this->setScale(FLAME_3_SCALE);
 #ifndef SERVER
             setGraphicsComponent(new FireProjectileL3GraphicsComponent());
 #endif

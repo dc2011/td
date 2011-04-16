@@ -76,6 +76,14 @@
 #define RADIUS_FLAK_2   330
 #define RADIUS_FLAK_3   360
 
+#define FLAME_WIDTH     90
+#define FLAME_HEIGHT    30
+#define FLAME_3_WIDTH   80
+#define FLAME_3_HEIGHT  52
+
+#define FLAME_2_SCALE   4 / 3
+#define FLAME_3_SCALE   1.875
+
 //Tile action types specifying action for spacebar
 #define TILE_REGULAR    0
 #define TILE_BUILDABLE  1
