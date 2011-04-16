@@ -203,7 +203,7 @@ void Player::stopHarvesting() {
     }
 
     harvesting_ = RESOURCE_NONE;
-    harvestCountdown_ = HARVEST_COUNTDOWN;
+    harvestCountdown_ = harvestTime_;
     emit signalPlayerMovement(true);
 }
 
@@ -237,7 +237,7 @@ void Player::dropResource(bool addToTower) {
 void Player::harvestResource() {
     if (--harvestCountdown_ <= 0) {
         resource_ = harvesting_;
-        harvestCountdown_ = HARVEST_COUNTDOWN;
+        harvestCountdown_ = harvestTime_;
         setDirty(kResource);
         stopHarvesting();
 

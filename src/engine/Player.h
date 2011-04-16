@@ -105,6 +105,27 @@ Collectable* collectable_;
     }
 
     /**
+      * Sets the player's maximum harvest countdown amount.
+      *
+      * @author Marcel Vangrootheest
+      * @param count The new harvestTime_ value.
+      */
+    void setHarvestTime(int time) {
+        harvestTime_ = time;
+        harvestCountdown_ = time;
+    }
+
+    /**
+      * Sets the player's maximum harvest countdown amount.
+      *
+      * @author Marcel Vangrootheest
+      * @return The maximum harvest countdown amount.
+      */
+    int getHarvestTime() {
+        return harvestTime_;
+    }
+
+    /**
      * Gets the player's resource it is carrying.
      *
      * @author Marcel Vangrootheest
@@ -235,6 +256,9 @@ private:
 
     /** How many game ticks remaining before a resource is harvested. */ 
     int harvestCountdown_;
+
+    /** Max harvest countdown depending on upgrade. */ 
+    int harvestTime_;
 
     /** The resource (if any) that the player is currently carrying. */
     int resource_;

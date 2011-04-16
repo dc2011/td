@@ -26,10 +26,10 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
 void PlayerGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
 
-    if (player->getHarvestCountdown() != HARVEST_COUNTDOWN) {
+    if (player->getHarvestCountdown() != player->getHarvestTime()) {
         resourceProgressShowing_ = true;
         resourceProgress_ = (double) player->getHarvestCountdown()
-                            / HARVEST_COUNTDOWN;
+                            / player->getHarvestTime();
     }
 
     if (!player->isDirty() && pixmapIndex_ == 0 && !resourceProgressShowing_) {
@@ -38,7 +38,7 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
         return;
     }
 
-    if (player->getHarvestCountdown() == HARVEST_COUNTDOWN) {
+    if (player->getHarvestCountdown() == player->getHarvestTime()) {
         resourceProgressShowing_ = false;
     }
 

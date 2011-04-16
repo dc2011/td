@@ -107,7 +107,8 @@
 #define RESOURCE_GEM        99
 
 // time to harvest a resource (in game ticks)
-#define HARVEST_COUNTDOWN   60
+#define HARVEST_COUNTDOWN           60
+#define HARVEST_COUNTDOWN_UPGRADE   45
 
 // NPC types
 #define NPC_NORM    0
