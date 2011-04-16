@@ -238,6 +238,7 @@ void CDriver::dropResource() {
     } else {
         Stream s;
         s.writeInt(human_->getID());
+        s.writeInt(human_->getResource());
 
         NetworkClient::instance()->send(network::kDropCollect, s.data());
     }

@@ -121,11 +121,11 @@ public:
      * to the Building Stage.
      *
      * @author Marcel Vangrootheest
-     * @param out The stream to write the message to.
      * @param t The BuildingTower to add the resource to.
      * @param player The player that needs to drop the resource.
+     * @param drop true if the resource will always be dropped.
      */
-    void towerDrop(Stream* out, BuildingTower* t, Player* player);
+    void towerDrop(BuildingTower* t, Player* player, bool drop);
 
 signals:
     /**

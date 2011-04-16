@@ -314,6 +314,8 @@ namespace network {
  *  byte msgType = td::network::kDropCollect
  *    // The ID of the player sending the message
  *  int playerID
+ *    // The type of the collectable
+ *  int type
  * @endcode
  * When sent from the server, it contains much more information:
  * @code
