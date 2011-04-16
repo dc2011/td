@@ -49,3 +49,23 @@ QDialog#MainMenu {
     border: none;
 }
 
+QPushButton#pushVolume:hover, QPushButton#pushMap:hover {
+    margin-top: 3px;
+    margin-left: 3px;
+}
+
+QPushButton#pushVolume, QPushButton#pushMap {
+    background-repeat: none;
+    background-position: center top;
+    border: none;
+    padding-top: 65px;
+}
+
+QPushButton#pushVolume {
+    background-image: url("./img/volumeBtnBg.png");
+}
+
+QPushButton#pushMap {
+    background-image: url("./img/keySettingsBtnBg.png");
+}
+
