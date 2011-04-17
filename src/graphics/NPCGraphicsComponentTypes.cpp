@@ -14,9 +14,9 @@ QPixmap* BossNPCGraphicsComponent::pixmapImgs_ = NULL;
 //TODO: need pics and animation for this yet
 void NormNPCGraphicsComponent::initPixmaps() {
     initHealthbar();
+    setNonStaticValues();
 
     if (pixmapImgs_) {
-        setNonStaticValues();
         return;
     } else {
         pixmapImgs_ = new QPixmap[PIX_NPC_ANKLY_MAX];
@@ -40,9 +40,9 @@ void NormNPCGraphicsComponent::setNonStaticValues() {
 
 void SlowNPCGraphicsComponent::initPixmaps() {
     initHealthbar();
+    setNonStaticValues();
 
     if (pixmapImgs_) {
-        setNonStaticValues();
         return;
     } else {
         pixmapImgs_ = new QPixmap[PIX_NPC_BRONTO_MAX];
@@ -65,9 +65,9 @@ void SlowNPCGraphicsComponent::setNonStaticValues() {
 
 void FastNPCGraphicsComponent::initPixmaps() {
     initHealthbar();
+    setNonStaticValues();
 
     if (pixmapImgs_) {
-        setNonStaticValues();
         return;
     } else {
         pixmapImgs_ = new QPixmap[PIX_NPC_SABER_MAX];
@@ -90,9 +90,9 @@ void FastNPCGraphicsComponent::setNonStaticValues() {
 
 void FlyNPCGraphicsComponent::initPixmaps() {
     initHealthbar();
+    setNonStaticValues();
 
     if (pixmapImgs_) {
-        setNonStaticValues();
         return;
     } else {
         pixmapImgs_ = new QPixmap[PIX_NPC_PTERO_MAX];
@@ -117,9 +117,9 @@ void FlyNPCGraphicsComponent::setNonStaticValues() {
 
 void BossNPCGraphicsComponent::initPixmaps() {
     initHealthbar();
+    setNonStaticValues();
 
     if (pixmapImgs_) {
-        setNonStaticValues();
         return;
     } else {
         pixmapImgs_ = new QPixmap[PIX_NPC_TREX_MAX];

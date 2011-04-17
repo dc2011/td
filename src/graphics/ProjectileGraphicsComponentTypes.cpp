@@ -30,8 +30,6 @@ void ArrowProjectileGraphicsComponent::initPixmaps() {
     } else {
         pixmapImgs_ = new QPixmap[PIX_PROJ_ARROW_MAX];
     }
-    //TODO: add animation images here
-
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_PROJ_ARROW;
     pixmapIndex_ = 0;
@@ -84,8 +82,6 @@ void CannonProjectileGraphicsComponent::initPixmaps() {
     } else {
         pixmapImgs_ = new QPixmap[PIX_PROJ_CANNON_MAX];
     }
-    //TODO: add animation images here
-
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_PROJ_CANNON;
     pixmapIndex_ = 0;
@@ -138,8 +134,6 @@ void TarProjectileGraphicsComponent::initPixmaps() {
     } else {
         pixmapImgs_ = new QPixmap[PIX_PROJ_TAR_MAX];
     }
-    //TODO: add animation images here
-
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_PROJ_TAR;
     pixmapIndex_ = 0;
@@ -156,8 +150,6 @@ void TarProjectileL2GraphicsComponent::initPixmaps() {
     } else {
         pixmapImgs_ = new QPixmap[PIX_PROJ_TAR_2_MAX];
     }
-    //TODO: add animation images here
-
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_PROJ_TAR_2;
     pixmapIndex_ = 0;
@@ -310,8 +302,6 @@ void FlakProjectileGraphicsComponent::initPixmaps() {
     } else {
         pixmapImgs_ = new QPixmap[PIX_PROJ_FLAK_MAX];
     }
-    //TODO: add animation images here
-
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_PROJ_FLAK;
     pixmapIndex_ = 0;

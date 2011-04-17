@@ -89,8 +89,9 @@ void Map::createResource(int type, Tile * tile) {
 
 #ifndef SERVER
     // Connect updates (primarily for graphics component).
-    connect(driver_->getTimer(), SIGNAL(timeout()), 
-            res, SLOT(update()));
+    res->update();
+    //connect(driver_->getTimer(), SIGNAL(timeout()),
+    //        res, SLOT(update()));
 #endif
 
     tile->setActionType(TILE_RESOURCE);

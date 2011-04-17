@@ -27,32 +27,6 @@ Projectile::Projectile(QObject* parent) : Unit(parent) {
 }
 
 Projectile::~Projectile() {
-    //TODO ending graphics for all types
-#ifndef SERVER
-    switch (type_) {
-    case PROJ_ARROW:
-    case PROJ_ARROW_2:
-    case PROJ_ARROW_3:
-    case PROJ_ARROW_4:
-    case PROJ_ARROW_5:
-        new ArrowEndingGraphicsComponent(pos_);
-        break;
-    case PROJ_CANNON:
-    case PROJ_CANNON_2:
-    case PROJ_CANNON_3:
-    case PROJ_CANNON_4:
-    case PROJ_CANNON_5:
-        new CannonEndingGraphicsComponent(pos_);
-        break;
-    case PROJ_TAR:
-    case PROJ_TAR_2:
-    case PROJ_TAR_3:
-    case PROJ_TAR_4:
-    case PROJ_TAR_5:
-        new TarEndingGraphicsComponent(pos_);
-        break;
-    }
-#endif
     delete start_;
     delete end_;
 }

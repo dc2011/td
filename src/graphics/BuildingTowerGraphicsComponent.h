@@ -18,6 +18,8 @@ struct DrawParamsBuildTower {
     int degrees;
     /** normal is 1 .5 is half 2 is double */
     float scale;
+    /** true if animate() should be called to set the current image. */
+    bool animate;
     /** movement for animation projectiles get bigger/smaller during arc */
     bool moving;
     /** index of pixmap image to use */
@@ -65,31 +67,22 @@ public:
      * @author Warren Voelkl
      */
     void setBuildingStage(int i);
+
     /**
      * Draw functions that displays icons on top of tower when r is pressed
      * @author Warren Voelkl
      */
     virtual void draw(void* dp, int layer=0);
 
-public slots:
-    /**
-     * Slot connected to the k keypress used to display the icons required
-     * to finish construction of tower
-     */
-    //void showIcons(bool);
-
 private:
     /** container for all pixmaps which pertain to the current object */
     static QPixmap * pixmapImgs_;
+
     /** arragy of pix map items for the required resources **/
-    QGraphicsPixmapItem *
-        resourcePixmapItemArray_[RESOURCE_TYPE_MAX][ICON_MAX];
-    /** True if the key to show all NPCs' health bars is being held. */
-    static bool keyHeld_;
+    QGraphicsPixmapItem* resourcePixmapItemArray_[RESOURCE_TYPE_MAX][ICON_MAX];
+
     /** The current building stage of the graphics component */
     int buildingStage_;
-
-
 
     /**
      * @returns the pixmap array from the current graphics object
@@ -132,8 +125,6 @@ private:
      * @author Warren Voelkl
      */
     void setBuildingGraphic(QGraphicsPixmapItem * gpi);
-
-
 };
 
 } /* end namespace td */
