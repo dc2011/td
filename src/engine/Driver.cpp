@@ -193,68 +193,124 @@ Resource* Driver::createResource(int type) {
 
 void Driver::sellTower(QPointF pos) {
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
+    int type = ((Tower*)currentTile->getExtension())->getType();
+    int towerType = type >> 4;
 
-    switch(((Tower*)currentTile->getExtension())->getType()) {
-    case TOWER_ARROW_1:
-        dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
-                COST_ARROW_BONE, COST_ARROW_OIL, 0);
-        break;
-    case TOWER_ARROW_2:
-        dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
-                COST_ARROW_BONE, COST_ARROW_OIL, COST_TOWER_UPGRADE);
-        break;
-    case TOWER_ARROW_3:
-        dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
-                COST_ARROW_BONE, COST_ARROW_OIL, COST_TOWER_UPGRADE_2);
-        break;
-    case TOWER_CANNON_1:
-        dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
-                COST_CANNON_BONE, COST_CANNON_OIL, 0);
-        break;
-    case TOWER_CANNON_2:
-        dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
-                COST_CANNON_BONE, COST_CANNON_OIL, COST_TOWER_UPGRADE);
-        break;
-    case TOWER_CANNON_3:
-        dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
-                COST_CANNON_BONE, COST_CANNON_OIL, COST_TOWER_UPGRADE_2);
-        break;
-    case TOWER_FLAME_1:
-        dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
-                COST_FLAME_BONE, COST_FLAME_OIL, 0);
-        break;
-    case TOWER_FLAME_2:
-        dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
-                COST_FLAME_BONE, COST_FLAME_OIL, COST_TOWER_UPGRADE);
-        break;
-    case TOWER_FLAME_3:
-        dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
-                COST_FLAME_BONE, COST_FLAME_OIL, COST_TOWER_UPGRADE_2);
-        break;
-    case TOWER_TAR_1:
-        dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
-                COST_TAR_BONE, COST_TAR_OIL, 0);
-        break;
-    case TOWER_TAR_2:
-        dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
-                COST_TAR_BONE, COST_TAR_OIL, COST_TOWER_UPGRADE);
-        break;
-    case TOWER_TAR_3:
-        dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
-                COST_TAR_BONE, COST_TAR_OIL, COST_TOWER_UPGRADE_2);
-        break;
-    case TOWER_FLAK_1:
-        dropCollectables(pos, COST_FLAK_WOOD, COST_FLAK_STONE,
-                COST_FLAK_BONE, COST_FLAK_OIL, 0);
-        break;
-    case TOWER_FLAK_2:
-        dropCollectables(pos, COST_FLAK_WOOD, COST_FLAK_STONE,
-                COST_FLAK_BONE, COST_FLAK_OIL, COST_TOWER_UPGRADE);
-        break;
-    case TOWER_FLAK_3:
-        dropCollectables(pos, COST_FLAK_WOOD, COST_FLAK_STONE,
-                COST_FLAK_BONE, COST_FLAK_OIL, COST_TOWER_UPGRADE_2);
-        break;
+    if (towerType == 0) {
+        switch (type) {
+            case TOWER_ARROW_1:
+                dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
+                        COST_ARROW_BONE, COST_ARROW_OIL, 0);
+                break;
+            case TOWER_ARROW_2:
+                dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
+                        COST_ARROW_BONE, COST_ARROW_OIL, COST_TOWER_UPGRADE);
+                break;
+            case TOWER_ARROW_3:
+                dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
+                        COST_ARROW_BONE, COST_ARROW_OIL, COST_TOWER_UPGRADE_2);
+                break;
+            case TOWER_ARROW_4:
+                dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
+                        COST_ARROW_BONE, COST_ARROW_OIL, COST_TOWER_UPGRADE_3);
+                break;
+            case TOWER_ARROW_5:
+                dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
+                        COST_ARROW_BONE, COST_ARROW_OIL, COST_TOWER_UPGRADE_4);
+                break;
+        }
+    } else if (towerType == 1) {
+        switch (type) {
+            case TOWER_CANNON_1:
+                dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
+                        COST_CANNON_BONE, COST_CANNON_OIL, 0);
+                break;
+            case TOWER_CANNON_2:
+                dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
+                        COST_CANNON_BONE, COST_CANNON_OIL, COST_TOWER_UPGRADE);
+                break;
+            case TOWER_CANNON_3:
+                dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
+                        COST_CANNON_BONE, COST_CANNON_OIL,COST_TOWER_UPGRADE_2);
+                break;
+            case TOWER_CANNON_4:
+                dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
+                        COST_CANNON_BONE, COST_CANNON_OIL,COST_TOWER_UPGRADE_3);
+                break;
+            case TOWER_CANNON_5:
+                dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
+                        COST_CANNON_BONE, COST_CANNON_OIL,COST_TOWER_UPGRADE_4);
+                break;
+        }
+    } else if (towerType == 2) {
+        switch (type) {
+            case TOWER_FLAME_1:
+                dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
+                        COST_FLAME_BONE, COST_FLAME_OIL, 0);
+                break;
+            case TOWER_FLAME_2:
+                dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
+                        COST_FLAME_BONE, COST_FLAME_OIL, COST_TOWER_UPGRADE);
+                break;
+            case TOWER_FLAME_3:
+                dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
+                        COST_FLAME_BONE, COST_FLAME_OIL, COST_TOWER_UPGRADE_2);
+                break;
+            case TOWER_FLAME_4:
+                dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
+                        COST_FLAME_BONE, COST_FLAME_OIL, COST_TOWER_UPGRADE_3);
+                break;
+            case TOWER_FLAME_5:
+                dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
+                        COST_FLAME_BONE, COST_FLAME_OIL, COST_TOWER_UPGRADE_4);
+                break;
+        }
+    } else if (towerType == 3) {
+        switch (type) {
+            case TOWER_TAR_1:
+                dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
+                        COST_TAR_BONE, COST_TAR_OIL, 0);
+                break;
+            case TOWER_TAR_2:
+                dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
+                        COST_TAR_BONE, COST_TAR_OIL, COST_TOWER_UPGRADE);
+                break;
+            case TOWER_TAR_3:
+                dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
+                        COST_TAR_BONE, COST_TAR_OIL, COST_TOWER_UPGRADE_2);
+                break;
+            case TOWER_TAR_4:
+                dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
+                        COST_TAR_BONE, COST_TAR_OIL, COST_TOWER_UPGRADE_3);
+                break;
+            case TOWER_TAR_5:
+                dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
+                        COST_TAR_BONE, COST_TAR_OIL, COST_TOWER_UPGRADE_4);
+                break;
+        }
+    } else if (towerType == 4) {
+        switch (type) {
+            case TOWER_FLAK_1:
+                dropCollectables(pos, COST_FLAK_WOOD, COST_FLAK_STONE,
+                        COST_FLAK_BONE, COST_FLAK_OIL, 0);
+                break;
+            case TOWER_FLAK_2:
+                dropCollectables(pos, COST_FLAK_WOOD, COST_FLAK_STONE,
+                        COST_FLAK_BONE, COST_FLAK_OIL, COST_TOWER_UPGRADE);
+                break;
+            case TOWER_FLAK_3:
+                dropCollectables(pos, COST_FLAK_WOOD, COST_FLAK_STONE,
+                        COST_FLAK_BONE, COST_FLAK_OIL, COST_TOWER_UPGRADE_2);
+                break;
+            case TOWER_FLAK_4:
+                dropCollectables(pos, COST_FLAK_WOOD, COST_FLAK_STONE,
+                        COST_FLAK_BONE, COST_FLAK_OIL, COST_TOWER_UPGRADE_3);
+                break;
+            case TOWER_FLAK_5:
+                dropCollectables(pos, COST_FLAK_WOOD, COST_FLAK_STONE,
+                        COST_FLAK_BONE, COST_FLAK_OIL, COST_TOWER_UPGRADE_4);
+                break;
+        }
     }
     destroyObject(currentTile->getExtension());
     currentTile->setActionType(TILE_BUILDABLE);
@@ -263,50 +319,110 @@ void Driver::sellTower(QPointF pos) {
 bool Driver::upgradeTower(QPointF pos) {
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
     Tower* t = (Tower*)currentTile->getExtension();
+    int level = t->getType() & 0x0F;
 
-    switch (t->getType()) {
-    case TOWER_ARROW_1:
-        t->setType(TOWER_ARROW_2);
-        t->setComponents();
-        break;
-    case TOWER_ARROW_2:
-        t->setType(TOWER_ARROW_2);
-        t->setComponents();
-        break;
-    case TOWER_CANNON_1:
-        t->setType(TOWER_CANNON_2);
-        t->setComponents();
-        break;
-    case TOWER_CANNON_2:
-        t->setType(TOWER_CANNON_3);
-        t->setComponents();
-        break;
-    case TOWER_FLAME_1:
-        t->setType(TOWER_FLAME_2);
-        t->setComponents();
-        break;
-    case TOWER_FLAME_2:
-        t->setType(TOWER_FLAME_3);
-        t->setComponents();
-        break;
-    case TOWER_TAR_1:
-        t->setType(TOWER_TAR_2);
-        t->setComponents();
-        break;
-    case TOWER_TAR_2:
-        t->setType(TOWER_TAR_3);
-        t->setComponents();
-        break;
-    case TOWER_FLAK_1:
-        t->setType(TOWER_FLAK_2);
-        t->setComponents();
-        break;
-    case TOWER_FLAK_2:
-        t->setType(TOWER_FLAK_3);
-        t->setComponents();
-        break;
+    if (level == 1 && gemCount_ >= 5) {
+        setGemCount(gemCount_ - 5);
+        switch (t->getType()) {
+            case TOWER_ARROW_1:
+                t->setType(TOWER_ARROW_2);
+                t->setComponents();
+                break;
+            case TOWER_CANNON_1:
+                t->setType(TOWER_CANNON_2);
+                t->setComponents();
+                break;
+            case TOWER_FLAME_1:
+                t->setType(TOWER_FLAME_2);
+                t->setComponents();
+                break;
+            case TOWER_TAR_1:
+                t->setType(TOWER_TAR_2);
+                t->setComponents();
+                break;
+            case TOWER_FLAK_1:
+                t->setType(TOWER_FLAK_2);
+                t->setComponents();
+                break;
+        }
+        return true;
+    } else if (level == 2 && gemCount_ >= 10) {
+        setGemCount(gemCount_ - 10);
+        switch (t->getType()) {
+            case TOWER_ARROW_2:
+                t->setType(TOWER_ARROW_3);
+                t->setComponents();
+                break;
+            case TOWER_CANNON_2:
+                t->setType(TOWER_CANNON_3);
+                t->setComponents();
+                break;
+            case TOWER_FLAME_2:
+                t->setType(TOWER_FLAME_3);
+                t->setComponents();
+                break;
+            case TOWER_TAR_2:
+                t->setType(TOWER_TAR_3);
+                t->setComponents();
+                break;
+            case TOWER_FLAK_2:
+                t->setType(TOWER_FLAK_3);
+                t->setComponents();
+                break;
+        }
+        return true;
+    } else if (level == 3 && gemCount_ >= 25) {
+        setGemCount(gemCount_ - 25);
+        switch (t->getType()) {
+            case TOWER_ARROW_3:
+                t->setType(TOWER_ARROW_4);
+                t->setComponents();
+                break;
+            case TOWER_CANNON_3:
+                t->setType(TOWER_CANNON_4);
+                t->setComponents();
+                break;
+            case TOWER_FLAME_3:
+                t->setType(TOWER_FLAME_4);
+                t->setComponents();
+                break;
+            case TOWER_TAR_3:
+                t->setType(TOWER_TAR_4);
+                t->setComponents();
+                break;
+            case TOWER_FLAK_3:
+                t->setType(TOWER_FLAK_4);
+                t->setComponents();
+                break;
+        }
+        return true;
+    } else if (level == 4 && gemCount_ >= 50) {
+        setGemCount(gemCount_ - 50);
+        switch (t->getType()) {
+            case TOWER_ARROW_4:
+                t->setType(TOWER_ARROW_5);
+                t->setComponents();
+                break;
+            case TOWER_CANNON_4:
+                t->setType(TOWER_CANNON_5);
+                t->setComponents();
+                break;
+            case TOWER_FLAME_4:
+                t->setType(TOWER_FLAME_5);
+                t->setComponents();
+                break;
+            case TOWER_TAR_4:
+                t->setType(TOWER_TAR_5);
+                t->setComponents();
+                break;
+            case TOWER_FLAK_4:
+                t->setType(TOWER_FLAK_5);
+                t->setComponents();
+                break;
+        }
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool Driver::upgradePlayer(int id, int type) {

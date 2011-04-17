@@ -89,7 +89,6 @@ public:
      * @return The level of the tower.
      */
     int getLevel() {
-        qDebug("%d", type_);
         return type_ & 0xF;
     }
 
