@@ -387,8 +387,9 @@ void CDriver::startGame(bool singlePlayer) {
 
     gameTimer_->start(GAME_TICK_INTERVAL);
 }
+
 void CDriver::deadWave(){
-    if(!waves_.empty()) {
+    if (!waves_.empty()) {
         /*disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
         waves_.takeFirst();
         connect(waveTimer_, SIGNAL(timeout()),this, SLOT(NPCCreator()));*/
@@ -396,6 +397,7 @@ void CDriver::deadWave(){
         endGame();
     }
 }
+
 void CDriver::endGame() {
     disconnectFromServer();
     this->waveTimer_->stop();

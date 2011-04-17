@@ -188,13 +188,14 @@ public slots:
      * @author Duncan Donaldson
      */
     void spawnWave();
+
     /**
      * slot that is called to destroy an NPC when its health reaches 0.
      *
      * @author Duncan Donaldson
      */
     void deadNPC(int id);
-    void deadWave();
+
     /**
      * Handles a UDP packet receive by updating a currently existing player
      * or adding the player to the players list if the player does not exist.

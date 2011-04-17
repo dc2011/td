@@ -117,12 +117,11 @@ void SDriver::startGame(bool multicast) {
     Parser* fileParser = new Parser(this, MAP_NFO);
     NPCWave* tempWave;
     setBaseHealth(fileParser->baseHP);
-    //tempWave = new NPCWave(this);
-    //waves_.append(tempWave);
-    while((tempWave = fileParser->readWave())!=NULL) {
 
+    while((tempWave = fileParser->readWave()) != NULL) {
         waves_.append(tempWave);
     }
+
     this->gameTimer_->start(30);
     this->waveTimer_->start(1000);
     connect(gameTimer_, SIGNAL(timeout()), this, SLOT(onTimerTick()));
