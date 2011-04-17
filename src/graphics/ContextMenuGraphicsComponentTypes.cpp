@@ -54,23 +54,37 @@ void BuildContextMenuGraphicsComponent::initTowerRanges() {
 
     for (i = 0; i != TOWER_TYPE_MAX; ++i) {
         circleRanges_[i]->setBrush(QBrush(Qt::transparent));
-        CDriver::instance()->getMainWindow()->getScene()->addItem(circleRanges_[i]);
+        CDriver::instance()->getMainWindow()->getScene()->
+                addItem(circleRanges_[i]);
     }
 }
 
 void BuildContextMenuGraphicsComponent::draw(void* dp, int layer) {
-    QPointF point = ((DrawParams*)dp)->pos;
+    QPointF point = ((DrawParamsMenuGraphics*) dp)->pos;
+    
+    // move the radii off screen if alt is not held down 
+    if (((DrawParamsMenuGraphics*) dp)->pixmapIdx != 1) {
+        point.setX(OFFSCREEN);
+        point.setY(OFFSCREEN);
+    }
+        
     int radius = RADIUS_ARROW;
-    circleRanges_[0]->setRect(point.x()-radius, point.y()-radius, radius * 2, radius * 2);
+    circleRanges_[0]->setRect(point.x()-radius, point.y()-radius, 
+                              radius * 2, radius * 2);
     radius = RADIUS_CANNON;
-    circleRanges_[1]->setRect(point.x()-radius, point.y()-radius, radius * 2, radius * 2);
+    circleRanges_[1]->setRect(point.x()-radius, point.y()-radius,
+                              radius * 2, radius * 2);
     radius = RADIUS_TAR;
-    circleRanges_[2]->setRect(point.x()-radius, point.y()-radius, radius * 2, radius * 2);
+    circleRanges_[2]->setRect(point.x()-radius, point.y()-radius,
+                              radius * 2, radius * 2);
     radius = RADIUS_FLAME;
-    circleRanges_[3]->setRect(point.x()-radius, point.y()-radius, radius * 2, radius * 2);
+    circleRanges_[3]->setRect(point.x()-radius, point.y()-radius,
+                              radius * 2, radius * 2);
     radius = RADIUS_FLAK;
-    circleRanges_[4]->setRect(point.x()-radius, point.y()-radius, radius * 2, radius * 2);
-    GraphicsComponent::draw(dp,layer);
+    circleRanges_[4]->setRect(point.x()-radius, point.y()-radius,
+                              radius * 2, radius * 2);
+
+    ContextMenuGraphicsComponent::draw(dp,layer);
 }
 
 void BuildContextMenuGraphicsComponent::showSelectMenu(int type,
@@ -154,9 +168,9 @@ int TowerContextMenuGraphicsComponent::getCurrentImage() {
         if (towerLevel < MAX_TOWER_LEVEL) { 
             return MENU_BASE;
         }
-        return MENU_UPGRADE_ALL;
+        return MENU_TOWER_UPGRADE_ALL;
     }
-    if (nextImage_ == MENU_TOWER_RESOURCES) {
+    if (nextImage_ == MENU_RESOURCES) {
         return towerLevel + MENU_TOWER_RESOURCES;
     }
     return ContextMenuGraphicsComponent::getCurrentImage();
@@ -225,7 +239,7 @@ int PlayerContextMenuGraphicsComponent::getCurrentImage() {
     if (nextImage_ == MENU_BASE) {
         return menu_->getPlayer()->getUpgrades(); 
     }
-    if (nextImage_ == MENU_TOWER_RESOURCES) {
+    if (nextImage_ == MENU_RESOURCES) {
         return menu_->getPlayer()->getUpgrades() + 8; 
     }
     return ContextMenuGraphicsComponent::getCurrentImage();

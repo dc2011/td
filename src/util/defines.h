@@ -38,11 +38,14 @@
 
 #define MAX_TOWER_LEVEL         5
 
-// context menu image index
+// context menu images
 #define MENU_BASE               0
-#define MENU_UPGRADE_ALL        1
+#define MENU_RESOURCES          1
+
+// tower image indexes
+#define MENU_TOWER_UPGRADE_ALL  1
 #define MENU_TOWER_RESOURCES    2
-#define MENU_TOWER_UPGRADE      3
+#define MENU_TOWER_UPGRADE      7
 #define MENU_TOWER_SELL         8
 
 // tower types
