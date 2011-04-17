@@ -52,6 +52,19 @@ private:
     /**  */
     int widthInTiles_;
 
+    /**
+      * The height of the tiles, retrieved from Tiled Map.
+      *
+      * @author Luke Queenan
+      */
+    int tileHeight_;
+    /**
+      * The width of the tiles, retrieved from Tiled Map.
+      *
+      * @author Luke Queenan
+      */
+    int tileWidth_;
+
     /** The tile containing the caveman's home base. */
     Tile* homeTile_;
 
@@ -62,6 +75,14 @@ private:
      * @param tile The tile to add the new resource to.
      */
     void createResource(int type, Tile * tile);
+
+    /**
+      * Function to ensure that the tile array does not get accesed with values
+      * that would put it out of bounds.
+      *
+      * @author Luke Queenan
+      */
+    bool validateTileBounds(int x, int y);
 
 public:
     /**
@@ -122,7 +143,7 @@ public:
      * @author Ian Lee
      */
     Tile* getTile(double x, double y);
-    
+
     /**
      * Gets the tile at the coordinates coords.
      *

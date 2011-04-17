@@ -11,8 +11,8 @@
 
 namespace td {
 
-Player::Player(QObject* parent) 
-        : Unit(parent), nickname_(""), harvesting_(RESOURCE_NONE), 
+Player::Player(QObject* parent)
+        : Unit(parent), nickname_(""), harvesting_(RESOURCE_NONE),
           harvestCountdown_(HARVEST_COUNTDOWN), resource_(RESOURCE_NONE) {
     QVector2D force(0, 0);
     this->setForce(force);
@@ -211,12 +211,12 @@ void Player::dropResource(bool addToTower) {
                 getDriver()->destroyObject(t);
             }
         }
-	    Console::instance()->addText("Added Resource");
+        Console::instance()->addText("Added Resource");
 #endif
     } else {
         emit signalDropResource(resource_, pos_, getRandomVector());
 #ifndef SERVER
-	    Console::instance()->addText("Dropped Resource");
+        Console::instance()->addText("Dropped Resource");
 #endif
     }
     resource_ = RESOURCE_NONE;
@@ -230,22 +230,35 @@ void Player::harvestResource() {
         stopHarvesting();
 
 #ifndef SERVER
-	Console::instance()->addText("Picked up a Resource");
+    Console::instance()->addText("Picked up a Resource");
 #endif
 
-	return;
+    return;
     }
 }
 void Player::pickupCollectable(double x, double y, Unit* u) {
-    Tile* t = getDriver()->getGameMap()->getTile(x, y);
-    t->removeUnit(u);
+
+    // First check to see if the collectable is a gem
     if(((Collectable*)u)->getType() == RESOURCE_GEM) {
+        // Remove the gem from the tile and increment the global counter
+        Tile* t = getDriver()->getGameMap()->getTile(x, y);
+        t->removeUnit(u);
+        // Disconnect from the timer
+        disconnect(getDriver()->getTimer(),  SIGNAL(timeout()), u, SLOT(update()));
         //increment global gem count here.
         getDriver()->destroyObject(u);
         return;
     }
-    disconnect(getDriver()->getTimer(),  SIGNAL(timeout()), u, SLOT(update()));
 
+    // Check to see if we are already carrying a resource
+    if (resource_ != RESOURCE_NONE)
+    {
+        return;
+    }
+
+    Tile* t = getDriver()->getGameMap()->getTile(x, y);
+    t->removeUnit(u);
+    disconnect(getDriver()->getTimer(),  SIGNAL(timeout()), u, SLOT(update()));
     resource_ = ((Collectable*)u)->getType();
     setDirty(kResource);
     getDriver()->destroyObject(u);
