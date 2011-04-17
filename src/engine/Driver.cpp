@@ -319,90 +319,110 @@ void Driver::sellTower(QPointF pos) {
 bool Driver::upgradeTower(QPointF pos) {
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
     Tower* t = (Tower*)currentTile->getExtension();
+    int level = t->getType() & 0x0F;
 
-    switch (t->getType()) {
-    case TOWER_ARROW_1:
-        t->setType(TOWER_ARROW_2);
-        t->setComponents();
-        break;
-    case TOWER_ARROW_2:
-        t->setType(TOWER_ARROW_3);
-        t->setComponents();
-        break;
-    case TOWER_ARROW_3:
-        t->setType(TOWER_ARROW_4);
-        t->setComponents();
-        break;
-    case TOWER_ARROW_4:
-        t->setType(TOWER_ARROW_5);
-        t->setComponents();
-        break;
-    case TOWER_CANNON_1:
-        t->setType(TOWER_CANNON_2);
-        t->setComponents();
-        break;
-    case TOWER_CANNON_2:
-        t->setType(TOWER_CANNON_3);
-        t->setComponents();
-        break;
-    case TOWER_CANNON_3:
-        t->setType(TOWER_CANNON_4);
-        t->setComponents();
-        break;
-    case TOWER_CANNON_4:
-        t->setType(TOWER_CANNON_5);
-        t->setComponents();
-        break;
-    case TOWER_FLAME_1:
-        t->setType(TOWER_FLAME_2);
-        t->setComponents();
-        break;
-    case TOWER_FLAME_2:
-        t->setType(TOWER_FLAME_3);
-        t->setComponents();
-        break;
-    case TOWER_FLAME_3:
-        t->setType(TOWER_FLAME_4);
-        t->setComponents();
-        break;
-    case TOWER_FLAME_4:
-        t->setType(TOWER_FLAME_5);
-        t->setComponents();
-        break;
-    case TOWER_TAR_1:
-        t->setType(TOWER_TAR_2);
-        t->setComponents();
-        break;
-    case TOWER_TAR_2:
-        t->setType(TOWER_TAR_3);
-        t->setComponents();
-        break;
-    case TOWER_TAR_3:
-        t->setType(TOWER_TAR_4);
-        t->setComponents();
-        break;
-    case TOWER_TAR_4:
-        t->setType(TOWER_TAR_5);
-        t->setComponents();
-        break;
-    case TOWER_FLAK_1:
-        t->setType(TOWER_FLAK_2);
-        t->setComponents();
-        break;
-    case TOWER_FLAK_2:
-        t->setType(TOWER_FLAK_3);
-        t->setComponents();
-        break;
-    case TOWER_FLAK_3:
-        t->setType(TOWER_FLAK_4);
-        t->setComponents();
-        break;
-    case TOWER_FLAK_4:
-        t->setType(TOWER_FLAK_5);
-        t->setComponents();
-        break;
+    if (level == 1 && gemCount_ >= 5) {
+        setGemCount(gemCount_ - 5);
+        switch (t->getType()) {
+            case TOWER_ARROW_1:
+                t->setType(TOWER_ARROW_2);
+                t->setComponents();
+                break;
+            case TOWER_CANNON_1:
+                t->setType(TOWER_CANNON_2);
+                t->setComponents();
+                break;
+            case TOWER_FLAME_1:
+                t->setType(TOWER_FLAME_2);
+                t->setComponents();
+                break;
+            case TOWER_TAR_1:
+                t->setType(TOWER_TAR_2);
+                t->setComponents();
+                break;
+            case TOWER_FLAK_1:
+                t->setType(TOWER_FLAK_2);
+                t->setComponents();
+                break;
+        }
+        return true;
+    } else if (level == 2 && gemCount_ >= 10) {
+        setGemCount(gemCount_ - 10);
+        switch (t->getType()) {
+            case TOWER_ARROW_2:
+                t->setType(TOWER_ARROW_3);
+                t->setComponents();
+                break;
+            case TOWER_CANNON_2:
+                t->setType(TOWER_CANNON_3);
+                t->setComponents();
+                break;
+            case TOWER_FLAME_2:
+                t->setType(TOWER_FLAME_3);
+                t->setComponents();
+                break;
+            case TOWER_TAR_2:
+                t->setType(TOWER_TAR_3);
+                t->setComponents();
+                break;
+            case TOWER_FLAK_2:
+                t->setType(TOWER_FLAK_3);
+                t->setComponents();
+                break;
+        }
+        return true;
+    } else if (level == 3 && gemCount_ >= 25) {
+        setGemCount(gemCount_ - 25);
+        switch (t->getType()) {
+            case TOWER_ARROW_3:
+                t->setType(TOWER_ARROW_4);
+                t->setComponents();
+                break;
+            case TOWER_CANNON_3:
+                t->setType(TOWER_CANNON_4);
+                t->setComponents();
+                break;
+            case TOWER_FLAME_3:
+                t->setType(TOWER_FLAME_4);
+                t->setComponents();
+                break;
+            case TOWER_TAR_3:
+                t->setType(TOWER_TAR_4);
+                t->setComponents();
+                break;
+            case TOWER_FLAK_3:
+                t->setType(TOWER_FLAK_4);
+                t->setComponents();
+                break;
+        }
+        return true;
+    } else if (level == 4 && gemCount_ >= 50) {
+        setGemCount(gemCount_ - 50);
+        switch (t->getType()) {
+            case TOWER_ARROW_4:
+                t->setType(TOWER_ARROW_5);
+                t->setComponents();
+                break;
+            case TOWER_CANNON_4:
+                t->setType(TOWER_CANNON_5);
+                t->setComponents();
+                break;
+            case TOWER_FLAME_4:
+                t->setType(TOWER_FLAME_5);
+                t->setComponents();
+                break;
+            case TOWER_TAR_4:
+                t->setType(TOWER_TAR_5);
+                t->setComponents();
+                break;
+            case TOWER_FLAK_4:
+                t->setType(TOWER_FLAK_5);
+                t->setComponents();
+                break;
+        }
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool Driver::upgradePlayer(int id, int type) {
