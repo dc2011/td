@@ -277,7 +277,7 @@ void SDriver::requestProjectile(int projType, QPointF source,
 }
 
 void SDriver::requestCollectable(int collType, QPointF source, QVector2D vel) {
-    Collectable* c = Driver::createCollectable(collType, source, vel);
+    Driver::createCollectable(collType, source, vel);
     int id = 0;
 
     GameObject* go = (GameObject*)QObject::sender();
