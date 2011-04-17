@@ -11,8 +11,8 @@
 
 namespace td {
 
-Player::Player(QObject* parent) 
-        : Unit(parent), nickname_(""), harvesting_(RESOURCE_NONE), 
+Player::Player(QObject* parent)
+        : Unit(parent), nickname_(""), harvesting_(RESOURCE_NONE),
           harvestCountdown_(HARVEST_COUNTDOWN), resource_(RESOURCE_NONE) {
     QVector2D force(0, 0);
     this->setForce(force);
@@ -203,22 +203,30 @@ void Player::harvestResource() {
         stopHarvesting();
 
 #ifndef SERVER
-	Console::instance()->addText("Picked up a Resource");
+        Console::instance()->addText("Picked up a Resource");
 #endif
 
-	return;
+        return;
     }
 }
 
 void Player::pickupCollectable(double x, double y, Unit* u) {
     Tile* t = getDriver()->getGameMap()->getTile(x, y);
-    t->removeUnit(u);
 
-    emit signalPickupCollectable(u->getID());
-
-    if (((Collectable*)u)->getType() < RESOURCE_TYPE_MAX) {
-        setResource(((Collectable*)u)->getType());
+    // First check to see if the collectable is a gem
+    if(((Collectable*)u)->getType() == RESOURCE_GEM) {
+        t->removeUnit(u);
+        emit signalPickupCollectable(u->getID());
+        return;
     }
+
+    if (resource_ != RESOURCE_NONE) {
+        return;
+    }
+
+    t->removeUnit(u);
+    setResource(((Collectable*)u)->getType());
+    emit signalPickupCollectable(u->getID());
 }
 
 } /* end namespace td */
