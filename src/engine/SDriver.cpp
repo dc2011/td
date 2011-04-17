@@ -217,9 +217,12 @@ void SDriver::destroyObject(int id) {
 void SDriver::spawnWave() {
     // Check to see if any waves should be spawned on this tick.
     if (!waves_.empty()) {
-        foreach(NPCWave* wave, waves_) {
+        for (int i = 0; i < waves_.size(); i++) {
+            NPCWave* wave = waves_[i];
             if (wave->getStart() == timeCount_) {
+                waves_.removeAt(i--);
                 wave->createWave();
+                qDebug("SDriver::spawnWave(); Num waves remaining: %d", waves_.size());
             }
         }
   
