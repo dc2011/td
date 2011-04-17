@@ -91,12 +91,11 @@ signals:
 
 protected:
     Unit* unit_;
-    //EffectType type_;
-    size_t duration_;
     int healthChangeValue_;
     float velocityChangeValue_;
     float oldVelocity_;
     uint type_;
+    size_t duration_;
     bool timerEnabled_;
 };
 

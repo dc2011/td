@@ -13,8 +13,6 @@
 
 namespace td {
 
-class NPCGraphicsComponent : public GraphicsComponent {
-    Q_OBJECT
 struct DrawParamsNPC {
     /** location */
     QPointF pos;
@@ -22,11 +20,16 @@ struct DrawParamsNPC {
     int degrees;
     /** normal is 1 .5 is half 2 is double */
     float scale;
+    /** true if animate() should be called to set the current image. */
+    bool animate;
     /** the current state of the keypres */
     bool keyHeld;
     /** the current health of the NPC */
     double health;
 };
+
+class NPCGraphicsComponent : public GraphicsComponent {
+    Q_OBJECT
 
 public:
     /**

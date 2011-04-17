@@ -41,6 +41,8 @@ void Map::initMap() {
     Tiled::ObjectGroup * path;
     heightInTiles_ = tileLayer->height();
     widthInTiles_ = tileLayer->width();
+    tileHeight_ = tMap_->tileHeight();
+    tileWidth_ = tMap_->tileWidth();
 
     tiles_ = new Tile**[heightInTiles_];
     for (int row = 0; row < heightInTiles_; row++) {
@@ -49,7 +51,7 @@ void Map::initMap() {
         for (int col = 0; col < widthInTiles_; col++) {
             tile = tileLayer->tileAt(col, row);
             Tile::TileAttributes attrs = Tile::getAttributes(tile->id());
-            
+
             //save into array
             tiles_[row][col] = new Tile(tile, row, col, attrs.type, attrs.effect);
 
@@ -69,7 +71,7 @@ void Map::initMap() {
 
             // Create resources.
             // And grabbing the tile from the resource layer.
-            if (resLayer->contains(col, row) 
+            if (resLayer->contains(col, row)
                     && (tile = resLayer->tileAt(col, row)) != NULL) {
                 createResource(tile->id(), tiles_[row][col]);
                 // Setting the correct resource tile to the td::Tile.
@@ -89,8 +91,9 @@ void Map::createResource(int type, Tile * tile) {
 
 #ifndef SERVER
     // Connect updates (primarily for graphics component).
-    connect(driver_->getTimer(), SIGNAL(timeout()), 
-            res, SLOT(update()));
+    res->update();
+    //connect(driver_->getTimer(), SIGNAL(timeout()),
+    //        res, SLOT(update()));
 #endif
 
     tile->setActionType(TILE_RESOURCE);
@@ -110,15 +113,15 @@ void Map::makeWaypoints(int key, Tiled::ObjectGroup* path) {
 
 void Map::getTileType(double x, double y, int *blockingType)
 {
-    int row = floor(y / tMap_->tileHeight());
-    int col = floor(x / tMap_->tileWidth());
+    int row = floor(y / tileHeight_);
+    int col = floor(x / tileWidth_);
 
     *blockingType = tiles_[row][col]->getType();
 }
 
 void Map::getTileCoords(double x, double y, int* row, int* column){
-    *row = floor(y / tMap_->tileHeight());
-    *column= floor(x / tMap_->tileWidth());
+    *row = floor(y / tileHeight_);
+    *column= floor(x / tileWidth_);
 }
 
 Tile* Map::getTile(double x, double y){
@@ -143,9 +146,9 @@ QSet<Tile*> Map::getTiles(QPointF coords, int radius){
 
     for (i = 0; i< radius ; i++){
         for(j=0; j+i < radius ; j++){
-            if( i + r < heightInTiles_){
+            if( i + r < heightInTiles_ - 1){
 
-                if(j + c < widthInTiles_){
+                if(j + c < widthInTiles_ - 1){
                     tempTiles += tiles_[i+r][j+c];
                 }
                 if(c - j >= 0){
@@ -155,7 +158,7 @@ QSet<Tile*> Map::getTiles(QPointF coords, int radius){
             }
             if( r - i >= 0){
 
-                if(j + c < widthInTiles_){
+                if(j + c < widthInTiles_ - 1){
                     tempTiles += tiles_[r-i][j+c];
                 }
                 if(c - j >= 0){
@@ -176,19 +179,19 @@ QSet<Unit*> Map::getUnits(double x, double y, double radius){
 
     for (i = 0; i< radius ; i++){
         for(j=0; j+i < radius ; j++){
-            if( i + r < heightInTiles_){
+            if( i + r < heightInTiles_ - 1){
 
-                if(j + c < widthInTiles_){
+                if(j + c < widthInTiles_ - 1){
                     units.append(tiles_[i+r][j+c]->getUnits());
-                } 
+                }
                 if(c - j >= 0){
                     units.append(tiles_[i+r][c-j]->getUnits());
                 }
 
             }
-            if( r - i >= 0){
+            if((r - i >= 0) && (r - i < heightInTiles_)){
 
-                if(j + c < widthInTiles_){
+                if(j + c < widthInTiles_ - 1){
                     units.append(tiles_[r-i][j+c]->getUnits());
                 }
                 if(c - j >= 0){
@@ -208,7 +211,10 @@ void Map::addUnit(double x, double y, Unit *unitToAdd)
 
     getTileCoords(x, y, &row, &column);
 
-    tiles_[row][column]->addUnit(unitToAdd);
+    if (validateTileBounds(column, row))
+    {
+        tiles_[row][column]->addUnit(unitToAdd);
+    }
     //qDebug("add to tile: %d, %d",row, column);
 }
 
@@ -219,8 +225,20 @@ void Map::removeUnit(double x, double y, Unit *unitToRemove)
 
     getTileCoords(x, y, &row, &column);
 
-    tiles_[row][column]->removeUnit(unitToRemove);
+    if (validateTileBounds(column, row))
+    {
+        tiles_[row][column]->removeUnit(unitToRemove);
+    }
     //qDebug("leaving tile: %d, %d", row, column);
 }
 
-}//end namespace 
+bool Map::validateTileBounds(int x, int y)
+{
+    if (y >= heightInTiles_ || y < 0 || x >= widthInTiles_ || x < 0)
+    {
+        return false;
+    }
+    return true;
+}
+
+}//end namespace

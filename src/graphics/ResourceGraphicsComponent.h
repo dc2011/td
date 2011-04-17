@@ -59,6 +59,7 @@ private:
      * @author Warren Voelkl
      */
     void setIndexValue();
+
 };
 
 } /* end namespace td */

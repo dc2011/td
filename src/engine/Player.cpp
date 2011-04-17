@@ -11,14 +11,20 @@
 
 namespace td {
 
-Player::Player(QObject* parent) 
-        : Unit(parent), nickname_(""), harvesting_(RESOURCE_NONE), 
+Player::Player(QObject* parent)
+        : Unit(parent), nickname_(""), harvesting_(RESOURCE_NONE),
           harvestCountdown_(HARVEST_COUNTDOWN), resource_(RESOURCE_NONE) {
     QVector2D force(0, 0);
     this->setForce(force);
 
     QPointF homeLocation = getDriver()->getGameMap()->getHomeLoc();
     this->setPos(homeLocation.x(), homeLocation.y());
+}
+
+Player::~Player()
+{
+    // Remove the unit from the map before deleting it
+    this->getDriver()->getGameMap()->removeUnit(getPos().x(), getPos().y(), this);
 }
 
 void Player::networkRead(Stream* s) {
@@ -115,12 +121,27 @@ void Player::createEffect(int effectType)
         switch (effectType)
         {
         case EFFECT_FAST:
+            if(effects_.contains(EFFECT_NPCPLAYER)) {
+                return;
+            }
+            if(effects_.contains(EFFECT_FAST)) {
+                return;
+            }
             effect = new PlayerTerrainFastEffect(this);
             break;
         case EFFECT_SLOW:
+            if(effects_.contains(EFFECT_NPCPLAYER)) {
+                return;
+            }
+            if(effects_.contains(EFFECT_SLOW)) {
+                return;
+            }
             effect = new PlayerTerrainSlowEffect(this);
             break;
         case EFFECT_NPCPLAYER:
+            foreach(Effect* e, effects_) {
+                deleteEffect(e);
+            }
             effect = new NPCPlayerEffect(this);
             break;
         default:
@@ -190,12 +211,12 @@ void Player::dropResource(bool addToTower) {
                 getDriver()->destroyObject(t);
             }
         }
-	    Console::instance()->addText("Added Resource");
+        Console::instance()->addText("Added Resource");
 #endif
     } else {
         emit signalDropResource(resource_, pos_, getRandomVector());
 #ifndef SERVER
-	    Console::instance()->addText("Dropped Resource");
+        Console::instance()->addText("Dropped Resource");
 #endif
     }
     resource_ = RESOURCE_NONE;
@@ -209,22 +230,35 @@ void Player::harvestResource() {
         stopHarvesting();
 
 #ifndef SERVER
-	Console::instance()->addText("Picked up a Resource");
+    Console::instance()->addText("Picked up a Resource");
 #endif
 
-	return;
+    return;
     }
 }
 void Player::pickupCollectable(double x, double y, Unit* u) {
-    Tile* t = getDriver()->getGameMap()->getTile(x, y);
-    t->removeUnit(u);
+
+    // First check to see if the collectable is a gem
     if(((Collectable*)u)->getType() == RESOURCE_GEM) {
+        // Remove the gem from the tile and increment the global counter
+        Tile* t = getDriver()->getGameMap()->getTile(x, y);
+        t->removeUnit(u);
+        // Disconnect from the timer
+        disconnect(getDriver()->getTimer(),  SIGNAL(timeout()), u, SLOT(update()));
         //increment global gem count here.
         getDriver()->destroyObject(u);
         return;
     }
-    disconnect(getDriver()->getTimer(),  SIGNAL(timeout()), u, SLOT(update()));
 
+    // Check to see if we are already carrying a resource
+    if (resource_ != RESOURCE_NONE)
+    {
+        return;
+    }
+
+    Tile* t = getDriver()->getGameMap()->getTile(x, y);
+    t->removeUnit(u);
+    disconnect(getDriver()->getTimer(),  SIGNAL(timeout()), u, SLOT(update()));
     resource_ = ((Collectable*)u)->getType();
     setDirty(kResource);
     getDriver()->destroyObject(u);

@@ -2,6 +2,7 @@
 #define TD_PROJECTILEINPUTCOMPONENTTYPES_H
 
 #include "ProjectileInputComponent.h"
+#include "../audio/SfxManager.h"
 
 namespace td {
 
@@ -10,10 +11,11 @@ class ArrowProjectileInputComponent : public ProjectileInputComponent {
 
 public:
     ArrowProjectileInputComponent() : ProjectileInputComponent() {}
-    virtual ~ArrowProjectileInputComponent() {}
+    virtual ~ArrowProjectileInputComponent() {
+        PLAY_SFX(this, SfxManager::projectileHitArrow);
+    }
     
     virtual void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 class CannonProjectileInputComponent : public ProjectileInputComponent {
@@ -21,7 +23,9 @@ class CannonProjectileInputComponent : public ProjectileInputComponent {
 
 public:
     CannonProjectileInputComponent() : ProjectileInputComponent() {}
-    virtual ~CannonProjectileInputComponent() {}
+    virtual ~CannonProjectileInputComponent() {
+        PLAY_SFX(this, SfxManager::projectileHitCannon);
+    }
 
     /**
      * Updates the force for the projectile.
@@ -29,7 +33,6 @@ public:
      * @author Marcel Vangrootheest
      */
     virtual void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 class FireProjectileInputComponent : public ProjectileInputComponent {
@@ -51,7 +54,6 @@ public:
      * @author Marcel Vangrootheest
      */
     void makeForce();
-    void checkNPCCollision(QSet<Unit *> npcs);
 private:
     int duration_;
     int increment_;
@@ -63,7 +65,9 @@ class TarProjectileInputComponent : public ProjectileInputComponent {
 
 public:
     TarProjectileInputComponent() : ProjectileInputComponent() {}
-    virtual ~TarProjectileInputComponent() {}
+    virtual ~TarProjectileInputComponent() {
+        PLAY_SFX(this, SfxManager::projectileHitTar);
+    }
 
     /**
      * Updates the force for the projectile.
@@ -71,7 +75,6 @@ public:
      * @author Marcel Vangrootheest
      */
     virtual void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 class FlakProjectileInputComponent : public ProjectileInputComponent {
@@ -79,7 +82,9 @@ class FlakProjectileInputComponent : public ProjectileInputComponent {
 
 public:
     FlakProjectileInputComponent() : ProjectileInputComponent() {}
-    virtual ~FlakProjectileInputComponent() {}
+    virtual ~FlakProjectileInputComponent() {
+        PLAY_SFX(this, SfxManager::projectileHitFlak);
+    }
 
     /**
      * Updates the force for the projectile.
@@ -87,7 +92,6 @@ public:
      * @author Marcel Vangrootheest
      */
     virtual void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 } /* end namespace td */

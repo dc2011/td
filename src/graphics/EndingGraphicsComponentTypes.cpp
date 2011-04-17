@@ -28,7 +28,8 @@ void CannonEndingGraphicsComponent::setNonStaticValues() {
 }
 
 void CannonEndingGraphicsComponent::timerEvent(QTimerEvent*) {
-    redraw(65, LAYER_FLYNPC);
+    setTimerLength(65);
+    update(NULL);
 }
 
 // arrow
@@ -54,7 +55,38 @@ void ArrowEndingGraphicsComponent::setNonStaticValues() {
 }
 
 void ArrowEndingGraphicsComponent::timerEvent(QTimerEvent*) {
-    redraw(65, LAYER_DEFAULT);
+    setTimerLength(65);
+    setLayer(LAYER_DEFAULT);
+    update(NULL);
+}
+
+// tar
+QPixmap* TarEndingGraphicsComponent::pixmapImgs_ = NULL;
+
+void TarEndingGraphicsComponent::initPixmaps() {
+    if (pixmapImgs_) {
+        setNonStaticValues();
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_END_TAR_MAX];
+        pixmapIndex_ = 0;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_TAR_0;
+        pixmapImgs_[pixmapIndex_++] = PIX_END_TAR_1;
+        setNonStaticValues();
+    }
+
+}
+void TarEndingGraphicsComponent::setNonStaticValues() {
+    animateMod_ = PIX_END_TAR_MAX;
+    arrayIndexMin_ = pixmapIndex_ = PIX_END_TAR_START;
+    arrayIndexMax_ = PIX_END_TAR_START + PIX_END_TAR_MAX - 1;
+    created_.release();
+}
+
+void TarEndingGraphicsComponent::timerEvent(QTimerEvent*) {
+    setTimerLength(225);
+    setLayer(LAYER_NPC);
+    update(NULL);
 }
 
 // flying death
@@ -84,7 +116,7 @@ void FlyingEndingGraphicsComponent::setNonStaticValues() {
 }
 
 void FlyingEndingGraphicsComponent::timerEvent(QTimerEvent*) {
-    redraw(1000, LAYER_DEFAULT);
+    update(NULL);
 }
 
 // generic NPC death
@@ -113,7 +145,7 @@ void GenericNPCEndingGraphicsComponent::setNonStaticValues() {
 }
 
 void GenericNPCEndingGraphicsComponent::timerEvent(QTimerEvent*) {
-    redraw(1000, LAYER_DEFAULT);
+    update(NULL);
 }
 
 }

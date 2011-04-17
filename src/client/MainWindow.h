@@ -7,8 +7,11 @@
 #include <QKeyEvent>
 #include <QTimer>
 #include <QSettings>
+#include <QFrame>
+#include <QBoxLayout>
 #include "../graphics/DrawParams.h"
 #include "keymap.h"
+#include "stats.h"
 
 /*Bitmask Defines*/
 #define KEYUP 1
@@ -22,6 +25,7 @@ namespace td {
 
 class MapDisplayer;
 class GraphicsComponent;
+
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -37,17 +41,12 @@ private:
      * The view which displays the graphics scene.
      */
     QGraphicsView* view_;
+
+    /**
+     * The stats bar.
+     */
+    Stats* stats_;
     
-    /**
-     * The stats menu bar
-     */
-    QGraphicsTextItem* stats_;
-
-    /**
-     * The view which displays the graphics scene.
-     */
-    QGraphicsRectItem* statsRect_;
-
     /**
      * The bitmask of keys held and not released
      */
@@ -69,6 +68,11 @@ private:
      */
     bool consoleOpen_;
 
+    /**
+     *  Boolean for map being zoomed out
+     */
+    bool mapZoomOut_;
+
     /** The keymap defining which keys are bound to which events. */
     Keymap keys_;
 
@@ -78,8 +82,9 @@ public:
     
     QGraphicsScene* getScene() { return scene_; }
     QGraphicsView* getView() { return view_; }
-
+    Stats* getStats() { return stats_; }
     MapDisplayer * getMD() { return mapDisplayer_; }
+    bool getMapState() { return mapZoomOut_; }
     
 protected:
     /**

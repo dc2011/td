@@ -1,6 +1,7 @@
 #include "ContextMenuGraphicsComponentTypes.h"
 #include "../engine/ContextMenu.h"
 #include "../util/defines.h"
+#include "../engine/CDriver.h"
 
 namespace td {
 
@@ -28,6 +29,46 @@ void BuildContextMenuGraphicsComponent::initPixmaps() {
     pixmapImgs_[pixmapIndex_++] = PIX_BUILD_MENU_T4;
     pixmapImgs_[pixmapIndex_++] = PIX_BUILD_MENU_T5;
     pixmapIndex_ = 0;
+    initTowerRanges();
+}
+
+void BuildContextMenuGraphicsComponent::initTowerRanges() {
+    int i;
+    QPen pen;
+    pen.setWidth(3);
+    for (i = 0; i != TOWER_TYPE_MAX;++i) {
+        circleRanges_[i] = new QGraphicsEllipseItem();
+    }
+    pen.setColor(ARROW_COLOR);
+    circleRanges_[0]->setPen(pen);
+    pen.setColor(CANNON_COLOR);
+    circleRanges_[1]->setPen(pen);
+    pen.setColor(TAR_COLOR);
+    circleRanges_[2]->setPen(pen);
+    pen.setColor(FLAME_COLOR);
+    circleRanges_[3]->setPen(pen);
+    pen.setColor(FLAK_COLOR);
+    circleRanges_[4]->setPen(pen);
+
+    for (i = 0; i != TOWER_TYPE_MAX; ++i) {
+        circleRanges_[i]->setBrush(QBrush(Qt::transparent));
+        CDriver::instance()->getMainWindow()->getScene()->addItem(circleRanges_[i]);
+    }
+}
+
+void BuildContextMenuGraphicsComponent::draw(void* dp, int layer) {
+    QPointF point = ((DrawParams*)dp)->pos;
+    int radius = RADIUS_ARROW;
+    circleRanges_[0]->setRect(point.x()-radius, point.y()-radius, radius * 2, radius * 2);
+    radius = RADIUS_CANNON;
+    circleRanges_[1]->setRect(point.x()-radius, point.y()-radius, radius * 2, radius * 2);
+    radius = RADIUS_TAR;
+    circleRanges_[2]->setRect(point.x()-radius, point.y()-radius, radius * 2, radius * 2);
+    radius = RADIUS_FLAME;
+    circleRanges_[3]->setRect(point.x()-radius, point.y()-radius, radius * 2, radius * 2);
+    radius = RADIUS_FLAK;
+    circleRanges_[4]->setRect(point.x()-radius, point.y()-radius, radius * 2, radius * 2);
+    GraphicsComponent::draw(dp,layer);
 }
 
 void BuildContextMenuGraphicsComponent::showSelectMenu(int type,

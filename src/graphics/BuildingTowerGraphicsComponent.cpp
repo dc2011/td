@@ -5,23 +5,20 @@
 
 namespace td {
 
-    bool BuildingTowerGraphicsComponent::keyHeld_ = false;
-
 QPixmap* BuildingTowerGraphicsComponent::pixmapImgs_ = NULL;
 
 BuildingTowerGraphicsComponent::BuildingTowerGraphicsComponent()
         : GraphicsComponent() {
-    animate_ = 0;
     buildingStage_ = 0;
     emit created(this);
 }
 
 BuildingTowerGraphicsComponent::~BuildingTowerGraphicsComponent() {
     int i, j;
-    this->disconnect();
     for (i = 0; i != RESOURCE_TYPE_MAX; i++) {
         for (j = 0; j != ICON_MAX; j++) {
-            CDriver::instance()->getMainWindow()->getScene()->removeItem(resourcePixmapItemArray_[i][j]);
+            CDriver::instance()->getMainWindow()->getScene()->
+                    removeItem(resourcePixmapItemArray_[i][j]);
             delete resourcePixmapItemArray_[i][j];
         }
     }
@@ -82,7 +79,6 @@ void BuildingTowerGraphicsComponent::iconDrawingHelper(
 }
 
 void BuildingTowerGraphicsComponent::initPixmaps() {
-    //resourcePixmapItemArray_ = new QGraphicsPixmapItem[RESOURCE_TYPE_MAX][ICON_MAX];
 
     if (pixmapImgs_ != NULL) {
         setIconImages();
@@ -109,9 +105,10 @@ void BuildingTowerGraphicsComponent::update(GameObject* obj) {
 
     DrawParamsBuildTower* dps = new DrawParamsBuildTower();
     dps->pos     = tower->getPos();
-    dps->moving  = 0;
+    dps->moving  = false;
     dps->scale   = 1;
     dps->degrees = 0;
+    dps->animate = animate_;
     dps->bone = tower->getBone();
     dps->oil = tower->getOil();
     dps->stone = tower->getStone();

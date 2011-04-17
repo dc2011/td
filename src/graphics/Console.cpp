@@ -136,7 +136,7 @@ void Console::scroll() {
         y=30;
         disconnect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
             this, SLOT(scroll()));
-	return;
+        return;
     }
     y+=10;
 }
@@ -151,14 +151,26 @@ void Console::toggle() {
 
 void Console::translate() {
     
+    QRect a = label_->boundingRect().toRect();
+    QRect b = textLabel_->boundingRect().toRect();
+    int xSize, xDiff = 0;
+    
+    if(a.topRight().x() > b.topRight().x()) {
+        xSize = a.topRight().x();
+    } else {
+        xSize = b.topRight().x();
+        xDiff = b.topRight().x() - a.topRight().x();
+    }
+
     QPointF aPoint = view_->mapToScene(0,0);
     textLabel_->setPos(aPoint);
-    textRect_->setRect(aPoint.x(),aPoint.y(),400,30);
+    textRect_->setRect(aPoint.x(),aPoint.y(),xSize,30);
     
     aPoint = view_->mapToScene(0,y);
     label_->setPos(aPoint);
 
     QRectF rRect = label_->boundingRect().adjusted(0,y,0,y);
+    rRect.setRight(rRect.right() + xDiff);
     QPolygonF rPoly = view_->mapToScene(rRect.toRect());
     rect_->setRect(rPoly.boundingRect());
 
@@ -219,7 +231,7 @@ void Console::addChar(QString c) {
     }
 
     textLabel_->setDocument(doc);
-    textLabel_->update();
+    translate();
 }
 
 }; //end of namespace

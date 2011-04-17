@@ -38,23 +38,6 @@ void PlayerPhysicsComponent::applyVelocity(Player* player)
 
     Map* gameMap = player->getDriver()->getGameMap();
     QSet<Tile*> targetTiles = gameMap->getTiles(newPos, 2);
-    Tiled::Map* tMap = gameMap->getTMap();
-    int mapHeight = tMap->height();
-    int mapWidth = tMap->width();
-    QSize mapSize = tMap->maxTileSize();
-
-    if(newPos.x() < 20){
-        newPos.setX(20);
-    }
-    if(newPos.x() > (mapWidth * mapSize.width() - 20)){
-        newPos.setX(mapWidth * mapSize.width() - 20);
-    }
-    if(newPos.y() < 20){
-        newPos.setY(20);
-    }
-    if(newPos.y() > (mapHeight * mapSize.height() - 20)){
-        newPos.setY(mapHeight * mapSize.height() - 20);
-    }
 
     QPointF upperRight;
     QPointF upperLeft;

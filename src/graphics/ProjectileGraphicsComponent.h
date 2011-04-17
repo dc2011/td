@@ -16,7 +16,7 @@ public:
      * Instantiates a projectile graphics component
      * @author Warren Voelkl
      */
-    ProjectileGraphicsComponent(): GraphicsComponent() {}
+    ProjectileGraphicsComponent();
     virtual ~ProjectileGraphicsComponent();
 
     /**
@@ -39,6 +39,11 @@ public:
      * @author Warren Voelkl
      */
     virtual QPixmap * getPixmapArray() = 0;
+
+protected:
+    QPointF pos_;
+    float scale_;
+    int degrees_;
 };
 
 } /* end namespace td */

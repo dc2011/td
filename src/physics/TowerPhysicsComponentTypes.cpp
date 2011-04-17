@@ -79,9 +79,9 @@ void FlameTowerPhysicsComponent::findDirectionToShoot(){
             }
             projectilePath_.setP2((*iter)->getPos());
             // check that they're actually in range
-            if (projectilePath_.length() < getRadius()) {
+            if (projectilePath_.length() < getRadius() - 24) {
                 target_ = *iter;
-                projectilePath_.setLength(getRadius());
+                projectilePath_.setLength(getRadius() - 24);
                 foundTarget_ = true;
                 return;
             }
@@ -98,7 +98,7 @@ bool FlameTowerPhysicsComponent::isValidTarget(Unit * target) {
 
 void FlameTowerPhysicsComponent::fire() {
 
-    emit fireProjectile(PROJ_FIRE, tower_->getPos(), projectilePath_.p2(),
+    emit fireProjectile(projType_, tower_->getPos(), projectilePath_.p2(),
             target_);
     fireCountdown_ = fireInterval_;
     foundTarget_ = false;

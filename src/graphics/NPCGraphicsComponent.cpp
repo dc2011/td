@@ -9,7 +9,6 @@ bool NPCGraphicsComponent::keyHeld_ = false;
 
 NPCGraphicsComponent::NPCGraphicsComponent()
         : GraphicsComponent(), damageDisplayTime_(0) {
-    //emit created(this);
 }
 
 NPCGraphicsComponent::~NPCGraphicsComponent() {
@@ -28,9 +27,9 @@ void NPCGraphicsComponent::update(GameObject* obj) {
     dp->pos     = npc->getPos();
     dp->scale = 1;
     dp->degrees = npc->getOrientation();
+    dp->animate = animate_;
     dp->keyHeld = keyHeld_;
     npcHealth_   = (npc->getHealth() / (double)npc->getMaxHealth());
-    //npcHealth_   = npcHealth_ - 0.003; //This and the following lines are for tests.
     if(npcHealth_ < 0) {
         npcHealth_ = 0;
     }
@@ -63,6 +62,12 @@ void NPCGraphicsComponent::draw(void* dp, int layer) {
         healthbarItem_->update();
     }
 
+    if(CDriver::instance()->getMainWindow()->getMapState()) {
+	QPixmap qTemp(10,10);
+	qTemp.fill(Qt::red);
+	getPixmapItem()->setPixmap(qTemp);
+    }
+
     GraphicsComponent::draw(dp, layer);
 }
 
@@ -86,11 +91,12 @@ QPixmap * NPCGraphicsComponent::getPixmapArray() {
 }
 
 void NPCGraphicsComponent::animate() {
-    if (!(animateCount_++ % animateMod_)) {
+    if(CDriver::instance()->getMainWindow()->getMapState()) {
+	return;
+    } else if (!(animateCount_++ % animateMod_)) {
         ++pixmapIndex_ > arrayIndexMax_ ? pixmapIndex_ = arrayIndexMin_
             : pixmapIndex_;
         setImgIndex(pixmapIndex_);
-
     }
 }
 
