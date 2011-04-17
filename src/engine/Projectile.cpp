@@ -21,12 +21,13 @@ namespace td {
 Projectile::Projectile(QObject* parent) : Unit(parent) {
     start_ = new QPointF(0,0);
     end_ = new QPointF(0,0);
-    scale_ = 1;
+    scale_ = 0.25;
     path_ = QLineF(end_->x(), end_->y(), start_->x(), start_->y());
     this->pos_ = QPointF(0,0);
 }
 
 Projectile::~Projectile() {
+    //TODO ending graphics for all types
 #ifndef SERVER
     switch (type_) {
     case PROJ_ARROW:
@@ -43,17 +44,12 @@ Projectile::~Projectile() {
     case PROJ_CANNON_5:
         new CannonEndingGraphicsComponent(pos_);
         break;
-    case PROJ_FIRE:
-    case PROJ_FIRE_2:
-    case PROJ_FIRE_3:
-        break;
-    case PROJ_FLAK:
-    case PROJ_FLAK_2:
-    case PROJ_FLAK_3:
-        break;
     case PROJ_TAR:
     case PROJ_TAR_2:
     case PROJ_TAR_3:
+    case PROJ_TAR_4:
+    case PROJ_TAR_5:
+        new TarEndingGraphicsComponent(pos_);
         break;
     }
 #endif
@@ -62,11 +58,10 @@ Projectile::~Projectile() {
 }
 
 void Projectile::initComponents() {
-    qDebug("type %d", type_);
     if (type_ >= PROJ_ARROW && type_ <= PROJ_ARROW_5) {
         PLAY_SFX(this, SfxManager::projectileFireArrow);
-        this->setHeight(10);
-        this->setWidth(48);
+        this->setWidth(ARROW_WIDTH);
+        this->setHeight(ARROW_HEIGHT);
         switch (type_) {
         case PROJ_ARROW:
             effectType_ = EFFECT_ARROW;
@@ -75,25 +70,25 @@ void Projectile::initComponents() {
 #endif
             break;
         case PROJ_ARROW_2:
-            effectType_ = EFFECT_ARROW;
+            effectType_ = EFFECT_ARROW_2;
 #ifndef SERVER
             setGraphicsComponent(new ArrowProjectileGraphicsComponent());
 #endif
             break;
         case PROJ_ARROW_3:
-            effectType_ = EFFECT_ARROW;
+            effectType_ = EFFECT_ARROW_3;
 #ifndef SERVER
             setGraphicsComponent(new ArrowProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_ARROW_4:
-            effectType_ = EFFECT_ARROW;
+            effectType_ = EFFECT_ARROW_4;
 #ifndef SERVER
             setGraphicsComponent(new ArrowProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_ARROW_5:
-            effectType_ = EFFECT_ARROW;
+            effectType_ = EFFECT_ARROW_5;
 #ifndef SERVER
             setGraphicsComponent(new ArrowProjectileL3GraphicsComponent());
 #endif
@@ -106,40 +101,40 @@ void Projectile::initComponents() {
         switch(type_) {
         case PROJ_CANNON:
             effectType_ = EFFECT_CANNON;
-            this->setWidth(100);
-            this->setHeight(100);
+            this->setWidth(CANNON_WIDTH);
+            this->setHeight(CANNON_HEIGHT);
 #ifndef SERVER
             setGraphicsComponent(new CannonProjectileGraphicsComponent());
 #endif
             break;
         case PROJ_CANNON_2:
-            effectType_ = EFFECT_CANNON;
-            this->setWidth(100);
-            this->setHeight(100);
+            effectType_ = EFFECT_CANNON_2;
+            this->setWidth(CANNON_WIDTH_2);
+            this->setHeight(CANNON_HEIGHT_2);
 #ifndef SERVER
             setGraphicsComponent(new CannonProjectileGraphicsComponent());
 #endif
             break;
         case PROJ_CANNON_3:
-            effectType_ = EFFECT_CANNON;
-            this->setWidth(100);
-            this->setHeight(100);
+            effectType_ = EFFECT_CANNON_3;
+            this->setWidth(CANNON_WIDTH_3);
+            this->setHeight(CANNON_HEIGHT_3);
 #ifndef SERVER
             setGraphicsComponent(new CannonProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_CANNON_4:
-            effectType_ = EFFECT_CANNON;
-            this->setWidth(100);
-            this->setHeight(100);
+            effectType_ = EFFECT_CANNON_4;
+            this->setWidth(CANNON_WIDTH_4);
+            this->setHeight(CANNON_HEIGHT_4);
 #ifndef SERVER
             setGraphicsComponent(new CannonProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_CANNON_5:
-            effectType_ = EFFECT_CANNON;
-            this->setWidth(100);
-            this->setHeight(100);
+            effectType_ = EFFECT_CANNON_5;
+            this->setWidth(CANNON_WIDTH_5);
+            this->setHeight(CANNON_HEIGHT_5);
 #ifndef SERVER
             setGraphicsComponent(new CannonProjectileL3GraphicsComponent());
 #endif
@@ -161,7 +156,7 @@ void Projectile::initComponents() {
 #endif
             break;
         case PROJ_FIRE_2:
-            effectType_ = EFFECT_FIRE;
+            effectType_ = EFFECT_FIRE_2;
             this->setWidth(FLAME_WIDTH);
             this->setHeight(FLAME_WIDTH);
             this->setScale(1.0);
@@ -170,7 +165,7 @@ void Projectile::initComponents() {
 #endif
             break;
         case PROJ_FIRE_3:
-            effectType_ = EFFECT_FIRE;
+            effectType_ = EFFECT_FIRE_3;
             this->setWidth(FLAME_WIDTH * FLAME_2_SCALE);
             this->setHeight(FLAME_HEIGHT * FLAME_2_SCALE);
             this->setScale(FLAME_2_SCALE);
@@ -179,7 +174,7 @@ void Projectile::initComponents() {
 #endif
             break;
         case PROJ_FIRE_4:
-            effectType_ = EFFECT_FIRE;
+            effectType_ = EFFECT_FIRE_4;
             this->setWidth(FLAME_WIDTH * FLAME_2_SCALE);
             this->setHeight(FLAME_HEIGHT * FLAME_2_SCALE);
             this->setScale(FLAME_2_SCALE);
@@ -188,7 +183,7 @@ void Projectile::initComponents() {
 #endif
             break;
         case PROJ_FIRE_5:
-            effectType_ = EFFECT_FIRE;
+            effectType_ = EFFECT_FIRE_5;
             this->setWidth(FLAME_3_WIDTH * FLAME_3_SCALE);
             this->setHeight(FLAME_3_HEIGHT * FLAME_3_SCALE);
             this->setScale(FLAME_3_SCALE);
@@ -205,40 +200,40 @@ void Projectile::initComponents() {
         switch(type_) {
         case PROJ_TAR:
             effectType_ = EFFECT_TAR;
-            this->setWidth(100);
-            this->setHeight(100);
+            this->setWidth(TAR_WIDTH);
+            this->setHeight(TAR_HEIGHT);
 #ifndef SERVER
             setGraphicsComponent(new TarProjectileGraphicsComponent());
 #endif
             break;
         case PROJ_TAR_2:
-            effectType_ = EFFECT_TAR;
-            this->setWidth(100);
-            this->setHeight(100);
+            effectType_ = EFFECT_TAR_2;
+            this->setWidth(TAR_WIDTH_2);
+            this->setHeight(TAR_HEIGHT_2);
 #ifndef SERVER
             setGraphicsComponent(new TarProjectileGraphicsComponent());
 #endif
             break;
         case PROJ_TAR_3:
-            effectType_ = EFFECT_TAR;
-            this->setWidth(100);
-            this->setHeight(100);
+            effectType_ = EFFECT_TAR_3;
+            this->setWidth(TAR_WIDTH_3);
+            this->setHeight(TAR_HEIGHT_3);
 #ifndef SERVER
             setGraphicsComponent(new TarProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_TAR_4:
-            effectType_ = EFFECT_TAR;
-            this->setWidth(100);
-            this->setHeight(100);
+            effectType_ = EFFECT_TAR_4;
+            this->setWidth(TAR_WIDTH_4);
+            this->setHeight(TAR_HEIGHT_4);
 #ifndef SERVER
             setGraphicsComponent(new TarProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_TAR_5:
-            effectType_ = EFFECT_TAR;
-            this->setWidth(100);
-            this->setHeight(100);
+            effectType_ = EFFECT_TAR_5;
+            this->setWidth(TAR_WIDTH_5);
+            this->setHeight(TAR_HEIGHT_5);
 #ifndef SERVER
             setGraphicsComponent(new TarProjectileL3GraphicsComponent());
 #endif
@@ -252,40 +247,40 @@ void Projectile::initComponents() {
         switch(type_) {
         case PROJ_FLAK:
             effectType_ = EFFECT_FLAK;
-            this->setWidth(40);
-            this->setHeight(40);
+            this->setWidth(FLAK_WIDTH);
+            this->setHeight(FLAK_HEIGHT);
 #ifndef SERVER
             setGraphicsComponent(new FlakProjectileGraphicsComponent());
 #endif
             break;
         case PROJ_FLAK_2:
-            effectType_ = EFFECT_FLAK;
-            this->setWidth(40);
-            this->setHeight(40);
+            effectType_ = EFFECT_FLAK_2;
+            this->setWidth(FLAK_WIDTH_2);
+            this->setHeight(FLAK_HEIGHT_2);
 #ifndef SERVER
             setGraphicsComponent(new FlakProjectileGraphicsComponent());
 #endif
             break;
         case PROJ_FLAK_3:
-            effectType_ = EFFECT_FLAK;
-            this->setWidth(40);
-            this->setHeight(40);
+            effectType_ = EFFECT_FLAK_3;
+            this->setWidth(FLAK_WIDTH_3);
+            this->setHeight(FLAK_HEIGHT_3);
 #ifndef SERVER
             setGraphicsComponent(new FlakProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_FLAK_4:
-            effectType_ = EFFECT_FLAK;
-            this->setWidth(40);
-            this->setHeight(40);
+            effectType_ = EFFECT_FLAK_4;
+            this->setWidth(FLAK_WIDTH_4);
+            this->setHeight(FLAK_HEIGHT_4);
 #ifndef SERVER
             setGraphicsComponent(new FlakProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_FLAK_5:
-            effectType_ = EFFECT_FLAK;
-            this->setWidth(40);
-            this->setHeight(40);
+            effectType_ = EFFECT_FLAK_5;
+            this->setWidth(FLAK_WIDTH_5);
+            this->setHeight(FLAK_HEIGHT_5);
 #ifndef SERVER
             setGraphicsComponent(new FlakProjectileL3GraphicsComponent());
 #endif
