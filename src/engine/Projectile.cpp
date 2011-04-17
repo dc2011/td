@@ -34,8 +34,6 @@ Projectile::~Projectile() {
 void Projectile::initComponents() {
     if (type_ >= PROJ_ARROW && type_ <= PROJ_ARROW_5) {
         PLAY_SFX(this, SfxManager::projectileFireArrow);
-        this->setWidth(ARROW_WIDTH);
-        this->setHeight(ARROW_HEIGHT);
         switch (type_) {
         case PROJ_ARROW:
             effectType_ = EFFECT_ARROW;
