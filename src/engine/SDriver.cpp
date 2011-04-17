@@ -234,32 +234,16 @@ void SDriver::spawnWave() {
                 wave->createWave();
                 connect(wave, SIGNAL(waveDead()), this, SLOT(endWave()));
                 connect(wave, SIGNAL(waveDead()), wave, SLOT(deleteLater()));
-                qDebug("SDriver::spawnWave(); Num waves remaining: %d", waves_.size());
             }
         }
-  
-        /* IAN'S GARBAGE */
-        /*
-        disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
-        //NPCWave* wave = new NPCWave(this);
-        waves_.first()->createWave();
-        //waves_.append(wave);
-        connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
-        */
     }
-
-    // No more waves, end the game :)
-    //else {
-        // TODO: may need to disconnect waveTimer -> spawnWave here.
-    //    endGame(TRUE);
-    //}
     
     timeCount_++;
 }
 
 void SDriver::endWave() {
     completedWaves_++;
-    qDebug("SDriver::endWave(); Num waves completed: %d of %d", completedWaves_);
+    qDebug("SDriver::endWave(); Num waves completed: %d of %d", completedWaves_, totalWaves_);
 } 
 
 void SDriver::deadNPC(int id) {
