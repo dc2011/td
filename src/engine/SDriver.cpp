@@ -408,7 +408,7 @@ void SDriver::onMsgReceive(Stream* s) {
 
                 out->writeByte(false);
 
-                Driver::createCollectable(type, player->getPos(), velocity);
+                Driver::createCollectable(type, player->getPos(), vel);
 
                 net_->send(network::kDropCollect, out->data());
             } else {
