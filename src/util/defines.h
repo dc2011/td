@@ -139,38 +139,73 @@
 #define RESOURCE_GEM        99
 
 // time to harvest a resource (in game ticks)
-#define HARVEST_COUNTDOWN   60
+#define HARVEST_COUNTDOWN           60
+#define HARVEST_COUNTDOWN_UPGRADE   45
 
 // NPC types
 #define NPC_NORM    0
 #define NPC_SLOW    1
-#define NPC_FAST    2
-#define NPC_FLY     3
-#define NPC_BOSS    4
+#define NPC_ARM     2
+#define NPC_FAST    3
+#define NPC_SWARM   4
+#define NPC_FLY     5
+#define NPC_BOSS    6
 
 // Acceleration of NPC types
 #define NPC_NORM_ACCEL  0.2  
 #define NPC_SLOW_ACCEL  0.1  
+#define NPC_ARM_ACCEL   0.1  
 #define NPC_FAST_ACCEL  0.3  
+#define NPC_SWARM_ACCEL 0.2  
 #define NPC_FLY_ACCEL   0.2  
 #define NPC_BOSS_ACCEL  0.1  
 
 // Deceleration of NPC types
 #define NPC_NORM_DECEL  0.25  
 #define NPC_SLOW_DECEL  0.15  
+#define NPC_ARM_DECEL   0.15  
 #define NPC_FAST_DECEL  0.4  
+#define NPC_SWARM_DECEL 0.25  
 #define NPC_FLY_DECEL   0.25  
 #define NPC_BOSS_DECEL  0.15  
 
 // Maximum Velocity of NPC types
 #define NPC_NORM_MAX_V  2  
 #define NPC_SLOW_MAX_V  1
+#define NPC_ARM_MAX_V   1
 #define NPC_FAST_MAX_V  4
+#define NPC_SWARM_MAX_V 2
 #define NPC_FLY_MAX_V   2
 #define NPC_BOSS_MAX_V  1
 
+//NPC health
+#define NPC_NORM_HP     100
+#define NPC_SLOW_HP     200
+#define NPC_ARM_HP      150
+#define NPC_FAST_HP     75
+#define NPC_SWARM_HP    50
+#define NPC_FLY_HP      150
+#define NPC_BOSS_HP     1000
+
+//NPC dimensions
+#define NPC_NORM_HEIGHT     25
+#define NPC_NORM_WIDTH      90
+#define NPC_SLOW_HEIGHT     30
+#define NPC_SLOW_WIDTH      120
+#define NPC_ARM_HEIGHT      35
+#define NPC_ARM_WIDTH       70
+#define NPC_FAST_HEIGHT     15
+#define NPC_FAST_WIDTH      80
+#define NPC_SWARM_HEIGHT    20
+#define NPC_SWARM_WIDTH     50
+#define NPC_FLY_HEIGHT      90
+#define NPC_FLY_WIDTH       30
+#define NPC_BOSS_HEIGHT     30
+#define NPC_BOSS_WIDTH      100
+
 //Player velocity
 #define PLAYER_MAX_V 5
+#define PLAYER_UPGRADE_V 7.5
 
 //effect types for operator==
 #define EFFECT_NONE         0
@@ -243,6 +278,7 @@
 
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20
+#define NPC_PLAYER_TIME_UPGRADE 5
 #define TAR_TIME        100
 #define TAR_TIME_2      130
 #define TAR_TIME_3      160

@@ -41,6 +41,11 @@ protected:
      */
     int baseHealth_;
 
+    /**
+     * The total number of gems collected.
+     */
+    int gemCount_;
+
 public:
     Driver();
     virtual ~Driver();
@@ -208,6 +213,16 @@ public:
      * @return True if upgrade is successful.
      */
     bool upgradeTower(QPointF pos);
+
+    /**
+     * Upgrades the player if has enough gems.
+     *
+     * @author Marcel Vangrootheest
+     * @param id The playerID of the player to upgrade.
+     * @param type The type of upgrade to apply.
+     * @return True if upgrade is successful.
+     */
+    bool upgradePlayer(int id, int type);
 
     /**
      * Makes a random vector for the collectable drop.

@@ -7,11 +7,12 @@ namespace td {
 /* Initialize the QPixmap arrays for all classes */
 QPixmap* NormNPCGraphicsComponent::pixmapImgs_ = NULL;
 QPixmap* SlowNPCGraphicsComponent::pixmapImgs_ = NULL;
+QPixmap* ArmNPCGraphicsComponent::pixmapImgs_ = NULL;
 QPixmap* FastNPCGraphicsComponent::pixmapImgs_ = NULL;
+QPixmap* SwarmNPCGraphicsComponent::pixmapImgs_ = NULL;
 QPixmap* FlyNPCGraphicsComponent::pixmapImgs_ = NULL;
 QPixmap* BossNPCGraphicsComponent::pixmapImgs_ = NULL;
 
-//TODO: need pics and animation for this yet
 void NormNPCGraphicsComponent::initPixmaps() {
     initHealthbar();
     setNonStaticValues();
@@ -19,12 +20,11 @@ void NormNPCGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_NPC_ANKLY_MAX];
+        pixmapImgs_ = new QPixmap[PIX_NPC_NORM_MAX];
     }
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_ANKLY_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_ANKLY_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_ANKLY_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_NORM_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_NORM_1;
     setNonStaticValues();
 }
 
@@ -34,8 +34,8 @@ void NormNPCGraphicsComponent::setLayer(void* dp) {
 
 void NormNPCGraphicsComponent::setNonStaticValues() {
     animateMod_ = 4;
-    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_ANKLY_START;
-    arrayIndexMax_ = PIX_NPC_ANKLY_START + PIX_NPC_ANKLY_MAX - 1;
+    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_NORM_START;
+    arrayIndexMax_ = PIX_NPC_NORM_START + PIX_NPC_NORM_MAX - 1;
 }
 
 void SlowNPCGraphicsComponent::initPixmaps() {
@@ -45,11 +45,14 @@ void SlowNPCGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_NPC_BRONTO_MAX];
+        pixmapImgs_ = new QPixmap[PIX_NPC_SLOW_MAX];
     }
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BRONTO_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BRONTO_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SLOW_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SLOW_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SLOW_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SLOW_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SLOW_4;
     setNonStaticValues();
 }
 
@@ -59,8 +62,33 @@ void SlowNPCGraphicsComponent::setLayer(void* dp) {
 
 void SlowNPCGraphicsComponent::setNonStaticValues() {
     animateMod_ = 4;
-    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_BRONTO_START;
-    arrayIndexMax_ = PIX_NPC_BRONTO_START + PIX_NPC_BRONTO_MAX - 1;
+    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_SLOW_START;
+    arrayIndexMax_ = PIX_NPC_SLOW_START + PIX_NPC_SLOW_MAX - 1;
+}
+
+void ArmNPCGraphicsComponent::initPixmaps() {
+    initHealthbar();
+    setNonStaticValues();
+
+    if (pixmapImgs_) {
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_NPC_ARM_MAX];
+    }
+    pixmapIndex_ = 0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_ARM_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_ARM_1;
+    setNonStaticValues();
+}
+
+void ArmNPCGraphicsComponent::setLayer(void* dp) {
+    emit signalDraw(dp, this, LAYER_NPC);
+}
+
+void ArmNPCGraphicsComponent::setNonStaticValues() {
+    animateMod_ = 4;
+    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_ARM_START;
+    arrayIndexMax_ = PIX_NPC_ARM_START + PIX_NPC_ARM_MAX - 1;
 }
 
 void FastNPCGraphicsComponent::initPixmaps() {
@@ -70,11 +98,12 @@ void FastNPCGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_NPC_SABER_MAX];
+        pixmapImgs_ = new QPixmap[PIX_NPC_FAST_MAX];
     }
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SABER_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SABER_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_FAST_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_FAST_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_FAST_2;
     setNonStaticValues();
 }
 
@@ -84,8 +113,33 @@ void FastNPCGraphicsComponent::setLayer(void* dp) {
 
 void FastNPCGraphicsComponent::setNonStaticValues() {
     animateMod_ = 4;
-    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_SABER_START;
-    arrayIndexMax_ = PIX_NPC_SABER_START + PIX_NPC_SABER_MAX - 1;
+    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_FAST_START;
+    arrayIndexMax_ = PIX_NPC_FAST_START + PIX_NPC_FAST_MAX - 1;
+}
+
+void SwarmNPCGraphicsComponent::initPixmaps() {
+    initHealthbar();
+    setNonStaticValues();
+
+    if (pixmapImgs_) {
+        return;
+    } else {
+        pixmapImgs_ = new QPixmap[PIX_NPC_SWARM_MAX];
+    }
+    pixmapIndex_ = 0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SWARM_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SWARM_1;
+    setNonStaticValues();
+}
+
+void SwarmNPCGraphicsComponent::setLayer(void* dp) {
+    emit signalDraw(dp, this, LAYER_NPC);
+}
+
+void SwarmNPCGraphicsComponent::setNonStaticValues() {
+    animateMod_ = 4;
+    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_SWARM_START;
+    arrayIndexMax_ = PIX_NPC_SWARM_START + PIX_NPC_SWARM_MAX - 1;
 }
 
 void FlyNPCGraphicsComponent::initPixmaps() {
@@ -95,13 +149,13 @@ void FlyNPCGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_NPC_PTERO_MAX];
+        pixmapImgs_ = new QPixmap[PIX_NPC_FLY_MAX];
     }
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_2;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_PTERO_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_FLY_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_FLY_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_FLY_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_FLY_3;
     setNonStaticValues();
 }
 
@@ -111,8 +165,8 @@ void FlyNPCGraphicsComponent::setLayer(void* dp) {
 
 void FlyNPCGraphicsComponent::setNonStaticValues() {
     animateMod_ = 4;
-    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_PTERO_START;
-    arrayIndexMax_ = PIX_NPC_PTERO_START + PIX_NPC_PTERO_MAX - 1;
+    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_FLY_START;
+    arrayIndexMax_ = PIX_NPC_FLY_START + PIX_NPC_FLY_MAX - 1;
 }
 
 void BossNPCGraphicsComponent::initPixmaps() {
@@ -122,11 +176,12 @@ void BossNPCGraphicsComponent::initPixmaps() {
     if (pixmapImgs_) {
         return;
     } else {
-        pixmapImgs_ = new QPixmap[PIX_NPC_TREX_MAX];
+        pixmapImgs_ = new QPixmap[PIX_NPC_BOSS_MAX];
     }
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_TREX_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_TREX_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BOSS_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BOSS_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BOSS_2;
     setNonStaticValues();
 }
 
@@ -136,8 +191,8 @@ void BossNPCGraphicsComponent::setLayer(void* dp) {
 
 void BossNPCGraphicsComponent::setNonStaticValues() {
     animateMod_ = 4;
-    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_TREX_START;
-    arrayIndexMax_ = PIX_NPC_TREX_START + PIX_NPC_TREX_MAX - 1;
+    arrayIndexMin_ = pixmapIndex_ = PIX_NPC_BOSS_START;
+    arrayIndexMax_ = PIX_NPC_BOSS_START + PIX_NPC_BOSS_MAX - 1;
 }
 
 } /* end namespace td */

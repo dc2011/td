@@ -63,7 +63,7 @@ void PlayerContextMenu::selectMenuItem(int keyPressed) {
         case UPGRADE_HARVEST:   upgradeLevels_ | PLAYER_HARVEST;    break;
         case UPGRADE_RECOVERY:  upgradeLevels_ | PLAYER_RECOVERY;   break;
     }
-    emit signalUpgradePlayer(keyPressed, player_->getPos());
+    emit signalUpgradePlayer(keyPressed);
     ContextMenu::selectMenuItem(keyPressed);
 }
 

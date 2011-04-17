@@ -22,7 +22,7 @@ class SDriver : public Driver {
 
 private:
     NetworkServer* net_;
-    QList<Player*> players_;
+    QMap<QTcpSocket*, Player*> players_;
     QSet<GameObject*> updates_;
     QList<NPCWave*> waves_;
     QTimer* waveTimer_;
@@ -121,11 +121,11 @@ public:
      * to the Building Stage.
      *
      * @author Marcel Vangrootheest
-     * @param out The stream to write the message to.
      * @param t The BuildingTower to add the resource to.
      * @param player The player that needs to drop the resource.
+     * @param drop true if the resource will always be dropped.
      */
-    void towerDrop(Stream* out, BuildingTower* t, Player* player);
+    void towerDrop(BuildingTower* t, Player* player, bool drop);
 
 signals:
     /**
@@ -224,6 +224,14 @@ public slots:
      * @param vel The velocity of the dropper.
      */
     void requestCollectable(int collType, QPointF source, QVector2D vel);
+
+    /**
+     * Let other players know when a player has quit.
+     *
+     * @author Darryl Pogue
+     * @param sock The socket of the player.
+     */
+    void playerQuit(QTcpSocket* sock);
 };
 
 } /* end namespace td */
