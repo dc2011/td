@@ -38,6 +38,16 @@ public:
         return player_->getPos();
     }
 
+    /**
+     * Returns the player assoctiated with this menu.
+     *
+     * @author Dean Morin
+     * @return A pointer to the player.
+     */
+    Player* getPlayer() {
+        return player_;
+    }
+
 protected:
     /** Is responsible for rendering this object. */
     ContextMenuGraphicsComponent* graphics_;

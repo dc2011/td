@@ -207,18 +207,14 @@ QPixmap* PlayerContextMenuGraphicsComponent::getPixmapArray() {
 }
 
 int PlayerContextMenuGraphicsComponent::getCurrentImage() {
-/*
+    
     if (nextImage_ == MENU_BASE) {
-        if (menu_->getUpgradeLevels() < MAX_TOWER_LEVEL) {
-            return MENU_BASE;
-        }
-        return MENU_UPGRADE_ALL;
+        return menu_->getPlayer()->getLevel(); 
     }
     if (nextImage_ == MENU_TOWER_RESOURCES) {
         return menu_->getUpgradeLevels() + MENU_TOWER_RESOURCES;
     }
     ContextMenuGraphicsComponent::getCurrentImage();
-    */
 }
 
 } // end namespace td

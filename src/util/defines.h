@@ -38,8 +38,15 @@
 #define MENU_BASE               0
 #define MENU_UPGRADE_ALL        1
 #define MENU_TOWER_RESOURCES    2
-#define MENU_TOWER_UPGRADE      7
+#define MENU_TOWER_UPGRADE      3
 #define MENU_TOWER_SELL         8
+#define MENU_UPGRADE_NONE       2
+#define MENU_UPGRADE_SPD        3
+#define MENU_UPGRADE_HAR        4
+#define MENU_UPGRADE_REC        5
+#define MENU_UPGRADE_SPD_HAR    6
+#define MENU_UPGRADE_SPD_REC    7
+#define MENU_UPGRADE_HAR_REC    8
 
 // tower types
 // last group of 4 bits - tower level

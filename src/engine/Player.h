@@ -124,6 +124,16 @@ Collectable* collectable_;
         return isMoving_;
     }
 
+    /**
+     * Gets the upgrade state of the Player.
+     *
+     * @author Dean Morin
+     * @return A single int containing info on all player upgrades.
+     */
+    int getUpgrades() {
+        return upgrades_;
+    }
+
 private: 
     /**
      * Checks to see if the resource being harvested is ready to be picked up.
@@ -212,6 +222,10 @@ private:
 
     /** Whether the player is moving or not. */
     bool isMoving_;
+
+    /** The level of the player's upgrades. The last 3 bits are recovery,
+     *  harvest, speed. */
+    int upgrades_;
 
 signals:
     /**

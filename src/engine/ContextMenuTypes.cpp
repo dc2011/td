@@ -55,6 +55,9 @@ void PlayerContextMenu::selectMenuItem(int keyPressed) {
              keyPressed != UPGRADE_RECOVERY)) {
         return;
     }
+    
+    int upgrades = player_->getUpgrades();
+
     switch (keyPressed) {
         case UPGRADE_SPEED:     upgradeLevels_ | PLAYER_SPEED;      break;
         case UPGRADE_HARVEST:   upgradeLevels_ | PLAYER_HARVEST;    break;
