@@ -190,35 +190,131 @@ void NPC::createEffect(int effectType)
     Effect* effect;
 
     // Create the effect
-    switch (effectType) {
-    case EFFECT_ARROW:
-        effect = new ArrowEffect(this);
-        break;
-    case EFFECT_TAR:
+    if (effectType >= EFFECT_ARROW && effectType <= EFFECT_ARROW_5) {
+        switch (effectType) {
+            case EFFECT_ARROW:
+                effect = new ArrowEffect(this);
+                break;
+            case EFFECT_ARROW_2:
+                effect = new ArrowEffectL2(this);
+                break;
+            case EFFECT_ARROW_3:
+                effect = new ArrowEffectL3(this);
+                break;
+            case EFFECT_ARROW_4:
+                effect = new ArrowEffectL4(this);
+                break;
+            case EFFECT_ARROW_5:
+                effect = new ArrowEffectL5(this);
+                break;
+        }
+    } else if (effectType >= EFFECT_TAR && effectType <= EFFECT_TAR_5) {
         if (effects_.contains(EFFECT_TAR)) {
             deleteEffect(effects_.value(EFFECT_TAR));
         }
-        effect = new NPCTarEffect(this);
-        break;
-    case EFFECT_FIRE:
+        switch (effectType) {
+            case EFFECT_TAR:
+                effect = new NPCTarEffect(this);
+                break;
+            case EFFECT_TAR_2:
+                effect = new NPCTarEffectL2(this);
+                break;
+            case EFFECT_TAR_3:
+                effect = new NPCTarEffectL3(this);
+                break;
+            case EFFECT_TAR_4:
+                effect = new NPCTarEffectL4(this);
+                break;
+            case EFFECT_TAR_5:
+                effect = new NPCTarEffectL5(this);
+                break;
+        }
+    } else if (effectType >= EFFECT_FIRE && effectType <= EFFECT_FIRE_5) {
         if (effects_.contains(EFFECT_TAR)) {
             deleteEffect(effects_.value(EFFECT_TAR));
-            effect = new NPCBurnEffect(this);
-            effects_.insert(effect->getType(), effect);
         }
-        effect = new FireEffect(this);
-        break;
-    case EFFECT_FLAK:
-        effect = new FlakEffect(this);
-        break;
-    case EFFECT_CANNON:
-        effect = new CannonEffect(this);
-        break;
-    default:
+        switch (effectType) {
+            case EFFECT_FIRE:
+                if (effects_.contains(EFFECT_BURN)) {
+                    deleteEffect(effects_.value(EFFECT_BURN));
+                }
+                effect = new NPCBurnEffect(this);
+                effects_.insert(effect->getType(), effect);
+                effect = new FireEffect(this);
+                break;
+            case EFFECT_FIRE_2:
+                if (effects_.contains(EFFECT_BURN)) {
+                    deleteEffect(effects_.value(EFFECT_BURN));
+                }
+                effect = new NPCBurnEffectL2(this);
+                effects_.insert(effect->getType(), effect);
+                effect = new FireEffectL2(this);
+                break;
+            case EFFECT_FIRE_3:
+                if (effects_.contains(EFFECT_BURN)) {
+                    deleteEffect(effects_.value(EFFECT_BURN));
+                }
+                effect = new NPCBurnEffectL3(this);
+                effects_.insert(effect->getType(), effect);
+                effect = new FireEffectL3(this);
+                break;
+            case EFFECT_FIRE_4:
+                if (effects_.contains(EFFECT_BURN)) {
+                    deleteEffect(effects_.value(EFFECT_BURN));
+                }
+                effect = new NPCBurnEffectL4(this);
+                effects_.insert(effect->getType(), effect);
+                effect = new FireEffectL4(this);
+                break;
+            case EFFECT_FIRE_5:
+                if (effects_.contains(EFFECT_BURN)) {
+                    deleteEffect(effects_.value(EFFECT_BURN));
+                }
+                effect = new NPCBurnEffectL5(this);
+                effects_.insert(effect->getType(), effect);
+                effect = new FireEffectL5(this);
+                break;
+        }
+    } else if (effectType >= EFFECT_FLAK && effectType <= EFFECT_FLAK_5) {
+        switch (effectType) {
+            case EFFECT_FLAK:
+                effect = new FlakEffect(this);
+                break;
+            case EFFECT_FLAK_2:
+                effect = new FlakEffectL2(this);
+                break;
+            case EFFECT_FLAK_3:
+                effect = new FlakEffectL3(this);
+                break;
+            case EFFECT_FLAK_4:
+                effect = new FlakEffectL4(this);
+                break;
+            case EFFECT_FLAK_5:
+                effect = new FlakEffectL5(this);
+                break;
+        }
+    } else if (effectType >= EFFECT_CANNON && effectType <= EFFECT_CANNON_5) {
+        switch (effectType) {
+            case EFFECT_CANNON:
+                effect = new CannonEffect(this);
+                break;
+            case EFFECT_CANNON_2:
+                effect = new CannonEffectL2(this);
+                break;
+            case EFFECT_CANNON_3:
+                effect = new CannonEffectL3(this);
+                break;
+            case EFFECT_CANNON_4:
+                effect = new CannonEffectL4(this);
+                break;
+            case EFFECT_CANNON_5:
+                effect = new CannonEffectL5(this);
+                break;
+        }
+    }  else {
         return;
     }
     effects_.insert(effect->getType(), effect);
-
 }
 
 void NPC::deleteEffect(Effect* effect)
