@@ -511,6 +511,10 @@ void CDriver::UDPReceived(Stream* s) {
             Player* p = (Player*)mgr_->findObject(playerID);
             Collectable* c = (Collectable*)mgr_->findObject(collID);
 
+            if (c == NULL || c == (Collectable*)-1) {
+                break;
+            }
+
             if (p->getID() != human_->getID()) {
                 p->pickupCollectable(p->getPos().x(), p->getPos().y(), c);
             }
