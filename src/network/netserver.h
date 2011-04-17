@@ -95,6 +95,11 @@ signals:
      */
     void disconnected();
 
+    /**
+     * Signal emitted when a socket disconnects.
+     */
+    void socketDisconnect(QTcpSocket* sock);
+
 private slots:
     /**
      * Called when a message is queued to be sent, sends the message using 

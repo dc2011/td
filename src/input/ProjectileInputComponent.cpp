@@ -61,16 +61,24 @@ void ProjectileInputComponent::makeForce(){
 #ifndef SERVER
     switch (parent_->getType()) {
     case PROJ_ARROW:
+    case PROJ_ARROW_2:
+    case PROJ_ARROW_3:
+    case PROJ_ARROW_4:
+    case PROJ_ARROW_5:
         new ArrowEndingGraphicsComponent(parent_->getPos());
         break;
     case PROJ_CANNON:
+    case PROJ_CANNON_2:
+    case PROJ_CANNON_3:
+    case PROJ_CANNON_4:
+    case PROJ_CANNON_5:
         new CannonEndingGraphicsComponent(parent_->getPos());
         break;
-    case PROJ_FIRE:
-        break;
-    case PROJ_FLAK:
-        break;
     case PROJ_TAR:
+    case PROJ_TAR_2:
+    case PROJ_TAR_3:
+    case PROJ_TAR_4:
+    case PROJ_TAR_5:
         new TarEndingGraphicsComponent(parent_->getPos());
         break;
     }
@@ -140,5 +148,34 @@ void ProjectileInputComponent::applyDirection() {
     parent_->setOrientation(degree);
 }
 
+void ProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs) {
+    QSet<Unit*>::iterator it;
+    QPolygonF projBounds;
+    QPolygonF npcBounds;
+
+    for (it = npcs.begin(); it != npcs.end(); ++it) {
+        if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
+            // Check to see if this projectile can damage this unit
+            if ((parent_->getType() == PROJ_FLAK)
+                    && (((NPC*)*it)->getType() != NPC_FLY))
+            {
+                continue;
+            }
+            if ((((NPC*)*it)->getType() == NPC_FLY)
+                && ((parent_->getType() == PROJ_CANNON)
+                    || (parent_->getType() == PROJ_FIRE)
+                    || (parent_->getType() == PROJ_TAR)))
+            {
+                continue;
+            }
+
+            projBounds = parent_->getBounds();
+            npcBounds = (*it)->getBounds();
+            if(projBounds.intersected(npcBounds).count() != 0){
+                ((NPC*)(*it))->createEffect(parent_->getEffectType());
+            }
+        }
+    }
+}
 
 } /* end namespace td */

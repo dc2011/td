@@ -27,102 +27,242 @@ Projectile::Projectile(QObject* parent) : Unit(parent) {
 }
 
 Projectile::~Projectile() {
-#ifndef SERVER
-    switch (type_) {
-    case PROJ_ARROW:
-    case PROJ_ARROW_2:
-    case PROJ_ARROW_3:
-        new ArrowEndingGraphicsComponent(pos_);
-        break;
-    case PROJ_CANNON:
-    case PROJ_CANNON_2:
-    case PROJ_CANNON_3:
-        new CannonEndingGraphicsComponent(pos_);
-        break;
-    case PROJ_FIRE:
-    case PROJ_FIRE_2:
-    case PROJ_FIRE_3:
-        break;
-    case PROJ_FLAK:
-    case PROJ_FLAK_2:
-    case PROJ_FLAK_3:
-        break;
-    case PROJ_TAR:
-    case PROJ_TAR_2:
-    case PROJ_TAR_3:
-        break;
-    }
-#endif
     delete start_;
     delete end_;
 }
 
 void Projectile::initComponents() {
-    switch(type_) {
+    if (type_ >= PROJ_ARROW && type_ <= PROJ_ARROW_5) {
+        PLAY_SFX(this, SfxManager::projectileFireArrow);
+        this->setWidth(ARROW_WIDTH);
+        this->setHeight(ARROW_HEIGHT);
+        switch (type_) {
         case PROJ_ARROW:
-        case PROJ_ARROW_2:
-        case PROJ_ARROW_3:
-            PLAY_SFX(this, SfxManager::projectileFireArrow);
-            this->setHeight(10);
-            this->setWidth(48);
-            setInputComponent(new ArrowProjectileInputComponent());
-            setPhysicsComponent(new ArrowProjectilePhysicsComponent());
+            effectType_ = EFFECT_ARROW;
 #ifndef SERVER
             setGraphicsComponent(new ArrowProjectileGraphicsComponent());
 #endif
             break;
-
+        case PROJ_ARROW_2:
+            effectType_ = EFFECT_ARROW_2;
+#ifndef SERVER
+            setGraphicsComponent(new ArrowProjectileGraphicsComponent());
+#endif
+            break;
+        case PROJ_ARROW_3:
+            effectType_ = EFFECT_ARROW_3;
+#ifndef SERVER
+            setGraphicsComponent(new ArrowProjectileL2GraphicsComponent());
+#endif
+            break;
+        case PROJ_ARROW_4:
+            effectType_ = EFFECT_ARROW_4;
+#ifndef SERVER
+            setGraphicsComponent(new ArrowProjectileL2GraphicsComponent());
+#endif
+            break;
+        case PROJ_ARROW_5:
+            effectType_ = EFFECT_ARROW_5;
+#ifndef SERVER
+            setGraphicsComponent(new ArrowProjectileL3GraphicsComponent());
+#endif
+            break;
+        }
+        setInputComponent(new ArrowProjectileInputComponent());
+        setPhysicsComponent(new ArrowProjectilePhysicsComponent());
+    }
+    if (type_ >= PROJ_CANNON && type_ <= PROJ_CANNON_5) {
+        switch(type_) {
         case PROJ_CANNON:
-        case PROJ_CANNON_2:
-        case PROJ_CANNON_3:
-            PLAY_SFX(this, SfxManager::projectileFireCannon);
-            this->setWidth(100);
-            this->setHeight(100);
-            setInputComponent(new CannonProjectileInputComponent());
-            setPhysicsComponent(new CannonProjectilePhysicsComponent());
+            effectType_ = EFFECT_CANNON;
+            this->setWidth(CANNON_WIDTH);
+            this->setHeight(CANNON_HEIGHT);
 #ifndef SERVER
             setGraphicsComponent(new CannonProjectileGraphicsComponent());
 #endif
             break;
-
-        case PROJ_FIRE:
-        case PROJ_FIRE_2:
-        case PROJ_FIRE_3:
-            PLAY_SFX(this, SfxManager::projectileFireFlame);
-            this->setWidth(110);
-            this->setHeight(36);
-            setInputComponent(new FireProjectileInputComponent());
-            setPhysicsComponent(new FireProjectilePhysicsComponent());
+        case PROJ_CANNON_2:
+            effectType_ = EFFECT_CANNON_2;
+            this->setWidth(CANNON_WIDTH_2);
+            this->setHeight(CANNON_HEIGHT_2);
 #ifndef SERVER
-            setGraphicsComponent(new FireProjectileGraphicsComponent());
+            setGraphicsComponent(new CannonProjectileGraphicsComponent());
 #endif
             break;
-
+        case PROJ_CANNON_3:
+            effectType_ = EFFECT_CANNON_3;
+            this->setWidth(CANNON_WIDTH_3);
+            this->setHeight(CANNON_HEIGHT_3);
+#ifndef SERVER
+            setGraphicsComponent(new CannonProjectileL2GraphicsComponent());
+#endif
+            break;
+        case PROJ_CANNON_4:
+            effectType_ = EFFECT_CANNON_4;
+            this->setWidth(CANNON_WIDTH_4);
+            this->setHeight(CANNON_HEIGHT_4);
+#ifndef SERVER
+            setGraphicsComponent(new CannonProjectileL2GraphicsComponent());
+#endif
+            break;
+        case PROJ_CANNON_5:
+            effectType_ = EFFECT_CANNON_5;
+            this->setWidth(CANNON_WIDTH_5);
+            this->setHeight(CANNON_HEIGHT_5);
+#ifndef SERVER
+            setGraphicsComponent(new CannonProjectileL3GraphicsComponent());
+#endif
+            break;
+        }
+        setInputComponent(new CannonProjectileInputComponent());
+        setPhysicsComponent(new CannonProjectilePhysicsComponent());
+        PLAY_SFX(this, SfxManager::projectileFireCannon);
+    }
+    if (type_ >= PROJ_FIRE && type_ <= PROJ_FIRE_5) {
+        switch(type_) {
+        case PROJ_FIRE:
+            effectType_ = EFFECT_FIRE;
+            this->setWidth(FLAME_WIDTH);
+            this->setHeight(FLAME_HEIGHT);
+            this->setScale(1.0);
+#ifndef SERVER
+            setGraphicsComponent(new FireProjectileL1GraphicsComponent());
+#endif
+            break;
+        case PROJ_FIRE_2:
+            effectType_ = EFFECT_FIRE_2;
+            this->setWidth(FLAME_WIDTH);
+            this->setHeight(FLAME_WIDTH);
+            this->setScale(1.0);
+#ifndef SERVER
+            setGraphicsComponent(new FireProjectileL1GraphicsComponent());
+#endif
+            break;
+        case PROJ_FIRE_3:
+            effectType_ = EFFECT_FIRE_3;
+            this->setWidth(FLAME_WIDTH * FLAME_2_SCALE);
+            this->setHeight(FLAME_HEIGHT * FLAME_2_SCALE);
+            this->setScale(FLAME_2_SCALE);
+#ifndef SERVER
+            setGraphicsComponent(new FireProjectileL2GraphicsComponent());
+#endif
+            break;
+        case PROJ_FIRE_4:
+            effectType_ = EFFECT_FIRE_4;
+            this->setWidth(FLAME_WIDTH * FLAME_2_SCALE);
+            this->setHeight(FLAME_HEIGHT * FLAME_2_SCALE);
+            this->setScale(FLAME_2_SCALE);
+#ifndef SERVER
+            setGraphicsComponent(new FireProjectileL2GraphicsComponent());
+#endif
+            break;
+        case PROJ_FIRE_5:
+            effectType_ = EFFECT_FIRE_5;
+            this->setWidth(FLAME_3_WIDTH * FLAME_3_SCALE);
+            this->setHeight(FLAME_3_HEIGHT * FLAME_3_SCALE);
+            this->setScale(FLAME_3_SCALE);
+#ifndef SERVER
+            setGraphicsComponent(new FireProjectileL3GraphicsComponent());
+#endif
+            break;
+        }
+        setInputComponent(new FireProjectileInputComponent());
+        setPhysicsComponent(new FireProjectilePhysicsComponent());
+        PLAY_SFX(this, SfxManager::projectileFireFlame);
+    }
+    if (type_ >= PROJ_TAR && type_ <= PROJ_TAR_5) {
+        switch(type_) {
         case PROJ_TAR:
-        case PROJ_TAR_2:
-        case PROJ_TAR_3:
-            PLAY_SFX(this, SfxManager::projectileFireTar);
-            this->setWidth(100);
-            this->setHeight(100);
-            setInputComponent(new TarProjectileInputComponent());
-            setPhysicsComponent(new TarProjectilePhysicsComponent());
+            effectType_ = EFFECT_TAR;
+            this->setWidth(TAR_WIDTH);
+            this->setHeight(TAR_HEIGHT);
 #ifndef SERVER
             setGraphicsComponent(new TarProjectileGraphicsComponent());
 #endif
             break;
-
+        case PROJ_TAR_2:
+            effectType_ = EFFECT_TAR_2;
+            this->setWidth(TAR_WIDTH_2);
+            this->setHeight(TAR_HEIGHT_2);
+#ifndef SERVER
+            setGraphicsComponent(new TarProjectileGraphicsComponent());
+#endif
+            break;
+        case PROJ_TAR_3:
+            effectType_ = EFFECT_TAR_3;
+            this->setWidth(TAR_WIDTH_3);
+            this->setHeight(TAR_HEIGHT_3);
+#ifndef SERVER
+            setGraphicsComponent(new TarProjectileL2GraphicsComponent());
+#endif
+            break;
+        case PROJ_TAR_4:
+            effectType_ = EFFECT_TAR_4;
+            this->setWidth(TAR_WIDTH_4);
+            this->setHeight(TAR_HEIGHT_4);
+#ifndef SERVER
+            setGraphicsComponent(new TarProjectileL2GraphicsComponent());
+#endif
+            break;
+        case PROJ_TAR_5:
+            effectType_ = EFFECT_TAR_5;
+            this->setWidth(TAR_WIDTH_5);
+            this->setHeight(TAR_HEIGHT_5);
+#ifndef SERVER
+            setGraphicsComponent(new TarProjectileL3GraphicsComponent());
+#endif
+            break;
+        }
+        setInputComponent(new TarProjectileInputComponent());
+        setPhysicsComponent(new TarProjectilePhysicsComponent());
+        PLAY_SFX(this, SfxManager::projectileFireTar);
+    }
+    if (type_ >= PROJ_FLAK && type_ <= PROJ_FLAK_5) {
+        switch(type_) {
         case PROJ_FLAK:
-        case PROJ_FLAK_2:
-        case PROJ_FLAK_3:
-            PLAY_SFX(this, SfxManager::projectileFireFlak);
-            this->setWidth(40);
-            this->setHeight(40);
-            setInputComponent(new FlakProjectileInputComponent());
-            setPhysicsComponent(new FlakProjectilePhysicsComponent());
+            effectType_ = EFFECT_FLAK;
+            this->setWidth(FLAK_WIDTH);
+            this->setHeight(FLAK_HEIGHT);
 #ifndef SERVER
             setGraphicsComponent(new FlakProjectileGraphicsComponent());
 #endif
             break;
+        case PROJ_FLAK_2:
+            effectType_ = EFFECT_FLAK_2;
+            this->setWidth(FLAK_WIDTH_2);
+            this->setHeight(FLAK_HEIGHT_2);
+#ifndef SERVER
+            setGraphicsComponent(new FlakProjectileGraphicsComponent());
+#endif
+            break;
+        case PROJ_FLAK_3:
+            effectType_ = EFFECT_FLAK_3;
+            this->setWidth(FLAK_WIDTH_3);
+            this->setHeight(FLAK_HEIGHT_3);
+#ifndef SERVER
+            setGraphicsComponent(new FlakProjectileL2GraphicsComponent());
+#endif
+            break;
+        case PROJ_FLAK_4:
+            effectType_ = EFFECT_FLAK_4;
+            this->setWidth(FLAK_WIDTH_4);
+            this->setHeight(FLAK_HEIGHT_4);
+#ifndef SERVER
+            setGraphicsComponent(new FlakProjectileL2GraphicsComponent());
+#endif
+            break;
+        case PROJ_FLAK_5:
+            effectType_ = EFFECT_FLAK_5;
+            this->setWidth(FLAK_WIDTH_5);
+            this->setHeight(FLAK_HEIGHT_5);
+#ifndef SERVER
+            setGraphicsComponent(new FlakProjectileL3GraphicsComponent());
+#endif
+            break;
+        }
+        PLAY_SFX(this, SfxManager::projectileFireFlak);
+        setInputComponent(new FlakProjectileInputComponent());
+        setPhysicsComponent(new FlakProjectilePhysicsComponent());
     }
 
     getInputComponent()->setParent(this);

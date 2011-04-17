@@ -12,8 +12,8 @@ namespace td {
 
 LobbyWindow::LobbyWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::LobbyWindow),
-    gameNum_(0)
+    gameNum_(0),
+    ui(new Ui::LobbyWindow)
 
 {
     this->setWindowFlags(Qt::FramelessWindowHint);

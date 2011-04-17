@@ -75,10 +75,10 @@ namespace network {
         kTowerChoice    =   0x0A,
 
         /**
-         * Drops a resource from player. Used to check if adding to a Tower.
-         *
+         * Indicates the dropping of a Collectable.
+         * See Also: @ref dropcollect
          */
-        kDropResource   =   0x0B,
+        kDropCollect    =   0x0B,
 
         /**
          * Indicates damage to the base.
@@ -86,8 +86,11 @@ namespace network {
          */
         kBaseHealth     =   0x0C,
 
-        /** Indicates creation of a collectable. */
-        kCollectable    =   0x0D,
+        /**
+         * Indicates the picking up of a Collectable.
+         * See Also: @ref pickcollect
+         */
+        kPickCollect    =   0x0D,
         
         /** Indicates an update: connected user list needs to be sent */
         kUpdateUserList =   0x0E,
@@ -95,14 +98,12 @@ namespace network {
         /** Indicates an update: games available needs to be sent */
         kUpdateListOfGames = 0x0F,
 
-
         /**Indicates a chat message*/
         kChatMessage = 0x10,
         
         /**From client to Server. Indicates joining or creating a game if followed by 0 */
         kJoinGame = 0x11,
 	
-
         /** Indicates sale/deletion of Tower. */
         kSellTower      =   0x12,
 
@@ -121,11 +122,14 @@ namespace network {
          */
         kConsoleChat    =   0x15,
 		
-	/**From server to client. Indicates the id of the new game */
-	kGameId = 0x16,
-	
-	/**Sent from client to server when they are leaving a queue */
-	kLobbyleaveGame = 0x17,
+        /**From server to client. Indicates the id of the new game */
+        kGameId = 0x16,
+
+        /**Sent from client to server when they are leaving a queue */
+        kLobbyleaveGame = 0x17,
+
+        /** Indicates a player upgrade. */
+        kUpgradePlayer  =   0x20,
 
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
@@ -312,6 +316,48 @@ namespace network {
  *  int length
  *    // The chat string data
  *  char[length] message
+ * @endcode
+ *
+ * @section dropcollect Drop Collectable Message
+ * This message indicates the dropping of a resource.
+ * On the client it is formatted as follows:
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kDropCollect
+ *    // The ID of the player sending the message
+ *  int playerID
+ *    // The type of the collectable
+ *  int type
+ * @endcode
+ * When sent from the server, it contains much more information:
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kDropCollect
+ *    // The ID of the player sending the message
+ *  int playerID
+ *    // The type of the collectable
+ *  int type
+ *    // The X component of the collectable's vector
+ *  float vectorX
+ *    // The Y component of the collectable's vector
+ *  float vectorY
+ *    // The player's X position
+ *  float playerX
+ *    // The player's Y position
+ *  float playerY
+ *    // Whether the collectable is being added to a tower
+ *  byte addingToTower
+ * @endcode
+ *
+ * @section pickcollect Pick-up Collectable Message
+ * This message is sent when a player picks up a collectable.
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kPickCollect
+ *    // The ID of the player sending the message
+ *  int playerID
+ *    // The ID of the collectable
+ *  int collectableID
  * @endcode
  *
  * @section playsfx Play SFX Message

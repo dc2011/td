@@ -21,12 +21,28 @@ public:
     virtual ~SlowNPCPhysicsComponent() {}
 };
 
+class ArmNPCPhysicsComponent : public NPCPhysicsComponent {
+    Q_OBJECT
+
+public:
+    ArmNPCPhysicsComponent();
+    virtual ~ArmNPCPhysicsComponent() {}
+};
+
 class FastNPCPhysicsComponent : public NPCPhysicsComponent {
     Q_OBJECT
 
 public:
     FastNPCPhysicsComponent();
     virtual ~FastNPCPhysicsComponent() {}
+};
+
+class SwarmNPCPhysicsComponent : public NPCPhysicsComponent {
+    Q_OBJECT
+
+public:
+    SwarmNPCPhysicsComponent();
+    virtual ~SwarmNPCPhysicsComponent() {}
 };
 
 class FlyNPCPhysicsComponent : public NPCPhysicsComponent {

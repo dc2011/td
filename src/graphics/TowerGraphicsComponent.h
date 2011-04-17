@@ -19,6 +19,8 @@ struct DrawParamsTower {
     int degrees;
     /** normal is 1 .5 is half 2 is double */
     float scale;
+    /** true if animate() should be called to set the current image. */
+    bool animate;
     /** when true it displays the range of the tower */
     bool displayRadius;
 };
@@ -32,7 +34,7 @@ public:
      * Instantiates a Tower graphics component
      * @author Warren Voelkl
      */
-    TowerGraphicsComponent(): GraphicsComponent() {}
+    TowerGraphicsComponent():GraphicsComponent(){}
     virtual ~TowerGraphicsComponent();
 
     /**
@@ -72,8 +74,8 @@ private:
      * range circle object.
      */
     QGraphicsEllipseItem * rangeCircle_;
-
     bool visibleRange_;
+
 protected:
     int radius_;
 public slots:

@@ -10,12 +10,11 @@ bool AudioManager::captureStop_ = false;
 QMap<QString,QByteArray> AudioManager::sfxCache_;
 QQueue<Stream *> AudioManager::netQueue_;
 float AudioManager::gainScale[] = {0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 
-				   0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
+                                   0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0};
 
 AudioManager::AudioManager()
 {
     AudioManager::startup();
-    //Should be User Defined as MAX values
     sfxGain_ = 9;
     musicGain_ = 5;
     notiGain_ = 12;
@@ -66,7 +65,7 @@ void AudioManager::initSpeex() {
 void AudioManager::startCapture()
 {
     QFuture<void> future =
-	QtConcurrent::run(this, &AudioManager::captureMic);
+        QtConcurrent::run(this, &AudioManager::captureMic);
 }
 
 void AudioManager::playSfx(QStringList files, SoundType type) {
@@ -74,8 +73,8 @@ void AudioManager::playSfx(QStringList files, SoundType type) {
     int rdNum;
     
     if(files.size() < 1) {
-	qCritical("AudioManager::playSfx(): Empty Vector");
-	return;
+        qCritical("AudioManager::playSfx(): Empty Vector");
+        return;
     }
     
     rdNum = rand() % files.size();
@@ -84,32 +83,18 @@ void AudioManager::playSfx(QStringList files, SoundType type) {
 
 void AudioManager::playSfx(QString filename, SoundType type)
 {
-    int gain;
 
-    if (type == sfx) {
-        gain = sfxGain_ - (playing_ / 2);
-
-        if (gain < 0) {
-            gain = 0;
-        }
-    } else if (type == ntf) {
-        gain = notiGain_;
-    } else {
-        return;
-    }
-    
     filename = SFXPATH + filename + SFXFILEEXTENSION;
     
     if(sfxCache_.contains(filename)) {
-	//TODO make function to play cached buffers
-	QFuture<void> future =
-	    QtConcurrent::run(this, &AudioManager::playCached,
-			      filename, gainScale[gain]);
+        QFuture<void> future =
+            QtConcurrent::run(this, &AudioManager::playCached,
+                              filename, type);
     } else {
  
-	QFuture<void> future =
-	    QtConcurrent::run(this, &AudioManager::streamFile,
-			      filename, gainScale[gain], true);
+        QFuture<void> future =
+            QtConcurrent::run(this, &AudioManager::streamFile,
+                              filename, type, true);
     }
 
     return;
@@ -136,7 +121,7 @@ void AudioManager::captureMic()
                     1, &samplesAvailable);
 
             while(capturePause_ == true && captureStop_ == false 
-		  && !checkError()) {
+                  && !checkError()) {
                 alSleep(0.1f);
             }
 
@@ -153,7 +138,7 @@ void AudioManager::captureMic()
                 int numframes = total / speex_.frameSize;
 
                 encode(buf, numframes, &s);
-		
+                
                 NetworkClient::instance()->send(
                         network::kVoiceMessage, s.data());
             }
@@ -207,7 +192,7 @@ bool AudioManager::checkError()
     } else if (error != AL_NO_ERROR) {
         qCritical("AudioManager::checkError(): %d:%s", error, err);
         alExit();
-	inited_=false;
+        inited_=false;
         return true;
     }
 
@@ -217,16 +202,10 @@ bool AudioManager::checkError()
 void AudioManager::playMusicQueue(QQueue<QString> filenameQueue)
 {
     QString filename;
-    int gain;
-    gain = musicGain_ - (playing_ / 8);
-
-    if (gain < 0) {
-        gain = 0;
-    }
 
     while (!filenameQueue.empty() && inited_) {
         filename = filenameQueue.dequeue();
-        AudioManager::streamFile(filename, gainScale[gain]);
+        AudioManager::streamFile(filename, msk);
         /*Sleep for 0.3 sec so playback doesn't overlap*/
         alSleep(0.3f);
 
@@ -257,43 +236,45 @@ void AudioManager::streamVoice()
     ALenum format = AL_FORMAT_MONO16;
     ALuint freq = 8000;
 
+
     /* Created the source and Buffers */
     alGenBuffers(QUEUESIZE, buffer);
     alGenSources(1, &source);
 
     do {
 
-	alSourcef(source, AL_GAIN, voiceGain_);
-	clearProcessedBuffers(&source, buffersAvailable, &playing, &play);
+        alSourcef(source, AL_GAIN, gainScale[voiceGain_]);
+        clearProcessedBuffers(&source, buffersAvailable, &playing, &play);
+
 
         if (buffersAvailable > 0) {
             size = 0;
                       
-	    while(getQueueSize() < 1 && !checkError()) {
-		alSleep(0.1f);
-	    }
+            while(getQueueSize() < 1 && !checkError()) {
+                alSleep(0.1f);
+            }
 
-	    if(checkError()) {
-		break;
-	    }
+            if(checkError()) {
+                break;
+            }
 
-	    temp = getNextInQueue();
-	    frames = temp->readInt();
-	    buffersize = frames*speex_.frameSize;
-	    buf = new short[buffersize];
-	    decode(temp, frames, buf); 
-	    result = buffersize*sizeof(short);
+            temp = getNextInQueue();
+            frames = temp->readInt();
+            buffersize = frames*speex_.frameSize;
+            buf = new short[buffersize];
+            decode(temp, frames, buf); 
+            result = buffersize*sizeof(short);
 
-	    if (result == 0) {
-		break;
-	    }
+            if (result == 0) {
+                break;
+            }
 
-	    size += result;
+            size += result;
 
-	    if (result < 0) {
-		qCritical() << "AudioManager::streamFile(): Read Failed ";
-		break;
-	    }
+            if (result < 0) {
+                qCritical() << "AudioManager::streamFile(): Read Failed ";
+                break;
+            }
 
             alBufferData(buffer[queue], format, buf, size, freq);
             alSourceQueueBuffers(source, 1, &buffer[queue]);
@@ -301,13 +282,13 @@ void AudioManager::streamVoice()
             buffersAvailable--;
 
             /**Check the amount of buffers queued to see if
-	     * we should be playing the track right now.
-	     * If play is false it means it's playing already
-	     */
+             * we should be playing the track right now.
+             * If play is false it means it's playing already
+             */
             alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
 
             if (queued > 2 && play) {
-		alSourcePlay(source);
+                alSourcePlay(source);
                 play = AL_FALSE;
             }
         } else {
@@ -321,7 +302,7 @@ void AudioManager::streamVoice()
 
 }
 
-void AudioManager::playCached(QString filename, float gain)
+void AudioManager::playCached(QString filename, SoundType sType)
 {
     ALuint buffer;
     ALuint source;
@@ -329,10 +310,21 @@ void AudioManager::playCached(QString filename, float gain)
     ALuint freq;
     QByteArray tmp;
     ALint playing;
+    int gain;
 
     alGenBuffers(1,&buffer);
     alGenSources(1,&source);
-    alSourcef(source, AL_GAIN, gain);
+
+    if(sType == sfx) {
+        gain = sfxGain_ - (playing_ / 2);
+        if (gain < 0) { gain = 0;}
+    } else if(sType == ntf) {
+        gain = notiGain_;
+    } else {
+        gain = musicGain_ - (playing_ / 8);
+        if (gain < 0) { gain = 0;}
+    }
+
     SAFE_OPERATION(playing_++);
     mutex_.lock();
     tmp = sfxCache_[filename];
@@ -345,6 +337,7 @@ void AudioManager::playCached(QString filename, float gain)
     alSourcePlay(source);
 
     do {
+        alSourcef(source, AL_GAIN, gainScale[gain]);
         alGetSourcei(source, AL_SOURCE_STATE, &playing);
         alSleep(0.1f);
     } while(playing != AL_STOPPED && !checkError());
@@ -355,7 +348,7 @@ void AudioManager::playCached(QString filename, float gain)
     SAFE_OPERATION(playing_--);
 }
 
-void AudioManager::streamFile(QString filename, float gain, bool cacheThis)
+void AudioManager::streamFile(QString filename, SoundType sType, bool cacheThis)
 {
     FILE* file;
     char array[BUFFERSIZE];
@@ -373,12 +366,11 @@ void AudioManager::streamFile(QString filename, float gain, bool cacheThis)
     ALsizei freq = 44100;
     OggVorbis_File oggFile;
     char bitmask;
+    int gain;
 
     /* Created the source and Buffers */
     alGenBuffers(QUEUESIZE, buffer);
     alGenSources(1, &source);
-    /*set the Gain for Music or Sfx*/
-    alSourcef(source, AL_GAIN, gain);
     SAFE_OPERATION(playing_++);
 
     if ((file = fopen(filename.toAscii().constData(), "rb")) == NULL) {
@@ -393,6 +385,18 @@ void AudioManager::streamFile(QString filename, float gain, bool cacheThis)
 
         clearProcessedBuffers(&source, buffersAvailable, &playing, &play);
 
+        if(sType == sfx) {
+            gain = sfxGain_ - (playing_ / 2);
+            if (gain < 0) { gain = 0;}
+        } else if(sType == ntf) {
+            gain = notiGain_;
+        } else {
+            gain = musicGain_ - (playing_ / 8);
+            if (gain < 0) { gain = 0;}
+        }
+
+        alSourcef(source, AL_GAIN, gainScale[gain]);
+        
         if (buffersAvailable > 0) {
             size = 0;
             /* Read file to we reached a BUFFERSIZE chunk */
@@ -494,7 +498,7 @@ void AudioManager::clearProcessedBuffers
 }
 
 void AudioManager::openOgg(FILE *file, OggVorbis_File *oggFile, 
-			   ALenum *format, ALsizei *freq)
+                           ALenum *format, ALsizei *freq)
 {
     vorbis_info* vorbisInfo;
     if (ov_open(file, oggFile, NULL, 0) != 0) {

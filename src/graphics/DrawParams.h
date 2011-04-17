@@ -23,6 +23,8 @@ struct DrawParams {
     int degrees;
     /** normal is 1 .5 is half 2 is double */
     float scale;
+    /** true if animate() should be called to set the current image. */
+    bool animate;
 };
 
 #endif

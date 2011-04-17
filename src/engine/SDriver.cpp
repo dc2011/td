@@ -31,6 +31,9 @@ SDriver::SDriver() : Driver() {
 
     connect(net_, SIGNAL(disconnected()),
             this, SIGNAL(disconnecting()));
+
+    connect(net_, SIGNAL(socketDisconnect(QTcpSocket*)),
+            this, SLOT(playerQuit(QTcpSocket*)));
 }
 SDriver::~SDriver() {
     if(!waves_.empty()) {
@@ -48,7 +51,7 @@ unsigned int SDriver::addPlayer(QTcpSocket* sock, QString nickname) {
 
     Player* p = (Player*)mgr_->createObject(Player::clsIdx());
     p->setNickname(nickname);
-    players_.append(p);
+    players_.insert(sock, p);
     mutex_.unlock();
 
     return p->getID();
@@ -97,7 +100,7 @@ void SDriver::startGame(bool multicast) {
     Stream s;
     s.writeByte(players_.size());
 
-    foreach (Player* user, players_) {
+    foreach (Player* user, players_.values()) {
         user->networkWrite(&s);
         user->resetDirty();
     }
@@ -261,13 +264,28 @@ void SDriver::requestProjectile(int projType, QPointF source,
 
 void SDriver::requestCollectable(int collType, QPointF source, QVector2D vel) {
     Collectable* c = Driver::createCollectable(collType, source, vel);
+    int id = 0;
+
+    GameObject* go = (GameObject*)QObject::sender();
+    if (go != NULL) {
+        id = go->getID();
+    }
 
     Stream s;
-    c->networkWrite(&s);
-    net_->send(network::kCollectable, s.data());
+    s.writeInt(id);
+    s.writeInt(collType);
+    s.writeFloat(vel.x());
+    s.writeFloat(vel.y());
+    s.writeFloat(source.x());
+    s.writeFloat(source.y());
+    s.writeByte(false);
+
+    net_->send(network::kDropCollect, s.data());
 }
 
-void SDriver::towerDrop(Stream* out, BuildingTower* t, Player* player) {
+void SDriver::towerDrop(BuildingTower* t, Player* player, bool drop) {
+    Stream s;
+
     if (addToTower(t, player)) {
         if (t->isDone()) {
             Tower* tower = Driver::createTower(t->getType(),
@@ -277,13 +295,27 @@ void SDriver::towerDrop(Stream* out, BuildingTower* t, Player* player) {
         } else {
             updates_.insert(t);
         }
-        out->writeInt(player->getID());
-        out->writeInt(true);
-    } else {
-        out->writeInt(player->getID());
-        out->writeInt(false);
+        s.writeInt(player->getID());
+        s.writeInt(player->getResource());
+        s.writeFloat(0);
+        s.writeFloat(0);
+        s.writeFloat(player->getPos().x());
+        s.writeFloat(player->getPos().y());
+        s.writeByte(true);
+
+        net_->send(network::kDropCollect, s.data());
+    } else if (drop) {
+        s.writeInt(player->getID());
+        s.writeInt(player->getResource());
+        QVector2D vel = this->getRandomVector();
+        s.writeFloat(vel.x());
+        s.writeFloat(vel.y());
+        s.writeFloat(player->getPos().x());
+        s.writeFloat(player->getPos().y());
+        s.writeByte(false);
+
+        net_->send(network::kDropCollect, s.data());
     }
-    net_->send(network::kDropResource, out->data());
 }
 
 void SDriver::onMsgReceive(Stream* s) {
@@ -293,6 +325,17 @@ void SDriver::onMsgReceive(Stream* s) {
     Stream* out = new Stream();
 
     switch(message) {
+        case network::kUpgradePlayer:
+        {
+            unsigned int playerID = s->readInt();
+            int upgradeType = s->readInt();
+
+            if (Driver::upgradePlayer(playerID, upgradeType)) {
+                out->writeInt(playerID);
+                out->writeInt(upgradeType);
+                net_->send(network::kUpgradePlayer, out->data());
+            }
+        }
         case network::kSellTower:
         {
             float x = s->readFloat();
@@ -339,30 +382,62 @@ void SDriver::onMsgReceive(Stream* s) {
 
             updates_.insert(t);
 
-            towerDrop(out, t, player);
+            towerDrop(t, player, false);
 
             break;
         }
-        case network::kDropResource:
+        case network::kDropCollect:
         {
             int playerID = s->readInt();
-            float x = s->readFloat();
-            float y = s->readFloat();
+            int type = s->readInt();
 
             Player* player = (Player*)mgr_->findObject(playerID);
+            Tile* currentTile = gameMap_->getTile(player->getPos().x(),
+                                                  player->getPos().y());
 
-            Tile* currentTile = gameMap_->getTile(x, y);
             if (currentTile->getActionType() != TILE_BUILDING) {
-                out->writeInt(player->getID());
-                out->writeInt(false);
-	            net_->send(network::kDropResource, out->data());
-                break;
+                out->writeInt(playerID);
+                out->writeInt(type);
+
+                QVector2D vel = this->getRandomVector();
+                out->writeFloat(vel.x());
+                out->writeFloat(vel.y());
+
+                out->writeFloat(player->getPos().x());
+                out->writeFloat(player->getPos().y());
+
+                out->writeByte(false);
+
+                net_->send(network::kDropCollect, out->data());
+            } else {
+                BuildingTower* t = (BuildingTower*)currentTile->getExtension();
+                towerDrop(t, player, true);
             }
-            
-            BuildingTower* t = (BuildingTower*)currentTile->getExtension();
 
-            towerDrop(out, t, player);
+            break;
+        }
+        case network::kPickCollect:
+        {
+            unsigned int playerID = s->readInt();
+            unsigned int collID = s->readInt();
 
+            Collectable* c = (Collectable*)mgr_->findObject(collID);
+            Player* player = (Player*)mgr_->findObject(playerID);
+            Tile* currentTile = gameMap_->getTile(player->getPos().x(),
+                                                  player->getPos().y());
+
+            if (c != NULL && c != (Collectable*)-1) {
+                if (c->getType() == RESOURCE_GEM) {
+                    gemCount_++;
+                }
+
+                currentTile->removeUnit(c);
+                this->destroyObject(c);
+
+                out->writeInt(playerID);
+                out->writeInt(collID);
+                net_->send(network::kPickCollect, out->data());
+            }
             break;
         }
         case network::kConsoleChat:
@@ -385,6 +460,14 @@ void SDriver::onMsgReceive(Stream* s) {
     }
 
     delete out;
+}
+
+void SDriver::playerQuit(QTcpSocket* sock) {
+    Player* p = players_.value(sock);
+
+    destroyObject(p);
+
+    players_.remove(sock);
 }
 
 } /* end namespace td */

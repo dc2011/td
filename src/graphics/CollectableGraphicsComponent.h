@@ -16,7 +16,8 @@ public:
      * Instantiates a collectable graphics component
      * @author Warren Voelkl
      */
-    CollectableGraphicsComponent(): GraphicsComponent(), flickerShow_(false) {}
+    CollectableGraphicsComponent(): GraphicsComponent(), flickerShow_(false),
+    oldstate_(false), oldPos_(0,0){}
     virtual ~CollectableGraphicsComponent();
 
     /**
@@ -43,6 +44,9 @@ public:
 private:
     /** Determines whether to show the collectable while it's flickering. */
     bool flickerShow_;
+    /** used to determine if another draw should be called on this object */
+    bool oldstate_;
+    QPointF oldPos_;
 };
 
 } /* end namespace td */

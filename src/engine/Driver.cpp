@@ -14,7 +14,8 @@
 
 namespace td {
 
-Driver::Driver() : QObject(), gameMap_(NULL), gameTimer_(NULL), baseHealth_(100)
+Driver::Driver() : QObject(), gameMap_(NULL), gameTimer_(NULL),
+        baseHealth_(100), gemCount_(0)
 {
     mgr_ = new ResManager(this);
 }
@@ -80,8 +81,6 @@ BuildingTower* Driver::createBuildingTower(int type, QPointF pos) {
 
 #ifndef SERVER
     connect(gameTimer_, SIGNAL(timeout()), tower, SLOT(update()));
-    //connect(CDriver::instance()->getMainWindow(), SIGNAL(signalAltHeld(bool)),
-    //        tower->getGraphicsComponent(), SLOT(showIcons(bool)));
 #endif
 
     return tower;
@@ -148,9 +147,7 @@ void Driver::requestProjectile(int projType, QPointF source,
             enemy);
 }
 
-void Driver::requestCollectable(int projType, QPointF source, 
-        QVector2D velocity) {
-    Driver::createCollectable(projType, source, velocity);
+void Driver::requestCollectable(int, QPointF, QVector2D) {
 }
 
 Projectile* Driver::createProjectile(int projType, QPointF source,
@@ -307,6 +304,38 @@ bool Driver::upgradeTower(QPointF pos) {
     case TOWER_TAR_2:
         t->setType(TOWER_TAR_3);
         t->setComponents();
+        break;
+    }
+    return true;
+}
+
+bool Driver::upgradePlayer(int id, int type) {
+    //TODO: gem validation
+#ifdef SERVER
+    return true;
+#endif
+
+    Player* player = (Player*)mgr_->findObject(id);
+
+    switch (type) {
+    case UPGRADE_SPEED:
+        if (player->hasEffect(EFFECT_SLOW)) {
+            player->deleteEffect(EFFECT_SLOW);
+            ((PlayerPhysicsComponent*)player->getPhysicsComponent())
+                ->setMaxVelocity(PLAYER_UPGRADE_V);
+            player->createEffect(EFFECT_SLOW);
+        } else if (player->hasEffect(EFFECT_FAST)) {
+            player->deleteEffect(EFFECT_FAST);
+            ((PlayerPhysicsComponent*)player->getPhysicsComponent())
+                ->setMaxVelocity(PLAYER_UPGRADE_V);
+            player->createEffect(EFFECT_FAST);
+        }
+        break;
+    case UPGRADE_HARVEST:
+        player->setHarvestTime(HARVEST_COUNTDOWN_UPGRADE);
+        break;
+    case UPGRADE_RECOVERY:
+        player->setStunUpgrade(true);
         break;
     }
     return true;

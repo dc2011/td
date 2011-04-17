@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Volume Settings</string>
   </property>
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
@@ -22,7 +22,22 @@
      <height>129</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout" columnminimumwidth="20,20,30">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetMaximumSize</enum>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="spacing">
+     <number>10</number>
+    </property>
     <item row="1" column="0">
      <widget class="QCheckBox" name="sfxCheckBox">
       <property name="text">
@@ -42,6 +57,9 @@
       <property name="cursor">
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -51,6 +69,9 @@
      <widget class="QSlider" name="voiceSlider">
       <property name="cursor">
        <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="maximum">
+       <number>100</number>
       </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -66,8 +87,14 @@
     </item>
     <item row="0" column="2">
      <widget class="QLabel" name="musicLabel">
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
       <property name="text">
        <string>100</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -80,6 +107,9 @@
     </item>
     <item row="2" column="2">
      <widget class="QLabel" name="voiceLabel">
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
       <property name="text">
        <string>100</string>
       </property>
@@ -89,6 +119,9 @@
      <widget class="QSlider" name="musicSlider">
       <property name="cursor">
        <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="maximum">
+       <number>100</number>
       </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>

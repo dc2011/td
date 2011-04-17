@@ -8,6 +8,7 @@
 
 namespace td {
 
+
 TowerGraphicsComponent::~TowerGraphicsComponent() {
     disconnect();
     delete rangeCircle_;
@@ -17,17 +18,16 @@ void TowerGraphicsComponent::update(GameObject* obj) {
     Tower* tower = (Tower*)obj;
     tower->resetDirty();
 
-    radius_ = ((TowerPhysicsComponent*)(tower->getPhysicsComponent()))->getRadius();
-
     DrawParamsTower* dp = new DrawParamsTower();
+    radius_ = ((TowerPhysicsComponent*)(tower->getPhysicsComponent()))->getRadius();
     dp->pos     = tower->getPos();
-    //dp->moving  = 1;
-    //player->getVelocity().length() != 0;
-    dp->scale   = 1;//tower->getScale();
+    dp->scale   = 1;
     dp->degrees = tower->getOrientation();
+    dp->animate = animate_;
     dp->displayRadius = visibleRange_;
     emit signalDraw(dp, this, LAYER_TOWER);
 }
+
 
 
 void TowerGraphicsComponent::initRangeCircle(QColor color) {

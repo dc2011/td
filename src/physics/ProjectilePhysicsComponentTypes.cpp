@@ -38,10 +38,10 @@ FireProjectilePhysicsComponent::FireProjectilePhysicsComponent()
     : ProjectilePhysicsComponent(FIRE_VELOCITY) { duration_ = 0;}
 
 void FireProjectilePhysicsComponent::setScale(Projectile* projectile) {
-    projectile->setScale(1.0);
     if(++duration_ > 15 && duration_ < 60) {
         //pause image from growing
-        projectile->setPos(projectile->getEndPoint()->x(),projectile->getEndPoint()->y());
+        projectile->setPos(projectile->getEndPoint()->x(), 
+                projectile->getEndPoint()->y());
     } else if (duration_ > 60) {
         //delete projectile;
     }
