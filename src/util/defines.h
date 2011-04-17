@@ -270,6 +270,11 @@
 #define ARROW_DMG_3     -35
 #define ARROW_DMG_4     -40
 #define ARROW_DMG_5     -45
+#define ARROW_ARM_DMG   -12
+#define ARROW_ARM_DMG_2 -15
+#define ARROW_ARM_DMG_3 -17
+#define ARROW_ARM_DMG_4 -20
+#define ARROW_ARM_DMG_5 -23
 #define CANNON_DMG      -75
 #define CANNON_DMG_2    -80
 #define CANNON_DMG_3    -85

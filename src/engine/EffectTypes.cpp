@@ -38,7 +38,11 @@ void UpgradeNPCPlayerEffect::apply() {}
 ArrowEffect::ArrowEffect(Unit* unit)
         : Effect(unit, EFFECT_ARROW, ARROW_TIME) {    
 
-    healthChangeValue_ = ARROW_DMG;
+    if (((NPC*)unit_)->getType() == NPC_ARM) {
+        healthChangeValue_ = ARROW_ARM_DMG;
+    } else {
+        healthChangeValue_ = ARROW_DMG;
+    }
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
@@ -47,7 +51,11 @@ void ArrowEffect::apply() {}
 ArrowEffectL2::ArrowEffectL2(Unit* unit)
         : Effect(unit, EFFECT_ARROW, ARROW_TIME) {    
 
-    healthChangeValue_ = ARROW_DMG_2;
+    if (((NPC*)unit_)->getType() == NPC_ARM) {
+        healthChangeValue_ = ARROW_ARM_DMG_2;
+    } else {
+        healthChangeValue_ = ARROW_DMG_2;
+    }
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
@@ -56,7 +64,11 @@ void ArrowEffectL2::apply() {}
 ArrowEffectL3::ArrowEffectL3(Unit* unit)
         : Effect(unit, EFFECT_ARROW, ARROW_TIME) {    
 
-    healthChangeValue_ = ARROW_DMG_3;
+    if (((NPC*)unit_)->getType() == NPC_ARM) {
+        healthChangeValue_ = ARROW_ARM_DMG_3;
+    } else {
+        healthChangeValue_ = ARROW_DMG_3;
+    }
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
@@ -65,7 +77,11 @@ void ArrowEffectL3::apply() {}
 ArrowEffectL4::ArrowEffectL4(Unit* unit)
         : Effect(unit, EFFECT_ARROW, ARROW_TIME) {    
 
-    healthChangeValue_ = ARROW_DMG_4;
+    if (((NPC*)unit_)->getType() == NPC_ARM) {
+        healthChangeValue_ = ARROW_ARM_DMG_4;
+    } else {
+        healthChangeValue_ = ARROW_DMG_4;
+    }
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
@@ -74,7 +90,11 @@ void ArrowEffectL4::apply() {}
 ArrowEffectL5::ArrowEffectL5(Unit* unit)
         : Effect(unit, EFFECT_ARROW, ARROW_TIME) {    
 
-    healthChangeValue_ = ARROW_DMG_5;
+    if (((NPC*)unit_)->getType() == NPC_ARM) {
+        healthChangeValue_ = ARROW_ARM_DMG_5;
+    } else {
+        healthChangeValue_ = ARROW_DMG_5;
+    }
     ((NPC*)unit_)->setHealth(((NPC*)unit_)->getHealth() + healthChangeValue_);
 }
 
