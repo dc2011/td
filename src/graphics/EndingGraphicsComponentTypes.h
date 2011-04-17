@@ -16,11 +16,12 @@ public:
 
       @param pos Position to draw the animation at.
       @author Nick Huber
+      @author Dean Morin
       */
     CannonEndingGraphicsComponent(const QPointF& pos)
-        : EndingGraphicsComponent(pos) {
+        : EndingGraphicsComponent(pos, LAYER_FLYNPC, 55) {
         emit created(this);
-        redraw(55, LAYER_FLYNPC);
+        update(NULL);
     }
 
     /**
@@ -50,6 +51,7 @@ protected:
       Timer event where the animation is done.
 
       @author Nick Huber
+      @author Dean Morin
       */
     void timerEvent(QTimerEvent*);
 
@@ -77,11 +79,12 @@ public:
 
       @param pos Position to draw the animation at.
       @author Nick Huber
+      @author Dean Morin
       */
     ArrowEndingGraphicsComponent(const QPointF& pos)
-        : EndingGraphicsComponent(pos) {
+        : EndingGraphicsComponent(pos, LAYER_FLYNPC, 55) {
         emit created(this);
-        redraw(55, LAYER_FLYNPC);
+        update(NULL);
     }
 
     /**
@@ -111,6 +114,7 @@ protected:
       Timer event where the animation is done.
 
       @author Nick Huber
+      @author Dean Morin
       */
     void timerEvent(QTimerEvent*);
 
@@ -137,11 +141,12 @@ public:
 
       @param pos Position to draw the animation at.
       @author Nick Huber
+      @author Dean Morin
       */
     TarEndingGraphicsComponent(const QPointF& pos)
-        : EndingGraphicsComponent(pos) {
+        : EndingGraphicsComponent(pos, LAYER_FLYNPC, 55) {
         emit created(this);
-        redraw(55, LAYER_FLYNPC);
+        update(NULL);
     }
 
     /**
@@ -171,6 +176,7 @@ protected:
       Timer event where the animation is done.
 
       @author Nick Huber
+      @author Dean Morin
       */
     void timerEvent(QTimerEvent*);
 
@@ -197,11 +203,12 @@ public:
 
       @param pos Position to draw the animation at.
       @author Nick Huber
+      @author Dean Morin
       */
     FlyingEndingGraphicsComponent(const QPointF& pos)
-        : EndingGraphicsComponent(pos) {
+        : EndingGraphicsComponent(pos, LAYER_DEFAULT, 1000) {
         emit created(this);
-        redraw(1000, LAYER_DEFAULT);
+        update(NULL);
     }
 
     /**
@@ -231,6 +238,7 @@ protected:
       Timer event where the animation is done.
 
       @author Nick Huber
+      @author Dean Morin
       */
     void timerEvent(QTimerEvent*);
 
@@ -256,11 +264,12 @@ public:
 
       @param pos Position to draw the animation at.
       @author Nick Huber
+      @author Dean Morin
       */
     GenericNPCEndingGraphicsComponent(const QPointF& pos)
-        : EndingGraphicsComponent(pos) {
+        : EndingGraphicsComponent(pos, LAYER_DEFAULT, 1000) {
         emit created(this);
-        redraw(1000, LAYER_DEFAULT);
+        update(NULL);
     }
 
     /**
@@ -290,6 +299,7 @@ protected:
       Timer event where the animation is done.
 
       @author Nick Huber
+      @author Dean Morin
       */
     void timerEvent(QTimerEvent*);
 

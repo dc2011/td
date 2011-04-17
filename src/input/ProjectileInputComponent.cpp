@@ -61,16 +61,26 @@ void ProjectileInputComponent::makeForce(){
 #ifndef SERVER
     switch (parent_->getType()) {
     case PROJ_ARROW:
+    case PROJ_ARROW_2:
+    case PROJ_ARROW_3:
         new ArrowEndingGraphicsComponent(parent_->getPos());
         break;
     case PROJ_CANNON:
+    case PROJ_CANNON_2:
+    case PROJ_CANNON_3:
         new CannonEndingGraphicsComponent(parent_->getPos());
         break;
     case PROJ_FIRE:
+    case PROJ_FIRE_2:
+    case PROJ_FIRE_3:
         break;
     case PROJ_FLAK:
+    case PROJ_FLAK_2:
+    case PROJ_FLAK_3:
         break;
     case PROJ_TAR:
+    case PROJ_TAR_2:
+    case PROJ_TAR_3:
         new TarEndingGraphicsComponent(parent_->getPos());
         break;
     }

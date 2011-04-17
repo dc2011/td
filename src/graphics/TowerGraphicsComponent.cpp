@@ -23,6 +23,7 @@ void TowerGraphicsComponent::update(GameObject* obj) {
     dp->pos     = tower->getPos();
     dp->scale   = 1;
     dp->degrees = tower->getOrientation();
+    dp->animate = animate_;
     dp->displayRadius = visibleRange_;
     emit signalDraw(dp, this, LAYER_TOWER);
 }

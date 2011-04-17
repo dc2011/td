@@ -34,7 +34,7 @@ void GraphicsComponent::deleteComponent() {
 
 void GraphicsComponent::draw(void* dp, int layer) {
     DrawParams* drawParams = (DrawParams*) dp;
-    if (animate_) {
+    if (drawParams->animate) {
         animate();
     }
 

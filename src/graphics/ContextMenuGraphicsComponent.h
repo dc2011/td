@@ -9,19 +9,21 @@
 
 namespace td {
 
+struct DrawParamsMenuGraphics {
+    /** location */
+    QPointF pos;
+    /** in degrees 0 is up 180 down... */
+    int degrees;
+    /** normal is 1 .5 is half 2 is double */
+    float scale;
+    /** true if animate() should be called to set the current image. */
+    bool animate;
+    /** index of pixmap to be displayed */
+    int pixmapIdx;
+};
+
 class ContextMenuGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
-
-    struct DrawParamsMenuGraphics {
-        /** location */
-        QPointF pos;
-        /** in degrees 0 is up 180 down... */
-        int degrees;
-        /** normal is 1 .5 is half 2 is double */
-        float scale;
-        /** index of pixmap to be displayed */
-        int pixmapIdx;
-    };
 
 public:
     ContextMenuGraphicsComponent();
