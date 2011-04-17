@@ -195,7 +195,7 @@ void Driver::sellTower(QPointF pos) {
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
 
     switch(((Tower*)currentTile->getExtension())->getType()) {
-    case TOWER_ARROW:
+    case TOWER_ARROW_1:
         dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
                 COST_ARROW_BONE, COST_ARROW_OIL, 0);
         break;
@@ -207,7 +207,7 @@ void Driver::sellTower(QPointF pos) {
         dropCollectables(pos, COST_ARROW_WOOD, COST_ARROW_STONE,
                 COST_ARROW_BONE, COST_ARROW_OIL, COST_TOWER_UPGRADE_2);
         break;
-    case TOWER_CANNON:
+    case TOWER_CANNON_1:
         dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
                 COST_CANNON_BONE, COST_CANNON_OIL, 0);
         break;
@@ -219,7 +219,7 @@ void Driver::sellTower(QPointF pos) {
         dropCollectables(pos, COST_CANNON_WOOD, COST_CANNON_STONE,
                 COST_CANNON_BONE, COST_CANNON_OIL, COST_TOWER_UPGRADE_2);
         break;
-    case TOWER_FLAME:
+    case TOWER_FLAME_1:
         dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
                 COST_FLAME_BONE, COST_FLAME_OIL, 0);
         break;
@@ -231,7 +231,7 @@ void Driver::sellTower(QPointF pos) {
         dropCollectables(pos, COST_FLAME_WOOD, COST_FLAME_STONE,
                 COST_FLAME_BONE, COST_FLAME_OIL, COST_TOWER_UPGRADE_2);
         break;
-    case TOWER_TAR:
+    case TOWER_TAR_1:
         dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
                 COST_TAR_BONE, COST_TAR_OIL, 0);
         break;
@@ -243,7 +243,7 @@ void Driver::sellTower(QPointF pos) {
         dropCollectables(pos, COST_TAR_WOOD, COST_TAR_STONE,
                 COST_TAR_BONE, COST_TAR_OIL, COST_TOWER_UPGRADE_2);
         break;
-    case TOWER_FLAK:
+    case TOWER_FLAK_1:
         dropCollectables(pos, COST_FLAK_WOOD, COST_FLAK_STONE,
                 COST_FLAK_BONE, COST_FLAK_OIL, 0);
         break;
@@ -265,15 +265,15 @@ bool Driver::upgradeTower(QPointF pos) {
     Tower* t = (Tower*)currentTile->getExtension();
 
     switch (t->getType()) {
-    case TOWER_ARROW:
+    case TOWER_ARROW_1:
         t->setType(TOWER_ARROW_2);
         t->setComponents();
         break;
     case TOWER_ARROW_2:
-        t->setType(TOWER_ARROW_3);
+        t->setType(TOWER_ARROW_2);
         t->setComponents();
         break;
-    case TOWER_CANNON:
+    case TOWER_CANNON_1:
         t->setType(TOWER_CANNON_2);
         t->setComponents();
         break;
@@ -281,7 +281,7 @@ bool Driver::upgradeTower(QPointF pos) {
         t->setType(TOWER_CANNON_3);
         t->setComponents();
         break;
-    case TOWER_FLAME:
+    case TOWER_FLAME_1:
         t->setType(TOWER_FLAME_2);
         t->setComponents();
         break;
@@ -289,15 +289,7 @@ bool Driver::upgradeTower(QPointF pos) {
         t->setType(TOWER_FLAME_3);
         t->setComponents();
         break;
-    case TOWER_FLAK:
-        t->setType(TOWER_FLAK_2);
-        t->setComponents();
-        break;
-    case TOWER_FLAK_2:
-        t->setType(TOWER_FLAK_3);
-        t->setComponents();
-        break;
-    case TOWER_TAR:
+    case TOWER_TAR_1:
         t->setType(TOWER_TAR_2);
         t->setComponents();
         break;
@@ -305,13 +297,30 @@ bool Driver::upgradeTower(QPointF pos) {
         t->setType(TOWER_TAR_3);
         t->setComponents();
         break;
+    case TOWER_FLAK_1:
+        t->setType(TOWER_FLAK_2);
+        t->setComponents();
+        break;
+    case TOWER_FLAK_2:
+        t->setType(TOWER_FLAK_3);
+        t->setComponents();
+        break;
     }
     return true;
 }
 
 bool Driver::upgradePlayer(int id, int type) {
-    //TODO: gem validation
+    if ((gemCount_ < 50 && type == UPGRADE_SPEED) || (gemCount_ < 25)) {
+        return false;
+    }
+
 #ifdef SERVER
+    if (type == UPGRADE_SPEED) {
+        setGemCount(gemCount_ - 50);
+    } else {
+        setGemCount(gemCount_ - 25);
+    }
+
     return true;
 #endif
 
@@ -319,6 +328,7 @@ bool Driver::upgradePlayer(int id, int type) {
 
     switch (type) {
     case UPGRADE_SPEED:
+        setGemCount(gemCount_ - 50);
         if (player->hasEffect(EFFECT_SLOW)) {
             player->deleteEffect(EFFECT_SLOW);
             ((PlayerPhysicsComponent*)player->getPhysicsComponent())
@@ -332,9 +342,11 @@ bool Driver::upgradePlayer(int id, int type) {
         }
         break;
     case UPGRADE_HARVEST:
+        setGemCount(gemCount_ - 25);
         player->setHarvestTime(HARVEST_COUNTDOWN_UPGRADE);
         break;
     case UPGRADE_RECOVERY:
+        setGemCount(gemCount_ - 25);
         player->setStunUpgrade(true);
         break;
     }
@@ -342,9 +354,9 @@ bool Driver::upgradePlayer(int id, int type) {
 }
 
 QVector2D Driver::getRandomVector() {
-    float d = ((qrand() % 1000) / 21.0) + 50;
-    float x = (qrand() % 1000) - 500;
-    float y = (qrand() % 1000) - 500;
+    float d = ((rand() % 1000) / 21.0) + 50;
+    float x = (rand() % 1000) - 500;
+    float y = (rand() % 1000) - 500;
 
     QVector2D v = QVector2D(x, y);
     v.normalize();
@@ -355,6 +367,7 @@ QVector2D Driver::getRandomVector() {
 void Driver::dropCollectables(QPointF pos,
         int wood, int stone, int bone, int oil, int gem) {
     int i = 0;
+    // TODO reduce the number of dropped items here
 
     for (i = 0; i < wood; i++) {
         requestCollectable(RESOURCE_WOOD, pos, getRandomVector());

@@ -1,10 +1,14 @@
 #include "ContextMenuTypes.h"
+#include "Driver.h"
+#include "Map.h"
+#include "TileExtension.h"
+#include "Tower.h"
 #include "../graphics/ContextMenuGraphicsComponentTypes.h"
 
 namespace td {
 
 BuildContextMenu::BuildContextMenu(Player* player) : ContextMenu(player) {
-    graphics_ = new BuildContextMenuGraphicsComponent();
+    graphics_ = new BuildContextMenuGraphicsComponent(this);
 }
 
 void BuildContextMenu::selectMenuItem(int keyPressed) {
@@ -17,7 +21,8 @@ void BuildContextMenu::selectMenuItem(int keyPressed) {
 }
 
 TowerContextMenu::TowerContextMenu(Player* player) : ContextMenu(player) {
-    graphics_ = new TowerContextMenuGraphicsComponent();
+    graphics_ = new TowerContextMenuGraphicsComponent(this);
+    upgradeLevels_ = 0;
 }
 
 void TowerContextMenu::selectMenuItem(int keyPressed) {
@@ -26,6 +31,13 @@ void TowerContextMenu::selectMenuItem(int keyPressed) {
         return;
     }
     if (keyPressed == UPGRADE_TOWER) {
+        Map* map = player_->getDriver()->getGameMap();
+        Tile* tile = map->getTile(player_->getPos().x(), player_->getPos().y());
+        int level = ((Tower*) tile->getExtension())->getLevel();
+
+        if (level >= MAX_TOWER_LEVEL) { 
+            return;
+        }
         emit signalUpgradeTower(player_->getPos());
     } else {
         emit signalSellTower(player_->getPos()); 
@@ -34,7 +46,7 @@ void TowerContextMenu::selectMenuItem(int keyPressed) {
 }
 
 PlayerContextMenu::PlayerContextMenu(Player* player) : ContextMenu(player) {
-    graphics_ = new PlayerContextMenuGraphicsComponent();
+    graphics_ = new PlayerContextMenuGraphicsComponent(this);
 }
 
 void PlayerContextMenu::selectMenuItem(int keyPressed) {
@@ -43,6 +55,18 @@ void PlayerContextMenu::selectMenuItem(int keyPressed) {
              keyPressed != UPGRADE_RECOVERY)) {
         return;
     }
+    
+    int upgrades = player_->getUpgrades();
+
+    switch (keyPressed) {
+        case UPGRADE_SPEED:     upgrades = upgrades | PLAYER_SPEED;     break;
+        case UPGRADE_HARVEST:   upgrades = upgrades | PLAYER_HARVEST;   break;
+        case UPGRADE_RECOVERY:  upgrades = upgrades | PLAYER_RECOVERY;  break;
+    }
+    if (upgrades == player_->getUpgrades()) {
+        return;
+    }
+    player_->setUpgrades(upgrades);
     emit signalUpgradePlayer(keyPressed);
     ContextMenu::selectMenuItem(keyPressed);
 }

@@ -8,6 +8,7 @@
 #include "GraphicsComponent.h"
 
 namespace td {
+class ContextMenu;
 
 struct DrawParamsMenuGraphics {
     /** location */
@@ -26,7 +27,7 @@ class ContextMenuGraphicsComponent : public GraphicsComponent {
     Q_OBJECT
 
 public:
-    ContextMenuGraphicsComponent();
+    ContextMenuGraphicsComponent(ContextMenu* menu);
     virtual ~ContextMenuGraphicsComponent() {}
 
     /**
@@ -95,10 +96,20 @@ protected:
     /**
      * Gets the current image being used for this object.
      *
-     * @returns The pixmap array from the current graphics object.
+     * @return The pixmap array from the current graphics object.
      * @author Warren Voelkl
      */
     virtual QPixmap* getPixmapArray() = 0;
+
+    /**
+     * Gets the menu image index appropriate for the levels of the upgrades. 
+     * (eg. there will be a different image when a tower has been upgraded to 
+     * level 3, as opposed to when no upgrades have taken place.
+     *
+     * @author Dean Morin
+     * @return The current base menu image index.
+     */
+    virtual int getCurrentImage();
 
 public slots:
     /**
@@ -117,6 +128,9 @@ public slots:
     void hideSelectMenu();
 
 protected:
+    /** The menu that owns this component. */
+    ContextMenu* menu_;
+    
     /** Holds the position of the position where the menu is to be painted. */
     QPointF menuPos_;
 
@@ -134,3 +148,4 @@ protected:
 } /* end namespace td */
 
 #endif
+

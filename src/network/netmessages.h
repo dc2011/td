@@ -144,21 +144,12 @@ namespace network {
 
         /** Indicates a message of voice data. */
         kVoiceMessage   =   0x82,
-        
-	    /** Server has created an object, sending object state to player **/
-	    kServerCreateObj = 0x85,
-        
-        /** Server has destroyed an object, updating all clients **/
-        kServerDestroyObj = 0x86,
 
-        /** Object has been destroyed client-side, notifying server **/
-        kClientDestroyObj = 0x87,    
-
-	    /** temp (maybe used later) **/
-	    kServObjectUpdate = 0x88,
-
-        /** Server requires clients to play a SFX **/
-        kPlaySfx = 0x89,
+        /**
+         * Server requires clients to play a SFX.
+         * See Also: @ref playsfx
+         */
+        kPlaySfx        =   0x83,
     };
 
 } /* end namespace td::network */

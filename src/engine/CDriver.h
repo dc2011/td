@@ -153,6 +153,14 @@ public:
     virtual void setBaseHealth(int health);
 
     /**
+     * Sets the number of gems collected.
+     *
+     * @author Darryl Pogue
+     * @param count The number of gems.
+     */
+    virtual void setGemCount(int count);
+
+    /**
      * Sets a player as the local human player object.
      * Sets event filter for key presses to be passed to PlayerInputComponent.
      * 
