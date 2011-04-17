@@ -24,6 +24,8 @@ SDriver::SDriver() : Driver() {
     net_ = new NetworkServer();
     npcCounter_ = 0;
     timeCount_ = 0;
+    completedWaves_ = 0;
+    totalWaves_ = 0;
 
     gameMap_->initMap();
 
@@ -120,6 +122,7 @@ void SDriver::startGame(bool multicast) {
 
     while((tempWave = fileParser->readWave()) != NULL) {
         waves_.append(tempWave);
+        totalWaves_++;
     }
 
     this->gameTimer_->start(30);
@@ -159,6 +162,13 @@ GameObject* SDriver::updateObject(Stream* s) {
 void SDriver::onTimerTick() {
     static unsigned int modcount = 0;
     if (modcount++ < 10) {
+        return;
+    }
+
+    // Check to see if there are anymore waves.
+    if (completedWaves_ == totalWaves_) {
+        qDebug("SDriver::onTimerTick(); No more waves, game over!");
+        endGame(TRUE);
         return;
     }
 
@@ -222,6 +232,8 @@ void SDriver::spawnWave() {
             if (wave->getStart() == timeCount_) {
                 waves_.removeAt(i--);
                 wave->createWave();
+                connect(wave, SIGNAL(waveDead()), this, SLOT(endWave()));
+                connect(wave, SIGNAL(waveDead()), wave, SLOT(deleteLater()));
                 qDebug("SDriver::spawnWave(); Num waves remaining: %d", waves_.size());
             }
         }
@@ -237,13 +249,18 @@ void SDriver::spawnWave() {
     }
 
     // No more waves, end the game :)
-    else {
+    //else {
         // TODO: may need to disconnect waveTimer -> spawnWave here.
-        endGame(TRUE);
-    }
+    //    endGame(TRUE);
+    //}
     
     timeCount_++;
 }
+
+void SDriver::endWave() {
+    completedWaves_++;
+    qDebug("SDriver::endWave(); Num waves completed: %d of %d", completedWaves_);
+} 
 
 void SDriver::deadNPC(int id) {
     destroyObject(id);
