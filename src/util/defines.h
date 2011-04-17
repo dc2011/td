@@ -125,8 +125,8 @@
 #define RADIUS_TAR      170
 #define RADIUS_TAR_2    185
 #define RADIUS_TAR_3    200
-#define RADIUS_TAR_2    215
-#define RADIUS_TAR_3    230
+#define RADIUS_TAR_4    215
+#define RADIUS_TAR_5    230
 #define RADIUS_FLAK     300
 #define RADIUS_FLAK_2   315
 #define RADIUS_FLAK_3   330
@@ -433,8 +433,11 @@
 #define COST_FLAME_STONE   1
 #define COST_FLAME_BONE    0
 #define COST_FLAME_OIL     0
+
 #define COST_TOWER_UPGRADE      1
 #define COST_TOWER_UPGRADE_2    2
+#define COST_TOWER_UPGRADE_3    3
+#define COST_TOWER_UPGRADE_4    4
 
 //colors for tower colors
 #define ARROW_COLOR     QColor(255,160,122)

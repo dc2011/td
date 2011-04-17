@@ -270,7 +270,15 @@ bool Driver::upgradeTower(QPointF pos) {
         t->setComponents();
         break;
     case TOWER_ARROW_2:
-        t->setType(TOWER_ARROW_2);
+        t->setType(TOWER_ARROW_3);
+        t->setComponents();
+        break;
+    case TOWER_ARROW_3:
+        t->setType(TOWER_ARROW_4);
+        t->setComponents();
+        break;
+    case TOWER_ARROW_4:
+        t->setType(TOWER_ARROW_5);
         t->setComponents();
         break;
     case TOWER_CANNON_1:
@@ -281,12 +289,28 @@ bool Driver::upgradeTower(QPointF pos) {
         t->setType(TOWER_CANNON_3);
         t->setComponents();
         break;
+    case TOWER_CANNON_3:
+        t->setType(TOWER_CANNON_4);
+        t->setComponents();
+        break;
+    case TOWER_CANNON_4:
+        t->setType(TOWER_CANNON_5);
+        t->setComponents();
+        break;
     case TOWER_FLAME_1:
         t->setType(TOWER_FLAME_2);
         t->setComponents();
         break;
     case TOWER_FLAME_2:
         t->setType(TOWER_FLAME_3);
+        t->setComponents();
+        break;
+    case TOWER_FLAME_3:
+        t->setType(TOWER_FLAME_4);
+        t->setComponents();
+        break;
+    case TOWER_FLAME_4:
+        t->setType(TOWER_FLAME_5);
         t->setComponents();
         break;
     case TOWER_TAR_1:
@@ -297,12 +321,28 @@ bool Driver::upgradeTower(QPointF pos) {
         t->setType(TOWER_TAR_3);
         t->setComponents();
         break;
+    case TOWER_TAR_3:
+        t->setType(TOWER_TAR_4);
+        t->setComponents();
+        break;
+    case TOWER_TAR_4:
+        t->setType(TOWER_TAR_5);
+        t->setComponents();
+        break;
     case TOWER_FLAK_1:
         t->setType(TOWER_FLAK_2);
         t->setComponents();
         break;
     case TOWER_FLAK_2:
         t->setType(TOWER_FLAK_3);
+        t->setComponents();
+        break;
+    case TOWER_FLAK_3:
+        t->setType(TOWER_FLAK_4);
+        t->setComponents();
+        break;
+    case TOWER_FLAK_4:
+        t->setType(TOWER_FLAK_5);
         t->setComponents();
         break;
     }
