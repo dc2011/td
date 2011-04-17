@@ -205,7 +205,7 @@
 
 //Effect durations for each type
 #define NPC_PLAYER_TIME 20
-#define NPC_PLAYER_TIME_UPGRADE 20
+#define NPC_PLAYER_TIME_UPGRADE 5
 #define TAR_TIME        100
 #define TAR_TIME_2      130
 #define TAR_TIME_3      160
