@@ -28,14 +28,24 @@
 
 #define TOWER_ARROW_2       0
 #define TOWER_ARROW_3       1
-#define TOWER_CANNON_2      2
-#define TOWER_CANNON_3      3
-#define TOWER_FLAME_2       4
-#define TOWER_FLAME_3       5
-#define TOWER_TAR_2         6
-#define TOWER_TAR_3         7
-#define TOWER_FLAK_2        8
-#define TOWER_FLAK_3        9
+#define TOWER_ARROW_4       2
+#define TOWER_ARROW_5       3
+#define TOWER_CANNON_2      4
+#define TOWER_CANNON_3      5
+#define TOWER_CANNON_4      6
+#define TOWER_CANNON_5      7
+#define TOWER_FLAME_2       8
+#define TOWER_FLAME_3       9
+#define TOWER_FLAME_4       10
+#define TOWER_FLAME_5       11
+#define TOWER_TAR_2         12
+#define TOWER_TAR_3         13
+#define TOWER_TAR_4         14
+#define TOWER_TAR_5         15
+#define TOWER_FLAK_2        16
+#define TOWER_FLAK_3        17
+#define TOWER_FLAK_4        18
+#define TOWER_FLAK_5        19
 
 // Current map to use
 #define MAP      "bigmap"
@@ -44,37 +54,57 @@
 
 // how often the tower type can fire (in game ticks)
 #define FIRE_INTERVAL_ARROW     45
-#define FIRE_INTERVAL_ARROW_2   35
-#define FIRE_INTERVAL_ARROW_3   25
+#define FIRE_INTERVAL_ARROW_2   40
+#define FIRE_INTERVAL_ARROW_3   35
+#define FIRE_INTERVAL_ARROW_4   30
+#define FIRE_INTERVAL_ARROW_5   25
 #define FIRE_INTERVAL_CANNON    120
-#define FIRE_INTERVAL_CANNON_2  100
-#define FIRE_INTERVAL_CANNON_3  80
+#define FIRE_INTERVAL_CANNON_2  110
+#define FIRE_INTERVAL_CANNON_3  100
+#define FIRE_INTERVAL_CANNON_4  90
+#define FIRE_INTERVAL_CANNON_5  80
 #define FIRE_INTERVAL_FLAME     70
-#define FIRE_INTERVAL_FLAME_2   60
-#define FIRE_INTERVAL_FLAME_3   50
+#define FIRE_INTERVAL_FLAME_2   65
+#define FIRE_INTERVAL_FLAME_3   60
+#define FIRE_INTERVAL_FLAME_4   55
+#define FIRE_INTERVAL_FLAME_5   50
 #define FIRE_INTERVAL_TAR       90
-#define FIRE_INTERVAL_TAR_2     75
-#define FIRE_INTERVAL_TAR_3     60
+#define FIRE_INTERVAL_TAR_2     83
+#define FIRE_INTERVAL_TAR_3     75
+#define FIRE_INTERVAL_TAR_4     68
+#define FIRE_INTERVAL_TAR_5     60
 #define FIRE_INTERVAL_FLAK      15
-#define FIRE_INTERVAL_FLAK_2    10
-#define FIRE_INTERVAL_FLAK_3    5
+#define FIRE_INTERVAL_FLAK_2    13
+#define FIRE_INTERVAL_FLAK_3    10
+#define FIRE_INTERVAL_FLAK_4    8
+#define FIRE_INTERVAL_FLAK_5    5
 
 // a tower's range
 #define RADIUS_ARROW    240
-#define RADIUS_ARROW_2  270
-#define RADIUS_ARROW_3  300
+#define RADIUS_ARROW_2  255
+#define RADIUS_ARROW_3  270
+#define RADIUS_ARROW_4  285
+#define RADIUS_ARROW_5  300
 #define RADIUS_CANNON   150
-#define RADIUS_CANNON_2 180
-#define RADIUS_CANNON_3 210
+#define RADIUS_CANNON_2 165
+#define RADIUS_CANNON_3 180
+#define RADIUS_CANNON_4 195
+#define RADIUS_CANNON_5 210
 #define RADIUS_FLAME    90
 #define RADIUS_FLAME_2  120
-#define RADIUS_FLAME_3  150
+#define RADIUS_FLAME_3  135
+#define RADIUS_FLAME_4  150
+#define RADIUS_FLAME_5  165
 #define RADIUS_TAR      170
-#define RADIUS_TAR_2    200
+#define RADIUS_TAR_2    185
+#define RADIUS_TAR_3    200
+#define RADIUS_TAR_2    215
 #define RADIUS_TAR_3    230
 #define RADIUS_FLAK     300
-#define RADIUS_FLAK_2   330
-#define RADIUS_FLAK_3   360
+#define RADIUS_FLAK_2   315
+#define RADIUS_FLAK_3   330
+#define RADIUS_FLAK_4   345
+#define RADIUS_FLAK_5   360
 
 //Tile action types specifying action for spacebar
 #define TILE_REGULAR    0
