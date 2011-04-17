@@ -221,6 +221,10 @@ void CDriver::makeLocalPlayer(Player* player) {
 void CDriver::dropResource() {
     Tile* currentTile = gameMap_->getTile(human_->getPos());
 
+    if (human_->getResource() == RESOURCE_NONE) {
+        return;
+    }
+
     if (this->isSinglePlayer() &&
             currentTile->getActionType() == TILE_BUILDING) {
         BuildingTower* t = (BuildingTower*)currentTile->getExtension();
