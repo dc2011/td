@@ -17,10 +17,10 @@ void Stats::updateHP(int value){
     ui->hp_label->setText(QString::number(value));
 }
 void Stats::updateTime(int value){
-    ui->hp_label->setText(QString::number(value));
+    ui->time_label->setText(QString::number(value));
 }
 void Stats::updateGems(int value){
-    ui->hp_label->setText(QString::number(value));
+    ui->gem_label->setText(QString::number(value));
 }
 
 

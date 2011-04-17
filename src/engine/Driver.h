@@ -121,6 +121,16 @@ public:
     }
 
     /**
+     * Sets the number of gems collected.
+     *
+     * @author Darryl Pogue
+     * @param count The number of gems.
+     */
+    virtual void setGemCount(int count) {
+        gemCount_ = count;
+    }
+
+    /**
      * Creates a new tower of the given type.
      *
      * @author Darryl Pogue

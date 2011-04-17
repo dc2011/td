@@ -310,8 +310,17 @@ bool Driver::upgradeTower(QPointF pos) {
 }
 
 bool Driver::upgradePlayer(int id, int type) {
-    //TODO: gem validation
+    if ((gemCount_ < 50 && type == UPGRADE_SPEED) || (gemCount_ < 25)) {
+        return false;
+    }
+
 #ifdef SERVER
+    if (type == UPGRADE_SPEED) {
+        setGemCount(gemCount_ - 50);
+    } else {
+        setGemCount(gemCount_ - 25);
+    }
+
     return true;
 #endif
 
@@ -319,6 +328,7 @@ bool Driver::upgradePlayer(int id, int type) {
 
     switch (type) {
     case UPGRADE_SPEED:
+        setGemCount(gemCount_ - 50);
         if (player->hasEffect(EFFECT_SLOW)) {
             player->deleteEffect(EFFECT_SLOW);
             ((PlayerPhysicsComponent*)player->getPhysicsComponent())
@@ -332,9 +342,11 @@ bool Driver::upgradePlayer(int id, int type) {
         }
         break;
     case UPGRADE_HARVEST:
+        setGemCount(gemCount_ - 25);
         player->setHarvestTime(HARVEST_COUNTDOWN_UPGRADE);
         break;
     case UPGRADE_RECOVERY:
+        setGemCount(gemCount_ - 25);
         player->setStunUpgrade(true);
         break;
     }
