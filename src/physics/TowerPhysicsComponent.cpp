@@ -1,6 +1,7 @@
 #include "TowerPhysicsComponent.h"
 #include "../engine/Tower.h"
 #include "../engine/Player.h"
+#include "../graphics/TowerGraphicsComponent.h"
 #include <typeinfo>
 #define PI 3.141592653589793238
 #include <math.h>
@@ -141,6 +142,7 @@ void TowerPhysicsComponent::fire() {
     }
     emit fireProjectile(projType_, tower_->getPos(), target_->getPos(),
             target_);
+    ((TowerGraphicsComponent*) tower_->getGraphicsComponent())->setFiring(true);
     fireCountdown_ = fireInterval_;
 }
 

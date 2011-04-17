@@ -34,7 +34,7 @@ public:
      * Instantiates a Tower graphics component
      * @author Warren Voelkl
      */
-    TowerGraphicsComponent():GraphicsComponent(){}
+    TowerGraphicsComponent() : GraphicsComponent(), firing_(false) {}
     virtual ~TowerGraphicsComponent();
 
     /**
@@ -63,6 +63,16 @@ public:
      */
     virtual void draw(void* dp, int layer=0);
 
+    /**
+     * Sets whether or not the tower is firing a projectile.
+     *
+     * @author Dean Morin
+     * @param firing True if firing animation should be shown.
+     */
+    void setFiring(bool firing) {
+        firing_ = firing;
+    }
+
 private:
     /**
      * @returns the pixmap array from the current graphics object
@@ -76,8 +86,12 @@ private:
     QGraphicsEllipseItem * rangeCircle_;
     bool visibleRange_;
 
+    /** True if the tower just fired and needs to animate accordingly. */
+    bool firing_;
+
 protected:
     int radius_;
+
 public slots:
     /**
      * Slot for alt key pressed to show ranges.

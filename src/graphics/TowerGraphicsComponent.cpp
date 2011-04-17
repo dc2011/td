@@ -19,7 +19,8 @@ void TowerGraphicsComponent::update(GameObject* obj) {
     tower->resetDirty();
 
     DrawParamsTower* dp = new DrawParamsTower();
-    radius_ = ((TowerPhysicsComponent*)(tower->getPhysicsComponent()))->getRadius();
+    radius_ = 
+        ((TowerPhysicsComponent*) tower->getPhysicsComponent())->getRadius();
     dp->pos     = tower->getPos();
     dp->scale   = 1;
     dp->degrees = tower->getOrientation();
@@ -27,8 +28,6 @@ void TowerGraphicsComponent::update(GameObject* obj) {
     dp->displayRadius = visibleRange_;
     emit signalDraw(dp, this, LAYER_TOWER);
 }
-
-
 
 void TowerGraphicsComponent::initRangeCircle(QColor color) {
     visibleRange_ = false;
@@ -39,11 +38,13 @@ void TowerGraphicsComponent::initRangeCircle(QColor color) {
     rangeCircle_->setPen(pen);
     CDriver::instance()->getMainWindow()->getScene()->addItem(rangeCircle_);
 }
+
 void TowerGraphicsComponent::draw(void* dp, int layer) {
     DrawParamsTower * dps = (DrawParamsTower*) dp;
     if (dps->displayRadius) {
         QPointF point = dps->pos;
-        rangeCircle_->setRect(point.x()-radius_, point.y()-radius_, radius_ * 2, radius_ * 2);
+        rangeCircle_->setRect(point.x()-radius_, point.y()-radius_, 
+                              radius_ * 2, radius_ * 2);
         rangeCircle_->setOpacity(.5);
 
         rangeCircle_->setVisible(true);
