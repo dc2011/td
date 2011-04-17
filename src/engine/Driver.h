@@ -41,6 +41,11 @@ protected:
      */
     int baseHealth_;
 
+    /**
+     * The total number of gems collected.
+     */
+    int gemCount_;
+
 public:
     Driver();
     virtual ~Driver();

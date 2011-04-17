@@ -216,15 +216,9 @@ void Player::pickupCollectable(double x, double y, Unit* u) {
 
     emit signalPickupCollectable(u->getID());
 
-    if (((Collectable*)u)->getType() == RESOURCE_GEM) {
-        //increment global gem count here.
-        getDriver()->destroyObject(u);
-        return;
+    if (((Collectable*)u)->getType() < RESOURCE_TYPE_MAX) {
+        setResource(((Collectable*)u)->getType());
     }
-
-    resource_ = ((Collectable*)u)->getType();
-    setDirty(kResource);
-    getDriver()->destroyObject(u);
 }
 
 } /* end namespace td */

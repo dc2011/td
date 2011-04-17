@@ -253,6 +253,15 @@ void CDriver::pickupCollectable(int id) {
         s.writeInt(id);
         
         NetworkClient::instance()->send(network::kPickCollect, s.data());
+    } else {
+        Collectable* c = (Collectable*)mgr_->findObject(id);
+
+        if (c->getType() == RESOURCE_GEM) {
+            gemCount_++;
+            Console::instance()->addText("Gem Count: " +
+                    QString::number(gemCount_));
+        }
+        destroyObject(c);
     }
 }
 
@@ -484,14 +493,20 @@ void CDriver::UDPReceived(Stream* s) {
             unsigned int playerID = s->readInt();
             unsigned int collID = s->readInt();
 
-            if (playerID == human_->getID()) {
-                break;
-            }
-
             Player* p = (Player*)mgr_->findObject(playerID);
             Collectable* c = (Collectable*)mgr_->findObject(collID);
 
-            p->pickupCollectable(p->getPos().x(), p->getPos().y(), c);
+            if (p->getID() != human_->getID()) {
+                p->pickupCollectable(p->getPos().x(), p->getPos().y(), c);
+            }
+
+            if (c->getType() == RESOURCE_GEM) {
+                gemCount_++;
+                Console::instance()->addText("Gem count = "
+                        + QString::number(gemCount_));
+            }
+
+            destroyObject(c);
 
             break;
         }

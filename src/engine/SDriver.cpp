@@ -415,12 +415,18 @@ void SDriver::onMsgReceive(Stream* s) {
             Tile* currentTile = gameMap_->getTile(player->getPos().x(),
                                                   player->getPos().y());
 
-            currentTile->removeUnit(c);
-            this->destroyObject(c);
+            if (c != NULL && c != (Collectable*)-1) {
+                if (c->getType() == RESOURCE_GEM) {
+                    gemCount_++;
+                }
 
-            out->writeInt(playerID);
-            out->writeInt(collID);
-            net_->send(network::kPickCollect, out->data());
+                currentTile->removeUnit(c);
+                this->destroyObject(c);
+
+                out->writeInt(playerID);
+                out->writeInt(collID);
+                net_->send(network::kPickCollect, out->data());
+            }
             break;
         }
         case network::kConsoleChat:
