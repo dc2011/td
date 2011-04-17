@@ -159,7 +159,7 @@ int TowerContextMenuGraphicsComponent::getCurrentImage() {
     if (nextImage_ == MENU_TOWER_RESOURCES) {
         return towerLevel + MENU_TOWER_RESOURCES;
     }
-    ContextMenuGraphicsComponent::getCurrentImage();
+    return ContextMenuGraphicsComponent::getCurrentImage();
 }
 
 QPixmap* PlayerContextMenuGraphicsComponent::pixmapImgs_ = 0;
@@ -179,7 +179,21 @@ void PlayerContextMenuGraphicsComponent::initPixmaps() {
 
     pixmapIndex_ = 0;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_MAIN;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_MAIN_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_MAIN_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_MAIN_4;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_MAIN_5;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_MAIN_6;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_MAIN_7;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_MAIN_8;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_RES;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_RES_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_RES_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_RES_4;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_RES_5;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_RES_6;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_RES_7;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_RES_8;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_SPD;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_HAR;
     pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_MENU_REC;
@@ -190,15 +204,15 @@ void PlayerContextMenuGraphicsComponent::showSelectMenu(int type,
                                                         QPointF playerPos) {
     switch(type) {
         case UPGRADE_SPEED:
-            nextImage_ = 2;
+            nextImage_ = 16;
             break;
         case UPGRADE_HARVEST:
-            nextImage_ = 3;
+            nextImage_ = 17;
             break;
         case UPGRADE_RECOVERY:
-            nextImage_ = 4;
+            nextImage_ = 18;
             break;
-        }
+    }
     ContextMenuGraphicsComponent::showSelectMenu(type, playerPos);
 }
 
@@ -209,12 +223,12 @@ QPixmap* PlayerContextMenuGraphicsComponent::getPixmapArray() {
 int PlayerContextMenuGraphicsComponent::getCurrentImage() {
     
     if (nextImage_ == MENU_BASE) {
-        return menu_->getPlayer()->getLevel(); 
+        return menu_->getPlayer()->getUpgrades(); 
     }
     if (nextImage_ == MENU_TOWER_RESOURCES) {
-        return menu_->getUpgradeLevels() + MENU_TOWER_RESOURCES;
+        return menu_->getPlayer()->getUpgrades() + 8; 
     }
-    ContextMenuGraphicsComponent::getCurrentImage();
+    return ContextMenuGraphicsComponent::getCurrentImage();
 }
 
 } // end namespace td

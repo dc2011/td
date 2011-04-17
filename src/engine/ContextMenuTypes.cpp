@@ -59,10 +59,14 @@ void PlayerContextMenu::selectMenuItem(int keyPressed) {
     int upgrades = player_->getUpgrades();
 
     switch (keyPressed) {
-        case UPGRADE_SPEED:     upgradeLevels_ | PLAYER_SPEED;      break;
-        case UPGRADE_HARVEST:   upgradeLevels_ | PLAYER_HARVEST;    break;
-        case UPGRADE_RECOVERY:  upgradeLevels_ | PLAYER_RECOVERY;   break;
+        case UPGRADE_SPEED:     upgrades = upgrades | PLAYER_SPEED;     break;
+        case UPGRADE_HARVEST:   upgrades = upgrades | PLAYER_HARVEST;   break;
+        case UPGRADE_RECOVERY:  upgrades = upgrades | PLAYER_RECOVERY;  break;
     }
+    if (upgrades == player_->getUpgrades()) {
+        return;
+    }
+    player_->setUpgrades(upgrades);
     emit signalUpgradePlayer(keyPressed);
     ContextMenu::selectMenuItem(keyPressed);
 }

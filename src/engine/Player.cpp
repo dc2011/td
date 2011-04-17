@@ -14,7 +14,8 @@ namespace td {
 Player::Player(QObject* parent) 
         : Unit(parent), nickname_(""), harvesting_(RESOURCE_NONE), 
           harvestCountdown_(HARVEST_COUNTDOWN), harvestTime_(HARVEST_COUNTDOWN),
-          resource_(RESOURCE_NONE), stunUpgrade_(false) {
+          resource_(RESOURCE_NONE), stunUpgrade_(false), upgrades_(PLAYER_NONE) 
+{
     QVector2D force(0, 0);
     this->setForce(force);
 
