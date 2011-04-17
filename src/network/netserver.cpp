@@ -108,8 +108,11 @@ void NetworkServer::onClientDisconnect() {
     int count = tcpSockets_.size();
     mutex_.unlock();
 
+
     if (count == 0) {
         emit disconnected();
+    } else {
+        emit socketDisconnect(sock);
     }
 }
 

@@ -212,14 +212,6 @@ public:
      */
     void setSinglePlayer(bool singlePlayer);
 
-    /**
-     * Tries to add a resource to a specified BuildingTower.
-     *
-     * @author Marcel Vangrootheest
-     * @param t The Building tower that a resource is added to.
-     */
-    void requestResourceAddition(BuildingTower* t);
-
 signals:
     /**
      * Emitted when the spacebar is pressed on a resource tile.
@@ -230,6 +222,13 @@ signals:
      * @param type The resource type that the player is standing on.
      */
     void signalHarvesting(int type);
+
+    /**
+     * Emitted when the spacebar is pressed to drop a resource.
+     *
+     * @author Darryl Pogue
+     */
+    void signalDropResource();
 
     /**
      * Emmited when the spacebar is pressed on an empty tile.
@@ -256,6 +255,31 @@ public slots:
      * the player is currently standing on, and performs the appropriate action.
      */
     void handleSpacebarPress();
+
+    /**
+     * Drops a resource, adding it to a tower is possible.
+     *
+     * @author Darryl Pogue
+     */
+    void dropResource();
+
+    /**
+     * Picks up a collectable and tells the server.
+     *
+     * @author Darryl Pogue
+     * @param id The id of the Collectable.
+     */
+    void pickupCollectable(int id);
+
+    /**
+     * Creates collectable on server and send message to client for creation.
+     *
+     * @author Dean Morin
+     * @param projType The type of the collectable (resource or gem).
+     * @param source The origin of the collectable.
+     * @param vel The velocity of the dropper.
+     */
+    void requestCollectable(int collType, QPointF source, QVector2D vel);
 
     /**
      * Requests or creates a Building Tower

@@ -14,7 +14,8 @@
 
 namespace td {
 
-Driver::Driver() : QObject(), gameMap_(NULL), gameTimer_(NULL), baseHealth_(100)
+Driver::Driver() : QObject(), gameMap_(NULL), gameTimer_(NULL),
+        baseHealth_(100), gemCount_(0)
 {
     mgr_ = new ResManager(this);
 }
@@ -146,9 +147,7 @@ void Driver::requestProjectile(int projType, QPointF source,
             enemy);
 }
 
-void Driver::requestCollectable(int projType, QPointF source, 
-        QVector2D velocity) {
-    Driver::createCollectable(projType, source, velocity);
+void Driver::requestCollectable(int, QPointF, QVector2D) {
 }
 
 Projectile* Driver::createProjectile(int projType, QPointF source,

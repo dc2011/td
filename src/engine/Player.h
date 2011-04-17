@@ -11,8 +11,6 @@
 #include "../graphics/PlayerGraphicsComponent.h"
 #include "../physics/PlayerPhysicsComponent.h"
 
-//TEMP
-#include "../engine/Collectable.h"
 namespace td {
 
 class Player : public Unit {
@@ -43,8 +41,7 @@ private:
 public:
     Player(QObject* parent = 0);
     virtual ~Player();
-//TEMP
-Collectable* collectable_;
+
     /**
      * Reads the object state from a network stream.
      * You should assign to variables directly inside this function, rather
@@ -112,6 +109,17 @@ Collectable* collectable_;
      */
     int getResource() {
         return resource_;
+    }
+
+    /**
+     * Sets the resource that the player is carrying.
+     *
+     * @author Darryl Pogue
+     * @param resource The resource type.
+     */
+    void setResource(int resource) {
+        resource_ = resource;
+        setDirty(kResource);
     }
 
     /**
@@ -183,12 +191,6 @@ public slots:
     void stopHarvesting();
 
     /**
-     * Drops whatever resource that the player is carrying.
-     *
-     * @author Dean Morin
-     */
-    void dropResource(bool addToTower);
-    /**
      * picks up a collectable from the ground when a player collides with it.
      *
      * @author Duncan Donaldson
@@ -254,6 +256,14 @@ signals:
      * @param velocity The player's velocity when he drops the resource.
      */
     void signalDropResource(int type, QPointF pos, QVector2D velocity);
+
+    /**
+     * Emitted when a player picks up a collectable from the map.
+     *
+     * @author Darryl Pogue
+     * @param id The ID of the collectable.
+     */
+    void signalPickupCollectable(int id);
 };
 
 }

@@ -55,7 +55,7 @@ void NPCWave::update() {
     if (++sfxdelay < 130) {
         return;
     }
-    // TODO: Some actual logic here to fix this
+
     if (created_ < count_ && ++tickmod % density_ == 0) {
         created_++;
 
@@ -68,17 +68,13 @@ void NPCWave::update() {
                 npc->getGraphicsComponent(), SLOT(showHealth(bool)));
 #endif
         children_.insert(npc);
-
     }
-#ifdef SERVER
+
     Stream s;
     s.writeShort(children_.size());
-    #endif
     foreach (NPC* npc, children_) {
         npc->update();
-        #ifdef SERVER
         npc->networkWrite(&s);
-        #endif
     }
 #ifdef SERVER
     getDriver()->sendNetMessage(network::kNPCWave, s.data());

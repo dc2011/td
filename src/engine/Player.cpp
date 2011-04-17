@@ -195,33 +195,6 @@ void Player::stopHarvesting() {
     emit signalPlayerMovement(true);
 }
 
-void Player::dropResource(bool addToTower) {
-
-    if (resource_ == RESOURCE_NONE) {
-        return;
-    }
-    setDirty(kResource);
-    if (addToTower) {
-#ifndef SERVER
-        if (((CDriver*)getDriver())->isSinglePlayer()) {
-            Tile* cTile = getDriver()->getGameMap()->getTile(getPos());
-            BuildingTower* t = (BuildingTower*)cTile->getExtension();
-            if (t->isDone()) {
-                getDriver()->createTower(t->getType(), t->getPos());
-                getDriver()->destroyObject(t);
-            }
-        }
-        Console::instance()->addText("Added Resource");
-#endif
-    } else {
-        emit signalDropResource(resource_, pos_, getRandomVector());
-#ifndef SERVER
-        Console::instance()->addText("Dropped Resource");
-#endif
-    }
-    resource_ = RESOURCE_NONE;
-}
-
 void Player::harvestResource() {
     if (--harvestCountdown_ <= 0) {
         resource_ = harvesting_;
@@ -230,37 +203,30 @@ void Player::harvestResource() {
         stopHarvesting();
 
 #ifndef SERVER
-    Console::instance()->addText("Picked up a Resource");
+        Console::instance()->addText("Picked up a Resource");
 #endif
 
-    return;
+        return;
     }
 }
+
 void Player::pickupCollectable(double x, double y, Unit* u) {
+    Tile* t = getDriver()->getGameMap()->getTile(x, y);
 
     // First check to see if the collectable is a gem
     if(((Collectable*)u)->getType() == RESOURCE_GEM) {
-        // Remove the gem from the tile and increment the global counter
-        Tile* t = getDriver()->getGameMap()->getTile(x, y);
         t->removeUnit(u);
-        // Disconnect from the timer
-        disconnect(getDriver()->getTimer(),  SIGNAL(timeout()), u, SLOT(update()));
-        //increment global gem count here.
-        getDriver()->destroyObject(u);
+        emit signalPickupCollectable(u->getID());
         return;
     }
 
-    // Check to see if we are already carrying a resource
-    if (resource_ != RESOURCE_NONE)
-    {
+    if (resource_ != RESOURCE_NONE) {
         return;
     }
 
-    Tile* t = getDriver()->getGameMap()->getTile(x, y);
     t->removeUnit(u);
-    disconnect(getDriver()->getTimer(),  SIGNAL(timeout()), u, SLOT(update()));
-    resource_ = ((Collectable*)u)->getType();
-    setDirty(kResource);
-    getDriver()->destroyObject(u);
+    setResource(((Collectable*)u)->getType());
+    emit signalPickupCollectable(u->getID());
 }
+
 } /* end namespace td */
