@@ -230,48 +230,60 @@ void NPC::createEffect(int effectType)
                 break;
         }
     } else if (effectType >= EFFECT_FIRE && effectType <= EFFECT_FIRE_5) {
-        if (effects_.contains(EFFECT_TAR)) {
-            deleteEffect(effects_.value(EFFECT_TAR));
-        }
         switch (effectType) {
             case EFFECT_FIRE:
-                if (effects_.contains(EFFECT_BURN)) {
-                    deleteEffect(effects_.value(EFFECT_BURN));
+                if (effects_.contains(EFFECT_TAR)) {
+                    deleteEffect(effects_.value(EFFECT_TAR));
+                    if (effects_.contains(EFFECT_BURN)) {
+                        deleteEffect(effects_.value(EFFECT_BURN));
+                    }
+                    effect = new NPCBurnEffect(this);
+                    effects_.insert(effect->getType(), effect);
                 }
-                effect = new NPCBurnEffect(this);
-                effects_.insert(effect->getType(), effect);
                 effect = new FireEffect(this);
                 break;
             case EFFECT_FIRE_2:
-                if (effects_.contains(EFFECT_BURN)) {
-                    deleteEffect(effects_.value(EFFECT_BURN));
+                if (effects_.contains(EFFECT_TAR)) {
+                    deleteEffect(effects_.value(EFFECT_TAR));
+                    if (effects_.contains(EFFECT_BURN)) {
+                        deleteEffect(effects_.value(EFFECT_BURN));
+                    }
+                    effect = new NPCBurnEffectL2(this);
+                    effects_.insert(effect->getType(), effect);
                 }
-                effect = new NPCBurnEffectL2(this);
-                effects_.insert(effect->getType(), effect);
                 effect = new FireEffectL2(this);
                 break;
             case EFFECT_FIRE_3:
-                if (effects_.contains(EFFECT_BURN)) {
-                    deleteEffect(effects_.value(EFFECT_BURN));
+                if (effects_.contains(EFFECT_TAR)) {
+                    deleteEffect(effects_.value(EFFECT_TAR));
+                    if (effects_.contains(EFFECT_BURN)) {
+                        deleteEffect(effects_.value(EFFECT_BURN));
+                    }
+                    effect = new NPCBurnEffectL3(this);
+                    effects_.insert(effect->getType(), effect);
                 }
-                effect = new NPCBurnEffectL3(this);
-                effects_.insert(effect->getType(), effect);
                 effect = new FireEffectL3(this);
                 break;
             case EFFECT_FIRE_4:
-                if (effects_.contains(EFFECT_BURN)) {
-                    deleteEffect(effects_.value(EFFECT_BURN));
+                if (effects_.contains(EFFECT_TAR)) {
+                    deleteEffect(effects_.value(EFFECT_TAR));
+                    if (effects_.contains(EFFECT_BURN)) {
+                        deleteEffect(effects_.value(EFFECT_BURN));
+                    }
+                    effect = new NPCBurnEffectL4(this);
+                    effects_.insert(effect->getType(), effect);
                 }
-                effect = new NPCBurnEffectL4(this);
-                effects_.insert(effect->getType(), effect);
                 effect = new FireEffectL4(this);
                 break;
             case EFFECT_FIRE_5:
-                if (effects_.contains(EFFECT_BURN)) {
-                    deleteEffect(effects_.value(EFFECT_BURN));
+                if (effects_.contains(EFFECT_TAR)) {
+                    deleteEffect(effects_.value(EFFECT_TAR));
+                    if (effects_.contains(EFFECT_BURN)) {
+                        deleteEffect(effects_.value(EFFECT_BURN));
+                    }
+                    effect = new NPCBurnEffectL5(this);
+                    effects_.insert(effect->getType(), effect);
                 }
-                effect = new NPCBurnEffectL5(this);
-                effects_.insert(effect->getType(), effect);
                 effect = new FireEffectL5(this);
                 break;
         }
