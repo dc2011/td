@@ -23,6 +23,7 @@ SDriver::SDriver() : Driver() {
     gameMap_ = new Map(MAP_TMX, this);
     net_ = new NetworkServer();
     npcCounter_ = 0;
+    timeCount_ = 0;
 
     gameMap_->initMap();
 
@@ -215,37 +216,31 @@ void SDriver::destroyObject(int id) {
 }
 
 void SDriver::spawnWave() {
-    if(!waves_.empty()) {
-
-        //disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
-        NPCWave* temp;
-        foreach(temp,waves_) {
-            if(temp->getStart() == timeCount_){
-                temp->createWave();
-                connect(temp, SIGNAL(waveDead()),this,SLOT(deadWave()));
+    // Check to see if any waves should be spawned on this tick.
+    if (!waves_.empty()) {
+        foreach(NPCWave* wave, waves_) {
+            if (wave->getStart() == timeCount_) {
+                wave->createWave();
             }
         }
-    /*
-    disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
-    //NPCWave* wave = new NPCWave(this);
-
-
-    waves_.first()->createWave();
-    //waves_.append(wave);
-
-
-    connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
-    */
+  
+        /* IAN'S GARBAGE */
+        /*
+        disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
+        //NPCWave* wave = new NPCWave(this);
+        waves_.first()->createWave();
+        //waves_.append(wave);
+        connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+        */
     }
-}
-void SDriver::deadWave(){
-    if(!waves_.empty()) {
-        /*disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
-        waves_.takeFirst();
-        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(spawnWave()));*/
-    } else {
-        endGame(true);
+
+    // No more waves, end the game :)
+    else {
+        // TODO: may need to disconnect waveTimer -> spawnWave here.
+        endGame(TRUE);
     }
+    
+    timeCount_++;
 }
 
 void SDriver::deadNPC(int id) {

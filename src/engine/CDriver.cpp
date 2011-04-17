@@ -31,6 +31,7 @@ CDriver::CDriver(MainWindow* mainWindow)
 {
     mgr_ = new ResManager(this);
     npcCounter_ = 0;
+    timeCount_ = 0;
 }
 
 CDriver::~CDriver() {
