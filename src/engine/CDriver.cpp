@@ -84,9 +84,13 @@ void CDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
 void CDriver::setBaseHealth(int health) {
     Driver::setBaseHealth(health);
 
-    /* Do something dramatic here */
     getMainWindow()->getStats()->updateHP(health);
-    Console::instance()->addText("Oh teh noes!");
+}
+
+void CDriver::setGemCount(int count) {
+    Driver::setGemCount(count);
+
+    getMainWindow()->getStats()->updateGems(count);
 }
 
 void CDriver::readObject(Stream* s) {
@@ -222,6 +226,10 @@ void CDriver::makeLocalPlayer(Player* player) {
 void CDriver::dropResource() {
     Tile* currentTile = gameMap_->getTile(human_->getPos());
 
+    if (human_->getResource() == RESOURCE_NONE) {
+        return;
+    }
+
     if (this->isSinglePlayer() &&
             currentTile->getActionType() == TILE_BUILDING) {
         BuildingTower* t = (BuildingTower*)currentTile->getExtension();
@@ -258,9 +266,7 @@ void CDriver::pickupCollectable(int id) {
         Collectable* c = (Collectable*)mgr_->findObject(id);
 
         if (c->getType() == RESOURCE_GEM) {
-            gemCount_++;
-            Console::instance()->addText("Gem Count: " +
-                    QString::number(gemCount_));
+            setGemCount(gemCount_ + 1);
         }
         destroyObject(c);
     }
@@ -508,14 +514,16 @@ void CDriver::UDPReceived(Stream* s) {
             Player* p = (Player*)mgr_->findObject(playerID);
             Collectable* c = (Collectable*)mgr_->findObject(collID);
 
+            if (c == NULL || c == (Collectable*)-1) {
+                break;
+            }
+
             if (p->getID() != human_->getID()) {
                 p->pickupCollectable(p->getPos().x(), p->getPos().y(), c);
             }
 
             if (c->getType() == RESOURCE_GEM) {
-                gemCount_++;
-                Console::instance()->addText("Gem count = "
-                        + QString::number(gemCount_));
+                setGemCount(gemCount_ + 1);
             }
 
             destroyObject(c);
