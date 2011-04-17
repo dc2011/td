@@ -28,7 +28,8 @@ void CannonEndingGraphicsComponent::setNonStaticValues() {
 }
 
 void CannonEndingGraphicsComponent::timerEvent(QTimerEvent*) {
-    redraw(65, LAYER_FLYNPC);
+    setTimerLength(65);
+    update(NULL);
 }
 
 // arrow
@@ -54,7 +55,9 @@ void ArrowEndingGraphicsComponent::setNonStaticValues() {
 }
 
 void ArrowEndingGraphicsComponent::timerEvent(QTimerEvent*) {
-    redraw(65, LAYER_DEFAULT);
+    setTimerLength(65);
+    setLayer(LAYER_DEFAULT);
+    update(NULL);
 }
 
 // tar
@@ -81,7 +84,9 @@ void TarEndingGraphicsComponent::setNonStaticValues() {
 }
 
 void TarEndingGraphicsComponent::timerEvent(QTimerEvent*) {
-    redraw(225, LAYER_NPC);
+    setTimerLength(225);
+    setLayer(LAYER_NPC);
+    update(NULL);
 }
 
 // flying death
@@ -111,7 +116,7 @@ void FlyingEndingGraphicsComponent::setNonStaticValues() {
 }
 
 void FlyingEndingGraphicsComponent::timerEvent(QTimerEvent*) {
-    redraw(1000, LAYER_DEFAULT);
+    update(NULL);
 }
 
 // generic NPC death
@@ -140,7 +145,7 @@ void GenericNPCEndingGraphicsComponent::setNonStaticValues() {
 }
 
 void GenericNPCEndingGraphicsComponent::timerEvent(QTimerEvent*) {
-    redraw(1000, LAYER_DEFAULT);
+    update(NULL);
 }
 
 }

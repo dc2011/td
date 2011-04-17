@@ -81,7 +81,6 @@ void Tower::initComponents() {
 }
 
 void Tower::setComponents() {
-    qDebug("tower type %d", type_);
     disconnect(getDriver()->getTimer(), SIGNAL(timeout()),
             this, SLOT(update()));
 #ifndef SERVER

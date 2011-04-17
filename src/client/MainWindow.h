@@ -11,6 +11,7 @@
 #include <QBoxLayout>
 #include "../graphics/DrawParams.h"
 #include "keymap.h"
+#include "stats.h"
 
 /*Bitmask Defines*/
 #define KEYUP 1
@@ -24,6 +25,7 @@ namespace td {
 
 class MapDisplayer;
 class GraphicsComponent;
+
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -43,7 +45,7 @@ private:
     /**
      * The stats bar.
      */
-    QFrame* stats_;
+    Stats* stats_;
     
     /**
      * The bitmask of keys held and not released
@@ -80,7 +82,7 @@ public:
     
     QGraphicsScene* getScene() { return scene_; }
     QGraphicsView* getView() { return view_; }
-
+    Stats* getStats() { return stats_; }
     MapDisplayer * getMD() { return mapDisplayer_; }
     bool getMapState() { return mapZoomOut_; }
     

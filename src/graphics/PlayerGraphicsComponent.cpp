@@ -50,6 +50,7 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
     dp->moving = player->getMoving();
     dp->scale   = 1;
     dp->degrees = player->getOrientation();
+    dp->animate = animate_;
     dp->resourceProgressShowing = resourceProgressShowing_;
     dp->resourceProgress = resourceProgress_;
     dp->resourceType = player->getResource();

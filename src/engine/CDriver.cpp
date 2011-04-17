@@ -84,6 +84,7 @@ void CDriver::setBaseHealth(int health) {
     Driver::setBaseHealth(health);
 
     /* Do something dramatic here */
+    getMainWindow()->getStats()->updateHP(health);
     Console::instance()->addText("Oh teh noes!");
 }
 

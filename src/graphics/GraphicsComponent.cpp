@@ -8,8 +8,11 @@ namespace td {
 
 GraphicsComponent::GraphicsComponent() 
         : pixmapIndex_(0), isMoving_(false), animate_(true) {
+    oldDP_.pos = QPointF(0,0);
+    oldDP_.degrees = -1;
+    oldDP_.scale = -1;
 
-#ifndef SERVER    
+#ifndef SERVER
     MainWindow* mainWindow = CDriver::instance()->getMainWindow();
 
     connect(this, SIGNAL(created(GraphicsComponent*)), 
@@ -31,9 +34,20 @@ void GraphicsComponent::deleteComponent() {
 
 void GraphicsComponent::draw(void* dp, int layer) {
     DrawParams* drawParams = (DrawParams*) dp;
-    if (animate_) {
+    if (drawParams->animate) {
         animate();
     }
+
+    if (oldDP_.pos != drawParams->pos || oldDP_.scale != drawParams->scale || oldDP_.degrees != drawParams->degrees) {
+
+        oldDP_.pos = drawParams->pos;
+        oldDP_.scale = drawParams->scale;
+        oldDP_.degrees = drawParams->degrees;
+    } else {
+        delete drawParams;
+        return;
+    }
+
 
     QPointF center = pixmapItem_->boundingRect().center();
     pixmapItem_->resetMatrix();
