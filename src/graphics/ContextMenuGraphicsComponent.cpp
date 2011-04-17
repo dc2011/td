@@ -81,7 +81,7 @@ void ContextMenuGraphicsComponent::hideSelectMenu() {
 
 void ContextMenuGraphicsComponent::showResources(bool show) {
     if (show) {
-        nextImage_ = MENU_TOWER_RESOURCES;
+        nextImage_ = MENU_RESOURCES;
     } else {
         nextImage_ = MENU_BASE;
     }
