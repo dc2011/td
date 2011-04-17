@@ -333,6 +333,7 @@ void SDriver::onMsgReceive(Stream* s) {
                 out->writeInt(upgradeType);
                 net_->send(network::kUpgradePlayer, out->data());
             }
+            break;
         }
         case network::kSellTower:
         {
