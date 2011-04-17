@@ -111,21 +111,27 @@
 // Acceleration of NPC types
 #define NPC_NORM_ACCEL  0.2  
 #define NPC_SLOW_ACCEL  0.1  
+#define NPC_ARM_ACCEL   0.1  
 #define NPC_FAST_ACCEL  0.3  
+#define NPC_SWARM_ACCEL 0.2  
 #define NPC_FLY_ACCEL   0.2  
 #define NPC_BOSS_ACCEL  0.1  
 
 // Deceleration of NPC types
 #define NPC_NORM_DECEL  0.25  
 #define NPC_SLOW_DECEL  0.15  
+#define NPC_ARM_DECEL   0.15  
 #define NPC_FAST_DECEL  0.4  
+#define NPC_SWARM_DECEL 0.25  
 #define NPC_FLY_DECEL   0.25  
 #define NPC_BOSS_DECEL  0.15  
 
 // Maximum Velocity of NPC types
 #define NPC_NORM_MAX_V  2  
 #define NPC_SLOW_MAX_V  1
+#define NPC_ARM_MAX_V   1
 #define NPC_FAST_MAX_V  4
+#define NPC_SWARM_MAX_V 2
 #define NPC_FLY_MAX_V   2
 #define NPC_BOSS_MAX_V  1
 
