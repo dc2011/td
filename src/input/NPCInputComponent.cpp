@@ -44,9 +44,9 @@ void NPCInputComponent::makeForce() {
     if (forceCounter_++ % 5 == 0) {
         double rx = (qrand() % 500) / 150.0;
         double ry = (qrand() % 500) / 150.0;
-        QVector2D force = QVector2D(((0.2 + segment_.dx()) * rx
-                    / segment_.length()),
-                ((0.2 + segment_.dy()) * ry / segment_.length()));
+        QVector2D force = QVector2D(((0.2 + segment_.dx()) * rx),
+                ((0.2 + segment_.dy()) * ry));
+        force.normalize();
         parent_->setForce(force);
     }
 }
