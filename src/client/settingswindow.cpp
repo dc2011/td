@@ -12,7 +12,7 @@ settingsWindow::settingsWindow(QWidget *parent) :
 {
 
     this->setWindowFlags(Qt::FramelessWindowHint);
-    this->move(500, 300);
+    this->move(400, 200);
 
     QPixmap pixmap("./img/mainMenuBg.png");
     this->setMask(pixmap.mask());

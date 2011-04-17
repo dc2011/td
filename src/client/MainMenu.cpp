@@ -14,7 +14,7 @@ MainMenu::MainMenu(QWidget *parent) :
     ui(new Ui::MainMenu)
 {
     this->setWindowFlags(Qt::FramelessWindowHint);
-    this->move(500, 300);
+    this->move(400, 200);
 
     QPixmap pixmap("./img/mainMenuBg.png");
     this->setMask(pixmap.mask());
