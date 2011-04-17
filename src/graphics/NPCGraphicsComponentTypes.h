@@ -77,6 +77,42 @@ private:
     virtual void setLayer(void* dp);
 };
 
+class ArmNPCGraphicsComponent : public NPCGraphicsComponent
+{
+    Q_OBJECT
+
+private:
+    /** The array of pixmaps for the animations. */
+    static QPixmap* pixmapImgs_;
+
+public:
+    ArmNPCGraphicsComponent() : NPCGraphicsComponent() {
+        emit created(this);
+    }
+    virtual ~ArmNPCGraphicsComponent() { }
+
+    /**
+     * Initializes the static array of pixmaps.
+     *
+     * @author Warren Voelkl
+     */
+    virtual void initPixmaps();
+
+    /**
+     * Returns the array of pixmap images.
+     *
+     * @author Warren Voelkl
+     * @return The list of static pixmaps used for animations.
+     */
+    virtual QPixmap* getPixmapArray() {
+        return pixmapImgs_;
+    }
+
+private:
+    virtual void setNonStaticValues();
+    virtual void setLayer(void* dp);
+};
+
 class FastNPCGraphicsComponent : public NPCGraphicsComponent
 {
     Q_OBJECT
@@ -90,6 +126,42 @@ public:
         emit created(this);
     }
     virtual ~FastNPCGraphicsComponent() { }
+
+    /**
+     * Initializes the static array of pixmaps.
+     *
+     * @author Warren Voelkl
+     */
+    virtual void initPixmaps();
+
+    /**
+     * Returns the array of pixmap images.
+     *
+     * @author Warren Voelkl
+     * @return The list of static pixmaps used for animations.
+     */
+    virtual QPixmap* getPixmapArray() {
+        return pixmapImgs_;
+    }
+
+private:
+    virtual void setNonStaticValues();
+    virtual void setLayer(void* dp);
+};
+
+class SwarmNPCGraphicsComponent : public NPCGraphicsComponent
+{
+    Q_OBJECT
+
+private:
+    /** The array of pixmaps for the animations. */
+    static QPixmap* pixmapImgs_;
+
+public:
+    SwarmNPCGraphicsComponent() : NPCGraphicsComponent() {
+        emit created(this);
+    }
+    virtual ~SwarmNPCGraphicsComponent() { }
 
     /**
      * Initializes the static array of pixmaps.

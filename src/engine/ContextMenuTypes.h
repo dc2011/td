@@ -92,9 +92,8 @@ signals:
      *
      * @author Dean Morin
      * @param upgradeType The attribute being updated.
-     * @param pos Where the tower to sell is.
      */
-    void signalUpgradePlayer(int upgradeType, QPointF pos); 
+    void signalUpgradePlayer(int upgradeType); 
 };
 
 } // end namespace td

@@ -11,9 +11,10 @@
 
 namespace td {
 
-Player::Player(QObject* parent)
-        : Unit(parent), nickname_(""), harvesting_(RESOURCE_NONE),
-          harvestCountdown_(HARVEST_COUNTDOWN), resource_(RESOURCE_NONE) {
+Player::Player(QObject* parent) 
+        : Unit(parent), nickname_(""), harvesting_(RESOURCE_NONE), 
+          harvestCountdown_(HARVEST_COUNTDOWN), harvestTime_(HARVEST_COUNTDOWN),
+          resource_(RESOURCE_NONE), stunUpgrade_(false) {
     QVector2D force(0, 0);
     this->setForce(force);
 
@@ -142,7 +143,11 @@ void Player::createEffect(int effectType)
             foreach(Effect* e, effects_) {
                 deleteEffect(e);
             }
-            effect = new NPCPlayerEffect(this);
+            if (stunUpgrade_) {
+                effect = new UpgradeNPCPlayerEffect(this);
+            } else {
+                effect = new NPCPlayerEffect(this);
+            }
             break;
         default:
             return;
@@ -154,6 +159,13 @@ void Player::createEffect(int effectType)
         // Insert the effect into the map
         effects_.insert(effectType, effect);
     }
+}
+
+void Player::deleteEffect(int type)
+{
+    Effect* effect = effects_.take(type);
+    delete effect;
+    effect = NULL;
 }
 
 void Player::deleteEffect(Effect* effect)
@@ -191,14 +203,14 @@ void Player::stopHarvesting() {
     }
 
     harvesting_ = RESOURCE_NONE;
-    harvestCountdown_ = HARVEST_COUNTDOWN;
+    harvestCountdown_ = harvestTime_;
     emit signalPlayerMovement(true);
 }
 
 void Player::harvestResource() {
     if (--harvestCountdown_ <= 0) {
         resource_ = harvesting_;
-        harvestCountdown_ = HARVEST_COUNTDOWN;
+        harvestCountdown_ = harvestTime_;
         setDirty(kResource);
         stopHarvesting();
 

@@ -114,9 +114,9 @@ void NPC::initComponents() {
 
     switch(type_) {
     case NPC_NORM:
-        maxHealth_ = health_ = 100;
-        height_ = 90;
-        width_ = 30;
+        maxHealth_ = health_ = NPC_NORM_HP;
+        height_ = NPC_NORM_HEIGHT;
+        width_ = NPC_NORM_WIDTH;
         input = new NormNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new NormNPCPhysicsComponent());
@@ -126,9 +126,9 @@ void NPC::initComponents() {
         setInputComponent(input);
         break;
     case NPC_SLOW:
-        maxHealth_ = health_ = 200;
-        height_ = 30;
-        width_ = 90;
+        maxHealth_ = health_ = NPC_SLOW_HP;
+        height_ = NPC_SLOW_HEIGHT;
+        width_ = NPC_SLOW_WIDTH;
         input = new SlowNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new SlowNPCPhysicsComponent());
@@ -137,10 +137,22 @@ void NPC::initComponents() {
 #endif
         setInputComponent(input);
         break;
+    case NPC_ARM:
+        maxHealth_ = health_ = NPC_ARM_HP;
+        height_ = NPC_ARM_HEIGHT;
+        width_ = NPC_ARM_WIDTH;
+        input = new ArmNPCInputComponent();
+        input->setParent(this);
+        setPhysicsComponent(new ArmNPCPhysicsComponent());
+#ifndef SERVER
+        setGraphicsComponent(new ArmNPCGraphicsComponent());
+#endif
+        setInputComponent(input);
+        break;
     case NPC_FAST:
-        maxHealth_ = health_ = 50;
-        height_ = 30;
-        width_ = 90;
+        maxHealth_ = health_ = NPC_FAST_HP;
+        height_ = NPC_FAST_HEIGHT;
+        width_ = NPC_FAST_WIDTH;
         input = new FastNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new FastNPCPhysicsComponent());
@@ -149,10 +161,22 @@ void NPC::initComponents() {
 #endif
         setInputComponent(input);
         break;
+    case NPC_SWARM:
+        maxHealth_ = health_ = NPC_SWARM_HP;
+        height_ = NPC_SWARM_HEIGHT;
+        width_ = NPC_SWARM_WIDTH;
+        input = new SwarmNPCInputComponent();
+        input->setParent(this);
+        setPhysicsComponent(new SwarmNPCPhysicsComponent());
+#ifndef SERVER
+        setGraphicsComponent(new SwarmNPCGraphicsComponent());
+#endif
+        setInputComponent(input);
+        break;
     case NPC_FLY:
-        maxHealth_ = health_ = 100;
-        height_ = 30;
-        width_ = 90;
+        maxHealth_ = health_ = NPC_FLY_HP;
+        height_ = NPC_FLY_HEIGHT;
+        width_ = NPC_FLY_WIDTH;
         input = new FlyNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new FlyNPCPhysicsComponent());
@@ -162,9 +186,9 @@ void NPC::initComponents() {
         setInputComponent(input);
         break;
     case NPC_BOSS:
-        maxHealth_ = health_ = 300;
-        height_ = 30;
-        width_ = 90;
+        maxHealth_ = health_ = NPC_BOSS_HP;
+        height_ = NPC_BOSS_HEIGHT;
+        width_ = NPC_BOSS_WIDTH;
         input = new BossNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new BossNPCPhysicsComponent());

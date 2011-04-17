@@ -8,9 +8,10 @@ namespace td {
 
 NPCPlayerEffect::NPCPlayerEffect(Unit* unit)
     : Effect(unit, EFFECT_NPCPLAYER, NPC_PLAYER_TIME) {
-    oldVelocity_ = PLAYER_MAX_V;
+    oldVelocity_ = ((PlayerPhysicsComponent*)unit->getPhysicsComponent())
+        ->getMaxVelocity();
     velocityChangeValue_ = oldVelocity_ / 5;
-    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))
+    ((PlayerPhysicsComponent*)unit_->getPhysicsComponent())
         ->setMaxVelocity(velocityChangeValue_);
 }
 
@@ -20,6 +21,19 @@ NPCPlayerEffect::~NPCPlayerEffect() {
 }
 
 void NPCPlayerEffect::apply() {}
+
+UpgradeNPCPlayerEffect::UpgradeNPCPlayerEffect(Unit* unit)
+    : Effect(unit, EFFECT_NPCPLAYER, NPC_PLAYER_TIME_UPGRADE) {
+    oldVelocity_ = ((PlayerPhysicsComponent*)unit->getPhysicsComponent())->getMaxVelocity();
+    velocityChangeValue_ = oldVelocity_ / 5;
+    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(velocityChangeValue_);
+}
+
+UpgradeNPCPlayerEffect::~UpgradeNPCPlayerEffect() {
+    ((PlayerPhysicsComponent*)(unit_->getPhysicsComponent()))->setMaxVelocity(oldVelocity_);
+}
+
+void UpgradeNPCPlayerEffect::apply() {}
 
 ArrowEffect::ArrowEffect(Unit* unit)
         : Effect(unit, EFFECT_ARROW, ARROW_TIME) {    
@@ -148,7 +162,7 @@ void FlakEffectL5::apply(){}
 
 PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
     : Effect(unit, EFFECT_SLOW, NO_TIME) {
-    oldVelocity_ = PLAYER_MAX_V;
+    oldVelocity_ = ((PlayerPhysicsComponent*)unit->getPhysicsComponent())->getMaxVelocity();
     velocityChangeValue_ = oldVelocity_ / 5;
 }
 
@@ -169,7 +183,7 @@ void PlayerTerrainSlowEffect::apply() {
 
 PlayerTerrainFastEffect::PlayerTerrainFastEffect(Unit* unit)
     : Effect(unit, EFFECT_FAST, NO_TIME) {
-    oldVelocity_ = PLAYER_MAX_V;
+    oldVelocity_ = ((PlayerPhysicsComponent*)unit->getPhysicsComponent())->getMaxVelocity();
     velocityChangeValue_ = oldVelocity_*2;
 }
 

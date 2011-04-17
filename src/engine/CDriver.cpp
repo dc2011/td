@@ -191,8 +191,8 @@ void CDriver::makeLocalPlayer(Player* player) {
             playerContextMenu_, SLOT(selectMenuItem(int)));
     connect(mainWindow_, SIGNAL(signalAltHeld(bool)),
             playerContextMenu_, SLOT(viewResources(bool)));
-    //connect(playerContextMenu_, SIGNAL(signalUpgradePlayer(int, QPointF)),
-    //TODO macca add upgrade player here        this, SLOT(***(int, QPointF)));
+    connect(playerContextMenu_, SIGNAL(signalUpgradePlayer(int)),
+            this, SLOT(requestUpgradePlayer(int)));
     connect(playerContextMenu_, SIGNAL(signalPlayerMovement(bool)),
 	        input, SLOT(playerMovement(bool)));
 
@@ -310,6 +310,17 @@ void CDriver::requestUpgradeTower(QPointF pos) {
         s.writeFloat(pos.x());
         s.writeFloat(pos.y());
         NetworkClient::instance()->send(network::kUpgradeTower, s.data());
+    }
+}
+
+void CDriver::requestUpgradePlayer(int type) {
+    if (isSinglePlayer()) {
+        Driver::upgradePlayer(human_->getID(), type);
+    } else {
+        Stream s;
+        s.writeInt(human_->getID());
+        s.writeInt(type);
+        NetworkClient::instance()->send(network::kUpgradePlayer, s.data());
     }
 }
 
@@ -509,6 +520,15 @@ void CDriver::UDPReceived(Stream* s) {
             destroyObject(c);
 
             break;
+        }
+        case network::kUpgradePlayer:
+        {
+            unsigned int playerID = s->readInt();
+            int upgradeType = s->readInt();
+
+            if (human_->getID() == playerID) {
+                Driver::upgradePlayer(playerID, upgradeType);
+            }
         }
         case network::kSellTower:
         {

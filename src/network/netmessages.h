@@ -119,6 +119,9 @@ namespace network {
          */
         kPickCollect    =   0x15,
 
+        /** Indicates a player upgrade. */
+        kUpgradePlayer  =   0x20,
+
         /* * * * * * * UDP MESSAGES MUST BE BELOW THIS DECLARATION * * * * * * */
 
         /** Used as a separator to indicate UDP messages. */

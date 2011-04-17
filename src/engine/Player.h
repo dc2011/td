@@ -102,6 +102,27 @@ public:
     }
 
     /**
+      * Sets the player's maximum harvest countdown amount.
+      *
+      * @author Marcel Vangrootheest
+      * @param count The new harvestTime_ value.
+      */
+    void setHarvestTime(int time) {
+        harvestTime_ = time;
+        harvestCountdown_ = time;
+    }
+
+    /**
+      * Sets the player's maximum harvest countdown amount.
+      *
+      * @author Marcel Vangrootheest
+      * @return The maximum harvest countdown amount.
+      */
+    int getHarvestTime() {
+        return harvestTime_;
+    }
+
+    /**
      * Gets the player's resource it is carrying.
      *
      * @author Marcel Vangrootheest
@@ -123,6 +144,16 @@ public:
     }
 
     /**
+     * Sets the player's stunUpgrade to true or false.
+     *
+     * @author Marcel Vangrootheest
+     * @param stun True will cause a stun upgrade.
+     */
+    void setStunUpgrade(bool stun) {
+        stunUpgrade_ = stun;
+    }
+
+    /**
      * Gets whether the player is moving or not.
      *
      * @author Darryl Pogue
@@ -131,6 +162,25 @@ public:
     bool getMoving() const {
         return isMoving_;
     }
+
+    /**
+     * Return true if the player has the specified effect type.
+     *
+     * @author Marcel Vangrootheest
+     * @param type The effect type to look for.
+     * @return True if the player has this effect.
+     */
+    bool hasEffect(int type) {
+        return effects_.contains(type);
+    }
+
+    /**
+     * Remove effect from the list by type.
+     *
+     * @author Marcel Vangrootheest.
+     * @param type The effect type to remove from the list.
+     */
+    void deleteEffect(int type);
 
 private: 
     /**
@@ -209,8 +259,14 @@ private:
     /** How many game ticks remaining before a resource is harvested. */ 
     int harvestCountdown_;
 
+    /** Max harvest countdown depending on upgrade. */ 
+    int harvestTime_;
+
     /** The resource (if any) that the player is currently carrying. */
     int resource_;
+
+    /** If true a different Effect will be applied when colliding with NPC. */
+    bool stunUpgrade_;
 
     /** Whether the player is moving or not. */
     bool isMoving_;

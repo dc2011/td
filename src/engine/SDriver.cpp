@@ -325,6 +325,17 @@ void SDriver::onMsgReceive(Stream* s) {
     Stream* out = new Stream();
 
     switch(message) {
+        case network::kUpgradePlayer:
+        {
+            unsigned int playerID = s->readInt();
+            int upgradeType = s->readInt();
+
+            if (Driver::upgradePlayer(playerID, upgradeType)) {
+                out->writeInt(playerID);
+                out->writeInt(upgradeType);
+                net_->send(network::kUpgradePlayer, out->data());
+            }
+        }
         case network::kSellTower:
         {
             float x = s->readFloat();

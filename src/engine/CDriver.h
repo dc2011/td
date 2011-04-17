@@ -293,7 +293,7 @@ public slots:
 
     /**
      * Requests or sells a Tower at the player's current position.
-     * Should be connected to a context menu.
+     * Connected to signalSellTower in TowerContextMenu
      *
      * @param pos The position of the tower to sell.
      */
@@ -301,11 +301,19 @@ public slots:
 
     /**
      * Request to upgrade a tower at the player's current position.
-     * Connected to signalupgradetower in player
+     * Connected to signalUpgradeTower in TowerContextMenu
      *
      * @param pos The position of the player and tower to upgrade.
      */
     void requestUpgradeTower(QPointF pos);
+
+    /**
+     * Request to upgrade a player.
+     * Connected to signalUpgradePlayer in PlayerContextMenu.
+     *
+     * @param type The type of upgrade to apply to player.
+     */
+    void requestUpgradePlayer(int type);
 
 private slots:
     /**
