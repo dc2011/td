@@ -48,30 +48,35 @@ void Tower::initComponents() {
 #ifndef SERVER
             setGraphicsComponent(new ArrowTowerGraphicsComponent());
 #endif
+            type_ = TOWER_ARROW_1;
             break;
         case TOWER_CANNON:
             setPhysicsComponent(new CannonTowerPhysicsComponent(this));
 #ifndef SERVER
             setGraphicsComponent(new CannonTowerGraphicsComponent());
 #endif
+            type_ = TOWER_CANNON_1;
             break;
         case TOWER_FLAME:
             setPhysicsComponent(new FlameTowerPhysicsComponent(this));
 #ifndef SERVER
             setGraphicsComponent(new FlameTowerGraphicsComponent());
 #endif
+            type_ = TOWER_FLAME_1;
             break;
         case TOWER_TAR:
             setPhysicsComponent(new TarTowerPhysicsComponent(this));
 #ifndef SERVER
             setGraphicsComponent(new TarTowerGraphicsComponent());
 #endif
+            type_ = TOWER_TAR_1;
             break;
         case TOWER_FLAK:
             setPhysicsComponent(new FlakTowerPhysicsComponent(this));
 #ifndef SERVER
             setGraphicsComponent(new FlakTowerGraphicsComponent());
 #endif
+            type_ = TOWER_FLAK_1;
             break;
     }
 #ifndef SERVER

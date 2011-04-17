@@ -1,7 +1,9 @@
 #include "ContextMenuGraphicsComponentTypes.h"
-#include "../engine/ContextMenu.h"
-#include "../util/defines.h"
 #include "../engine/CDriver.h"
+#include "../engine/ContextMenu.h"
+#include "../engine/Map.h"
+#include "../engine/Tower.h"
+#include "../util/defines.h"
 
 namespace td {
 
@@ -89,27 +91,13 @@ void BuildContextMenuGraphicsComponent::showSelectMenu(int type,
         case TOWER_FLAK:
             nextImage_ = 6;
             break;
-        }
+    }
     ContextMenuGraphicsComponent::showSelectMenu(type, playerPos);
 }
 
 QPixmap* BuildContextMenuGraphicsComponent::getPixmapArray() {
     return pixmapImgs_;
 }
-
-int BuildContextMenuGraphicsComponent::getCurrentImage() {
-    if (nextImage_ == MENU_BASE) {
-        if (menu_->getUpgradeLevels() < MAX_TOWER_LEVEL) {
-            return MENU_BASE;
-        }
-        return MENU_UPGRADE_ALL;
-    }
-    if (nextImage_ == MENU_TOWER_RESOURCES) {
-        return menu_->getUpgradeLevels() + MENU_TOWER_RESOURCES;
-    }
-    ContextMenuGraphicsComponent::getCurrentImage();
-}
-
 
 QPixmap* TowerContextMenuGraphicsComponent::pixmapImgs_ = 0;
 
@@ -157,14 +145,19 @@ QPixmap* TowerContextMenuGraphicsComponent::getPixmapArray() {
 }
 
 int TowerContextMenuGraphicsComponent::getCurrentImage() {
+    Map* map = CDriver::instance()->getGameMap();
+    QPointF pos = menu_->getPos();
+    Tile* tile = map->getTile(pos.x(), pos.y());
+    int towerLevel = ((Tower*) tile->getExtension())->getLevel();
+
     if (nextImage_ == MENU_BASE) {
-        if (menu_->getUpgradeLevels() < MAX_TOWER_LEVEL) {
+        if (towerLevel < MAX_TOWER_LEVEL) { 
             return MENU_BASE;
         }
         return MENU_UPGRADE_ALL;
     }
     if (nextImage_ == MENU_TOWER_RESOURCES) {
-        return menu_->getUpgradeLevels() + MENU_TOWER_RESOURCES;
+        return towerLevel + MENU_TOWER_RESOURCES;
     }
     ContextMenuGraphicsComponent::getCurrentImage();
 }
@@ -214,6 +207,7 @@ QPixmap* PlayerContextMenuGraphicsComponent::getPixmapArray() {
 }
 
 int PlayerContextMenuGraphicsComponent::getCurrentImage() {
+/*
     if (nextImage_ == MENU_BASE) {
         if (menu_->getUpgradeLevels() < MAX_TOWER_LEVEL) {
             return MENU_BASE;
@@ -224,6 +218,7 @@ int PlayerContextMenuGraphicsComponent::getCurrentImage() {
         return menu_->getUpgradeLevels() + MENU_TOWER_RESOURCES;
     }
     ContextMenuGraphicsComponent::getCurrentImage();
+    */
 }
 
 } // end namespace td

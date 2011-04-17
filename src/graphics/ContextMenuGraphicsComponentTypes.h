@@ -41,16 +41,6 @@ protected:
      */
     virtual QPixmap* getPixmapArray();
 
-    /**
-     * Gets the menu image index appropriate for the levels of the upgrades. 
-     * (eg. there will be a different image when a tower has been upgraded to 
-     * level 3, as opposed to when no upgrades have taken place.
-     *
-     * @author Dean Morin
-     * @return The current base menu image index.
-     */
-    virtual int getCurrentImage();
-
 private:
     /**
      * container for all pixmaps which pertain to the current object

@@ -1,4 +1,8 @@
 #include "ContextMenuTypes.h"
+#include "Driver.h"
+#include "Map.h"
+#include "TileExtension.h"
+#include "Tower.h"
 #include "../graphics/ContextMenuGraphicsComponentTypes.h"
 
 namespace td {
@@ -27,10 +31,13 @@ void TowerContextMenu::selectMenuItem(int keyPressed) {
         return;
     }
     if (keyPressed == UPGRADE_TOWER) {
-        if (upgradeLevels_ >= MAX_TOWER_LEVEL) { 
+        Map* map = player_->getDriver()->getGameMap();
+        Tile* tile = map->getTile(player_->getPos().x(), player_->getPos().y());
+        int level = ((Tower*) tile->getExtension())->getLevel();
+
+        if (level >= MAX_TOWER_LEVEL) { 
             return;
         }
-        upgradeLevels_++;
         emit signalUpgradeTower(player_->getPos());
     } else {
         emit signalSellTower(player_->getPos()); 

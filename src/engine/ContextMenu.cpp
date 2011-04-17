@@ -1,7 +1,6 @@
 #include "ContextMenu.h"
 #include "CDriver.h"
 #include "Map.h"
-#include "Player.h"
 #include "Tile.h"
 #include "../audio/SfxManager.h"
 #include "../graphics/ContextMenuGraphicsComponent.h"

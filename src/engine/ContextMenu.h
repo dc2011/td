@@ -5,10 +5,10 @@
 #include <QPointF>
 #include <QTimer>
 #include "ClsIdx.h"
+#include "Player.h"
 
 namespace td {
 class ContextMenuGraphicsComponent;
-class Player;
 
 class ContextMenu : public QObject {
     Q_OBJECT
@@ -29,14 +29,13 @@ public:
     virtual ~ContextMenu();
 
     /**
-     * Gets the state of the various upgrades that can be selected through this
-     * menu.
+     * Returns the position of the player that opened the menu.
      *
      * @author Dean Morin
-     * @return The state of all upgrades related to this menu.
+     * @return The player's coords.
      */
-    int getUpgradeLevels() const {
-        return upgradeLevels_;
+    QPointF getPos() {
+        return player_->getPos();
     }
 
 protected:

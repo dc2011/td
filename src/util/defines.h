@@ -26,7 +26,7 @@
 #define UPGRADE_HARVEST     50
 #define UPGRADE_RECOVERY    51
 
-// for tower upgrade bitmask
+// for player upgrade bitmask
 #define PLAYER_NONE         0x0
 #define PLAYER_SPEED        0x1
 #define PLAYER_HARVEST      0x2
@@ -41,16 +41,34 @@
 #define MENU_TOWER_UPGRADE      7
 #define MENU_TOWER_SELL         8
 
-#define TOWER_ARROW_2       0
-#define TOWER_ARROW_3       1
-#define TOWER_CANNON_2      2
-#define TOWER_CANNON_3      3
-#define TOWER_FLAME_2       4
-#define TOWER_FLAME_3       5
-#define TOWER_TAR_2         6
-#define TOWER_TAR_3         7
-#define TOWER_FLAK_2        8
-#define TOWER_FLAK_3        9
+// tower types
+// last group of 4 bits - tower level
+// 2nd to last group of 4 bits - tower type
+#define TOWER_ARROW_1   0x01
+#define TOWER_ARROW_2   0x02
+#define TOWER_ARROW_3   0x03
+#define TOWER_ARROW_4   0x04
+#define TOWER_ARROW_5   0x05
+#define TOWER_CANNON_1  0x11
+#define TOWER_CANNON_2  0x12
+#define TOWER_CANNON_3  0x13
+#define TOWER_CANNON_4  0x14
+#define TOWER_CANNON_5  0x15
+#define TOWER_FLAME_1   0x21
+#define TOWER_FLAME_2   0x22
+#define TOWER_FLAME_3   0x23
+#define TOWER_FLAME_4   0x24
+#define TOWER_FLAME_5   0x25
+#define TOWER_TAR_1     0x31
+#define TOWER_TAR_2     0x32
+#define TOWER_TAR_3     0x33
+#define TOWER_TAR_4     0x34
+#define TOWER_TAR_5     0x35
+#define TOWER_FLAK_1    0x41
+#define TOWER_FLAK_2    0x42
+#define TOWER_FLAK_3    0x43
+#define TOWER_FLAK_4    0x44
+#define TOWER_FLAK_5    0x45
 
 // Current map to use
 #define MAP      "bigmap"
