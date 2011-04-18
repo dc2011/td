@@ -367,6 +367,8 @@ void NPC::createEffect(int effectType)
     }  else {
         return;
     }
+    connect(effect, SIGNAL(effectFinished(Effect*)),
+                     this, SLOT(deleteEffect(Effect*)));
     effects_.insert(effect->getType(), effect);
 }
 

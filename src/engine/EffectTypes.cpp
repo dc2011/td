@@ -37,6 +37,9 @@ void UpgradeNPCPlayerEffect::apply() {}
 
 ArrowEffect::ArrowEffect(Unit* unit)
         : Effect(unit, EFFECT_ARROW, ARROW_TIME) {    
+    if (unit_ == NULL) {
+        return;
+    }
 
     if (((NPC*)unit_)->getType() == NPC_ARM) {
         healthChangeValue_ = ARROW_ARM_DMG;
