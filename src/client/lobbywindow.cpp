@@ -318,6 +318,14 @@ void LobbyWindow::onCreateNewGame() {
         ui->leaveGame->setEnabled(true);
     }
 }
+
+void LobbyWindow::mousePressEvent( QMouseEvent *e ) {
+    clickPos = e->pos();
+}
+
+void LobbyWindow::mouseMoveEvent( QMouseEvent *e ) {
+    move( e->globalPos() - clickPos );
+}
 /* end namespace td */
 
 };
