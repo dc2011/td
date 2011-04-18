@@ -164,11 +164,9 @@ int TowerContextMenuGraphicsComponent::getCurrentImage() {
     Tile* tile = map->getTile(pos.x(), pos.y());
     int towerLevel = 0;
    
-    CDriver::instance()->getMenuMutex()->lock();
-    if (((Tower*) tile->getExtension()) != NULL) {
+    if (tile->getExtension() != NULL) {
         towerLevel = ((Tower*) tile->getExtension())->getLevel();
     }
-    CDriver::instance()->getMenuMutex()->unlock();
     
     if (nextImage_ == MENU_BASE) {
         if (towerLevel < MAX_TOWER_LEVEL) { 

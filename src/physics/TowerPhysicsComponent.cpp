@@ -142,8 +142,10 @@ void TowerPhysicsComponent::fire() {
     }
     emit fireProjectile(projType_, tower_->getPos(), target_->getPos(),
             target_);
-    ((TowerGraphicsComponent*) tower_->getGraphicsComponent())->setFiring(true);
     fireCountdown_ = fireInterval_;
+#ifndef SERVER
+    ((TowerGraphicsComponent*) tower_->getGraphicsComponent())->setFiring(true);
+#endif
 }
 
 void TowerPhysicsComponent::targetDied() {
