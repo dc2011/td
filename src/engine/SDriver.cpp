@@ -126,8 +126,6 @@ void SDriver::startGame(bool multicast) {
     //tempWave = new NPCWave(this);
     //waves_.append(tempWave);
     while((tempWave = script_->readWave())!=NULL) {
-
-    while((tempWave = fileParser->readWave()) != NULL) {
         waves_.append(tempWave);
         totalWaves_++;
     }
