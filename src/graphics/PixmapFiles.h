@@ -103,8 +103,11 @@
 #define PIX_NPC_PLEA_MAX        2
 #define PIX_NPC_MAMMOTH_START   0
 #define PIX_NPC_MAMMOTH_0       QString("./img/mammoth1.png")
-#define PIX_NPC_MAMMOTH_1       QString("./img/mammoth2.png")
-#define PIX_NPC_MAMMOTH_MAX     2
+#define PIX_NPC_MAMMOTH_1       QString("./img/mammoth3.png")
+#define PIX_NPC_MAMMOTH_2	QString("./img/mammoth5.png")
+#define PIX_NPC_MAMMOTH_3	QString("./img/mammoth4.png")
+#define PIX_NPC_MAMMOTH_4	Qstring("./img/mammoth2.png")
+#define PIX_NPC_MAMMOTH_MAX     5
 #define PIX_NPC_ANKLY_START     0
 #define PIX_NPC_ANKLY_0         QString("./img/anklyosaurus1.png")
 #define PIX_NPC_ANKLY_1         QString("./img/anklyosaurus2.png")
