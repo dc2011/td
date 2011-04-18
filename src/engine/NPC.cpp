@@ -68,7 +68,24 @@ void NPC::setMaxHealth(int maxHealth) {
 }
 
 void NPC::networkRead(Stream* s) {
-    Unit::networkRead(s);
+    dirty_ = s->readInt();
+
+    if (dirty_ & kPosition) {
+        QPointF p = QPointF();
+        p.setX(s->readFloat());
+        p.setY(s->readFloat());
+        checkPos(p); 
+        pos_.setX(p.x());
+        pos_.setY(p.y());
+    }
+
+    if (dirty_ & kOrientation) {
+        orientation_ = s->readInt();
+    }
+
+    if (dirty_ & kScale) {
+        scale_ = s->readFloat();
+    }
 
     if (dirty_ & kType) {
         type_ = s->readInt();
@@ -350,6 +367,8 @@ void NPC::createEffect(int effectType)
     }  else {
         return;
     }
+    connect(effect, SIGNAL(effectFinished(Effect*)),
+                     this, SLOT(deleteEffect(Effect*)));
     effects_.insert(effect->getType(), effect);
 }
 
@@ -400,6 +419,52 @@ void NPC::update() {
     }
 
     this->isDead();
+}
+
+void NPC::checkPos(QPointF& p) {
+    int x = getDriver()->getGameMap()->getWidthInTiles();
+    int y = getDriver()->getGameMap()->getHeightInTiles();
+    x = x * getDriver()->getGameMap()->getTMap()->tileWidth();
+    y = y * getDriver()->getGameMap()->getTMap()->tileHeight();
+    x-=20;
+    y-=20;
+    if(p.x() < 20) {
+        p.setX(20);
+    }
+    if(p.y() < 20) {
+        p.setY(20);
+    }
+    if(p.x() > x) {
+        p.setX(x);
+    }
+    if(p.y() > y) {
+        p.setY(y);
+    }
+
+    QPointF point;
+    QVector<QPointF> points;
+    QMatrix matrix = QMatrix();
+    matrix.rotate(-getOrientation());
+    // Determine if the NPC needs to update its tile position.
+    changeTile(p);
+    //set up Vector to construct bounding Polygon
+    point = QPointF(-getWidth()/2, -getHeight( )/2) * matrix;
+    point += p;
+    points.append(point);
+    point = QPointF(getWidth()/2, -getHeight()/2) * matrix;
+    point += p;
+    points.append(point);
+    point = QPointF(getWidth()/2, getHeight()/2) * matrix;
+    point += p;
+    points.append(point);
+    point = QPointF(-getWidth()/2, getHeight()/2) * matrix;
+    point += p;
+    points.append(point);
+    point = QPointF(-getWidth()/2, -getHeight()/2) * matrix;
+    point += p;
+    points.append(point);
+
+    setBounds(QPolygonF(points));
 }
 
 } /* end namespace td */

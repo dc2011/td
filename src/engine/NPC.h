@@ -106,6 +106,14 @@ public:
     }
 
     /**
+     * Updates NPC pos, bounds, and tile.
+     *
+     * @author Marcel Vangrootheest
+     * @param p NPC new position
+     */
+    void checkPos(QPointF& p);
+
+    /**
      * Sets the NPC type (Normal, Slow, Fast, Flying, or Boss).
      *
      * @author Marcel Vangrootheest.
