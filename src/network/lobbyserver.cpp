@@ -168,7 +168,6 @@ void LobbyServer::readSocket()
                 conn->close();
                 return;
             }
-            mutex_.lock();
             int len = s.readByte();
             QString nick = QString(s.read(len));
             if(usernames_.contains(nick)) {
@@ -177,9 +176,11 @@ void LobbyServer::readSocket()
                 error.writeByte(network::kServerErrorMsg);
                 error.writeInt(msg.size());
                 error.write(msg.toAscii());
-                break;
+                conn->write(error.data());
+                return;
             }
             connCount_++;
+            mutex_.lock();
             usernames_.insert(nick);
             clients_.insert(conn, nick);
             mutex_.unlock();
