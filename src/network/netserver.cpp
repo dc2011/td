@@ -4,6 +4,7 @@
 namespace td {
 
 unsigned char NetworkServer::nextMulticast = 1;
+unsigned char NetworkServer::portOffset = 0;
 
 NetworkServer::NetworkServer()
 {
@@ -26,7 +27,8 @@ NetworkServer::~NetworkServer()
 
 void NetworkServer::start()
 {
-    udpSocket_->bind(TD_PORT, QUdpSocket::ShareAddress);
+    udpPort_ = TD_PORT + portOffset++;
+    udpSocket_->bind(udpPort_, QUdpSocket::ShareAddress);
     udpSocket_->moveToThread(netthread_);
 
     foreach (QTcpSocket* sock, tcpSockets_) {
@@ -61,10 +63,10 @@ void NetworkServer::onMsgQueued()
     bool isUDP = ((unsigned char)tmp.at(0) >= td::network::kBLOCK_UDP);
 
     if (isUDP && multicastAddr_) {
-        udpSocket_->writeDatagram(tmp, TD_GROUP(multicastAddr_), TD_PORT);
+        udpSocket_->writeDatagram(tmp, TD_GROUP(multicastAddr_), udpPort_);
     } else if (isUDP) {
         foreach (QTcpSocket* sock, tcpSockets_) {
-            udpSocket_->writeDatagram(tmp, sock->peerAddress(), TD_PORT);
+            udpSocket_->writeDatagram(tmp, sock->peerAddress(), udpPort_);
         }
     } else {
         foreach (QTcpSocket* sock, tcpSockets_) {

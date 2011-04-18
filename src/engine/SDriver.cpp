@@ -39,12 +39,13 @@ SDriver::SDriver() : Driver() {
             this, SLOT(playerQuit(QTcpSocket*)));
 }
 SDriver::~SDriver() {
-    if(!waves_.empty()) {
+    /*if(!waves_.empty()) {
         NPCWave* temp;
         foreach(temp, waves_){
             disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
         }
-    }
+    }*/
+    waves_.clear();
     delete net_;
 }
 
@@ -112,6 +113,9 @@ void SDriver::startGame(bool multicast) {
         /* Not "proper" but it saves space and the client can deal with it */
         s.writeByte(network::kMulticastIP);
         s.writeByte(net_->getMulticastAddr());
+    } else {
+        s.writeByte(network::kPortOffset);
+        s.writeShort(net_->getPort());
     }
 
     net_->send(network::kServerPlayers, s.data());
