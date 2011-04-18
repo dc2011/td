@@ -71,7 +71,9 @@ void NPC::networkRead(Stream* s) {
     dirty_ = s->readInt();
 
     if (dirty_ & kPosition) {
-        QPointF p = QPointF(s->readFloat(), s->readFloat());
+        QPointF p = QPointF();
+        p.setX(s->readFloat());
+        p.setY(s->readFloat());
         checkPos(p); 
         pos_.setX(p.x());
         pos_.setY(p.y());
