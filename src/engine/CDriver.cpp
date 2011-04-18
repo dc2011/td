@@ -513,9 +513,14 @@ void CDriver::UDPReceived(Stream* s) {
         {
             unsigned int playerID = s->readInt();
             unsigned int collID = s->readInt();
+            bool isGem = s->readByte();
 
             Player* p = (Player*)mgr_->findObject(playerID);
             Collectable* c = (Collectable*)mgr_->findObject(collID);
+
+            if (isGem) {
+                setGemCount(gemCount_ + 1);
+            }
 
             if (c == NULL || c == (Collectable*)-1) {
                 break;
@@ -523,10 +528,6 @@ void CDriver::UDPReceived(Stream* s) {
 
             if (p->getID() != human_->getID()) {
                 p->pickupCollectable(p->getPos().x(), p->getPos().y(), c);
-            }
-
-            if (c->getType() == RESOURCE_GEM) {
-                setGemCount(gemCount_ + 1);
             }
 
             destroyObject(c);

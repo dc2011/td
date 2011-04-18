@@ -50,6 +50,8 @@ private:
     DrawParams oldDP_;
     /** The pixelmapItem which is is used to draw a pixel map at a location. */
     QGraphicsPixmapItem* pixmapItem_;
+    /** The rectangle for the last rectangle created by switching images */
+    QRectF graphicsRect_;
 
 public:
     /**
