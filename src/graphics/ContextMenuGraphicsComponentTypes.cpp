@@ -171,7 +171,7 @@ int TowerContextMenuGraphicsComponent::getCurrentImage() {
         return MENU_TOWER_UPGRADE_ALL;
     }
     if (nextImage_ == MENU_RESOURCES) {
-        return towerLevel + MENU_TOWER_RESOURCES;
+        return towerLevel + 1;
     }
     return ContextMenuGraphicsComponent::getCurrentImage();
 }
