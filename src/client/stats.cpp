@@ -1,10 +1,16 @@
 #include "stats.h"
 #include "ui_stats.h"
+#include <QFile>
 
 Stats::Stats(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::Stats)
 {
+    QFile f(QString(":/file/client.qss"));
+    f.open(QIODevice::ReadOnly);
+    this->setStyleSheet(QString(f.readAll()));
+    f.close();
+
     ui->setupUi(this);
 }
 

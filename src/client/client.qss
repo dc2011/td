@@ -101,3 +101,9 @@ QDialog#KeymapDialog {
     background-image: url("./img/keyWindowBg.png");
 }
 
+QFrame#Stats {
+    background-image: url("./img/statsBg.png");
+    background-position: bottom;
+    border: none;
+}
+
