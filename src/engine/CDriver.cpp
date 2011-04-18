@@ -564,8 +564,10 @@ void CDriver::UDPReceived(Stream* s) {
         {
             float x = s->readFloat();
             float y = s->readFloat();
+            int gc = s->readInt();
 
             Driver::upgradeTower(QPointF(x, y));
+            setGemCount(gc);
 
             break;
         }
