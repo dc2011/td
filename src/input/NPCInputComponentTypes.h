@@ -21,12 +21,28 @@ public:
     virtual ~SlowNPCInputComponent() {}
 };
 
+class ArmNPCInputComponent : public NPCInputComponent {
+    Q_OBJECT
+
+public:
+    ArmNPCInputComponent() : NPCInputComponent() {}
+    virtual ~ArmNPCInputComponent() {}
+};
+
 class FastNPCInputComponent : public NPCInputComponent {
     Q_OBJECT
 
 public:
     FastNPCInputComponent() : NPCInputComponent() {}
     virtual ~FastNPCInputComponent() {}
+};
+
+class SwarmNPCInputComponent : public NPCInputComponent {
+    Q_OBJECT
+
+public:
+    SwarmNPCInputComponent() : NPCInputComponent() {}
+    virtual ~SwarmNPCInputComponent() {}
 };
 
 class FlyNPCInputComponent : public NPCInputComponent {

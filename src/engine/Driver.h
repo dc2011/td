@@ -41,6 +41,11 @@ protected:
      */
     int baseHealth_;
 
+    /**
+     * The total number of gems collected.
+     */
+    int gemCount_;
+
 public:
     Driver();
     virtual ~Driver();
@@ -113,6 +118,26 @@ public:
      */
     virtual void setBaseHealth(int health) {
         baseHealth_ = health;
+    }
+
+    /**
+     * Gets the number of gems collected.
+     *
+     * @author Dean Morin
+     * @return The gem count.
+     */
+    virtual int getGemCount() const {
+        return gemCount_;
+    }
+
+    /**
+     * Sets the number of gems collected.
+     *
+     * @author Darryl Pogue
+     * @param count The number of gems.
+     */
+    virtual void setGemCount(int count) {
+        gemCount_ = count;
     }
 
     /**
@@ -208,6 +233,16 @@ public:
      * @return True if upgrade is successful.
      */
     bool upgradeTower(QPointF pos);
+
+    /**
+     * Upgrades the player if has enough gems.
+     *
+     * @author Marcel Vangrootheest
+     * @param id The playerID of the player to upgrade.
+     * @param type The type of upgrade to apply.
+     * @return True if upgrade is successful.
+     */
+    bool upgradePlayer(int id, int type);
 
     /**
      * Makes a random vector for the collectable drop.

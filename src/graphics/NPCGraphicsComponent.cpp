@@ -9,7 +9,6 @@ bool NPCGraphicsComponent::keyHeld_ = false;
 
 NPCGraphicsComponent::NPCGraphicsComponent()
         : GraphicsComponent(), damageDisplayTime_(0) {
-    //emit created(this);
 }
 
 NPCGraphicsComponent::~NPCGraphicsComponent() {
@@ -28,9 +27,9 @@ void NPCGraphicsComponent::update(GameObject* obj) {
     dp->pos     = npc->getPos();
     dp->scale = 1;
     dp->degrees = npc->getOrientation();
+    dp->animate = animate_;
     dp->keyHeld = keyHeld_;
     npcHealth_   = (npc->getHealth() / (double)npc->getMaxHealth());
-    //npcHealth_   = npcHealth_ - 0.003; //This and the following lines are for tests.
     if(npcHealth_ < 0) {
         npcHealth_ = 0;
     }
@@ -56,7 +55,7 @@ void NPCGraphicsComponent::draw(void* dp, int layer) {
                     - healthbarItem_->boundingRect().center().x()),
                     (drawParamsNPC->pos.y()
                     - (getPixmapItem()->boundingRect().height())/2));
-        healthbarItem_->setZValue(layer);
+        healthbarItem_->setZValue(LAYER_MENU);
         healthbarItem_->update();
     } else {
         healthbarItem_->setVisible(false);

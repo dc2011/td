@@ -24,21 +24,10 @@ void NPCInputComponent::update() {
 void NPCInputComponent::setParent(Unit *parent) {
     // Casting Unit* to NPC*.
     parent_ = (NPC*) parent;
-   // nextDest_ = 0;
 
     connect(this, SIGNAL(deleteUnitLater(int)),
             parent_->getDriver(), SLOT(destroyObject(int)),
             Qt::QueuedConnection);
-/*
-    waypoints_ = parent->getDriver()->getGameMap() ->getWaypoints(WP_PTERO);
-    segment_ =  QLineF(waypoints_.at(nextDest_).x(),
-                       waypoints_.at(nextDest_).y(),
-                       waypoints_.at(nextDest_ + 1).x(),
-                       waypoints_.at(nextDest_ + 1).y());
-    nextDest_++;
-
-    parent_->setPos(segment_.p1().x(), segment_.p1().y());
-*/
 }
 void NPCInputComponent::initWaypoints(int path) {
     nextDest_ = 0;
@@ -52,7 +41,7 @@ void NPCInputComponent::initWaypoints(int path) {
 }
 
 void NPCInputComponent::makeForce() {
-    if (forceCounter_++ % 5 == 0) {
+    if (forceCounter_++ % 15 == 0) {
         double rx = (qrand() % 500) / 150.0;
         double ry = (qrand() % 500) / 150.0;
         QVector2D force = QVector2D(((0.2 + segment_.dx()) * rx
@@ -66,10 +55,10 @@ void NPCInputComponent::nextDestination() {
     segment_.setP1(parent_->getPos());
     float maxValue = ((NPCPhysicsComponent *)parent_->
                         getPhysicsComponent())->getMaxVelocity();
-    if (segment_.length() < maxValue * 5
+    if (segment_.length() < maxValue * 15
             && nextDest_ < waypoints_.length()) {
         segment_.setP2(waypoints_.at(nextDest_++));
-    } else if (segment_.length() < maxValue * 5
+    } else if (segment_.length() < maxValue * 15
             && nextDest_ >= waypoints_.length()) {
         disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                 parent_, SLOT(update()));

@@ -27,10 +27,12 @@ CDriver* CDriver::instance_ = NULL;
 
 CDriver::CDriver(MainWindow* mainWindow)
         : Driver(), playerID_(0xFFFFFFFF), human_(NULL),
-        mainWindow_(mainWindow), buildContextMenu_(NULL)
+          mainWindow_(mainWindow), buildContextMenu_(NULL),
+          towerContextMenu_(NULL), playerContextMenu_(NULL)
 {
     mgr_ = new ResManager(this);
     npcCounter_ = 0;
+    timeCount_ = 0;
 }
 
 CDriver::~CDriver() {
@@ -83,9 +85,13 @@ void CDriver::sendNetMessage(unsigned char msgType, QByteArray msg) {
 void CDriver::setBaseHealth(int health) {
     Driver::setBaseHealth(health);
 
-    /* Do something dramatic here */
     getMainWindow()->getStats()->updateHP(health);
-    Console::instance()->addText("Oh teh noes!");
+}
+
+void CDriver::setGemCount(int count) {
+    Driver::setGemCount(count);
+
+    getMainWindow()->getStats()->updateGems(count);
 }
 
 void CDriver::readObject(Stream* s) {
@@ -191,8 +197,8 @@ void CDriver::makeLocalPlayer(Player* player) {
             playerContextMenu_, SLOT(selectMenuItem(int)));
     connect(mainWindow_, SIGNAL(signalAltHeld(bool)),
             playerContextMenu_, SLOT(viewResources(bool)));
-    //connect(playerContextMenu_, SIGNAL(signalUpgradePlayer(int, QPointF)),
-    //TODO macca add upgrade player here        this, SLOT(***(int, QPointF)));
+    connect(playerContextMenu_, SIGNAL(signalUpgradePlayer(int)),
+            this, SLOT(requestUpgradePlayer(int)));
     connect(playerContextMenu_, SIGNAL(signalPlayerMovement(bool)),
 	        input, SLOT(playerMovement(bool)));
 
@@ -202,22 +208,87 @@ void CDriver::makeLocalPlayer(Player* player) {
             physics, SLOT(okayToPlayCollisionSfx()));
     
     // resource harvesting and dropping
+    
+    connect(this, SIGNAL(signalDropResource()),
+            this, SLOT(dropResource()));
+    connect(human_, SIGNAL(signalPickupCollectable(int)),
+            this, SLOT(pickupCollectable(int)));
+
     connect(this, SIGNAL(signalHarvesting(int)),
             player, SLOT(startHarvesting(int)));
     connect(mainWindow_, SIGNAL(signalSpacebarReleased()),
             player, SLOT(stopHarvesting()));
-    connect(this, SIGNAL(signalEmptyTile(bool)),
-            player, SLOT(dropResource(bool)));
     connect(player, SIGNAL(signalPlayerMovement(bool)),
 	        input, SLOT(playerMovement(bool)));
     connect(player, SIGNAL(signalDropResource(int, QPointF, QVector2D)),
             this, SLOT(requestCollectable(int, QPointF, QVector2D)));
 }
 
+void CDriver::dropResource() {
+    Tile* currentTile = gameMap_->getTile(human_->getPos());
+
+    if (human_->getResource() == RESOURCE_NONE) {
+        return;
+    }
+
+    if (this->isSinglePlayer() &&
+            currentTile->getActionType() == TILE_BUILDING) {
+        BuildingTower* t = (BuildingTower*)currentTile->getExtension();
+        if (this->addToTower(t, human_) && t->isDone()) {
+            this->createTower(t->getType(), t->getPos());
+            this->destroyObject(t);
+            human_->setResource(RESOURCE_NONE);
+            return;
+        }
+    }
+
+    if (this->isSinglePlayer()) {
+        this->createCollectable(human_->getResource(), human_->getPos(),
+                                this->getRandomVector());
+
+        human_->setResource(RESOURCE_NONE);
+    } else {
+        Stream s;
+        s.writeInt(human_->getID());
+        s.writeInt(human_->getResource());
+
+        NetworkClient::instance()->send(network::kDropCollect, s.data());
+    }
+}
+
+void CDriver::pickupCollectable(int id) {
+    if (!this->isSinglePlayer()) {
+        Stream s;
+        s.writeInt(human_->getID());
+        s.writeInt(id);
+        
+        NetworkClient::instance()->send(network::kPickCollect, s.data());
+    } else {
+        Collectable* c = (Collectable*)mgr_->findObject(id);
+
+        if (c->getType() == RESOURCE_GEM) {
+            setGemCount(gemCount_ + 1);
+        }
+        destroyObject(c);
+    }
+}
+
+void CDriver::requestCollectable(int collType, QPointF source,
+        QVector2D vel) {
+    if (isSinglePlayer()) {
+        this->createCollectable(collType, source, vel);
+    }
+}
+
 void CDriver::requestBuildingTower(int type, QPointF pos) {
     if (isSinglePlayer()) {
         BuildingTower* t = Driver::createBuildingTower(type, pos);
-        human_->dropResource(Driver::addToTower(t, human_));
+        if (this->addToTower(t, human_) && t->isDone()) {
+            this->createTower(t->getType(), t->getPos());
+            this->destroyObject(t);
+            human_->setResource(RESOURCE_NONE);
+            return;
+        }
     } else {
         Stream s;
         s.writeInt(human_->getID());
@@ -225,26 +296,6 @@ void CDriver::requestBuildingTower(int type, QPointF pos) {
         s.writeFloat(pos.x());
         s.writeFloat(pos.y());
         NetworkClient::instance()->send(network::kTowerChoice, s.data());
-    }
-}
-
-void CDriver::requestResourceAddition(BuildingTower* t) {
-    if (isSinglePlayer()) {
-        if (addToTower(t, human_)) {
-            if (t->isDone()) {
-                Driver::createTower(t->getType(), t->getPos());
-                destroyObject(t);
-            }
-            human_->dropResource(true);
-        } else {
-            human_->dropResource(false);
-        }
-    } else {
-        Stream s;
-        s.writeInt(human_->getID());
-        s.writeFloat(t->getPos().x());
-        s.writeFloat(t->getPos().y());
-        NetworkClient::instance()->send(network::kDropResource, s.data());
     }
 }
 
@@ -270,6 +321,17 @@ void CDriver::requestUpgradeTower(QPointF pos) {
     }
 }
 
+void CDriver::requestUpgradePlayer(int type) {
+    if (isSinglePlayer()) {
+        Driver::upgradePlayer(human_->getID(), type);
+    } else {
+        Stream s;
+        s.writeInt(human_->getID());
+        s.writeInt(type);
+        NetworkClient::instance()->send(network::kUpgradePlayer, s.data());
+    }
+}
+
 void CDriver::NPCCreator() {
     timeCount_++;
     if(!waves_.empty()) {
@@ -285,36 +347,6 @@ void CDriver::NPCCreator() {
         //waves_.first()->createWave();
         //connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
     }
-
-    /*
-    NPC* npc = NULL;
-
-    if (npcCounter_++ % 15 == 0 && (npcCounter_ % 400) > 300) {
-        npc = Driver::createNPC(NPC_FLY);
-        if(npc){
-            npc->setHeight(90);
-            npc->setWidth(30);
-        }
-    }
-    if (npcCounter_ % 40 == 0 && (npcCounter_ % 1400) > 1000) {
-        npc = Driver::createNPC(NPC_SLOW);
-        if(npc){
-            npc->setHeight(30);
-            npc->setWidth(90);
-        }
-    }
-
-    if (npc) {
-        if ((npcCounter_ % 2) == 0) {
-            npc->setGem(1);
-        } else {
-            npc->setGem(0);
-        }
-        connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-                npc->getGraphicsComponent(), SLOT(showHealth(bool)));
-        connect(gameTimer_, SIGNAL(timeout()), npc, SLOT(update()));
-    }
-    */
 }
 
 void CDriver::startGame(bool singlePlayer) {
@@ -358,8 +390,9 @@ void CDriver::startGame(bool singlePlayer) {
 
     gameTimer_->start(GAME_TICK_INTERVAL);
 }
+
 void CDriver::deadWave(){
-    if(!waves_.empty()) {
+    if (!waves_.empty()) {
         /*disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
         waves_.takeFirst();
         connect(waveTimer_, SIGNAL(timeout()),this, SLOT(NPCCreator()));*/
@@ -367,6 +400,7 @@ void CDriver::deadWave(){
         endGame();
     }
 }
+
 void CDriver::endGame() {
     disconnectFromServer();
     this->waveTimer_->stop();
@@ -383,16 +417,11 @@ void CDriver::setSinglePlayer(bool singlePlayer) {
 
 void CDriver::handleSpacebarPress() {
     Tile* currentTile = gameMap_->getTile(human_->getPos());
-    BuildingTower* t = (BuildingTower*)currentTile->getExtension();
 
     switch (currentTile->getActionType()) {
 
         case TILE_BUILDABLE:
             buildContextMenu_->toggleMenu();
-            break;
-
-        case TILE_BUILDING:
-            requestResourceAddition(t);
             break;
 
         case TILE_BUILT:
@@ -408,7 +437,7 @@ void CDriver::handleSpacebarPress() {
             break;
 
         default:
-            emit signalEmptyTile(false);
+            emit signalDropResource();
     }
 }
 
@@ -454,15 +483,64 @@ void CDriver::UDPReceived(Stream* s) {
             }
             break;
         }
-        case network::kDropResource:
+        case network::kDropCollect:
         {
-            unsigned int id = s->readInt();
-            bool addToTower = s->readInt();
-            
-            if (human_->getID() == id) {
-                human_->dropResource(addToTower);
+            unsigned int srcID = s->readInt();
+            int type = s->readInt();
+
+            float x = s->readFloat();
+            float y = s->readFloat();
+            QVector2D velocity(x, y);
+
+            x = s->readFloat();
+            y = s->readFloat();
+            QPointF src(x, y);
+
+            bool addToTower = s->readByte();
+
+            if ((srcID & 0xFF000000) >> 24 == Player::clsIdx()) {
+                Player* p = (Player*)mgr_->findObject(srcID);
+                p->setResource(RESOURCE_NONE);
             }
+
+            if (!addToTower) {
+                Driver::createCollectable(type, src, velocity);
+            }
+
             break;
+        }
+        case network::kPickCollect:
+        {
+            unsigned int playerID = s->readInt();
+            unsigned int collID = s->readInt();
+
+            Player* p = (Player*)mgr_->findObject(playerID);
+            Collectable* c = (Collectable*)mgr_->findObject(collID);
+
+            if (c == NULL || c == (Collectable*)-1) {
+                break;
+            }
+
+            if (p->getID() != human_->getID()) {
+                p->pickupCollectable(p->getPos().x(), p->getPos().y(), c);
+            }
+
+            if (c->getType() == RESOURCE_GEM) {
+                setGemCount(gemCount_ + 1);
+            }
+
+            destroyObject(c);
+
+            break;
+        }
+        case network::kUpgradePlayer:
+        {
+            unsigned int playerID = s->readInt();
+            int upgradeType = s->readInt();
+
+            if (human_->getID() == playerID) {
+                Driver::upgradePlayer(playerID, upgradeType);
+            }
         }
         case network::kSellTower:
         {

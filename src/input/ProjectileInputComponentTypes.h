@@ -12,11 +12,10 @@ class ArrowProjectileInputComponent : public ProjectileInputComponent {
 public:
     ArrowProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~ArrowProjectileInputComponent() {
-        PLAY_SFX(this, SfxManager::projectileHitArrow);
+        PLAY_SFX((QObject*)parent_, SfxManager::projectileHitArrow);
     }
     
     virtual void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 class CannonProjectileInputComponent : public ProjectileInputComponent {
@@ -25,7 +24,7 @@ class CannonProjectileInputComponent : public ProjectileInputComponent {
 public:
     CannonProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~CannonProjectileInputComponent() {
-        PLAY_SFX(this, SfxManager::projectileHitCannon);
+        PLAY_SFX((QObject*)parent_, SfxManager::projectileHitCannon);
     }
 
     /**
@@ -34,7 +33,6 @@ public:
      * @author Marcel Vangrootheest
      */
     virtual void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 class FireProjectileInputComponent : public ProjectileInputComponent {
@@ -56,7 +54,6 @@ public:
      * @author Marcel Vangrootheest
      */
     void makeForce();
-    void checkNPCCollision(QSet<Unit *> npcs);
 private:
     int duration_;
     int increment_;
@@ -69,7 +66,7 @@ class TarProjectileInputComponent : public ProjectileInputComponent {
 public:
     TarProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~TarProjectileInputComponent() {
-        PLAY_SFX(this, SfxManager::projectileHitTar);
+        PLAY_SFX((QObject*)parent_, SfxManager::projectileHitTar);
     }
 
     /**
@@ -78,7 +75,6 @@ public:
      * @author Marcel Vangrootheest
      */
     virtual void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 class FlakProjectileInputComponent : public ProjectileInputComponent {
@@ -87,7 +83,7 @@ class FlakProjectileInputComponent : public ProjectileInputComponent {
 public:
     FlakProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~FlakProjectileInputComponent() {
-        PLAY_SFX(this, SfxManager::projectileHitFlak);
+        PLAY_SFX((QObject*)parent_, SfxManager::projectileHitFlak);
     }
 
     /**
@@ -96,7 +92,6 @@ public:
      * @author Marcel Vangrootheest
      */
     virtual void update();
-    void checkNPCCollision(QSet<Unit *> npcs);
 };
 
 } /* end namespace td */

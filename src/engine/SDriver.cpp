@@ -23,6 +23,9 @@ SDriver::SDriver() : Driver() {
     gameMap_ = new Map(MAP_TMX, this);
     net_ = new NetworkServer();
     npcCounter_ = 0;
+    timeCount_ = 0;
+    completedWaves_ = 0;
+    totalWaves_ = 0;
 
     gameMap_->initMap();
 
@@ -31,6 +34,9 @@ SDriver::SDriver() : Driver() {
 
     connect(net_, SIGNAL(disconnected()),
             this, SIGNAL(disconnecting()));
+
+    connect(net_, SIGNAL(socketDisconnect(QTcpSocket*)),
+            this, SLOT(playerQuit(QTcpSocket*)));
 }
 SDriver::~SDriver() {
     if(!waves_.empty()) {
@@ -48,7 +54,7 @@ unsigned int SDriver::addPlayer(QTcpSocket* sock, QString nickname) {
 
     Player* p = (Player*)mgr_->createObject(Player::clsIdx());
     p->setNickname(nickname);
-    players_.append(p);
+    players_.insert(sock, p);
     mutex_.unlock();
 
     return p->getID();
@@ -97,7 +103,7 @@ void SDriver::startGame(bool multicast) {
     Stream s;
     s.writeByte(players_.size());
 
-    foreach (Player* user, players_) {
+    foreach (Player* user, players_.values()) {
         user->networkWrite(&s);
         user->resetDirty();
     }
@@ -113,12 +119,12 @@ void SDriver::startGame(bool multicast) {
     Parser* fileParser = new Parser(this, MAP_NFO);
     NPCWave* tempWave;
     setBaseHealth(fileParser->baseHP);
-    //tempWave = new NPCWave(this);
-    //waves_.append(tempWave);
-    while((tempWave = fileParser->readWave())!=NULL) {
 
+    while((tempWave = fileParser->readWave()) != NULL) {
         waves_.append(tempWave);
+        totalWaves_++;
     }
+
     this->gameTimer_->start(30);
     this->waveTimer_->start(1000);
     connect(gameTimer_, SIGNAL(timeout()), this, SLOT(onTimerTick()));
@@ -156,6 +162,13 @@ GameObject* SDriver::updateObject(Stream* s) {
 void SDriver::onTimerTick() {
     static unsigned int modcount = 0;
     if (modcount++ < 10) {
+        return;
+    }
+
+    // Check to see if there are anymore waves.
+    if (completedWaves_ == totalWaves_) {
+        qDebug("SDriver::onTimerTick(); No more waves, game over!");
+        endGame(TRUE);
         return;
     }
 
@@ -212,38 +225,26 @@ void SDriver::destroyObject(int id) {
 }
 
 void SDriver::spawnWave() {
-    if(!waves_.empty()) {
-
-        //disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
-        NPCWave* temp;
-        foreach(temp,waves_) {
-            if(temp->getStart() == timeCount_){
-                temp->createWave();
-                connect(temp, SIGNAL(waveDead()),this,SLOT(deadWave()));
+    // Check to see if any waves should be spawned on this tick.
+    if (!waves_.empty()) {
+        for (int i = 0; i < waves_.size(); i++) {
+            NPCWave* wave = waves_[i];
+            if (wave->getStart() == timeCount_) {
+                waves_.removeAt(i--);
+                wave->createWave();
+                connect(wave, SIGNAL(waveDead()), this, SLOT(endWave()));
+                connect(wave, SIGNAL(waveDead()), wave, SLOT(deleteLater()));
             }
         }
-    /*
-    disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
-    //NPCWave* wave = new NPCWave(this);
-
-
-    waves_.first()->createWave();
-    //waves_.append(wave);
-
-
-    connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
-    */
     }
+    
+    timeCount_++;
 }
-void SDriver::deadWave(){
-    if(!waves_.empty()) {
-        /*disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
-        waves_.takeFirst();
-        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(spawnWave()));*/
-    } else {
-        endGame(true);
-    }
-}
+
+void SDriver::endWave() {
+    completedWaves_++;
+    qDebug("SDriver::endWave(); Num waves completed: %d of %d", completedWaves_, totalWaves_);
+} 
 
 void SDriver::deadNPC(int id) {
     destroyObject(id);
@@ -260,14 +261,29 @@ void SDriver::requestProjectile(int projType, QPointF source,
 }
 
 void SDriver::requestCollectable(int collType, QPointF source, QVector2D vel) {
-    Collectable* c = Driver::createCollectable(collType, source, vel);
+    Driver::createCollectable(collType, source, vel);
+    int id = 0;
+
+    GameObject* go = (GameObject*)QObject::sender();
+    if (go != NULL) {
+        id = go->getID();
+    }
 
     Stream s;
-    c->networkWrite(&s);
-    net_->send(network::kCollectable, s.data());
+    s.writeInt(id);
+    s.writeInt(collType);
+    s.writeFloat(vel.x());
+    s.writeFloat(vel.y());
+    s.writeFloat(source.x());
+    s.writeFloat(source.y());
+    s.writeByte(false);
+
+    net_->send(network::kDropCollect, s.data());
 }
 
-void SDriver::towerDrop(Stream* out, BuildingTower* t, Player* player) {
+void SDriver::towerDrop(BuildingTower* t, Player* player, bool drop) {
+    Stream s;
+
     if (addToTower(t, player)) {
         if (t->isDone()) {
             Tower* tower = Driver::createTower(t->getType(),
@@ -277,13 +293,27 @@ void SDriver::towerDrop(Stream* out, BuildingTower* t, Player* player) {
         } else {
             updates_.insert(t);
         }
-        out->writeInt(player->getID());
-        out->writeInt(true);
-    } else {
-        out->writeInt(player->getID());
-        out->writeInt(false);
+        s.writeInt(player->getID());
+        s.writeInt(player->getResource());
+        s.writeFloat(0);
+        s.writeFloat(0);
+        s.writeFloat(player->getPos().x());
+        s.writeFloat(player->getPos().y());
+        s.writeByte(true);
+
+        net_->send(network::kDropCollect, s.data());
+    } else if (drop) {
+        s.writeInt(player->getID());
+        s.writeInt(player->getResource());
+        QVector2D vel = this->getRandomVector();
+        s.writeFloat(vel.x());
+        s.writeFloat(vel.y());
+        s.writeFloat(player->getPos().x());
+        s.writeFloat(player->getPos().y());
+        s.writeByte(false);
+
+        net_->send(network::kDropCollect, s.data());
     }
-    net_->send(network::kDropResource, out->data());
 }
 
 void SDriver::onMsgReceive(Stream* s) {
@@ -293,6 +323,18 @@ void SDriver::onMsgReceive(Stream* s) {
     Stream* out = new Stream();
 
     switch(message) {
+        case network::kUpgradePlayer:
+        {
+            unsigned int playerID = s->readInt();
+            int upgradeType = s->readInt();
+
+            if (Driver::upgradePlayer(playerID, upgradeType)) {
+                out->writeInt(playerID);
+                out->writeInt(upgradeType);
+                net_->send(network::kUpgradePlayer, out->data());
+            }
+            break;
+        }
         case network::kSellTower:
         {
             float x = s->readFloat();
@@ -339,30 +381,64 @@ void SDriver::onMsgReceive(Stream* s) {
 
             updates_.insert(t);
 
-            towerDrop(out, t, player);
+            towerDrop(t, player, false);
 
             break;
         }
-        case network::kDropResource:
+        case network::kDropCollect:
         {
             int playerID = s->readInt();
-            float x = s->readFloat();
-            float y = s->readFloat();
+            int type = s->readInt();
 
             Player* player = (Player*)mgr_->findObject(playerID);
+            Tile* currentTile = gameMap_->getTile(player->getPos().x(),
+                                                  player->getPos().y());
 
-            Tile* currentTile = gameMap_->getTile(x, y);
             if (currentTile->getActionType() != TILE_BUILDING) {
-                out->writeInt(player->getID());
-                out->writeInt(false);
-	            net_->send(network::kDropResource, out->data());
-                break;
+                out->writeInt(playerID);
+                out->writeInt(type);
+
+                QVector2D vel = this->getRandomVector();
+                out->writeFloat(vel.x());
+                out->writeFloat(vel.y());
+
+                out->writeFloat(player->getPos().x());
+                out->writeFloat(player->getPos().y());
+
+                out->writeByte(false);
+
+                Driver::createCollectable(type, player->getPos(), vel);
+
+                net_->send(network::kDropCollect, out->data());
+            } else {
+                BuildingTower* t = (BuildingTower*)currentTile->getExtension();
+                towerDrop(t, player, true);
             }
-            
-            BuildingTower* t = (BuildingTower*)currentTile->getExtension();
 
-            towerDrop(out, t, player);
+            break;
+        }
+        case network::kPickCollect:
+        {
+            unsigned int playerID = s->readInt();
+            unsigned int collID = s->readInt();
 
+            Collectable* c = (Collectable*)mgr_->findObject(collID);
+            Player* player = (Player*)mgr_->findObject(playerID);
+            Tile* currentTile = gameMap_->getTile(player->getPos().x(),
+                                                  player->getPos().y());
+
+            if (c != NULL && c != (Collectable*)-1) {
+                if (c->getType() == RESOURCE_GEM) {
+                    gemCount_++;
+                }
+
+                currentTile->removeUnit(c);
+                this->destroyObject(c);
+
+                out->writeInt(playerID);
+                out->writeInt(collID);
+                net_->send(network::kPickCollect, out->data());
+            }
             break;
         }
         case network::kConsoleChat:
@@ -385,6 +461,14 @@ void SDriver::onMsgReceive(Stream* s) {
     }
 
     delete out;
+}
+
+void SDriver::playerQuit(QTcpSocket* sock) {
+    Player* p = players_.value(sock);
+
+    destroyObject(p);
+
+    players_.remove(sock);
 }
 
 } /* end namespace td */

@@ -16,7 +16,7 @@ public:
      * Instantiates a projectile graphics component
      * @author Warren Voelkl
      */
-    ProjectileGraphicsComponent(): GraphicsComponent() {}
+    ProjectileGraphicsComponent();
     virtual ~ProjectileGraphicsComponent();
 
     /**

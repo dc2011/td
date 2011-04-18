@@ -11,8 +11,6 @@
 #include "../graphics/PlayerGraphicsComponent.h"
 #include "../physics/PlayerPhysicsComponent.h"
 
-//TEMP
-#include "../engine/Collectable.h"
 namespace td {
 
 class Player : public Unit {
@@ -43,8 +41,7 @@ private:
 public:
     Player(QObject* parent = 0);
     virtual ~Player();
-//TEMP
-Collectable* collectable_;
+
     /**
      * Reads the object state from a network stream.
      * You should assign to variables directly inside this function, rather
@@ -105,6 +102,27 @@ Collectable* collectable_;
     }
 
     /**
+      * Sets the player's maximum harvest countdown amount.
+      *
+      * @author Marcel Vangrootheest
+      * @param count The new harvestTime_ value.
+      */
+    void setHarvestTime(int time) {
+        harvestTime_ = time;
+        harvestCountdown_ = time;
+    }
+
+    /**
+      * Sets the player's maximum harvest countdown amount.
+      *
+      * @author Marcel Vangrootheest
+      * @return The maximum harvest countdown amount.
+      */
+    int getHarvestTime() {
+        return harvestTime_;
+    }
+
+    /**
      * Gets the player's resource it is carrying.
      *
      * @author Marcel Vangrootheest
@@ -112,6 +130,27 @@ Collectable* collectable_;
      */
     int getResource() {
         return resource_;
+    }
+
+    /**
+     * Sets the resource that the player is carrying.
+     *
+     * @author Darryl Pogue
+     * @param resource The resource type.
+     */
+    void setResource(int resource) {
+        resource_ = resource;
+        setDirty(kResource);
+    }
+
+    /**
+     * Sets the player's stunUpgrade to true or false.
+     *
+     * @author Marcel Vangrootheest
+     * @param stun True will cause a stun upgrade.
+     */
+    void setStunUpgrade(bool stun) {
+        stunUpgrade_ = stun;
     }
 
     /**
@@ -123,6 +162,45 @@ Collectable* collectable_;
     bool getMoving() const {
         return isMoving_;
     }
+
+    /**
+     * Gets the upgrade state of the player.
+     *
+     * @author Dean Morin
+     * @return A single int containing info on all player upgrades.
+     */
+    int getUpgrades() {
+        return upgrades_;
+    }
+
+    /**
+     * Set the upgrade levels for the player.
+     *
+     * @author Dean Morin
+     * @param upgrades The new value of the player's upgrades.
+     */
+    void setUpgrades(int upgrades) {
+        upgrades_ = upgrades;
+    }
+
+    /**
+     * Return true if the player has the specified effect type.
+     *
+     * @author Marcel Vangrootheest
+     * @param type The effect type to look for.
+     * @return True if the player has this effect.
+     */
+    bool hasEffect(int type) {
+        return effects_.contains(type);
+    }
+
+    /**
+     * Remove effect from the list by type.
+     *
+     * @author Marcel Vangrootheest.
+     * @param type The effect type to remove from the list.
+     */
+    void deleteEffect(int type);
 
 private: 
     /**
@@ -183,12 +261,6 @@ public slots:
     void stopHarvesting();
 
     /**
-     * Drops whatever resource that the player is carrying.
-     *
-     * @author Dean Morin
-     */
-    void dropResource(bool addToTower);
-    /**
      * picks up a collectable from the ground when a player collides with it.
      *
      * @author Duncan Donaldson
@@ -207,11 +279,21 @@ private:
     /** How many game ticks remaining before a resource is harvested. */ 
     int harvestCountdown_;
 
+    /** Max harvest countdown depending on upgrade. */ 
+    int harvestTime_;
+
     /** The resource (if any) that the player is currently carrying. */
     int resource_;
 
+    /** If true a different Effect will be applied when colliding with NPC. */
+    bool stunUpgrade_;
+
     /** Whether the player is moving or not. */
     bool isMoving_;
+
+    /** The level of the player's upgrades. The last 3 bits are recovery,
+     *  harvest, speed. */
+    int upgrades_;
 
 signals:
     /**
@@ -254,6 +336,14 @@ signals:
      * @param velocity The player's velocity when he drops the resource.
      */
     void signalDropResource(int type, QPointF pos, QVector2D velocity);
+
+    /**
+     * Emitted when a player picks up a collectable from the map.
+     *
+     * @author Darryl Pogue
+     * @param id The ID of the collectable.
+     */
+    void signalPickupCollectable(int id);
 };
 
 }

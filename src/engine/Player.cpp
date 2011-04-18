@@ -13,7 +13,9 @@ namespace td {
 
 Player::Player(QObject* parent) 
         : Unit(parent), nickname_(""), harvesting_(RESOURCE_NONE), 
-          harvestCountdown_(HARVEST_COUNTDOWN), resource_(RESOURCE_NONE) {
+          harvestCountdown_(HARVEST_COUNTDOWN), harvestTime_(HARVEST_COUNTDOWN),
+          resource_(RESOURCE_NONE), stunUpgrade_(false), upgrades_(PLAYER_NONE) 
+{
     QVector2D force(0, 0);
     this->setForce(force);
 
@@ -142,7 +144,11 @@ void Player::createEffect(int effectType)
             foreach(Effect* e, effects_) {
                 deleteEffect(e);
             }
-            effect = new NPCPlayerEffect(this);
+            if (stunUpgrade_) {
+                effect = new UpgradeNPCPlayerEffect(this);
+            } else {
+                effect = new NPCPlayerEffect(this);
+            }
             break;
         default:
             return;
@@ -151,9 +157,18 @@ void Player::createEffect(int effectType)
         // Dean's sound signal thing
         emit signalEmptyEffectList();
 
+        connect(effect, SIGNAL(effectFinished(Effect*)),
+                     this, SLOT(deleteEffect(Effect*)));
         // Insert the effect into the map
         effects_.insert(effectType, effect);
     }
+}
+
+void Player::deleteEffect(int type)
+{
+    Effect* effect = effects_.take(type);
+    delete effect;
+    effect = NULL;
 }
 
 void Player::deleteEffect(Effect* effect)
@@ -191,63 +206,42 @@ void Player::stopHarvesting() {
     }
 
     harvesting_ = RESOURCE_NONE;
-    harvestCountdown_ = HARVEST_COUNTDOWN;
+    harvestCountdown_ = harvestTime_;
     emit signalPlayerMovement(true);
-}
-
-void Player::dropResource(bool addToTower) {
-
-    if (resource_ == RESOURCE_NONE) {
-        return;
-    }
-    setDirty(kResource);
-    if (addToTower) {
-#ifndef SERVER
-        if (((CDriver*)getDriver())->isSinglePlayer()) {
-            Tile* cTile = getDriver()->getGameMap()->getTile(getPos());
-            BuildingTower* t = (BuildingTower*)cTile->getExtension();
-            if (t->isDone()) {
-                getDriver()->createTower(t->getType(), t->getPos());
-                getDriver()->destroyObject(t);
-            }
-        }
-	    Console::instance()->addText("Added Resource");
-#endif
-    } else {
-        emit signalDropResource(resource_, pos_, getRandomVector());
-#ifndef SERVER
-	    Console::instance()->addText("Dropped Resource");
-#endif
-    }
-    resource_ = RESOURCE_NONE;
 }
 
 void Player::harvestResource() {
     if (--harvestCountdown_ <= 0) {
         resource_ = harvesting_;
-        harvestCountdown_ = HARVEST_COUNTDOWN;
+        harvestCountdown_ = harvestTime_;
         setDirty(kResource);
         stopHarvesting();
 
 #ifndef SERVER
-	Console::instance()->addText("Picked up a Resource");
+        Console::instance()->addText("Picked up a Resource");
 #endif
 
-	return;
-    }
-}
-void Player::pickupCollectable(double x, double y, Unit* u) {
-    Tile* t = getDriver()->getGameMap()->getTile(x, y);
-    t->removeUnit(u);
-    if(((Collectable*)u)->getType() == RESOURCE_GEM) {
-        //increment global gem count here.
-        getDriver()->destroyObject(u);
         return;
     }
-    disconnect(getDriver()->getTimer(),  SIGNAL(timeout()), u, SLOT(update()));
-
-    resource_ = ((Collectable*)u)->getType();
-    setDirty(kResource);
-    getDriver()->destroyObject(u);
 }
+
+void Player::pickupCollectable(double x, double y, Unit* u) {
+    Tile* t = getDriver()->getGameMap()->getTile(x, y);
+
+    // First check to see if the collectable is a gem
+    if(((Collectable*)u)->getType() == RESOURCE_GEM) {
+        t->removeUnit(u);
+        emit signalPickupCollectable(u->getID());
+        return;
+    }
+
+    if (resource_ != RESOURCE_NONE) {
+        return;
+    }
+
+    t->removeUnit(u);
+    setResource(((Collectable*)u)->getType());
+    emit signalPickupCollectable(u->getID());
+}
+
 } /* end namespace td */

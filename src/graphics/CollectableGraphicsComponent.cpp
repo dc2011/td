@@ -1,10 +1,8 @@
 #include "CollectableGraphicsComponent.h"
+#include <QPointF>
 #include "../engine/Collectable.h"
 
-#include <QPointF>
 namespace td {
-
-
 
 CollectableGraphicsComponent::~CollectableGraphicsComponent() {}
 
@@ -13,7 +11,6 @@ void CollectableGraphicsComponent::update(GameObject* obj) {
     bool visible;
 
     Collectable* collectable = (Collectable*)obj;
-
     int timeLeft = collectable->getDisappearCount();
 
     if (timeLeft > FLICKER_POINT && !collectable->isDirty()) {
@@ -48,6 +45,7 @@ void CollectableGraphicsComponent::update(GameObject* obj) {
         oldPos_ = dp->pos;
         dp->scale   = collectable->getScale();
         dp->degrees = collectable->getOrientation();
+        dp->animate = animate_;
         emit signalDraw(dp, this, LAYER_DEFAULT);
     } else {
         delete dp;

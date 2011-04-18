@@ -53,6 +53,19 @@ private:
     /** Tells objects whether or not the game is being played single player **/
     bool singlePlayer_;
 
+    /** 
+     *  Used by TowerContextMenuGraphicsComponent to prevent the following:
+     *  1. The GC tries to get a reference to the tower that the player is
+     *     standing on.
+     *  2. Partway through this operation, the graphics thread loses its
+     *     time-slice.
+     *  3. The tower is sold in the physics thread.
+     *  4. Back in the graphics thread, the tower is dereferenced to get its
+     *     current level.
+     *  5. The program dies.
+     *  6. The dinosaurs win.
+     */
+    QMutex menuMutex_;
 
     QList<NPCWave*> waves_;
     QTimer* waveTimer_;
@@ -153,6 +166,14 @@ public:
     virtual void setBaseHealth(int health);
 
     /**
+     * Sets the number of gems collected.
+     *
+     * @author Darryl Pogue
+     * @param count The number of gems.
+     */
+    virtual void setGemCount(int count);
+
+    /**
      * Sets a player as the local human player object.
      * Sets event filter for key presses to be passed to PlayerInputComponent.
      * 
@@ -197,6 +218,7 @@ public:
     MainWindow* getMainWindow() {
         return mainWindow_;
     }
+
     /**
      * getter for SinglePlayer
      *
@@ -204,6 +226,7 @@ public:
      * @return whether or not the game is being played single player.
      */
     bool isSinglePlayer();
+
     /**
      * sets the value of singlePlayer
      *
@@ -213,12 +236,14 @@ public:
     void setSinglePlayer(bool singlePlayer);
 
     /**
-     * Tries to add a resource to a specified BuildingTower.
+     * Gets the mutex needed by TowerContextMenuGC.
      *
-     * @author Marcel Vangrootheest
-     * @param t The Building tower that a resource is added to.
+     * @author Dean Morin
+     * @return A mutex that helps Dean sleep better at night.
      */
-    void requestResourceAddition(BuildingTower* t);
+    QMutex* getMenuMutex() {
+        return &menuMutex_;   
+    }
 
 signals:
     /**
@@ -230,6 +255,13 @@ signals:
      * @param type The resource type that the player is standing on.
      */
     void signalHarvesting(int type);
+
+    /**
+     * Emitted when the spacebar is pressed to drop a resource.
+     *
+     * @author Darryl Pogue
+     */
+    void signalDropResource();
 
     /**
      * Emmited when the spacebar is pressed on an empty tile.
@@ -258,6 +290,31 @@ public slots:
     void handleSpacebarPress();
 
     /**
+     * Drops a resource, adding it to a tower is possible.
+     *
+     * @author Darryl Pogue
+     */
+    void dropResource();
+
+    /**
+     * Picks up a collectable and tells the server.
+     *
+     * @author Darryl Pogue
+     * @param id The id of the Collectable.
+     */
+    void pickupCollectable(int id);
+
+    /**
+     * Creates collectable on server and send message to client for creation.
+     *
+     * @author Dean Morin
+     * @param projType The type of the collectable (resource or gem).
+     * @param source The origin of the collectable.
+     * @param vel The velocity of the dropper.
+     */
+    void requestCollectable(int collType, QPointF source, QVector2D vel);
+
+    /**
      * Requests or creates a Building Tower
      * of specified type at specified position.
      * Connected to TowerSelected in ContextMenu.
@@ -269,7 +326,7 @@ public slots:
 
     /**
      * Requests or sells a Tower at the player's current position.
-     * Should be connected to a context menu.
+     * Connected to signalSellTower in TowerContextMenu
      *
      * @param pos The position of the tower to sell.
      */
@@ -277,11 +334,19 @@ public slots:
 
     /**
      * Request to upgrade a tower at the player's current position.
-     * Connected to signalupgradetower in player
+     * Connected to signalUpgradeTower in TowerContextMenu
      *
      * @param pos The position of the player and tower to upgrade.
      */
     void requestUpgradeTower(QPointF pos);
+
+    /**
+     * Request to upgrade a player.
+     * Connected to signalUpgradePlayer in PlayerContextMenu.
+     *
+     * @param type The type of upgrade to apply to player.
+     */
+    void requestUpgradePlayer(int type);
 
 private slots:
     /**

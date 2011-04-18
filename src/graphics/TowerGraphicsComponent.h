@@ -19,8 +19,12 @@ struct DrawParamsTower {
     int degrees;
     /** normal is 1 .5 is half 2 is double */
     float scale;
+    /** true if animate() should be called to set the current image. */
+    bool animate;
     /** when true it displays the range of the tower */
     bool displayRadius;
+    /** index of pixmap to be displayed */
+    int pixmapIdx;
 };
 
 
@@ -32,7 +36,7 @@ public:
      * Instantiates a Tower graphics component
      * @author Warren Voelkl
      */
-    TowerGraphicsComponent():GraphicsComponent(){}
+    TowerGraphicsComponent();
     virtual ~TowerGraphicsComponent();
 
     /**
@@ -61,6 +65,16 @@ public:
      */
     virtual void draw(void* dp, int layer=0);
 
+    /**
+     * Sets whether or not the tower is firing a projectile.
+     *
+     * @author Dean Morin
+     * @param firing True if firing animation should be shown.
+     */
+    void setFiring(bool firing) {
+        firing_ = firing;
+    }
+
 private:
     /**
      * @returns the pixmap array from the current graphics object
@@ -76,6 +90,29 @@ private:
 
 protected:
     int radius_;
+
+    /** True if the tower just fired and needs to animate accordingly. */
+    bool firing_;
+
+    /** True if the animation timer is currently running. */
+    bool timerRunning_;
+
+    /** Animation timer id. */
+    int timerID_;
+
+    /** The time in milleseconds that the firing animation lingers for. */
+    int reloadTime_; 
+
+    /** True if the tower type has a firing animation. */
+    bool hasFiringAnimation_;
+
+    /**
+     * Timer event that indicates to change back from the firing sprite.
+     *
+     * @author Dean Morin
+     */
+    void timerEvent(QTimerEvent*);
+
 public slots:
     /**
      * Slot for alt key pressed to show ranges.
@@ -84,7 +121,6 @@ public slots:
      */
     void setVisibleRange(bool newValue) {visibleRange_ = newValue;}
 };
-
 
 } /* end namespace td */
 

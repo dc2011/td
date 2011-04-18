@@ -68,7 +68,24 @@ void NPC::setMaxHealth(int maxHealth) {
 }
 
 void NPC::networkRead(Stream* s) {
-    Unit::networkRead(s);
+    dirty_ = s->readInt();
+
+    if (dirty_ & kPosition) {
+        QPointF p = QPointF();
+        p.setX(s->readFloat());
+        p.setY(s->readFloat());
+        checkPos(p); 
+        pos_.setX(p.x());
+        pos_.setY(p.y());
+    }
+
+    if (dirty_ & kOrientation) {
+        orientation_ = s->readInt();
+    }
+
+    if (dirty_ & kScale) {
+        scale_ = s->readFloat();
+    }
 
     if (dirty_ & kType) {
         type_ = s->readInt();
@@ -114,9 +131,9 @@ void NPC::initComponents() {
 
     switch(type_) {
     case NPC_NORM:
-        maxHealth_ = health_ = 100;
-        height_ = 90;
-        width_ = 30;
+        maxHealth_ = health_ = NPC_NORM_HP;
+        height_ = NPC_NORM_HEIGHT;
+        width_ = NPC_NORM_WIDTH;
         input = new NormNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new NormNPCPhysicsComponent());
@@ -126,9 +143,9 @@ void NPC::initComponents() {
         setInputComponent(input);
         break;
     case NPC_SLOW:
-        maxHealth_ = health_ = 200;
-        height_ = 30;
-        width_ = 90;
+        maxHealth_ = health_ = NPC_SLOW_HP;
+        height_ = NPC_SLOW_HEIGHT;
+        width_ = NPC_SLOW_WIDTH;
         input = new SlowNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new SlowNPCPhysicsComponent());
@@ -137,10 +154,22 @@ void NPC::initComponents() {
 #endif
         setInputComponent(input);
         break;
+    case NPC_ARM:
+        maxHealth_ = health_ = NPC_ARM_HP;
+        height_ = NPC_ARM_HEIGHT;
+        width_ = NPC_ARM_WIDTH;
+        input = new ArmNPCInputComponent();
+        input->setParent(this);
+        setPhysicsComponent(new ArmNPCPhysicsComponent());
+#ifndef SERVER
+        setGraphicsComponent(new ArmNPCGraphicsComponent());
+#endif
+        setInputComponent(input);
+        break;
     case NPC_FAST:
-        maxHealth_ = health_ = 50;
-        height_ = 30;
-        width_ = 90;
+        maxHealth_ = health_ = NPC_FAST_HP;
+        height_ = NPC_FAST_HEIGHT;
+        width_ = NPC_FAST_WIDTH;
         input = new FastNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new FastNPCPhysicsComponent());
@@ -149,10 +178,22 @@ void NPC::initComponents() {
 #endif
         setInputComponent(input);
         break;
+    case NPC_SWARM:
+        maxHealth_ = health_ = NPC_SWARM_HP;
+        height_ = NPC_SWARM_HEIGHT;
+        width_ = NPC_SWARM_WIDTH;
+        input = new SwarmNPCInputComponent();
+        input->setParent(this);
+        setPhysicsComponent(new SwarmNPCPhysicsComponent());
+#ifndef SERVER
+        setGraphicsComponent(new SwarmNPCGraphicsComponent());
+#endif
+        setInputComponent(input);
+        break;
     case NPC_FLY:
-        maxHealth_ = health_ = 100;
-        height_ = 30;
-        width_ = 90;
+        maxHealth_ = health_ = NPC_FLY_HP;
+        height_ = NPC_FLY_HEIGHT;
+        width_ = NPC_FLY_WIDTH;
         input = new FlyNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new FlyNPCPhysicsComponent());
@@ -162,9 +203,9 @@ void NPC::initComponents() {
         setInputComponent(input);
         break;
     case NPC_BOSS:
-        maxHealth_ = health_ = 300;
-        height_ = 30;
-        width_ = 90;
+        maxHealth_ = health_ = NPC_BOSS_HP;
+        height_ = NPC_BOSS_HEIGHT;
+        width_ = NPC_BOSS_WIDTH;
         input = new BossNPCInputComponent();
         input->setParent(this);
         setPhysicsComponent(new BossNPCPhysicsComponent());
@@ -190,35 +231,145 @@ void NPC::createEffect(int effectType)
     Effect* effect;
 
     // Create the effect
-    switch (effectType) {
-    case EFFECT_ARROW:
-        effect = new ArrowEffect(this);
-        break;
-    case EFFECT_TAR:
+    if (effectType >= EFFECT_ARROW && effectType <= EFFECT_ARROW_5) {
+        switch (effectType) {
+            case EFFECT_ARROW:
+                effect = new ArrowEffect(this);
+                break;
+            case EFFECT_ARROW_2:
+                effect = new ArrowEffectL2(this);
+                break;
+            case EFFECT_ARROW_3:
+                effect = new ArrowEffectL3(this);
+                break;
+            case EFFECT_ARROW_4:
+                effect = new ArrowEffectL4(this);
+                break;
+            case EFFECT_ARROW_5:
+                effect = new ArrowEffectL5(this);
+                break;
+        }
+    } else if (effectType >= EFFECT_TAR && effectType <= EFFECT_TAR_5) {
         if (effects_.contains(EFFECT_TAR)) {
             deleteEffect(effects_.value(EFFECT_TAR));
         }
-        effect = new NPCTarEffect(this);
-        break;
-    case EFFECT_FIRE:
-        if (effects_.contains(EFFECT_TAR)) {
-            deleteEffect(effects_.value(EFFECT_TAR));
-            effect = new NPCBurnEffect(this);
-            effects_.insert(effect->getType(), effect);
+        switch (effectType) {
+            case EFFECT_TAR:
+                effect = new NPCTarEffect(this);
+                break;
+            case EFFECT_TAR_2:
+                effect = new NPCTarEffectL2(this);
+                break;
+            case EFFECT_TAR_3:
+                effect = new NPCTarEffectL3(this);
+                break;
+            case EFFECT_TAR_4:
+                effect = new NPCTarEffectL4(this);
+                break;
+            case EFFECT_TAR_5:
+                effect = new NPCTarEffectL5(this);
+                break;
         }
-        effect = new FireEffect(this);
-        break;
-    case EFFECT_FLAK:
-        effect = new FlakEffect(this);
-        break;
-    case EFFECT_CANNON:
-        effect = new CannonEffect(this);
-        break;
-    default:
+    } else if (effectType >= EFFECT_FIRE && effectType <= EFFECT_FIRE_5) {
+        switch (effectType) {
+            case EFFECT_FIRE:
+                if (effects_.contains(EFFECT_TAR)) {
+                    deleteEffect(effects_.value(EFFECT_TAR));
+                    if (effects_.contains(EFFECT_BURN)) {
+                        deleteEffect(effects_.value(EFFECT_BURN));
+                    }
+                    effect = new NPCBurnEffect(this);
+                    effects_.insert(effect->getType(), effect);
+                }
+                effect = new FireEffect(this);
+                break;
+            case EFFECT_FIRE_2:
+                if (effects_.contains(EFFECT_TAR)) {
+                    deleteEffect(effects_.value(EFFECT_TAR));
+                    if (effects_.contains(EFFECT_BURN)) {
+                        deleteEffect(effects_.value(EFFECT_BURN));
+                    }
+                    effect = new NPCBurnEffectL2(this);
+                    effects_.insert(effect->getType(), effect);
+                }
+                effect = new FireEffectL2(this);
+                break;
+            case EFFECT_FIRE_3:
+                if (effects_.contains(EFFECT_TAR)) {
+                    deleteEffect(effects_.value(EFFECT_TAR));
+                    if (effects_.contains(EFFECT_BURN)) {
+                        deleteEffect(effects_.value(EFFECT_BURN));
+                    }
+                    effect = new NPCBurnEffectL3(this);
+                    effects_.insert(effect->getType(), effect);
+                }
+                effect = new FireEffectL3(this);
+                break;
+            case EFFECT_FIRE_4:
+                if (effects_.contains(EFFECT_TAR)) {
+                    deleteEffect(effects_.value(EFFECT_TAR));
+                    if (effects_.contains(EFFECT_BURN)) {
+                        deleteEffect(effects_.value(EFFECT_BURN));
+                    }
+                    effect = new NPCBurnEffectL4(this);
+                    effects_.insert(effect->getType(), effect);
+                }
+                effect = new FireEffectL4(this);
+                break;
+            case EFFECT_FIRE_5:
+                if (effects_.contains(EFFECT_TAR)) {
+                    deleteEffect(effects_.value(EFFECT_TAR));
+                    if (effects_.contains(EFFECT_BURN)) {
+                        deleteEffect(effects_.value(EFFECT_BURN));
+                    }
+                    effect = new NPCBurnEffectL5(this);
+                    effects_.insert(effect->getType(), effect);
+                }
+                effect = new FireEffectL5(this);
+                break;
+        }
+    } else if (effectType >= EFFECT_FLAK && effectType <= EFFECT_FLAK_5) {
+        switch (effectType) {
+            case EFFECT_FLAK:
+                effect = new FlakEffect(this);
+                break;
+            case EFFECT_FLAK_2:
+                effect = new FlakEffectL2(this);
+                break;
+            case EFFECT_FLAK_3:
+                effect = new FlakEffectL3(this);
+                break;
+            case EFFECT_FLAK_4:
+                effect = new FlakEffectL4(this);
+                break;
+            case EFFECT_FLAK_5:
+                effect = new FlakEffectL5(this);
+                break;
+        }
+    } else if (effectType >= EFFECT_CANNON && effectType <= EFFECT_CANNON_5) {
+        switch (effectType) {
+            case EFFECT_CANNON:
+                effect = new CannonEffect(this);
+                break;
+            case EFFECT_CANNON_2:
+                effect = new CannonEffectL2(this);
+                break;
+            case EFFECT_CANNON_3:
+                effect = new CannonEffectL3(this);
+                break;
+            case EFFECT_CANNON_4:
+                effect = new CannonEffectL4(this);
+                break;
+            case EFFECT_CANNON_5:
+                effect = new CannonEffectL5(this);
+                break;
+        }
+    }  else {
         return;
     }
+    connect(effect, SIGNAL(effectFinished(Effect*)),
+                     this, SLOT(deleteEffect(Effect*)));
     effects_.insert(effect->getType(), effect);
-
 }
 
 void NPC::deleteEffect(Effect* effect)
@@ -268,6 +419,52 @@ void NPC::update() {
     }
 
     this->isDead();
+}
+
+void NPC::checkPos(QPointF& p) {
+    int x = getDriver()->getGameMap()->getWidthInTiles();
+    int y = getDriver()->getGameMap()->getHeightInTiles();
+    x = x * getDriver()->getGameMap()->getTMap()->tileWidth();
+    y = y * getDriver()->getGameMap()->getTMap()->tileHeight();
+    x-=20;
+    y-=20;
+    if(p.x() < 20) {
+        p.setX(20);
+    }
+    if(p.y() < 20) {
+        p.setY(20);
+    }
+    if(p.x() > x) {
+        p.setX(x);
+    }
+    if(p.y() > y) {
+        p.setY(y);
+    }
+
+    QPointF point;
+    QVector<QPointF> points;
+    QMatrix matrix = QMatrix();
+    matrix.rotate(-getOrientation());
+    // Determine if the NPC needs to update its tile position.
+    changeTile(p);
+    //set up Vector to construct bounding Polygon
+    point = QPointF(-getWidth()/2, -getHeight( )/2) * matrix;
+    point += p;
+    points.append(point);
+    point = QPointF(getWidth()/2, -getHeight()/2) * matrix;
+    point += p;
+    points.append(point);
+    point = QPointF(getWidth()/2, getHeight()/2) * matrix;
+    point += p;
+    points.append(point);
+    point = QPointF(-getWidth()/2, getHeight()/2) * matrix;
+    point += p;
+    points.append(point);
+    point = QPointF(-getWidth()/2, -getHeight()/2) * matrix;
+    point += p;
+    points.append(point);
+
+    setBounds(QPolygonF(points));
 }
 
 } /* end namespace td */

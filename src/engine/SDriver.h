@@ -22,11 +22,13 @@ class SDriver : public Driver {
 
 private:
     NetworkServer* net_;
-    QList<Player*> players_;
+    QMap<QTcpSocket*, Player*> players_;
     QSet<GameObject*> updates_;
     QList<NPCWave*> waves_;
     QTimer* waveTimer_;
     unsigned int timeCount_;
+    unsigned int completedWaves_;
+    unsigned int totalWaves_;
 
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
@@ -121,11 +123,11 @@ public:
      * to the Building Stage.
      *
      * @author Marcel Vangrootheest
-     * @param out The stream to write the message to.
      * @param t The BuildingTower to add the resource to.
      * @param player The player that needs to drop the resource.
+     * @param drop true if the resource will always be dropped.
      */
-    void towerDrop(Stream* out, BuildingTower* t, Player* player);
+    void towerDrop(BuildingTower* t, Player* player, bool drop);
 
 signals:
     /**
@@ -188,13 +190,24 @@ public slots:
      * @author Duncan Donaldson
      */
     void spawnWave();
+
+    /**
+     * Called when a wave is destroyed; either when all of it's NPCs have been
+     * killed or when the last one has reached the home base.
+     *
+     * Increments the completed wave counter.
+     *
+     * @author Tom Nightingale
+     */
+    void endWave();
+
     /**
      * slot that is called to destroy an NPC when its health reaches 0.
      *
      * @author Duncan Donaldson
      */
     void deadNPC(int id);
-    void deadWave();
+
     /**
      * Handles a UDP packet receive by updating a currently existing player
      * or adding the player to the players list if the player does not exist.
@@ -224,6 +237,14 @@ public slots:
      * @param vel The velocity of the dropper.
      */
     void requestCollectable(int collType, QPointF source, QVector2D vel);
+
+    /**
+     * Let other players know when a player has quit.
+     *
+     * @author Darryl Pogue
+     * @param sock The socket of the player.
+     */
+    void playerQuit(QTcpSocket* sock);
 };
 
 } /* end namespace td */
