@@ -82,7 +82,19 @@ public:
         return type_;
     }
 
+    /**
+     * Gets the level of the tower. The lowest level is level 1.
+     *
+     * @author Dean Morin
+     * @return The level of the tower.
+     */
+    int getLevel() {
+        return type_ & 0xF;
+    }
+
 private:
+    /** The type of tower. The 4 least significant bits are the tower's level,
+     *  and the next 4 are the tower type (arrow, cannon, etc.). */
     int type_;
 };
 

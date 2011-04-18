@@ -21,21 +21,61 @@
 #define TOWER_FLAK          53
 #define TOWER_TYPE_MAX       5
 #define UPGRADE_TOWER       49
-#define SELL_TOWER          57
+#define SELL_TOWER          53
 #define UPGRADE_SPEED       49
 #define UPGRADE_HARVEST     50
 #define UPGRADE_RECOVERY    51
 
-#define TOWER_ARROW_2       0
-#define TOWER_ARROW_3       1
-#define TOWER_CANNON_2      2
-#define TOWER_CANNON_3      3
-#define TOWER_FLAME_2       4
-#define TOWER_FLAME_3       5
-#define TOWER_TAR_2         6
-#define TOWER_TAR_3         7
-#define TOWER_FLAK_2        8
-#define TOWER_FLAK_3        9
+// for player upgrade bitmask
+#define PLAYER_NONE         0x0
+#define PLAYER_SPEED        0x1
+#define PLAYER_HARVEST      0x2
+#define PLAYER_SPD_HAR      0x3
+#define PLAYER_RECOVERY     0x4
+#define PLAYER_SPD_REC      0x5
+#define PLAYER_HAR_REC      0x6
+#define PLAYER_ALL          0x7
+
+#define MAX_TOWER_LEVEL         5
+
+// context menu images
+#define MENU_BASE               0
+#define MENU_RESOURCES          1
+
+// tower image indexes
+#define MENU_TOWER_UPGRADE_ALL  1
+#define MENU_TOWER_RESOURCES    2
+#define MENU_TOWER_UPGRADE      7
+#define MENU_TOWER_SELL         8
+
+// tower types
+// last group of 4 bits - tower level
+// 2nd to last group of 4 bits - tower type
+#define TOWER_ARROW_1   0x01
+#define TOWER_ARROW_2   0x02
+#define TOWER_ARROW_3   0x03
+#define TOWER_ARROW_4   0x04
+#define TOWER_ARROW_5   0x05
+#define TOWER_CANNON_1  0x11
+#define TOWER_CANNON_2  0x12
+#define TOWER_CANNON_3  0x13
+#define TOWER_CANNON_4  0x14
+#define TOWER_CANNON_5  0x15
+#define TOWER_FLAME_1   0x21
+#define TOWER_FLAME_2   0x22
+#define TOWER_FLAME_3   0x23
+#define TOWER_FLAME_4   0x24
+#define TOWER_FLAME_5   0x25
+#define TOWER_TAR_1     0x31
+#define TOWER_TAR_2     0x32
+#define TOWER_TAR_3     0x33
+#define TOWER_TAR_4     0x34
+#define TOWER_TAR_5     0x35
+#define TOWER_FLAK_1    0x41
+#define TOWER_FLAK_2    0x42
+#define TOWER_FLAK_3    0x43
+#define TOWER_FLAK_4    0x44
+#define TOWER_FLAK_5    0x45
 
 // Current map to use
 #define MAP      "bigmap"
@@ -44,37 +84,64 @@
 
 // how often the tower type can fire (in game ticks)
 #define FIRE_INTERVAL_ARROW     45
-#define FIRE_INTERVAL_ARROW_2   35
-#define FIRE_INTERVAL_ARROW_3   25
+#define FIRE_INTERVAL_ARROW_2   40
+#define FIRE_INTERVAL_ARROW_3   35
+#define FIRE_INTERVAL_ARROW_4   30
+#define FIRE_INTERVAL_ARROW_5   25
 #define FIRE_INTERVAL_CANNON    120
-#define FIRE_INTERVAL_CANNON_2  100
-#define FIRE_INTERVAL_CANNON_3  80
+#define FIRE_INTERVAL_CANNON_2  110
+#define FIRE_INTERVAL_CANNON_3  100
+#define FIRE_INTERVAL_CANNON_4  90
+#define FIRE_INTERVAL_CANNON_5  80
 #define FIRE_INTERVAL_FLAME     70
-#define FIRE_INTERVAL_FLAME_2   60
-#define FIRE_INTERVAL_FLAME_3   50
+#define FIRE_INTERVAL_FLAME_2   65
+#define FIRE_INTERVAL_FLAME_3   60
+#define FIRE_INTERVAL_FLAME_4   55
+#define FIRE_INTERVAL_FLAME_5   50
 #define FIRE_INTERVAL_TAR       90
-#define FIRE_INTERVAL_TAR_2     75
-#define FIRE_INTERVAL_TAR_3     60
+#define FIRE_INTERVAL_TAR_2     83
+#define FIRE_INTERVAL_TAR_3     75
+#define FIRE_INTERVAL_TAR_4     68
+#define FIRE_INTERVAL_TAR_5     60
 #define FIRE_INTERVAL_FLAK      15
-#define FIRE_INTERVAL_FLAK_2    10
-#define FIRE_INTERVAL_FLAK_3    5
+#define FIRE_INTERVAL_FLAK_2    13
+#define FIRE_INTERVAL_FLAK_3    11
+#define FIRE_INTERVAL_FLAK_4    9
+#define FIRE_INTERVAL_FLAK_5    7
+
+// reload times for animation (in milliseconds)
+#define RELOAD_ARROW        600
+#define RELOAD_CANNON       200
+#define RELOAD_FLAK_SLOW    190
+#define RELOAD_FLAK_MEDIUM  135
+#define RELOAD_FLAK_FAST    105
 
 // a tower's range
 #define RADIUS_ARROW    240
-#define RADIUS_ARROW_2  270
-#define RADIUS_ARROW_3  300
+#define RADIUS_ARROW_2  255
+#define RADIUS_ARROW_3  270
+#define RADIUS_ARROW_4  285
+#define RADIUS_ARROW_5  300
 #define RADIUS_CANNON   150
-#define RADIUS_CANNON_2 180
-#define RADIUS_CANNON_3 210
+#define RADIUS_CANNON_2 165
+#define RADIUS_CANNON_3 180
+#define RADIUS_CANNON_4 195
+#define RADIUS_CANNON_5 210
 #define RADIUS_FLAME    90
 #define RADIUS_FLAME_2  120
-#define RADIUS_FLAME_3  150
+#define RADIUS_FLAME_3  135
+#define RADIUS_FLAME_4  150
+#define RADIUS_FLAME_5  165
 #define RADIUS_TAR      170
-#define RADIUS_TAR_2    200
-#define RADIUS_TAR_3    230
+#define RADIUS_TAR_2    185
+#define RADIUS_TAR_3    200
+#define RADIUS_TAR_4    215
+#define RADIUS_TAR_5    230
 #define RADIUS_FLAK     300
-#define RADIUS_FLAK_2   330
-#define RADIUS_FLAK_3   360
+#define RADIUS_FLAK_2   315
+#define RADIUS_FLAK_3   330
+#define RADIUS_FLAK_4   345
+#define RADIUS_FLAK_5   360
 
 //Tile action types specifying action for spacebar
 #define TILE_REGULAR    0
@@ -210,6 +277,11 @@
 #define ARROW_DMG_3     -35
 #define ARROW_DMG_4     -40
 #define ARROW_DMG_5     -45
+#define ARROW_ARM_DMG   -12
+#define ARROW_ARM_DMG_2 -15
+#define ARROW_ARM_DMG_3 -17
+#define ARROW_ARM_DMG_4 -20
+#define ARROW_ARM_DMG_5 -23
 #define CANNON_DMG      -75
 #define CANNON_DMG_2    -80
 #define CANNON_DMG_3    -85
@@ -376,8 +448,22 @@
 #define COST_FLAME_STONE   1
 #define COST_FLAME_BONE    0
 #define COST_FLAME_OIL     0
+
 #define COST_TOWER_UPGRADE      1
 #define COST_TOWER_UPGRADE_2    2
+#define COST_TOWER_UPGRADE_3    3
+#define COST_TOWER_UPGRADE_4    4
+
+// tower upgrade costs
+#define GEMS_TO_L2      5
+#define GEMS_TO_L3      10
+#define GEMS_TO_L4      25
+#define GEMS_TO_L5      50
+
+// player upgrade costs
+#define GEMS_SPEED      50
+#define GEMS_HARVEST    25
+#define GEMS_RECOVERY   25
 
 //colors for tower colors
 #define ARROW_COLOR     QColor(255,160,122)

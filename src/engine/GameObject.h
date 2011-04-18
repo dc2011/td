@@ -167,7 +167,7 @@ public:
      * @author Duncan Donaldson
      * @param p The coordinates of the center of the object.
      */
-    void setPos(QPointF& p);
+    virtual void setPos(QPointF& p);
 
     /**
      * Sets the object's coordinates in the game world. This should be the
@@ -178,7 +178,7 @@ public:
      * @param x The X coordinate value.
      * @param y The Y coordinate value.
      */
-    void setPos(float x, float y);
+    virtual void setPos(float x, float y);
     
     /**
       * Overloaded < comparator for set implementation
