@@ -428,8 +428,10 @@ void SDriver::onMsgReceive(Stream* s) {
                                                   player->getPos().y());
 
             if (c != NULL && c != (Collectable*)-1) {
+                bool isGem = false;
                 if (c->getType() == RESOURCE_GEM) {
                     gemCount_++;
+                    isGem = true;
                 }
 
                 currentTile->removeUnit(c);
@@ -437,6 +439,7 @@ void SDriver::onMsgReceive(Stream* s) {
 
                 out->writeInt(playerID);
                 out->writeInt(collID);
+                out->writeByte(isGem);
                 net_->send(network::kPickCollect, out->data());
             }
             break;
