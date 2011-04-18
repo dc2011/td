@@ -66,7 +66,7 @@ void NPCInputComponent::nextDestination() {
         int health = parent_->getDriver()->getBaseHealth();
         health -= parent_->getDamage();
         parent_->getDriver()->setBaseHealth(health);
-        PLAY_SFX(SfxManager::npcInBase);
+        PLAY_SFX(parent_, SfxManager::npcInBase);
         emit deleteUnitLater(parent_->getID());  
     }
 }
