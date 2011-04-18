@@ -112,6 +112,9 @@ void SDriver::startGame(bool multicast) {
         /* Not "proper" but it saves space and the client can deal with it */
         s.writeByte(network::kMulticastIP);
         s.writeByte(net_->getMulticastAddr());
+    } else {
+        s.writeByte(network::kPortOffset);
+        s.writeShort(net_->getPort());
     }
 
     net_->send(network::kServerPlayers, s.data());

@@ -99,6 +99,11 @@ private:
      */
     unsigned char multicastAddr_;
 
+    /**
+     * The UDP port number.
+     */
+    unsigned short port_;
+
 
 private:
     /**
@@ -133,6 +138,14 @@ signals:
     void joinMulticast(unsigned char octet);
 
     /**
+     * Opens a UDP connection on the given port.
+     *
+     * @author Darryl Pogue
+     * @param port The UDP port.
+     */
+    void startUDP(unsigned short port);
+
+    /**
      * Signal emitted when a message is received over UDP.
      *
      * @param s The stream for the network message.
@@ -163,6 +176,14 @@ private slots:
      * @param digit The last digit of the multicast address.
      */
     void onMulticastJoin(unsigned char digit);
+
+    /**
+     * Called when the UDP connection needs to be opened.
+     *
+     * @author Darryl Pogue
+     * @param port The UDP port number.
+     */
+    void onConnectUDP(unsigned short port);
 
     /**
      * Called when data is received by the TCP socket, parses the data and
@@ -231,8 +252,24 @@ public:
         emit msgQueued();
     }
 
+    /**
+     * Sets the multicast address for the connection to the server.
+     *
+     * @author Darryl Pogue
+     * @param digit The final digit of the multicast address.
+     */
     void setMulticastAddress(unsigned char digit) {
         emit joinMulticast(digit);
+    }
+
+    /**
+     * Sets the UDP port number and starts the UDP connection.
+     *
+     * @author Darryl Pogue
+     * @param port The UDP port number.
+     */
+    void setUDPPort(unsigned short port) {
+        emit startUDP(port);
     }
 };
 
