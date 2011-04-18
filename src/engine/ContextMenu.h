@@ -5,10 +5,10 @@
 #include <QPointF>
 #include <QTimer>
 #include "ClsIdx.h"
+#include "Player.h"
 
 namespace td {
 class ContextMenuGraphicsComponent;
-class Player;
 
 class ContextMenu : public QObject {
     Q_OBJECT
@@ -28,6 +28,26 @@ public:
     ContextMenu(Player* player);
     virtual ~ContextMenu();
 
+    /**
+     * Returns the position of the player that opened the menu.
+     *
+     * @author Dean Morin
+     * @return The player's coords.
+     */
+    QPointF getPos() {
+        return player_->getPos();
+    }
+
+    /**
+     * Returns the player assoctiated with this menu.
+     *
+     * @author Dean Morin
+     * @return A pointer to the player.
+     */
+    Player* getPlayer() {
+        return player_;
+    }
+
 protected:
     /** Is responsible for rendering this object. */
     ContextMenuGraphicsComponent* graphics_;
@@ -37,6 +57,9 @@ protected:
 
     /** True if a context menu is currently open. */
     bool menuIsOpen_;
+
+    /** The state of all upgrades that this menu can represent. */ 
+    int upgradeLevels_;
 
 public slots:
     /**
