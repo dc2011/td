@@ -1,7 +1,8 @@
 #include "PlayerGraphicsComponent.h"
+#include <QDateTime>
+#include <QDebug>
 #include "../engine/Player.h"
 #include "../engine/CDriver.h"
-#include <QDebug>
 
 namespace td {
 
@@ -141,6 +142,7 @@ void PlayerGraphicsComponent::initPixmaps() {
     } else {
         pixmapImgs_ = new QPixmap[PIX_PLAYER_MAX + PIX_RESOURCE_MAX];
     }
+    srand(QDateTime::currentDateTime().toTime_t());
     int random = ((rand() % 700) / 100) + 1;
 
     pixmapIndex_ = 0;
