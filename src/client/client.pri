@@ -21,3 +21,4 @@ FORMS +=        ./client/lobbywindow.ui \
                 ./client/MainMenu.ui \
                 ./client/stats.ui
 
+RESOURCES += 	./client/client.qrc

@@ -9,7 +9,7 @@ namespace td {
 LobbyServer* LobbyServer::instance_ = NULL;
 QMutex LobbyServer::mutex_;
 
-LobbyServer::LobbyServer(QObject* parent) : QTcpServer(parent), connCount_(0)
+LobbyServer::LobbyServer(QObject* parent) : QTcpServer(parent), connCount_(0),gameId(1)
 {
     this->listen(QHostAddress::Any, TD_PORT);
     qDebug() << "Server is listening for connections";
@@ -41,6 +41,47 @@ void LobbyServer::notifyClients(unsigned char msgType)
             }
             break;
         }
+        case network::kUpdateUserList:
+        {
+            Stream s;
+            QList<int> gameNames = games_.keys();
+            s.writeByte(msgType);
+            s.writeInt(clients_.size());
+            foreach(QString name, clients_) {
+                s.writeInt(name.size());
+                s.write(name.toAscii());
+                s.writeInt(games_.key(clients_.key(name)));
+
+            }
+            foreach (QTcpSocket* sock, clients_.keys()) {
+                sock->write(s.data());
+                sock->flush();
+            }
+            break;
+
+        }
+        case network::kUpdateListOfGames:
+        {
+            Stream s;
+
+            QSet<int> gameNames = games_.keys().toSet();
+            s.writeByte(msgType);
+            s.writeInt(gameNames.size());
+            foreach(int name, gameNames) {
+                s.writeInt(name);
+                s.writeInt(games_.count(name));
+                foreach(QTcpSocket* sock,games_.values(name)) {
+                    QString name = clients_.value(sock);
+                    s.writeInt(name.size());
+                    s.write(name.toAscii());
+                }
+            }
+            foreach (QTcpSocket* sock, clients_.keys()) {
+                sock->write(s.data());
+                sock->flush();
+            }
+            break;
+        }
         case network::kBadVersion:
         case network::kLobbyStartGame:
         {
@@ -56,7 +97,7 @@ void LobbyServer::notifyClients(unsigned char msgType)
     }
 }
 
-void LobbyServer::startGame() {
+void LobbyServer::startGame(int game) {
     notifyClients(network::kLobbyStartGame);
 
     Thread* gamethread = new Thread();
@@ -66,7 +107,7 @@ void LobbyServer::startGame() {
     connect(sd, SIGNAL(disconnecting()), this, SLOT(gameEnd()));
 
     mutex_.lock();
-    foreach (QTcpSocket* conn, clients_.keys()) {
+    foreach (QTcpSocket* conn, games_.values(game)) {
         disconnect(conn, SIGNAL(readyRead()),
                     this, SLOT(readSocket()));
         disconnect(conn, SIGNAL(disconnected()),
@@ -80,9 +121,10 @@ void LobbyServer::startGame() {
         s.writeInt(id);
 
         conn->write(s.data());
+        clients_.remove(conn);
     }
-    clients_.clear();
-    connCount_ = 0;
+
+    games_.remove(game);
     mutex_.unlock();
 
     sd->initNetworking();
@@ -126,50 +168,92 @@ void LobbyServer::readSocket()
                 conn->close();
                 return;
             }
-
             int len = s.readByte();
             QString nick = QString(s.read(len));
-
-            mutex_.lock();
+            if(usernames_.contains(nick)) {
+                Stream error;
+                QString msg("Username is already in use. Please Select a different one and try connecting again.");
+                error.writeByte(network::kServerErrorMsg);
+                error.writeInt(msg.size());
+                error.write(msg.toAscii());
+                conn->write(error.data());
+                return;
+            }
             connCount_++;
+            mutex_.lock();
             usernames_.insert(nick);
             clients_.insert(conn, nick);
             mutex_.unlock();
-
             notifyClients(network::kLobbyWelcome);
+            notifyClients(network::kUpdateUserList);
+            if(games_.size() > 0) {
+                notifyClients(network::kUpdateListOfGames);
+            }
             qDebug() << "Number of clients connected = " << connCount_;
             break;
         }
-        case network::kLobbyStartGame:
+        case network::kJoinGame:
         {
-            startGame();
-            /*foreach (QTcpSocket* sock, clients_) {
-                disconnect(sock, SIGNAL(readyRead()),
-                        this, SLOT(readSocket()));
+            int len = s.readInt();
+            QString nick = QString(s.read(len));
+            int game = s.readInt();
+
+            if(game == 0) {
+                Stream s;
+                s.writeByte(network::kGameId);
+                s.writeInt(gameId);
+                games_.insert(gameId++,conn);
+                notifyClients(network::kUpdateListOfGames);
+                conn->write(s.data());
             }
-            qDebug() << "Starting a game...";
-
-            // Here we should be forking
-            int pid = fork();
-            qDebug() << "PID is" << pid;
-            if (pid == 0) {
-                disconnect(tcpServer_, SIGNAL(newConnection()),
-                        this, SLOT(handleNewConnection()));
-                tcpServer_->close();
-                qDebug() << "Exiting with code 1...";
-                _exit(1);
-            } else {
-                mutex_.lock();
-                connCount_ = 0;
-                clients_.clear();
-
-                foreach (QString nick, connections_.keys()) {
-                    qDebug() << "Master has Nickname:" << nick;
-                }
-                mutex_.unlock();
-            }*/
+            else {
+                games_.insert(game,conn);
+            }
+            notifyClients(network::kUpdateListOfGames);
+            notifyClients(network::kUpdateUserList);
             break;
         }
+        case network::kLobbyleaveGame:
+        {
+            int nameLen = s.readInt();
+            QString name(s.read(nameLen));
+            int gameNum = s.readInt();
+            games_.remove(gameNum,clients_.key(name));
+            notifyClients(network::kUpdateUserList);
+            notifyClients(network::kUpdateListOfGames);
+            break;
+        }
+
+        case network::kLobbyStartGame:
+        {
+            int game = s.readInt();
+            startGame(game);
+            break;
+        }
+        case network::kChatMessage:
+        {
+            int nameLen = s.readInt();
+            QString nickName(s.read(nameLen));
+            int msgLen = s.readInt();
+            QString msg(s.read(msgLen));
+            relayChatMessage(nickName,msg);
+            break;
+        }
+    }
+}
+void LobbyServer::relayChatMessage(QString& nickName, QString& msg) {
+    Stream data;
+    data.writeByte(network::kChatMessage);
+    data.writeInt(nickName.size());
+    data.write(nickName.toAscii());
+    data.writeInt(msg.size());
+    data.write(msg.toAscii());
+
+    foreach(QTcpSocket* sock, clients_.keys()) {
+       // if(nickName != clients_.value(sock)) {
+            sock->write(data.data());
+            sock->flush();
+       // }
     }
 }
 
@@ -180,6 +264,9 @@ void LobbyServer::disconnected()
     mutex_.lock();
     QString nick = clients_[conn];
     if (!nick.isEmpty()) {
+
+        games_.remove(games_.key(conn),conn);
+
         clients_.remove(conn);
         connCount_ = (connCount_ > 0) ? connCount_ - 1 : 0;
         usernames_.remove(nick);
@@ -187,6 +274,8 @@ void LobbyServer::disconnected()
     mutex_.unlock();
 
     notifyClients(network::kLobbyWelcome);
+    notifyClients(network::kUpdateUserList);
+    notifyClients(network::kUpdateListOfGames);
     qDebug() << "Number of clients connected = " << connCount_;
 }
 

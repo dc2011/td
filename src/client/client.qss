@@ -1,0 +1,116 @@
+QObject {
+    color: #252525 !important;
+}
+
+QMainWindow#LobbyWindow {
+    background-image: url("./img/lobbyBg.png");
+}
+
+QFrame#bgFrame {
+    background-image: url("./img/mapListsBg.png");
+    border: none;
+}
+
+QListWidget#mapsList, QTextEdit#msgView, QLineEdit#msgBox, QHeaderView, QHeaderView::section, QDialog#MainMenu {
+    background: transparent;
+    border: none;
+}
+
+QFrame#chatBgFrame {
+    background-image: url("./img/chatBg.png");
+    border: none;
+}
+
+QFrame#chatInputBg {
+    background-image: url("./img/chatInputBg.png");
+    border: none;
+}
+
+QTextEdit#msgView, QLineEdit#msgBox {
+}
+
+QFrame#logoFrame {
+    background-image: url("./img/logo.png");
+    border: none;
+}
+
+QListWidget#gameList {
+    background-image: url("./img/gameListBg.png");
+    border: none;
+}
+
+QTreeWidget#userList {
+    background-image: url("./img/userListBg.png");
+    border: none;
+}
+
+QDialog#MainMenu, QDialog#settingsWindow {
+    background-image: url("./img/mainMenuBg.png");
+    border: none;
+}
+
+QPushButton#pushVolume:hover, QPushButton#pushMap:hover {
+    margin-top: 3px;
+    margin-left: 3px;
+}
+
+QPushButton#pushVolume, QPushButton#pushMap {
+    background-repeat: none;
+    background-position: center top;
+    border: none;
+    padding-top: 65px;
+}
+
+QPushButton#pushVolume {
+    background-image: url("./img/volumeBtnBg.png");
+}
+
+QPushButton#pushMap {
+    background-image: url("./img/keySettingsBtnBg.png");
+}
+
+QSlider#musicSlider::handle, QSlider#sfxSlider::handle, QSlider#voiceSlider::handle {
+    background-image: url("./img/sliderBg.png");
+    background-repeat: none;
+    background-position: center top;
+}
+
+QObject#btnChoice1, QObject#btnChoice2, QObject#btnChoice3, QObject#btnChoice4, QObject#btnChoice5
+, QObject#btnMenu, QObject#btnExtraInfo, QObject#btnVoice, QObject#btnZoom, QObject#btnArrowUp
+, QObject#btnArrowDown, QObject#btnArrowLeft, QObject#btnArrowRight {
+    background-image: url("./img/keyBg.png");
+    background-repeat: none;
+    background-position: center top;
+    color: white;
+}
+
+QObject#btnChoice1:hover, QObject#btnChoice2:hover, QObject#btnChoice3:hover, QObject#btnChoice4:hover, QObject#btnChoice5:hover
+, QObject#btnMenu:hover, QObject#btnExtraInfo:hover, QObject#btnVoice:hover, QObject#btnZoom:hover, QObject#btnArrowUp:hover
+, QObject#btnArrowDown:hover, QObject#btnArrowLeft:hover, QObject#btnArrowRight:hover {
+    margin-left: 3px;
+}
+
+QObject#btnChoice1:checked, QObject#btnChoice2:checked, QObject#btnChoice3:checked, QObject#btnChoice4:checked, QObject#btnChoice5:checked
+, QObject#btnMenu:checked, QObject#btnExtraInfo:checked, QObject#btnVoice:checked, QObject#btnZoom:checked, QObject#btnArrowUp:checked
+, QObject#btnArrowDown:checked, QObject#btnArrowLeft:checked, QObject#btnArrowRight:checked {
+    background-image: url("./img/keyBgChecked.png");
+    border: none;
+}
+
+QDialog#KeymapDialog {
+    background-image: url("./img/keyWindowBg.png");
+}
+
+QFrame#Stats {
+    background-image: url("./img/statsBg.png");
+    background-position: bottom;
+    border: none;
+}
+
+QPushButton {
+    background-color: white;
+}
+
+QPushButton:disabled {
+    background-color: black;
+}

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QHostAddress>
+#include <QListWidgetItem>
 #include "../util/defines.h"
 #include "../network/stream.h"
 
@@ -20,6 +21,8 @@ public:
     explicit LobbyWindow(QWidget *parent = 0);
     ~LobbyWindow();
 
+    void applyStyleSheet(QString path);
+
 signals:
     void startGame(bool singlePlayer);
 
@@ -27,6 +30,7 @@ public slots:
     void connectLobby();
     void tmp_startGame();
     void onTCPReceived(Stream* s);
+    void onCreateNewGame();
 
 private slots:
     /**
@@ -36,7 +40,30 @@ private slots:
      */
     void writeSettings();
 
+    /** Sends a chat message
+     *
+     * @author Kelvin Lui
+     * @param nickName the nickName of the sender
+     * @param chatMessage the messgae to send
+     **/
+    void sendChatMessage();
+
+    /** Called when a user double clicks on a game
+     *
+     * @author Kelvin Lui
+     * @param  item the qlistwidgetItem that was clicked
+     **/
+
+    void onJoinGame(QListWidgetItem*);
+    /**TD_VERSION
+      * Called when a user clicks on the leave game button
+      * @author Kelvin Lui
+      **/
+    void onLeaveGame();
+
 private:
+    void updateListOfUserNames(QMultiMap<int, QString>&);
+    void updateListOfGames(QMultiMap<int,QString>&);
     /**
      * Reads the last used settings from a persistent file.
      *
@@ -45,12 +72,21 @@ private:
     void readSettings();
 
     /**
+     *
+     *@author Kelvin Lui
+     *@param msg The new chat message to display
+     */
+    void displayChatMsgRx(QString& nickName, QString& msg);
+
+    /**
      * Assigns a username if the default is not changed.
      *
      * @author Dean Morin
      */
     void assignName();
 
+    /** the game number the client is connected to*/
+    int gameNum_;
     Ui::LobbyWindow *ui;
 };
 
