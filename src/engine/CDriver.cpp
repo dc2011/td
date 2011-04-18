@@ -509,7 +509,7 @@ void CDriver::UDPReceived(Stream* s) {
                 p->setResource(RESOURCE_NONE);
             }
 
-            if (!addToTower) {
+            if (!addToTower && type != -1) {
                 Driver::createCollectable(type, src, velocity);
             }
 
@@ -564,8 +564,10 @@ void CDriver::UDPReceived(Stream* s) {
         {
             float x = s->readFloat();
             float y = s->readFloat();
+            int gc = s->readInt();
 
             Driver::upgradeTower(QPointF(x, y));
+            setGemCount(gc);
 
             break;
         }
@@ -603,6 +605,10 @@ void CDriver::UDPReceived(Stream* s) {
             }
 
             int length = s->readInt();
+            if (length <= 0) {
+                return;
+            }
+
             QString text = s->read(length);
 
             if (!text.isEmpty()) {

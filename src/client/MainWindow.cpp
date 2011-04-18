@@ -183,7 +183,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
     } else if (keys_.voiceKey.matches(key) == QKeySequence::ExactMatch) {
         /* Voice key => V */
         // Temporarily disabled
-        //AudioManager::instance()->toggleCapturePause();
+        AudioManager::instance()->toggleCapturePause();
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
         if(mapZoomOut_ == false && 
@@ -257,7 +257,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
     } else if (keys_.voiceKey.matches(key) == QKeySequence::ExactMatch) {
         /* Voice key => V */
         // Temporarily disabled
-        //AudioManager::instance()->toggleCapturePause();
+	AudioManager::instance()->toggleCapturePause();
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
         if(mapZoomOut_ == true && 
