@@ -162,8 +162,14 @@ int TowerContextMenuGraphicsComponent::getCurrentImage() {
     Map* map = CDriver::instance()->getGameMap();
     QPointF pos = menu_->getPos();
     Tile* tile = map->getTile(pos.x(), pos.y());
-    int towerLevel = ((Tower*) tile->getExtension())->getLevel();
-
+    int towerLevel = 0;
+   
+    CDriver::instance()->getMenuMutex()->lock();
+    if (((Tower*) tile->getExtension()) != NULL) {
+        towerLevel = ((Tower*) tile->getExtension())->getLevel();
+    }
+    CDriver::instance()->getMenuMutex()->unlock();
+    
     if (nextImage_ == MENU_BASE) {
         if (towerLevel < MAX_TOWER_LEVEL) { 
             return MENU_BASE;
