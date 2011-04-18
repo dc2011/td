@@ -48,11 +48,11 @@ void SlowNPCGraphicsComponent::initPixmaps() {
         pixmapImgs_ = new QPixmap[PIX_NPC_SLOW_MAX];
     }
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BRONTO_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BRONTO_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BRONTO_2;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BRONTO_3;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BRONTO_4;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SLOW_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SLOW_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SLOW_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SLOW_3;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_SLOW_4;
     setNonStaticValues();
 }
 
@@ -179,9 +179,9 @@ void BossNPCGraphicsComponent::initPixmaps() {
         pixmapImgs_ = new QPixmap[PIX_NPC_BOSS_MAX];
     }
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_TREX_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_TREX_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_NPC_TREX_2;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BOSS_0;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BOSS_1;
+    pixmapImgs_[pixmapIndex_++] = PIX_NPC_BOSS_2;
     setNonStaticValues();
 }
 
