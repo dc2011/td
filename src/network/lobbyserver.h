@@ -91,7 +91,7 @@ protected:
      * @author Darryl Pogue
      * @param msgType The message type to be sent.
      */
-    void notifyClients(unsigned char msgType);
+    void notifyClients(unsigned char msgType,int gameId);
 
     /**
      * Relays a message sent by a client to all other connected clients
@@ -100,6 +100,7 @@ protected:
      * @param msg the message to be sent
      */
     void relayChatMessage(QString& nickName,QString& msg);
+
     void startGame(int);
 
     /**
