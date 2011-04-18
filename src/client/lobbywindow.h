@@ -55,7 +55,7 @@ private slots:
      **/
 
     void onJoinGame(QListWidgetItem*);
-    /**TD_VERSION
+    /**
       * Called when a user clicks on the leave game button
       * @author Kelvin Lui
       **/
