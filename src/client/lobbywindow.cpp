@@ -117,6 +117,8 @@ void LobbyWindow::onTCPReceived(Stream* s)
             connect(ui->newGame,SIGNAL(clicked()),this,SLOT(onCreateNewGame()));
             connect(ui->leaveGame,SIGNAL(clicked()),this,SLOT(onLeaveGame()));
             connect(ui->gameList,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(onJoinGame(QListWidgetItem*)));
+
+            ui->newGame->setEnabled(true);
             
             break;
         }
