@@ -68,7 +68,20 @@ void NPC::setMaxHealth(int maxHealth) {
 }
 
 void NPC::networkRead(Stream* s) {
-    Unit::networkRead(s);
+    dirty_ = s->readInt();
+
+    if (dirty_ & kPosition) {
+        pos_.setX(s->readFloat());
+        pos_.setY(s->readFloat());
+    }
+
+    if (dirty_ & kOrientation) {
+        orientation_ = s->readInt();
+    }
+
+    if (dirty_ & kScale) {
+        scale_ = s->readFloat();
+    }
 
     if (dirty_ & kType) {
         type_ = s->readInt();

@@ -111,8 +111,8 @@ public:
      * @author Marcel Vangrootheest
      * @param p NPC new position
      */
-    void setPos(QPointF& p);
-    void setPos(float x, float y);
+    virtual void setPos(QPointF& p);
+    virtual void setPos(float x, float y);
 
     /**
      * Sets the NPC type (Normal, Slow, Fast, Flying, or Boss).
