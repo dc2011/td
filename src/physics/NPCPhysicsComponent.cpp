@@ -26,6 +26,7 @@ void NPCPhysicsComponent::applyVelocity(NPC* npc)
     QMatrix matrix = QMatrix();
     matrix.rotate(-npc->getOrientation());
 
+    npc->checkPos(newPos);
     npc->setPos(newPos);
 }
 

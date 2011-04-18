@@ -71,8 +71,10 @@ void NPC::networkRead(Stream* s) {
     dirty_ = s->readInt();
 
     if (dirty_ & kPosition) {
-        pos_.setX(s->readFloat());
-        pos_.setY(s->readFloat());
+        QPointF p = QPointF(s->readFloat(), s->readFloat());
+        checkPos(p); 
+        pos_.setX(p.x());
+        pos_.setY(p.y());
     }
 
     if (dirty_ & kOrientation) {
@@ -414,14 +416,8 @@ void NPC::update() {
 
     this->isDead();
 }
-void NPC::setPos(float x, float y) {
-    QPointF p;
-    p.setX(x);
-    p.setY(y);
-    setPos(p);
-}
 
-void NPC::setPos(QPointF& p) {
+void NPC::checkPos(QPointF& p) {
     int x = getDriver()->getGameMap()->getWidthInTiles();
     int y = getDriver()->getGameMap()->getHeightInTiles();
     x = x * getDriver()->getGameMap()->getTMap()->tileWidth();
@@ -465,11 +461,6 @@ void NPC::setPos(QPointF& p) {
     points.append(point);
 
     setBounds(QPolygonF(points));
-
-    pos_.setX(p.x());
-    pos_.setY(p.y());
-    setDirty(kPosition);
-    //qDebug("Pos: (%.2f, %.2f)", (float) pos_.x(), (float) pos_.y());
 }
 
 } /* end namespace td */
