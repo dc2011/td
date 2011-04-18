@@ -61,7 +61,8 @@
                                 + QString("-move5.png")
 #define PIX_PLAYER_6(x)         QString("./img/player") + QString::number(x) \
                                 + QString("-move6.png")
-#define PIX_PLAYER_MAX          7
+#define PIX_PLAYER_TYPES        8
+#define PIX_PLAYER_MAX          7 * PIX_PLAYER_TYPES
 #define PIX_PROJ_ARROW          QString("./img/arrowProjectile.png")
 #define PIX_PROJ_ARROW_MAX      1
 #define PIX_PROJ_ARROW_2        QString("./img/arrowProjectile2.png")

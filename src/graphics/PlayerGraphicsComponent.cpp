@@ -20,6 +20,9 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
     resourcePixmapItem_ = 0;
     resourceType_ = RESOURCE_NONE;
 
+    srand(QDateTime::currentDateTime().toTime_t());
+    int random = rand() % 8;
+
     CDriver::instance()->getMainWindow()->getScene()->addItem(resourceProgressBar_);
     emit created(this);
 }
@@ -46,10 +49,9 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
     player->resetDirty();
 
     DrawParamsPlayer* dp = new DrawParamsPlayer();
-    dp->pos     = player->getPos();
-    //dp->moving  = player->getVelocity().length() != 0;
+    dp->pos = player->getPos();
     dp->moving = player->getMoving();
-    dp->scale   = 1;
+    dp->scale = 1;
     dp->degrees = player->getOrientation();
     dp->animate = animate_;
     dp->resourceProgressShowing = resourceProgressShowing_;
@@ -111,7 +113,7 @@ void PlayerGraphicsComponent::animate() {
     
     if (!isMoving_) {
         pixmapIndex_ = 0;
-        setImgIndex(pixmapIndex_);
+        setImgIndex(pixmapIndex_ + outfit * PIX_PLAYER_MAX);
         return;
     }
 
@@ -142,17 +144,17 @@ void PlayerGraphicsComponent::initPixmaps() {
     } else {
         pixmapImgs_ = new QPixmap[PIX_PLAYER_MAX + PIX_RESOURCE_MAX];
     }
-    srand(QDateTime::currentDateTime().toTime_t());
-    int random = ((rand() % 700) / 100) + 1;
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_0(random);
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_1(random);
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_2(random);
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_3(random);
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_4(random);
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_5(random);
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_6(random);
+    for (int i = 1; i <= PIX_PLAYER_TYPES; i++) {
+        pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_0(i);
+        pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_1(i);
+        pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_2(i);
+        pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_3(i);
+        pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_4(i);
+        pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_5(i);
+        pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_6(i);
+    }
     pixmapImgs_[pixmapIndex_++] = PIX_ICON_WOOD;
     pixmapImgs_[pixmapIndex_++] = PIX_ICON_STONE;
     pixmapImgs_[pixmapIndex_++] = PIX_ICON_BONE;

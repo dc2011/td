@@ -62,7 +62,12 @@ private:
 
     /** The current resource this object is carrying */
     int resourceType_;
+
+    /** Graphical representation of what the player is carrying. */
     QGraphicsPixmapItem* resourcePixmapItem_;
+
+    /** The player's skin / look. Used as an offset in animate() */
+    int outfit_;
 
 public:
     /**
