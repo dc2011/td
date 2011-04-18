@@ -27,6 +27,8 @@ private:
     QList<NPCWave*> waves_;
     QTimer* waveTimer_;
     unsigned int timeCount_;
+    unsigned int completedWaves_;
+    unsigned int totalWaves_;
 
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
@@ -188,13 +190,24 @@ public slots:
      * @author Duncan Donaldson
      */
     void spawnWave();
+
+    /**
+     * Called when a wave is destroyed; either when all of it's NPCs have been
+     * killed or when the last one has reached the home base.
+     *
+     * Increments the completed wave counter.
+     *
+     * @author Tom Nightingale
+     */
+    void endWave();
+
     /**
      * slot that is called to destroy an NPC when its health reaches 0.
      *
      * @author Duncan Donaldson
      */
     void deadNPC(int id);
-    void deadWave();
+
     /**
      * Handles a UDP packet receive by updating a currently existing player
      * or adding the player to the players list if the player does not exist.
