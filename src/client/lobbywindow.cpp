@@ -273,6 +273,7 @@ void LobbyWindow::onJoinGame(QListWidgetItem* item) {
         s.writeInt(gameNum);
 
         NetworkClient::instance()->send(network::kJoinGame, s.data());
+        ui->leaveGame->setEnabled(true);
     }
 }
 
@@ -284,6 +285,7 @@ void LobbyWindow::onLeaveGame() {
         s.writeInt(gameNum_);
         gameNum_ = 0;
         NetworkClient::instance()->send(network::kLobbyleaveGame, s.data());
+        ui->leaveGame->setEnabled(false);
     }
 }
 
@@ -301,6 +303,7 @@ void LobbyWindow::onCreateNewGame() {
         s.write(ui->txtUsername->text().toAscii());
         s.writeInt(0);
         NetworkClient::instance()->send(network::kJoinGame, s.data());
+        ui->leaveGame->setEnabled(true);
     }
 }
 /* end namespace td */
