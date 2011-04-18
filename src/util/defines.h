@@ -38,7 +38,7 @@
 #define TOWER_FLAK_3        9
 
 // Current map to use
-#define MAP      "bigmap"
+#define MAP      "lukeTestingMap"
 #define MAP_TMX   QString("./maps/") + QString(MAP) + QString(".tmx")
 #define MAP_NFO   QString("./maps/") + QString(MAP) + QString(".nfo")
 
