@@ -12,10 +12,6 @@
 #include "../graphics/ProjectileGraphicsComponentTypes.h"
 #include "Driver.h"
 
-#ifndef SERVER
-#   include "../graphics/EndingGraphicsComponentTypes.h"
-#endif
-
 namespace td {
 
 Projectile::Projectile(QObject* parent) : Unit(parent) {

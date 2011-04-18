@@ -38,14 +38,39 @@ void ProjectileInputComponent::makeForce(){
     QSet<Unit*> npcs;
     QLineF distance = QLineF(parent_->getPos().x(), parent_->getPos().y(),
                              parent_->getPath().p1().x(), parent_->getPath().p1().y());
-    if (distance.length() <= parent_->getVelocity().length()) {
+    if (distance.length() - parent_->getVelocity().length() <= 0) {
         if (parent_->getEnemy() != NULL) {
             disconnect(parent_->getEnemy(), SIGNAL(signalNPCDied()),
                        parent_, SLOT(enemyDied()));
         }
         disconnect(parent_->getDriver()->getTimer(), SIGNAL(timeout()),
                    parent_, SLOT(update()));
+
 #ifndef SERVER
+        switch (parent_->getType()) {
+        case PROJ_ARROW:
+        case PROJ_ARROW_2:
+        case PROJ_ARROW_3:
+        case PROJ_ARROW_4:
+        case PROJ_ARROW_5:
+            new ArrowEndingGraphicsComponent(parent_->getPos());
+            break;
+        case PROJ_CANNON:
+        case PROJ_CANNON_2:
+        case PROJ_CANNON_3:
+        case PROJ_CANNON_4:
+        case PROJ_CANNON_5:
+            new CannonEndingGraphicsComponent(parent_->getPos());
+            break;
+        case PROJ_TAR:
+        case PROJ_TAR_2:
+        case PROJ_TAR_3:
+        case PROJ_TAR_4:
+        case PROJ_TAR_5:
+            new TarEndingGraphicsComponent(parent_->getPos());
+            break;
+        }
+
         if (!((CDriver*)parent_->getDriver())->isSinglePlayer()) {
             emit deleteProjectileLater(parent_->getID());
             return;
@@ -57,32 +82,7 @@ void ProjectileInputComponent::makeForce(){
             parent_->createBounds();
             this->checkNPCCollision(npcs);
         }
-        //check for collisions here
-#ifndef SERVER
-    switch (parent_->getType()) {
-    case PROJ_ARROW:
-    case PROJ_ARROW_2:
-    case PROJ_ARROW_3:
-    case PROJ_ARROW_4:
-    case PROJ_ARROW_5:
-        new ArrowEndingGraphicsComponent(parent_->getPos());
-        break;
-    case PROJ_CANNON:
-    case PROJ_CANNON_2:
-    case PROJ_CANNON_3:
-    case PROJ_CANNON_4:
-    case PROJ_CANNON_5:
-        new CannonEndingGraphicsComponent(parent_->getPos());
-        break;
-    case PROJ_TAR:
-    case PROJ_TAR_2:
-    case PROJ_TAR_3:
-    case PROJ_TAR_4:
-    case PROJ_TAR_5:
-        new TarEndingGraphicsComponent(parent_->getPos());
-        break;
-    }
-#endif
+
         emit deleteProjectileLater(parent_->getID());
     } else {
         force = QVector2D(parent_->getPath().unitVector().dx() * -1,
