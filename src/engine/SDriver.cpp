@@ -395,6 +395,10 @@ void SDriver::onMsgReceive(Stream* s) {
             int playerID = s->readInt();
             int type = s->readInt();
 
+            if (type == -1) {
+                break;
+            }
+
             Player* player = (Player*)mgr_->findObject(playerID);
             Tile* currentTile = gameMap_->getTile(player->getPos().x(),
                                                   player->getPos().y());
