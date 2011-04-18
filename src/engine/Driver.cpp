@@ -313,11 +313,7 @@ void Driver::sellTower(QPointF pos) {
         }
     }
     destroyObject(currentTile->getExtension());
-#ifndef SERVER
-    CDriver::instance()->getMenuMutex()->unlock();
     currentTile->setExtension(NULL);
-    CDriver::instance()->getMenuMutex()->unlock();
-#endif
     currentTile->setActionType(TILE_BUILDABLE);
 }
 //TODO macca gem validation

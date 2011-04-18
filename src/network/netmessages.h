@@ -349,6 +349,8 @@ namespace network {
  *  int playerID
  *    // The ID of the collectable
  *  int collectableID
+ *    // Whether the collectable is a gem or not
+ *  byte isGem
  * @endcode
  *
  * @section playsfx Play SFX Message
