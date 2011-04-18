@@ -401,5 +401,62 @@ void NPC::update() {
 
     this->isDead();
 }
+void NPC::setPos(float x, float y) {
+    QPointF p;
+    p.setX(x);
+    p.setY(y);
+    setPos(p);
+}
+
+void NPC::setPos(QPointF& p) {
+    int x = getDriver()->getGameMap()->getWidthInTiles();
+    int y = getDriver()->getGameMap()->getHeightInTiles();
+    x = x * getDriver()->getGameMap()->getTMap()->tileWidth();
+    y = y * getDriver()->getGameMap()->getTMap()->tileHeight();
+    x-=20;
+    y-=20;
+    if(p.x() < 20) {
+        p.setX(20);
+    }
+    if(p.y() < 20) {
+        p.setY(20);
+    }
+    if(p.x() > x) {
+        p.setX(x);
+    }
+    if(p.y() > y) {
+        p.setY(y);
+    }
+
+    QPointF point;
+    QVector<QPointF> points;
+    QMatrix matrix = QMatrix();
+    matrix.rotate(-getOrientation());
+    // Determine if the NPC needs to update its tile position.
+    changeTile(p);
+    //set up Vector to construct bounding Polygon
+    point = QPointF(-getWidth()/2, -getHeight( )/2) * matrix;
+    point += p;
+    points.append(point);
+    point = QPointF(getWidth()/2, -getHeight()/2) * matrix;
+    point += p;
+    points.append(point);
+    point = QPointF(getWidth()/2, getHeight()/2) * matrix;
+    point += p;
+    points.append(point);
+    point = QPointF(-getWidth()/2, getHeight()/2) * matrix;
+    point += p;
+    points.append(point);
+    point = QPointF(-getWidth()/2, -getHeight()/2) * matrix;
+    point += p;
+    points.append(point);
+
+    setBounds(QPolygonF(points));
+
+    pos_.setX(p.x());
+    pos_.setY(p.y());
+    setDirty(kPosition);
+    //qDebug("Pos: (%.2f, %.2f)", (float) pos_.x(), (float) pos_.y());
+}
 
 } /* end namespace td */
