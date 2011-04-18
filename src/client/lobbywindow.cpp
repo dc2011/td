@@ -189,7 +189,7 @@ void LobbyWindow::onTCPReceived(Stream* s)
         }
         case network::kLobbyStartGame:
         {
-            int len = s->readByte();
+            int len = s->readInt();
             QString map = QString(s->read(len));
 
             connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),

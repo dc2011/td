@@ -32,7 +32,7 @@ void LobbyServer::signout(QString nickname) {
     SAFE_OPERATION(usernames_.remove(nickname))
 }
 
-void LobbyServer::notifyClients(unsigned char msgType)
+void LobbyServer::notifyClients(unsigned char msgType,int gameId)
 {
     switch (msgType) {
         case network::kLobbyWelcome:
@@ -88,13 +88,17 @@ void LobbyServer::notifyClients(unsigned char msgType)
             }
             break;
         }
-        case network::kBadVersion:
+
         case network::kLobbyStartGame:
         {
             Stream s;
             s.writeByte(msgType);
+            s.writeInt(gameMaps_.value(gameId).size());
+            s.write(gameMaps_.value(gameId).toAscii());
+            QString mapname(gameMaps_.value(gameId));
             QByteArray data = s.data();
-            foreach (QTcpSocket* sock, clients_.keys()) {
+            qDebug(data);
+            foreach (QTcpSocket* sock, games_.values(gameId)) {
                 sock->write(data);
                 sock->flush();
             }
@@ -104,7 +108,7 @@ void LobbyServer::notifyClients(unsigned char msgType)
 }
 
 void LobbyServer::startGame(int game) {
-    notifyClients(network::kLobbyStartGame);
+    notifyClients(network::kLobbyStartGame,game);
 
     Thread* gamethread = new Thread();
     SDriver* sd = new SDriver();
@@ -205,10 +209,10 @@ void LobbyServer::readSocket()
             }
             conn->write(rs.data());
 
-            notifyClients(network::kLobbyWelcome);
-            notifyClients(network::kUpdateUserList);
+            notifyClients(network::kLobbyWelcome,0);
+            notifyClients(network::kUpdateUserList,0);
             if(games_.size() > 0) {
-                notifyClients(network::kUpdateListOfGames);
+                notifyClients(network::kUpdateListOfGames,0);
             }
             qDebug() << "Number of clients connected = " << connCount_;
             break;
@@ -228,14 +232,14 @@ void LobbyServer::readSocket()
                 rs.writeInt(gameId);
                 gameMaps_.insert(gameId, name);
                 games_.insert(gameId++,conn);
-                notifyClients(network::kUpdateListOfGames);
+                notifyClients(network::kUpdateListOfGames,0);
                 conn->write(rs.data());
             }
             else {
                 games_.insert(game,conn);
             }
-            notifyClients(network::kUpdateListOfGames);
-            notifyClients(network::kUpdateUserList);
+            notifyClients(network::kUpdateListOfGames,0);
+            notifyClients(network::kUpdateUserList,0);
             break;
         }
         case network::kLobbyleaveGame:
@@ -244,14 +248,16 @@ void LobbyServer::readSocket()
             QString name(s.read(nameLen));
             int gameNum = s.readInt();
             games_.remove(gameNum,clients_.key(name));
-            notifyClients(network::kUpdateUserList);
-            notifyClients(network::kUpdateListOfGames);
+            notifyClients(network::kUpdateUserList,0);
+            notifyClients(network::kUpdateListOfGames,0);
             break;
         }
 
         case network::kLobbyStartGame:
         {
             int game = s.readInt();
+            //int mapNameLen = s.readInt();
+          //  QString mapName(s.read(mapNameLen));
             startGame(game);
             break;
         }
@@ -298,9 +304,9 @@ void LobbyServer::disconnected()
     }
     mutex_.unlock();
 
-    notifyClients(network::kLobbyWelcome);
-    notifyClients(network::kUpdateUserList);
-    notifyClients(network::kUpdateListOfGames);
+    notifyClients(network::kLobbyWelcome,0);
+    notifyClients(network::kUpdateUserList,0);
+    notifyClients(network::kUpdateListOfGames,0);
     qDebug() << "Number of clients connected = " << connCount_;
 }
 
