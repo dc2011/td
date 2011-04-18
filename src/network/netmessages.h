@@ -128,6 +128,9 @@ namespace network {
         /**Sent from client to server when they are leaving a queue */
         kLobbyleaveGame = 0x17,
 
+	/**Generic Message */
+	kServerErrorMsg = 0x18,
+
         /** Indicates a player upgrade. */
         kUpgradePlayer  =   0x20,
 

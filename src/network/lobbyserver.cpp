@@ -171,6 +171,14 @@ void LobbyServer::readSocket()
             mutex_.lock();
             int len = s.readByte();
             QString nick = QString(s.read(len));
+            if(usernames_.contains(nick)) {
+                Stream error;
+                QString msg("Username is already in use. Please Select a different one and try connecting again.");
+                error.writeByte(network::kServerErrorMsg);
+                error.writeInt(msg.size());
+                error.write(msg.toAscii());
+                break;
+            }
             connCount_++;
             usernames_.insert(nick);
             clients_.insert(conn, nick);

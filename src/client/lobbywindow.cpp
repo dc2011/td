@@ -59,10 +59,6 @@ LobbyWindow::~LobbyWindow()
 
 void LobbyWindow::connectLobby()
 {
-    ui->txtAddress->setDisabled(true);
-    ui->txtUsername->setDisabled(true);
-    ui->btnConnect->setDisabled(true);
-    ui->chkSingleplayer->setDisabled(true);
 
     QString ip = ui->txtAddress->text();
     QHostAddress addr(ip);
@@ -116,6 +112,10 @@ void LobbyWindow::onTCPReceived(Stream* s)
             if (players == 1) {
                 ui->btnStart->setEnabled(true);
             }
+            ui->txtAddress->setDisabled(true);
+            ui->txtUsername->setDisabled(true);
+            ui->btnConnect->setDisabled(true);
+            ui->chkSingleplayer->setDisabled(true);
             
             break;
         }
@@ -180,6 +180,11 @@ void LobbyWindow::onTCPReceived(Stream* s)
         {
             QMessageBox(QMessageBox::Critical, "Tower Defense: Error",
                     "Your game version does not match the server.").exec();
+            break;
+        }
+        case network::kServerErrorMsg:
+        {
+            //Display Error here
             break;
         }
     }
