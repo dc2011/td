@@ -509,7 +509,7 @@ void CDriver::UDPReceived(Stream* s) {
                 p->setResource(RESOURCE_NONE);
             }
 
-            if (!addToTower) {
+            if (!addToTower && type != -1) {
                 Driver::createCollectable(type, src, velocity);
             }
 
