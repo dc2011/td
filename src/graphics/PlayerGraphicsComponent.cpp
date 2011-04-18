@@ -141,16 +141,16 @@ void PlayerGraphicsComponent::initPixmaps() {
     } else {
         pixmapImgs_ = new QPixmap[PIX_PLAYER_MAX + PIX_RESOURCE_MAX];
     }
-    //TODO: add animation logic here?
+    int random = ((rand() % 700) / 100) + 1;
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_1;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_2;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_3;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_4;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_5;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_6;
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_0(random);
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_1(random);
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_2(random);
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_3(random);
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_4(random);
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_5(random);
+    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_6(random);
     pixmapImgs_[pixmapIndex_++] = PIX_ICON_WOOD;
     pixmapImgs_[pixmapIndex_++] = PIX_ICON_STONE;
     pixmapImgs_[pixmapIndex_++] = PIX_ICON_BONE;
