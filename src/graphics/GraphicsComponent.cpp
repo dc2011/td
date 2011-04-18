@@ -26,6 +26,9 @@ GraphicsComponent::GraphicsComponent()
 
 GraphicsComponent::~GraphicsComponent() {
     delete pixmapItem_;
+#ifndef SERVER
+    CDriver::instance()->getMainWindow()->getScene()->update(graphicsRect_);
+#endif
 }
 
 void GraphicsComponent::deleteComponent() {
@@ -75,12 +78,9 @@ QGraphicsPixmapItem* GraphicsComponent::initGraphicsComponent() {
 }
 
 void GraphicsComponent::setImgIndex(int index) {
-    QRectF rect = pixmapItem_->boundingRect();
+    graphicsRect_ = pixmapItem_->boundingRect();
     pixmapIndex_ = index;
     pixmapItem_->setPixmap(getPixmapArray()[pixmapIndex_]);
-#ifndef SERVER
-    CDriver::instance()->getMainWindow()->getScene()->update(rect);
-#endif
 }
 
 } /* end namespace td */
