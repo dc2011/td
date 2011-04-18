@@ -21,7 +21,7 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
     resourceType_ = RESOURCE_NONE;
 
     srand(QDateTime::currentDateTime().toTime_t());
-    int random = rand() % 8;
+    outfit_ = rand() % 8;
 
     CDriver::instance()->getMainWindow()->getScene()->addItem(resourceProgressBar_);
     emit created(this);
@@ -113,7 +113,7 @@ void PlayerGraphicsComponent::animate() {
     
     if (!isMoving_) {
         pixmapIndex_ = 0;
-        setImgIndex(pixmapIndex_ + outfit * PIX_PLAYER_MAX);
+        setImgIndex(pixmapIndex_ + outfit_ * PIX_PLAYER_MAX);
         return;
     }
 
