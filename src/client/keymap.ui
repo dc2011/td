@@ -67,9 +67,9 @@
   <widget class="QLabel" name="lblChoice1">
    <property name="geometry">
     <rect>
-     <x>31</x>
+     <x>21</x>
      <y>29</y>
-     <width>56</width>
+     <width>60</width>
      <height>17</height>
     </rect>
    </property>
@@ -83,9 +83,9 @@
   <widget class="QLabel" name="lblChoice2">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>20</x>
      <y>99</y>
-     <width>57</width>
+     <width>60</width>
      <height>17</height>
     </rect>
    </property>
@@ -118,9 +118,9 @@
   <widget class="QLabel" name="lblChoice3">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>20</x>
      <y>169</y>
-     <width>57</width>
+     <width>60</width>
      <height>17</height>
     </rect>
    </property>
@@ -153,9 +153,9 @@
   <widget class="QLabel" name="lblChoice4">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>20</x>
      <y>236</y>
-     <width>57</width>
+     <width>60</width>
      <height>17</height>
     </rect>
    </property>
@@ -188,9 +188,9 @@
   <widget class="QLabel" name="lblChoice5">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>20</x>
      <y>309</y>
-     <width>57</width>
+     <width>60</width>
      <height>17</height>
     </rect>
    </property>
