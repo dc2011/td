@@ -86,6 +86,8 @@ void AudioManager::playSfx(QString filename, SoundType type)
 
     filename = SFXPATH + filename + SFXFILEEXTENSION;
     
+    if(playing_ >= 55) { return;}
+
     if(sfxCache_.contains(filename)) {
         QFuture<void> future =
             QtConcurrent::run(this, &AudioManager::playCached,
@@ -325,6 +327,7 @@ void AudioManager::playCached(QString filename, SoundType sType)
     }
 
     SAFE_OPERATION(playing_++);
+
     mutex_.lock();
     tmp = sfxCache_[filename];
     mutex_.unlock();
