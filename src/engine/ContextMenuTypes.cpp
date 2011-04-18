@@ -96,15 +96,39 @@ void PlayerContextMenu::selectMenuItem(int keyPressed) {
     }
     
     int upgrades = player_->getUpgrades();
+    int gems = player_->getDriver()->getGemCount();
 
     switch (keyPressed) {
-        case UPGRADE_SPEED:     upgrades = upgrades | PLAYER_SPEED;     break;
-        case UPGRADE_HARVEST:   upgrades = upgrades | PLAYER_HARVEST;   break;
-        case UPGRADE_RECOVERY:  upgrades = upgrades | PLAYER_RECOVERY;  break;
+
+        case UPGRADE_SPEED:     
+            if (gems < GEMS_SPEED) {
+                PLAY_LOCAL_NOTIFY(SfxManager::contextMenuNotEnoughGems);
+                return;
+            }
+            upgrades = upgrades | PLAYER_SPEED;
+            break;
+
+        case UPGRADE_HARVEST:
+            if (gems < GEMS_HARVEST) {
+                PLAY_LOCAL_NOTIFY(SfxManager::contextMenuNotEnoughGems);
+                return;
+            }
+            upgrades = upgrades | PLAYER_HARVEST;
+            break;
+
+        case UPGRADE_RECOVERY:
+            if (gems < GEMS_RECOVERY) {
+                PLAY_LOCAL_NOTIFY(SfxManager::contextMenuNotEnoughGems);
+                return;
+            }
+            upgrades = upgrades | PLAYER_RECOVERY;
+            break;
     }
+
     if (upgrades == player_->getUpgrades()) {
         return;
     }
+
     player_->setUpgrades(upgrades);
     emit signalUpgradePlayer(keyPressed);
     ContextMenu::selectMenuItem(keyPressed);

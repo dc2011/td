@@ -1,5 +1,6 @@
 #include "TowerPhysicsComponentTypes.h"
 #include "../engine/Tower.h"
+#include "../graphics/TowerGraphicsComponent.h"
 #define PI 3.141592653589793238
 
 namespace td {
@@ -102,6 +103,9 @@ void FlameTowerPhysicsComponent::fire() {
             target_);
     fireCountdown_ = fireInterval_;
     foundTarget_ = false;
+#ifndef SERVER
+    ((TowerGraphicsComponent*) tower_->getGraphicsComponent())->setFiring(true);
+#endif
 }
 
 TarTowerPhysicsComponent::TarTowerPhysicsComponent(Tower* tower)
