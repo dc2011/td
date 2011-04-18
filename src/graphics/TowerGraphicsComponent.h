@@ -23,6 +23,8 @@ struct DrawParamsTower {
     bool animate;
     /** when true it displays the range of the tower */
     bool displayRadius;
+    /** index of pixmap to be displayed */
+    int pixmapIdx;
 };
 
 
@@ -34,7 +36,7 @@ public:
      * Instantiates a Tower graphics component
      * @author Warren Voelkl
      */
-    TowerGraphicsComponent() : GraphicsComponent(), firing_(false) {}
+    TowerGraphicsComponent();
     virtual ~TowerGraphicsComponent();
 
     /**
@@ -86,11 +88,30 @@ private:
     QGraphicsEllipseItem * rangeCircle_;
     bool visibleRange_;
 
+protected:
+    int radius_;
+
     /** True if the tower just fired and needs to animate accordingly. */
     bool firing_;
 
-protected:
-    int radius_;
+    /** True if the animation timer is currently running. */
+    bool timerRunning_;
+
+    /** Animation timer id. */
+    int timerID_;
+
+    /** The time in milleseconds that the firing animation lingers for. */
+    int reloadTime_; 
+
+    /** True if the tower type has a firing animation. */
+    bool hasFiringAnimation_;
+
+    /**
+     * Timer event that indicates to change back from the firing sprite.
+     *
+     * @author Dean Morin
+     */
+    void timerEvent(QTimerEvent*);
 
 public slots:
     /**
@@ -100,7 +121,6 @@ public slots:
      */
     void setVisibleRange(bool newValue) {visibleRange_ = newValue;}
 };
-
 
 } /* end namespace td */
 

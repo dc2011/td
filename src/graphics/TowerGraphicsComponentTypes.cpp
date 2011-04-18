@@ -22,6 +22,8 @@ QPixmap* FlakTowerL3GraphicsComponent::pixmapImgs_ = NULL;
 ArrowTowerGraphicsComponent::ArrowTowerGraphicsComponent()
         : TowerGraphicsComponent() {
     initRangeCircle(ARROW_COLOR);
+    hasFiringAnimation_ = true;
+    reloadTime_ = RELOAD_ARROW;
     emit created(this);
 }
 
@@ -38,6 +40,8 @@ void ArrowTowerGraphicsComponent::initPixmaps() {
 ArrowTowerL2GraphicsComponent::ArrowTowerL2GraphicsComponent()
         : TowerGraphicsComponent() {
     initRangeCircle(QColor(250,128,114));
+    hasFiringAnimation_ = true;
+    reloadTime_ = RELOAD_ARROW;
     emit created(this);
 }
 
@@ -54,6 +58,8 @@ void ArrowTowerL2GraphicsComponent::initPixmaps() {
 ArrowTowerL3GraphicsComponent::ArrowTowerL3GraphicsComponent()
         : TowerGraphicsComponent() {
     initRangeCircle(QColor(233,150,122));
+    hasFiringAnimation_ = true;
+    reloadTime_ = RELOAD_ARROW;
     emit created(this);
 }
 
@@ -70,6 +76,8 @@ void ArrowTowerL3GraphicsComponent::initPixmaps() {
 CannonTowerGraphicsComponent::CannonTowerGraphicsComponent()
         : TowerGraphicsComponent() {
     initRangeCircle(CANNON_COLOR);
+    hasFiringAnimation_ = true;
+    reloadTime_ = RELOAD_CANNON;
     emit created(this);
 }
 
@@ -86,6 +94,8 @@ void CannonTowerGraphicsComponent::initPixmaps() {
 CannonTowerL2GraphicsComponent::CannonTowerL2GraphicsComponent()
         : TowerGraphicsComponent() {
     initRangeCircle(QColor(238,130,238));
+    hasFiringAnimation_ = true;
+    reloadTime_ = RELOAD_CANNON;
     emit created(this);
 }
 
@@ -102,6 +112,8 @@ void CannonTowerL2GraphicsComponent::initPixmaps() {
 CannonTowerL3GraphicsComponent::CannonTowerL3GraphicsComponent()
         : TowerGraphicsComponent() {
     initRangeCircle(QColor(221,160,221));
+    hasFiringAnimation_ = true;
+    reloadTime_ = RELOAD_CANNON;
     emit created(this);
 }
 
@@ -126,9 +138,8 @@ void TarTowerGraphicsComponent::initPixmaps() {
         return;
     }
 
-    pixmapImgs_ = new QPixmap[2];
+    pixmapImgs_ = new QPixmap[1];
     pixmapImgs_[0] = PIX_TOWER_TAR;
-    pixmapImgs_[1] = PIX_TOWER_TAR_FIRE_2;
 }
 
 TarTowerL2GraphicsComponent::TarTowerL2GraphicsComponent()
@@ -142,9 +153,8 @@ void TarTowerL2GraphicsComponent::initPixmaps() {
         return;
     }
 
-    pixmapImgs_ = new QPixmap[2];
+    pixmapImgs_ = new QPixmap[1];
     pixmapImgs_[0] = PIX_TOWER_TAR_2;
-    pixmapImgs_[1] = PIX_TOWER_TAR_FIRE_2;
 }
 
 TarTowerL3GraphicsComponent::TarTowerL3GraphicsComponent()
@@ -158,9 +168,8 @@ void TarTowerL3GraphicsComponent::initPixmaps() {
         return;
     }
 
-    pixmapImgs_ = new QPixmap[2];
+    pixmapImgs_ = new QPixmap[1];
     pixmapImgs_[0] = PIX_TOWER_TAR_3;
-    pixmapImgs_[1] = PIX_TOWER_TAR_FIRE_3;
 }
 
 FlameTowerGraphicsComponent::FlameTowerGraphicsComponent()
@@ -214,6 +223,8 @@ void FlameTowerL3GraphicsComponent::initPixmaps() {
 FlakTowerGraphicsComponent::FlakTowerGraphicsComponent()
         : TowerGraphicsComponent() {
     initRangeCircle(FLAK_COLOR);
+    hasFiringAnimation_ = true;
+    reloadTime_ = RELOAD_FLAK_SLOW;
     emit created(this);
 }
 
@@ -230,6 +241,8 @@ void FlakTowerGraphicsComponent::initPixmaps() {
 FlakTowerL2GraphicsComponent::FlakTowerL2GraphicsComponent()
         : TowerGraphicsComponent() {
     initRangeCircle(QColor(124,252,0));
+    hasFiringAnimation_ = true;
+    reloadTime_ = RELOAD_FLAK_MEDIUM;
     emit created(this);
 }
 
@@ -246,6 +259,8 @@ void FlakTowerL2GraphicsComponent::initPixmaps() {
 FlakTowerL3GraphicsComponent::FlakTowerL3GraphicsComponent()
         : TowerGraphicsComponent() {
     initRangeCircle(QColor(0,255,127));
+    hasFiringAnimation_ = true;
+    reloadTime_ = RELOAD_FLAK_FAST;
     emit created(this);
 }
 
