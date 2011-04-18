@@ -188,7 +188,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         /* Zoom key => Z */
         if(mapZoomOut_ == false && 
            view_->sceneRect().toRect().contains(view_->frameRect(),false)) {
-            view_->scale(.5,.5);
+	    view_->fitInView(view_->sceneRect().toRect());
             mapZoomOut_ = !mapZoomOut_;
         }
     } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
@@ -262,8 +262,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
         /* Zoom key => Z */
         if(mapZoomOut_ == true && 
            view_->sceneRect().toRect().contains(view_->frameRect(),false)) {
-           
-            view_->scale(2,2);
+            view_->resetMatrix();
             mapZoomOut_ = !mapZoomOut_;
         }
     } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
