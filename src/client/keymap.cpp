@@ -217,4 +217,12 @@ void KeymapDialog::setZoom(QKeySequence seq) {
     keys.zoomKey = seq;
 }
 
+void KeymapDialog::mousePressEvent( QMouseEvent *e ) {
+    clickPos = e->pos();
+}
+
+void KeymapDialog::mouseMoveEvent( QMouseEvent *e ) {
+    move( e->globalPos() - clickPos );
+}
+
 } /* end namespace td */

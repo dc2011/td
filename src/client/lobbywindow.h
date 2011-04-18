@@ -32,6 +32,10 @@ public slots:
     void onTCPReceived(Stream* s);
     void onCreateNewGame();
 
+protected:
+    void mousePressEvent(QMouseEvent * e);
+    void mouseMoveEvent(QMouseEvent * e);
+
 private slots:
     /**
      * Records the last used settings in a persistent file.
@@ -100,6 +104,8 @@ private:
     /** the game number the client is connected to*/
     int gameNum_;
     Ui::LobbyWindow *ui;
+
+    QPoint clickPos;
 };
 
 } /* end namespace td */

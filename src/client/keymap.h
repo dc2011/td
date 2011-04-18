@@ -43,6 +43,10 @@ public:
 
     void savemap();
 
+protected:
+    void mousePressEvent(QMouseEvent * e);
+    void mouseMoveEvent(QMouseEvent * e);
+
 private slots:
     void setChoice1(QKeySequence seq);
     void setChoice2(QKeySequence seq);
@@ -68,6 +72,8 @@ private slots:
 private:
     Ui::KeymapDialog *ui;
     Keymap keys;
+
+    QPoint clickPos;
 };
 
 } /* end namespace td */

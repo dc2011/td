@@ -21,6 +21,10 @@ public:
     explicit settingsWindow(QWidget *parent = 0);
     ~settingsWindow();
 
+protected:
+    void mousePressEvent(QMouseEvent * e);
+    void mouseMoveEvent(QMouseEvent * e);
+
 private:
     /** The form object for connectin signals and slots */
     Ui::settingsWindow* ui;
@@ -47,6 +51,9 @@ private:
      * @author Warren Voelkl
      */
     void setSfx(int n);
+
+    QPoint clickPos;
+
 public slots:
     void slotShowSettings();
 private slots:

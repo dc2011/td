@@ -1,6 +1,7 @@
 #include "lobbywindow.h"
 #include <QDateTime>
 #include <QMessageBox>
+#include <QHostInfo>
 #include <QSettings>
 #include <QFile>
 #include <QBrush>
@@ -65,7 +66,13 @@ void LobbyWindow::connectLobby()
 {
 
     QString ip = ui->txtAddress->text();
-    QHostAddress addr(ip);
+    QHostInfo hinfo = QHostInfo::fromName(ip);
+    if (hinfo.addresses().empty()) {
+        QMessageBox(QMessageBox::Warning, "Error", 
+                                        "Could not find server").exec();
+        return;
+    }
+    QHostAddress addr = hinfo.addresses().first();
 
     NetworkClient::init(addr);
     connect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
@@ -365,6 +372,14 @@ void LobbyWindow::onCreateNewGame() {
         NetworkClient::instance()->send(network::kJoinGame, s.data());
         ui->leaveGame->setEnabled(true);
     }
+}
+
+void LobbyWindow::mousePressEvent( QMouseEvent *e ) {
+    clickPos = e->pos();
+}
+
+void LobbyWindow::mouseMoveEvent( QMouseEvent *e ) {
+    move( e->globalPos() - clickPos );
 }
 /* end namespace td */
 

@@ -54,7 +54,7 @@ QDialog#MainMenu, QDialog#settingsWindow {
     border: none;
 }
 
-QPushButton#pushVolume:hover, QPushButton#pushMap:hover {
+QPushButton:hover {
     margin-top: 3px;
     margin-left: 3px;
 }
@@ -62,7 +62,6 @@ QPushButton#pushVolume:hover, QPushButton#pushMap:hover {
 QPushButton#pushVolume, QPushButton#pushMap {
     background-repeat: none;
     background-position: center top;
-    border: none;
     padding-top: 65px;
 }
 
@@ -93,6 +92,7 @@ QObject#btnChoice1:hover, QObject#btnChoice2:hover, QObject#btnChoice3:hover, QO
 , QObject#btnMenu:hover, QObject#btnExtraInfo:hover, QObject#btnVoice:hover, QObject#btnZoom:hover, QObject#btnArrowUp:hover
 , QObject#btnArrowDown:hover, QObject#btnArrowLeft:hover, QObject#btnArrowRight:hover {
     margin-left: 3px;
+    margin-top: 0px;
 }
 
 QObject#btnChoice1:checked, QObject#btnChoice2:checked, QObject#btnChoice3:checked, QObject#btnChoice4:checked, QObject#btnChoice5:checked
@@ -100,6 +100,20 @@ QObject#btnChoice1:checked, QObject#btnChoice2:checked, QObject#btnChoice3:check
 , QObject#btnArrowDown:checked, QObject#btnArrowLeft:checked, QObject#btnArrowRight:checked {
     background-image: url("./img/keyBgChecked.png");
     border: none;
+}
+
+QListView::item:selected, QTreeView::item:selected {
+    border-top: 2px solid #5B2E00;
+    border-bottom: 2px solid #5B2E00;
+    color: #804000;
+}
+
+QListView::item:selected:!active, QTreeView::item:selected:!active {
+    border: 2px solid white;
+}
+
+QListView {
+    padding-left: 5px;
 }
 
 QDialog#KeymapDialog {
@@ -113,9 +127,11 @@ QFrame#Stats {
 }
 
 QPushButton {
-    background-color: white;
+    background-color: #C67B30;
+    color: white;
 }
 
 QPushButton:disabled {
-    background-color: black;
+    background-color: #804000;
+    color: #808080;
 }
