@@ -121,6 +121,16 @@ public:
     }
 
     /**
+     * Gets the number of gems collected.
+     *
+     * @author Dean Morin
+     * @return The gem count.
+     */
+    virtual int getGemCount() const {
+        return gemCount_;
+    }
+
+    /**
      * Sets the number of gems collected.
      *
      * @author Darryl Pogue

@@ -3,6 +3,7 @@
 #include "Map.h"
 #include "TileExtension.h"
 #include "Tower.h"
+#include "../audio/SfxManager.h"
 #include "../graphics/ContextMenuGraphicsComponentTypes.h"
 
 namespace td {
@@ -56,7 +57,27 @@ void TowerContextMenu::selectMenuItem(int keyPressed) {
         if (level >= MAX_TOWER_LEVEL) { 
             return;
         }
+
+        int gems = player_->getDriver()->getGemCount();
+
+        if (level == 1 && gems < GEMS_TO_L2) {
+            PLAY_LOCAL_NOTIFY(SfxManager::contextMenuNotEnoughGems);
+            return;
+        }
+        if (level == 2 && gems < GEMS_TO_L3) {
+            PLAY_LOCAL_NOTIFY(SfxManager::contextMenuNotEnoughGems);
+            return;
+        }
+        if (level == 3 && gems < GEMS_TO_L4) {
+            PLAY_LOCAL_NOTIFY(SfxManager::contextMenuNotEnoughGems);
+            return;
+        }
+        if (level == 4 && gems < GEMS_TO_L5) {
+            PLAY_LOCAL_NOTIFY(SfxManager::contextMenuNotEnoughGems);
+            return;
+        }
         emit signalUpgradeTower(player_->getPos());
+
     } else {
         emit signalSellTower(player_->getPos()); 
     }
