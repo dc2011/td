@@ -43,6 +43,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="btnStart">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -238,6 +241,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="newGame">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>170</x>
