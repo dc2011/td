@@ -21,6 +21,8 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
     this->setWindowFlags(Qt::FramelessWindowHint);
     this->move(40, 40);
 
+    ui->msgBox->installEventFilter(this);
+
     ui->setupUi(this);
     setCursor(QCursor(QPixmap(":/file/cursor.png")));
     ui->userList->header()->setResizeMode(QHeaderView::Fixed);
@@ -380,6 +382,23 @@ void LobbyWindow::mousePressEvent( QMouseEvent *e ) {
 
 void LobbyWindow::mouseMoveEvent( QMouseEvent *e ) {
     move( e->globalPos() - clickPos );
+}
+
+bool LobbyWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == ui->msgBox) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if(keyEvent->key() == Qt::Key_Return) {
+                this->sendChatMessage();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return QMainWindow::eventFilter(obj, event);
+    }
 }
 /* end namespace td */
 
