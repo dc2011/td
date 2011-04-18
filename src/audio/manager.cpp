@@ -47,7 +47,7 @@ void AudioManager::startup()
 
 void AudioManager::initSpeex() {
     speex_.sampleRate = 8000; 
-    speex_.quality = 9;
+    speex_.quality = 4;
 
     speex_bits_init(&speex_.bits);
 
