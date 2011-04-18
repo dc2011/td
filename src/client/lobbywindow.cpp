@@ -284,6 +284,7 @@ void LobbyWindow::onJoinGame(QListWidgetItem* item) {
 
         NetworkClient::instance()->send(network::kJoinGame, s.data());
         ui->leaveGame->setEnabled(true);
+        ui->newGame->setEnabled(false);
     }
 }
 
