@@ -34,7 +34,7 @@ QFrame#logoFrame {
     border: none;
 }
 
-QTreeWidget#gameList {
+QListWidget#gameList {
     background-image: url("./img/gameListBg.png");
     border: none;
 }
