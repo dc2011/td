@@ -603,6 +603,10 @@ void CDriver::UDPReceived(Stream* s) {
             }
 
             int length = s->readInt();
+            if (length <= 0) {
+                return;
+            }
+
             QString text = s->read(length);
 
             if (!text.isEmpty()) {
