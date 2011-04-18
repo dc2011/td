@@ -78,9 +78,7 @@ void LobbyWindow::connectLobby()
 
     PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
-    connect(ui->newGame,SIGNAL(clicked()),this,SLOT(onCreateNewGame()));
-    connect(ui->leaveGame,SIGNAL(clicked()),this,SLOT(onLeaveGame()));
-    connect(ui->gameList,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(onJoinGame(QListWidgetItem*)));
+
 
     delete s;
 }
@@ -116,6 +114,9 @@ void LobbyWindow::onTCPReceived(Stream* s)
             ui->txtUsername->setDisabled(true);
             ui->btnConnect->setDisabled(true);
             ui->chkSingleplayer->setDisabled(true);
+            connect(ui->newGame,SIGNAL(clicked()),this,SLOT(onCreateNewGame()));
+            connect(ui->leaveGame,SIGNAL(clicked()),this,SLOT(onLeaveGame()));
+            connect(ui->gameList,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(onJoinGame(QListWidgetItem*)));
             
             break;
         }
@@ -185,6 +186,12 @@ void LobbyWindow::onTCPReceived(Stream* s)
         case network::kServerErrorMsg:
         {
             //Display Error here
+            int msgLen = s->readInt();
+            QString errorMsg(s->read(msgLen));
+            disconnect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
+                    this, SLOT(onTCPReceived(Stream*)));
+            QMessageBox(QMessageBox::Critical,"Error",errorMsg).exec();
+            //dislpay it
             break;
         }
     }
