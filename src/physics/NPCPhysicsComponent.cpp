@@ -23,33 +23,11 @@ void NPCPhysicsComponent::update(GameObject* npc)
 void NPCPhysicsComponent::applyVelocity(NPC* npc)
 {
     QPointF newPos = npc->getPos() + npc->getVelocity().toPointF();
-    QPointF point;
-    QVector<QPointF> points;
     QMatrix matrix = QMatrix();
     matrix.rotate(-npc->getOrientation());
 
-    // Determine if the NPC needs to update its tile position.
-    npc->changeTile(newPos);
+    npc->checkPos(newPos);
     npc->setPos(newPos);
-
-    //set up Vector to construct bounding Polygon
-    point = QPointF(-npc->getWidth()/2, -npc->getHeight( )/2) * matrix;
-    point += newPos;
-    points.append(point);
-    point = QPointF(npc->getWidth()/2, -npc->getHeight()/2) * matrix;
-    point += newPos;
-    points.append(point);
-    point = QPointF(npc->getWidth()/2, npc->getHeight()/2) * matrix;
-    point += newPos;
-    points.append(point);
-    point = QPointF(-npc->getWidth()/2, npc->getHeight()/2) * matrix;
-    point += newPos;
-    points.append(point);
-    point = QPointF(-npc->getWidth()/2, -npc->getHeight()/2) * matrix;
-    point += newPos;
-    points.append(point);
-
-    npc->setBounds(QPolygonF(points));
 }
 
 void NPCPhysicsComponent::applyForce(NPC* npc)

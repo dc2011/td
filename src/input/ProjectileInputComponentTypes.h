@@ -12,7 +12,7 @@ class ArrowProjectileInputComponent : public ProjectileInputComponent {
 public:
     ArrowProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~ArrowProjectileInputComponent() {
-        PLAY_SFX(this, SfxManager::projectileHitArrow);
+        PLAY_SFX((QObject*)parent_, SfxManager::projectileHitArrow);
     }
     
     virtual void update();
@@ -24,7 +24,7 @@ class CannonProjectileInputComponent : public ProjectileInputComponent {
 public:
     CannonProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~CannonProjectileInputComponent() {
-        PLAY_SFX(this, SfxManager::projectileHitCannon);
+        PLAY_SFX((QObject*)parent_, SfxManager::projectileHitCannon);
     }
 
     /**
@@ -66,7 +66,7 @@ class TarProjectileInputComponent : public ProjectileInputComponent {
 public:
     TarProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~TarProjectileInputComponent() {
-        PLAY_SFX(this, SfxManager::projectileHitTar);
+        PLAY_SFX((QObject*)parent_, SfxManager::projectileHitTar);
     }
 
     /**
@@ -83,7 +83,7 @@ class FlakProjectileInputComponent : public ProjectileInputComponent {
 public:
     FlakProjectileInputComponent() : ProjectileInputComponent() {}
     virtual ~FlakProjectileInputComponent() {
-        PLAY_SFX(this, SfxManager::projectileHitFlak);
+        PLAY_SFX((QObject*)parent_, SfxManager::projectileHitFlak);
     }
 
     /**

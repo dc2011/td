@@ -22,7 +22,6 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
 
     ui->setupUi(this);
     setCursor(QCursor(QPixmap(":/file/cursor.png")));
-    ui->btnStart->setEnabled(false);
     ui->userList->header()->setResizeMode(QHeaderView::Fixed);
 
     this->applyStyleSheet(QString(":/file/client.qss"));
@@ -64,10 +63,6 @@ LobbyWindow::~LobbyWindow()
 
 void LobbyWindow::connectLobby()
 {
-    ui->txtAddress->setDisabled(true);
-    ui->txtUsername->setDisabled(true);
-    ui->btnConnect->setDisabled(true);
-    ui->chkSingleplayer->setDisabled(true);
 
     QString ip = ui->txtAddress->text();
     QHostAddress addr(ip);
@@ -87,9 +82,7 @@ void LobbyWindow::connectLobby()
 
     PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
-    connect(ui->newGame,SIGNAL(clicked()),this,SLOT(onCreateNewGame()));
-    connect(ui->leaveGame,SIGNAL(clicked()),this,SLOT(onLeaveGame()));
-    connect(ui->gameList,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(onJoinGame(QListWidgetItem*)));
+
 
     delete s;
 }
@@ -122,10 +115,15 @@ void LobbyWindow::onTCPReceived(Stream* s)
         {
             int players = s->readInt();
             ui->lblDisplayCount->setText(QString::number(players));
+            ui->txtAddress->setDisabled(true);
+            ui->txtUsername->setDisabled(true);
+            ui->btnConnect->setDisabled(true);
+            ui->chkSingleplayer->setDisabled(true);
+            connect(ui->newGame,SIGNAL(clicked()),this,SLOT(onCreateNewGame()));
+            connect(ui->leaveGame,SIGNAL(clicked()),this,SLOT(onLeaveGame()));
+            connect(ui->gameList,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(onJoinGame(QListWidgetItem*)));
 
-            if (players == 1) {
-                ui->btnStart->setEnabled(true);
-            }
+            ui->newGame->setEnabled(true);
             
             break;
         }
@@ -173,6 +171,7 @@ void LobbyWindow::onTCPReceived(Stream* s)
         case network::kGameId:
         {
             gameNum_ = s->readInt();
+            ui->btnStart->setEnabled(true);
             break;
         }
         case network::kMapList:
@@ -206,6 +205,17 @@ void LobbyWindow::onTCPReceived(Stream* s)
         {
             QMessageBox(QMessageBox::Critical, "Tower Defense: Error",
                     "Your game version does not match the server.").exec();
+            break;
+        }
+        case network::kServerErrorMsg:
+        {
+            //Display Error here
+            int msgLen = s->readInt();
+            QString errorMsg(s->read(msgLen));
+            disconnect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
+                    this, SLOT(onTCPReceived(Stream*)));
+            QMessageBox(QMessageBox::Critical,"Error",errorMsg).exec();
+            //dislpay it
             break;
         }
     }
@@ -313,6 +323,8 @@ void LobbyWindow::onJoinGame(QListWidgetItem* item) {
         s.writeInt(gameNum);
 
         NetworkClient::instance()->send(network::kJoinGame, s.data());
+        ui->leaveGame->setEnabled(true);
+        ui->newGame->setEnabled(false);
     }
 }
 
@@ -324,6 +336,8 @@ void LobbyWindow::onLeaveGame() {
         s.writeInt(gameNum_);
         gameNum_ = 0;
         NetworkClient::instance()->send(network::kLobbyleaveGame, s.data());
+        ui->leaveGame->setEnabled(false);
+        ui->btnStart->setEnabled(false);
     }
 }
 
@@ -349,6 +363,7 @@ void LobbyWindow::onCreateNewGame() {
         s.write(name.toAscii().data());
 
         NetworkClient::instance()->send(network::kJoinGame, s.data());
+        ui->leaveGame->setEnabled(true);
     }
 }
 /* end namespace td */

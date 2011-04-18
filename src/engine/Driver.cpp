@@ -193,6 +193,9 @@ Resource* Driver::createResource(int type) {
 
 void Driver::sellTower(QPointF pos) {
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
+    if (currentTile->getExtension() == NULL) {
+        return;
+    }
     int type = ((Tower*)currentTile->getExtension())->getType();
     int towerType = type >> 4;
 
@@ -313,6 +316,7 @@ void Driver::sellTower(QPointF pos) {
         }
     }
     destroyObject(currentTile->getExtension());
+    currentTile->setExtension(NULL);
     currentTile->setActionType(TILE_BUILDABLE);
 }
 //TODO macca gem validation
@@ -321,8 +325,8 @@ bool Driver::upgradeTower(QPointF pos) {
     Tower* t = (Tower*)currentTile->getExtension();
     int level = t->getType() & 0x0F;
 
-    if (level == 1 && gemCount_ >= 5) {
-        setGemCount(gemCount_ - 5);
+    if (level == 1 && gemCount_ >= GEMS_TO_L2) {
+        setGemCount(gemCount_ - GEMS_TO_L2);
         switch (t->getType()) {
             case TOWER_ARROW_1:
                 t->setType(TOWER_ARROW_2);
@@ -346,8 +350,8 @@ bool Driver::upgradeTower(QPointF pos) {
                 break;
         }
         return true;
-    } else if (level == 2 && gemCount_ >= 10) {
-        setGemCount(gemCount_ - 10);
+    } else if (level == 2 && gemCount_ >= GEMS_TO_L3) {
+        setGemCount(gemCount_ - GEMS_TO_L3);
         switch (t->getType()) {
             case TOWER_ARROW_2:
                 t->setType(TOWER_ARROW_3);
@@ -371,8 +375,8 @@ bool Driver::upgradeTower(QPointF pos) {
                 break;
         }
         return true;
-    } else if (level == 3 && gemCount_ >= 25) {
-        setGemCount(gemCount_ - 25);
+    } else if (level == 3 && gemCount_ >= GEMS_TO_L4) {
+        setGemCount(gemCount_ - GEMS_TO_L4);
         switch (t->getType()) {
             case TOWER_ARROW_3:
                 t->setType(TOWER_ARROW_4);
@@ -396,8 +400,8 @@ bool Driver::upgradeTower(QPointF pos) {
                 break;
         }
         return true;
-    } else if (level == 4 && gemCount_ >= 50) {
-        setGemCount(gemCount_ - 50);
+    } else if (level == 4 && gemCount_ >= GEMS_TO_L5) {
+        setGemCount(gemCount_ - GEMS_TO_L5);
         switch (t->getType()) {
             case TOWER_ARROW_4:
                 t->setType(TOWER_ARROW_5);
@@ -426,17 +430,20 @@ bool Driver::upgradeTower(QPointF pos) {
 }
 
 bool Driver::upgradePlayer(int id, int type) {
-    if ((gemCount_ < 50 && type == UPGRADE_SPEED) || (gemCount_ < 25)) {
+    if ((gemCount_ < GEMS_SPEED && type == UPGRADE_SPEED) 
+            || (gemCount_ < GEMS_HARVEST && type == UPGRADE_HARVEST)
+            || (gemCount_ < GEMS_RECOVERY && type == UPGRADE_RECOVERY)) {
         return false;
     }
 
 #ifdef SERVER
     if (type == UPGRADE_SPEED) {
-        setGemCount(gemCount_ - 50);
+        setGemCount(gemCount_ - GEMS_SPEED);
+    } else if (type == UPGRADE_HARVEST) {
+        setGemCount(gemCount_ - UPGRADE_HARVEST);
     } else {
-        setGemCount(gemCount_ - 25);
+        setGemCount(gemCount_ - UPGRADE_RECOVERY);
     }
-
     return true;
 #endif
 
@@ -444,7 +451,7 @@ bool Driver::upgradePlayer(int id, int type) {
 
     switch (type) {
     case UPGRADE_SPEED:
-        setGemCount(gemCount_ - 50);
+        setGemCount(gemCount_ - GEMS_SPEED);
         if (player->hasEffect(EFFECT_SLOW)) {
             player->deleteEffect(EFFECT_SLOW);
             ((PlayerPhysicsComponent*)player->getPhysicsComponent())
@@ -458,11 +465,11 @@ bool Driver::upgradePlayer(int id, int type) {
         }
         break;
     case UPGRADE_HARVEST:
-        setGemCount(gemCount_ - 25);
+        setGemCount(gemCount_ - GEMS_HARVEST);
         player->setHarvestTime(HARVEST_COUNTDOWN_UPGRADE);
         break;
     case UPGRADE_RECOVERY:
-        setGemCount(gemCount_ - 25);
+        setGemCount(gemCount_ - GEMS_RECOVERY);
         player->setStunUpgrade(true);
         break;
     }

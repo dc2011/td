@@ -157,6 +157,8 @@ void Player::createEffect(int effectType)
         // Dean's sound signal thing
         emit signalEmptyEffectList();
 
+        connect(effect, SIGNAL(effectFinished(Effect*)),
+                     this, SLOT(deleteEffect(Effect*)));
         // Insert the effect into the map
         effects_.insert(effectType, effect);
     }

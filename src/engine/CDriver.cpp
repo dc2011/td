@@ -32,6 +32,7 @@ CDriver::CDriver(MainWindow* mainWindow)
 {
     mgr_ = new ResManager(this);
     npcCounter_ = 0;
+    timeCount_ = 0;
 }
 
 CDriver::~CDriver() {
@@ -393,8 +394,9 @@ void CDriver::startGame(bool singlePlayer, QString map) {
 
     gameTimer_->start(GAME_TICK_INTERVAL);
 }
+
 void CDriver::deadWave(){
-    if(!waves_.empty()) {
+    if (!waves_.empty()) {
         /*disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
         waves_.takeFirst();
         connect(waveTimer_, SIGNAL(timeout()),this, SLOT(NPCCreator()));*/
@@ -402,6 +404,7 @@ void CDriver::deadWave(){
         endGame();
     }
 }
+
 void CDriver::endGame() {
     disconnectFromServer();
     this->waveTimer_->stop();
@@ -455,6 +458,12 @@ void CDriver::UDPReceived(Stream* s) {
         {
             unsigned char mcast = s->readByte();
             NetworkClient::instance()->setMulticastAddress(mcast);
+            break;
+        }
+        case network::kPortOffset:
+        {
+            unsigned short port = s->readShort();
+            NetworkClient::instance()->setUDPPort(port);
             break;
         }
         case network::kServerPlayers:
@@ -514,9 +523,14 @@ void CDriver::UDPReceived(Stream* s) {
         {
             unsigned int playerID = s->readInt();
             unsigned int collID = s->readInt();
+            bool isGem = s->readByte();
 
             Player* p = (Player*)mgr_->findObject(playerID);
             Collectable* c = (Collectable*)mgr_->findObject(collID);
+
+            if (isGem) {
+                setGemCount(gemCount_ + 1);
+            }
 
             if (c == NULL || c == (Collectable*)-1) {
                 break;
@@ -524,10 +538,6 @@ void CDriver::UDPReceived(Stream* s) {
 
             if (p->getID() != human_->getID()) {
                 p->pickupCollectable(p->getPos().x(), p->getPos().y(), c);
-            }
-
-            if (c->getType() == RESOURCE_GEM) {
-                setGemCount(gemCount_ + 1);
             }
 
             destroyObject(c);

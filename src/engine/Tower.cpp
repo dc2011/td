@@ -43,35 +43,35 @@ void Tower::networkWrite(Stream* s) {
 
 void Tower::initComponents() {
     switch (type_) {
-        case TOWER_ARROW:
+        case TOWER_ARROW_1:
             setPhysicsComponent(new ArrowTowerPhysicsComponent(this));
 #ifndef SERVER
             setGraphicsComponent(new ArrowTowerGraphicsComponent());
 #endif
             type_ = TOWER_ARROW_1;
             break;
-        case TOWER_CANNON:
+        case TOWER_CANNON_1:
             setPhysicsComponent(new CannonTowerPhysicsComponent(this));
 #ifndef SERVER
             setGraphicsComponent(new CannonTowerGraphicsComponent());
 #endif
             type_ = TOWER_CANNON_1;
             break;
-        case TOWER_FLAME:
+        case TOWER_FLAME_1:
             setPhysicsComponent(new FlameTowerPhysicsComponent(this));
 #ifndef SERVER
             setGraphicsComponent(new FlameTowerGraphicsComponent());
 #endif
             type_ = TOWER_FLAME_1;
             break;
-        case TOWER_TAR:
+        case TOWER_TAR_1:
             setPhysicsComponent(new TarTowerPhysicsComponent(this));
 #ifndef SERVER
             setGraphicsComponent(new TarTowerGraphicsComponent());
 #endif
             type_ = TOWER_TAR_1;
             break;
-        case TOWER_FLAK:
+        case TOWER_FLAK_1:
             setPhysicsComponent(new FlakTowerPhysicsComponent(this));
 #ifndef SERVER
             setGraphicsComponent(new FlakTowerGraphicsComponent());

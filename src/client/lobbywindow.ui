@@ -43,6 +43,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="btnStart">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -238,6 +241,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="newGame">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -387,14 +393,17 @@
    <widget class="QListWidget" name="gameList">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>150</y>
-      <width>256</width>
-      <height>391</height>
+      <x>690</x>
+      <y>140</y>
+      <width>280</width>
+      <height>400</height>
      </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="leaveGame">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>30</x>

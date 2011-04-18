@@ -34,7 +34,7 @@ QFrame#logoFrame {
     border: none;
 }
 
-QTreeWidget#gameList {
+QListWidget#gameList {
     background-image: url("./img/gameListBg.png");
     border: none;
 }
@@ -106,3 +106,16 @@ QDialog#KeymapDialog {
     background-image: url("./img/keyWindowBg.png");
 }
 
+QFrame#Stats {
+    background-image: url("./img/statsBg.png");
+    background-position: bottom;
+    border: none;
+}
+
+QPushButton {
+    background-color: white;
+}
+
+QPushButton:disabled {
+    background-color: black;
+}

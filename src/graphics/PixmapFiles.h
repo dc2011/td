@@ -47,13 +47,20 @@
 #define PIX_PLAYER_MENU_HAR     QString("./img/harvestIcon.png")
 #define PIX_PLAYER_MENU_REC     QString("./img/stunIcon.png")
 #define PIX_PLAYER_MENU_MAX     19
-#define PIX_PLAYER_0            QString("./img/player-stand.png")
-#define PIX_PLAYER_1            QString("./img/player-move1.png")
-#define PIX_PLAYER_2            QString("./img/player-move2.png")
-#define PIX_PLAYER_3            QString("./img/player-move3.png")
-#define PIX_PLAYER_4            QString("./img/player-move4.png")
-#define PIX_PLAYER_5            QString("./img/player-move5.png")
-#define PIX_PLAYER_6            QString("./img/player-move6.png")
+#define PIX_PLAYER_0(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-stand.png")
+#define PIX_PLAYER_1(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move1.png")
+#define PIX_PLAYER_2(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move2.png")
+#define PIX_PLAYER_3(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move3.png")
+#define PIX_PLAYER_4(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move4.png")
+#define PIX_PLAYER_5(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move5.png")
+#define PIX_PLAYER_6(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move6.png")
 #define PIX_PLAYER_MAX          7
 #define PIX_PROJ_ARROW          QString("./img/arrowProjectile.png")
 #define PIX_PROJ_ARROW_MAX      1
@@ -115,6 +122,18 @@
 #define PIX_TOWER_FLAK          QString("./img/towerFlak.png")
 #define PIX_TOWER_FLAK_2        QString("./img/towerFlak2.png")
 #define PIX_TOWER_FLAK_3        QString("./img/towerFlak3.png")
+#define PIX_TOWER_ARROW_FIRE    QString("./img/towerArrowFire1.png")
+#define PIX_TOWER_ARROW_FIRE_2  QString("./img/towerArrowFire2.png")
+#define PIX_TOWER_ARROW_FIRE_3  QString("./img/towerArrowFire3.png")
+#define PIX_TOWER_CANNON_FIRE   QString("./img/towerCannonFire1.png")
+#define PIX_TOWER_CANNON_FIRE_2 QString("./img/towerCannonFire2.png")
+#define PIX_TOWER_CANNON_FIRE_3 QString("./img/towerCannonFire3.png")
+#define PIX_TOWER_FLAME_FIRE    QString("./img/towerFlameFire1.png")
+#define PIX_TOWER_FLAME_FIRE_2  QString("./img/towerFlameFire2.png")
+#define PIX_TOWER_FLAME_FIRE_3  QString("./img/towerFlameFire3.png")
+#define PIX_TOWER_FLAK_FIRE     QString("./img/towerFlakFire1.png")
+#define PIX_TOWER_FLAK_FIRE_2   QString("./img/towerFlakFire2.png")
+#define PIX_TOWER_FLAK_FIRE_3   QString("./img/towerFlakFire3.png")
 #define PIX_TOWER_MAX           5
 #define PIX_RESOURCE_WOOD       QString("./img/woodTile.png")
 #define PIX_RESOURCE_STONE      QString("./img/stoneTile.png")

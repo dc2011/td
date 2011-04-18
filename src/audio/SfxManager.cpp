@@ -46,6 +46,8 @@ QStringList SfxManager::contextMenuClosed
         = QStringList() << "arrow-2";
 QStringList SfxManager::contextMenuSelect
         = QStringList() << "arrow-3";
+QStringList SfxManager::contextMenuNotEnoughGems
+        = QStringList() << "peffect-1";
 
 // NPC wave entrance
 QStringList SfxManager::npcPterodactylEnters

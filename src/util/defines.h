@@ -4,7 +4,7 @@
 // TD Version
 // Update this whenever an incompatible change is made, to ensure that features
 // are matched between clients and the server
-#define TD_VERSION      0x0002
+#define TD_VERSION      0x0003
 
 // Network information
 #define TD_PORT 26631
@@ -93,11 +93,11 @@
 #define FIRE_INTERVAL_CANNON_3  100
 #define FIRE_INTERVAL_CANNON_4  90
 #define FIRE_INTERVAL_CANNON_5  80
-#define FIRE_INTERVAL_FLAME     70
-#define FIRE_INTERVAL_FLAME_2   65
-#define FIRE_INTERVAL_FLAME_3   60
-#define FIRE_INTERVAL_FLAME_4   55
-#define FIRE_INTERVAL_FLAME_5   50
+#define FIRE_INTERVAL_FLAME     180
+#define FIRE_INTERVAL_FLAME_2   180
+#define FIRE_INTERVAL_FLAME_3   180
+#define FIRE_INTERVAL_FLAME_4   180
+#define FIRE_INTERVAL_FLAME_5   180
 #define FIRE_INTERVAL_TAR       90
 #define FIRE_INTERVAL_TAR_2     83
 #define FIRE_INTERVAL_TAR_3     75
@@ -105,9 +105,21 @@
 #define FIRE_INTERVAL_TAR_5     60
 #define FIRE_INTERVAL_FLAK      15
 #define FIRE_INTERVAL_FLAK_2    13
-#define FIRE_INTERVAL_FLAK_3    10
-#define FIRE_INTERVAL_FLAK_4    8
-#define FIRE_INTERVAL_FLAK_5    5
+#define FIRE_INTERVAL_FLAK_3    11
+#define FIRE_INTERVAL_FLAK_4    9
+#define FIRE_INTERVAL_FLAK_5    7
+
+// how long the flame lasts in ticks
+#define FIRE_DURATION           100
+#define FIRE_SCALE_TIME         15
+
+// reload times for animation (in milliseconds)
+#define RELOAD_ARROW        600
+#define RELOAD_CANNON       200
+#define RELOAD_FIRE         30 * FIRE_DURATION
+#define RELOAD_FLAK_SLOW    190
+#define RELOAD_FLAK_MEDIUM  135
+#define RELOAD_FLAK_FAST    105
 
 // a tower's range
 #define RADIUS_ARROW    240
@@ -270,6 +282,11 @@
 #define ARROW_DMG_3     -35
 #define ARROW_DMG_4     -40
 #define ARROW_DMG_5     -45
+#define ARROW_ARM_DMG   -12
+#define ARROW_ARM_DMG_2 -15
+#define ARROW_ARM_DMG_3 -17
+#define ARROW_ARM_DMG_4 -20
+#define ARROW_ARM_DMG_5 -23
 #define CANNON_DMG      -75
 #define CANNON_DMG_2    -80
 #define CANNON_DMG_3    -85
@@ -441,6 +458,17 @@
 #define COST_TOWER_UPGRADE_2    2
 #define COST_TOWER_UPGRADE_3    3
 #define COST_TOWER_UPGRADE_4    4
+
+// tower upgrade costs
+#define GEMS_TO_L2      5
+#define GEMS_TO_L3      10
+#define GEMS_TO_L4      25
+#define GEMS_TO_L5      50
+
+// player upgrade costs
+#define GEMS_SPEED      50
+#define GEMS_HARVEST    25
+#define GEMS_RECOVERY   25
 
 //colors for tower colors
 #define ARROW_COLOR     QColor(255,160,122)

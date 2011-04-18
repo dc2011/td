@@ -144,7 +144,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
     int mods = event->modifiers();
     QKeySequence key(mods ? mods : event->key(), mods ? event->key() : 0);
     
-    if(consoleOpen_ == true) {
+    if(consoleOpen_) {
         if(event->key() == Qt::Key_Return) {
             Console::instance()->addChar("\n");            
         } else if (event->key() == Qt::Key_Backspace) {
@@ -172,12 +172,14 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
         emit signalAltHeld(true);
     } else if (keys_.consoleKey.matches(key) == QKeySequence::ExactMatch) {
         /* Console key => ~ (tilde) */
-        Console::instance()->show();
-        consoleOpen_ = !consoleOpen_;
-        tInput = (PlayerInputComponent *)CDriver::instance()->
-            getHuman()->getInputComponent();
-        tInput->playerMovement(false); 
-        keysHeld_ = 0;
+        if(!mapZoomOut_) {
+            Console::instance()->show();
+            consoleOpen_ = !consoleOpen_;
+            tInput = (PlayerInputComponent *)CDriver::instance()->
+                getHuman()->getInputComponent();
+            tInput->playerMovement(false); 
+            keysHeld_ = 0;
+        }
     } else if (keys_.voiceKey.matches(key) == QKeySequence::ExactMatch) {
         /* Voice key => V */
         // Temporarily disabled
@@ -185,11 +187,10 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
         if(mapZoomOut_ == false && 
-	   view_->sceneRect().toRect().contains(view_->frameRect(),false)) {
-
-	    view_->scale(.5,.5);
-	    mapZoomOut_ = !mapZoomOut_;
-	}
+           view_->sceneRect().toRect().contains(view_->frameRect(),false)) {
+	    view_->fitInView(view_->sceneRect().toRect());
+            mapZoomOut_ = !mapZoomOut_;
+        }
     } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
         /* Arrow Up key => UP */
         keysHeld_ |= KEYUP;
@@ -260,11 +261,10 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
         if(mapZoomOut_ == true && 
-	   view_->sceneRect().toRect().contains(view_->frameRect(),false)) {
-	   
-	    view_->scale(2,2);
-	    mapZoomOut_ = !mapZoomOut_;
-	}
+           view_->sceneRect().toRect().contains(view_->frameRect(),false)) {
+            view_->resetMatrix();
+            mapZoomOut_ = !mapZoomOut_;
+        }
     } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
         /* Arrow Up key => UP */
         keysHeld_ ^= KEYUP;

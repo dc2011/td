@@ -134,6 +134,15 @@ namespace network {
          */
         kMapList        =   0x18,
 
+        /**Generic Message */
+        kServerErrorMsg =   0x19,
+
+        /**
+         * Indicates the offset on the port number.
+         * See Also: @ref portoffset
+         */
+        kPortOffset     =   0x1A,
+
         /** Indicates a player upgrade. */
         kUpgradePlayer  =   0x20,
 
@@ -355,6 +364,17 @@ namespace network {
  *  int playerID
  *    // The ID of the collectable
  *  int collectableID
+ *    // Whether the collectable is a gem or not
+ *  byte isGem
+ * @endcode
+ *
+ * @section portoffset Port Offset Message
+ * This message informs clients of the port offset for the UDP connection.
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kPortOffset
+ *    // The UDP port number
+ *  short port
  * @endcode
  *
  * @section maplist Map List Message

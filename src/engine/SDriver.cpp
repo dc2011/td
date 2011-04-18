@@ -23,6 +23,9 @@ SDriver::SDriver() : Driver() {
     script_ = new Parser(this, MAP_NFO);
     net_ = new NetworkServer();
     npcCounter_ = 0;
+    timeCount_ = 0;
+    completedWaves_ = 0;
+    totalWaves_ = 0;
 
     gameMap_->initMap();
 
@@ -36,12 +39,13 @@ SDriver::SDriver() : Driver() {
             this, SLOT(playerQuit(QTcpSocket*)));
 }
 SDriver::~SDriver() {
-    if(!waves_.empty()) {
+    /*if(!waves_.empty()) {
         NPCWave* temp;
         foreach(temp, waves_){
             disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
         }
-    }
+    }*/
+    waves_.clear();
     delete net_;
     delete script_;
 }
@@ -110,6 +114,9 @@ void SDriver::startGame(bool multicast) {
         /* Not "proper" but it saves space and the client can deal with it */
         s.writeByte(network::kMulticastIP);
         s.writeByte(net_->getMulticastAddr());
+    } else {
+        s.writeByte(network::kPortOffset);
+        s.writeShort(net_->getPort());
     }
 
     net_->send(network::kServerPlayers, s.data());
@@ -120,8 +127,11 @@ void SDriver::startGame(bool multicast) {
     //waves_.append(tempWave);
     while((tempWave = script_->readWave())!=NULL) {
 
+    while((tempWave = fileParser->readWave()) != NULL) {
         waves_.append(tempWave);
+        totalWaves_++;
     }
+
     this->gameTimer_->start(30);
     this->waveTimer_->start(1000);
     connect(gameTimer_, SIGNAL(timeout()), this, SLOT(onTimerTick()));
@@ -159,6 +169,13 @@ GameObject* SDriver::updateObject(Stream* s) {
 void SDriver::onTimerTick() {
     static unsigned int modcount = 0;
     if (modcount++ < 10) {
+        return;
+    }
+
+    // Check to see if there are anymore waves.
+    if (completedWaves_ == totalWaves_) {
+        qDebug("SDriver::onTimerTick(); No more waves, game over!");
+        endGame(TRUE);
         return;
     }
 
@@ -215,38 +232,26 @@ void SDriver::destroyObject(int id) {
 }
 
 void SDriver::spawnWave() {
-    if(!waves_.empty()) {
-
-        //disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
-        NPCWave* temp;
-        foreach(temp,waves_) {
-            if(temp->getStart() == timeCount_){
-                temp->createWave();
-                connect(temp, SIGNAL(waveDead()),this,SLOT(deadWave()));
+    // Check to see if any waves should be spawned on this tick.
+    if (!waves_.empty()) {
+        for (int i = 0; i < waves_.size(); i++) {
+            NPCWave* wave = waves_[i];
+            if (wave->getStart() == timeCount_) {
+                waves_.removeAt(i--);
+                wave->createWave();
+                connect(wave, SIGNAL(waveDead()), this, SLOT(endWave()));
+                connect(wave, SIGNAL(waveDead()), wave, SLOT(deleteLater()));
             }
         }
-    /*
-    disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(spawnWave()));
-    //NPCWave* wave = new NPCWave(this);
-
-
-    waves_.first()->createWave();
-    //waves_.append(wave);
-
-
-    connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
-    */
     }
+    
+    timeCount_++;
 }
-void SDriver::deadWave(){
-    if(!waves_.empty()) {
-        /*disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
-        waves_.takeFirst();
-        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(spawnWave()));*/
-    } else {
-        endGame(true);
-    }
-}
+
+void SDriver::endWave() {
+    completedWaves_++;
+    qDebug("SDriver::endWave(); Num waves completed: %d of %d", completedWaves_, totalWaves_);
+} 
 
 void SDriver::deadNPC(int id) {
     destroyObject(id);
@@ -263,7 +268,7 @@ void SDriver::requestProjectile(int projType, QPointF source,
 }
 
 void SDriver::requestCollectable(int collType, QPointF source, QVector2D vel) {
-    Collectable* c = Driver::createCollectable(collType, source, vel);
+    Driver::createCollectable(collType, source, vel);
     int id = 0;
 
     GameObject* go = (GameObject*)QObject::sender();
@@ -335,6 +340,7 @@ void SDriver::onMsgReceive(Stream* s) {
                 out->writeInt(upgradeType);
                 net_->send(network::kUpgradePlayer, out->data());
             }
+            break;
         }
         case network::kSellTower:
         {
@@ -429,8 +435,10 @@ void SDriver::onMsgReceive(Stream* s) {
                                                   player->getPos().y());
 
             if (c != NULL && c != (Collectable*)-1) {
+                bool isGem = false;
                 if (c->getType() == RESOURCE_GEM) {
                     gemCount_++;
+                    isGem = true;
                 }
 
                 currentTile->removeUnit(c);
@@ -438,6 +446,7 @@ void SDriver::onMsgReceive(Stream* s) {
 
                 out->writeInt(playerID);
                 out->writeInt(collID);
+                out->writeByte(isGem);
                 net_->send(network::kPickCollect, out->data());
             }
             break;
