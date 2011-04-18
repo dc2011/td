@@ -455,6 +455,12 @@ void CDriver::UDPReceived(Stream* s) {
             NetworkClient::instance()->setMulticastAddress(mcast);
             break;
         }
+        case network::kPortOffset:
+        {
+            unsigned short port = s->readShort();
+            NetworkClient::instance()->setUDPPort(port);
+            break;
+        }
         case network::kServerPlayers:
         {
             int count = s->readByte();
