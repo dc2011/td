@@ -449,6 +449,17 @@
 #define COST_TOWER_UPGRADE_3    3
 #define COST_TOWER_UPGRADE_4    4
 
+// tower upgrade costs
+#define GEMS_TO_L2      5
+#define GEMS_TO_L3      10
+#define GEMS_TO_L4      25
+#define GEMS_TO_L5      50
+
+// player upgrade costs
+#define GEMS_SPEED      50
+#define GEMS_HARVEST    25
+#define GEMS_RECOVERY   25
+
 //colors for tower colors
 #define ARROW_COLOR     QColor(255,160,122)
 #define CANNON_COLOR    QColor(255,0,255)
