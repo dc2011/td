@@ -55,7 +55,7 @@ void NPCGraphicsComponent::draw(void* dp, int layer) {
                     - healthbarItem_->boundingRect().center().x()),
                     (drawParamsNPC->pos.y()
                     - (getPixmapItem()->boundingRect().height())/2));
-        healthbarItem_->setZValue(layer);
+        healthbarItem_->setZValue(LAYER_MENU);
         healthbarItem_->update();
     } else {
         healthbarItem_->setVisible(false);
