@@ -246,7 +246,6 @@ void AudioManager::streamVoice()
         alSourcef(source, AL_GAIN, gainScale[voiceGain_]);
         clearProcessedBuffers(&source, buffersAvailable, &playing, &play);
 
-
         if (buffersAvailable > 0) {
             size = 0;
                       
@@ -287,7 +286,7 @@ void AudioManager::streamVoice()
              */
             alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
 
-            if (queued > 2 && play) {
+            if(queued > 1 && play) {
                 alSourcePlay(source);
                 play = AL_FALSE;
             }
