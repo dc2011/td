@@ -21,7 +21,6 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
 
     ui->setupUi(this);
     setCursor(QCursor(QPixmap(":/file/cursor.png")));
-    ui->btnStart->setEnabled(false);
     ui->userList->header()->setResizeMode(QHeaderView::Fixed);
 
     this->applyStyleSheet(QString(":/file/client.qss"));
@@ -106,10 +105,6 @@ void LobbyWindow::onTCPReceived(Stream* s)
         {
             int players = s->readInt();
             ui->lblDisplayCount->setText(QString::number(players));
-
-            if (players == 1) {
-                ui->btnStart->setEnabled(true);
-            }
             ui->txtAddress->setDisabled(true);
             ui->txtUsername->setDisabled(true);
             ui->btnConnect->setDisabled(true);
@@ -166,6 +161,7 @@ void LobbyWindow::onTCPReceived(Stream* s)
         case network::kGameId:
         {
             gameNum_ = s->readInt();
+            ui->btnStart->setEnabled(true);
             break;
         }
         case network::kLobbyStartGame:
@@ -300,6 +296,7 @@ void LobbyWindow::onLeaveGame() {
         gameNum_ = 0;
         NetworkClient::instance()->send(network::kLobbyleaveGame, s.data());
         ui->leaveGame->setEnabled(false);
+        ui->btnStart->setEnabled(false);
     }
 }
 
