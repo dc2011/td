@@ -256,7 +256,7 @@ public slots:
     * @author Duncan Donaldson
     * @return void
     */
-    void startGame(bool singlePlayer);
+    void startGame(bool singlePlayer, QString map);
 
     /**
      * Called whenenever the spacebar is pressed. It checks the tile type that

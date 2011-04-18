@@ -12,7 +12,6 @@
 
 #include "BuildingTower.h"
 
-#include "Parser.h"
 
 
 namespace td {
@@ -21,6 +20,7 @@ SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
     waveTimer_ = new QTimer(this);
     gameMap_ = new Map(MAP_TMX, this);
+    script_ = new Parser(this, MAP_NFO);
     net_ = new NetworkServer();
     npcCounter_ = 0;
 
@@ -43,6 +43,7 @@ SDriver::~SDriver() {
         }
     }
     delete net_;
+    delete script_;
 }
 
 unsigned int SDriver::addPlayer(QTcpSocket* sock, QString nickname) {
@@ -113,12 +114,11 @@ void SDriver::startGame(bool multicast) {
 
     net_->send(network::kServerPlayers, s.data());
 
-    Parser* fileParser = new Parser(this, MAP_NFO);
     NPCWave* tempWave;
-    setBaseHealth(fileParser->baseHP);
+    setBaseHealth(script_->baseHP);
     //tempWave = new NPCWave(this);
     //waves_.append(tempWave);
-    while((tempWave = fileParser->readWave())!=NULL) {
+    while((tempWave = script_->readWave())!=NULL) {
 
         waves_.append(tempWave);
     }

@@ -128,6 +128,12 @@ namespace network {
         /**Sent from client to server when they are leaving a queue */
         kLobbyleaveGame = 0x17,
 
+        /**
+         * Sent by the lobby server to tell clients which maps are available.
+         * See Also: @ref maplist
+         */
+        kMapList        =   0x18,
+
         /** Indicates a player upgrade. */
         kUpgradePlayer  =   0x20,
 
@@ -349,6 +355,20 @@ namespace network {
  *  int playerID
  *    // The ID of the collectable
  *  int collectableID
+ * @endcode
+ *
+ * @section maplist Map List Message
+ * This message is a list of available maps sent by the lobby server.
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kMapList
+ *    // The number of available maps
+ *  byte mapCount
+ *  for (0 to mapCount):
+ *        // The length of the map name
+ *      byte strLength
+ *        // The map name
+ *      byte[strLength] mapName
  * @endcode
  *
  * @section playsfx Play SFX Message

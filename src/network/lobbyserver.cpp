@@ -3,6 +3,7 @@
 #include "netmessages.h"
 #include "../engine/SDriver.h"
 #include <QCoreApplication>
+#include <QDir>
 
 namespace td {
 
@@ -13,6 +14,11 @@ LobbyServer::LobbyServer(QObject* parent) : QTcpServer(parent), connCount_(0),ga
 {
     this->listen(QHostAddress::Any, TD_PORT);
     qDebug() << "Server is listening for connections";
+
+    QDir dir("maps");
+    QStringList filters;
+    filters << "*.nfo";
+    maps_ = dir.entryList(filters, QDir::Readable | QDir::Files, QDir::Name);
 
     SAFE_OPERATION(instance_ = this)
 }
@@ -106,6 +112,9 @@ void LobbyServer::startGame(int game) {
     connect(sd, SIGNAL(disconnecting()), gamethread, SLOT(quit()));
     connect(sd, SIGNAL(disconnecting()), this, SLOT(gameEnd()));
 
+    QString mapname = gameMaps_[game];
+    sd->setMap(mapname);
+
     mutex_.lock();
     foreach (QTcpSocket* conn, games_.values(game)) {
         disconnect(conn, SIGNAL(readyRead()),
@@ -125,6 +134,7 @@ void LobbyServer::startGame(int game) {
     }
 
     games_.remove(game);
+    gameMaps_.remove(game);
     mutex_.unlock();
 
     sd->initNetworking();
@@ -175,6 +185,17 @@ void LobbyServer::readSocket()
             usernames_.insert(nick);
             clients_.insert(conn, nick);
             mutex_.unlock();
+
+            /* Send the list of maps */
+            Stream rs;
+            rs.writeByte(network::kMapList);
+            rs.writeByte(maps_.size());
+            foreach (QString str, maps_) {
+                rs.writeByte(str.size());
+                rs.write(str.toAscii().data());
+            }
+            conn->write(rs.data());
+
             notifyClients(network::kLobbyWelcome);
             notifyClients(network::kUpdateUserList);
             if(games_.size() > 0) {
@@ -190,12 +211,16 @@ void LobbyServer::readSocket()
             int game = s.readInt();
 
             if(game == 0) {
-                Stream s;
-                s.writeByte(network::kGameId);
-                s.writeInt(gameId);
+                int len = s.readByte();
+                QString name(s.read(len));
+
+                Stream rs;
+                rs.writeByte(network::kGameId);
+                rs.writeInt(gameId);
+                gameMaps_.insert(gameId, name);
                 games_.insert(gameId++,conn);
                 notifyClients(network::kUpdateListOfGames);
-                conn->write(s.data());
+                conn->write(rs.data());
             }
             else {
                 games_.insert(game,conn);

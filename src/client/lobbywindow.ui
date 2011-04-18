@@ -407,7 +407,6 @@
      <string>Leave Game</string>
     </property>
    </widget>
-   <zorder>mapsList</zorder>
    <zorder>btnStart</zorder>
    <zorder>txtUsername</zorder>
    <zorder>lblDisplayCount</zorder>
@@ -432,6 +431,7 @@
    <zorder>gameList</zorder>
    <zorder>leaveGame</zorder>
    <zorder>msgBox</zorder>
+   <zorder>mapsList</zorder>
   </widget>
  </widget>
  <resources/>
