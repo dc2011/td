@@ -361,6 +361,7 @@ void SDriver::onMsgReceive(Stream* s) {
             if (Driver::upgradeTower(QPointF(x, y))) {
                 out->writeFloat(x);
                 out->writeFloat(y);
+                out->writeInt(gemCount_);
                 net_->send(network::kUpgradeTower, out->data());
             }
 
