@@ -41,7 +41,6 @@ void NPCGraphicsComponent::draw(void* dp, int layer) {
     DrawParamsNPC* drawParamsNPC = (DrawParamsNPC*) dp;
 
     if (--damageDisplayTime_ > 0 || drawParamsNPC->keyHeld) {
-        healthbarItem_->setVisible(true);
         healthbarItem_->setRect(QRectF(0, 0, HEALTHBAR_WIDTH *
                                       drawParamsNPC->health, HEALTHBAR_HEIGHT));
         if(drawParamsNPC->health > 0.25 && drawParamsNPC->health < 0.51) {
@@ -57,15 +56,16 @@ void NPCGraphicsComponent::draw(void* dp, int layer) {
                     - (getPixmapItem()->boundingRect().height())/2));
         healthbarItem_->setZValue(LAYER_MENU);
         healthbarItem_->update();
+        healthbarItem_->setVisible(true);
     } else {
-        healthbarItem_->setVisible(false);
         healthbarItem_->update();
+        healthbarItem_->setVisible(false);
     }
 
     if(CDriver::instance()->getMainWindow()->getMapState()) {
-	QPixmap qTemp(10,10);
-	qTemp.fill(Qt::red);
-	getPixmapItem()->setPixmap(qTemp);
+        QPixmap qTemp(10,10);
+        qTemp.fill(Qt::red);
+        getPixmapItem()->setPixmap(qTemp);
     }
 
     GraphicsComponent::draw(dp, layer);
