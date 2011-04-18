@@ -112,9 +112,11 @@ QFrame#Stats {
 }
 
 QPushButton {
-    background-color: white;
+    background-color: #C67B30;
+    color: white;
 }
 
 QPushButton:disabled {
-    background-color: black;
+    background-color: #804000;
+    color: #808080;
 }
