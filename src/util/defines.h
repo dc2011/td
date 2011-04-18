@@ -93,11 +93,11 @@
 #define FIRE_INTERVAL_CANNON_3  100
 #define FIRE_INTERVAL_CANNON_4  90
 #define FIRE_INTERVAL_CANNON_5  80
-#define FIRE_INTERVAL_FLAME     70
-#define FIRE_INTERVAL_FLAME_2   65
-#define FIRE_INTERVAL_FLAME_3   60
-#define FIRE_INTERVAL_FLAME_4   55
-#define FIRE_INTERVAL_FLAME_5   50
+#define FIRE_INTERVAL_FLAME     180
+#define FIRE_INTERVAL_FLAME_2   180
+#define FIRE_INTERVAL_FLAME_3   180
+#define FIRE_INTERVAL_FLAME_4   180
+#define FIRE_INTERVAL_FLAME_5   180
 #define FIRE_INTERVAL_TAR       90
 #define FIRE_INTERVAL_TAR_2     83
 #define FIRE_INTERVAL_TAR_3     75
@@ -109,9 +109,14 @@
 #define FIRE_INTERVAL_FLAK_4    9
 #define FIRE_INTERVAL_FLAK_5    7
 
+// how long the flame lasts in ticks
+#define FIRE_DURATION           100
+#define FIRE_SCALE_TIME         15
+
 // reload times for animation (in milliseconds)
 #define RELOAD_ARROW        600
 #define RELOAD_CANNON       200
+#define RELOAD_FIRE         30 * FIRE_DURATION
 #define RELOAD_FLAK_SLOW    190
 #define RELOAD_FLAK_MEDIUM  135
 #define RELOAD_FLAK_FAST    105

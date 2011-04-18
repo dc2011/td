@@ -38,7 +38,7 @@ void FlakProjectileInputComponent::update(){
 
 FireProjectileInputComponent::FireProjectileInputComponent()
     :ProjectileInputComponent() {
-    duration_ = 60;
+    duration_ = FIRE_DURATION;
     increment_ = 0;
     counter_ = 0;
 }
