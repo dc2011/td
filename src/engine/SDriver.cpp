@@ -39,12 +39,13 @@ SDriver::SDriver() : Driver() {
             this, SLOT(playerQuit(QTcpSocket*)));
 }
 SDriver::~SDriver() {
-    if(!waves_.empty()) {
+    /*if(!waves_.empty()) {
         NPCWave* temp;
         foreach(temp, waves_){
             disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
         }
-    }
+    }*/
+    waves_.clear();
     delete net_;
 }
 
