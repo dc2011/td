@@ -16,7 +16,25 @@ void BuildContextMenu::selectMenuItem(int keyPressed) {
                      || keyPressed > TOWER_FLAK) {
         return;
     }
-    emit signalTowerSelected(keyPressed, player_->getPos());
+    int type;
+    switch (keyPressed) {
+    case TOWER_ARROW:
+        type = TOWER_ARROW_1;
+        break;
+    case TOWER_CANNON:
+        type = TOWER_CANNON_1;
+        break;
+    case TOWER_FLAME:
+        type = TOWER_FLAME_1;
+        break;
+    case TOWER_TAR:
+        type = TOWER_TAR_1;
+        break;
+    case TOWER_FLAK:
+        type = TOWER_FLAK_1;
+        break;
+    }
+    emit signalTowerSelected(type, player_->getPos());
     ContextMenu::selectMenuItem(keyPressed);
 }
 
