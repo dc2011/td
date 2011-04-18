@@ -105,9 +105,16 @@
 #define FIRE_INTERVAL_TAR_5     60
 #define FIRE_INTERVAL_FLAK      15
 #define FIRE_INTERVAL_FLAK_2    13
-#define FIRE_INTERVAL_FLAK_3    10
-#define FIRE_INTERVAL_FLAK_4    8
-#define FIRE_INTERVAL_FLAK_5    5
+#define FIRE_INTERVAL_FLAK_3    11
+#define FIRE_INTERVAL_FLAK_4    9
+#define FIRE_INTERVAL_FLAK_5    7
+
+// reload times for animation (in milliseconds)
+#define RELOAD_ARROW        600
+#define RELOAD_CANNON       200
+#define RELOAD_FLAK_SLOW    190
+#define RELOAD_FLAK_MEDIUM  135
+#define RELOAD_FLAK_FAST    105
 
 // a tower's range
 #define RADIUS_ARROW    240
@@ -270,6 +277,11 @@
 #define ARROW_DMG_3     -35
 #define ARROW_DMG_4     -40
 #define ARROW_DMG_5     -45
+#define ARROW_ARM_DMG   -12
+#define ARROW_ARM_DMG_2 -15
+#define ARROW_ARM_DMG_3 -17
+#define ARROW_ARM_DMG_4 -20
+#define ARROW_ARM_DMG_5 -23
 #define CANNON_DMG      -75
 #define CANNON_DMG_2    -80
 #define CANNON_DMG_3    -85
@@ -441,6 +453,17 @@
 #define COST_TOWER_UPGRADE_2    2
 #define COST_TOWER_UPGRADE_3    3
 #define COST_TOWER_UPGRADE_4    4
+
+// tower upgrade costs
+#define GEMS_TO_L2      5
+#define GEMS_TO_L3      10
+#define GEMS_TO_L4      25
+#define GEMS_TO_L5      50
+
+// player upgrade costs
+#define GEMS_SPEED      50
+#define GEMS_HARVEST    25
+#define GEMS_RECOVERY   25
 
 //colors for tower colors
 #define ARROW_COLOR     QColor(255,160,122)

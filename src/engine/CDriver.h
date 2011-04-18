@@ -53,6 +53,19 @@ private:
     /** Tells objects whether or not the game is being played single player **/
     bool singlePlayer_;
 
+    /** 
+     *  Used by TowerContextMenuGraphicsComponent to prevent the following:
+     *  1. The GC tries to get a reference to the tower that the player is
+     *     standing on.
+     *  2. Partway through this operation, the graphics thread loses its
+     *     time-slice.
+     *  3. The tower is sold in the physics thread.
+     *  4. Back in the graphics thread, the tower is dereferenced to get its
+     *     current level.
+     *  5. The program dies.
+     *  6. The dinosaurs win.
+     */
+    QMutex menuMutex_;
 
     QList<NPCWave*> waves_;
     QTimer* waveTimer_;
@@ -205,6 +218,7 @@ public:
     MainWindow* getMainWindow() {
         return mainWindow_;
     }
+
     /**
      * getter for SinglePlayer
      *
@@ -212,6 +226,7 @@ public:
      * @return whether or not the game is being played single player.
      */
     bool isSinglePlayer();
+
     /**
      * sets the value of singlePlayer
      *
@@ -219,6 +234,16 @@ public:
      * @param the value to set singlePlayer to.
      */
     void setSinglePlayer(bool singlePlayer);
+
+    /**
+     * Gets the mutex needed by TowerContextMenuGC.
+     *
+     * @author Dean Morin
+     * @return A mutex that helps Dean sleep better at night.
+     */
+    QMutex* getMenuMutex() {
+        return &menuMutex_;   
+    }
 
 signals:
     /**
