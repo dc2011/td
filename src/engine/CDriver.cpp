@@ -349,8 +349,12 @@ void CDriver::NPCCreator() {
     }
 }
 
-void CDriver::startGame(bool singlePlayer) {
-    // Create hard coded map
+void CDriver::startGame(bool singlePlayer, QString map) {
+    // hack hack hack
+    if (!singlePlayer) {
+        mainWindow_->getMD()->viewMap("./maps/" + map + ".tmx");
+    }
+
     gameMap_ = new Map(mainWindow_->getMD()->map(), this);
     gameTimer_ = new QTimer(this);
     waveTimer_ = new QTimer(this);

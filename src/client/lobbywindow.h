@@ -24,7 +24,7 @@ public:
     void applyStyleSheet(QString path);
 
 signals:
-    void startGame(bool singlePlayer);
+    void startGame(bool singlePlayer, QString map);
 
 public slots:
     void connectLobby();
@@ -59,7 +59,7 @@ private slots:
      **/
 
     void onJoinGame(QListWidgetItem*);
-    /**TD_VERSION
+    /**
       * Called when a user clicks on the leave game button
       * @author Kelvin Lui
       **/
@@ -68,6 +68,15 @@ private slots:
 private:
     void updateListOfUserNames(QMultiMap<int, QString>&);
     void updateListOfGames(QMultiMap<int,QString>&);
+
+    /**
+     * Fills the list of maps from the list of map names.
+     *
+     * @author Darryl Pogue
+     * @param mapList The list of map names.
+     */
+    void setListOfMaps(QStringList& mapList);
+
     /**
      * Reads the last used settings from a persistent file.
      *
@@ -88,6 +97,9 @@ private:
      * @author Dean Morin
      */
     void assignName();
+
+    /** List of all available maps. */
+    QStringList maps_;
 
     /** the game number the client is connected to*/
     int gameNum_;

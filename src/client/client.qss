@@ -44,6 +44,11 @@ QTreeWidget#userList {
     border: none;
 }
 
+QTreeWidgetItem,
+QTreeWidgetItem:selected {
+    background: transparent;
+}
+
 QDialog#MainMenu, QDialog#settingsWindow {
     background-image: url("./img/mainMenuBg.png");
     border: none;

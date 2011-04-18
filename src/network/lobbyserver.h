@@ -5,6 +5,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QList>
+#include <QStringList>
 #include <QMap>
 #include <QMutex>
 #include "../util/defines.h"
@@ -40,12 +41,19 @@ private:
      * to their nickname
      */
     QMultiMap<int,QTcpSocket*> games_;
+
+    /** Map of each game to its map file. */
+    QMap<int, QString> gameMaps_;
+
+    /** List of all available maps. */
+    QStringList maps_;
     
-/**
+    /**
      * Set of all currently used nicknames, to prevent multiple users with the
      * same nickname.
      */
     QSet<QString> usernames_;
+
     /** Id to use for the game*/
     int gameId;
 

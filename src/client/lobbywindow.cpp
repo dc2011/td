@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QFile>
+#include <QBrush>
 #include "../audio/SfxManager.h"
 #include "../engine/CDriver.h"
 #include "../network/netclient.h"
@@ -25,6 +26,10 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
 
     this->applyStyleSheet(QString(":/file/client.qss"));
 
+    QDir dir("maps");
+    QStringList filters;
+    filters << "*.nfo";
+    maps_ = dir.entryList(filters, QDir::Readable | QDir::Files, QDir::Name);
 
     connect(ui->btnConnect, SIGNAL(clicked()),
             this, SLOT(connectLobby()));
@@ -34,7 +39,7 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
             ui->btnConnect, SLOT(setDisabled(bool)));
     connect(ui->chkSingleplayer, SIGNAL(clicked(bool)),
             ui->btnStart, SLOT(setEnabled(bool)));
-    connect(this, SIGNAL(startGame(bool)),
+    connect(this, SIGNAL(startGame(bool, QString)),
             this, SLOT(close()));
     connect(ui->sendMsg,SIGNAL(clicked()),this,SLOT(sendChatMessage()));
 
@@ -84,10 +89,15 @@ void LobbyWindow::connectLobby()
 
 void LobbyWindow::tmp_startGame()
 {
+    QString name = MAP_TMX;
+    if (ui->mapsList->selectedItems().size() == 1) {
+        name = ui->mapsList->selectedItems()[0]->data(Qt::UserRole).toString();
+    }
+
     PLAY_LOCAL_SFX(SfxManager::lobbyStart);
 //    alSleep(2); //needs fixing
     if (ui->chkSingleplayer->isChecked()) {
-        emit startGame(true);
+        emit startGame(true, name);
         return;
     }
 
@@ -164,15 +174,31 @@ void LobbyWindow::onTCPReceived(Stream* s)
             ui->btnStart->setEnabled(true);
             break;
         }
+        case network::kMapList:
+        {
+            QStringList mapsList;
+            int count = s->readByte();
+            for (int i = 0; i < count; i++) {
+                int len = s->readByte();
+                QString name(s->read(len));
+
+                mapsList.append(name);
+            }
+            setListOfMaps(mapsList);
+            break;
+        }
         case network::kLobbyStartGame:
         {
+            int len = s->readByte();
+            QString map = QString(s->read(len));
+
             connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
                     CDriver::instance(), SLOT(UDPReceived(Stream*)));
             connect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
                     CDriver::instance(), SLOT(UDPReceived(Stream*)));
             disconnect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
                     this, SLOT(onTCPReceived(Stream*)));
-            emit startGame(false);
+            emit startGame(false, map);
             break;
         }
         case network::kBadVersion:
@@ -250,6 +276,8 @@ void LobbyWindow::updateListOfUserNames(QMultiMap<int, QString>& userList) {
         QStringList tmpList(name);
         tmpList.append(userList.key(name) == 0 ? "Not In Game" : QString::number(userList.key(name)));
         QTreeWidgetItem *tmpItem = new QTreeWidgetItem(ui->userList, tmpList);
+        tmpItem->setBackground(0, QBrush(Qt::transparent));
+        tmpItem->setBackground(1, QBrush(Qt::transparent));
         ui->userList->addTopLevelItem(tmpItem);
     }
 
@@ -270,6 +298,18 @@ void LobbyWindow::updateListOfGames(QMultiMap<int, QString>& gameList) {
         item->setData(Qt::UserRole,gameName);
         ui->gameList->addItem(item);
 
+    }
+}
+
+void LobbyWindow::setListOfMaps(QStringList& mapList) {
+    foreach (const QString& map, mapList) {
+        QListWidgetItem* item = new QListWidgetItem();
+        QString name = map;
+        name.chop(4);
+
+        item->setText(name);
+        item->setData(Qt::UserRole, map);
+        ui->mapsList->addItem(item);
     }
 }
 
@@ -309,11 +349,19 @@ void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {
 }
 
 void LobbyWindow::onCreateNewGame() {
+    QString name = MAP_TMX;
+    if (ui->mapsList->selectedItems().size() == 1) {
+        name = ui->mapsList->selectedItems()[0]->data(Qt::UserRole).toString();
+    }
+
     if(gameNum_ == 0) {
         Stream s;
         s.writeInt(ui->txtUsername->text().size());
         s.write(ui->txtUsername->text().toAscii());
         s.writeInt(0);
+        s.writeByte(name.size());
+        s.write(name.toAscii().data());
+
         NetworkClient::instance()->send(network::kJoinGame, s.data());
         ui->leaveGame->setEnabled(true);
     }

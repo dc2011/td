@@ -193,6 +193,9 @@ Resource* Driver::createResource(int type) {
 
 void Driver::sellTower(QPointF pos) {
     Tile* currentTile = gameMap_->getTile(pos.x(), pos.y());
+    if (currentTile->getExtension() == NULL) {
+        return;
+    }
     int type = ((Tower*)currentTile->getExtension())->getType();
     int towerType = type >> 4;
 
