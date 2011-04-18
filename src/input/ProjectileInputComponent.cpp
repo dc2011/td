@@ -152,7 +152,8 @@ void ProjectileInputComponent::checkNPCCollision(QSet<Unit*> npcs) {
     QSet<Unit*>::iterator it;
     QPolygonF projBounds;
     QPolygonF npcBounds;
-    if (parent_->getType() == PROJ_ARROW) {
+    if (parent_->getType() >= PROJ_ARROW
+            && parent_->getType() <= PROJ_ARROW_5) {
         ((NPC*)parent_->getEnemy())->createEffect(parent_->getEffectType());
         return;
     }
