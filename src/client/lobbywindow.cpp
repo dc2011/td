@@ -2,6 +2,7 @@
 #include <QDateTime>
 #include <QMessageBox>
 #include <QSettings>
+#include <QFile>
 #include "../audio/SfxManager.h"
 #include "../engine/CDriver.h"
 #include "../network/netclient.h"
@@ -11,10 +12,19 @@ namespace td {
 
 LobbyWindow::LobbyWindow(QWidget *parent) :
     QMainWindow(parent),
+    gameNum_(0),
     ui(new Ui::LobbyWindow)
+
 {
+    this->setWindowFlags(Qt::FramelessWindowHint);
+    this->move(40, 40);
+
     ui->setupUi(this);
-    ui->btnStart->setEnabled(false);
+    setCursor(QCursor(QPixmap(":/file/cursor.png")));
+    ui->userList->header()->setResizeMode(QHeaderView::Fixed);
+
+    this->applyStyleSheet(QString(":/file/client.qss"));
+
 
     connect(ui->btnConnect, SIGNAL(clicked()),
             this, SLOT(connectLobby()));
@@ -26,12 +36,15 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
             ui->btnStart, SLOT(setEnabled(bool)));
     connect(this, SIGNAL(startGame(bool)),
             this, SLOT(close()));
+    connect(ui->sendMsg,SIGNAL(clicked()),this,SLOT(sendChatMessage()));
 
     // so I don't have to enter the ip address, like, every freaking time
     connect(ui->txtAddress, SIGNAL(editingFinished()),
             this, SLOT(writeSettings()));
     connect(ui->txtUsername, SIGNAL(editingFinished()),
             this, SLOT(writeSettings()));
+
+    connect(ui->btnExit, SIGNAL(clicked()), this, SLOT(close()));
 
     QCoreApplication::setOrganizationName("dc2011");
     QCoreApplication::setApplicationName("td");
@@ -45,10 +58,6 @@ LobbyWindow::~LobbyWindow()
 
 void LobbyWindow::connectLobby()
 {
-    ui->txtAddress->setDisabled(true);
-    ui->txtUsername->setDisabled(true);
-    ui->btnConnect->setDisabled(true);
-    ui->chkSingleplayer->setDisabled(true);
 
     QString ip = ui->txtAddress->text();
     QHostAddress addr(ip);
@@ -68,6 +77,8 @@ void LobbyWindow::connectLobby()
 
     PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
+
+
     delete s;
 }
 
@@ -81,6 +92,7 @@ void LobbyWindow::tmp_startGame()
     }
 
     Stream s;
+    s.writeInt(gameNum_);
     NetworkClient::instance()->send(network::kLobbyStartGame, s.data());
 }
 
@@ -93,10 +105,63 @@ void LobbyWindow::onTCPReceived(Stream* s)
         {
             int players = s->readInt();
             ui->lblDisplayCount->setText(QString::number(players));
+            ui->txtAddress->setDisabled(true);
+            ui->txtUsername->setDisabled(true);
+            ui->btnConnect->setDisabled(true);
+            ui->chkSingleplayer->setDisabled(true);
+            connect(ui->newGame,SIGNAL(clicked()),this,SLOT(onCreateNewGame()));
+            connect(ui->leaveGame,SIGNAL(clicked()),this,SLOT(onLeaveGame()));
+            connect(ui->gameList,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(onJoinGame(QListWidgetItem*)));
 
-            if (players == 1) {
-                ui->btnStart->setEnabled(true);
+            ui->newGame->setEnabled(true);
+            
+            break;
+        }
+        case network::kChatMessage:
+        {
+            int nameLen = s->readInt();
+            QString nickName(s->read(nameLen));
+            int msgLen = s->readInt();
+            QString msg(s->read(msgLen));
+            displayChatMsgRx(nickName,msg);
+            break;
+        }
+
+        case network::kUpdateUserList:
+        {
+            QMultiMap<int,QString> userList;
+            int numOfPlayers = s->readInt();
+            for(int i = 0; i < numOfPlayers; i++) {
+                int nameLen = s->readInt();
+                QString name(s->read(nameLen));
+                int game = s->readInt();
+                userList.insert(game,name);
+
             }
+            updateListOfUserNames(userList);
+            break;
+        }
+        case network::kUpdateListOfGames:
+        {
+            QMultiMap<int,QString> gameList;
+            int numOfGames = s->readInt();
+            for(int i = 0; i < numOfGames; i++) {
+                int gameName = s->readInt();
+                int numOfPlayers = s->readInt();
+                for(int j = 0; j < numOfPlayers; j++) {
+                    int nameLen = s->readInt();
+                    gameList.insert(gameName,(s->read(nameLen)));   
+                    
+                }
+                   
+            }
+            updateListOfGames(gameList);
+            break;
+        }
+        case network::kGameId:
+        {
+            gameNum_ = s->readInt();
+            ui->btnStart->setEnabled(true);
             break;
         }
         case network::kLobbyStartGame:
@@ -116,6 +181,23 @@ void LobbyWindow::onTCPReceived(Stream* s)
                     "Your game version does not match the server.").exec();
             break;
         }
+        case network::kServerErrorMsg:
+        {
+            //Display Error here
+            int msgLen = s->readInt();
+            QString errorMsg(s->read(msgLen));
+            disconnect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
+                    this, SLOT(onTCPReceived(Stream*)));
+            QMessageBox(QMessageBox::Critical,"Error",errorMsg).exec();
+            //dislpay it
+            break;
+        }
+    }
+    if(!s->eof()) {
+        this->onTCPReceived(s);
+    }
+    else {
+        delete s;
     }
 }
 
@@ -142,4 +224,102 @@ void LobbyWindow::assignName() {
     ui->txtUsername->setText(names[rand]);
 }
 
-} /* end namespace td */
+void LobbyWindow::applyStyleSheet(QString path) {
+    QFile f(path);
+    f.open(QIODevice::ReadOnly);
+    this->setStyleSheet(QString(f.readAll()));
+    f.close();
+}
+
+void LobbyWindow::sendChatMessage() {
+    if(ui->msgBox->text().size() > 0)
+    {
+        Stream s;
+        s.writeInt(ui->txtUsername->text().size());
+        s.write(ui->txtUsername->text().toAscii());
+        s.writeInt(ui->msgBox->text().size());
+        s.write(ui->msgBox->text().toAscii());
+        NetworkClient::instance()->send(network::kChatMessage, s.data());
+        ui->msgBox->clear();
+    }
+}
+void LobbyWindow::updateListOfUserNames(QMultiMap<int, QString>& userList) {
+
+    ui->userList->clear();
+    foreach(QString name, userList) {
+        QStringList tmpList(name);
+        tmpList.append(userList.key(name) == 0 ? "Not In Game" : QString::number(userList.key(name)));
+        QTreeWidgetItem *tmpItem = new QTreeWidgetItem(ui->userList, tmpList);
+        ui->userList->addTopLevelItem(tmpItem);
+    }
+
+}
+void LobbyWindow::updateListOfGames(QMultiMap<int, QString>& gameList) {
+
+    if(ui->gameList->count() > 0) {
+        ui->gameList->clear();
+    }
+    foreach(int gameName, QSet<int>(gameList.keys().toSet())) {
+        QListWidgetItem* item = new QListWidgetItem;
+        QString name(QString("Game").append(QString::number(gameName)).append(
+                     QString("\t")).append(QString::number(gameList.values(gameName).size()).append(QString("/256"))));
+
+        gameList.values(gameName).size();
+
+        item->setText(name);
+        item->setData(Qt::UserRole,gameName);
+        ui->gameList->addItem(item);
+
+    }
+}
+
+void LobbyWindow::onJoinGame(QListWidgetItem* item) {
+    if(gameNum_ == 0) {
+        int gameNum = item->data(Qt::UserRole).toInt();
+        gameNum_ = gameNum;
+        Stream s;
+        s.writeInt(ui->txtUsername->text().size());
+        s.write(ui->txtUsername->text().toAscii());
+        s.writeInt(gameNum);
+
+        NetworkClient::instance()->send(network::kJoinGame, s.data());
+        ui->leaveGame->setEnabled(true);
+        ui->newGame->setEnabled(false);
+    }
+}
+
+void LobbyWindow::onLeaveGame() {
+    if(gameNum_ != 0) {
+        Stream s;
+        s.writeInt(ui->txtUsername->text().size());
+        s.write(ui->txtUsername->text().toAscii());
+        s.writeInt(gameNum_);
+        gameNum_ = 0;
+        NetworkClient::instance()->send(network::kLobbyleaveGame, s.data());
+        ui->leaveGame->setEnabled(false);
+        ui->btnStart->setEnabled(false);
+    }
+}
+
+void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {
+    QString result(nickName);
+    result.append(": ");
+    result.append(msg);
+    ui->msgView->append(result);
+}
+
+void LobbyWindow::onCreateNewGame() {
+    if(gameNum_ == 0) {
+        Stream s;
+        s.writeInt(ui->txtUsername->text().size());
+        s.write(ui->txtUsername->text().toAscii());
+        s.writeInt(0);
+        NetworkClient::instance()->send(network::kJoinGame, s.data());
+        ui->leaveGame->setEnabled(true);
+    }
+}
+/* end namespace td */
+
+};
+
+

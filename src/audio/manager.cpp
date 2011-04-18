@@ -47,7 +47,7 @@ void AudioManager::startup()
 
 void AudioManager::initSpeex() {
     speex_.sampleRate = 8000; 
-    speex_.quality = 9;
+    speex_.quality = 4;
 
     speex_bits_init(&speex_.bits);
 
@@ -86,6 +86,8 @@ void AudioManager::playSfx(QString filename, SoundType type)
 
     filename = SFXPATH + filename + SFXFILEEXTENSION;
     
+    if(playing_ >= 55) { return;}
+
     if(sfxCache_.contains(filename)) {
         QFuture<void> future =
             QtConcurrent::run(this, &AudioManager::playCached,
@@ -246,7 +248,6 @@ void AudioManager::streamVoice()
         alSourcef(source, AL_GAIN, gainScale[voiceGain_]);
         clearProcessedBuffers(&source, buffersAvailable, &playing, &play);
 
-
         if (buffersAvailable > 0) {
             size = 0;
                       
@@ -287,7 +288,7 @@ void AudioManager::streamVoice()
              */
             alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
 
-            if (queued > 2 && play) {
+            if(queued > 1 && play) {
                 alSourcePlay(source);
                 play = AL_FALSE;
             }
@@ -326,6 +327,7 @@ void AudioManager::playCached(QString filename, SoundType sType)
     }
 
     SAFE_OPERATION(playing_++);
+
     mutex_.lock();
     tmp = sfxCache_[filename];
     mutex_.unlock();
