@@ -37,6 +37,8 @@ CDriver::CDriver(MainWindow* mainWindow, char* programPath)
     completedWaves_ = 0;
     programPath_.append(programPath);
     
+    connect(this, SIGNAL(setMap(QString)),
+            mainWindow_, SLOT(setMap(QString)));
     connect(this, SIGNAL(signalReturnToLobby()),
             mainWindow_, SLOT(endGameCleanup()));
 }
@@ -361,12 +363,10 @@ void CDriver::NPCCreator() {
     timeCount_++;
 }
 
-void CDriver::startGame(bool singlePlayer) {
-    // Create hard coded map
-    gameMap_ = new Map(mainWindow_->getMD()->map(), this);
+void CDriver::startGame(bool singlePlayer, QString map) {
+
     gameTimer_ = new QTimer(this);
     waveTimer_ = new QTimer(this);
-    gameMap_->initMap();
     QQueue<QString> musicList;
 
     setSinglePlayer(singlePlayer);
@@ -374,8 +374,14 @@ void CDriver::startGame(bool singlePlayer) {
     musicList = td::AudioManager::instance()->musicDir("./sound/music/");
     td::AudioManager::instance()->playMusic(musicList);
 
-    if (singlePlayer) {
+    Parser* fileParser = new Parser(this, QString("./maps/") + map);
+    emit setMap(QString("./maps/") + fileParser->map + QString(".tmx"));
+    mainWindow_->lockMapHack();
 
+    gameMap_ = new Map(mainWindow_->getMD()->map(), this);
+    gameMap_->initMap();
+
+    if (singlePlayer) {
         Player* player = (Player*)mgr_->createObject(Player::clsIdx());
         playerID_ = player->getID();
 
@@ -384,7 +390,6 @@ void CDriver::startGame(bool singlePlayer) {
 
         this->makeLocalPlayer(player);
 
-        Parser* fileParser = new Parser(this, MAP_NFO);
         NPCWave* tempWave;
         setBaseHealth(fileParser->baseHP);
         while((tempWave = fileParser->readWave())!=NULL) {

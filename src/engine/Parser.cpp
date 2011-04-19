@@ -16,7 +16,7 @@ Parser::Parser(QObject* parent, const QString &filename) throw (const char*) :pa
     QStringList mapInfo = linedata.split(',');
 
     difficulty = mapInfo.at(0).toInt();
-    map = mapInfo.at(1);
+    map = mapInfo.at(1).trimmed();
     baseHP = mapInfo.at(2).toInt();
     woodQty = mapInfo.at(3).toInt();
     stoneQty = mapInfo.at(4).toInt();

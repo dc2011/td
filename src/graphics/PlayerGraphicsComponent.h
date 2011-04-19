@@ -62,7 +62,12 @@ private:
 
     /** The current resource this object is carrying */
     int resourceType_;
+
+    /** Graphical representation of what the player is carrying. */
     QGraphicsPixmapItem* resourcePixmapItem_;
+
+    /** The player's skin / look. Used as an offset in animate() */
+    int outfit_;
 
 public:
     /**
@@ -99,10 +104,10 @@ public:
     virtual void animate();
 
     /**
-     * TODO: Try again, Warren (copy and paste fail)
-     * Gets a pixmap for the object based on its current animation state.
-     *
-     * @author Warren Voelkl
+     * The first instance of this object will populate the static pixmap array
+     * that will be used by all instances of this class.
+     * 
+     * @author Dean Morin
      */
     virtual void initPixmaps();
 
@@ -130,6 +135,14 @@ private:
     virtual QPixmap * getPixmapArray() {
         return pixmapImgs_;
     }
+
+    /**
+     * Updates the index of the pixmap array.
+     * 
+     * @author Dean Morin
+     * @author index The index to use.
+     */
+    void setImgIndex(int index);
 };
 
 } /* end namespace td */
