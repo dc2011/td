@@ -25,7 +25,7 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
     connect(ui->chkSingleplayer, SIGNAL(clicked(bool)),
             ui->btnStart, SLOT(setEnabled(bool)));
     connect(this, SIGNAL(startGame(bool)),
-            this, SLOT(close()));
+            this, SLOT(hide()));
 
     // so I don't have to enter the ip address, like, every freaking time
     connect(ui->txtAddress, SIGNAL(editingFinished()),

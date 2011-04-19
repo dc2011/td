@@ -33,6 +33,9 @@ CDriver::CDriver(MainWindow* mainWindow)
     mgr_ = new ResManager(this);
     npcCounter_ = 0;
     timeCount_ = 0;
+    
+    connect(this, SIGNAL(signalReturnToLobby()),
+            mainWindow_, SLOT(close()));
 }
 
 CDriver::~CDriver() {
@@ -397,14 +400,18 @@ void CDriver::deadWave(){
         waves_.takeFirst();
         connect(waveTimer_, SIGNAL(timeout()),this, SLOT(NPCCreator()));*/
     } else {
-        endGame();
+        //endGame();
     }
 }
 
-void CDriver::endGame() {
-    disconnectFromServer();
+void CDriver::endGame(bool winner) {
+    if (!isSinglePlayer()) {
+        disconnectFromServer();
+    }
     this->waveTimer_->stop();
     this->gameTimer_->stop();
+
+    emit signalReturnToLobby();
 }
 
 bool CDriver::isSinglePlayer() {
@@ -590,8 +597,10 @@ void CDriver::UDPReceived(Stream* s) {
 
             if (successful) {
                 Console::instance()->addText("You won :D");
+                endGame(TRUE);
             } else {
                 Console::instance()->addText("You lost :(");
+                endGame(FALSE);
             }
             break;
         }
