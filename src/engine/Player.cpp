@@ -218,7 +218,7 @@ void Player::harvestResource() {
         stopHarvesting();
 
 #ifndef SERVER
-        Console::instance()->addText("Picked up a Resource");
+        //Console::instance()->addText("Picked up a Resource");
 #endif
 
         return;
