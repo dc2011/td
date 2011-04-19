@@ -127,6 +127,7 @@ void LobbyServer::startGame(int game) {
                     this, SLOT(disconnected()));
 
         QString nick = clients_[conn];
+        usernames_.remove(nick);
         unsigned int id = sd->addPlayer(conn, nick);
 
         Stream s;
@@ -136,7 +137,6 @@ void LobbyServer::startGame(int game) {
         conn->write(s.data());
         clients_.remove(conn);
     }
-
     games_.remove(game);
     gameMaps_.remove(game);
     mutex_.unlock();
