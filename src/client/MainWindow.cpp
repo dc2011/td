@@ -291,7 +291,6 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
 }
 
 void MainWindow::scroll(QPointF pos) {
-    //qDebug("MainWindow::scroll(); Player must be moving pos: (%d, %d)", x, y);
     view_->centerOn(pos);
 }
 

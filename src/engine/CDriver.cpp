@@ -338,7 +338,6 @@ void CDriver::requestUpgradePlayer(int type) {
 void CDriver::NPCCreator() {
     timeCount_++;
     if(!waves_.empty()) {
-        //disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
         NPCWave* temp;
         foreach(temp,waves_) {
             if(temp->getStart() == timeCount_){
@@ -346,9 +345,6 @@ void CDriver::NPCCreator() {
                 connect(temp, SIGNAL(waveDead()),this,SLOT(deadWave()));
             }
         }
-
-        //waves_.first()->createWave();
-        //connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
     }
 }
 
@@ -386,9 +382,6 @@ void CDriver::startGame(bool singlePlayer) {
         connect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
         timeCount_ = 0;
     }
-
-    //connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            //npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
 
     gameTimer_->start(GAME_TICK_INTERVAL);
 }
