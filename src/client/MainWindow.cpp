@@ -19,6 +19,7 @@ MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
     stats_ = new Stats();
+    stats_->setFixedHeight(22);
 
     consoleOpen_ = false;
     mapZoomOut_ = false;
@@ -34,7 +35,6 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
 
-    stats_->setFixedHeight(22);
 
     //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
@@ -293,6 +293,11 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
 void MainWindow::scroll(QPointF pos) {
     //qDebug("MainWindow::scroll(); Player must be moving pos: (%d, %d)", x, y);
     view_->centerOn(pos);
+}
+
+void MainWindow::endGameCleanup() {
+    delete view_;
+    hide();
 }
 
 } /* end namespace td */

@@ -35,7 +35,7 @@ CDriver::CDriver(MainWindow* mainWindow)
     timeCount_ = 0;
     
     connect(this, SIGNAL(signalReturnToLobby()),
-            mainWindow_, SLOT(close()));
+            mainWindow_, SLOT(endGameCleanup()));
 }
 
 CDriver::~CDriver() {
