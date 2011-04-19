@@ -211,12 +211,8 @@ void PlayerPhysicsComponent::applyDirection(Player* player)
 
 void PlayerPhysicsComponent::checkUnitCollision(QSet<Unit*> units, Unit* player){
     QSet<Unit*>::iterator it;
-    QPolygonF playerBounds;
-    QPolygonF npcBounds;
     for (it = units.begin(); it != units.end(); ++it) {
         if ((((*it)->getID() & 0xFF000000)>>24) == NPC::clsIdx()) {
-            playerBounds = player->getBounds();
-            npcBounds = (*it)->getBounds();
             if (player->getBounds().intersected((*it)->getBounds()).count() != 0) {
 
                 if (playCollisionSfx_) {
@@ -229,8 +225,6 @@ void PlayerPhysicsComponent::checkUnitCollision(QSet<Unit*> units, Unit* player)
                 break;
             }
         } else if ((((*it)->getID() & 0xFF000000)>>24) == Collectable::clsIdx()) {
-            playerBounds = player->getBounds();
-            npcBounds = (*it)->getBounds();
             if (player->getBounds().intersected((*it)->getBounds()).count() != 0) {
                 emit pickupCollectable(player->getPos().x(), player->getPos().y(), *it);
                 break;

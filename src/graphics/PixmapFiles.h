@@ -47,13 +47,20 @@
 #define PIX_PLAYER_MENU_HAR     QString("./img/harvestIcon.png")
 #define PIX_PLAYER_MENU_REC     QString("./img/stunIcon.png")
 #define PIX_PLAYER_MENU_MAX     19
-#define PIX_PLAYER_0            QString("./img/player-stand.png")
-#define PIX_PLAYER_1            QString("./img/player-move1.png")
-#define PIX_PLAYER_2            QString("./img/player-move2.png")
-#define PIX_PLAYER_3            QString("./img/player-move3.png")
-#define PIX_PLAYER_4            QString("./img/player-move4.png")
-#define PIX_PLAYER_5            QString("./img/player-move5.png")
-#define PIX_PLAYER_6            QString("./img/player-move6.png")
+#define PIX_PLAYER_0(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-stand.png")
+#define PIX_PLAYER_1(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move1.png")
+#define PIX_PLAYER_2(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move2.png")
+#define PIX_PLAYER_3(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move3.png")
+#define PIX_PLAYER_4(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move4.png")
+#define PIX_PLAYER_5(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move5.png")
+#define PIX_PLAYER_6(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move6.png")
 #define PIX_PLAYER_MAX          7
 #define PIX_PROJ_ARROW          QString("./img/arrowProjectile.png")
 #define PIX_PROJ_ARROW_MAX      1

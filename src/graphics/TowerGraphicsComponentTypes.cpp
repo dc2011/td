@@ -175,6 +175,8 @@ void TarTowerL3GraphicsComponent::initPixmaps() {
 FlameTowerGraphicsComponent::FlameTowerGraphicsComponent()
         : TowerGraphicsComponent() {
     initRangeCircle(FLAME_COLOR);
+    hasFiringAnimation_ = true;
+    reloadTime_ = RELOAD_FIRE;
     emit created(this);
 }
 
@@ -191,6 +193,8 @@ void FlameTowerGraphicsComponent::initPixmaps() {
 FlameTowerL2GraphicsComponent::FlameTowerL2GraphicsComponent()
         : TowerGraphicsComponent() {
     initRangeCircle(QColor(238,0,0));
+    hasFiringAnimation_ = true;
+    reloadTime_ = RELOAD_FIRE;
     emit created(this);
 }
 
@@ -207,6 +211,8 @@ void FlameTowerL2GraphicsComponent::initPixmaps() {
 FlameTowerL3GraphicsComponent::FlameTowerL3GraphicsComponent()
         : TowerGraphicsComponent() {
     initRangeCircle(QColor(178,34,34));
+    hasFiringAnimation_ = true;
+    reloadTime_ = RELOAD_FIRE;
     emit created(this);
 }
 
