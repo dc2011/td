@@ -35,6 +35,9 @@ CDriver::CDriver(MainWindow* mainWindow)
     timeCount_ = 0;
     totalWaves_ = 0;
     completedWaves_ = 0;
+    
+    connect(this, SIGNAL(signalReturnToLobby()),
+            mainWindow_, SLOT(endGameCleanup()));
 }
 
 CDriver::~CDriver() {
@@ -367,7 +370,6 @@ void CDriver::startGame(bool singlePlayer) {
 
     setSinglePlayer(singlePlayer);
 
-    td::Console::instance();
     musicList = td::AudioManager::instance()->musicDir("./sound/music/");
     td::AudioManager::instance()->playMusic(musicList);
 
@@ -394,9 +396,6 @@ void CDriver::startGame(bool singlePlayer) {
         timeCount_ = 0;
     }
 
-    //connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            //npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
-
     gameTimer_->start(GAME_TICK_INTERVAL);
 }
 
@@ -405,10 +404,15 @@ void CDriver::endWave() {
     qDebug("CDriver::endWave(); Num waves completed: %d of %d", completedWaves_, totalWaves_);
 }
 
-void CDriver::endGame(bool success) {
-    disconnectFromServer();
+void CDriver::endGame(bool winner) {
+    if (!isSinglePlayer()) {
+        disconnectFromServer();
+    }
     this->waveTimer_->stop();
     this->gameTimer_->stop();
+
+    emit signalReturnToLobby();
+    QProcess::execute("./bin/client");
 }
 
 bool CDriver::isSinglePlayer() {
@@ -594,8 +598,10 @@ void CDriver::UDPReceived(Stream* s) {
 
             if (successful) {
                 Console::instance()->addText("You won :D");
+                endGame(TRUE);
             } else {
                 Console::instance()->addText("You lost :(");
+                endGame(FALSE);
             }
 
             endGame(successful);

@@ -1,6 +1,7 @@
 #ifndef CDRIVER_H
 #define CDRIVER_H
 
+#include <QProcess>
 #include <QPointF>
 #include <QSet>
 #include "Driver.h"
@@ -181,12 +182,14 @@ public:
     NPC* createNPC(int npcType);
 
     /**
-     * Stop game timer.
+     * Begins end of game sequence: Stops game timers, disconnects from server,
+     * returns to game lobby etc..
+     *
+     * @param winner True if the player has won, False if not.
      * 
-     * @author Duncan Donaldson
-     * @return void
+     * @author Tom Nightingale
      */
-    void endGame(bool success);
+    void endGame(bool winner);
 
     /**
      * Returns the human
@@ -249,6 +252,15 @@ signals:
      * @author Dean Morin
      */
     void signalEmptyTile(bool);
+    
+    /**
+     * Emitted when the game is ended.
+     * Connected to MainWindow::close().
+     * Connected to LobbyWindow::show().
+     *
+     * @author Tom Nightingale
+     */
+    void signalReturnToLobby();
     
 public slots:
     /**

@@ -14,7 +14,6 @@ float AudioManager::gainScale[] = {0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4
 
 AudioManager::AudioManager()
 {
-    AudioManager::startup();
     sfxGain_ = 9;
     musicGain_ = 5;
     notiGain_ = 12;
@@ -36,13 +35,15 @@ void AudioManager::shutdown()
 
 void AudioManager::startup()
 {
-    alInit();
-    initSpeex();
-    inited_ = true;
-    playing_ = 0;
-    
-    QtConcurrent::run(this, &AudioManager::streamVoice);
-    QtConcurrent::run(this, &AudioManager::captureMic);
+    if(!inited_) {
+	alInit();
+	initSpeex();
+	inited_ = true;
+	playing_ = 0;
+	
+	QtConcurrent::run(this, &AudioManager::streamVoice);
+	QtConcurrent::run(this, &AudioManager::captureMic);
+    }
 }
 
 void AudioManager::initSpeex() {

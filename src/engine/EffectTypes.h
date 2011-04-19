@@ -6,6 +6,7 @@
 
 namespace td {
 
+
 class NPCPlayerEffect : public Effect {
     Q_OBJECT
 
@@ -69,13 +70,23 @@ public:
     virtual void apply();
 };
 
+
+/**
+* An effect that deals damage to an NPC.
+* Effects NPCs within an area.
+*
+* @author Daniel Wright
+*/
 class CannonEffect : public Effect {
     Q_OBJECT
 
 public:
     explicit CannonEffect(Unit* unit);
     virtual ~CannonEffect() {}
-
+	
+	/**
+	* No implementation.
+	*/
     virtual void apply();
 };
 
@@ -119,13 +130,23 @@ public:
     virtual void apply();
 };
 
+
+/**
+* An effect that deals damage to an NPC.
+* Effects NPCs in an area.
+*
+* @author Daniel Wright
+*/
 class FlakEffect : public Effect {
     Q_OBJECT
 
 public:
     explicit FlakEffect(Unit* unit);
     virtual ~FlakEffect() {}
-
+	
+	/**
+	* No implementation.
+	*/
     virtual void apply();
 };
 
@@ -391,6 +412,14 @@ private:
     int count_;
 };
 
+
+/**
+* An effect that deals damage to an NPC.
+* Effects NPCs in an area.
+* If a Tar effect is present, replaces it with a burn effect.
+*
+* @author Daniel Wright
+*/
 class FireEffect : public Effect {
     Q_OBJECT
 
@@ -398,6 +427,9 @@ public:
     explicit FireEffect(Unit* unit);
     virtual ~FireEffect(){}
 
+	/**
+	* No implementation.
+	*/
     virtual void apply();
 };
 
