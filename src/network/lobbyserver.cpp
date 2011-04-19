@@ -93,11 +93,12 @@ void LobbyServer::notifyClients(unsigned char msgType,int gameId)
         {
             Stream s;
             s.writeByte(msgType);
-            s.writeInt(gameMaps_.value(gameId).size());
-            s.write(gameMaps_.value(gameId).toAscii());
+
             QString mapname(gameMaps_.value(gameId));
+            s.writeInt(mapname.size());
+            s.write(mapname.toAscii());
+
             QByteArray data = s.data();
-            qDebug(data);
             foreach (QTcpSocket* sock, games_.values(gameId)) {
                 sock->write(data);
                 sock->flush();

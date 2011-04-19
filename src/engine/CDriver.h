@@ -247,6 +247,15 @@ signals:
      * @author Dean Morin
      */
     void signalEmptyTile(bool);
+
+    /**
+     * Emitted when the map is set.
+     * This is a hack.
+     *
+     * @author Darryl Pogue
+     * @param map The name of the map.
+     */
+    void setMap(QString map);
     
 public slots:
     /**

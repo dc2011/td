@@ -27,11 +27,6 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
 
     this->applyStyleSheet(QString(":/file/client.qss"));
 
-    QDir dir("maps");
-    QStringList filters;
-    filters << "*.nfo";
-    maps_ = dir.entryList(filters, QDir::Readable | QDir::Files, QDir::Name);
-
     connect(ui->btnConnect, SIGNAL(clicked()),
             this, SLOT(connectLobby()));
     connect(ui->btnStart, SIGNAL(clicked()),
@@ -40,6 +35,8 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
             ui->btnConnect, SLOT(setDisabled(bool)));
     connect(ui->chkSingleplayer, SIGNAL(clicked(bool)),
             ui->btnStart, SLOT(setEnabled(bool)));
+    connect(ui->chkSingleplayer, SIGNAL(clicked(bool)),
+            this, SLOT(onSinglePlayerToggle(bool)));
     connect(this, SIGNAL(startGame(bool, QString)),
             this, SLOT(close()));
     connect(ui->sendMsg,SIGNAL(clicked()),this,SLOT(sendChatMessage()));
@@ -96,7 +93,7 @@ void LobbyWindow::connectLobby()
 
 void LobbyWindow::tmp_startGame()
 {
-    QString name = MAP_TMX;
+    QString name = MAP_NFO;
     if (ui->mapsList->selectedItems().size() == 1) {
         name = ui->mapsList->selectedItems()[0]->data(Qt::UserRole).toString();
     }
@@ -345,6 +342,21 @@ void LobbyWindow::onLeaveGame() {
         NetworkClient::instance()->send(network::kLobbyleaveGame, s.data());
         ui->leaveGame->setEnabled(false);
         ui->btnStart->setEnabled(false);
+    }
+}
+
+void LobbyWindow::onSinglePlayerToggle(bool isSP) {
+    if (isSP) {
+        QDir dir("maps");
+        QStringList filters;
+        filters << "*.nfo";
+        maps_ = dir.entryList(filters, QDir::Readable | QDir::Files, QDir::Name);
+
+        setListOfMaps(maps_);
+    } else {
+        maps_.clear();
+
+        ui->mapsList->clear();
     }
 }
 

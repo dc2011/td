@@ -65,6 +65,8 @@ private slots:
       **/
     void onLeaveGame();
 
+    void onSinglePlayerToggle(bool isSP);
+
 private:
     void updateListOfUserNames(QMultiMap<int, QString>&);
     void updateListOfGames(QMultiMap<int,QString>&);
