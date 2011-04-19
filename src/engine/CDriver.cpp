@@ -25,7 +25,7 @@ namespace td {
 
 CDriver* CDriver::instance_ = NULL;
 
-CDriver::CDriver(MainWindow* mainWindow)
+CDriver::CDriver(MainWindow* mainWindow, char* programPath)
         : Driver(), playerID_(0xFFFFFFFF), human_(NULL),
           mainWindow_(mainWindow), buildContextMenu_(NULL),
           towerContextMenu_(NULL), playerContextMenu_(NULL)
@@ -35,6 +35,7 @@ CDriver::CDriver(MainWindow* mainWindow)
     timeCount_ = 0;
     totalWaves_ = 0;
     completedWaves_ = 0;
+    programPath_.append(programPath);
     
     connect(this, SIGNAL(signalReturnToLobby()),
             mainWindow_, SLOT(endGameCleanup()));
@@ -50,11 +51,11 @@ CDriver::~CDriver() {
     waves_.clear();
 }
 
-CDriver* CDriver::init(MainWindow* mainWindow) {
+CDriver* CDriver::init(MainWindow* mainWindow, char* programPath) {
     if (instance_ != NULL) {
         return instance_;
     }
-    instance_ = new CDriver(mainWindow);
+    instance_ = new CDriver(mainWindow, programPath);
     return instance_;
 }
 
@@ -412,15 +413,7 @@ void CDriver::endGame(bool winner) {
     this->gameTimer_->stop();
 
     emit signalReturnToLobby();
-#ifdef __APPLE__
-    QProcess::execute("open ./bin/client.app");
-#endif
-#ifdef _WIN32
-    QProcess::execute("./bin/client.exe");
-#endif
-#ifdef __linux
-    QProcess::execute("./bin/client");
-#endif
+    QProcess::execute(programPath_);
 }
 
 bool CDriver::isSinglePlayer() {

@@ -54,13 +54,15 @@ private:
     /** Tells objects whether or not the game is being played single player **/
     bool singlePlayer_;
 
+    QString programPath_;
+
     QList<NPCWave*> waves_;
     QTimer* waveTimer_;
     unsigned int timeCount_;
     unsigned int completedWaves_;
     unsigned int totalWaves_;
 
-    CDriver(MainWindow* parent = 0);
+    CDriver(MainWindow* parent = 0, char* programPath = "");
     ~CDriver();
 
 public:
@@ -69,10 +71,11 @@ public:
      *
      * @author Dean Morin
      * @param mainWindow A pointer to the main window where everything is drawn.
+     * @param programPath Path to the program, for relaunching the game.
      * @returns An new instance of the class if one doesn't exist yet, or
      * if one does, it returns a pointer to that instance.
      */
-    static CDriver* init(MainWindow* mainWindow);
+    static CDriver* init(MainWindow* mainWindow, char* programPath = "");
    
     /**
      * Calls the dtor for the singleton instance.
