@@ -110,7 +110,6 @@ void PlayerGraphicsComponent::draw(void* dp, int layer) {
 
 void PlayerGraphicsComponent::animate() {
     int pos;
-    qDebug("%d", outfit_);
     
     if (!isMoving_) {
         pixmapIndex_ = 0;
