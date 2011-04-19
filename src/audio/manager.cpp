@@ -307,12 +307,14 @@ void AudioManager::streamVoice()
 void AudioManager::playCached(QString filename, SoundType sType)
 {
     ALuint buffer;
+    ALuint tmpBuffer;
     ALuint source;
     ALenum format;
     ALuint freq;
     QByteArray tmp;
     ALint playing;
     int gain;
+    int processed;
 
     alGenBuffers(1,&buffer);
     alGenSources(1,&source);
@@ -345,6 +347,12 @@ void AudioManager::playCached(QString filename, SoundType sType)
         alSleep(0.1f);
     } while(playing != AL_STOPPED && !checkError());
 
+    alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
+
+    while (processed && !checkError()) {
+	alSourceUnqueueBuffers(source, 1, &tmpBuffer);
+        processed--;
+    }
 
     alDeleteSources(1, &source);
     alDeleteBuffers(1, &buffer);
