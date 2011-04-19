@@ -371,7 +371,7 @@ void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {
 }
 
 void LobbyWindow::onCreateNewGame() {
-    QString name = MAP_TMX;
+    QString name = MAP_NFO;
     if (ui->mapsList->selectedItems().size() == 1) {
         name = ui->mapsList->selectedItems()[0]->data(Qt::UserRole).toString();
     }
