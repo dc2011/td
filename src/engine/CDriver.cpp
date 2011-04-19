@@ -33,13 +33,15 @@ CDriver::CDriver(MainWindow* mainWindow)
     mgr_ = new ResManager(this);
     npcCounter_ = 0;
     timeCount_ = 0;
+    totalWaves_ = 0;
+    completedWaves_ = 0;
 }
 
 CDriver::~CDriver() {
     if(!waves_.empty()) {
         NPCWave* temp;
         foreach(temp, waves_){
-            disconnect(temp, SIGNAL(waveDead()),this,SLOT(deadWave()));
+            disconnect(temp, SIGNAL(waveDead()),this,SLOT(endWave()));
         }
     }
     waves_.clear();
@@ -333,20 +335,26 @@ void CDriver::requestUpgradePlayer(int type) {
 }
 
 void CDriver::NPCCreator() {
-    timeCount_++;
-    if(!waves_.empty()) {
-        //disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
-        NPCWave* temp;
-        foreach(temp,waves_) {
-            if(temp->getStart() == timeCount_){
-                temp->createWave();
-                connect(temp, SIGNAL(waveDead()),this,SLOT(deadWave()));
+    // Check to see if there are anymore waves.
+    if (completedWaves_ == totalWaves_) {
+        qDebug("CDriver::NPCCreator(); No more waves, game over!");
+        endGame(true);
+        return;
+    }
+
+    if (!waves_.empty()) {
+        for (int i = 0; i < waves_.size(); i++) {
+            NPCWave* wave = waves_[i];
+            if (wave->getStart() == timeCount_) {
+                waves_.removeAt(i--);
+                wave->createWave();
+                connect(wave, SIGNAL(waveDead()), this, SLOT(endWave()));
+                connect(wave, SIGNAL(waveDead()), wave, SLOT(deleteLater()));
             }
         }
-
-        //waves_.first()->createWave();
-        //connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
     }
+
+    timeCount_++;
 }
 
 void CDriver::startGame(bool singlePlayer) {
@@ -378,6 +386,7 @@ void CDriver::startGame(bool singlePlayer) {
         setBaseHealth(fileParser->baseHP);
         while((tempWave = fileParser->readWave())!=NULL) {
             waves_.append(tempWave);
+            totalWaves_++;
         }
 
         waveTimer_->start(1000);
@@ -391,17 +400,12 @@ void CDriver::startGame(bool singlePlayer) {
     gameTimer_->start(GAME_TICK_INTERVAL);
 }
 
-void CDriver::deadWave(){
-    if (!waves_.empty()) {
-        /*disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
-        waves_.takeFirst();
-        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(NPCCreator()));*/
-    } else {
-        endGame();
-    }
+void CDriver::endWave() {
+    completedWaves_++;
+    qDebug("CDriver::endWave(); Num waves completed: %d of %d", completedWaves_, totalWaves_);
 }
 
-void CDriver::endGame() {
+void CDriver::endGame(bool success) {
     disconnectFromServer();
     this->waveTimer_->stop();
     this->gameTimer_->stop();
@@ -593,6 +597,8 @@ void CDriver::UDPReceived(Stream* s) {
             } else {
                 Console::instance()->addText("You lost :(");
             }
+
+            endGame(successful);
             break;
         }
         case network::kConsoleChat:

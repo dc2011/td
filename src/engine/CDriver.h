@@ -56,6 +56,8 @@ private:
     QList<NPCWave*> waves_;
     QTimer* waveTimer_;
     unsigned int timeCount_;
+    unsigned int completedWaves_;
+    unsigned int totalWaves_;
 
     CDriver(MainWindow* parent = 0);
     ~CDriver();
@@ -184,7 +186,7 @@ public:
      * @author Duncan Donaldson
      * @return void
      */
-    void endGame();
+    void endGame(bool success);
 
     /**
      * Returns the human
@@ -349,7 +351,7 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCCreator();
-    void deadWave();
+    void endWave();
 };
 
 } /* end namespace td */
