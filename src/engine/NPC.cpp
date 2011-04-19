@@ -9,8 +9,6 @@
 #    include "../graphics/EndingGraphicsComponentTypes.h"
 #endif
 
-#include <QDebug>
-
 namespace td {
 
 NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
@@ -96,6 +94,7 @@ void NPC::networkRead(Stream* s) {
 
     if (dirty_ & kHealth) {
         health_ = s->readInt();
+        isDead();
 #ifndef SERVER
         if (graphics_ != NULL) {
             ((NPCGraphicsComponent*) graphics_)->showDamage();
