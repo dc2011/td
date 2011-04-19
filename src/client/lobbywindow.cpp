@@ -52,6 +52,8 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
 
     connect(ui->btnExit, SIGNAL(clicked()), this, SLOT(close()));
 
+    ui->msgBox->installEventFilter(this);
+
     QCoreApplication::setOrganizationName("dc2011");
     QCoreApplication::setApplicationName("td");
     readSettings();
@@ -380,6 +382,24 @@ void LobbyWindow::mousePressEvent( QMouseEvent *e ) {
 
 void LobbyWindow::mouseMoveEvent( QMouseEvent *e ) {
     move( e->globalPos() - clickPos );
+}
+
+bool LobbyWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == ui->msgBox) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if(keyEvent->key() == Qt::Key_Return) {
+                this->sendChatMessage();
+                return true;
+            }
+            return false;
+        } else {
+            return false;
+        }
+    } else {
+        return QMainWindow::eventFilter(obj, event);
+    }
 }
 /* end namespace td */
 
