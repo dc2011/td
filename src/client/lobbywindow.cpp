@@ -94,7 +94,7 @@ void LobbyWindow::connectLobby()
 
 void LobbyWindow::tmp_startGame()
 {
-    QString name = MAP_NFO;
+    QString name = MAP + QString(".nfo");
     if (ui->mapsList->selectedItems().size() == 1) {
         name = ui->mapsList->selectedItems()[0]->data(Qt::UserRole).toString();
     }
