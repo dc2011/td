@@ -362,7 +362,6 @@ void CDriver::startGame(bool singlePlayer) {
 
     setSinglePlayer(singlePlayer);
 
-    td::Console::instance();
     musicList = td::AudioManager::instance()->musicDir("./sound/music/");
     td::AudioManager::instance()->playMusic(musicList);
 
@@ -412,6 +411,7 @@ void CDriver::endGame(bool winner) {
     this->gameTimer_->stop();
 
     emit signalReturnToLobby();
+    QProcess::execute("./bin/client");
 }
 
 bool CDriver::isSinglePlayer() {

@@ -1,6 +1,7 @@
 #ifndef CDRIVER_H
 #define CDRIVER_H
 
+#include <QProcess>
 #include <QPointF>
 #include <QSet>
 #include "Driver.h"

@@ -298,9 +298,10 @@ public:
         mutex_.lock();
         if (instance_ == NULL) {
             instance_ = new AudioManager();
-        }
+	    instance_->inited_ = false;
+	}
         mutex_.unlock();
-
+	instance_->startup();
         return instance_;
     }
 

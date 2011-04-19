@@ -296,8 +296,7 @@ void MainWindow::scroll(QPointF pos) {
 }
 
 void MainWindow::endGameCleanup() {
-    delete view_;
-    hide();
+    close();
 }
 
 } /* end namespace td */
