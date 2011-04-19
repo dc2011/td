@@ -128,14 +128,20 @@ namespace network {
         /**Sent from client to server when they are leaving a queue */
         kLobbyleaveGame = 0x17,
 
-	/**Generic Message */
-	kServerErrorMsg = 0x18,
+        /**
+         * Sent by the lobby server to tell clients which maps are available.
+         * See Also: @ref maplist
+         */
+        kMapList        =   0x18,
+
+        /**Generic Message */
+        kServerErrorMsg =   0x19,
 
         /**
          * Indicates the offset on the port number.
          * See Also: @ref portoffset
          */
-        kPortOffset     =   0x16,
+        kPortOffset     =   0x1A,
 
         /** Indicates a player upgrade. */
         kUpgradePlayer  =   0x20,
@@ -369,6 +375,20 @@ namespace network {
  *  byte msgType = td::network::kPortOffset
  *    // The UDP port number
  *  short port
+ * @endcode
+ *
+ * @section maplist Map List Message
+ * This message is a list of available maps sent by the lobby server.
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kMapList
+ *    // The number of available maps
+ *  byte mapCount
+ *  for (0 to mapCount):
+ *        // The length of the map name
+ *      byte strLength
+ *        // The map name
+ *      byte[strLength] mapName
  * @endcode
  *
  * @section playsfx Play SFX Message

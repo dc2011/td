@@ -3,6 +3,7 @@
 #include "../audio/manager.h"
 #include <cstdio>
 #include <QBitmap>
+#include <QMouseEvent>
 
 namespace td {
 
@@ -128,6 +129,14 @@ void settingsWindow::slotShowSettings() {
         this->hide();
         emit signalWindowClosed();
     }
+}
+
+void settingsWindow::mousePressEvent( QMouseEvent *e ) {
+    clickPos = e->pos();
+}
+
+void settingsWindow::mouseMoveEvent( QMouseEvent *e ) {
+    move( e->globalPos() - clickPos );
 }
 
 }

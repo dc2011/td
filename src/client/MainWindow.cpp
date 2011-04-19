@@ -295,4 +295,13 @@ void MainWindow::scroll(QPointF pos) {
     view_->centerOn(pos);
 }
 
+void MainWindow::setMap(QString mapname) {
+    mapDisplayer_->viewMap(mapname);
+    Tiled::MapRenderer* mRenderer = mapDisplayer_->getMRenderer();
+    QSize mapSize = mRenderer->mapSize();
+    scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
+
+    semMap_.release();
+}
+
 } /* end namespace td */

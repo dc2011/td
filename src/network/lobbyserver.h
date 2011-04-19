@@ -5,6 +5,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QList>
+#include <QStringList>
 #include <QMap>
 #include <QMutex>
 #include "../util/defines.h"
@@ -40,12 +41,19 @@ private:
      * to their nickname
      */
     QMultiMap<int,QTcpSocket*> games_;
+
+    /** Map of each game to its map file. */
+    QMap<int, QString> gameMaps_;
+
+    /** List of all available maps. */
+    QStringList maps_;
     
-/**
+    /**
      * Set of all currently used nicknames, to prevent multiple users with the
      * same nickname.
      */
     QSet<QString> usernames_;
+
     /** Id to use for the game*/
     int gameId;
 
@@ -83,7 +91,7 @@ protected:
      * @author Darryl Pogue
      * @param msgType The message type to be sent.
      */
-    void notifyClients(unsigned char msgType);
+    void notifyClients(unsigned char msgType,int gameId);
 
     /**
      * Relays a message sent by a client to all other connected clients
@@ -92,6 +100,7 @@ protected:
      * @param msg the message to be sent
      */
     void relayChatMessage(QString& nickName,QString& msg);
+
     void startGame(int);
 
     /**

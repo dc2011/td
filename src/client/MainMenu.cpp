@@ -76,4 +76,12 @@ void MainMenu::slotShowMainMenu() {
     }
 }
 
+void MainMenu::mousePressEvent( QMouseEvent *e ) {
+    clickPos = e->pos();
+}
+
+void MainMenu::mouseMoveEvent( QMouseEvent *e ) {
+    move( e->globalPos() - clickPos );
+}
+
 }

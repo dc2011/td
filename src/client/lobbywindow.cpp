@@ -1,8 +1,10 @@
 #include "lobbywindow.h"
 #include <QDateTime>
 #include <QMessageBox>
+#include <QHostInfo>
 #include <QSettings>
 #include <QFile>
+#include <QBrush>
 #include "../audio/SfxManager.h"
 #include "../engine/CDriver.h"
 #include "../network/netclient.h"
@@ -25,7 +27,6 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
 
     this->applyStyleSheet(QString(":/file/client.qss"));
 
-
     connect(ui->btnConnect, SIGNAL(clicked()),
             this, SLOT(connectLobby()));
     connect(ui->btnStart, SIGNAL(clicked()),
@@ -34,7 +35,9 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
             ui->btnConnect, SLOT(setDisabled(bool)));
     connect(ui->chkSingleplayer, SIGNAL(clicked(bool)),
             ui->btnStart, SLOT(setEnabled(bool)));
-    connect(this, SIGNAL(startGame(bool)),
+    connect(ui->chkSingleplayer, SIGNAL(clicked(bool)),
+            this, SLOT(onSinglePlayerToggle(bool)));
+    connect(this, SIGNAL(startGame(bool, QString)),
             this, SLOT(close()));
     connect(ui->sendMsg,SIGNAL(clicked()),this,SLOT(sendChatMessage()));
 
@@ -45,6 +48,8 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
             this, SLOT(writeSettings()));
 
     connect(ui->btnExit, SIGNAL(clicked()), this, SLOT(close()));
+
+    ui->msgBox->installEventFilter(this);
 
     QCoreApplication::setOrganizationName("dc2011");
     QCoreApplication::setApplicationName("td");
@@ -60,7 +65,13 @@ void LobbyWindow::connectLobby()
 {
 
     QString ip = ui->txtAddress->text();
-    QHostAddress addr(ip);
+    QHostInfo hinfo = QHostInfo::fromName(ip);
+    if (hinfo.addresses().empty()) {
+        QMessageBox(QMessageBox::Warning, "Error", 
+                                        "Could not find server").exec();
+        return;
+    }
+    QHostAddress addr = hinfo.addresses().first();
 
     NetworkClient::init(addr);
     connect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
@@ -78,16 +89,20 @@ void LobbyWindow::connectLobby()
     PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
 
-
     delete s;
 }
 
 void LobbyWindow::tmp_startGame()
 {
+    QString name = MAP_NFO;
+    if (ui->mapsList->selectedItems().size() == 1) {
+        name = ui->mapsList->selectedItems()[0]->data(Qt::UserRole).toString();
+    }
+
     PLAY_LOCAL_SFX(SfxManager::lobbyStart);
 //    alSleep(2); //needs fixing
     if (ui->chkSingleplayer->isChecked()) {
-        emit startGame(true);
+        emit startGame(true, name);
         return;
     }
 
@@ -114,6 +129,7 @@ void LobbyWindow::onTCPReceived(Stream* s)
             connect(ui->gameList,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(onJoinGame(QListWidgetItem*)));
 
             ui->newGame->setEnabled(true);
+            ui->msgBox->setEnabled(true);
             
             break;
         }
@@ -164,15 +180,31 @@ void LobbyWindow::onTCPReceived(Stream* s)
             ui->btnStart->setEnabled(true);
             break;
         }
+        case network::kMapList:
+        {
+            QStringList mapsList;
+            int count = s->readByte();
+            for (int i = 0; i < count; i++) {
+                int len = s->readByte();
+                QString name(s->read(len));
+
+                mapsList.append(name);
+            }
+            setListOfMaps(mapsList);
+            break;
+        }
         case network::kLobbyStartGame:
         {
+            int len = s->readInt();
+            QString map = QString(s->read(len));
+
             connect(NetworkClient::instance(), SIGNAL(UDPReceived(Stream*)),
                     CDriver::instance(), SLOT(UDPReceived(Stream*)));
             connect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
                     CDriver::instance(), SLOT(UDPReceived(Stream*)));
             disconnect(NetworkClient::instance(), SIGNAL(TCPReceived(Stream*)),
                     this, SLOT(onTCPReceived(Stream*)));
-            emit startGame(false);
+            emit startGame(false, map);
             break;
         }
         case network::kBadVersion:
@@ -250,6 +282,8 @@ void LobbyWindow::updateListOfUserNames(QMultiMap<int, QString>& userList) {
         QStringList tmpList(name);
         tmpList.append(userList.key(name) == 0 ? "Not In Game" : QString::number(userList.key(name)));
         QTreeWidgetItem *tmpItem = new QTreeWidgetItem(ui->userList, tmpList);
+        tmpItem->setBackground(0, QBrush(Qt::transparent));
+        tmpItem->setBackground(1, QBrush(Qt::transparent));
         ui->userList->addTopLevelItem(tmpItem);
     }
 
@@ -270,6 +304,18 @@ void LobbyWindow::updateListOfGames(QMultiMap<int, QString>& gameList) {
         item->setData(Qt::UserRole,gameName);
         ui->gameList->addItem(item);
 
+    }
+}
+
+void LobbyWindow::setListOfMaps(QStringList& mapList) {
+    foreach (const QString& map, mapList) {
+        QListWidgetItem* item = new QListWidgetItem();
+        QString name = map;
+        name.chop(4);
+
+        item->setText(name);
+        item->setData(Qt::UserRole, map);
+        ui->mapsList->addItem(item);
     }
 }
 
@@ -298,6 +344,22 @@ void LobbyWindow::onLeaveGame() {
         NetworkClient::instance()->send(network::kLobbyleaveGame, s.data());
         ui->leaveGame->setEnabled(false);
         ui->btnStart->setEnabled(false);
+        ui->mapsList->setEnabled(true);
+    }
+}
+
+void LobbyWindow::onSinglePlayerToggle(bool isSP) {
+    if (isSP) {
+        QDir dir("maps");
+        QStringList filters;
+        filters << "*.nfo";
+        maps_ = dir.entryList(filters, QDir::Readable | QDir::Files, QDir::Name);
+
+        setListOfMaps(maps_);
+    } else {
+        maps_.clear();
+
+        ui->mapsList->clear();
     }
 }
 
@@ -309,13 +371,48 @@ void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {
 }
 
 void LobbyWindow::onCreateNewGame() {
+    QString name = MAP_TMX;
+    if (ui->mapsList->selectedItems().size() == 1) {
+        name = ui->mapsList->selectedItems()[0]->data(Qt::UserRole).toString();
+    }
+
     if(gameNum_ == 0) {
         Stream s;
         s.writeInt(ui->txtUsername->text().size());
         s.write(ui->txtUsername->text().toAscii());
         s.writeInt(0);
+        s.writeByte(name.size());
+        s.write(name.toAscii().data());
+
         NetworkClient::instance()->send(network::kJoinGame, s.data());
         ui->leaveGame->setEnabled(true);
+        ui->mapsList->setEnabled(false);
+    }
+}
+
+void LobbyWindow::mousePressEvent( QMouseEvent *e ) {
+    clickPos = e->pos();
+}
+
+void LobbyWindow::mouseMoveEvent( QMouseEvent *e ) {
+    move( e->globalPos() - clickPos );
+}
+
+bool LobbyWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == ui->msgBox) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if(keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
+                this->sendChatMessage();
+                return true;
+            }
+            return false;
+        } else {
+            return false;
+        }
+    } else {
+        return QMainWindow::eventFilter(obj, event);
     }
 }
 /* end namespace td */

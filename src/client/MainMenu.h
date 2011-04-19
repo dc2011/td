@@ -17,6 +17,8 @@ private:
     /** The current display state of this window. */
     bool showing_;
 
+    QPoint clickPos;
+
 public:
     /**
      * Constructs the mainmenu and sets and the signals and slots bewtween the
@@ -26,6 +28,11 @@ public:
      */
     explicit MainMenu(QWidget *parent = 0);
     ~MainMenu();
+
+protected:
+    void mousePressEvent(QMouseEvent * e);
+    void mouseMoveEvent(QMouseEvent * e);
+
 private slots:
     /**
      * Handls the Ok button press. Calls show main menu.

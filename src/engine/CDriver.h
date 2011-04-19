@@ -247,6 +247,15 @@ signals:
      * @author Dean Morin
      */
     void signalEmptyTile(bool);
+
+    /**
+     * Emitted when the map is set.
+     * This is a hack.
+     *
+     * @author Darryl Pogue
+     * @param map The name of the map.
+     */
+    void setMap(QString map);
     
 public slots:
     /**
@@ -257,7 +266,7 @@ public slots:
     * @author Duncan Donaldson
     * @return void
     */
-    void startGame(bool singlePlayer);
+    void startGame(bool singlePlayer, QString map);
 
     /**
      * Called whenenever the spacebar is pressed. It checks the tile type that
