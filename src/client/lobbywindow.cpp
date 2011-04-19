@@ -92,7 +92,6 @@ void LobbyWindow::connectLobby()
     PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
 
-
     delete s;
 }
 
@@ -133,6 +132,7 @@ void LobbyWindow::onTCPReceived(Stream* s)
             connect(ui->gameList,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(onJoinGame(QListWidgetItem*)));
 
             ui->newGame->setEnabled(true);
+            ui->msgBox->setEnabled(true);
             
             break;
         }
@@ -389,7 +389,7 @@ bool LobbyWindow::eventFilter(QObject *obj, QEvent *event)
     if (obj == ui->msgBox) {
         if (event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-            if(keyEvent->key() == Qt::Key_Return) {
+            if(keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
                 this->sendChatMessage();
                 return true;
             }
