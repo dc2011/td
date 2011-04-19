@@ -265,7 +265,9 @@ void Projectile::initComponents() {
 
     getInputComponent()->setParent(this);
     ((ProjectileInputComponent*)getInputComponent())->setPath(start_, end_);
-    connect(enemy_, SIGNAL(signalNPCDied()), this, SLOT(enemyDied()));
+    if(enemy_ != NULL) {
+        connect(enemy_, SIGNAL(signalNPCDied()), this, SLOT(enemyDied()));
+    }
 }
 
 void Projectile::setPath(QPointF source, QPointF target, Unit* enemy) {

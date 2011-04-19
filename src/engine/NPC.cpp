@@ -41,6 +41,7 @@ int NPC::getHealth() {
 
 void NPC::setHealth(int health){
     health_ = health;
+    this->update();
     setDirty(kHealth);
 #ifndef SERVER
     // Make sure that we are only displaying health that exists...
