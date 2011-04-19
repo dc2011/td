@@ -7,8 +7,8 @@
 #include "../audio/manager.h"
 #include "../graphics/GraphicsComponent.h"
 #include "../graphics/MapDisplayer.h"
-#include "../util/DelayedDelete.h"
 #include "../graphics/Console.h"
+#include "../util/DelayedDelete.h"
 #include "../engine/CDriver.h"
 #include "../engine/Player.h"
 #include "stats.h"
@@ -34,7 +34,6 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
-
 
     //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);

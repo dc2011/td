@@ -79,11 +79,18 @@ Console::Console() {
     textRect_->hide();
     label_->hide();
     rect_->hide();
+
+    connect(this, SIGNAL(signalAddText(QString)),
+            this, SLOT(reallyAddText(QString)), Qt::QueuedConnection);
 }
 
 Console::~Console() {}
 
 void Console::addText(QString text) {
+    emit signalAddText(text);
+}
+
+void Console::reallyAddText(QString text) {
     
     QString tmp;
     QTextDocument *doc = new QTextDocument();

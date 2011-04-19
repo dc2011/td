@@ -8,6 +8,7 @@
 #include "../engine/CDriver.h"
 #include "../audio/manager.h"
 #include "../network/netclient.h"
+#include "../graphics/Console.h"
 
 int main(int argc, char **argv) {
     QApplication a(argc, argv);
@@ -30,6 +31,8 @@ int main(int argc, char **argv) {
     td::CDriver* clientDriver = td::CDriver::init(qmw);
     td::Thread* driverThread = new td::Thread();
     td::MainMenu* mainWindow = new td::MainMenu();
+
+    td::Console::instance(); // Force the console to be created
 
     QObject::connect(lobby, SIGNAL(startGame(bool)),
                      clientDriver, SLOT(startGame(bool)));
