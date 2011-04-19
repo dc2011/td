@@ -25,13 +25,6 @@ NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
 }
 
 NPC::~NPC() {
-#ifndef SERVER
-        if (type_ == NPC_FLY) {
-            new FlyingEndingGraphicsComponent(pos_);
-        } else {
-            new GenericNPCEndingGraphicsComponent(pos_);
-        }
-#endif
     // Delete all effects in the map
     foreach (Effect* e, effects_)
     {
@@ -397,6 +390,13 @@ void NPC::deleteEffect(Effect* effect)
 
 void NPC::isDead() {
     if(health_ <= 0) {
+#ifndef SERVER
+        if (type_ == NPC_FLY) {
+            new FlyingEndingGraphicsComponent(pos_);
+        } else {
+            new GenericNPCEndingGraphicsComponent(pos_);
+        }
+#endif
         //TODO NPC death sound/animation
         emit signalDropResource(RESOURCE_GEM, pos_, getRandomVector());
         emit dead(this->getID());
