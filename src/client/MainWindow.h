@@ -153,6 +153,14 @@ public slots:
      */
     void scroll(QPointF pos);
 
+    /**
+     * The goal here is to clean up all graphics related resources in one foul
+     * swoop.
+     *
+     * @author Tom Nightingale
+     */
+    void endGameCleanup();
+
 signals:
     void signalKeyPressed(int);
     void signalKeyReleased(int);
