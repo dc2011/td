@@ -140,11 +140,23 @@ public:
     void setHealth(short health) {
         health_ = health;
     }
-
+	
+	/**
+	  * Returns the bounding box of the unit.
+	  *
+	  * @author Daniel Wright
+	  * @return Bounding box of the unit.
+	  */
     QPolygonF getBounds(){
         return myBounds_;
     }
-
+	
+	/**
+	  * Sets the bounding box of the unit.
+	  *
+	  * @author Daniel Wright
+	  * @param bound The new bounding box for the unit.
+	  */
     void setBounds(const QPolygonF bound){
         myBounds_ = bound;
     }
@@ -172,6 +184,7 @@ protected:
     InputComponent* input_;
 
 private:
+	/** Bounding box for this unit. */
     QPolygonF myBounds_;
 
 };
