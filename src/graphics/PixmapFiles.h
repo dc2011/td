@@ -224,4 +224,3 @@
 #define PIX_END_GENERIC_MAX      3
 
 #endif
-

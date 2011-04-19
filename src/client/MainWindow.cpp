@@ -19,6 +19,7 @@ MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
     stats_ = new Stats();
+    stats_->setFixedHeight(22);
 
     consoleOpen_ = false;
     mapZoomOut_ = false;
@@ -34,7 +35,6 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
 
-    stats_->setFixedHeight(22);
 
     //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
@@ -257,7 +257,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
     } else if (keys_.voiceKey.matches(key) == QKeySequence::ExactMatch) {
         /* Voice key => V */
         // Temporarily disabled
-	AudioManager::instance()->toggleCapturePause();
+        AudioManager::instance()->toggleCapturePause();
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
         if(mapZoomOut_ == true && 
@@ -291,7 +291,6 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
 }
 
 void MainWindow::scroll(QPointF pos) {
-    //qDebug("MainWindow::scroll(); Player must be moving pos: (%d, %d)", x, y);
     view_->centerOn(pos);
 }
 
@@ -302,6 +301,10 @@ void MainWindow::setMap(QString mapname) {
     scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
 
     semMap_.release();
+}
+
+void MainWindow::endGameCleanup() {
+    close();
 }
 
 } /* end namespace td */
