@@ -74,8 +74,11 @@ Console::Console() {
     textLabel_->setPos(3,3);
     textLabel_->setZValue(99);
     textLabel_->update();
-    
-    hide();
+
+    textLabel_->hide();
+    textRect_->hide();
+    label_->hide();
+    rect_->hide();
 }
 
 Console::~Console() {}
@@ -107,38 +110,44 @@ void Console::addText(QString text) {
 
 void Console::hide() {
     y=-150;
-    label_->hide();
-    rect_->hide();
-
-    translate();
     text_ = "Say: ";
+
+    mutex_.lock();
+    translate();
     textLabel_->hide();
     textRect_->hide();
+    label_->hide();
+    rect_->hide();
+    mutex_.unlock();
 }
 
 void Console::show() {
     connect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
             this, SLOT(scroll()));
     
+    mutex_.lock();
     translate();
-
     label_->show();
     rect_->show();
     textLabel_->show();
     textRect_->show();
+    mutex_.unlock();
 }
 
 void Console::scroll() {
     
+    mutex_.lock();
     translate();
 
     if(y>=30) {
         y=30;
         disconnect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
             this, SLOT(scroll()));
-        return;
+	mutex_.unlock();
+	return;
     }
     y+=10;
+    mutex_.unlock();
 }
 
 void Console::toggle() {
@@ -178,7 +187,6 @@ void Console::translate() {
     rect_->update();
     textLabel_->update();
     textRect_->update();
-
 }
 
 void Console::removeChar() {
@@ -194,25 +202,28 @@ void Console::removeChar() {
     QTextCursor cursor = QTextCursor(doc);
     tmp = text_;
     tmp.replace("\n","");
+    
     cursor.insertText(tmp, charFormat);
-
+    
+    mutex_.lock();
     textLabel_->setDocument(doc);
     textLabel_->update();
-
+    mutex_.unlock();
 }
 
 void Console::addChar(QString c) {
     
     QString tmp;
     Stream s;
-
+    
     text_.append(c);
     QTextDocument *doc = new QTextDocument();
     QTextCursor cursor = QTextCursor(doc);
 
     tmp = text_;
     tmp.replace("\n","");
-    
+
+    mutex_.lock();
     if(c.compare("\n") == 0) {
 
         if(CDriver::instance()->isSinglePlayer() == false) {
@@ -232,6 +243,7 @@ void Console::addChar(QString c) {
 
     textLabel_->setDocument(doc);
     translate();
+    mutex_.unlock();
 }
 
 }; //end of namespace
