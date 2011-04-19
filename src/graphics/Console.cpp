@@ -95,7 +95,6 @@ void Console::reallyAddText(QString text) {
     QString tmp;
     QTextDocument *doc = new QTextDocument();
     
-    mutex_.lock();
     if(display_->size() > 4) {
         display_->pop_back();
     }
@@ -112,38 +111,32 @@ void Console::reallyAddText(QString text) {
     label_->setDocument(doc);
     
     translate();
-    mutex_.unlock();
 }
 
 void Console::hide() {
     y=-150;
     text_ = "Say: ";
 
-    mutex_.lock();
     translate();
     textLabel_->hide();
     textRect_->hide();
     label_->hide();
     rect_->hide();
-    mutex_.unlock();
 }
 
 void Console::show() {
     connect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
             this, SLOT(scroll()));
     
-    mutex_.lock();
     translate();
     label_->show();
     rect_->show();
     textLabel_->show();
     textRect_->show();
-    mutex_.unlock();
 }
 
 void Console::scroll() {
     
-    mutex_.lock();
     translate();
 
     if(y>=30) {
@@ -154,7 +147,7 @@ void Console::scroll() {
 	return;
     }
     y+=10;
-    mutex_.unlock();
+
 }
 
 void Console::toggle() {
@@ -212,10 +205,8 @@ void Console::removeChar() {
     
     cursor.insertText(tmp, charFormat);
     
-    mutex_.lock();
     textLabel_->setDocument(doc);
     textLabel_->update();
-    mutex_.unlock();
 }
 
 void Console::addChar(QString c) {
@@ -230,7 +221,6 @@ void Console::addChar(QString c) {
     tmp = text_;
     tmp.replace("\n","");
 
-    mutex_.lock();
     if(c.compare("\n") == 0) {
 
         if(CDriver::instance()->isSinglePlayer() == false) {
@@ -250,7 +240,6 @@ void Console::addChar(QString c) {
 
     textLabel_->setDocument(doc);
     translate();
-    mutex_.unlock();
 }
 
 }; //end of namespace
