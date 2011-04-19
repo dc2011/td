@@ -21,8 +21,6 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
     this->setWindowFlags(Qt::FramelessWindowHint);
     this->move(40, 40);
 
-    ui->msgBox->installEventFilter(this);
-
     ui->setupUi(this);
     setCursor(QCursor(QPixmap(":/file/cursor.png")));
     ui->userList->header()->setResizeMode(QHeaderView::Fixed);
@@ -53,6 +51,8 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
             this, SLOT(writeSettings()));
 
     connect(ui->btnExit, SIGNAL(clicked()), this, SLOT(close()));
+
+    ui->msgBox->installEventFilter(this);
 
     QCoreApplication::setOrganizationName("dc2011");
     QCoreApplication::setApplicationName("td");
@@ -391,8 +391,9 @@ bool LobbyWindow::eventFilter(QObject *obj, QEvent *event)
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             if(keyEvent->key() == Qt::Key_Return) {
                 this->sendChatMessage();
+                return true;
             }
-            return true;
+            return false;
         } else {
             return false;
         }
