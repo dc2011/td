@@ -352,7 +352,7 @@ void CDriver::NPCCreator() {
                 waves_.removeAt(i--);
                 wave->createWave();
                 connect(wave, SIGNAL(waveDead()), this, SLOT(endWave()));
-                connect(wave, SIGNAL(waveDead()), wave, SLOT(deleteLater()));
+                //connect(wave, SIGNAL(waveDead()), wave, SLOT(deleteLater()));
             }
         }
     }
