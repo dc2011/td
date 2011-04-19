@@ -110,21 +110,22 @@ void PlayerGraphicsComponent::draw(void* dp, int layer) {
 
 void PlayerGraphicsComponent::animate() {
     int pos;
+    qDebug("%d", outfit_);
     
     if (!isMoving_) {
         pixmapIndex_ = 0;
-        setImgIndex(pixmapIndex_ + outfit_ * PIX_PLAYER_MAX);
+        setImgIndex(pixmapIndex_ + outfit_ * PIX_PLAYER_FRAMES);
         return;
     }
 
     if (pixmapIndex_ == 0) {
-	pos = rand() % 2 + 1;
-        pos == 1 ? pixmapIndex_ = 0 : pixmapIndex_ = 3;
+        pos = rand() % 2 + 1;
+        pixmapIndex_ = (pos == 1) ? 0 : 3;
     }
     
     if (!(animateCount_++ % animateMod_)) {
-        ++pixmapIndex_ >= PIX_PLAYER_MAX ? pixmapIndex_ = 1 : pixmapIndex_;
-        setImgIndex(pixmapIndex_);
+        ++pixmapIndex_ >= PIX_PLAYER_FRAMES ? pixmapIndex_ = 1 : pixmapIndex_;
+        setImgIndex(pixmapIndex_ + outfit_ * PIX_PLAYER_FRAMES);
     }
 }
 
@@ -164,6 +165,11 @@ void PlayerGraphicsComponent::initPixmaps() {
 
 void PlayerGraphicsComponent::setCurrentResource(int resourceType) {
     resourceType_ = resourceType;
+}
+
+void PlayerGraphicsComponent::setImgIndex(int index) {
+    graphicsRect_ = pixmapItem_->boundingRect();
+    pixmapItem_->setPixmap(getPixmapArray()[index]);
 }
 
 } /* end namespace td */

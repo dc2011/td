@@ -135,6 +135,14 @@ private:
     virtual QPixmap * getPixmapArray() {
         return pixmapImgs_;
     }
+
+    /**
+     * Updates the index of the pixmap array.
+     * 
+     * @author Dean Morin
+     * @author index The index to use.
+     */
+    void setImgIndex(int index);
 };
 
 } /* end namespace td */
