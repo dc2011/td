@@ -49,6 +49,8 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
 
     connect(ui->btnExit, SIGNAL(clicked()), this, SLOT(close()));
 
+    ui->msgBox->installEventFilter(this);
+
     QCoreApplication::setOrganizationName("dc2011");
     QCoreApplication::setApplicationName("td");
     readSettings();
@@ -86,7 +88,6 @@ void LobbyWindow::connectLobby()
 
     PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
-
 
     delete s;
 }
@@ -128,6 +129,7 @@ void LobbyWindow::onTCPReceived(Stream* s)
             connect(ui->gameList,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(onJoinGame(QListWidgetItem*)));
 
             ui->newGame->setEnabled(true);
+            ui->msgBox->setEnabled(true);
             
             break;
         }
@@ -342,6 +344,7 @@ void LobbyWindow::onLeaveGame() {
         NetworkClient::instance()->send(network::kLobbyleaveGame, s.data());
         ui->leaveGame->setEnabled(false);
         ui->btnStart->setEnabled(false);
+        ui->mapsList->setEnabled(true);
     }
 }
 
@@ -383,6 +386,7 @@ void LobbyWindow::onCreateNewGame() {
 
         NetworkClient::instance()->send(network::kJoinGame, s.data());
         ui->leaveGame->setEnabled(true);
+        ui->mapsList->setEnabled(false);
     }
 }
 
@@ -392,6 +396,24 @@ void LobbyWindow::mousePressEvent( QMouseEvent *e ) {
 
 void LobbyWindow::mouseMoveEvent( QMouseEvent *e ) {
     move( e->globalPos() - clickPos );
+}
+
+bool LobbyWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == ui->msgBox) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if(keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
+                this->sendChatMessage();
+                return true;
+            }
+            return false;
+        } else {
+            return false;
+        }
+    } else {
+        return QMainWindow::eventFilter(obj, event);
+    }
 }
 /* end namespace td */
 

@@ -221,6 +221,9 @@
     </property>
    </widget>
    <widget class="QLineEdit" name="msgBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>39</x>
@@ -348,6 +351,9 @@
     </property>
    </widget>
    <widget class="QFrame" name="chatBgFrame">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -363,6 +369,9 @@
      <enum>QFrame::Raised</enum>
     </property>
     <widget class="QTextEdit" name="msgView">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -377,6 +386,9 @@
     </widget>
    </widget>
    <widget class="QFrame" name="chatInputBg">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>30</x>

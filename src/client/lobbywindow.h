@@ -35,6 +35,7 @@ public slots:
 protected:
     void mousePressEvent(QMouseEvent * e);
     void mouseMoveEvent(QMouseEvent * e);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 private slots:
     /**
