@@ -183,12 +183,12 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
     } else if (keys_.voiceKey.matches(key) == QKeySequence::ExactMatch) {
         /* Voice key => V */
         // Temporarily disabled
-        //AudioManager::instance()->toggleCapturePause();
+        AudioManager::instance()->toggleCapturePause();
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
         if(mapZoomOut_ == false && 
            view_->sceneRect().toRect().contains(view_->frameRect(),false)) {
-            view_->scale(.5,.5);
+	    view_->fitInView(view_->sceneRect().toRect());
             mapZoomOut_ = !mapZoomOut_;
         }
     } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {
@@ -257,13 +257,12 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
     } else if (keys_.voiceKey.matches(key) == QKeySequence::ExactMatch) {
         /* Voice key => V */
         // Temporarily disabled
-        //AudioManager::instance()->toggleCapturePause();
+	AudioManager::instance()->toggleCapturePause();
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
         if(mapZoomOut_ == true && 
            view_->sceneRect().toRect().contains(view_->frameRect(),false)) {
-           
-            view_->scale(2,2);
+            view_->resetMatrix();
             mapZoomOut_ = !mapZoomOut_;
         }
     } else if (keys_.arrowUp.matches(key) == QKeySequence::ExactMatch) {

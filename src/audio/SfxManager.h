@@ -87,6 +87,7 @@ public:
     static QStringList contextMenuOpened;
     static QStringList contextMenuClosed;
     static QStringList contextMenuSelect;
+    static QStringList contextMenuNotEnoughGems;
 
     // NPC wave entrance
     static QStringList npcPterodactylEnters;

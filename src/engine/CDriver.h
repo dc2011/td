@@ -53,7 +53,6 @@ private:
     /** Tells objects whether or not the game is being played single player **/
     bool singlePlayer_;
 
-
     QList<NPCWave*> waves_;
     QTimer* waveTimer_;
     unsigned int timeCount_;
@@ -205,6 +204,7 @@ public:
     MainWindow* getMainWindow() {
         return mainWindow_;
     }
+
     /**
      * getter for SinglePlayer
      *
@@ -212,6 +212,7 @@ public:
      * @return whether or not the game is being played single player.
      */
     bool isSinglePlayer();
+
     /**
      * sets the value of singlePlayer
      *

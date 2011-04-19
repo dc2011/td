@@ -27,12 +27,13 @@ NetworkClient::NetworkClient(QHostAddress servAddr)
     tcpSocket_->connectToHost(servAddr, TD_PORT);
 
     udpSocket_ = new QUdpSocket();
-    udpSocket_->bind(TD_PORT, QUdpSocket::ShareAddress);
 
     connect(this, SIGNAL(msgQueued()), this, SLOT(onMsgQueued()),
             Qt::QueuedConnection);
     connect(this, SIGNAL(joinMulticast(unsigned char)),
             this, SLOT(onMulticastJoin(unsigned char)), Qt::QueuedConnection);
+    connect(this, SIGNAL(startUDP(unsigned short)),
+            this, SLOT(onConnectUDP(unsigned short)), Qt::QueuedConnection);
     connect(tcpSocket_, SIGNAL(readyRead()), this, SLOT(onTCPReceive()));
     connect(udpSocket_, SIGNAL(readyRead()), this, SLOT(onUDPReceive()));
 }
@@ -101,7 +102,7 @@ void NetworkClient::onMsgQueued()
     bool isUDP = ((unsigned char)tmp.at(0) >= td::network::kBLOCK_UDP);
 
     if (isUDP) {
-        udpSocket_->writeDatagram(tmp, serverAddr_, TD_PORT);
+        udpSocket_->writeDatagram(tmp, serverAddr_, port_);
     } else {
         tcpSocket_->write(tmp);
     }
@@ -123,6 +124,11 @@ void NetworkClient::onMulticastJoin(unsigned char digit) {
         perror("setsockopt");
     }
 #endif
+}
+
+void NetworkClient::onConnectUDP(unsigned short port) {
+    port_ = port;
+    udpSocket_->bind(port, QUdpSocket::ShareAddress);
 }
 
 void NetworkClient::onUDPReceive()

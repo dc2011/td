@@ -31,6 +31,11 @@ private:
     static unsigned char nextMulticast;
 
     /**
+     * The offset for the UDP port.
+     */
+    static unsigned char portOffset;
+
+    /**
      * The thread which owns the NetworkServer and its sockets.
      */
     QThread* netthread_;
@@ -54,6 +59,11 @@ private:
      * The last digit of the multicast address for the server.
      */
     unsigned char multicastAddr_;
+
+    /**
+     * The UDP port number.
+     */
+    unsigned short udpPort_;
 
     /**
      * Indicates that the server should shut down when the queue is empty.
@@ -186,6 +196,16 @@ public:
             multicastAddr_ = nextMulticast++;
         }
         return multicastAddr_;
+    }
+
+    /**
+     * Returns the UDP port for this game server.
+     *
+     * @author Darryl Pogue
+     * @return The port number for the UDP socket.
+     */
+    unsigned short getPort() const {
+        return udpPort_;
     }
 };
 

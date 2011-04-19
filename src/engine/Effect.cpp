@@ -6,9 +6,6 @@ namespace td {
 Effect::Effect(Unit* unit, uint type, int duration, bool timerEnabled):
         GameObject(NULL), unit_(unit), type_(type),
         duration_(duration), timerEnabled_(timerEnabled) {
-
-    connect(this, SIGNAL(effectFinished(Effect*)),
-                     unit_, SLOT(deleteEffect(Effect*)));
 }
 
 Effect::Effect(const Effect& e) : GameObject() {

@@ -18,25 +18,49 @@
 #define PIX_BUILD_MENU_T5       QString("./img/menuFlak.png")
 #define PIX_BUILD_MENU_MAX      7
 #define PIX_TOWER_MENU_MAIN     QString("./img/towerUpgradeMenu.png")
-//temp
-#define PIX_TOWER_MENU_RES      QString("./img/buildResources.png")
+#define PIX_TOWER_MENU_MAIN_2   QString("./img/towerUpgradeMenu2.png")
+#define PIX_TOWER_MENU_RES_L1   QString("./img/towerUpgradeMenuCost1.png")
+#define PIX_TOWER_MENU_RES_L2   QString("./img/towerUpgradeMenuCost2.png")
+#define PIX_TOWER_MENU_RES_L3   QString("./img/towerUpgradeMenuCost3.png")
+#define PIX_TOWER_MENU_RES_L4   QString("./img/towerUpgradeMenuCost4.png")
+#define PIX_TOWER_MENU_RES_L5   QString("./img/buildResources.png")
 #define PIX_TOWER_MENU_UPGR     QString("./img/towerUpgradeIcon.png")
 #define PIX_TOWER_MENU_SELL     QString("./img/sellIcon.png")
-#define PIX_TOWER_MENU_MAX      4
+#define PIX_TOWER_MENU_MAX      9
 #define PIX_PLAYER_MENU_MAIN    QString("./img/playerUpgradeMenu.png")
-//temp
-#define PIX_PLAYER_MENU_RES     QString("./img/buildResources.png")
+#define PIX_PLAYER_MENU_MAIN_2  QString("./img/playerUpgradeMenu2.png")
+#define PIX_PLAYER_MENU_MAIN_3  QString("./img/playerUpgradeMenu4.png")
+#define PIX_PLAYER_MENU_MAIN_4  QString("./img/playerUpgradeMenu3.png")
+#define PIX_PLAYER_MENU_MAIN_5  QString("./img/playerUpgradeMenu6.png")
+#define PIX_PLAYER_MENU_MAIN_6  QString("./img/playerUpgradeMenu7.png")
+#define PIX_PLAYER_MENU_MAIN_7  QString("./img/playerUpgradeMenu5.png")
+#define PIX_PLAYER_MENU_MAIN_8  QString("./img/playerUpgradeMenu8.png")
+#define PIX_PLAYER_MENU_RES     QString("./img/playerUpgradeMenuCost.png")
+#define PIX_PLAYER_MENU_RES_2   QString("./img/playerUpgradeMenuCost2.png")
+#define PIX_PLAYER_MENU_RES_3   QString("./img/playerUpgradeMenuCost5.png")
+#define PIX_PLAYER_MENU_RES_4   QString("./img/playerUpgradeMenuCost3.png")
+#define PIX_PLAYER_MENU_RES_5   QString("./img/playerUpgradeMenuCost8.png")
+#define PIX_PLAYER_MENU_RES_6   QString("./img/playerUpgradeMenuCost7.png")
+#define PIX_PLAYER_MENU_RES_7   QString("./img/playerUpgradeMenuCost6.png")
+#define PIX_PLAYER_MENU_RES_8   QString("./img/playerUpgradeMenuCost4.png")
 #define PIX_PLAYER_MENU_SPD     QString("./img/speedIcon.png")
 #define PIX_PLAYER_MENU_HAR     QString("./img/harvestIcon.png")
 #define PIX_PLAYER_MENU_REC     QString("./img/stunIcon.png")
-#define PIX_PLAYER_MENU_MAX     5
-#define PIX_PLAYER_0            QString("./img/player-stand.png")
-#define PIX_PLAYER_1            QString("./img/player-move1.png")
-#define PIX_PLAYER_2            QString("./img/player-move2.png")
-#define PIX_PLAYER_3            QString("./img/player-move3.png")
-#define PIX_PLAYER_4            QString("./img/player-move4.png")
-#define PIX_PLAYER_5            QString("./img/player-move5.png")
-#define PIX_PLAYER_6            QString("./img/player-move6.png")
+#define PIX_PLAYER_MENU_MAX     19
+#define PIX_PLAYER_0(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-stand.png")
+#define PIX_PLAYER_1(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move1.png")
+#define PIX_PLAYER_2(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move2.png")
+#define PIX_PLAYER_3(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move3.png")
+#define PIX_PLAYER_4(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move4.png")
+#define PIX_PLAYER_5(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move5.png")
+#define PIX_PLAYER_6(x)         QString("./img/player") + QString::number(x) \
+                                + QString("-move6.png")
 #define PIX_PLAYER_MAX          7
 #define PIX_PROJ_ARROW          QString("./img/arrowProjectile.png")
 #define PIX_PROJ_ARROW_MAX      1
@@ -98,6 +122,18 @@
 #define PIX_TOWER_FLAK          QString("./img/towerFlak.png")
 #define PIX_TOWER_FLAK_2        QString("./img/towerFlak2.png")
 #define PIX_TOWER_FLAK_3        QString("./img/towerFlak3.png")
+#define PIX_TOWER_ARROW_FIRE    QString("./img/towerArrowFire1.png")
+#define PIX_TOWER_ARROW_FIRE_2  QString("./img/towerArrowFire2.png")
+#define PIX_TOWER_ARROW_FIRE_3  QString("./img/towerArrowFire3.png")
+#define PIX_TOWER_CANNON_FIRE   QString("./img/towerCannonFire1.png")
+#define PIX_TOWER_CANNON_FIRE_2 QString("./img/towerCannonFire2.png")
+#define PIX_TOWER_CANNON_FIRE_3 QString("./img/towerCannonFire3.png")
+#define PIX_TOWER_FLAME_FIRE    QString("./img/towerFlameFire1.png")
+#define PIX_TOWER_FLAME_FIRE_2  QString("./img/towerFlameFire2.png")
+#define PIX_TOWER_FLAME_FIRE_3  QString("./img/towerFlameFire3.png")
+#define PIX_TOWER_FLAK_FIRE     QString("./img/towerFlakFire1.png")
+#define PIX_TOWER_FLAK_FIRE_2   QString("./img/towerFlakFire2.png")
+#define PIX_TOWER_FLAK_FIRE_3   QString("./img/towerFlakFire3.png")
 #define PIX_TOWER_MAX           5
 #define PIX_RESOURCE_WOOD       QString("./img/woodTile.png")
 #define PIX_RESOURCE_STONE      QString("./img/stoneTile.png")
