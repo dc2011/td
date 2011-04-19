@@ -412,7 +412,15 @@ void CDriver::endGame(bool winner) {
     this->gameTimer_->stop();
 
     emit signalReturnToLobby();
+#ifdef __APPLE__
+    QProcess::execute("open ./bin/client.app");
+#endif
+#ifdef _WIN32
+    QProcess::execute("./bin/client.exe");
+#endif
+#ifdef __linux
     QProcess::execute("./bin/client");
+#endif
 }
 
 bool CDriver::isSinglePlayer() {
