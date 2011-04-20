@@ -40,6 +40,9 @@ CDriver::CDriver(MainWindow* mainWindow)
             mainWindow_, SLOT(setMap(QString)));
     connect(this, SIGNAL(signalReturnToLobby()),
             mainWindow_, SLOT(endGameCleanup()));
+
+    connect(this, SIGNAL(signalOpenWindow()),
+            mainWindow_, SLOT(openWindow()));
 }
 
 CDriver::~CDriver() {
@@ -229,6 +232,8 @@ void CDriver::makeLocalPlayer(Player* player) {
 	        input, SLOT(playerMovement(bool)));
     connect(player, SIGNAL(signalDropResource(int, QPointF, QVector2D)),
             this, SLOT(requestCollectable(int, QPointF, QVector2D)));
+
+    emit signalOpenWindow();
 }
 
 void CDriver::dropResource() {

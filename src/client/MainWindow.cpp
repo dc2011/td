@@ -34,6 +34,7 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
+    view_->setInteractive(false);
 
     //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
@@ -50,8 +51,11 @@ MainWindow::MainWindow() : QMainWindow() {
 
     this->setCentralWidget(centre);
     scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
-    //view_->setFixedSize(mapSize.width(), mapSize.height());
-    //this->showFullScreen();
+
+#ifndef DEBUG
+    view_->setFixedSize(mapSize.width(), mapSize.height());
+    this->showFullScreen();
+#endif
     
     loadKeymap();
     

@@ -36,18 +36,14 @@ int main(int argc, char **argv) {
 
     QObject::connect(lobby, SIGNAL(startGame(bool, QString)),
                      clientDriver, SLOT(startGame(bool, QString)));
-    QObject::connect(lobby, SIGNAL(startGame(bool, QString)),
-                     qmw, SLOT(openWindow()));
     clientDriver->moveToThread(driverThread);
     QObject::connect(qmw,SIGNAL(signalShowMainMenu()),
                      mainWindow, SLOT(slotShowMainMenu()));
 
     driverThread->start();
-
     lobby->show();
     
     int exitCode = a.exec();
-
     
     td::AudioManager::instance()->shutdown();
     td::CDriver::shutdown();
