@@ -22,9 +22,18 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
 
     srand(QDateTime::currentDateTime().toTime_t());
     outfit_ = rand() % 8;
+    // make outfits 4-7 more rare
+    if (outfit_ > 3 && rand() % 3 != 1) {
+        outfit_ -= 4;
+    }
 
     CDriver::instance()->getMainWindow()->getScene()->addItem(resourceProgressBar_);
     emit created(this);
+}
+
+PlayerGraphicsComponent::~PlayerGraphicsComponent() {
+    delete pixmapImgs_;
+    delete resourcePixmapItem_;
 }
 
 void PlayerGraphicsComponent::update(GameObject* obj) {
@@ -97,12 +106,10 @@ void PlayerGraphicsComponent::draw(void* dp, int layer) {
         label_->setVisible(true);
         label_->update();
         nameShowing_ = true;
-    } else {
-        if (nameShowing_) {
-            label_->setVisible(false);
-            label_->update();
-            nameShowing_ = false;
-        }
+    } else if (nameShowing_) {
+        label_->setVisible(false);
+        label_->update();
+        nameShowing_ = false;
     }
 
     GraphicsComponent::draw(dp, layer);
