@@ -75,10 +75,10 @@ namespace network {
         kTowerChoice    =   0x0A,
 
         /**
-         * Drops a resource from player. Used to check if adding to a Tower.
-         *
+         * Indicates the dropping of a Collectable.
+         * See Also: @ref dropcollect
          */
-        kDropResource   =   0x0B,
+        kDropCollect    =   0x0B,
 
         /**
          * Indicates damage to the base.
@@ -86,21 +86,24 @@ namespace network {
          */
         kBaseHealth     =   0x0C,
 
-        /** Indicates creation of a collectable. */
-        kCollectable    =   0x0D,
-
         /**
-         * Indicates the end of the game.
-         * See Also: @ref gameover
+         * Indicates the picking up of a Collectable.
+         * See Also: @ref pickcollect
          */
-        kGameOver       =   0x10,
+        kPickCollect    =   0x0D,
+        
+        /** Indicates an update: connected user list needs to be sent */
+        kUpdateUserList =   0x0E,
 
-        /**
-         * Indicates a line of chat sent from the console.
-         * See Also: @ref consolechat
-         */
-        kConsoleChat    =   0x11,
+        /** Indicates an update: games available needs to be sent */
+        kUpdateListOfGames = 0x0F,
 
+        /**Indicates a chat message*/
+        kChatMessage = 0x10,
+        
+        /**From client to Server. Indicates joining or creating a game if followed by 0 */
+        kJoinGame = 0x11,
+	
         /** Indicates sale/deletion of Tower. */
         kSellTower      =   0x12,
 
@@ -108,22 +111,37 @@ namespace network {
         kUpgradeTower   =   0x13,
 
         /**
-         * Indicates the dropping of a Collectable.
-         * See Also: @ref dropcollect
+         * Indicates the end of the game.
+         * See Also: @ref gameover
          */
-        kDropCollect    =   0x14,
+        kGameOver       =   0x14,
 
         /**
-         * Indicates the picking up of a Collectable.
-         * See Also: @ref pickcollect
+         * Indicates a line of chat sent from the console.
+         * See Also: @ref consolechat
          */
-        kPickCollect    =   0x15,
+        kConsoleChat    =   0x15,
+		
+        /**From server to client. Indicates the id of the new game */
+        kGameId = 0x16,
+
+        /**Sent from client to server when they are leaving a queue */
+        kLobbyleaveGame = 0x17,
+
+        /**
+         * Sent by the lobby server to tell clients which maps are available.
+         * See Also: @ref maplist
+         */
+        kMapList        =   0x18,
+
+        /**Generic Message */
+        kServerErrorMsg =   0x19,
 
         /**
          * Indicates the offset on the port number.
          * See Also: @ref portoffset
          */
-        kPortOffset     =   0x16,
+        kPortOffset     =   0x1A,
 
         /** Indicates a player upgrade. */
         kUpgradePlayer  =   0x20,
@@ -357,6 +375,20 @@ namespace network {
  *  byte msgType = td::network::kPortOffset
  *    // The UDP port number
  *  short port
+ * @endcode
+ *
+ * @section maplist Map List Message
+ * This message is a list of available maps sent by the lobby server.
+ * @code
+ *    // The message type
+ *  byte msgType = td::network::kMapList
+ *    // The number of available maps
+ *  byte mapCount
+ *  for (0 to mapCount):
+ *        // The length of the map name
+ *      byte strLength
+ *        // The map name
+ *      byte[strLength] mapName
  * @endcode
  *
  * @section playsfx Play SFX Message

@@ -34,9 +34,9 @@ int main(int argc, char **argv) {
 
     td::Console::instance(); // Force the console to be created
 
-    QObject::connect(lobby, SIGNAL(startGame(bool)),
-                     clientDriver, SLOT(startGame(bool)));
-    QObject::connect(lobby, SIGNAL(startGame(bool)),
+    QObject::connect(lobby, SIGNAL(startGame(bool, QString)),
+                     clientDriver, SLOT(startGame(bool, QString)));
+    QObject::connect(lobby, SIGNAL(startGame(bool, QString)),
                      qmw, SLOT(openWindow()));
     clientDriver->moveToThread(driverThread);
     QObject::connect(qmw,SIGNAL(signalShowMainMenu()),

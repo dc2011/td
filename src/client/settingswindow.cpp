@@ -2,6 +2,8 @@
 #include "ui_settingswindow.h"
 #include "../audio/manager.h"
 #include <cstdio>
+#include <QBitmap>
+#include <QMouseEvent>
 
 namespace td {
 
@@ -9,6 +11,18 @@ settingsWindow::settingsWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::settingsWindow)
 {
+
+    this->setWindowFlags(Qt::FramelessWindowHint);
+    this->move(400, 200);
+
+    QPixmap pixmap("./img/mainMenuBg.png");
+    this->setMask(pixmap.mask());
+
+    QFile f(QString(":/file/client.qss"));
+    f.open(QIODevice::ReadOnly);
+    this->setStyleSheet(QString(f.readAll()));
+    f.close();
+
     ui->setupUi(this);
 
     //from the ui to the files slots
@@ -115,6 +129,14 @@ void settingsWindow::slotShowSettings() {
         this->hide();
         emit signalWindowClosed();
     }
+}
+
+void settingsWindow::mousePressEvent( QMouseEvent *e ) {
+    clickPos = e->pos();
+}
+
+void settingsWindow::mouseMoveEvent( QMouseEvent *e ) {
+    move( e->globalPos() - clickPos );
 }
 
 }

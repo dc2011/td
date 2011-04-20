@@ -1,6 +1,7 @@
 #include <QSettings>
 #include "keymap.h"
 #include "ui_keymap.h"
+#include <QFile>
 
 namespace td {
 
@@ -8,6 +9,14 @@ KeymapDialog::KeymapDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::KeymapDialog)
 {
+    this->setWindowFlags(Qt::FramelessWindowHint);
+    this->move(300, 200);
+
+    QFile f(QString(":/file/client.qss"));
+    f.open(QIODevice::ReadOnly);
+    this->setStyleSheet(QString(f.readAll()));
+    f.close();
+
     ui->setupUi(this);
 
     QSettings settings;
@@ -206,6 +215,14 @@ void KeymapDialog::setVoice(QKeySequence seq) {
 
 void KeymapDialog::setZoom(QKeySequence seq) {
     keys.zoomKey = seq;
+}
+
+void KeymapDialog::mousePressEvent( QMouseEvent *e ) {
+    clickPos = e->pos();
+}
+
+void KeymapDialog::mouseMoveEvent( QMouseEvent *e ) {
+    move( e->globalPos() - clickPos );
 }
 
 } /* end namespace td */
