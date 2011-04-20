@@ -22,6 +22,10 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
 
     srand(QDateTime::currentDateTime().toTime_t());
     outfit_ = rand() % 8;
+    // make outfits 4-7 more rare
+    if (outfit_ > 3 && rand() % 3 != 1) {
+        outfit_ -= 4;
+    }
 
     CDriver::instance()->getMainWindow()->getScene()->addItem(resourceProgressBar_);
     emit created(this);
