@@ -1,5 +1,6 @@
 #include "manager.h"
 #include "../network/netclient.h"
+#include "../engine/CDriver.h"
 
 namespace td {
 
@@ -138,9 +139,10 @@ void AudioManager::captureMic()
                 int numframes = total / speex_.frameSize;
 
                 encode(buf, numframes, &s);
-                
-                NetworkClient::instance()->send(
+                if(!CDriver::instance()->isSinglePlayer()){
+		    NetworkClient::instance()->send(
                         network::kVoiceMessage, s.data());
+		}
             }
         }
     }
