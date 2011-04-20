@@ -27,6 +27,11 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
     emit created(this);
 }
 
+PlayerGraphicsComponent::~PlayerGraphicsComponent() {
+    delete pixmapImgs_;
+    delete resourcePixmapItem_;
+}
+
 void PlayerGraphicsComponent::update(GameObject* obj) {
     Player* player = (Player*)obj;
 
@@ -97,12 +102,10 @@ void PlayerGraphicsComponent::draw(void* dp, int layer) {
         label_->setVisible(true);
         label_->update();
         nameShowing_ = true;
-    } else {
-        if (nameShowing_) {
-            label_->setVisible(false);
-            label_->update();
-            nameShowing_ = false;
-        }
+    } else if (nameShowing_) {
+        label_->setVisible(false);
+        label_->update();
+        nameShowing_ = false;
     }
 
     GraphicsComponent::draw(dp, layer);

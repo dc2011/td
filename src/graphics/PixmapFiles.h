@@ -27,6 +27,7 @@
 #define PIX_TOWER_MENU_UPGR     QString("./img/towerUpgradeIcon.png")
 #define PIX_TOWER_MENU_SELL     QString("./img/sellIcon.png")
 #define PIX_TOWER_MENU_MAX      9
+#define PIX_TOWER_LEVEL_TRI     QString("./img/upgradeMarker.png")
 #define PIX_PLAYER_MENU_MAIN    QString("./img/playerUpgradeMenu.png")
 #define PIX_PLAYER_MENU_MAIN_2  QString("./img/playerUpgradeMenu2.png")
 #define PIX_PLAYER_MENU_MAIN_3  QString("./img/playerUpgradeMenu4.png")
