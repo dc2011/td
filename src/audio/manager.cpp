@@ -94,13 +94,10 @@ void AudioManager::playSfx(QString filename, SoundType type)
             QtConcurrent::run(this, &AudioManager::playCached,
                               filename, type);
     } else {
- 
         QFuture<void> future =
             QtConcurrent::run(this, &AudioManager::streamFile,
                               filename, type, true);
     }
-
-    return;
 
 }
 
@@ -339,10 +336,10 @@ void AudioManager::playCached(QString filename, SoundType sType)
     alBufferData(buffer, format, tmp.mid(1).constData(), tmp.size()-1, freq);
     alSourceQueueBuffers(source, 1, &buffer);
 
+    alSourcef(source, AL_GAIN, gainScale[gain]);
     alSourcePlay(source);
 
     do {
-        alSourcef(source, AL_GAIN, gainScale[gain]);
         alGetSourcei(source, AL_SOURCE_STATE, &playing);
         alSleep(0.1f);
     } while(playing != AL_STOPPED && !checkError());
@@ -378,6 +375,7 @@ void AudioManager::streamFile(QString filename, SoundType sType, bool cacheThis)
     OggVorbis_File oggFile;
     char bitmask;
     int gain;
+    QByteArray cacheTmp;
 
     /* Created the source and Buffers */
     alGenBuffers(QUEUESIZE, buffer);
@@ -429,8 +427,7 @@ void AudioManager::streamFile(QString filename, SoundType sType, bool cacheThis)
             }
 
             if(cacheThis) {
-                bitmask = getBitmask(format,freq);
-                cacheBuffer(filename,array,size,bitmask);
+		cacheTmp.append(array,size);
             }
 
             alBufferData(buffer[queue], format, array, size, freq);
@@ -453,6 +450,11 @@ void AudioManager::streamFile(QString filename, SoundType sType, bool cacheThis)
 
         /* result == 0 when file is completely read */
     } while (result > 0 && !checkError());
+    
+    if(cacheThis) {
+	bitmask = getBitmask(format,freq);
+	cacheBuffer(filename,cacheTmp.data(),cacheTmp.size(),bitmask);
+    }
 
     ov_clear(&oggFile);
 
