@@ -12,8 +12,9 @@ cd ./TowerDefense
 git checkout $BRANCH
 
 cd ./tools
-. deps.sh
-. extrafiles.sh
+yes | . deps.sh
+yes | . extrafiles.sh
+. mkconfig.sh
 cd ..
 qmake-qt4
 make -j4
