@@ -9,8 +9,10 @@
 namespace td {
     
 TowerGraphicsComponent::TowerGraphicsComponent()
-        : GraphicsComponent(), firing_(false), timerRunning_(false),
-          timerID_(0), reloadTime_(0), hasFiringAnimation_(false) {
+        : GraphicsComponent(), constructed_(false), oldRotation_(-1),
+        oldFiring_(false), oldRadius_(false), firing_(false),
+        timerRunning_(false), timerID_(0), reloadTime_(0),
+        hasFiringAnimation_(false) {
 }
 
 TowerGraphicsComponent::~TowerGraphicsComponent() {
@@ -23,6 +25,16 @@ void TowerGraphicsComponent::update(GameObject* obj) {
     tower->resetDirty();
 
     DrawParamsTower* dp = new DrawParamsTower();
+    if (!constructed_  || tower->getOrientation() != oldRotation_
+        || oldFiring_ != firing_ || oldRadius_ != visibleRange_) {
+        constructed_ = true;
+        oldRotation_ = tower->getOrientation();
+        oldFiring_ = firing_;
+        oldRadius_ = visibleRange_;
+
+    } else {
+        return;
+    }
     radius_ = 
         ((TowerPhysicsComponent*) tower->getPhysicsComponent())->getRadius();
     dp->pos     = tower->getPos();
@@ -30,6 +42,9 @@ void TowerGraphicsComponent::update(GameObject* obj) {
     dp->degrees = tower->getOrientation();
     dp->animate = animate_;
     dp->displayRadius = visibleRange_;
+
+
+
     
     if (hasFiringAnimation_ && firing_) {
         dp->pixmapIdx = 1;
@@ -40,7 +55,7 @@ void TowerGraphicsComponent::update(GameObject* obj) {
     } else {
         dp->pixmapIdx = 0;
     }
-
+    constructed_ = true;
     emit signalDraw(dp, this, LAYER_TOWER);
 }
 

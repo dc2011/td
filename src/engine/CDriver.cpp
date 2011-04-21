@@ -252,9 +252,11 @@ void CDriver::dropResource() {
     if (this->isSinglePlayer() &&
             currentTile->getActionType() == TILE_BUILDING) {
         BuildingTower* t = (BuildingTower*)currentTile->getExtension();
-        if (this->addToTower(t, human_) && t->isDone()) {
-            this->createTower(t->getType(), t->getPos());
-            this->destroyObject(t);
+        if (this->addToTower(t, human_)) {
+            if (t->isDone()) {
+                this->createTower(t->getType(), t->getPos());
+                this->destroyObject(t);
+            }
             human_->setResource(RESOURCE_NONE);
             return;
         }
@@ -360,8 +362,9 @@ void CDriver::NPCCreator() {
 
     if (!waves_.empty()) {
         bool createdwave = false;
+        NPCWave* wave = NULL;
         for (int i = 0; i < waves_.size(); i++) {
-            NPCWave* wave = waves_[i];
+            wave = waves_[i];
             if (wave->getStart() == timeCount_) {
                 waves_.removeAt(i--);
                 wave->createWave();
@@ -371,7 +374,7 @@ void CDriver::NPCCreator() {
             }
         }
         if (createdwave) {
-            PLAY_SFX(this, SfxManager::npcPterodactylEnters);
+            PLAY_SFX(wave, SfxManager::npcPterodactylEnters);
         }
     }
 
@@ -402,6 +405,9 @@ void CDriver::startGame(bool singlePlayer, QString map) {
 
         player->initComponents();
         connect(gameTimer_, SIGNAL(timeout()), player, SLOT(update()));
+
+        QPointF homeLocation = gameMap_->getHomeLoc();
+        player->setPos(homeLocation.x(), homeLocation.y());
 
         this->makeLocalPlayer(player);
 

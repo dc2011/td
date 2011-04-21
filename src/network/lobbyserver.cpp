@@ -117,7 +117,7 @@ void LobbyServer::startGame(int game) {
     connect(sd, SIGNAL(disconnecting()), gamethread, SLOT(quit()));
     connect(sd, SIGNAL(disconnecting()), this, SLOT(gameEnd()));
 
-    QString mapname = MAP_NFO;
+    QString mapname = MAP + QString(".nfo");
     if (gameMaps_.contains(game)) {
         mapname = gameMaps_[game];
     }
