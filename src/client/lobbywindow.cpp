@@ -86,6 +86,11 @@ void LobbyWindow::connectLobby()
     s->writeByte(ui->txtUsername->text().length());
     s->write(ui->txtUsername->text().toAscii());
 
+    if(!NetworkClient::instance()->isConnected()) {
+        QMessageBox(QMessageBox::Critical, "Tower Defense: Error",
+                "Cannot find Server.").exec();
+        return;
+    }
     PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
 
