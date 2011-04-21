@@ -603,6 +603,7 @@ void CDriver::UDPReceived(Stream* s) {
             if (human_->getID() == playerID) {
                 Driver::upgradePlayer(playerID, upgradeType);
             }
+            break;
         }
         case network::kSellTower:
         {
