@@ -388,11 +388,13 @@ void CDriver::startGame(bool singlePlayer, QString map) {
     td::AudioManager::instance()->playMusic(musicList);
 
     Parser* fileParser = new Parser(this, QString("./maps/") + map);
-    emit setMap(QString("./maps/") + fileParser->map + QString(".tmx"));
-    mainWindow_->lockMapHack();
+    if (gameMap_ == NULL) {
+        emit setMap(QString("./maps/") + fileParser->map + QString(".tmx"));
+        mainWindow_->lockMapHack();
 
-    gameMap_ = new Map(mainWindow_->getMD()->map(), this);
-    gameMap_->initMap();
+        gameMap_ = new Map(mainWindow_->getMD()->map(), this);
+        gameMap_->initMap();
+    }
 
     if (singlePlayer) {
         Player* player = (Player*)mgr_->createObject(Player::clsIdx());
@@ -495,6 +497,18 @@ void CDriver::UDPReceived(Stream* s) {
         case network::kServerPlayers:
         {
             int count = s->readByte();
+            QString map = QString(s->read(count));
+
+            if (gameMap_ == NULL) {
+                Parser* fileParser = new Parser(this, QString("./maps/") + map);
+                emit setMap(QString("./maps/") + fileParser->map + QString(".tmx"));
+                mainWindow_->lockMapHack();
+
+                gameMap_ = new Map(mainWindow_->getMD()->map(), this);
+                gameMap_->initMap();
+            }
+
+            count = s->readByte();
             for (int i = 0; i < count; i++) {
                 unsigned int id = s->readInt();
                 GameObject* go = mgr_->createObjectWithID(id);

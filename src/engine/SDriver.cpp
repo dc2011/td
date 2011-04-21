@@ -101,6 +101,10 @@ void SDriver::setBaseHealth(int health) {
 
 void SDriver::startGame(bool multicast) {
     Stream s;
+
+    s.writeByte(mapname_.size());
+    s.write(mapname_.toAscii().data());
+
     s.writeByte(players_.size());
 
     QPointF homeLocation = gameMap_->getHomeLoc();

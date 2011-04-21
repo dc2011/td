@@ -237,6 +237,10 @@ namespace network {
  * @code
  *    // The message type
  *  byte msgType = td::network::kServerPlayers
+ *    // The length of the map name
+ *  byte mapNameLen
+ *    // The name of the map
+ *  char[mapNameLen] mapName
  *    // The number of players
  *  byte playerCount
  *    // The actual player states, read with td::Player::networkRead
