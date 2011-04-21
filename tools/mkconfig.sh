@@ -5,6 +5,7 @@ if [ "$OS" != "linux" ]; then
     exit
 fi
 
+mkdir -p ~/.config/dc2011/
 touch ~/.config/dc2011/td.conf
 wget --no-check-certificate https://gist.github.com/raw/930364/td.conf -O tmpconfig
 cat tmpconfig >> ~/.config/dc2011/td.conf
