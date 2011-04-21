@@ -355,7 +355,7 @@ void CDriver::NPCCreator() {
 
     if (!waves_.empty()) {
         bool createdwave = false;
-        NPCWave* wave = waves_[i];
+        NPCWave* wave = NULL;
         for (int i = 0; i < waves_.size(); i++) {
             wave = waves_[i];
             if (wave->getStart() == timeCount_) {
