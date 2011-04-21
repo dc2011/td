@@ -27,8 +27,6 @@ SDriver::SDriver() : Driver() {
     completedWaves_ = 0;
     totalWaves_ = 0;
 
-    gameMap_->initMap();
-
     connect(net_, SIGNAL(msgReceived(Stream*)), 
             this, SLOT(onMsgReceive(Stream*)));
 
@@ -233,8 +231,9 @@ void SDriver::spawnWave() {
     // Check to see if any waves should be spawned on this tick.
     if (!waves_.empty()) {
         bool createdwave = false;
+        NPCWave* wave = waves_[i];
         for (int i = 0; i < waves_.size(); i++) {
-            NPCWave* wave = waves_[i];
+            wave = waves_[i];
             if (wave->getStart() == timeCount_) {
                 waves_.removeAt(i--);
                 wave->createWave();
@@ -244,7 +243,7 @@ void SDriver::spawnWave() {
             }
         }
         if (createdwave) {
-            PLAY_SFX(this, SfxManager::npcPterodactylEnters);
+            PLAY_SFX(wave, SfxManager::npcPterodactylEnters);
         }
     }
     
