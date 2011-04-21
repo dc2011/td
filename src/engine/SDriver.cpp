@@ -362,6 +362,7 @@ void SDriver::onMsgReceive(Stream* s) {
             if (Driver::upgradeTower(QPointF(x, y))) {
                 out->writeFloat(x);
                 out->writeFloat(y);
+                out->writeInt(gemCount_);
                 net_->send(network::kUpgradeTower, out->data());
             }
 
@@ -394,6 +395,10 @@ void SDriver::onMsgReceive(Stream* s) {
         {
             int playerID = s->readInt();
             int type = s->readInt();
+
+            if (type == -1) {
+                break;
+            }
 
             Player* player = (Player*)mgr_->findObject(playerID);
             Tile* currentTile = gameMap_->getTile(player->getPos().x(),

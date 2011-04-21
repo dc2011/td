@@ -1,6 +1,7 @@
 #ifndef CDRIVER_H
 #define CDRIVER_H
 
+#include <QProcess>
 #include <QPointF>
 #include <QSet>
 #include "Driver.h"
@@ -56,6 +57,8 @@ private:
     QList<NPCWave*> waves_;
     QTimer* waveTimer_;
     unsigned int timeCount_;
+    unsigned int completedWaves_;
+    unsigned int totalWaves_;
 
     CDriver(MainWindow* parent = 0);
     ~CDriver();
@@ -179,12 +182,14 @@ public:
     NPC* createNPC(int npcType);
 
     /**
-     * Stop game timer.
+     * Begins end of game sequence: Stops game timers, disconnects from server,
+     * returns to game lobby etc..
+     *
+     * @param winner True if the player has won, False if not.
      * 
-     * @author Duncan Donaldson
-     * @return void
+     * @author Tom Nightingale
      */
-    void endGame();
+    void endGame(bool winner);
 
     /**
      * Returns the human
@@ -256,6 +261,15 @@ signals:
      * @param map The name of the map.
      */
     void setMap(QString map);
+    
+    /**
+     * Emitted when the game is ended.
+     * Connected to MainWindow::close().
+     * Connected to LobbyWindow::show().
+     *
+     * @author Tom Nightingale
+     */
+    void signalReturnToLobby();
     
 public slots:
     /**
@@ -358,7 +372,7 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCCreator();
-    void deadWave();
+    void endWave();
 };
 
 } /* end namespace td */

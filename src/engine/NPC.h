@@ -88,19 +88,43 @@ public:
      * @author Duncan Donaldson
      */
     virtual void initComponents();
-
+	
+	/**
+	  * Returns the width of the NPC's sprite.
+	  * 
+	  * @author Daniel Wright
+	  * @return Width of the NPC sprite.
+	  */
     int getWidth(){
         return width_;
     }
-
+	
+	/**
+	  * Sets the width value for the NPC to the supplied value.
+	  *
+	  * @author Daniel Wright
+	  * @param width The new width of the NPC
+	  */
     void setWidth(int width){
         width_ = width;
     }
-
+	
+	/**
+	  * Returns the height of the NPC's sprite.
+	  * 
+	  * @author Daniel Wright
+	  * @return Height of the NPC sprite.
+	  */
     int getHeight(){
         return height_;
     }
-
+	
+	/**
+	  * Sets the height value for the NPC to the supplied value.
+	  *
+	  * @author Daniel Wright
+	  * @param height The new height of the NPC
+	  */
     void setHeight(int height){
         height_ = height;
     }
@@ -226,7 +250,9 @@ private:
     int damage_;
     int maxHealth_;
     QMap<int, Effect*> effects_;
-    int height_;
+    /** Height of the NPC sprite. */
+	int height_;
+	/** Width of the NPC sprite. */
     int width_;
     int type_;
     int gem_;

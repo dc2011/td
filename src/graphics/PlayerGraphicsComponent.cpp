@@ -1,7 +1,8 @@
 #include "PlayerGraphicsComponent.h"
+#include <QDateTime>
+#include <QDebug>
 #include "../engine/Player.h"
 #include "../engine/CDriver.h"
-#include <QDebug>
 
 namespace td {
 
@@ -18,6 +19,9 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
     resourceProgressBar_->setBrush(QBrush(Qt::blue));
     resourcePixmapItem_ = 0;
     resourceType_ = RESOURCE_NONE;
+
+    srand(QDateTime::currentDateTime().toTime_t());
+    outfit_ = rand() % 8;
 
     CDriver::instance()->getMainWindow()->getScene()->addItem(resourceProgressBar_);
     emit created(this);
@@ -45,10 +49,9 @@ void PlayerGraphicsComponent::update(GameObject* obj) {
     player->resetDirty();
 
     DrawParamsPlayer* dp = new DrawParamsPlayer();
-    dp->pos     = player->getPos();
-    //dp->moving  = player->getVelocity().length() != 0;
+    dp->pos = player->getPos();
     dp->moving = player->getMoving();
-    dp->scale   = 1;
+    dp->scale = 1;
     dp->degrees = player->getOrientation();
     dp->animate = animate_;
     dp->resourceProgressShowing = resourceProgressShowing_;
@@ -110,18 +113,18 @@ void PlayerGraphicsComponent::animate() {
     
     if (!isMoving_) {
         pixmapIndex_ = 0;
-        setImgIndex(pixmapIndex_);
+        setImgIndex(pixmapIndex_ + outfit_ * PIX_PLAYER_FRAMES);
         return;
     }
 
     if (pixmapIndex_ == 0) {
-	pos = rand() % 2 + 1;
-        pos == 1 ? pixmapIndex_ = 0 : pixmapIndex_ = 3;
+        pos = rand() % 2 + 1;
+        pixmapIndex_ = (pos == 1) ? 0 : 3;
     }
     
     if (!(animateCount_++ % animateMod_)) {
-        ++pixmapIndex_ >= PIX_PLAYER_MAX ? pixmapIndex_ = 1 : pixmapIndex_;
-        setImgIndex(pixmapIndex_);
+        ++pixmapIndex_ >= PIX_PLAYER_FRAMES ? pixmapIndex_ = 1 : pixmapIndex_;
+        setImgIndex(pixmapIndex_ + outfit_ * PIX_PLAYER_FRAMES);
     }
 }
 
@@ -141,16 +144,17 @@ void PlayerGraphicsComponent::initPixmaps() {
     } else {
         pixmapImgs_ = new QPixmap[PIX_PLAYER_MAX + PIX_RESOURCE_MAX];
     }
-    int random = ((rand() % 700) / 100) + 1;
 
     pixmapIndex_ = 0;
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_0(random);
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_1(random);
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_2(random);
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_3(random);
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_4(random);
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_5(random);
-    pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_6(random);
+    for (int i = 1; i <= PIX_PLAYER_TYPES; i++) {
+        pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_0(i);
+        pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_1(i);
+        pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_2(i);
+        pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_3(i);
+        pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_4(i);
+        pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_5(i);
+        pixmapImgs_[pixmapIndex_++] = PIX_PLAYER_6(i);
+    }
     pixmapImgs_[pixmapIndex_++] = PIX_ICON_WOOD;
     pixmapImgs_[pixmapIndex_++] = PIX_ICON_STONE;
     pixmapImgs_[pixmapIndex_++] = PIX_ICON_BONE;
@@ -160,6 +164,11 @@ void PlayerGraphicsComponent::initPixmaps() {
 
 void PlayerGraphicsComponent::setCurrentResource(int resourceType) {
     resourceType_ = resourceType;
+}
+
+void PlayerGraphicsComponent::setImgIndex(int index) {
+    graphicsRect_ = pixmapItem_->boundingRect();
+    pixmapItem_->setPixmap(getPixmapArray()[index]);
 }
 
 } /* end namespace td */

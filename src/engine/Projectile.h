@@ -165,11 +165,23 @@ public:
     void setPath(QLineF& path) {
        path_ = path;
     }
-
+	
+	/**
+	  * Get the targeted enemy of this projectile.\
+	  *
+	  * @author Daniel Wright
+	  * @return The projectile's target.
+	  */
     Unit* getEnemy(){
         return enemy_;
     }
-
+	
+	/**
+	  * Sets the target for this projectile.
+	  *
+	  * @author Daniel Wright
+	  * @param enemy The new target.
+	  */
     void setEnemy(Unit* enemy){
         enemy_ = enemy;
         setDirty(kTargetType);
@@ -181,19 +193,43 @@ public:
     * @author Daniel Wright
     */
     void createBounds();
-
+	
+	/**
+	  * Gets the width of the projectile sprite.
+	  *
+	  * @author Daniel Wright
+	  * @return Width of the projectile.
+	  */
     int getWidth(){
         return width_;
     }
-
+	
+	/**
+	  * Sets the width of the projectile.
+	  *
+	  * @Daniel Wright
+	  * @param width New width of the projectile.
+	  */
     void setWidth(int width){
         width_ = width;
     }
-
+	
+	/**
+	  * Gets the height of the projectile sprite.
+	  *
+	  * @author Daniel Wright
+	  * @return Height of the projectile.
+	  */
     int getHeight(){
         return height_;
     }
-
+	
+	/**
+	  * Sets the height of the projectile.
+	  *
+	  * @Daniel Wright
+	  * @param height New height of the projectile.
+	  */
     void setHeight(int height){
         height_ = height;
     }
@@ -256,9 +292,12 @@ private:
     QLineF path_;
 
     QList<Effect*> effects_;
-
+	
+	/** Enemy targeted when the projectile was created. */
     Unit* enemy_;
+	/** Width of the projectile sprite. */
     int height_;
+	/** Height of the projectile sprite. */
     int width_;
     int type_;
 
