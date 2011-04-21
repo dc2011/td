@@ -3,10 +3,23 @@ Tower Defense Game
 
 COMPILING
 =========
+You can run the bootstrap script which will handle installing all required
+dependencies, cloning a fresh git repository, compiling the binaries and
+deploying default settings config. The bootstrap script is located in the the
+tools directory.
+
+    # Downloads the bootstrap script.
+    $ wget --no-check-certificate http://is.gd/bootstrapTD  
+    # Execute the script.
+    $ . bootstrap.sh
+
 On Mac and Linux, run the deps script to install all dependencies.
 Then run qmake and make to build the tower defense game.
-    $ ./tools/deps.sh
-    $ qmake
+
+    $ ./tools/deps.sh   # Installs all required dependencies.
+    $ qmake             # for Ubuntu, Arch Linux
+        OR
+    $ qmake-qt4         # for Fedora
     $ make
 
 
