@@ -301,6 +301,10 @@ void SDriver::towerDrop(BuildingTower* t, Player* player, bool drop) {
     Stream s;
     int collType = player->getResource();
 
+    if (collType == -1) {
+        return;
+    }
+
     if (addToTower(t, player)) {
         if (t->isDone()) {
             Tower* tower = Driver::createTower(t->getType(),
@@ -311,7 +315,7 @@ void SDriver::towerDrop(BuildingTower* t, Player* player, bool drop) {
             updates_.insert(t);
         }
         s.writeInt(player->getID());
-        s.writeInt(player->getResource());
+        s.writeInt(collType);
         s.writeFloat(0);
         s.writeFloat(0);
         s.writeFloat(player->getPos().x());
@@ -321,7 +325,7 @@ void SDriver::towerDrop(BuildingTower* t, Player* player, bool drop) {
         net_->send(network::kDropCollect, s.data());
     } else if (drop) {
         s.writeInt(player->getID());
-        s.writeInt(player->getResource());
+        s.writeInt(collType);
         QVector2D vel = this->getRandomVector();
         s.writeFloat(vel.x());
         s.writeFloat(vel.y());
