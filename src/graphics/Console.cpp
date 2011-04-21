@@ -74,18 +74,27 @@ Console::Console() {
     textLabel_->setPos(3,3);
     textLabel_->setZValue(99);
     textLabel_->update();
-    
-    hide();
+
+    textLabel_->hide();
+    textRect_->hide();
+    label_->hide();
+    rect_->hide();
+
+    connect(this, SIGNAL(signalAddText(QString)),
+            this, SLOT(reallyAddText(QString)), Qt::QueuedConnection);
 }
 
 Console::~Console() {}
 
 void Console::addText(QString text) {
+    emit signalAddText(text);
+}
+
+void Console::reallyAddText(QString text) {
     
     QString tmp;
     QTextDocument *doc = new QTextDocument();
     
-    mutex_.lock();
     if(display_->size() > 4) {
         display_->pop_back();
     }
@@ -102,18 +111,17 @@ void Console::addText(QString text) {
     label_->setDocument(doc);
     
     translate();
-    mutex_.unlock();
 }
 
 void Console::hide() {
     y=-150;
-    label_->hide();
-    rect_->hide();
+    text_ = "Say: ";
 
     translate();
-    text_ = "Say: ";
     textLabel_->hide();
     textRect_->hide();
+    label_->hide();
+    rect_->hide();
 }
 
 void Console::show() {
@@ -121,7 +129,6 @@ void Console::show() {
             this, SLOT(scroll()));
     
     translate();
-
     label_->show();
     rect_->show();
     textLabel_->show();
@@ -139,6 +146,7 @@ void Console::scroll() {
         return;
     }
     y+=10;
+
 }
 
 void Console::toggle() {
@@ -178,7 +186,6 @@ void Console::translate() {
     rect_->update();
     textLabel_->update();
     textRect_->update();
-
 }
 
 void Console::removeChar() {
@@ -194,25 +201,25 @@ void Console::removeChar() {
     QTextCursor cursor = QTextCursor(doc);
     tmp = text_;
     tmp.replace("\n","");
+    
     cursor.insertText(tmp, charFormat);
-
+    
     textLabel_->setDocument(doc);
     textLabel_->update();
-
 }
 
 void Console::addChar(QString c) {
     
     QString tmp;
     Stream s;
-
+    
     text_.append(c);
     QTextDocument *doc = new QTextDocument();
     QTextCursor cursor = QTextCursor(doc);
 
     tmp = text_;
     tmp.replace("\n","");
-    
+
     if(c.compare("\n") == 0) {
 
         if(CDriver::instance()->isSinglePlayer() == false) {

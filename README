@@ -24,11 +24,7 @@ Set paths in each project for the following libraries:
         libvorbis
         libvorbisfile
         libogg
-    server:
-        OpenAL
-        libvorbis
-        libvorbisfile
-        libogg
+        Speex
 Build.
 
 
