@@ -4,6 +4,7 @@ namespace td {
 
 KeyButton::KeyButton(QWidget* parent) : QPushButton(parent) {
     this->setCheckable(true);
+    this->setFocusPolicy(Qt::StrongFocus);
 }
 
 KeyButton::~KeyButton() { }
@@ -31,6 +32,7 @@ bool KeyButton::event(QEvent* e) {
 
 void KeyButton::keyPressEvent(QKeyEvent* e) {
     int keyQt = e->key();
+    qDebug("%d", keyQt);
     if (keyQt == -1) {
         /* Qt sometimes returns garbage keycodes, I observed -1, if it
          doesn't know a key. We cannot do anything useful with those

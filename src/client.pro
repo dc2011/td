@@ -14,6 +14,16 @@ DEPENDPATH += .
 INCLUDEPATH += .
 OBJECTS_DIR = ../obj/client
 
+# icon information
+
+macx {
+    ICON = bonerang.icns
+}
+
+win32 {
+    RC_FILE = bonerang.rc
+}
+
 win32 {
     LIBS += OpenAL32.lib libogg.lib libvorbisfile.lib libvorbis.lib libspeex.lib
 }

@@ -35,6 +35,8 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
     view_->setInteractive(false);
+    view_->setWindowIcon(QIcon(":/file/bonerang.png"));
+
 
     //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
@@ -58,9 +60,6 @@ MainWindow::MainWindow() : QMainWindow() {
 #endif
     
     loadKeymap();
-    
-    // This focus policy may be implied by default...
-    this->setFocusPolicy(Qt::StrongFocus);
 
     connect(keysTimer_, SIGNAL(timeout()), this, SLOT(keyHeld()));
 }
