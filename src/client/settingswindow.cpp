@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <QBitmap>
 #include <QMouseEvent>
+#include <QSettings>
 
 namespace td {
 
@@ -42,6 +43,14 @@ settingsWindow::settingsWindow(QWidget *parent) :
     connect(this, SIGNAL(setVoiceLabel(QString)), ui->voiceLabel,SLOT(setText(QString)));
     connect(this, SIGNAL(setSfxLabel(QString)), ui->sfxLabel,SLOT(setText(QString)));
     connect(ui->pushButton, SIGNAL(released()),this,SLOT(slotShowSettings()));
+
+    QSettings qs;
+    qs.beginGroup("volume");
+
+    setMusic(qs.value("music", 50).toInt());
+    setVoice(qs.value("voice", 75).toInt());
+    setSfx(qs.value("sfx", 50).toInt());
+    qs.endGroup();
 }
 
 settingsWindow::~settingsWindow()
@@ -127,6 +136,14 @@ void settingsWindow::slotShowSettings() {
     } else {
         isShowing_ = false;
         this->hide();
+
+        QSettings qs;
+        qs.beginGroup("volume");
+        qs.setValue("music", AudioManager::instance()->getMusicVol());
+        qs.setValue("voice", AudioManager::instance()->getVoiceVol());
+        qs.setValue("sfx", AudioManager::instance()->getSfxVol());
+        qs.endGroup();
+
         emit signalWindowClosed();
     }
 }
