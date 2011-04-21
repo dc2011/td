@@ -426,6 +426,7 @@ void CDriver::startGame(bool singlePlayer, QString map) {
     }
 
     gameTimer_->start(GAME_TICK_INTERVAL);
+    setGemCount(0);
 }
 
 void CDriver::endWave() {
