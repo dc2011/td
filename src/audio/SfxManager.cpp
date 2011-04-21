@@ -9,7 +9,7 @@ namespace td {
 QStringList SfxManager::projectileFireArrow  
         = QStringList() << "fireArrow1" << "fireArrow2" << "fireArrow3";
 QStringList SfxManager::projectileFireCannon 
-        = QStringList() << "fireCannon" << "fireCannon2" << "fireCannon3";
+        = QStringList() << "fireCannon1" << "fireCannon2" << "fireCannon3";
 QStringList SfxManager::projectileFireFlame  
         = QStringList() << "fireFlame1" << "fireFlame2";
 QStringList SfxManager::projectileFireTar    
