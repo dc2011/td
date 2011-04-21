@@ -9,7 +9,7 @@
 #include "Tower.h"
 #include "NPCWave.h"
 #include "Projectile.h"
-
+#include "../audio/SfxManager.h"
 #include "BuildingTower.h"
 
 
