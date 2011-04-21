@@ -46,7 +46,7 @@ void TowerPhysicsComponent::findTarget() {
     
     // get all npcs within range 
     enemies_ = map->getUnits(tower_->getPos().x(), tower_->getPos().y(), 
-                             ceil((double) radius_ / tileSize)); 
+                             ceil((double) radius_ / tileSize) + 1); 
  
     if (enemies_.isEmpty()) {
         return;
