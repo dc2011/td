@@ -346,6 +346,7 @@ void LobbyWindow::onLeaveGame() {
         ui->leaveGame->setEnabled(false);
         ui->btnStart->setEnabled(false);
         ui->mapsList->setEnabled(true);
+        ui->newGame->setEnabled(true);
     }
 }
 
@@ -388,6 +389,7 @@ void LobbyWindow::onCreateNewGame() {
         NetworkClient::instance()->send(network::kJoinGame, s.data());
         ui->leaveGame->setEnabled(true);
         ui->mapsList->setEnabled(false);
+        ui->newGame->setEnabled(false);
     }
 }
 
