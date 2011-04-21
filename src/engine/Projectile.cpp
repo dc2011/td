@@ -125,36 +125,36 @@ void Projectile::initComponents() {
             break;
         case PROJ_FIRE_2:
             effectType_ = EFFECT_FIRE_2;
-            this->setWidth(FLAME_WIDTH);
-            this->setHeight(FLAME_WIDTH);
-            this->setScale(1.0);
+            this->setWidth(RADIUS_FLAME_2);
+            this->setHeight(FLAME_HEIGHT * RADIUS_FLAME_2 / 90);
+            this->setScale(RADIUS_FLAME_2 / 90);
 #ifndef SERVER
             setGraphicsComponent(new FireProjectileL1GraphicsComponent());
 #endif
             break;
         case PROJ_FIRE_3:
             effectType_ = EFFECT_FIRE_3;
-            this->setWidth(FLAME_WIDTH * FLAME_2_SCALE);
-            this->setHeight(FLAME_HEIGHT * FLAME_2_SCALE);
-            this->setScale(FLAME_2_SCALE);
+            this->setWidth(RADIUS_FLAME_3);
+            this->setHeight(FLAME_HEIGHT * RADIUS_FLAME_3 / 90);
+            this->setScale(RADIUS_FLAME_3 / 90);
 #ifndef SERVER
             setGraphicsComponent(new FireProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_FIRE_4:
             effectType_ = EFFECT_FIRE_4;
-            this->setWidth(FLAME_WIDTH * FLAME_2_SCALE);
-            this->setHeight(FLAME_HEIGHT * FLAME_2_SCALE);
-            this->setScale(FLAME_2_SCALE);
+            this->setWidth(RADIUS_FLAME_4);
+            this->setHeight(FLAME_HEIGHT * RADIUS_FLAME_4 / 90);
+            this->setScale(RADIUS_FLAME_4 / 90);
 #ifndef SERVER
             setGraphicsComponent(new FireProjectileL2GraphicsComponent());
 #endif
             break;
         case PROJ_FIRE_5:
             effectType_ = EFFECT_FIRE_5;
-            this->setWidth(FLAME_3_WIDTH * FLAME_3_SCALE);
-            this->setHeight(FLAME_3_HEIGHT * FLAME_3_SCALE);
-            this->setScale(FLAME_3_SCALE);
+            this->setWidth(RADIUS_FLAME_5);
+            this->setHeight(FLAME_HEIGHT * RADIUS_FLAME_5 / 80);
+            this->setScale(RADIUS_FLAME_5 / 80);
 #ifndef SERVER
             setGraphicsComponent(new FireProjectileL3GraphicsComponent());
 #endif
@@ -267,8 +267,28 @@ void Projectile::initComponents() {
 }
 
 void Projectile::setPath(QPointF source, QPointF target, Unit* enemy) {
+    if (type_ >= PROJ_FIRE && type_ <= PROJ_FIRE_5) {
+        QLineF distance = QLineF(source.x(), source.y(),
+                target.x(), target.y());
+        switch(type_) {
+        case PROJ_FIRE_2:
+            distance.setLength(distance.length() * 90 / RADIUS_FLAME_2);
+            break;
+        case PROJ_FIRE_3:
+            distance.setLength(distance.length() * 90 / RADIUS_FLAME_3);
+            break;
+        case PROJ_FIRE_4:
+            distance.setLength(distance.length() * 90 / RADIUS_FLAME_4);
+            break;
+        case PROJ_FIRE_5:
+            distance.setLength(distance.length() * 120 / RADIUS_FLAME_5);
+            break;
+        }
+        end_ = new QPointF(distance.p2());
+    } else {
+        end_ = new QPointF(target);
+    }
     start_ = new QPointF(source);
-    end_ = new QPointF(target);
     setEnemy(enemy);
 }
 
