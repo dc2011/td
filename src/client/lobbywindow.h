@@ -24,13 +24,18 @@ public:
     void applyStyleSheet(QString path);
 
 signals:
-    void startGame(bool singlePlayer);
+    void startGame(bool singlePlayer, QString map);
 
 public slots:
     void connectLobby();
     void tmp_startGame();
     void onTCPReceived(Stream* s);
     void onCreateNewGame();
+
+protected:
+    void mousePressEvent(QMouseEvent * e);
+    void mouseMoveEvent(QMouseEvent * e);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 private slots:
     /**
@@ -61,9 +66,20 @@ private slots:
       **/
     void onLeaveGame();
 
+    void onSinglePlayerToggle(bool isSP);
+
 private:
     void updateListOfUserNames(QMultiMap<int, QString>&);
     void updateListOfGames(QMultiMap<int,QString>&);
+
+    /**
+     * Fills the list of maps from the list of map names.
+     *
+     * @author Darryl Pogue
+     * @param mapList The list of map names.
+     */
+    void setListOfMaps(QStringList& mapList);
+
     /**
      * Reads the last used settings from a persistent file.
      *
@@ -85,9 +101,14 @@ private:
      */
     void assignName();
 
+    /** List of all available maps. */
+    QStringList maps_;
+
     /** the game number the client is connected to*/
     int gameNum_;
     Ui::LobbyWindow *ui;
+
+    QPoint clickPos;
 };
 
 } /* end namespace td */

@@ -7,7 +7,6 @@ INPUT_HDRS +=   ./input/InputComponent.h \
                 ./input/CollectableInputComponent.h \
 
 INPUT_SRCS +=   ./input/NPCInputComponent.cpp \
-                ./input/NPCInputComponentTypes.cpp \
                 ./input/PlayerInputComponent.cpp \
                 ./input/ProjectileInputComponent.cpp \
                 ./input/ProjectileInputComponentTypes.cpp \

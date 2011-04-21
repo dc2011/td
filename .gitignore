@@ -20,6 +20,7 @@ Makefile*
 *.user
 *.plist
 *.pro.user*
+qrc*.cpp
 /td.xcodeproj
 /img
 core

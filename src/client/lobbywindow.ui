@@ -25,6 +25,9 @@
     <height>600</height>
    </size>
   </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
+  </property>
   <property name="windowTitle">
    <string>Tower Defense</string>
   </property>
@@ -218,6 +221,9 @@
     </property>
    </widget>
    <widget class="QLineEdit" name="msgBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>39</x>
@@ -305,6 +311,21 @@
     <attribute name="headerStretchLastSection">
      <bool>false</bool>
     </attribute>
+    <attribute name="headerCascadingSectionResizes">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="headerDefaultSectionSize">
+     <number>170</number>
+    </attribute>
+    <attribute name="headerMinimumSectionSize">
+     <number>170</number>
+    </attribute>
+    <attribute name="headerShowSortIndicator" stdset="0">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="headerStretchLastSection">
+     <bool>false</bool>
+    </attribute>
     <column>
      <property name="text">
       <string>Username</string>
@@ -330,6 +351,9 @@
     </property>
    </widget>
    <widget class="QFrame" name="chatBgFrame">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -345,6 +369,9 @@
      <enum>QFrame::Raised</enum>
     </property>
     <widget class="QTextEdit" name="msgView">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -359,6 +386,9 @@
     </widget>
    </widget>
    <widget class="QFrame" name="chatInputBg">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -416,7 +446,6 @@
      <string>Leave Game</string>
     </property>
    </widget>
-   <zorder>mapsList</zorder>
    <zorder>btnStart</zorder>
    <zorder>txtUsername</zorder>
    <zorder>lblDisplayCount</zorder>
@@ -441,6 +470,7 @@
    <zorder>gameList</zorder>
    <zorder>leaveGame</zorder>
    <zorder>msgBox</zorder>
+   <zorder>mapsList</zorder>
   </widget>
  </widget>
  <resources/>

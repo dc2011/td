@@ -1,6 +1,7 @@
 #ifndef CDRIVER_H
 #define CDRIVER_H
 
+#include <QProcess>
 #include <QPointF>
 #include <QSet>
 #include "Driver.h"
@@ -53,11 +54,15 @@ private:
     /** Tells objects whether or not the game is being played single player **/
     bool singlePlayer_;
 
+    QString programPath_;
+
     QList<NPCWave*> waves_;
     QTimer* waveTimer_;
     unsigned int timeCount_;
+    unsigned int completedWaves_;
+    unsigned int totalWaves_;
 
-    CDriver(MainWindow* parent = 0);
+    CDriver(MainWindow* parent = 0, char* programPath = "");
     ~CDriver();
 
 public:
@@ -66,10 +71,11 @@ public:
      *
      * @author Dean Morin
      * @param mainWindow A pointer to the main window where everything is drawn.
+     * @param programPath Path to the program, for relaunching the game.
      * @returns An new instance of the class if one doesn't exist yet, or
      * if one does, it returns a pointer to that instance.
      */
-    static CDriver* init(MainWindow* mainWindow);
+    static CDriver* init(MainWindow* mainWindow, char* programPath = "");
    
     /**
      * Calls the dtor for the singleton instance.
@@ -179,12 +185,14 @@ public:
     NPC* createNPC(int npcType);
 
     /**
-     * Stop game timer.
+     * Begins end of game sequence: Stops game timers, disconnects from server,
+     * returns to game lobby etc..
+     *
+     * @param winner True if the player has won, False if not.
      * 
-     * @author Duncan Donaldson
-     * @return void
+     * @author Tom Nightingale
      */
-    void endGame();
+    void endGame(bool winner);
 
     /**
      * Returns the human
@@ -247,6 +255,31 @@ signals:
      * @author Dean Morin
      */
     void signalEmptyTile(bool);
+
+    /**
+     * Emitted when the map is set.
+     * This is a hack.
+     *
+     * @author Darryl Pogue
+     * @param map The name of the map.
+     */
+    void setMap(QString map);
+    
+    /**
+     * Emitted when the game is ended.
+     * Connected to MainWindow::close().
+     * Connected to LobbyWindow::show().
+     *
+     * @author Tom Nightingale
+     */
+    void signalReturnToLobby();
+
+    /**
+     * Emitted to show the main client window when the player is set.
+     *
+     * @author Darryl Pogue
+     */
+    void signalOpenWindow();
     
 public slots:
     /**
@@ -257,7 +290,7 @@ public slots:
     * @author Duncan Donaldson
     * @return void
     */
-    void startGame(bool singlePlayer);
+    void startGame(bool singlePlayer, QString map);
 
     /**
      * Called whenenever the spacebar is pressed. It checks the tile type that
@@ -349,7 +382,7 @@ private slots:
      * @author Marcel Vangrootheest
      */
     void NPCCreator();
-    void deadWave();
+    void endWave();
 };
 
 } /* end namespace td */

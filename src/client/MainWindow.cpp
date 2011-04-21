@@ -7,8 +7,8 @@
 #include "../audio/manager.h"
 #include "../graphics/GraphicsComponent.h"
 #include "../graphics/MapDisplayer.h"
-#include "../util/DelayedDelete.h"
 #include "../graphics/Console.h"
+#include "../util/DelayedDelete.h"
 #include "../engine/CDriver.h"
 #include "../engine/Player.h"
 #include "stats.h"
@@ -19,6 +19,7 @@ MainWindow::MainWindow() : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
     stats_ = new Stats();
+    stats_->setFixedHeight(22);
 
     consoleOpen_ = false;
     mapZoomOut_ = false;
@@ -33,8 +34,7 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
-
-    stats_->setFixedHeight(22);
+    view_->setInteractive(false);
 
     //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
@@ -51,8 +51,11 @@ MainWindow::MainWindow() : QMainWindow() {
 
     this->setCentralWidget(centre);
     scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
-    //view_->setFixedSize(mapSize.width(), mapSize.height());
-    //this->showFullScreen();
+
+#ifndef DEBUG
+    view_->setFixedSize(mapSize.width(), mapSize.height());
+    this->showFullScreen();
+#endif
     
     loadKeymap();
     
@@ -257,7 +260,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
     } else if (keys_.voiceKey.matches(key) == QKeySequence::ExactMatch) {
         /* Voice key => V */
         // Temporarily disabled
-	AudioManager::instance()->toggleCapturePause();
+        AudioManager::instance()->toggleCapturePause();
     } else if (keys_.zoomKey.matches(key) == QKeySequence::ExactMatch) {
         /* Zoom key => Z */
         if(mapZoomOut_ == true && 
@@ -291,8 +294,20 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
 }
 
 void MainWindow::scroll(QPointF pos) {
-    //qDebug("MainWindow::scroll(); Player must be moving pos: (%d, %d)", x, y);
     view_->centerOn(pos);
+}
+
+void MainWindow::setMap(QString mapname) {
+    mapDisplayer_->viewMap(mapname);
+    Tiled::MapRenderer* mRenderer = mapDisplayer_->getMRenderer();
+    QSize mapSize = mRenderer->mapSize();
+    scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
+
+    semMap_.release();
+}
+
+void MainWindow::endGameCleanup() {
+    close();
 }
 
 } /* end namespace td */

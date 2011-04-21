@@ -5,6 +5,7 @@
 #include <QList>
 #include "Driver.h"
 #include "NPCWave.h"
+#include "Parser.h"
 #include "../network/netserver.h"
 #include "../util/mutex_magic.h"
 
@@ -32,6 +33,9 @@ private:
 
     /** Keeps track of how many NPCs there currently are. */
     size_t npcCounter_;
+
+    /** The script parser to go along with the map. */
+    Parser* script_;
 
 public:
     // ctors and dtors
@@ -66,6 +70,32 @@ public:
      * @param success true if the game was won, false otherwise.
      */
     void endGame(bool success);
+
+    /**
+     * Sets the game map and script parser.
+     * DO NOT CALL THIS AFTER A GAME HAS STARTED!!!
+     *
+     * @author Darryl Pogue
+     * @param mapfile The filename of the map.
+     */
+    void setMap(QString mapfile) {
+        if (script_ != NULL) {
+            delete script_;
+        }
+        if (gameMap_ != NULL) {
+            delete gameMap_;
+        }
+        qDebug("%s", mapfile.toAscii().data());
+
+        QString scr = QString("./maps/") + mapfile;
+        script_ = new Parser(this, scr);
+
+        QString map = QString("./maps/") + script_->map + QString(".tmx");
+        qDebug() << map;
+
+        gameMap_ = new Map(map, this);
+        gameMap_->initMap();
+    }
 
     /**
      * If an object exists, updates its values with the ones read.

@@ -18,7 +18,7 @@
     <rect>
      <x>110</x>
      <y>20</y>
-     <width>80</width>
+     <width>90</width>
      <height>85</height>
     </rect>
    </property>
@@ -27,6 +27,9 @@
    </property>
    <property name="text">
     <string>Set Volume</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
    </property>
    <property name="flat">
     <bool>true</bool>
@@ -46,6 +49,9 @@
    </property>
    <property name="text">
     <string>Key Mapping</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
    </property>
    <property name="flat">
     <bool>true</bool>
@@ -81,6 +87,9 @@
    </property>
    <property name="text">
     <string>OK</string>
+   </property>
+   <property name="default">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>

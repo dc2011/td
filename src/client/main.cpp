@@ -8,6 +8,7 @@
 #include "../engine/CDriver.h"
 #include "../audio/manager.h"
 #include "../network/netclient.h"
+#include "../graphics/Console.h"
 
 int main(int argc, char **argv) {
     QApplication a(argc, argv);
@@ -27,24 +28,21 @@ int main(int argc, char **argv) {
 
     td::LobbyWindow* lobby = new td::LobbyWindow();
     td::MainWindow* qmw = new td::MainWindow();
-    td::CDriver* clientDriver = td::CDriver::init(qmw);
+    td::CDriver* clientDriver = td::CDriver::init(qmw, argv[0]);
     td::Thread* driverThread = new td::Thread();
     td::MainMenu* mainWindow = new td::MainMenu();
 
-    QObject::connect(lobby, SIGNAL(startGame(bool)),
-                     clientDriver, SLOT(startGame(bool)));
-    QObject::connect(lobby, SIGNAL(startGame(bool)),
-                     qmw, SLOT(openWindow()));
+
+    QObject::connect(lobby, SIGNAL(startGame(bool, QString)),
+                     clientDriver, SLOT(startGame(bool, QString)));
     clientDriver->moveToThread(driverThread);
     QObject::connect(qmw,SIGNAL(signalShowMainMenu()),
                      mainWindow, SLOT(slotShowMainMenu()));
 
     driverThread->start();
-
     lobby->show();
     
     int exitCode = a.exec();
-
     
     td::AudioManager::instance()->shutdown();
     td::CDriver::shutdown();

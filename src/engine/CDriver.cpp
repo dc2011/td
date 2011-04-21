@@ -25,7 +25,7 @@ namespace td {
 
 CDriver* CDriver::instance_ = NULL;
 
-CDriver::CDriver(MainWindow* mainWindow)
+CDriver::CDriver(MainWindow* mainWindow, char* programPath)
         : Driver(), playerID_(0xFFFFFFFF), human_(NULL),
           mainWindow_(mainWindow), buildContextMenu_(NULL),
           towerContextMenu_(NULL), playerContextMenu_(NULL)
@@ -33,23 +33,34 @@ CDriver::CDriver(MainWindow* mainWindow)
     mgr_ = new ResManager(this);
     npcCounter_ = 0;
     timeCount_ = 0;
+    totalWaves_ = 0;
+    completedWaves_ = 0;
+    programPath_.append(programPath);
+    
+    connect(this, SIGNAL(setMap(QString)),
+            mainWindow_, SLOT(setMap(QString)));
+    connect(this, SIGNAL(signalReturnToLobby()),
+            mainWindow_, SLOT(endGameCleanup()));
+
+    connect(this, SIGNAL(signalOpenWindow()),
+            mainWindow_, SLOT(openWindow()));
 }
 
 CDriver::~CDriver() {
     if(!waves_.empty()) {
         NPCWave* temp;
         foreach(temp, waves_){
-            disconnect(temp, SIGNAL(waveDead()),this,SLOT(deadWave()));
+            disconnect(temp, SIGNAL(waveDead()),this,SLOT(endWave()));
         }
     }
     waves_.clear();
 }
 
-CDriver* CDriver::init(MainWindow* mainWindow) {
+CDriver* CDriver::init(MainWindow* mainWindow, char* programPath) {
     if (instance_ != NULL) {
         return instance_;
     }
-    instance_ = new CDriver(mainWindow);
+    instance_ = new CDriver(mainWindow, programPath);
     return instance_;
 }
 
@@ -222,6 +233,8 @@ void CDriver::makeLocalPlayer(Player* player) {
 	        input, SLOT(playerMovement(bool)));
     connect(player, SIGNAL(signalDropResource(int, QPointF, QVector2D)),
             this, SLOT(requestCollectable(int, QPointF, QVector2D)));
+
+    emit signalOpenWindow();
 }
 
 void CDriver::dropResource() {
@@ -234,9 +247,11 @@ void CDriver::dropResource() {
     if (this->isSinglePlayer() &&
             currentTile->getActionType() == TILE_BUILDING) {
         BuildingTower* t = (BuildingTower*)currentTile->getExtension();
-        if (this->addToTower(t, human_) && t->isDone()) {
-            this->createTower(t->getType(), t->getPos());
-            this->destroyObject(t);
+        if (this->addToTower(t, human_)) {
+            if (t->isDone()) {
+                this->createTower(t->getType(), t->getPos());
+                this->destroyObject(t);
+            }
             human_->setResource(RESOURCE_NONE);
             return;
         }
@@ -333,38 +348,53 @@ void CDriver::requestUpgradePlayer(int type) {
 }
 
 void CDriver::NPCCreator() {
-    timeCount_++;
-    if(!waves_.empty()) {
-        //disconnect(waveTimer_, SIGNAL(timeout()), this, SLOT(NPCCreator()));
-        NPCWave* temp;
-        foreach(temp,waves_) {
-            if(temp->getStart() == timeCount_){
-                temp->createWave();
-                connect(temp, SIGNAL(waveDead()),this,SLOT(deadWave()));
+    // Check to see if there are anymore waves.
+    if (completedWaves_ == totalWaves_) {
+        qDebug("CDriver::NPCCreator(); No more waves, game over!");
+        endGame(true);
+        return;
+    }
+
+    if (!waves_.empty()) {
+        bool createdwave = false;
+        NPCWave* wave = NULL;
+        for (int i = 0; i < waves_.size(); i++) {
+            wave = waves_[i];
+            if (wave->getStart() == timeCount_) {
+                waves_.removeAt(i--);
+                wave->createWave();
+                connect(wave, SIGNAL(waveDead()), this, SLOT(endWave()));
+                //connect(wave, SIGNAL(waveDead()), wave, SLOT(deleteLater()));
+                createdwave = true;
             }
         }
-
-        //waves_.first()->createWave();
-        //connect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
+        if (createdwave) {
+            PLAY_SFX(wave, SfxManager::npcPterodactylEnters);
+        }
     }
+
+    timeCount_++;
 }
 
-void CDriver::startGame(bool singlePlayer) {
-    // Create hard coded map
-    gameMap_ = new Map(mainWindow_->getMD()->map(), this);
+void CDriver::startGame(bool singlePlayer, QString map) {
+
     gameTimer_ = new QTimer(this);
     waveTimer_ = new QTimer(this);
-    gameMap_->initMap();
     QQueue<QString> musicList;
 
     setSinglePlayer(singlePlayer);
 
-    td::Console::instance();
     musicList = td::AudioManager::instance()->musicDir("./sound/music/");
     td::AudioManager::instance()->playMusic(musicList);
 
-    if (singlePlayer) {
+    Parser* fileParser = new Parser(this, QString("./maps/") + map);
+    emit setMap(QString("./maps/") + fileParser->map + QString(".tmx"));
+    mainWindow_->lockMapHack();
 
+    gameMap_ = new Map(mainWindow_->getMD()->map(), this);
+    gameMap_->initMap();
+
+    if (singlePlayer) {
         Player* player = (Player*)mgr_->createObject(Player::clsIdx());
         playerID_ = player->getID();
 
@@ -373,11 +403,11 @@ void CDriver::startGame(bool singlePlayer) {
 
         this->makeLocalPlayer(player);
 
-        Parser* fileParser = new Parser(this, MAP_NFO);
         NPCWave* tempWave;
         setBaseHealth(fileParser->baseHP);
         while((tempWave = fileParser->readWave())!=NULL) {
             waves_.append(tempWave);
+            totalWaves_++;
         }
 
         waveTimer_->start(1000);
@@ -385,26 +415,23 @@ void CDriver::startGame(bool singlePlayer) {
         timeCount_ = 0;
     }
 
-    //connect(mainWindow_,  SIGNAL(signalAltHeld(bool)),
-            //npc_->getGraphicsComponent(), SLOT(showHealth(bool)));
-
     gameTimer_->start(GAME_TICK_INTERVAL);
 }
 
-void CDriver::deadWave(){
-    if (!waves_.empty()) {
-        /*disconnect((waves_.first()), SIGNAL(waveDead()),this,SLOT(deadWave()));
-        waves_.takeFirst();
-        connect(waveTimer_, SIGNAL(timeout()),this, SLOT(NPCCreator()));*/
-    } else {
-        endGame();
-    }
+void CDriver::endWave() {
+    completedWaves_++;
+    qDebug("CDriver::endWave(); Num waves completed: %d of %d", completedWaves_, totalWaves_);
 }
 
-void CDriver::endGame() {
-    disconnectFromServer();
+void CDriver::endGame(bool winner) {
+    if (!isSinglePlayer()) {
+        disconnectFromServer();
+    }
     this->waveTimer_->stop();
     this->gameTimer_->stop();
+
+    emit signalReturnToLobby();
+    QProcess::execute(programPath_);
 }
 
 bool CDriver::isSinglePlayer() {
@@ -590,9 +617,13 @@ void CDriver::UDPReceived(Stream* s) {
 
             if (successful) {
                 Console::instance()->addText("You won :D");
+                endGame(TRUE);
             } else {
                 Console::instance()->addText("You lost :(");
+                endGame(FALSE);
             }
+
+            endGame(successful);
             break;
         }
         case network::kConsoleChat:

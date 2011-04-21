@@ -9,6 +9,7 @@
 #include <QSettings>
 #include <QFrame>
 #include <QBoxLayout>
+#include <QSemaphore>
 #include "../graphics/DrawParams.h"
 #include "keymap.h"
 #include "stats.h"
@@ -76,6 +77,9 @@ private:
     /** The keymap defining which keys are bound to which events. */
     Keymap keys_;
 
+    /** Semaphore to block until the map is properly initialized. */
+    QSemaphore semMap_;
+
 public:
     MainWindow();
     virtual ~MainWindow();
@@ -85,6 +89,8 @@ public:
     Stats* getStats() { return stats_; }
     MapDisplayer * getMD() { return mapDisplayer_; }
     bool getMapState() { return mapZoomOut_; }
+
+    void lockMapHack() { semMap_.acquire(); }
     
 protected:
     /**
@@ -152,6 +158,16 @@ public slots:
      * @author Tom Nightingale
      */
     void scroll(QPointF pos);
+
+    void setMap(QString mapname);
+
+    /**
+     * The goal here is to clean up all graphics related resources in one foul
+     * swoop.
+     *
+     * @author Tom Nightingale
+     */
+    void endGameCleanup();
 
 signals:
     void signalKeyPressed(int);

@@ -9,10 +9,9 @@
 #include "Tower.h"
 #include "NPCWave.h"
 #include "Projectile.h"
-
+#include "../audio/SfxManager.h"
 #include "BuildingTower.h"
 
-#include "Parser.h"
 
 
 namespace td {
@@ -20,14 +19,13 @@ namespace td {
 SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
     waveTimer_ = new QTimer(this);
-    gameMap_ = new Map(MAP_TMX, this);
+    gameMap_ = NULL;
+    script_ = NULL;
     net_ = new NetworkServer();
     npcCounter_ = 0;
     timeCount_ = 0;
     completedWaves_ = 0;
     totalWaves_ = 0;
-
-    gameMap_->initMap();
 
     connect(net_, SIGNAL(msgReceived(Stream*)), 
             this, SLOT(onMsgReceive(Stream*)));
@@ -47,6 +45,7 @@ SDriver::~SDriver() {
     }*/
     waves_.clear();
     delete net_;
+    delete script_;
 }
 
 unsigned int SDriver::addPlayer(QTcpSocket* sock, QString nickname) {
@@ -120,11 +119,11 @@ void SDriver::startGame(bool multicast) {
 
     net_->send(network::kServerPlayers, s.data());
 
-    Parser* fileParser = new Parser(this, MAP_NFO);
     NPCWave* tempWave;
-    setBaseHealth(fileParser->baseHP);
-
-    while((tempWave = fileParser->readWave()) != NULL) {
+    setBaseHealth(script_->baseHP);
+    //tempWave = new NPCWave(this);
+    //waves_.append(tempWave);
+    while((tempWave = script_->readWave())!=NULL) {
         waves_.append(tempWave);
         totalWaves_++;
     }
@@ -231,14 +230,20 @@ void SDriver::destroyObject(int id) {
 void SDriver::spawnWave() {
     // Check to see if any waves should be spawned on this tick.
     if (!waves_.empty()) {
+        bool createdwave = false;
+        NPCWave* wave = NULL;
         for (int i = 0; i < waves_.size(); i++) {
-            NPCWave* wave = waves_[i];
+            wave = waves_[i];
             if (wave->getStart() == timeCount_) {
                 waves_.removeAt(i--);
                 wave->createWave();
                 connect(wave, SIGNAL(waveDead()), this, SLOT(endWave()));
                 connect(wave, SIGNAL(waveDead()), wave, SLOT(deleteLater()));
+                createdwave = true;
             }
+        }
+        if (createdwave) {
+            PLAY_SFX(wave, SfxManager::npcPterodactylEnters);
         }
     }
     
