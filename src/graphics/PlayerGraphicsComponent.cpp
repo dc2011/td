@@ -30,7 +30,6 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
 }
 
 PlayerGraphicsComponent::~PlayerGraphicsComponent() {
-    delete pixmapImgs_;
     delete resourcePixmapItem_;
 }
 
