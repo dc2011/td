@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
 
     td::LobbyWindow* lobby = new td::LobbyWindow();
     td::MainWindow* qmw = new td::MainWindow();
-    td::CDriver* clientDriver = td::CDriver::init(qmw);
+    td::CDriver* clientDriver = td::CDriver::init(qmw, argv[0]);
     td::Thread* driverThread = new td::Thread();
     td::MainMenu* mainWindow = new td::MainMenu();
 
