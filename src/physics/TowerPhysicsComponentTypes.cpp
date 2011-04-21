@@ -1,6 +1,7 @@
 #include "TowerPhysicsComponentTypes.h"
 #include "../engine/Tower.h"
 #include "../graphics/TowerGraphicsComponent.h"
+#include <QDebug>
 #define PI 3.141592653589793238
 
 namespace td {
@@ -110,7 +111,7 @@ void FlameTowerPhysicsComponent::fire() {
 
 TarTowerPhysicsComponent::TarTowerPhysicsComponent(Tower* tower)
         : TowerPhysicsComponent(tower, FIRE_INTERVAL_TAR, RADIUS_TAR, PROJ_TAR)
-{ }
+{qDebug() << FIRE_INTERVAL_TAR; }
 
 bool TarTowerPhysicsComponent::isValidTarget(Unit * target) {
     if(((NPC*)target)->getType() == NPC_FLY) {
