@@ -1,7 +1,7 @@
 1, bigmap, 100, 2,2,3,3  #0 - 7 paths,  createure type, number of npcs, start time,inverval, gems (not read) #0,1 flying paths 2 upper right 3 lower left 4 upper left 5 goes through bottom left 6 upper left normal path # creatures: 0 normal
 6,3,3,50,40,2    # fast 		#easy start
 6,0,5,75,40,2    # normal
-3,3,3,,100,2	 # fast
+3,3,3,110,100,2	 # fast
 1,5,4,125,50,2    # air
 3,2,6,135,60,2	 # slow
 4,4,30,145,20,2	 # omg big swarm
