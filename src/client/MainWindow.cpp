@@ -316,7 +316,7 @@ void MainWindow::setMap(QString mapname) {
 
 void MainWindow::endGameScreen(bool winner) {
 
-    QPointF centre = scene_->sceneRect().center();
+    QPointF centre = view_->frameRect().center();
     QGraphicsPixmapItem *img; 
     gameOver_ = true;
     alSleep(0.5f); //wait till audio has actually shutdown #HAX!
@@ -330,8 +330,8 @@ void MainWindow::endGameScreen(bool winner) {
     }
 
     scene_->addItem(img);
-    img->scale(.5,.5);
-    img->setPos(centre.x(),centre.y());
+    img->scale(.4,.4);
+    img->setPos(view_->mapToScene(centre.x(),centre.y()));
 
     centre = img->boundingRect().center();
     img->translate(-centre.x(),-centre.y());
