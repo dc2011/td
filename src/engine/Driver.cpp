@@ -438,6 +438,7 @@ bool Driver::upgradePlayer(int id, int type, int* cost) {
 
 #ifdef SERVER
     if (type == UPGRADE_SPEED) {
+        qDebug("Server - Upgrading player speed (%08X)", id);
         setGemCount(gemCount_ - GEMS_SPEED);
         if (cost != NULL) {
             *cost = GEMS_SPEED;
@@ -461,6 +462,7 @@ bool Driver::upgradePlayer(int id, int type, int* cost) {
     switch (type) {
     case UPGRADE_SPEED:
         setGemCount(gemCount_ - GEMS_SPEED);
+        qDebug("Client - Upgrading player speed (%08X)", id);
         if (player->hasEffect(EFFECT_SLOW)) {
             player->deleteEffect(EFFECT_SLOW);
             ((PlayerPhysicsComponent*)player->getPhysicsComponent())
