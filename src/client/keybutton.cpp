@@ -4,6 +4,7 @@ namespace td {
 
 KeyButton::KeyButton(QWidget* parent) : QPushButton(parent) {
     this->setCheckable(true);
+    this->setFocusPolicy(Qt::StrongFocus);
 }
 
 KeyButton::~KeyButton() { }

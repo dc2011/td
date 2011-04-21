@@ -62,9 +62,6 @@ MainWindow::MainWindow(char* programPath) : QMainWindow() {
 #endif
     
     loadKeymap();
-    
-    // This focus policy may be implied by default...
-    this->setFocusPolicy(Qt::StrongFocus);
 
     connect(keysTimer_, SIGNAL(timeout()), this, SLOT(keyHeld()));
 }
