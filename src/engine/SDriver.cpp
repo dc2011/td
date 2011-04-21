@@ -19,8 +19,8 @@ namespace td {
 SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
     waveTimer_ = new QTimer(this);
-    gameMap_ = new Map(MAP_TMX, this);
-    script_ = new Parser(this, MAP_NFO);
+    gameMap_ = NULL;
+    script_ = NULL;
     net_ = new NetworkServer();
     npcCounter_ = 0;
     timeCount_ = 0;

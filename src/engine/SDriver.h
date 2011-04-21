@@ -87,7 +87,7 @@ public:
         }
         qDebug("%s", mapfile.toAscii().data());
 
-        QString scr = QString("./maps/") + mapfile;
+        QString scr = mapfile;
         script_ = new Parser(this, scr);
 
         QString map = QString("./maps/") + script_->map + QString(".tmx");
