@@ -103,7 +103,10 @@ void SDriver::startGame(bool multicast) {
     Stream s;
     s.writeByte(players_.size());
 
+    QPointF homeLocation = gameMap_->getHomeLoc();
     foreach (Player* user, players_.values()) {
+        user->setPos(homeLocation.x(), homeLocation.y());
+
         user->networkWrite(&s);
         user->resetDirty();
     }

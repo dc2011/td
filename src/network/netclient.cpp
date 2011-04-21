@@ -25,7 +25,7 @@ NetworkClient::NetworkClient(QHostAddress servAddr)
 {
     tcpSocket_ = new QTcpSocket();
     tcpSocket_->connectToHost(servAddr, TD_PORT);
-
+    tcpSocket_->waitForConnected(1000);
     udpSocket_ = new QUdpSocket();
 
     connect(this, SIGNAL(msgQueued()), this, SLOT(onMsgQueued()),
@@ -106,6 +106,10 @@ void NetworkClient::onMsgQueued()
     } else {
         tcpSocket_->write(tmp);
     }
+}
+
+bool NetworkClient::isConnected() {
+    return tcpSocket_->state() == QAbstractSocket::ConnectedState;
 }
 
 void NetworkClient::onMulticastJoin(unsigned char digit) {

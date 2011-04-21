@@ -18,9 +18,6 @@ Player::Player(QObject* parent)
 {
     QVector2D force(0, 0);
     this->setForce(force);
-
-    QPointF homeLocation = getDriver()->getGameMap()->getHomeLoc();
-    this->setPos(homeLocation.x(), homeLocation.y());
 }
 
 Player::~Player()
@@ -216,11 +213,6 @@ void Player::harvestResource() {
         harvestCountdown_ = harvestTime_;
         setDirty(kResource);
         stopHarvesting();
-
-#ifndef SERVER
-        //Console::instance()->addText("Picked up a Resource");
-#endif
-
         return;
     }
 }

@@ -37,10 +37,10 @@ class PlayerGraphicsComponent : public GraphicsComponent {
 
 private:
     /** Container for all pixmaps which pertain to the current object */
-    static QPixmap * pixmapImgs_;
+    static QPixmap* pixmapImgs_;
 
     /** Text to display the current label_ for this item **/
-    QGraphicsTextItem * label_;
+    QGraphicsTextItem* label_;
 
     /** Nickname to be displayed for the player. */
     QString nickname_;
@@ -75,7 +75,7 @@ public:
      * @author Warren Voelkl
      */
     PlayerGraphicsComponent(QString nickname);
-    virtual ~PlayerGraphicsComponent() { }
+    virtual ~PlayerGraphicsComponent();
 
     /**
      * Loads a structure from the item and game component class then sends

@@ -31,6 +31,8 @@ CDriver::CDriver(MainWindow* mainWindow, char* programPath)
           towerContextMenu_(NULL), playerContextMenu_(NULL)
 {
     mgr_ = new ResManager(this);
+    gameTimer_ = new QTimer(this);
+    waveTimer_ = new QTimer(this);
     npcCounter_ = 0;
     timeCount_ = 0;
     totalWaves_ = 0;
@@ -378,8 +380,6 @@ void CDriver::NPCCreator() {
 
 void CDriver::startGame(bool singlePlayer, QString map) {
 
-    gameTimer_ = new QTimer(this);
-    waveTimer_ = new QTimer(this);
     QQueue<QString> musicList;
 
     setSinglePlayer(singlePlayer);
@@ -400,6 +400,9 @@ void CDriver::startGame(bool singlePlayer, QString map) {
 
         player->initComponents();
         connect(gameTimer_, SIGNAL(timeout()), player, SLOT(update()));
+
+        QPointF homeLocation = gameMap_->getHomeLoc();
+        player->setPos(homeLocation.x(), homeLocation.y());
 
         this->makeLocalPlayer(player);
 

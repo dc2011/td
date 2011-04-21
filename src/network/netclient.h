@@ -213,7 +213,13 @@ public:
      * @return A pointer to the initialized NetworkClient instance.
      */
     static NetworkClient* init(QHostAddress servAddr);
-
+    /**
+      * Checks if the tcp Socket is in a connected state
+      *
+      * @author Kelvin Lui
+      * @return true is tcpSocket_ is in a connected state
+      */
+    bool isConnected();
     /**
      * Close the network sockets and empty the message buffer queue.
      * This should only be called once, when the program is exiting.
