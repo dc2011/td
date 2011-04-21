@@ -9,10 +9,10 @@
 namespace td {
     
 TowerGraphicsComponent::TowerGraphicsComponent()
-        : GraphicsComponent(), firing_(false), timerRunning_(false),
-          timerID_(0), reloadTime_(0), hasFiringAnimation_(false),
-          constructed_(false), oldRotation_(-1), oldFiring_(false),
-          oldRadius_(false) {
+        : GraphicsComponent(), constructed_(false), oldRotation_(-1),
+        oldFiring_(false), oldRadius_(false), firing_(false),
+        timerRunning_(false), timerID_(0), reloadTime_(0),
+        hasFiringAnimation_(false) {
 }
 
 TowerGraphicsComponent::~TowerGraphicsComponent() {
