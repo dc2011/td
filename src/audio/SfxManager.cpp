@@ -7,15 +7,15 @@ namespace td {
 
 // projectile fires
 QStringList SfxManager::projectileFireArrow  
-        = QStringList() << "arrow-1" << "arrow-2" << "arrow-3";
+        = QStringList() << "fireArrow1" << "fireArrow2" << "fireArrow3";
 QStringList SfxManager::projectileFireCannon 
-        = QStringList() << "cannon-1" << "cannon-2" << "cannon-3";
+        = QStringList() << "fireCannon1" << "fireCannon2" << "fireCannon3";
 QStringList SfxManager::projectileFireFlame  
-        = QStringList() << "fire-1";
+        = QStringList() << "fireFlame1" << "fireFlame2";
 QStringList SfxManager::projectileFireTar    
-        = QStringList() << "tar-1" << "tar-2" << "tar-3";
+        = QStringList() << "fireTar1" << "fireTar2" << "fireTar3";
 QStringList SfxManager::projectileFireFlak   
-        = QStringList() << "flak-1" << "flak-2";
+        = QStringList() << "flak1" << "flak2" << "flak3";
 
 // projectile lands
 QStringList SfxManager::projectileHitArrow  
@@ -31,7 +31,7 @@ QStringList SfxManager::projectileHitFlak
 
 // tower SFX
 QStringList SfxManager::towerBuildingStarted
-        = QStringList() << "wood";
+        = QStringList() << "resourceWood";
 QStringList SfxManager::towerBuildingFinished
         = QStringList() << "";
 QStringList SfxManager::towerLevelUp
@@ -47,25 +47,25 @@ QStringList SfxManager::contextMenuClosed
 QStringList SfxManager::contextMenuSelect
         = QStringList() << "arrow-3";
 QStringList SfxManager::contextMenuNotEnoughGems
-        = QStringList() << "peffect-1";
+        = QStringList() << "menuNotEnoughGems";
 
 // NPC wave entrance
 QStringList SfxManager::npcPterodactylEnters
-        = QStringList() << "entrance-1";
+        = QStringList() << "entrance";
 
 // NPC death 
 QStringList SfxManager::npcPterodactylDies
-        = QStringList() << "";
+        = QStringList() << "dinoSmall" << "dinoCroak" << "dinoBig";
 
 // resource harvesting
 QStringList SfxManager::resourceWood
-        = QStringList() << "wood";
+        = QStringList() << "resourceWood";
 QStringList SfxManager::resourceStone
-        = QStringList() << "stone";
+        = QStringList() << "resourceStone";
 QStringList SfxManager::resourceBone
-        = QStringList() << "bone";
+        = QStringList() << "resourceBone";
 QStringList SfxManager::resourceTar
-        = QStringList() << "oil";
+        = QStringList() << "resourceOil";
 
 // player SFX
 QStringList SfxManager::playerOpensMenu
@@ -75,8 +75,8 @@ QStringList SfxManager::playerSelectsMenuItem
 QStringList SfxManager::playerLevelsUp
         = QStringList() << "";
 QStringList SfxManager::playerHitsNpc
-        = QStringList() << "peffect-1" << "peffect-2" << "peffect-3"
-        << "peffect-4" << "peffect-5" << "peffect-6";
+        = QStringList() << "npcCollision1" << "npcCollision2" << "npcCollision3"
+        << "npcCollision4" << "npcCollision5" << "npcCollision";
 
 //Game Sfx
 QStringList SfxManager::npcInBase
