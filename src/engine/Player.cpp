@@ -18,9 +18,6 @@ Player::Player(QObject* parent)
 {
     QVector2D force(0, 0);
     this->setForce(force);
-
-    QPointF homeLocation = getDriver()->getGameMap()->getHomeLoc();
-    this->setPos(homeLocation.x(), homeLocation.y());
 }
 
 Player::~Player()
