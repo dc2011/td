@@ -1,6 +1,8 @@
 #ifndef _mutex_magic_
 #define _mutex_magic_
 
+#include <QMutex>
+
 #define THREAD_SAFE_CLASS \
 protected: \
     /** 

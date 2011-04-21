@@ -38,7 +38,7 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
     connect(ui->chkSingleplayer, SIGNAL(clicked(bool)),
             this, SLOT(onSinglePlayerToggle(bool)));
     connect(this, SIGNAL(startGame(bool, QString)),
-            this, SLOT(close()));
+            this, SLOT(hide()));
     connect(ui->sendMsg,SIGNAL(clicked()),this,SLOT(sendChatMessage()));
 
     // so I don't have to enter the ip address, like, every freaking time
