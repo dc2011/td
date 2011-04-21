@@ -94,6 +94,10 @@ void CDriver::setBaseHealth(int health) {
     Driver::setBaseHealth(health);
 
     getMainWindow()->getStats()->updateHP(health);
+    
+    if(health <= 0) {
+	endGame(false);
+    }
 }
 
 void CDriver::setGemCount(int count) {
@@ -622,7 +626,6 @@ void CDriver::UDPReceived(Stream* s) {
                 endGame(FALSE);
             }
 
-            endGame(successful);
             break;
         }
         case network::kConsoleChat:

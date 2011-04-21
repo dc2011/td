@@ -325,7 +325,7 @@ void MainWindow::endGameScreen(bool winner) {
 	img = new QGraphicsPixmapItem(QPixmap("./img/win.png"));
 	PLAY_LOCAL_SFX(SfxManager::winTheGame);
     } else {
-	img = new QGraphicsPixmapItem(QPixmap("./img/gameover.png"));
+	img = new QGraphicsPixmapItem(QPixmap("./img/gameOver.png"));
 	PLAY_LOCAL_SFX(SfxManager::loseTheGame);
     }
 
