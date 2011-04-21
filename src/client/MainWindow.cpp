@@ -35,8 +35,6 @@ MainWindow::MainWindow() : QMainWindow() {
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view_->releaseKeyboard();
     view_->setInteractive(false);
-    view_->setWindowIcon(QIcon(":/file/bonerang.png"));
-
 
     //MapDisplayer * mapDisplayer_ = NULL;
     mapDisplayer_ = new MapDisplayer(scene_);
