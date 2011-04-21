@@ -213,11 +213,6 @@ void Player::harvestResource() {
         harvestCountdown_ = harvestTime_;
         setDirty(kResource);
         stopHarvesting();
-
-#ifndef SERVER
-        //Console::instance()->addText("Picked up a Resource");
-#endif
-
         return;
     }
 }

@@ -74,32 +74,6 @@
      <string>username</string>
     </property>
    </widget>
-   <widget class="QLabel" name="lblDisplayCount">
-    <property name="geometry">
-     <rect>
-      <x>578</x>
-      <y>555</y>
-      <width>16</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lblCount">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>555</y>
-      <width>132</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Number connected:</string>
-    </property>
-   </widget>
    <widget class="QCheckBox" name="chkSingleplayer">
     <property name="geometry">
      <rect>
@@ -448,8 +422,6 @@
    </widget>
    <zorder>btnStart</zorder>
    <zorder>txtUsername</zorder>
-   <zorder>lblDisplayCount</zorder>
-   <zorder>lblCount</zorder>
    <zorder>chkSingleplayer</zorder>
    <zorder>btnConnect</zorder>
    <zorder>lblAddress</zorder>

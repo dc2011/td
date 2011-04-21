@@ -186,7 +186,7 @@ void FlakEffectL5::apply(){}
 PlayerTerrainSlowEffect::PlayerTerrainSlowEffect(Unit* unit)
     : Effect(unit, EFFECT_SLOW, NO_TIME) {
     oldVelocity_ = ((PlayerPhysicsComponent*)unit->getPhysicsComponent())->getMaxVelocity();
-    velocityChangeValue_ = oldVelocity_ / 5;
+    velocityChangeValue_ = oldVelocity_ / 2;
 }
 
 PlayerTerrainSlowEffect::~PlayerTerrainSlowEffect() {
@@ -207,7 +207,7 @@ void PlayerTerrainSlowEffect::apply() {
 PlayerTerrainFastEffect::PlayerTerrainFastEffect(Unit* unit)
     : Effect(unit, EFFECT_FAST, NO_TIME) {
     oldVelocity_ = ((PlayerPhysicsComponent*)unit->getPhysicsComponent())->getMaxVelocity();
-    velocityChangeValue_ = oldVelocity_*2;
+    velocityChangeValue_ = oldVelocity_ * 1.75;
 }
 
 PlayerTerrainFastEffect::~PlayerTerrainFastEffect() {

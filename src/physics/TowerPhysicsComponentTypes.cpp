@@ -120,8 +120,16 @@ bool TarTowerPhysicsComponent::isValidTarget(Unit * target) {
 }
 
 void TarTowerPhysicsComponent::update(GameObject*){
+    if (fireCountdown_ != 0) {
+        fireCountdown_--;
+    }
     this->findTarget();
-    this->fire();
+    if(target_ == NULL) {
+        return;
+    }
+    if (fireCountdown_ == 0) {
+        this->fire();
+    }
 }
 
 FlakTowerPhysicsComponent::FlakTowerPhysicsComponent(Tower* tower)

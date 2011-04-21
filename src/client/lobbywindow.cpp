@@ -86,6 +86,11 @@ void LobbyWindow::connectLobby()
     s->writeByte(ui->txtUsername->text().length());
     s->write(ui->txtUsername->text().toAscii());
 
+    if(!NetworkClient::instance()->isConnected()) {
+        QMessageBox(QMessageBox::Critical, "Tower Defense: Error",
+                "Cannot find Server.").exec();
+        return;
+    }
     PLAY_LOCAL_SFX(SfxManager::lobbyConnect);
     NetworkClient::instance()->send(network::kLobbyWelcome, s->data());
 
@@ -118,12 +123,13 @@ void LobbyWindow::onTCPReceived(Stream* s)
     switch (msgType) {
         case network::kLobbyWelcome:
         {
-            int players = s->readInt();
-            ui->lblDisplayCount->setText(QString::number(players));
+           // int players = s->readInt();
+           // ui->lblDisplayCount->setText(QString::number(players));
             ui->txtAddress->setDisabled(true);
             ui->txtUsername->setDisabled(true);
             ui->btnConnect->setDisabled(true);
             ui->chkSingleplayer->setDisabled(true);
+            ui->mapsList->setCurrentRow(0);
             connect(ui->newGame,SIGNAL(clicked()),this,SLOT(onCreateNewGame()));
             connect(ui->leaveGame,SIGNAL(clicked()),this,SLOT(onLeaveGame()));
             connect(ui->gameList,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(onJoinGame(QListWidgetItem*)));
@@ -345,6 +351,7 @@ void LobbyWindow::onLeaveGame() {
         ui->leaveGame->setEnabled(false);
         ui->btnStart->setEnabled(false);
         ui->mapsList->setEnabled(true);
+        ui->newGame->setEnabled(true);
     }
 }
 
@@ -387,6 +394,7 @@ void LobbyWindow::onCreateNewGame() {
         NetworkClient::instance()->send(network::kJoinGame, s.data());
         ui->leaveGame->setEnabled(true);
         ui->mapsList->setEnabled(false);
+        ui->newGame->setEnabled(false);
     }
 }
 
