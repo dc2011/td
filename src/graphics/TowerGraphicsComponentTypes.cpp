@@ -28,6 +28,9 @@ ArrowTowerGraphicsComponent::ArrowTowerGraphicsComponent()
 }
 
 void ArrowTowerGraphicsComponent::initPixmaps() {
+    
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
@@ -46,6 +49,9 @@ ArrowTowerL2GraphicsComponent::ArrowTowerL2GraphicsComponent()
 }
 
 void ArrowTowerL2GraphicsComponent::initPixmaps() {
+
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
@@ -64,6 +70,9 @@ ArrowTowerL3GraphicsComponent::ArrowTowerL3GraphicsComponent()
 }
 
 void ArrowTowerL3GraphicsComponent::initPixmaps() {
+
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
@@ -82,6 +91,9 @@ CannonTowerGraphicsComponent::CannonTowerGraphicsComponent()
 }
 
 void CannonTowerGraphicsComponent::initPixmaps() {
+
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
@@ -100,6 +112,9 @@ CannonTowerL2GraphicsComponent::CannonTowerL2GraphicsComponent()
 }
 
 void CannonTowerL2GraphicsComponent::initPixmaps() {
+
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
@@ -118,6 +133,9 @@ CannonTowerL3GraphicsComponent::CannonTowerL3GraphicsComponent()
 }
 
 void CannonTowerL3GraphicsComponent::initPixmaps() {
+
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
@@ -134,6 +152,9 @@ TarTowerGraphicsComponent::TarTowerGraphicsComponent()
 }
 
 void TarTowerGraphicsComponent::initPixmaps() {
+
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
@@ -149,6 +170,9 @@ TarTowerL2GraphicsComponent::TarTowerL2GraphicsComponent()
 }
 
 void TarTowerL2GraphicsComponent::initPixmaps() {
+
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
@@ -164,6 +188,9 @@ TarTowerL3GraphicsComponent::TarTowerL3GraphicsComponent()
 }
 
 void TarTowerL3GraphicsComponent::initPixmaps() {
+
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
@@ -181,6 +208,9 @@ FlameTowerGraphicsComponent::FlameTowerGraphicsComponent()
 }
 
 void FlameTowerGraphicsComponent::initPixmaps() {
+
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
@@ -199,6 +229,9 @@ FlameTowerL2GraphicsComponent::FlameTowerL2GraphicsComponent()
 }
 
 void FlameTowerL2GraphicsComponent::initPixmaps() {
+
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
@@ -217,6 +250,9 @@ FlameTowerL3GraphicsComponent::FlameTowerL3GraphicsComponent()
 }
 
 void FlameTowerL3GraphicsComponent::initPixmaps() {
+
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
@@ -235,6 +271,9 @@ FlakTowerGraphicsComponent::FlakTowerGraphicsComponent()
 }
 
 void FlakTowerGraphicsComponent::initPixmaps() {
+
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
@@ -253,6 +292,9 @@ FlakTowerL2GraphicsComponent::FlakTowerL2GraphicsComponent()
 }
 
 void FlakTowerL2GraphicsComponent::initPixmaps() {
+
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
@@ -271,6 +313,9 @@ FlakTowerL3GraphicsComponent::FlakTowerL3GraphicsComponent()
 }
 
 void FlakTowerL3GraphicsComponent::initPixmaps() {
+
+    TowerGraphicsComponent::initPixmaps();
+
     if (pixmapImgs_ != NULL) {
         return;
     }
