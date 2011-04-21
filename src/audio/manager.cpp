@@ -31,6 +31,9 @@ void AudioManager::shutdown()
     if (inited_) {
         inited_ = false;
         alExit();
+	while(playing_ > 0) {
+	    alSleep(0.2f);
+	}
     }
 }
 
