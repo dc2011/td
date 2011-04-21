@@ -247,9 +247,11 @@ void CDriver::dropResource() {
     if (this->isSinglePlayer() &&
             currentTile->getActionType() == TILE_BUILDING) {
         BuildingTower* t = (BuildingTower*)currentTile->getExtension();
-        if (this->addToTower(t, human_) && t->isDone()) {
-            this->createTower(t->getType(), t->getPos());
-            this->destroyObject(t);
+        if (this->addToTower(t, human_)) {
+            if (t->isDone()) {
+                this->createTower(t->getType(), t->getPos());
+                this->destroyObject(t);
+            }
             human_->setResource(RESOURCE_NONE);
             return;
         }
