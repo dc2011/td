@@ -473,6 +473,9 @@ bool Driver::upgradePlayer(int id, int type, int* cost) {
             ((PlayerPhysicsComponent*)player->getPhysicsComponent())
                 ->setMaxVelocity(PLAYER_UPGRADE_V);
             player->createEffect(EFFECT_FAST);
+        } else {
+            ((PlayerPhysicsComponent*)player->getPhysicsComponent())
+                ->setMaxVelocity(PLAYER_UPGRADE_V);
         }
         break;
     case UPGRADE_HARVEST:
