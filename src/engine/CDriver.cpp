@@ -305,11 +305,15 @@ void CDriver::requestCollectable(int collType, QPointF source,
 void CDriver::requestBuildingTower(int type, QPointF pos) {
     if (isSinglePlayer()) {
         BuildingTower* t = Driver::createBuildingTower(type, pos);
-        if (this->addToTower(t, human_) && t->isDone()) {
-            this->createTower(t->getType(), t->getPos());
-            this->destroyObject(t);
+
+        if (this->addToTower(t, human_)) {
             human_->setResource(RESOURCE_NONE);
-            return;
+
+            if (t->isDone()) {
+                this->createTower(t->getType(), t->getPos());
+                this->destroyObject(t);
+                return;
+            }
         }
     } else {
         Stream s;
@@ -596,10 +600,14 @@ void CDriver::UDPReceived(Stream* s) {
         {
             unsigned int playerID = s->readInt();
             int upgradeType = s->readInt();
+            int cost = s->readInt();
 
             if (human_->getID() == playerID) {
                 Driver::upgradePlayer(playerID, upgradeType);
+            } else {
+                setGemCount(gemCount_ - cost);
             }
+            break;
         }
         case network::kSellTower:
         {

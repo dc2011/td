@@ -1,6 +1,7 @@
 #include "BuildingTowerGraphicsComponent.h"
 #include "../engine/BuildingTower.h"
 #include "../engine/CDriver.h"
+#include <QDebug>
 #include <QRectF>
 
 namespace td {
@@ -10,6 +11,7 @@ QPixmap* BuildingTowerGraphicsComponent::pixmapImgs_ = NULL;
 BuildingTowerGraphicsComponent::BuildingTowerGraphicsComponent()
         : GraphicsComponent() {
     buildingStage_ = 0;
+    animate_ = false;
     emit created(this);
 }
 

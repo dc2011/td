@@ -299,6 +299,11 @@ void SDriver::requestCollectable(int collType, QPointF source, QVector2D vel) {
 
 void SDriver::towerDrop(BuildingTower* t, Player* player, bool drop) {
     Stream s;
+    int collType = player->getResource();
+
+    if (collType == -1) {
+        return;
+    }
 
     if (addToTower(t, player)) {
         if (t->isDone()) {
@@ -310,7 +315,7 @@ void SDriver::towerDrop(BuildingTower* t, Player* player, bool drop) {
             updates_.insert(t);
         }
         s.writeInt(player->getID());
-        s.writeInt(player->getResource());
+        s.writeInt(collType);
         s.writeFloat(0);
         s.writeFloat(0);
         s.writeFloat(player->getPos().x());
@@ -320,13 +325,16 @@ void SDriver::towerDrop(BuildingTower* t, Player* player, bool drop) {
         net_->send(network::kDropCollect, s.data());
     } else if (drop) {
         s.writeInt(player->getID());
-        s.writeInt(player->getResource());
+        s.writeInt(collType);
         QVector2D vel = this->getRandomVector();
         s.writeFloat(vel.x());
         s.writeFloat(vel.y());
-        s.writeFloat(player->getPos().x());
-        s.writeFloat(player->getPos().y());
+        QPointF source = player->getPos();
+        s.writeFloat(source.x());
+        s.writeFloat(source.y());
         s.writeByte(false);
+
+        Driver::createCollectable(collType, source, vel);
 
         net_->send(network::kDropCollect, s.data());
     }
@@ -343,10 +351,12 @@ void SDriver::onMsgReceive(Stream* s) {
         {
             unsigned int playerID = s->readInt();
             int upgradeType = s->readInt();
+            int cost = 0;
 
-            if (Driver::upgradePlayer(playerID, upgradeType)) {
+            if (Driver::upgradePlayer(playerID, upgradeType, &cost)) {
                 out->writeInt(playerID);
                 out->writeInt(upgradeType);
+                out->writeInt(cost);
                 net_->send(network::kUpgradePlayer, out->data());
             }
             break;

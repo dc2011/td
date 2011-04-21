@@ -1,5 +1,4 @@
 #include "PlayerGraphicsComponent.h"
-#include <QDateTime>
 #include <QDebug>
 #include "../engine/Player.h"
 #include "../engine/CDriver.h"
@@ -20,7 +19,6 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
     resourcePixmapItem_ = 0;
     resourceType_ = RESOURCE_NONE;
 
-    srand(QDateTime::currentDateTime().toTime_t());
     outfit_ = rand() % 8;
     // make outfits 4-7 more rare
     if (outfit_ > 3 && rand() % 3 != 1) {
@@ -32,7 +30,6 @@ PlayerGraphicsComponent::PlayerGraphicsComponent(QString nickname)
 }
 
 PlayerGraphicsComponent::~PlayerGraphicsComponent() {
-    delete pixmapImgs_;
     delete resourcePixmapItem_;
 }
 

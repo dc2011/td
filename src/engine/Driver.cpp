@@ -429,7 +429,7 @@ bool Driver::upgradeTower(QPointF pos) {
     return false;
 }
 
-bool Driver::upgradePlayer(int id, int type) {
+bool Driver::upgradePlayer(int id, int type, int* cost) {
     if ((gemCount_ < GEMS_SPEED && type == UPGRADE_SPEED) 
             || (gemCount_ < GEMS_HARVEST && type == UPGRADE_HARVEST)
             || (gemCount_ < GEMS_RECOVERY && type == UPGRADE_RECOVERY)) {
@@ -438,11 +438,21 @@ bool Driver::upgradePlayer(int id, int type) {
 
 #ifdef SERVER
     if (type == UPGRADE_SPEED) {
+        //qDebug("Server - Upgrading player speed (%08X)", id);
         setGemCount(gemCount_ - GEMS_SPEED);
+        if (cost != NULL) {
+            *cost = GEMS_SPEED;
+        }
     } else if (type == UPGRADE_HARVEST) {
         setGemCount(gemCount_ - UPGRADE_HARVEST);
+        if (cost != NULL) {
+            *cost = GEMS_HARVEST;
+        }
     } else {
         setGemCount(gemCount_ - UPGRADE_RECOVERY);
+        if (cost != NULL) {
+            *cost = GEMS_RECOVERY;
+        }
     }
     return true;
 #endif
@@ -452,6 +462,7 @@ bool Driver::upgradePlayer(int id, int type) {
     switch (type) {
     case UPGRADE_SPEED:
         setGemCount(gemCount_ - GEMS_SPEED);
+        //qDebug("Client - Upgrading player speed (%08X)", id);
         if (player->hasEffect(EFFECT_SLOW)) {
             player->deleteEffect(EFFECT_SLOW);
             ((PlayerPhysicsComponent*)player->getPhysicsComponent())
@@ -462,6 +473,9 @@ bool Driver::upgradePlayer(int id, int type) {
             ((PlayerPhysicsComponent*)player->getPhysicsComponent())
                 ->setMaxVelocity(PLAYER_UPGRADE_V);
             player->createEffect(EFFECT_FAST);
+        } else {
+            ((PlayerPhysicsComponent*)player->getPhysicsComponent())
+                ->setMaxVelocity(PLAYER_UPGRADE_V);
         }
         break;
     case UPGRADE_HARVEST:

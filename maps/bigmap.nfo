@@ -1,42 +1,34 @@
-1, bigmap, 1000, 2,2,3,3
-2,0,5,5,20,2    # 12 5x Normal
-1,5,6,20,20,2    # 11 6x Flying
-3,3,10,30,20,2   # 13 10x Fast
-6,0,8,45,20,2    # 16 8x Normal
-7,2,15,50,20,2   # 17 15x Armored
-0,5,8,56,20,2    # 10 8x Flying
-2,4,20,70,20,2   # 12 20x Swarm
-5,0,20,75,20,2   # 15 20x Normal
-3,1,10,85,20,2   # 13 10x Slow
-0,5,20,100,20,2   # 10 20x Flying
-2,0,5,5,20,2    # 12 5x Normal
-1,5,6,20,20,2    # 11 6x Flying
-3,3,10,30,20,2   # 13 10x Fast
-6,0,8,45,20,2    # 16 8x Normal
-7,2,15,50,20,2   # 17 15x Armored
-0,5,8,56,20,2    # 10 8x Flying
-2,4,20,70,20,2   # 12 20x Swarm
-5,0,20,75,20,2   # 15 20x Normal
-3,1,10,85,20,2   # 13 10x Slow
-0,5,20,100,20,2   # 10 20x Flying
-2,0,5,115,20,2    # 12 5x Normal
-1,5,6,130,20,2    # 11 6x Flying
-3,3,10,145,20,2   # 13 10x Fast
-6,0,8,160,20,2    # 16 8x Normal
-7,2,15,175,20,2   # 17 15x Armored
-0,5,8,190,20,2    # 10 8x Flying
-2,4,20,205,20,2   # 12 20x Swarm
-5,0,20,220,20,2   # 15 20x Normal
-3,1,10,235,20,2   # 13 10x Slow
-0,5,20,250,20,2   # 10 20x Flying
-2,0,5,265,20,2    # 12 5x Normal
-1,5,6,280,20,2    # 11 6x Flying
-3,3,10,295,20,2   # 13 10x Fast
-6,0,8,310,20,2    # 16 8x Normal
-7,2,15,325,20,2   # 17 15x Armored
-0,5,8,340,20,2    # 10 8x Flying
-2,4,20,355,20,2   # 12 20x Swarm
-5,0,20,370,20,2   # 15 20x Normal
-3,1,10,385,20,2   # 13 10x Slow
-0,5,20,400,20,2   # 10 20x Flying
-4,6,1,415,20,2    # 14 1x Boss
+1, bigmap, 100, 2,2,3,3  #0 - 7 paths,  createure type, number of npcs, start time,inverval, gems (not read) #0,1 flying paths 2 upper right 3 lower left 4 upper left 5 goes through bottom left 6 upper left normal path # creatures: 0 normal
+6,3,3,50,40,2    # fast 		#easy start
+6,0,5,75,40,2    # normal
+3,3,3,,100,2	 # fast
+1,5,4,125,50,2    # air
+3,2,6,135,60,2	 # slow
+4,4,30,145,20,2	 # omg big swarm
+5,3,8,155,40,2   # fast
+6,1,12,165,50,2  # bronts
+0,5,5,175,40,2   # air
+1,5,5,185,40,2 	 # air
+2,6,1,200,50,2	 # endboss #1
+6,3,10,260,30,2    # fast 		# Medium
+6,0,15,270,40,2    # normal
+3,3,10,280,30,2	 # fast
+1,5,10,290,40,2    # air
+4,2,12,290,60,2	 # slow
+4,4,50,300,20,2	 # omg big swarm
+5,3,15,305,30,2   # fast
+6,1,15,310,50,2  # bronts
+0,5,10,315,35,2   # air
+1,5,10,320,35,2 	 # air
+2,6,2,330,75,2	 # endboss #2
+6,3,20,380,30,2    # fast 		# Medium
+6,0,15,390,40,2    # normal
+3,3,20,400,30,2	 # fast
+1,5,15,410,40,2    # air
+4,4,70,420,20,2	 # omg big swarm
+5,3,20,430,30,2   # fast
+6,1,20,440,50,2  # bronts
+0,5,20,450,35,2   # air
+1,5,20,460,35,2 	 # air
+2,6,3,500,75,2	 # endboss #2
+
