@@ -37,6 +37,9 @@ private:
     /** The script parser to go along with the map. */
     Parser* script_;
 
+    /** Hack to store the map name for redundancy. */
+    QString mapname_;
+
 public:
     // ctors and dtors
     SDriver();
@@ -85,13 +88,15 @@ public:
         if (gameMap_ != NULL) {
             delete gameMap_;
         }
-        qDebug("%s", mapfile.toAscii().data());
+        //qDebug("%s", mapfile.toAscii().data());
+
+        mapname_ = mapfile;
 
         QString scr = QString("./maps/") + mapfile;
         script_ = new Parser(this, scr);
 
         QString map = QString("./maps/") + script_->map + QString(".tmx");
-        qDebug() << map;
+        //qDebug() << map;
 
         gameMap_ = new Map(map, this);
         gameMap_->initMap();

@@ -25,7 +25,7 @@ namespace td {
 
 CDriver* CDriver::instance_ = NULL;
 
-CDriver::CDriver(MainWindow* mainWindow, char* programPath)
+CDriver::CDriver(MainWindow* mainWindow)
         : Driver(), playerID_(0xFFFFFFFF), human_(NULL),
           mainWindow_(mainWindow), buildContextMenu_(NULL),
           towerContextMenu_(NULL), playerContextMenu_(NULL)
@@ -37,12 +37,9 @@ CDriver::CDriver(MainWindow* mainWindow, char* programPath)
     timeCount_ = 0;
     totalWaves_ = 0;
     completedWaves_ = 0;
-    programPath_.append(programPath);
     
     connect(this, SIGNAL(setMap(QString)),
             mainWindow_, SLOT(setMap(QString)));
-    connect(this, SIGNAL(signalReturnToLobby()),
-            mainWindow_, SLOT(endGameCleanup()));
 
     connect(this, SIGNAL(signalOpenWindow()),
             mainWindow_, SLOT(openWindow()));
@@ -58,11 +55,11 @@ CDriver::~CDriver() {
     waves_.clear();
 }
 
-CDriver* CDriver::init(MainWindow* mainWindow, char* programPath) {
+CDriver* CDriver::init(MainWindow* mainWindow) {
     if (instance_ != NULL) {
         return instance_;
     }
-    instance_ = new CDriver(mainWindow, programPath);
+    instance_ = new CDriver(mainWindow);
     return instance_;
 }
 
@@ -99,6 +96,10 @@ void CDriver::setBaseHealth(int health) {
     Driver::setBaseHealth(health);
 
     getMainWindow()->getStats()->updateHP(health);
+    
+    if(health <= 0) {
+	endGame(false);
+    }
 }
 
 void CDriver::setGemCount(int count) {
@@ -235,6 +236,10 @@ void CDriver::makeLocalPlayer(Player* player) {
 	        input, SLOT(playerMovement(bool)));
     connect(player, SIGNAL(signalDropResource(int, QPointF, QVector2D)),
             this, SLOT(requestCollectable(int, QPointF, QVector2D)));
+
+    //End of the Game
+    connect(this,  SIGNAL(signalEndGameScreen(bool)),
+		mainWindow_, SLOT(endGameScreen(bool)));
 
     emit signalOpenWindow();
 }
@@ -388,11 +393,13 @@ void CDriver::startGame(bool singlePlayer, QString map) {
     td::AudioManager::instance()->playMusic(musicList);
 
     Parser* fileParser = new Parser(this, QString("./maps/") + map);
-    emit setMap(QString("./maps/") + fileParser->map + QString(".tmx"));
-    mainWindow_->lockMapHack();
+    if (gameMap_ == NULL) {
+        emit setMap(QString("./maps/") + fileParser->map + QString(".tmx"));
+        mainWindow_->lockMapHack();
 
-    gameMap_ = new Map(mainWindow_->getMD()->map(), this);
-    gameMap_->initMap();
+        gameMap_ = new Map(mainWindow_->getMD()->map(), this);
+        gameMap_->initMap();
+    }
 
     if (singlePlayer) {
         Player* player = (Player*)mgr_->createObject(Player::clsIdx());
@@ -427,14 +434,15 @@ void CDriver::endWave() {
 }
 
 void CDriver::endGame(bool winner) {
+    
+    AudioManager::instance()->shutdown();
     if (!isSinglePlayer()) {
         disconnectFromServer();
     }
     this->waveTimer_->stop();
     this->gameTimer_->stop();
-
-    emit signalReturnToLobby();
-    QProcess::execute(programPath_);
+        
+    emit signalEndGameScreen(winner);
 }
 
 bool CDriver::isSinglePlayer() {
@@ -495,6 +503,18 @@ void CDriver::UDPReceived(Stream* s) {
         case network::kServerPlayers:
         {
             int count = s->readByte();
+            QString map = QString(s->read(count));
+
+            if (gameMap_ == NULL) {
+                Parser* fileParser = new Parser(this, QString("./maps/") + map);
+                emit setMap(QString("./maps/") + fileParser->map + QString(".tmx"));
+                mainWindow_->lockMapHack();
+
+                gameMap_ = new Map(mainWindow_->getMD()->map(), this);
+                gameMap_->initMap();
+            }
+
+            count = s->readByte();
             for (int i = 0; i < count; i++) {
                 unsigned int id = s->readInt();
                 GameObject* go = mgr_->createObjectWithID(id);
@@ -626,7 +646,6 @@ void CDriver::UDPReceived(Stream* s) {
                 endGame(FALSE);
             }
 
-            endGame(successful);
             break;
         }
         case network::kConsoleChat:

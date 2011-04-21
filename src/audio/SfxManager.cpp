@@ -81,6 +81,10 @@ QStringList SfxManager::playerHitsNpc
 //Game Sfx
 QStringList SfxManager::npcInBase
         = QStringList() << "base-1" << "base-2";
+QStringList SfxManager::winTheGame
+        = QStringList() << "congrats";
+QStringList SfxManager::loseTheGame
+        = QStringList() << "fail";
 
 //lobby SFX
 QStringList SfxManager::lobbyStart 
