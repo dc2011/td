@@ -124,6 +124,7 @@ void LobbyWindow::onTCPReceived(Stream* s)
             ui->txtUsername->setDisabled(true);
             ui->btnConnect->setDisabled(true);
             ui->chkSingleplayer->setDisabled(true);
+            ui->mapsList->setCurrentRow(0);
             connect(ui->newGame,SIGNAL(clicked()),this,SLOT(onCreateNewGame()));
             connect(ui->leaveGame,SIGNAL(clicked()),this,SLOT(onLeaveGame()));
             connect(ui->gameList,SIGNAL(itemDoubleClicked(QListWidgetItem*)),this,SLOT(onJoinGame(QListWidgetItem*)));
