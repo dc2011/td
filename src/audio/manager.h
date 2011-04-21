@@ -21,7 +21,7 @@
 #include "../network/stream.h"
 
 #define QUEUESIZE 8
-#define BUFFERSIZE (1024*32)
+#define BUFFERSIZE (1024*16)
 #define SFXPATH "./sound/sfx/"
 #define SFXFILEEXTENSION ".ogg"
 
@@ -419,9 +419,7 @@ public:
 	QByteArray tmp(buf,size);
 
 	mutex_.lock();
-	if(sfxCache_.contains(filename)) {
-	    sfxCache_[filename].append(tmp);
-	} else {
+	if(!sfxCache_.contains(filename)) {
 	    tmp.prepend(bitmask);
 	    sfxCache_.insert(filename,tmp);
 	}

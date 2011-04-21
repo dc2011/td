@@ -1,6 +1,8 @@
 #ifndef TD_DEFINES_H
 #define TD_DEFINES_H
 
+#include "gamedefs.h"
+
 // TD Version
 // Update this whenever an incompatible change is made, to ensure that features
 // are matched between clients and the server
@@ -83,70 +85,71 @@
 #define MAP_NFO   QString("./maps/") + QString(MAP) + QString(".nfo")
 
 // how often the tower type can fire (in game ticks)
-#define FIRE_INTERVAL_ARROW     45
-#define FIRE_INTERVAL_ARROW_2   40
-#define FIRE_INTERVAL_ARROW_3   35
-#define FIRE_INTERVAL_ARROW_4   30
-#define FIRE_INTERVAL_ARROW_5   25
-#define FIRE_INTERVAL_CANNON    120
-#define FIRE_INTERVAL_CANNON_2  110
-#define FIRE_INTERVAL_CANNON_3  100
-#define FIRE_INTERVAL_CANNON_4  90
-#define FIRE_INTERVAL_CANNON_5  80
-#define FIRE_INTERVAL_FLAME     180
-#define FIRE_INTERVAL_FLAME_2   180
-#define FIRE_INTERVAL_FLAME_3   180
-#define FIRE_INTERVAL_FLAME_4   180
-#define FIRE_INTERVAL_FLAME_5   180
-#define FIRE_INTERVAL_TAR       90
-#define FIRE_INTERVAL_TAR_2     83
-#define FIRE_INTERVAL_TAR_3     75
-#define FIRE_INTERVAL_TAR_4     68
-#define FIRE_INTERVAL_TAR_5     60
-#define FIRE_INTERVAL_FLAK      15
-#define FIRE_INTERVAL_FLAK_2    13
-#define FIRE_INTERVAL_FLAK_3    11
-#define FIRE_INTERVAL_FLAK_4    9
-#define FIRE_INTERVAL_FLAK_5    7
+#define FIRE_INTERVAL_ARROW     GameDefs::instance()->getValue<int>("FIRE_INTERVAL_ARROW")
+#define FIRE_INTERVAL_ARROW_2   GameDefs::instance()->getValue<int>("FIRE_INTERVAL_ARROW_2")
+#define FIRE_INTERVAL_ARROW_3   GameDefs::instance()->getValue<int>("FIRE_INTERVAL_ARROW_3")
+#define FIRE_INTERVAL_ARROW_4   GameDefs::instance()->getValue<int>("FIRE_INTERVAL_ARROW_4")
+#define FIRE_INTERVAL_ARROW_5   GameDefs::instance()->getValue<int>("FIRE_INTERVAL_ARROW_5")
+#define FIRE_INTERVAL_CANNON    GameDefs::instance()->getValue<int>("FIRE_INTERVAL_CANNON")
+#define FIRE_INTERVAL_CANNON_2  GameDefs::instance()->getValue<int>("FIRE_INTERVAL_CANNON_2")
+#define FIRE_INTERVAL_CANNON_3  GameDefs::instance()->getValue<int>("FIRE_INTERVAL_CANNON_3")
+#define FIRE_INTERVAL_CANNON_4  GameDefs::instance()->getValue<int>("FIRE_INTERVAL_CANNON_4")
+#define FIRE_INTERVAL_CANNON_5  GameDefs::instance()->getValue<int>("FIRE_INTERVAL_CANNON_5")
+#define FIRE_INTERVAL_FLAME     GameDefs::instance()->getValue<int>("FIRE_INTERVAL_FLAME")
+#define FIRE_INTERVAL_FLAME_2   GameDefs::instance()->getValue<int>("FIRE_INTERVAL_FLAME_2")
+#define FIRE_INTERVAL_FLAME_3   GameDefs::instance()->getValue<int>("FIRE_INTERVAL_FLAME_3")
+#define FIRE_INTERVAL_FLAME_4   GameDefs::instance()->getValue<int>("FIRE_INTERVAL_FLAME_4")
+#define FIRE_INTERVAL_FLAME_5   GameDefs::instance()->getValue<int>("FIRE_INTERVAL_FLAME_5")
+#define FIRE_INTERVAL_TAR       GameDefs::instance()->getValue<int>("FIRE_INTERVAL_TAR")
+#define FIRE_INTERVAL_TAR_2     GameDefs::instance()->getValue<int>("FIRE_INTERVAL_TAR_2")
+#define FIRE_INTERVAL_TAR_3     GameDefs::instance()->getValue<int>("FIRE_INTERVAL_TAR_3")
+#define FIRE_INTERVAL_TAR_4     GameDefs::instance()->getValue<int>("FIRE_INTERVAL_TAR_4")
+#define FIRE_INTERVAL_TAR_5     GameDefs::instance()->getValue<int>("FIRE_INTERVAL_TAR_5")
+#define FIRE_INTERVAL_FLAK      GameDefs::instance()->getValue<int>("FIRE_INTERVAL_FLAK")
+#define FIRE_INTERVAL_FLAK_2    GameDefs::instance()->getValue<int>("FIRE_INTERVAL_FLAK_2")
+#define FIRE_INTERVAL_FLAK_3    GameDefs::instance()->getValue<int>("FIRE_INTERVAL_FLAK_3")
+#define FIRE_INTERVAL_FLAK_4    GameDefs::instance()->getValue<int>("FIRE_INTERVAL_FLAK_4")
+#define FIRE_INTERVAL_FLAK_5    GameDefs::instance()->getValue<int>("FIRE_INTERVAL_FLAK_5")
 
 // how long the flame lasts in ticks
-#define FIRE_DURATION           100
-#define FIRE_SCALE_TIME         15
+#define FIRE_DURATION           GameDefs::instance()->getValue<int>("FIRE_DURATION")
+#define FIRE_SCALE_TIME         GameDefs::instance()->getValue<int>("FIRE_SCALE_TIME")
+#define FIRE_RELOAD             GameDefs::instance()->getValue<int>("FIRE_RELOAD ")
 
 // reload times for animation (in milliseconds)
-#define RELOAD_ARROW        600
-#define RELOAD_CANNON       200
-#define RELOAD_FIRE         30 * FIRE_DURATION
-#define RELOAD_FLAK_SLOW    190
-#define RELOAD_FLAK_MEDIUM  135
-#define RELOAD_FLAK_FAST    105
+#define RELOAD_ARROW        GameDefs::instance()->getValue<int>("RELOAD_ARROW")
+#define RELOAD_CANNON       GameDefs::instance()->getValue<int>("RELOAD_CANNON")
+#define RELOAD_FIRE         FIRE_RELOAD * FIRE_DURATION
+#define RELOAD_FLAK_SLOW    GameDefs::instance()->getValue<int>("RELOAD_FLAK_SLOW")
+#define RELOAD_FLAK_MEDIUM  GameDefs::instance()->getValue<int>("RELOAD_FLAK_MEDIUM")
+#define RELOAD_FLAK_FAST    GameDefs::instance()->getValue<int>("RELOAD_FLAK_FAST")
 
 // a tower's range
-#define RADIUS_ARROW    240
-#define RADIUS_ARROW_2  255
-#define RADIUS_ARROW_3  270
-#define RADIUS_ARROW_4  285
-#define RADIUS_ARROW_5  300
-#define RADIUS_CANNON   150
-#define RADIUS_CANNON_2 165
-#define RADIUS_CANNON_3 180
-#define RADIUS_CANNON_4 195
-#define RADIUS_CANNON_5 210
-#define RADIUS_FLAME    90
-#define RADIUS_FLAME_2  120
-#define RADIUS_FLAME_3  135
-#define RADIUS_FLAME_4  150
-#define RADIUS_FLAME_5  165
-#define RADIUS_TAR      170
-#define RADIUS_TAR_2    185
-#define RADIUS_TAR_3    200
-#define RADIUS_TAR_4    215
-#define RADIUS_TAR_5    230
-#define RADIUS_FLAK     300
-#define RADIUS_FLAK_2   315
-#define RADIUS_FLAK_3   330
-#define RADIUS_FLAK_4   345
-#define RADIUS_FLAK_5   360
+#define RADIUS_ARROW    GameDefs::instance()->getValue<int>("RADIUS_ARROW")
+#define RADIUS_ARROW_2  GameDefs::instance()->getValue<int>("RADIUS_ARROW_2")
+#define RADIUS_ARROW_3  GameDefs::instance()->getValue<int>("RADIUS_ARROW_3")
+#define RADIUS_ARROW_4  GameDefs::instance()->getValue<int>("RADIUS_ARROW_4")
+#define RADIUS_ARROW_5  GameDefs::instance()->getValue<int>("RADIUS_ARROW_5")
+#define RADIUS_CANNON   GameDefs::instance()->getValue<int>("RADIUS_CANNON")
+#define RADIUS_CANNON_2 GameDefs::instance()->getValue<int>("RADIUS_CANNON_2")
+#define RADIUS_CANNON_3 GameDefs::instance()->getValue<int>("RADIUS_CANNON_3")
+#define RADIUS_CANNON_4 GameDefs::instance()->getValue<int>("RADIUS_CANNON_4")
+#define RADIUS_CANNON_5 GameDefs::instance()->getValue<int>("RADIUS_CANNON_5")
+#define RADIUS_FLAME    GameDefs::instance()->getValue<int>("RADIUS_FLAME")
+#define RADIUS_FLAME_2  GameDefs::instance()->getValue<int>("RADIUS_FLAME_2")
+#define RADIUS_FLAME_3  GameDefs::instance()->getValue<int>("RADIUS_FLAME_3")
+#define RADIUS_FLAME_4  GameDefs::instance()->getValue<int>("RADIUS_FLAME_4")
+#define RADIUS_FLAME_5  GameDefs::instance()->getValue<int>("RADIUS_FLAME_5")
+#define RADIUS_TAR      GameDefs::instance()->getValue<int>("RADIUS_TAR")
+#define RADIUS_TAR_2    GameDefs::instance()->getValue<int>("RADIUS_TAR_2")
+#define RADIUS_TAR_3    GameDefs::instance()->getValue<int>("RADIUS_TAR_3")
+#define RADIUS_TAR_4    GameDefs::instance()->getValue<int>("RADIUS_TAR_4")
+#define RADIUS_TAR_5    GameDefs::instance()->getValue<int>("RADIUS_TAR_5")
+#define RADIUS_FLAK     GameDefs::instance()->getValue<int>("RADIUS_FLAK")
+#define RADIUS_FLAK_2   GameDefs::instance()->getValue<int>("RADIUS_FLAK_2")
+#define RADIUS_FLAK_3   GameDefs::instance()->getValue<int>("RADIUS_FLAK_3")
+#define RADIUS_FLAK_4   GameDefs::instance()->getValue<int>("RADIUS_FLAK_4")
+#define RADIUS_FLAK_5   GameDefs::instance()->getValue<int>("RADIUS_FLAK_5")
 
 //Tile action types specifying action for spacebar
 #define TILE_REGULAR    0
@@ -171,8 +174,8 @@
 #define RESOURCE_GEM        99
 
 // time to harvest a resource (in game ticks)
-#define HARVEST_COUNTDOWN           60
-#define HARVEST_COUNTDOWN_UPGRADE   45
+#define HARVEST_COUNTDOWN           GameDefs::instance()->getValue<int>("HARVEST_COUNTDOWN")
+#define HARVEST_COUNTDOWN_UPGRADE   GameDefs::instance()->getValue<int>("HARVEST_COUNTDOWN_UPGRADE")
 
 // NPC types
 #define NPC_NORM    0
@@ -184,40 +187,40 @@
 #define NPC_BOSS    6
 
 // Acceleration of NPC types
-#define NPC_NORM_ACCEL  0.2  
-#define NPC_SLOW_ACCEL  0.1  
-#define NPC_ARM_ACCEL   0.1  
-#define NPC_FAST_ACCEL  0.3  
-#define NPC_SWARM_ACCEL 0.2  
-#define NPC_FLY_ACCEL   0.2  
-#define NPC_BOSS_ACCEL  0.1  
+#define NPC_NORM_ACCEL  GameDefs::instance()->getValue<float>("NPC_NORM_ACCEL")
+#define NPC_SLOW_ACCEL  GameDefs::instance()->getValue<float>("NPC_SLOW_ACCEL")
+#define NPC_ARM_ACCEL   GameDefs::instance()->getValue<float>("NPC_ARM_ACCEL")
+#define NPC_FAST_ACCEL  GameDefs::instance()->getValue<float>("NPC_FAST_ACCEL")
+#define NPC_SWARM_ACCEL GameDefs::instance()->getValue<float>("NPC_SWARM_ACCEL")
+#define NPC_FLY_ACCEL   GameDefs::instance()->getValue<float>("NPC_FLY_ACCEL")
+#define NPC_BOSS_ACCEL  GameDefs::instance()->getValue<float>("NPC_BOSS_ACCEL")
 
 // Deceleration of NPC types
-#define NPC_NORM_DECEL  0.25  
-#define NPC_SLOW_DECEL  0.15  
-#define NPC_ARM_DECEL   0.15  
-#define NPC_FAST_DECEL  0.4  
-#define NPC_SWARM_DECEL 0.25  
-#define NPC_FLY_DECEL   0.25  
-#define NPC_BOSS_DECEL  0.15  
+#define NPC_NORM_DECEL  GameDefs::instance()->getValue<float>("NPC_NORM_DECEL")
+#define NPC_SLOW_DECEL  GameDefs::instance()->getValue<float>("NPC_SLOW_DECEL")
+#define NPC_ARM_DECEL   GameDefs::instance()->getValue<float>("NPC_ARM_DECEL")
+#define NPC_FAST_DECEL  GameDefs::instance()->getValue<float>("NPC_FAST_DECEL")
+#define NPC_SWARM_DECEL GameDefs::instance()->getValue<float>("NPC_SWARM_DECEL")
+#define NPC_FLY_DECEL   GameDefs::instance()->getValue<float>("NPC_FLY_DECEL")
+#define NPC_BOSS_DECEL  GameDefs::instance()->getValue<float>("NPC_BOSS_DECEL")
 
 // Maximum Velocity of NPC types
-#define NPC_NORM_MAX_V  2  
-#define NPC_SLOW_MAX_V  1
-#define NPC_ARM_MAX_V   1
-#define NPC_FAST_MAX_V  4
-#define NPC_SWARM_MAX_V 2
-#define NPC_FLY_MAX_V   2
-#define NPC_BOSS_MAX_V  1
+#define NPC_NORM_MAX_V  GameDefs::instance()->getValue<float>("NPC_NORM_MAX_V")  
+#define NPC_SLOW_MAX_V  GameDefs::instance()->getValue<float>("NPC_SLOW_MAX_V")
+#define NPC_ARM_MAX_V   GameDefs::instance()->getValue<float>("NPC_ARM_MAX_V")
+#define NPC_FAST_MAX_V  GameDefs::instance()->getValue<float>("NPC_FAST_MAX_V")
+#define NPC_SWARM_MAX_V GameDefs::instance()->getValue<float>("NPC_SWARM_MAX_V")
+#define NPC_FLY_MAX_V   GameDefs::instance()->getValue<float>("NPC_FLY_MAX_V")
+#define NPC_BOSS_MAX_V  GameDefs::instance()->getValue<float>("NPC_BOSS_MAX_V")
 
 //NPC health
-#define NPC_NORM_HP     100
-#define NPC_SLOW_HP     200
-#define NPC_ARM_HP      150
-#define NPC_FAST_HP     75
-#define NPC_SWARM_HP    50
-#define NPC_FLY_HP      150
-#define NPC_BOSS_HP     1000
+#define NPC_NORM_HP     GameDefs::instance()->getValue<int>("NPC_NORM_HP")
+#define NPC_SLOW_HP     GameDefs::instance()->getValue<int>("NPC_SLOW_HP")
+#define NPC_ARM_HP      GameDefs::instance()->getValue<int>("NPC_ARM_HP")
+#define NPC_FAST_HP     GameDefs::instance()->getValue<int>("NPC_FAST_HP")
+#define NPC_SWARM_HP    GameDefs::instance()->getValue<int>("NPC_SWARM_HP")
+#define NPC_FLY_HP      GameDefs::instance()->getValue<int>("NPC_FLY_HP")
+#define NPC_BOSS_HP     GameDefs::instance()->getValue<int>("NPC_BOSS_HP")
 
 //NPC dimensions
 #define NPC_NORM_HEIGHT     25
@@ -236,8 +239,8 @@
 #define NPC_BOSS_WIDTH      100
 
 //Player velocity
-#define PLAYER_MAX_V 5
-#define PLAYER_UPGRADE_V 7.5
+#define PLAYER_MAX_V GameDefs::instance()->getValue<float>("PLAYER_MAX_V")
+#define PLAYER_UPGRADE_V GameDefs::instance()->getValue<float>("PLAYER_UPGRADE_V")
 
 //effect types for operator==
 #define EFFECT_NONE         0
@@ -277,59 +280,59 @@
 #define EFFECT_FLAK_5       95
 
 //Effect health changes for each type
-#define ARROW_DMG       -25
-#define ARROW_DMG_2     -30
-#define ARROW_DMG_3     -35
-#define ARROW_DMG_4     -40
-#define ARROW_DMG_5     -45
-#define ARROW_ARM_DMG   -12
-#define ARROW_ARM_DMG_2 -15
-#define ARROW_ARM_DMG_3 -17
-#define ARROW_ARM_DMG_4 -20
-#define ARROW_ARM_DMG_5 -23
-#define CANNON_DMG      -75
-#define CANNON_DMG_2    -80
-#define CANNON_DMG_3    -85
-#define CANNON_DMG_4    -90
-#define CANNON_DMG_5    -95
-#define TAR_DMG         -10
-#define TAR_DMG_2       -15
-#define TAR_DMG_3       -20
-#define TAR_DMG_4       -25
-#define TAR_DMG_5       -30
-#define FLAK_DMG        -10
-#define FLAK_DMG_2      -20
-#define FLAK_DMG_3      -30
-#define FLAK_DMG_4      -40
-#define FLAK_DMG_5      -50
-#define FIRE_DMG        -10
-#define BURN_DMG        -5
-#define FIRE_DMG_2      -15
-#define BURN_DMG_2      -10
-#define FIRE_DMG_3      -20
-#define BURN_DMG_3      -15
-#define FIRE_DMG_4      -25
-#define BURN_DMG_4      -20
-#define FIRE_DMG_5      -30
-#define BURN_DMG_5      -25
+#define ARROW_DMG        GameDefs::instance()->getValue<int>("ARROW_DMG")
+#define ARROW_DMG_2      GameDefs::instance()->getValue<int>("ARROW_DMG_2")
+#define ARROW_DMG_3      GameDefs::instance()->getValue<int>("ARROW_DMG_3")
+#define ARROW_DMG_4      GameDefs::instance()->getValue<int>("ARROW_DMG_4")
+#define ARROW_DMG_5      GameDefs::instance()->getValue<int>("ARROW_DMG_5")
+#define ARROW_ARM_DMG    GameDefs::instance()->getValue<int>("ARROW_ARM_DMG")
+#define ARROW_ARM_DMG_2  GameDefs::instance()->getValue<int>("ARROW_ARM_DMG_2")
+#define ARROW_ARM_DMG_3  GameDefs::instance()->getValue<int>("ARROW_ARM_DMG_3")
+#define ARROW_ARM_DMG_4  GameDefs::instance()->getValue<int>("ARROW_ARM_DMG_4")
+#define ARROW_ARM_DMG_5  GameDefs::instance()->getValue<int>("ARROW_ARM_DMG_5")
+#define CANNON_DMG       GameDefs::instance()->getValue<int>("CANNON_DMG")
+#define CANNON_DMG_2     GameDefs::instance()->getValue<int>("CANNON_DMG_2")
+#define CANNON_DMG_3     GameDefs::instance()->getValue<int>("CANNON_DMG_3")
+#define CANNON_DMG_4     GameDefs::instance()->getValue<int>("CANNON_DMG_4")
+#define CANNON_DMG_5     GameDefs::instance()->getValue<int>("CANNON_DMG_5")
+#define TAR_DMG          GameDefs::instance()->getValue<int>("TAR_DMG")
+#define TAR_DMG_2        GameDefs::instance()->getValue<int>("TAR_DMG_2")
+#define TAR_DMG_3        GameDefs::instance()->getValue<int>("TAR_DMG_3")
+#define TAR_DMG_4        GameDefs::instance()->getValue<int>("TAR_DMG_4")
+#define TAR_DMG_5        GameDefs::instance()->getValue<int>("TAR_DMG_5")
+#define FLAK_DMG         GameDefs::instance()->getValue<int>("FLAK_DMG")
+#define FLAK_DMG_2       GameDefs::instance()->getValue<int>("FLAK_DMG_2")
+#define FLAK_DMG_3       GameDefs::instance()->getValue<int>("FLAK_DMG_3")
+#define FLAK_DMG_4       GameDefs::instance()->getValue<int>("FLAK_DMG_4")
+#define FLAK_DMG_5       GameDefs::instance()->getValue<int>("FLAK_DMG_5")
+#define FIRE_DMG         GameDefs::instance()->getValue<int>("FIRE_DMG")
+#define BURN_DMG         GameDefs::instance()->getValue<int>("BURN_DMG")
+#define FIRE_DMG_2       GameDefs::instance()->getValue<int>("FIRE_DMG_2")
+#define BURN_DMG_2       GameDefs::instance()->getValue<int>("BURN_DMG_2")
+#define FIRE_DMG_3       GameDefs::instance()->getValue<int>("FIRE_DMG_3")
+#define BURN_DMG_3       GameDefs::instance()->getValue<int>("BURN_DMG_3")
+#define FIRE_DMG_4       GameDefs::instance()->getValue<int>("FIRE_DMG_4")
+#define BURN_DMG_4       GameDefs::instance()->getValue<int>("BURN_DMG_4")
+#define FIRE_DMG_5       GameDefs::instance()->getValue<int>("FIRE_DMG_5")
+#define BURN_DMG_5       GameDefs::instance()->getValue<int>("BURN_DMG_5")
 
 //Effect durations for each type
-#define NPC_PLAYER_TIME 20
-#define NPC_PLAYER_TIME_UPGRADE 5
-#define TAR_TIME        100
-#define TAR_TIME_2      130
-#define TAR_TIME_3      160
-#define TAR_TIME_4      190
-#define TAR_TIME_5      220
-#define ARROW_TIME      1
-#define FLAK_TIME       1
-#define CANNON_TIME     1
-#define FIRE_TIME       1
-#define BURN_TIME       90
-#define BURN_TIME_2     120
-#define BURN_TIME_3     150
-#define BURN_TIME_4     180
-#define BURN_TIME_5     210
+#define NPC_PLAYER_TIME GameDefs::instance()->getValue<int>("NPC_PLAYER_TIME")
+#define NPC_PLAYER_TIME_UPGRADE GameDefs::instance()->getValue<int>("NPC_PLAYER_TIME_UPGRADE")
+#define TAR_TIME        GameDefs::instance()->getValue<int>("TAR_TIME")
+#define TAR_TIME_2      GameDefs::instance()->getValue<int>("TAR_TIME_2")
+#define TAR_TIME_3      GameDefs::instance()->getValue<int>("TAR_TIME_3")
+#define TAR_TIME_4      GameDefs::instance()->getValue<int>("TAR_TIME_4")
+#define TAR_TIME_5      GameDefs::instance()->getValue<int>("TAR_TIME_5")
+#define ARROW_TIME      GameDefs::instance()->getValue<int>("ARROW_TIME")
+#define FLAK_TIME       GameDefs::instance()->getValue<int>("FLAK_TIME")
+#define CANNON_TIME     GameDefs::instance()->getValue<int>("CANNON_TIME")
+#define FIRE_TIME       GameDefs::instance()->getValue<int>("FIRE_TIME")
+#define BURN_TIME       GameDefs::instance()->getValue<int>("BURN_TIME")
+#define BURN_TIME_2     GameDefs::instance()->getValue<int>("BURN_TIME_2")
+#define BURN_TIME_3     GameDefs::instance()->getValue<int>("BURN_TIME_3")
+#define BURN_TIME_4     GameDefs::instance()->getValue<int>("BURN_TIME_4")
+#define BURN_TIME_5     GameDefs::instance()->getValue<int>("BURN_TIME_5")
 //DONT USE THIS MACRO UNLESS YOUR NAME IS DTRAIN
 #define NO_TIME         0,false
 
@@ -404,11 +407,11 @@
 
 
 //Projectile Velocity
-#define ARROW_VELOCITY  15
-#define CANNON_VELOCITY 10
-#define FIRE_VELOCITY   6
-#define TAR_VELOCITY    10
-#define FLAK_VELOCITY   15
+#define ARROW_VELOCITY  GameDefs::instance()->getValue<float>("ARROW_VELOCITY")
+#define CANNON_VELOCITY GameDefs::instance()->getValue<float>("CANNON_VELOCITY")
+#define FIRE_VELOCITY   GameDefs::instance()->getValue<float>("FIRE_VELOCITY")
+#define TAR_VELOCITY    GameDefs::instance()->getValue<float>("TAR_VELOCITY")
+#define FLAK_VELOCITY   GameDefs::instance()->getValue<float>("FLAK_VELOCITY")
 
 // collectable misc
 #define COLLECTABLE_VELOCITY    3
@@ -429,46 +432,46 @@
 #define RESBAR_HEIGHT   6
 
 // tower requirements
-#define COST_FLAK_WOOD    0
-#define COST_FLAK_STONE   1
-#define COST_FLAK_BONE    0
-#define COST_FLAK_OIL     0
+#define COST_FLAK_WOOD    GameDefs::instance()->getValue<int>("COST_FLAK_WOOD")
+#define COST_FLAK_STONE   GameDefs::instance()->getValue<int>("COST_FLAK_STONE")
+#define COST_FLAK_BONE    GameDefs::instance()->getValue<int>("COST_FLAK_BONE")
+#define COST_FLAK_OIL     GameDefs::instance()->getValue<int>("COST_FLAK_OIL")
 
-#define COST_ARROW_WOOD   0
-#define COST_ARROW_STONE  1
-#define COST_ARROW_BONE   0
-#define COST_ARROW_OIL    0
+#define COST_ARROW_WOOD   GameDefs::instance()->getValue<int>("COST_ARROW_WOOD")
+#define COST_ARROW_STONE  GameDefs::instance()->getValue<int>("COST_ARROW_STONE")
+#define COST_ARROW_BONE   GameDefs::instance()->getValue<int>("COST_ARROW_BONE")
+#define COST_ARROW_OIL    GameDefs::instance()->getValue<int>("COST_ARROW_OIL")
 
-#define COST_CANNON_WOOD  0
-#define COST_CANNON_STONE 1
-#define COST_CANNON_BONE  0
-#define COST_CANNON_OIL   0
+#define COST_CANNON_WOOD  GameDefs::instance()->getValue<int>("COST_CANNON_WOOD")
+#define COST_CANNON_STONE GameDefs::instance()->getValue<int>("COST_CANNON_STONE")
+#define COST_CANNON_BONE  GameDefs::instance()->getValue<int>("COST_CANNON_BONE")
+#define COST_CANNON_OIL   GameDefs::instance()->getValue<int>("COST_CANNON_OIL")
 
-#define COST_TAR_WOOD     0
-#define COST_TAR_STONE    1
-#define COST_TAR_BONE     0
-#define COST_TAR_OIL      0
+#define COST_TAR_WOOD     GameDefs::instance()->getValue<int>("COST_TAR_WOOD")
+#define COST_TAR_STONE    GameDefs::instance()->getValue<int>("COST_TAR_STONE")
+#define COST_TAR_BONE     GameDefs::instance()->getValue<int>("COST_TAR_BONE")
+#define COST_TAR_OIL      GameDefs::instance()->getValue<int>("COST_TAR_OIL")
 
-#define COST_FLAME_WOOD    0
-#define COST_FLAME_STONE   1
-#define COST_FLAME_BONE    0
-#define COST_FLAME_OIL     0
+#define COST_FLAME_WOOD    GameDefs::instance()->getValue<int>("COST_FLAME_WOOD")
+#define COST_FLAME_STONE   GameDefs::instance()->getValue<int>("COST_FLAME_STONE")
+#define COST_FLAME_BONE    GameDefs::instance()->getValue<int>("COST_FLAME_BONE")
+#define COST_FLAME_OIL     GameDefs::instance()->getValue<int>("COST_FLAME_OIL")
 
-#define COST_TOWER_UPGRADE      1
-#define COST_TOWER_UPGRADE_2    2
-#define COST_TOWER_UPGRADE_3    3
-#define COST_TOWER_UPGRADE_4    4
+#define COST_TOWER_UPGRADE      GameDefs::instance()->getValue<int>("COST_TOWER_UPGRADE")
+#define COST_TOWER_UPGRADE_2    GameDefs::instance()->getValue<int>("COST_TOWER_UPGRADE_2")
+#define COST_TOWER_UPGRADE_3    GameDefs::instance()->getValue<int>("COST_TOWER_UPGRADE_3")
+#define COST_TOWER_UPGRADE_4    GameDefs::instance()->getValue<int>("COST_TOWER_UPGRADE_4")
 
 // tower upgrade costs
-#define GEMS_TO_L2      5
-#define GEMS_TO_L3      10
-#define GEMS_TO_L4      25
-#define GEMS_TO_L5      50
+#define GEMS_TO_L2      GameDefs::instance()->getValue<int>("GEMS_TO_L2")
+#define GEMS_TO_L3      GameDefs::instance()->getValue<int>("GEMS_TO_L3")
+#define GEMS_TO_L4      GameDefs::instance()->getValue<int>("GEMS_TO_L4")
+#define GEMS_TO_L5      GameDefs::instance()->getValue<int>("GEMS_TO_L5")
 
 // player upgrade costs
-#define GEMS_SPEED      50
-#define GEMS_HARVEST    25
-#define GEMS_RECOVERY   25
+#define GEMS_SPEED      GameDefs::instance()->getValue<int>("GEMS_SPEED")
+#define GEMS_HARVEST    GameDefs::instance()->getValue<int>("GEMS_HARVEST")
+#define GEMS_RECOVERY   GameDefs::instance()->getValue<int>("GEMS_RECOVERY")
 
 //colors for tower colors
 #define ARROW_COLOR     QColor(255,160,122)

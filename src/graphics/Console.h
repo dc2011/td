@@ -111,8 +111,12 @@ public:
      */
     void translate();
 
+signals:
+    void signalAddText(QString text);
+
 private slots:
     void scroll();
+    void reallyAddText(QString text);
 
 };
 

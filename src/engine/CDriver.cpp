@@ -41,6 +41,9 @@ CDriver::CDriver(MainWindow* mainWindow, char* programPath)
             mainWindow_, SLOT(setMap(QString)));
     connect(this, SIGNAL(signalReturnToLobby()),
             mainWindow_, SLOT(endGameCleanup()));
+
+    connect(this, SIGNAL(signalOpenWindow()),
+            mainWindow_, SLOT(openWindow()));
 }
 
 CDriver::~CDriver() {
@@ -230,6 +233,8 @@ void CDriver::makeLocalPlayer(Player* player) {
 	        input, SLOT(playerMovement(bool)));
     connect(player, SIGNAL(signalDropResource(int, QPointF, QVector2D)),
             this, SLOT(requestCollectable(int, QPointF, QVector2D)));
+
+    emit signalOpenWindow();
 }
 
 void CDriver::dropResource() {
@@ -242,9 +247,11 @@ void CDriver::dropResource() {
     if (this->isSinglePlayer() &&
             currentTile->getActionType() == TILE_BUILDING) {
         BuildingTower* t = (BuildingTower*)currentTile->getExtension();
-        if (this->addToTower(t, human_) && t->isDone()) {
-            this->createTower(t->getType(), t->getPos());
-            this->destroyObject(t);
+        if (this->addToTower(t, human_)) {
+            if (t->isDone()) {
+                this->createTower(t->getType(), t->getPos());
+                this->destroyObject(t);
+            }
             human_->setResource(RESOURCE_NONE);
             return;
         }
@@ -349,14 +356,20 @@ void CDriver::NPCCreator() {
     }
 
     if (!waves_.empty()) {
+        bool createdwave = false;
+        NPCWave* wave = NULL;
         for (int i = 0; i < waves_.size(); i++) {
-            NPCWave* wave = waves_[i];
+            wave = waves_[i];
             if (wave->getStart() == timeCount_) {
                 waves_.removeAt(i--);
                 wave->createWave();
                 connect(wave, SIGNAL(waveDead()), this, SLOT(endWave()));
                 //connect(wave, SIGNAL(waveDead()), wave, SLOT(deleteLater()));
+                createdwave = true;
             }
+        }
+        if (createdwave) {
+            PLAY_SFX(wave, SfxManager::npcPterodactylEnters);
         }
     }
 

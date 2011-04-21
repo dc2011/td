@@ -10,3 +10,8 @@ QT += network
 OBJECTS_DIR = ../obj
 MOC_DIR = ../moc
 UI_DIR = ../uic
+RCC_DIR = ../res
+
+debug {
+    DEFINES += DEBUG
+}

@@ -97,6 +97,18 @@ private:
     /** True if the level indicator is currently being displayed. */
     bool levelIndicatorShowing_;
 
+    /** True if the component has called its first draw */
+    bool constructed_;
+
+    /** the previous direction in wich the tower was pointing */
+    int oldRotation_;
+
+    /** The previous state of towers firing **/
+    int oldFiring_;
+
+    /** The previous state of displaying the radius **/
+    bool oldRadius_;
+
 protected:
     int radius_;
 

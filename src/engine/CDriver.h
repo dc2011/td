@@ -273,6 +273,13 @@ signals:
      * @author Tom Nightingale
      */
     void signalReturnToLobby();
+
+    /**
+     * Emitted to show the main client window when the player is set.
+     *
+     * @author Darryl Pogue
+     */
+    void signalOpenWindow();
     
 public slots:
     /**
