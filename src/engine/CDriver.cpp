@@ -399,6 +399,9 @@ void CDriver::startGame(bool singlePlayer, QString map) {
         player->initComponents();
         connect(gameTimer_, SIGNAL(timeout()), player, SLOT(update()));
 
+        QPointF homeLocation = gameMap_->getHomeLoc();
+        player->setPos(homeLocation.x(), homeLocation.y());
+
         this->makeLocalPlayer(player);
 
         NPCWave* tempWave;
