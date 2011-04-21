@@ -299,6 +299,7 @@ void SDriver::requestCollectable(int collType, QPointF source, QVector2D vel) {
 
 void SDriver::towerDrop(BuildingTower* t, Player* player, bool drop) {
     Stream s;
+    int collType = player->getResource();
 
     if (addToTower(t, player)) {
         if (t->isDone()) {
@@ -324,9 +325,12 @@ void SDriver::towerDrop(BuildingTower* t, Player* player, bool drop) {
         QVector2D vel = this->getRandomVector();
         s.writeFloat(vel.x());
         s.writeFloat(vel.y());
-        s.writeFloat(player->getPos().x());
-        s.writeFloat(player->getPos().y());
+        QPointF source = player->getPos();
+        s.writeFloat(source.x());
+        s.writeFloat(source.y());
         s.writeByte(false);
+
+        Driver::createCollectable(collType, source, vel);
 
         net_->send(network::kDropCollect, s.data());
     }
