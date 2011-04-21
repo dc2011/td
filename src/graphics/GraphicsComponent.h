@@ -18,8 +18,9 @@
 #define LAYER_TOWER_TRI 2
 #define LAYER_PLAYER 3
 #define LAYER_NPC 4
-#define LAYER_FLYNPC 5
-#define LAYER_MENU 6
+#define LAYER_PROJECTILE 5
+#define LAYER_FLYNPC 6
+#define LAYER_MENU 7
 #define LAYER_DEFAULT 0
 
 namespace td {
