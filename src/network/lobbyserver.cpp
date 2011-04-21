@@ -210,8 +210,11 @@ void LobbyServer::readSocket()
                 rs.write(str.toAscii().data());
             }
             conn->write(rs.data());
-
-            notifyClients(network::kLobbyWelcome,0);
+            Stream buf;
+            buf.writeByte(network::kLobbyWelcome);
+           // buf.writeInt(connCount_);
+            conn->write(buf.data());
+            //notifyClients(network::kLobbyWelcome,0);
             notifyClients(network::kUpdateUserList,0);
             if(games_.size() > 0) {
                 notifyClients(network::kUpdateListOfGames,0);
@@ -232,8 +235,10 @@ void LobbyServer::readSocket()
                 Stream rs;
                 rs.writeByte(network::kGameId);
                 rs.writeInt(gameId);
+                mutex_.lock();
                 gameMaps_.insert(gameId, name);
                 games_.insert(gameId++,conn);
+                mutex_.unlock();
                 notifyClients(network::kUpdateListOfGames,0);
                 conn->write(rs.data());
             }
@@ -246,10 +251,13 @@ void LobbyServer::readSocket()
         }
         case network::kLobbyleaveGame:
         {
+
             int nameLen = s.readInt();
             QString name(s.read(nameLen));
             int gameNum = s.readInt();
+            mutex_.lock();
             games_.remove(gameNum,clients_.key(name));
+            mutex_.unlock();
             notifyClients(network::kUpdateUserList,0);
             notifyClients(network::kUpdateListOfGames,0);
             break;

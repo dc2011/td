@@ -118,8 +118,8 @@ void LobbyWindow::onTCPReceived(Stream* s)
     switch (msgType) {
         case network::kLobbyWelcome:
         {
-            int players = s->readInt();
-            ui->lblDisplayCount->setText(QString::number(players));
+           // int players = s->readInt();
+           // ui->lblDisplayCount->setText(QString::number(players));
             ui->txtAddress->setDisabled(true);
             ui->txtUsername->setDisabled(true);
             ui->btnConnect->setDisabled(true);
