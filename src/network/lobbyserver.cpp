@@ -137,6 +137,7 @@ void LobbyServer::startGame(int game) {
 
         conn->write(s.data());
         clients_.remove(conn);
+        connCount_--;
     }
     games_.remove(game);
     gameMaps_.remove(game);
