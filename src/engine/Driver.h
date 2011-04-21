@@ -240,9 +240,10 @@ public:
      * @author Marcel Vangrootheest
      * @param id The playerID of the player to upgrade.
      * @param type The type of upgrade to apply.
+     * @param cost The cost of the upgrade (returned).
      * @return True if upgrade is successful.
      */
-    bool upgradePlayer(int id, int type);
+    bool upgradePlayer(int id, int type, int* cost = NULL);
 
     /**
      * Makes a random vector for the collectable drop.

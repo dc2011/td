@@ -429,7 +429,7 @@ bool Driver::upgradeTower(QPointF pos) {
     return false;
 }
 
-bool Driver::upgradePlayer(int id, int type) {
+bool Driver::upgradePlayer(int id, int type, int* cost) {
     if ((gemCount_ < GEMS_SPEED && type == UPGRADE_SPEED) 
             || (gemCount_ < GEMS_HARVEST && type == UPGRADE_HARVEST)
             || (gemCount_ < GEMS_RECOVERY && type == UPGRADE_RECOVERY)) {
@@ -439,10 +439,19 @@ bool Driver::upgradePlayer(int id, int type) {
 #ifdef SERVER
     if (type == UPGRADE_SPEED) {
         setGemCount(gemCount_ - GEMS_SPEED);
+        if (cost != NULL) {
+            *cost = GEMS_SPEED;
+        }
     } else if (type == UPGRADE_HARVEST) {
         setGemCount(gemCount_ - UPGRADE_HARVEST);
+        if (cost != NULL) {
+            *cost = GEMS_HARVEST;
+        }
     } else {
         setGemCount(gemCount_ - UPGRADE_RECOVERY);
+        if (cost != NULL) {
+            *cost = GEMS_RECOVERY;
+        }
     }
     return true;
 #endif

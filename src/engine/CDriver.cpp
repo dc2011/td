@@ -599,9 +599,12 @@ void CDriver::UDPReceived(Stream* s) {
         {
             unsigned int playerID = s->readInt();
             int upgradeType = s->readInt();
+            int cost = s->readInt();
 
             if (human_->getID() == playerID) {
                 Driver::upgradePlayer(playerID, upgradeType);
+            } else {
+                setGemCount(gemCount_ - cost);
             }
             break;
         }

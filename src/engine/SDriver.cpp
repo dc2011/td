@@ -347,10 +347,12 @@ void SDriver::onMsgReceive(Stream* s) {
         {
             unsigned int playerID = s->readInt();
             int upgradeType = s->readInt();
+            int cost = 0;
 
-            if (Driver::upgradePlayer(playerID, upgradeType)) {
+            if (Driver::upgradePlayer(playerID, upgradeType, &cost)) {
                 out->writeInt(playerID);
                 out->writeInt(upgradeType);
+                out->writeInt(cost);
                 net_->send(network::kUpgradePlayer, out->data());
             }
             break;
