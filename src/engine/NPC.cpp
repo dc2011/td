@@ -41,6 +41,11 @@ int NPC::getHealth() {
 
 void NPC::setHealth(int health){
     health_ = health;
+#ifndef SERVER
+    if (graphics_ != NULL) {
+        graphics_->update(this);
+    }
+#endif
     setDirty(kHealth);
 #ifndef SERVER
     // Make sure that we are only displaying health that exists...
@@ -93,6 +98,7 @@ void NPC::networkRead(Stream* s) {
 
     if (dirty_ & kHealth) {
         health_ = s->readInt();
+        isDead();
 #ifndef SERVER
         if (graphics_ != NULL) {
             ((NPCGraphicsComponent*) graphics_)->showDamage();
@@ -387,7 +393,6 @@ void NPC::deleteEffect(Effect* effect)
 
 void NPC::isDead() {
     if(health_ <= 0) {
-        //TODO NPC death sound/animation
 #ifndef SERVER
         if (type_ == NPC_FLY) {
             new FlyingEndingGraphicsComponent(pos_);
@@ -395,6 +400,7 @@ void NPC::isDead() {
             new GenericNPCEndingGraphicsComponent(pos_);
         }
 #endif
+        //TODO NPC death sound/animation
         emit signalDropResource(RESOURCE_GEM, pos_, getRandomVector());
         emit dead(this->getID());
     }

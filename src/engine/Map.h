@@ -233,7 +233,13 @@ public:
       * @param unitToRemove pointer to unit to be removed from tile's list.
       */
     void removeUnit(double x, double y, Unit *unitToRemove);
-
+	
+	/**
+	  * Gets the Tiled map object for this map.
+	  *
+	  * @author Daniel Wright
+	  * @return The tiled map object.
+	  */
     Tiled::Map* getTMap(){
         return tMap_;
     }
