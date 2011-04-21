@@ -143,8 +143,7 @@ void Console::scroll() {
         y=30;
         disconnect(CDriver::instance()->getTimer(), SIGNAL(timeout()), 
             this, SLOT(scroll()));
-	mutex_.unlock();
-	return;
+        return;
     }
     y+=10;
 
