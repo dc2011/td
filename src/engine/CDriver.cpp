@@ -353,6 +353,7 @@ void CDriver::NPCCreator() {
     }
 
     if (!waves_.empty()) {
+        bool createdwave = false;
         for (int i = 0; i < waves_.size(); i++) {
             NPCWave* wave = waves_[i];
             if (wave->getStart() == timeCount_) {
@@ -360,7 +361,11 @@ void CDriver::NPCCreator() {
                 wave->createWave();
                 connect(wave, SIGNAL(waveDead()), this, SLOT(endWave()));
                 //connect(wave, SIGNAL(waveDead()), wave, SLOT(deleteLater()));
+                createdwave = true;
             }
+        }
+        if (createdwave) {
+            PLAY_SFX(this, SfxManager::npcPterodactylEnters);
         }
     }
 
