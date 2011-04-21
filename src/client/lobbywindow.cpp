@@ -38,7 +38,7 @@ LobbyWindow::LobbyWindow(QWidget *parent) :
     connect(ui->chkSingleplayer, SIGNAL(clicked(bool)),
             this, SLOT(onSinglePlayerToggle(bool)));
     connect(this, SIGNAL(startGame(bool, QString)),
-            this, SLOT(close()));
+            this, SLOT(hide()));
     connect(ui->sendMsg,SIGNAL(clicked()),this,SLOT(sendChatMessage()));
 
     // so I don't have to enter the ip address, like, every freaking time
@@ -378,7 +378,7 @@ void LobbyWindow::displayChatMsgRx(QString& nickName, QString& msg) {
 }
 
 void LobbyWindow::onCreateNewGame() {
-    QString name = MAP_NFO;
+    QString name = MAP + QString(".nfo");
     if (ui->mapsList->selectedItems().size() == 1) {
         name = ui->mapsList->selectedItems()[0]->data(Qt::UserRole).toString();
     }

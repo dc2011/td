@@ -1,5 +1,6 @@
 #include "manager.h"
 #include "../network/netclient.h"
+#include "../engine/CDriver.h"
 
 namespace td {
 
@@ -94,13 +95,10 @@ void AudioManager::playSfx(QString filename, SoundType type)
             QtConcurrent::run(this, &AudioManager::playCached,
                               filename, type);
     } else {
- 
         QFuture<void> future =
             QtConcurrent::run(this, &AudioManager::streamFile,
                               filename, type, true);
     }
-
-    return;
 
 }
 
@@ -141,9 +139,10 @@ void AudioManager::captureMic()
                 int numframes = total / speex_.frameSize;
 
                 encode(buf, numframes, &s);
-                
-                NetworkClient::instance()->send(
+                if(!CDriver::instance()->isSinglePlayer()){
+		    NetworkClient::instance()->send(
                         network::kVoiceMessage, s.data());
+		}
             }
         }
     }
@@ -307,12 +306,14 @@ void AudioManager::streamVoice()
 void AudioManager::playCached(QString filename, SoundType sType)
 {
     ALuint buffer;
+    ALuint tmpBuffer;
     ALuint source;
     ALenum format;
     ALuint freq;
     QByteArray tmp;
     ALint playing;
     int gain;
+    int processed;
 
     alGenBuffers(1,&buffer);
     alGenSources(1,&source);
@@ -337,14 +338,20 @@ void AudioManager::playCached(QString filename, SoundType sType)
     alBufferData(buffer, format, tmp.mid(1).constData(), tmp.size()-1, freq);
     alSourceQueueBuffers(source, 1, &buffer);
 
+    alSourcef(source, AL_GAIN, gainScale[gain]);
     alSourcePlay(source);
 
     do {
-        alSourcef(source, AL_GAIN, gainScale[gain]);
         alGetSourcei(source, AL_SOURCE_STATE, &playing);
         alSleep(0.1f);
     } while(playing != AL_STOPPED && !checkError());
 
+    alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
+
+    while (processed && !checkError()) {
+	alSourceUnqueueBuffers(source, 1, &tmpBuffer);
+        processed--;
+    }
 
     alDeleteSources(1, &source);
     alDeleteBuffers(1, &buffer);
@@ -370,6 +377,7 @@ void AudioManager::streamFile(QString filename, SoundType sType, bool cacheThis)
     OggVorbis_File oggFile;
     char bitmask;
     int gain;
+    QByteArray cacheTmp;
 
     /* Created the source and Buffers */
     alGenBuffers(QUEUESIZE, buffer);
@@ -421,8 +429,7 @@ void AudioManager::streamFile(QString filename, SoundType sType, bool cacheThis)
             }
 
             if(cacheThis) {
-                bitmask = getBitmask(format,freq);
-                cacheBuffer(filename,array,size,bitmask);
+		cacheTmp.append(array,size);
             }
 
             alBufferData(buffer[queue], format, array, size, freq);
@@ -445,6 +452,11 @@ void AudioManager::streamFile(QString filename, SoundType sType, bool cacheThis)
 
         /* result == 0 when file is completely read */
     } while (result > 0 && !checkError());
+    
+    if(cacheThis) {
+	bitmask = getBitmask(format,freq);
+	cacheBuffer(filename,cacheTmp.data(),cacheTmp.size(),bitmask);
+    }
 
     ov_clear(&oggFile);
 

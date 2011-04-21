@@ -9,7 +9,7 @@
 #include "Tower.h"
 #include "NPCWave.h"
 #include "Projectile.h"
-
+#include "../audio/SfxManager.h"
 #include "BuildingTower.h"
 
 
@@ -19,15 +19,13 @@ namespace td {
 SDriver::SDriver() : Driver() {
     gameTimer_ = new QTimer(this);
     waveTimer_ = new QTimer(this);
-    gameMap_ = new Map(MAP_TMX, this);
-    script_ = new Parser(this, MAP_NFO);
+    gameMap_ = NULL;
+    script_ = NULL;
     net_ = new NetworkServer();
     npcCounter_ = 0;
     timeCount_ = 0;
     completedWaves_ = 0;
     totalWaves_ = 0;
-
-    gameMap_->initMap();
 
     connect(net_, SIGNAL(msgReceived(Stream*)), 
             this, SLOT(onMsgReceive(Stream*)));
@@ -232,14 +230,20 @@ void SDriver::destroyObject(int id) {
 void SDriver::spawnWave() {
     // Check to see if any waves should be spawned on this tick.
     if (!waves_.empty()) {
+        bool createdwave = false;
+        NPCWave* wave = NULL;
         for (int i = 0; i < waves_.size(); i++) {
-            NPCWave* wave = waves_[i];
+            wave = waves_[i];
             if (wave->getStart() == timeCount_) {
                 waves_.removeAt(i--);
                 wave->createWave();
                 connect(wave, SIGNAL(waveDead()), this, SLOT(endWave()));
                 connect(wave, SIGNAL(waveDead()), wave, SLOT(deleteLater()));
+                createdwave = true;
             }
+        }
+        if (createdwave) {
+            PLAY_SFX(wave, SfxManager::npcPterodactylEnters);
         }
     }
     

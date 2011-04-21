@@ -25,14 +25,8 @@ NPCWave::~NPCWave() {
 }
 
 void NPCWave::createWave() {
-
-
-    PLAY_SFX(this, SfxManager::npcPterodactylEnters);
-
-
     connect(getDriver()->getTimer(), SIGNAL(timeout()),
             this, SLOT(update()));
-
 }
 
 void NPCWave::killChild(NPC* child) {
