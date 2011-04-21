@@ -9,8 +9,6 @@
 #    include "../graphics/EndingGraphicsComponentTypes.h"
 #endif
 
-#include <QDebug>
-
 namespace td {
 
 NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
@@ -25,13 +23,6 @@ NPC::NPC(QObject* parent) : Unit(parent), damage_(5), wave_(NULL) {
 }
 
 NPC::~NPC() {
-#ifndef SERVER
-        if (type_ == NPC_FLY) {
-            new FlyingEndingGraphicsComponent(pos_);
-        } else {
-            new GenericNPCEndingGraphicsComponent(pos_);
-        }
-#endif
     // Delete all effects in the map
     foreach (Effect* e, effects_)
     {
@@ -50,7 +41,11 @@ int NPC::getHealth() {
 
 void NPC::setHealth(int health){
     health_ = health;
-    this->update();
+#ifndef SERVER
+    if (graphics_ != NULL) {
+        graphics_->update(this);
+    }
+#endif
     setDirty(kHealth);
 #ifndef SERVER
     // Make sure that we are only displaying health that exists...
@@ -103,6 +98,7 @@ void NPC::networkRead(Stream* s) {
 
     if (dirty_ & kHealth) {
         health_ = s->readInt();
+        isDead();
 #ifndef SERVER
         if (graphics_ != NULL) {
             ((NPCGraphicsComponent*) graphics_)->showDamage();
@@ -397,6 +393,13 @@ void NPC::deleteEffect(Effect* effect)
 
 void NPC::isDead() {
     if(health_ <= 0) {
+#ifndef SERVER
+        if (type_ == NPC_FLY) {
+            new FlyingEndingGraphicsComponent(pos_);
+        } else {
+            new GenericNPCEndingGraphicsComponent(pos_);
+        }
+#endif
         //TODO NPC death sound/animation
         emit signalDropResource(RESOURCE_GEM, pos_, getRandomVector());
         emit dead(this->getID());
