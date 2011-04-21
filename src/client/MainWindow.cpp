@@ -141,7 +141,7 @@ void MainWindow::keyHeld()
 void MainWindow::keyPressEvent(QKeyEvent * event) {
     PlayerInputComponent *tInput = NULL;
     
-    if(event->isAutoRepeat() || (gameOver_ && (event->key() != Qt::Key_Escape))) {
+    if(event->isAutoRepeat() || gameOver_ ) {
         return;
     }
 
@@ -316,14 +316,14 @@ void MainWindow::endGameScreen(bool winner) {
     QPointF centre = view_->frameRect().center();
     QGraphicsPixmapItem *img; 
     gameOver_ = true;
-    alSleep(0.5f); //wait till audio has actually shutdown #HAX!
+    alSleep(1); //wait till audio has actually shutdown #HAX!
     
     if(winner) {
 	img = new QGraphicsPixmapItem(QPixmap("./img/win.png"));
-	PLAY_LOCAL_SFX(SfxManager::winTheGame);
+	PLAY_LOCAL_NOTIFY(SfxManager::winTheGame);
     } else {
 	img = new QGraphicsPixmapItem(QPixmap("./img/gameOver.png"));
-	PLAY_LOCAL_SFX(SfxManager::loseTheGame);
+	PLAY_LOCAL_NOTIFY(SfxManager::loseTheGame);
     }
 
     scene_->addItem(img);

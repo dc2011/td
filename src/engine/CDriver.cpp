@@ -97,7 +97,7 @@ void CDriver::setBaseHealth(int health) {
 
     getMainWindow()->getStats()->updateHP(health);
     
-    if(health <= 0) {
+    if(health == 0) {
 	endGame(false);
     }
 }
@@ -437,6 +437,7 @@ void CDriver::endWave() {
 void CDriver::endGame(bool winner) {
     
     AudioManager::instance()->shutdown();
+    
     if (!isSinglePlayer()) {
         disconnectFromServer();
     }
