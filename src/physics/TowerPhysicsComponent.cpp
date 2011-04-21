@@ -18,12 +18,17 @@ TowerPhysicsComponent::TowerPhysicsComponent(Tower* tower, size_t fireInterval,
 TowerPhysicsComponent::~TowerPhysicsComponent() {}
 
 void TowerPhysicsComponent::update(GameObject *tower) {
+    if (fireCountdown_ != 0) {
+        fireCountdown_--;
+    }
     this->findTarget();
-    if(target_ == NULL || enemies_.isEmpty()) {
+    if(target_ == NULL) {
         return;
     }
     this->applyDirection((Tower*)tower);
-    this->fire();
+    if (fireCountdown_ == 0) {
+        this->fire();
+    }
 }
 
 void TowerPhysicsComponent::findTarget() {
@@ -133,10 +138,6 @@ void TowerPhysicsComponent::applyDirection(GameObject* tower) {
 }
 
 void TowerPhysicsComponent::fire() {
-    if (fireCountdown_ != 0) {
-        fireCountdown_--;
-        return;
-    }
     if (target_ == NULL) {
         return;
     }
