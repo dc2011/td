@@ -25,6 +25,8 @@ struct DrawParamsTower {
     bool displayRadius;
     /** index of pixmap to be displayed */
     int pixmapIdx;
+    /** The level of the tower that owns this component. */
+    int towerLevel;
 };
 
 
@@ -52,7 +54,8 @@ public:
      *
      * @author Warren Voelkl
      */
-    virtual void initPixmaps() = 0;
+    virtual void initPixmaps();
+
     /**
      * Sets up the rangeCircle associated with this tower.
      * @param color the color of the range circle for this tower.
@@ -87,12 +90,22 @@ private:
      */
     QGraphicsEllipseItem * rangeCircle_;
     bool visibleRange_;
+    
+    /** Tower level indicator triangle for levels 2 and 4. */
+    QGraphicsPixmapItem* levelIndicator_;
+        
+    /** True if the level indicator is currently being displayed. */
+    bool levelIndicatorShowing_;
+
     /** True if the component has called its first draw */
     bool constructed_;
+
     /** the previous direction in wich the tower was pointing */
     int oldRotation_;
+
     /** The previous state of towers firing **/
     int oldFiring_;
+
     /** The previous state of displaying the radius **/
     bool oldRadius_;
 

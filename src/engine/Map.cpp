@@ -178,7 +178,7 @@ QSet<Unit*> Map::getUnits(double x, double y, double radius){
     QList<Unit*> units = QList<Unit*>();
 
     for (i = 0; i< radius ; i++){
-        for(j=0; j+i < radius ; j++){
+        for(j=0; j < radius ; j++){
             if( i + r < heightInTiles_){
 
                 if(j + c < widthInTiles_){
