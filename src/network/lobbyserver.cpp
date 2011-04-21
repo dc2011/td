@@ -150,6 +150,7 @@ void LobbyServer::startGame(int game) {
     sd->moveToThread(gamethread);
     gamethread->start();
     emit startingGame(false);
+    disconnect(this, SIGNAL(startingGame(bool)), sd, SLOT(startGame(bool)));
 }
 
 void LobbyServer::incomingConnection(int socketDescriptor)
