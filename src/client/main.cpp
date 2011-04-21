@@ -27,8 +27,8 @@ int main(int argc, char **argv) {
     QThreadPool::globalInstance()->setMaxThreadCount(64);
 
     td::LobbyWindow* lobby = new td::LobbyWindow();
-    td::MainWindow* qmw = new td::MainWindow();
-    td::CDriver* clientDriver = td::CDriver::init(qmw, argv[0]);
+    td::MainWindow* qmw = new td::MainWindow(argv[0]);
+    td::CDriver* clientDriver = td::CDriver::init(qmw);
     td::Thread* driverThread = new td::Thread();
     td::MainMenu* mainWindow = new td::MainMenu();
 

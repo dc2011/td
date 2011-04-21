@@ -97,6 +97,7 @@ public:
 
     //Game sounds
     static QStringList winTheGame;
+    static QStringList loseTheGame;
     static QStringList npcInBase;
 
     // resource picked up
