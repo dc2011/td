@@ -24,6 +24,7 @@ void CannonEndingGraphicsComponent::setNonStaticValues() {
     animateMod_ = PIX_END_CANNON_MAX;
     arrayIndexMin_ = pixmapIndex_ = PIX_END_CANNON_START;
     arrayIndexMax_ = PIX_END_CANNON_START + PIX_END_CANNON_MAX - 1;
+    setLayer(LAYER_PROJECTILE);
     created_.release();
 }
 
@@ -51,6 +52,7 @@ void ArrowEndingGraphicsComponent::setNonStaticValues() {
     animateMod_ = PIX_END_ARROW_MAX;
     arrayIndexMin_ = pixmapIndex_ = PIX_END_ARROW_START;
     arrayIndexMax_ = PIX_END_ARROW_START + PIX_END_ARROW_MAX - 1;
+    setLayer(LAYER_FLYNPC);
     created_.release();
 }
 
@@ -80,6 +82,7 @@ void TarEndingGraphicsComponent::setNonStaticValues() {
     animateMod_ = PIX_END_TAR_MAX;
     arrayIndexMin_ = pixmapIndex_ = PIX_END_TAR_START;
     arrayIndexMax_ = PIX_END_TAR_START + PIX_END_TAR_MAX - 1;
+    setLayer(LAYER_PROJECTILE);
     created_.release();
 }
 
@@ -112,6 +115,7 @@ void FlyingEndingGraphicsComponent::setNonStaticValues() {
     animateMod_ = PIX_END_FLYING_MAX;
     arrayIndexMin_ = pixmapIndex_ = PIX_END_FLYING_START;
     arrayIndexMax_ = PIX_END_FLYING_START + PIX_END_FLYING_MAX - 1;
+    setLayer(LAYER_FLYNPC);
     created_.release();
 }
 
@@ -141,6 +145,7 @@ void GenericNPCEndingGraphicsComponent::setNonStaticValues() {
     animateMod_ = PIX_END_GENERIC_MAX;
     arrayIndexMin_ = pixmapIndex_ = PIX_END_GENERIC_START;
     arrayIndexMax_ = PIX_END_GENERIC_START + PIX_END_GENERIC_MAX - 1;
+    setLayer(LAYER_PROJECTILE);
     created_.release();
 }
 
