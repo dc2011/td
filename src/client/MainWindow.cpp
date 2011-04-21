@@ -68,6 +68,9 @@ MainWindow::MainWindow(char* programPath) : QMainWindow() {
 
 MainWindow::~MainWindow() {
     /* driver_.shutdown() or something */
+    if(gameOver_) {
+	AudioManager::instance()->shutdown();
+    }
 }
 
 void MainWindow::createGraphicRepr(GraphicsComponent* gc) {
