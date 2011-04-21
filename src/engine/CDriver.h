@@ -54,15 +54,13 @@ private:
     /** Tells objects whether or not the game is being played single player **/
     bool singlePlayer_;
 
-    QString programPath_;
-
     QList<NPCWave*> waves_;
     QTimer* waveTimer_;
     unsigned int timeCount_;
     unsigned int completedWaves_;
     unsigned int totalWaves_;
 
-    CDriver(MainWindow* parent = 0, char* programPath = "");
+    CDriver(MainWindow* parent = 0);
     ~CDriver();
 
 public:
@@ -75,7 +73,7 @@ public:
      * @returns An new instance of the class if one doesn't exist yet, or
      * if one does, it returns a pointer to that instance.
      */
-    static CDriver* init(MainWindow* mainWindow, char* programPath = "");
+    static CDriver* init(MainWindow* mainWindow);
    
     /**
      * Calls the dtor for the singleton instance.
@@ -267,12 +265,11 @@ signals:
     
     /**
      * Emitted when the game is ended.
-     * Connected to MainWindow::close().
-     * Connected to LobbyWindow::show().
+     * Connected to MainWindow::endGameScreen().
      *
-     * @author Tom Nightingale
+     * @author Terence Stenvold
      */
-    void signalReturnToLobby();
+    void signalEndGameScreen(bool);
 
     /**
      * Emitted to show the main client window when the player is set.

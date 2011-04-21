@@ -1,10 +1,12 @@
 #include "MainWindow.h"
+#include <QGraphicsPixmapItem>
 #include <QScrollArea>
 #include <QLabel>
 #include <QSize>
 #include "map.h"
 #include "maprenderer.h"
 #include "../audio/manager.h"
+#include "../audio/SfxManager.h"
 #include "../graphics/GraphicsComponent.h"
 #include "../graphics/MapDisplayer.h"
 #include "../graphics/Console.h"
@@ -15,7 +17,7 @@
 
 namespace td {
 
-MainWindow::MainWindow() : QMainWindow() {
+MainWindow::MainWindow(char* programPath) : QMainWindow() {
     scene_ = new QGraphicsScene();
     view_ = new QGraphicsView(scene_);
     stats_ = new Stats();
@@ -23,6 +25,8 @@ MainWindow::MainWindow() : QMainWindow() {
 
     consoleOpen_ = false;
     mapZoomOut_ = false;
+    gameOver_ = false;
+    programPath_.append(programPath);
 
     scene_->setItemIndexMethod(QGraphicsScene::NoIndex);
     keysHeld_ = 0;
@@ -140,7 +144,7 @@ void MainWindow::keyHeld()
 void MainWindow::keyPressEvent(QKeyEvent * event) {
     PlayerInputComponent *tInput = NULL;
     
-    if(event->isAutoRepeat()) {
+    if(event->isAutoRepeat() || (gameOver_ && (event->key() != Qt::Key_Escape))) {
         return;
     }
 
@@ -241,7 +245,7 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
 
 void MainWindow::keyReleaseEvent(QKeyEvent * event) {
 
-    if(event->isAutoRepeat()) {
+    if(event->isAutoRepeat() || (gameOver_ && (event->key() != Qt::Key_Escape))) {
         return;
     } else if (consoleOpen_ == true) {
         keysHeld_ = 0;
@@ -286,8 +290,12 @@ void MainWindow::keyReleaseEvent(QKeyEvent * event) {
         emit signalKeyReleased(Qt::Key_Right);
     } else if (event->key() == Qt::Key_Escape) {
         /* Open the mainmenu editor => ESC */
-        emit signalShowMainMenu();
-
+        if(gameOver_) {
+	    endGameCleanup();
+	    QProcess::execute(programPath_);
+	} else { 
+	    emit signalShowMainMenu();
+	}
     } else {
         QMainWindow::keyPressEvent(event);
     }
@@ -304,6 +312,34 @@ void MainWindow::setMap(QString mapname) {
     scene_->setSceneRect(0,0,mapSize.width(), mapSize.height());
 
     semMap_.release();
+}
+
+void MainWindow::endGameScreen(bool winner) {
+
+    QPointF centre = view_->frameRect().center();
+    QGraphicsPixmapItem *img; 
+    gameOver_ = true;
+    alSleep(0.5f); //wait till audio has actually shutdown #HAX!
+    
+    if(winner) {
+	img = new QGraphicsPixmapItem(QPixmap("./img/win.png"));
+	PLAY_LOCAL_SFX(SfxManager::winTheGame);
+    } else {
+	img = new QGraphicsPixmapItem(QPixmap("./img/gameOver.png"));
+	PLAY_LOCAL_SFX(SfxManager::loseTheGame);
+    }
+
+    scene_->addItem(img);
+    img->scale(.4,.4);
+    img->setPos(view_->mapToScene(centre.x(),centre.y()));
+
+    centre = img->boundingRect().center();
+    img->translate(-centre.x(),-centre.y());
+
+    img->setVisible(true);
+    img->setZValue(99);
+    img->show();
+    img->update();
 }
 
 void MainWindow::endGameCleanup() {

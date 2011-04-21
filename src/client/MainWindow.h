@@ -53,6 +53,9 @@ private:
      */
     char keysHeld_;
 
+    /** The path to the binary*/
+    QString programPath_;
+
     /**
      * The keysPressed Timer
      */
@@ -76,12 +79,15 @@ private:
 
     /** The keymap defining which keys are bound to which events. */
     Keymap keys_;
-
+    
+    /** Set whether the game is over or not. */
+    bool gameOver_;
+    
     /** Semaphore to block until the map is properly initialized. */
     QSemaphore semMap_;
 
 public:
-    MainWindow();
+    MainWindow(char* programPath = "");
     virtual ~MainWindow();
     
     QGraphicsScene* getScene() { return scene_; }
@@ -91,6 +97,15 @@ public:
     bool getMapState() { return mapZoomOut_; }
 
     void lockMapHack() { semMap_.acquire(); }
+    
+    /**
+     * The goal here is to clean up all graphics related resources in one foul
+     * swoop.
+     *
+     * @author Tom Nightingale
+     */
+    void endGameCleanup();
+
     
 protected:
     /**
@@ -161,13 +176,7 @@ public slots:
 
     void setMap(QString mapname);
 
-    /**
-     * The goal here is to clean up all graphics related resources in one foul
-     * swoop.
-     *
-     * @author Tom Nightingale
-     */
-    void endGameCleanup();
+    void endGameScreen(bool);
 
 signals:
     void signalKeyPressed(int);
