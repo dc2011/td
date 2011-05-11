@@ -3,14 +3,9 @@
 url="http://dl.dropbox.com/u/20219175"
 
 ##CHECK DIR
-DIR=`pwd`
-
-DIR=${DIR:(-6)}
-
-if [[ $DIR != "/tools" ]]; then
-    echo "Run from the tools dir please"
-    exit
-fi 
+OLDDIR=`pwd`
+DIR=`dirname $0`
+cd $DIR
 
 OS=$(uname | tr '[A-Z]' '[a-z]')
 echo -n "Detecting Operating System... "
@@ -89,3 +84,5 @@ elif [ "$OS" == "linux" ]; then
     rm SOUNDINFO
 
 fi
+
+cd $OLDDIR

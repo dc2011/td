@@ -316,6 +316,10 @@ void MainWindow::setMap(QString mapname) {
 
 void MainWindow::endGameScreen(bool winner) {
 
+    if(gameOver_ == true) {
+        return;
+    }
+
     QPointF centre = view_->frameRect().center();
     QGraphicsPixmapItem *img; 
     gameOver_ = true;
