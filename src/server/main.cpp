@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QDir>
 #include "../network/lobbyserver.h"
 
 int main(int argc, char **argv) {
